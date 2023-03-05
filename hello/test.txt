@@ -1,0 +1,388 @@
+
+
+
+
+https://en.wikipedia.org/wiki/Category:Transliteration
+
+https://en.wikipedia.org/wiki/Category:Barcodes
+
+https://leverageedu.com/blog/hello-in-different-indian-languages/
+
+
+Braille [Navajo]: ⠽⠷⠨⠷⠞⠨⠮⠮⠙
+...
+https://en.wikipedia.org/wiki/Template:Braille
+...
+Braille [Japanese Kanji / Kantenji]: ⢔⣠⡆⡦⣂
+Braille [Chinese Two-Cell]: ⠏⠧ ⠃⠷
+
+
+-----
+
+change alternian from elder scrolls to homestuck
+Gravity Falls bill cipher / author cipher to Bill Cipher [Gravity Falls]
+dont say jar jar binks with gungan
+change Thuum to Dovahzul
+change Aurebesh to Galactic Basic Standard / Aurebesh [Star Wars]
+Bocce [Star Wars]: Jettoz
+Ewokese [Star Wars]: Yaa-yaah
+toki pona
+
+
+
+
+
+The closest possible translation of each <em>Hello</em> is included. Variations like <em>hey</em> or <em>howdy</em> are not.
+[credits in changelog]
+[Research and Translation Credits]
+ - Sarparen
+ - wikipediainfobox
+<a href="https://c.r74n.com/fonts/?text=Hello" target="_blank" title="Unicode Font Generator on the Copy Paste Dump">Unicode Fonts</a>
+
+Klingon [Clipped / tlhIngan Hol] [Star Trek]: nuqneH
+Klingon [xifan hol] [Star Trek]: nuqneh
+Klingon [pIqaD / ] [Star Trek]:  (<img src="image/klingon.png" title="Hello in Klingon" alt="Hello in Klingon Text" height=50px;><br><br>)
+
+Chinese [Classical / Literary]: 君安
+French [Canadian]: Allô
+Querétaro Otomi: Hadi
+Serbian [Cyrillic]: Здраво (change)
+Serbian [Latin]: Zdravo
+Yucatec Maya: Hola
+Finnish Armed Forces Radio Alphabet [English]: Heikki Eemeli Lauri Lauri Otto
+Finnish Armed Forces Radio Alphabet [Finnish]: Heikki Eemeli Iivari
+Japanese Radiotelephony Alphabet: 子供のコ おしまいのン 日本のニ 千鳥のチ はがきのハ  <em>(Kodomo no "ko", Oshimai no "n", Nippon no "ni", Chidori no "chi", Hagaki no "ha")</em>
+Greek Spelling Alphabet: γαλή Ερμής ίσκιος αστήρ <em>(galí Ermís ískios astír / cat Hermes shadow star)</em>
+Korean Spelling Alphabet: 아버지 나폴리 나폴리 연못 잉어 한강 아버지 서울 엑스레이 요지경 <em>(abeoji napolli napolli yeonmos ing-eo hangang abeoji seoul egseulei yojigyeong)</em>
+Russian Spelling Alphabet: Павел Роман Иван Василий Елена Татьяна <em>(Pavel Roman Ivan Vasily Yelena Tatyana)</em>
+Swedish Armed Forces' Radio Alphabet [English]: Helge Erik Ludvig Ludvig Olof
+Swedish Armed Forces' Radio Alphabet [Swedish]: Helge Adam Ludvig Ludvig Åke
+Turkish Spelling Alphabet: Muş Edirne Rize Hatay Adana Bolu Adana
+Wabun Code / Kana Code: ---- .-.-. -.-. ..-. -...
+Chinese Telegraph Code: 0132 1170
+Russian Morse Code: ·−−· ·−· ·· ·−− · −
+Russian Morse Code Melodies: пи-лаа-поо-ёт, пи-лаа-ноо-ет / ре-шаа-ет / и-ди / ви-даа-лаа / есть / таак
+Greek Morse Code: --. . .. .-
+Hebrew Morse Code [Left to Right]: ... .-.. . --
+Arabic Morse Code: -- .-. .... -... .-
+Persian Morse Code: ... .-.. .- --
+English (Latin) to Cyrillic Transliteration: Хелло
+Moon Type [Text]: 🌘ΓLL◯
+Ubbi Dubbi: hubellubo
+Sheng Slang: Niaje OR Niantaje
+Swardspeak: Haller OR Heller
+PGP Word List: deadbolt glossary glucose handiwork gremlin
+Limbo: print("hello\n")
+Braille ASCII Hex: 48 45 4C 4C 4F
+Braille Dots Code: 110010 100010 111000 111000 101010
+Braille [Computer Braille Code]: ⠸⠑⠇⠇⠕
+Braille [Computer Notation]: ⡓⡑⡇⡇⡕
+Braille [Gardner–Salinas]: ⡓⡓⡓⡓⡕
+Braille [IPA Braille]: ⠓⠑⠇⠇⠕
+Braille [Albanian]: ⠏⠡⠗⠱⠡⠝⠙⠑⠞⠚⠑
+Braille [Azerbaijani]: ⠩⠁⠇⠁⠍
+Braille [Cantonese]: ⠝⠊ ⠓⠃⠕
+Braille [Catalan]: ⠓⠕⠇⠁
+Braille [Mainland Chinese]: ⠝⠊⠄ ⠓⠖⠄
+Braille [Czech]: ⠁⠓⠕⠚
+Braille [Dutch]: ⠓⠁⠇⠇⠕
+Braille [English]: ⠓⠑⠇⠇⠕
+Braille [Esperanto]: ⠎⠁⠇⠥⠞⠕⠝
+Braille [French]: ⠃⠕⠝⠚⠕⠥⠗
+Braille [German]: ⠓⠁⠇⠇⠕
+Braille [Ghanaian English]: ⠓⠑⠇⠇⠕
+Braille [Ghanaian Akan]: ⠻ ⠞⠑ ⠎⠻⠝
+Braille [Ghanaian Ga]: ⠍⠊⠊⠬⠁ ⠃⠕
+Braille [Ghanaian Dagaare]: ⠋⠕ ⠃⠑ ⠎⠕⠝⠛
+Braille [Guaraní]: ⠍⠁⠊⠞⠑⠌
+Braille [Hawaiian]: ⠁⠇⠕⠓⠁
+Braille [Hungarian]: ⠎⠣⠊⠁
+Braille [Iñupiaq]: ⠓⠁⠇⠁⠥⠾⠊⠅⠏⠊⠻
+Braille [Italian]: ⠉⠊⠁⠕
+Braille [Latvian]: ⠎⠺⠑⠊⠅⠊
+Braille [Lithuanian]: ⠎⠧⠑⠊⠅⠊
+Braille [Luxembourgish]: ⠋⠁⠇⠇⠕
+Braille [Maltese]: ⠃⠕⠝⠚⠕⠥⠗
+Braille [Māori]: ⠅⠊⠁⠀⠕⠗⠁
+Braille [Navajo]: ⠽⠷⠨⠷⠞⠨⠮⠮⠙
+...
+https://en.wikipedia.org/wiki/Template:Braille
+...
+Braille [Japanese Kanji / Kantenji]: ⢔⣠⡆⡦⣂
+Braille [Chinese Two-Cell]: ⠏⠧ ⠃⠷
+
+
+pronunciations:
+Odia - Namaskār
+
+
+
+
+Emoji
+    Emojipedia Shortcode: :waving_hand:
+    Apple Emoji Name: waving hand
+    Unicode Order: 1218
+"Zebra" Substitution Cipher: DAIIL
+    https://en.wikipedia.org/w/index.php?title=Substitution_cipher&oldid=1035776944#Simple_substitution
+Autokey Cipher: mscew
+Chinese [Zhuyin / Bopomofo]: ㄋㄧˇ ㄏㄠˇ
+Chinese [Wade–Giles]: ni hao
+Chinese [Cyrillic Transcription]: ни хао
+Ga: Miiŋa bo!
+Dagaare: Fo be song
+Deseret: 𐐐𐐯𐑊𐑊𐐫
+Shavian: 𐑣𐑧𐑤𐑴
+
+LogiScript: PRINT "Hello"
+SILC: PRINT "HELLO"
+Gray Snail: OUTPUT "HELLO"
+
+
+https://www.chineseconverter.com/en/convert/zhuyin top buttons
+
+
+Romániço: Saluto
+Pikachizer: pikapi
+    http://pikachize.eye-of-newt.com/
+Yoylese: そ]lly
+    https://battlefordreamisland.fandom.com/wiki/Yoylese
+u/EmojifierBot: Hello 👋
+u/owoifier: Hewwo
+u/Shakespeare-Bot: Holla
+🐌 Emoji Translator 🎲: hello👋 OR 👋hello👋 OR hello👋👋 OR hello 👋 OR 👋hello 👋👋 OR 👋hello 👋 OR hello 👋👋
+    https://lingojam.com/%F0%9F%90%8CEmojiTranslator%F0%9F%8E%B2
+Spankonese: Happy times, mimes!
+    https://scp-wiki.wikidot.com/askinate-herr-spankoflex
+Alien Language: ⊑⟒⌰⌰⍜
+    https://lingojam.com/AlienLanguage
+Vötgil: Hey
+<a href="https://r74n.com/textviewer/?Englis%20Rules\n==\nEverything%20is%20the%20same%20as%20English,%20except%20that%20the%20last%20letter%20of%20each%20sentence%20is%20omitted.\n\nExample:%20Hell.%20How%20are%20yo?\n\nCoined by R74n." target="_blank" title="R74n Text Viewer - Information about Englis">Englis</a>: Hell
+Aztec Code: <img src="image/aztec.png" alt="'Hello' Encoded in Aztec Code Image" title="Aztec Code"><br><br>
+Barcode GS1-128: <img src="image/barcode_GS1-128.png" alt="'Hello' Encoded in Barcode GS1-128 Image" title="Barcode GS1-128"><br><br>
+Barcode-39 [Full ASCII]: <img src="image/barcode-39_full_ascii.png" alt="'Hello' Encoded in Barcode-39 Full ASCII Image" title="Barcode-39 Full ASCII"><br><br>
+Codablock-F: <img src="image/codablock-f.png" alt="'Hello' Encoded in Codablock-F Image" title="Codablock-F"><br><br>
+DotCode: <img src="image/DotCode.png" alt="'Hello' Encoded in DotCode Image" title="DotCode"><br><br>
+Han Xin: <img src="image/han_xin.png" alt="'Hello' Encoded in Han Xin Image" title="Han Xin"><br><br>
+MaxiCode: <img src="image/maxicode.png" alt="'Hello' Encoded in MaxiCode Image" title="MaxiCode"><br><br>
+Micro QR Code: <img src="image/micro_qr_code.png" alt="'Hello' Encoded in Micro QR Code Image" title="Micro QR Code"><br><br>
+MicroPDF417: <img src="image/MicroPDF417.png" alt="'Hello' Encoded in MicroPDF417 Image" title="MicroPDF417"><br><br>
+PDF417: <img src="image/PDF417.png" alt="'Hello' Encoded in PDF417 Image" title="PDF417"><br><br>
+Telepen Alpha: <img src="image/telepen_alpha.png" alt="'Hello' Encoded in Telepen Alpha Image" title="Telepen Alpha"><br><br>
+Wikidata QID: <a href="https://www.wikidata.org/wiki/Q12068060" target="_blank">Q12068060</a>
+Wikitext: Hello
+
+Japanese [Traditional Hepburn Romaji]: konnichiwa
+Japanese [Modified Hepburn Romaji]: konnichiwa
+Japanese [Nihon-shiki Romaji]: konnitiha
+Japanese [Kunrei-shiki Romaji] (ISO 3602): konniti wa OR konnichi wa
+Japanese [JSL Romaji]: kon̄́nitiwà
+Japanese [Wāpuro Romaji]: konnnitiha OR kon'nitiha OR konnnichiha OR kon'nichiha
+Japanese [Esperanto Transcription]: konniĉiwa
+Japanese [Katakana]: コンニチハ
+Japanese [Man'yōgana]: 己尓仁千八
+
+
+
+
+
+
+Toki Pona [Emoji]: 💬
+    https://github.com/holtzermann17/toki-pona-emoji
+Toki Pona [Chinese]: 言
+    http://forums.tokipona.org/viewtopic.php?f=38&t=1519#p8261
+Toki Pona: [Classical Chinese] 言
+    http://forums.tokipona.org/viewtopic.php?f=7&t=2549
+Toki Ma: Toki
+    https://toki-ma.com/
+Toki Ma [Emoji]: 🗣
+Bon Wen: Yo
+    http://web.archive.org/web/20090626150813/https://www.scribd.com/doc/12607237/Dictionary
+Pa Mu: Mu
+    https://docs.google.com/document/d/1i859JZHD6K2k49Zx7m3QC4JSzXdRIPYnlC-Ww9TzMMA/edit
+Ta Ti: Ta
+    https://ecstatiq.tripod.com/languages/tati/diction.html
+
+Toki Pona [Runes]: ᛏᛟᚲᛁ
+    http://tokipona.net/tp/Runes.aspx / https://web.archive.org/web/20210810175822/http://tokipona.net/tp/Runes.aspx
+Toki Pona [Sitelen Pona]: https://cdn.discordapp.com/attachments/733009134856699924/881397018457677874/sp.png
+Toki Pona [Sitelen Sitelen]:https://www.jonathangabel.com/images/t47_tokipona/nimi/t47_nimi_toki.jpg
+    http://musilili.net/sitelen-sitelen-remastered/ (SVGs here)
+    https://github.com/sumpygump/sitelen-sitelen
+Toki Pona [Sitelen Kule Preredesign]: <input type="color" value="#8040C0" onchange="this.value='#8040C0'" class="colorsquare"> (<img src="image/8040C0.png" title="#8040C0" alt="#8040C0 color image" style="height:35px">)
+    https://i.redd.it/jt623r5y2jc11.png
+Toki Pona [Sitelen Sike Kule]: ⚪️🟡🟡
+Toki Pona [Sitelen Sike Kule Number]: 422
+Toki Pona [ASCII Syllabary]: tk
+    https://www.seximal.net/tkpn
+Toki Pona [Ogham]: ᚃᚒᚌᚐ
+    https://www.reddit.com/r/tokipona/comments/dhqdex/sitelen_poka_pi_toki_pona_ogham_for_toki_pona/
+Toki Pona [Sitelen Pi Toki Pona]: http://www.theiling.de/schrift/00/char3/glyphs/tp/030/014/48.gif
+    http://www.theiling.de/schrift/tokipona.html
+Toki Lii: Hal il
+    https://conlang.fandom.com/wiki/Toki_Lil
+Toki Pata: Toki
+    https://conlang.fandom.com/wiki/Toki_Pata#Lexicon
+Mini: Pale
+    https://minilanguage.medium.com/mini-the-minimal-language-3f3710e28166
+Pegakibo: TE
+    https://ostracodfiles.com/pegakibo/menu.html
+1580: 1577
+    https://ostracodfiles.com/1580/dictionary.txt
+
+Thue:
+a::=~Hello
+::=
+a
+    https://esolangs.org/wiki/Thue
+Emmental: #0#10#33#100#108#114#111.......
+    https://esolangs.org/wiki/Emmental
+THIS IS NOT A BRAINFUCK DERIVATIVE: THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE SHUT UP YOU LITTLE BITCH IT NEVER WAS THIS IS NOT A BRAINFUCK DERIVATIVE IT NEVER WAS THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE IT NEVER WAS THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE IT NEVER WAS THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE IT NEVER WILL BE IT NEVER WILL BE IT NEVER WILL BE IT NEVER WILL BE IT HAS NOTHING TO DO WITH BRAINFUCK SHUT THE FUCK UP IT NEVER WAS IT NEVER WAS IT NEVER WAS THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE TO ANYBODY WHO SAYS THIS IS A BRAINFUCK DERIVATIVE: IT NEVER WAS THIS IS NOT A BRAINFUCK DERIVATIVE TO ANYBODY WHO SAYS THIS IS A BRAINFUCK DERIVATIVE: THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE TO ANYBODY WHO SAYS THIS IS A BRAINFUCK DERIVATIVE: TO ANYBODY WHO SAYS THIS IS A BRAINFUCK DERIVATIVE: THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE THIS IS NOT A BRAINFUCK DERIVATIVE TO ANYBODY WHO SAYS THIS IS A BRAINFUCK DERIVATIVE: 
+
+Headache [Uncompiled]:
+void main() {
+    @"Hello\n"; 
+ }
+    https://esolangs.org/wiki/Headache_(Lang_that_compiles_to_brainfuck)
+    
+Brain:D: :D D D D D D D D D D DDDDDDD DDD D DDD D D D DDD D D D D D D D DDD D D D D D D D D D D DDDD DDDD DDDD DDDD DD DDDDDDDD DDD DDD DDD D D DDDDD DDD D DDDDD D D D D D D D DDDDD DDDDD D D D DDDDD 
+
+( ͡° ͜ʖ ͡°)fuck: ( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡°(ᕦ( ͡°ヮ ͡°)ᕥ( ͡° ͜ʖ ͡°)ᕦ( ͡°ヮ ͡°)ᕥ( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)ᕦ( ͡°ヮ ͡°)ᕥ( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)ᕦ( ͡°ヮ ͡°)ᕥ( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ.*(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ.*(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ.*(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ.*(> ͜ʖ<)) ͡°)ᕦ( ͡°ヮ ͡°)ᕥᕦ( ͡°ヮ ͡°)ᕥᕦ( ͡°ヮ ͡°)ᕥ( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)(♥ ͜ʖ♥)ᕦ( ͡°ヮ ͡°)ᕥ( ͡° ͜ʖ ͡°)(♥ ͜ʖ♥)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)(♥ ͜ʖ♥)(♥ ͜ʖ♥)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)(♥ ͜ʖ♥)
+CodeFuck: +10[>+7>+10>+3>+<4-]>+2.>+.+7.2+3.>+2.<2+15.>.+3.-6.-8.>+.>.
+
+
+
+123: 2221222212121121121121121121121122221222212121121121121121121222222111211211121121211222222211121121112112222222111211112112112222222111211112122222211121111211211222222211121111212222221112111112121122222221112111112
+    https://esolangs.org/wiki/123
+
+DDR:
+<v^>
+<  >
+ v
+<
+ v^
+<  >
+ v^
+ v >
+ v^
+<  >
+ v^
+<v
+ v^
+ v^
+   >
+<  >
+ v^
+<v^>
+ v^
+    https://esolangs.org/wiki/DDR
+
+
+Dumbf*ck: ././/////,<.////././.,/.///////.,,.///./////,
+    https://esolangs.org/wiki/Dumbf*ck
+Duocentehexaquinquagesimal: 1+b,¸àānx–ć§·"₁nΛ`?×Rµ₃~ü
+    https://esolangs.org/wiki/Duocentehexaquinquagesimal
+SPWN: println!("Hello", output);
+    https://github.com/Spu7Nix/SPWN-language
+Kay(f)bop(t): Wab(p)lav(p)bov(p)feb(f)sap(p)sup(f)
+    https://en.illogicopedia.org/wiki/How_to_Survive_in_Kay(f)bop(t)land(p)
+Kay(f)bop(t) [New Orthography]: Nunnuuuuunɥuuunnnununɥnunnnnuunuɥununnnnunumuunnnunnnuɥuunuuuunnum
+    https://en.illogicopedia.org/wiki/How_to_Survive_in_Kay(f)bop(t)land(p)#New_orthography
+
+
+
+
+
+
+
+
+ - OCaml - Cascading Style Sheets - Ada - Tcl - OpenMP - Ruby - LiveCode - Bash - SQL/XML - PHP/FI - Fortran - Scheme - Prolog - XSLT - Groovy - Julia - Forth - Sass - Swift - C++ - Perl - Non-Javascript - Common Lisp - Batch - Smalltalk - Racket - Scala - AutoHotkey - LUA - Guile - Nemerle - D - Objective C - BASIC - JavaScript - ooc - Go - Vala - Haskell - Python - COBOL - Octave - ColdFusion - Java - SQL - LabVIEW - Lua - MatLab - Rust - Awk - PyPy - R - OpenCL - Xojo - Ajax - C/C++ - assembly - C# - Oz - NetLogo - Erlang - CSS - Clojure - MATLAB - VBScript - Pascal - C - Visual Basic - PHP
+
+List of extinct languages:
+1. Egyptian Hieroglyphs
+2. Cuneiform
+3. Linear A
+4. Linear B
+5. Mayan Hieroglyphs
+6. Khmer
+7. Rongorongo
+8. Cypro-Minoan
+9. Anatolian Hieroglyphs
+10. Samarran
+11. Hattic
+12. Palmyrene
+13. Imperial Aramaic
+14. Archaic Chinese
+15. Old Chinese
+16. Tangut
+17. Old Hungarian
+18. Etruscan
+19. Araucanian
+20. Cherokee
+21. Ugaritic
+22. Ge'ez
+23. Hittite
+24. Tocharian
+25. Old Norse
+26. Old Church Slavonic
+27. Avestan
+28. Old Persian
+29. Sanskrit
+30. Old English
+31. Gothic
+32. Old Church Slavonic
+33. Old Norse
+34. Old Russian
+35. Chinese
+36. Old Prussian
+37. Old Church Slavonic
+38. Ubykh
+39. Ancient Greek
+40. Old Church Slavonic
+41. Tangut
+42. Old Hungarian
+43. Old Permic
+44. Old East Slavic
+45. Old Church Slavonic
+46. Old Turkic
+
+Hello in every language
+
+English: Hello
+Spanish: Hola
+French: Bonjour
+German: Hallo
+Italian: Ciao
+Portugese: Olá
+Greek: Γεια σου
+Russian: Привет
+Turkish: Merhaba
+Romanian: Salut
+Arabic: سلام
+Chinese: 你好
+Japanese: こんにちは
+Korean: 안녕하세요
+Hindi: नमस्ते
+Telugu: నమస్తే
+Marathi: नमस्ते
+Malayalam: നമസ്തേ
+Tamil: நமஸ்தா
+Kannada: ನಮಸ್ತೆ
+Thai: สวัสดี
+Chinese (Traditional): 你好
+Vietnamese: Chào
+Hebrew: שלום
+Punjabi: ਨਾਮਸਤੇ
+Hindi: नमस्ते
+Urdu: سلام
+Bangla: নামসতে
+Marathi: नमस्ते
+Bengali: নামসতে
+Tamil: நமஸ்தே
+Telugu: నమస్తే
+Kannada: ನಮಸ್ತೆ
+Malayalam: നമസ്തേ
+Hindi: नमस्ते
+Kannada: ನಮಸ್ತೆ
+Malayalam: നമസ്തേ
+Telugu: నమస
+

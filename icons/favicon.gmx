@@ -1,0 +1,24 @@
+
+<room>
+  <width>19800</width>
+  <height>19800</height>
+  <vsnap>198</vsnap>
+  <hsnap>198</hsnap>
+  <isometric>0</isometric>
+  <speed>30</speed>
+  <persistent>0</persistent>
+  <clearViewBackground>0</clearViewBackground>
+  <clearDisplayBuffer>-1</clearDisplayBuffer>
+  <code></code>
+  <enableViews>0</enableViews>
+  <instances/>
+  <tiles/>
+  <PhysicsWorld>0</PhysicsWorld>
+  <PhysicsWorldTop>0</PhysicsWorldTop>
+  <PhysicsWorldLeft>0</PhysicsWorldLeft>
+  <PhysicsWorldRight>19800</PhysicsWorldRight>
+  <PhysicsWorldBottom>19800</PhysicsWorldBottom>
+  <PhysicsWorldGravityX>0</PhysicsWorldGravityX>
+  <PhysicsWorldGravityY>10</PhysicsWorldGravityY>
+  <PhysicsWorldPixToMeters>0.1</PhysicsWorldPixToMeters>
+</room>

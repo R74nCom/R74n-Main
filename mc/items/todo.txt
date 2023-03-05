@@ -1,0 +1,13 @@
+checkbox options:
+slash at start
+minecraft: before item (on by default)
+plugin mode
+
+
+
+
+lodestone compasses
+
+
+
+hd heads

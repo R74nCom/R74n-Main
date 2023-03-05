@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+⢠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⣀⣀⠄⠄⠄⠄⠄⠄⠄⠄⣀⣀⣀⣀⣀⣀⣀⡀
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣆⡀⠄⠄⠄⠄⠿⠿⠿⠿⢿⣿⣿⠇
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠄⠄⠄⠄⠄⠄⠄⣠⣿⡿⠁⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠈⠹⣿⣿⣿⣿⣧⠄⠄⠄⠄⠄⣰⣿⡿⠁⠄⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⠄⠄⠄⠄⢀⣿⣿⠇⠄⠄⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⢀⣿⣿⣿⣿⡟⠄⠄⠄⠄⠘⠛⠛⢀⣀⣀⠄
+⢸⣿⣿⣿⣿⣤⣤⣤⣤⣤⣤⣤⣶⣾⣿⣿⣿⡿⠄⠄⠄⠄⠄⠄⢀⣴⣿⣿⣿⠄
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⠄⠄⠄⠄⠄⠄⣠⣿⠟⢹⣿⣿⠄
+⢸⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⣿⣯⣍⠁⠄⠄⠄⠄⠄⠄⢀⣾⣿⣉⣀⣸⣿⣿⣀
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠙⢿⣿⣿⣿⣷⣄⠄⠄⠄⠄⠄⠸⠿⠿⠿⠿⢿⣿⣿⠿
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠈⣿⣿⣿⣿⣿⣆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠸⠿⠿⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿⣿⣿⣇⠄⠄⠄⠄⣿⣿⣧⣾⣿⣿⣷⡀
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠈⢻⣿⣿⣿⣿⣦⠄⠄⠄⣿⣿⡏⠄⢸⣿⣿⡇
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⢿⣿⣿⣿⣿⣆⠄⠄⣿⣿⡇⠄⢸⣿⣿⡇
+⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
+This HTML and its contents are property of R74n.com.
+-->
+<meta charset="UTF-8">
+<html>
+<!-- R74N.com -->
+<head>
+    <title>Minecraft Items</title>
+    <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
+    <link rel='stylesheet' type='text/css' href='../stylesheet.css'/>
+    <script src="jquery-3.5.1.js"></script>
+    <script src="items.js"></script>
+    <script>
+        function sortOnKeys(dict) {
+            var sorted = [];
+            for(var key in dict) {
+                sorted[sorted.length] = key;
+            }
+            sorted.sort();
+            var tempDict = {};
+            for(var i = 0; i < sorted.length; i++) {
+                tempDict[sorted[i]] = dict[sorted[i]];
+            }
+            return tempDict;
+        }
+        items = sortOnKeys(items);
+        
+        function clearitems() {
+            var selectElement = document.getElementById("ResultBox");
+            var i, L = selectElement.options.length - 1;
+            for(i = L; i >= 0; i--) {
+               selectElement.remove(i);
+            }
+            var option = document.createElement("option");
+            option.text = "";
+            option.selected = true;
+            option.disabled = true;
+            option.hidden = true;
+            ResultBox.add(option);
+            
+        }
+        function searchitems(){
+            clearitems();
+            
+            var Search = document.getElementById("SearchBox").value.toLowerCase();
+            var ResultBox = document.getElementById("ResultBox");
+            var added = [];
+            for (var key in items) {
+                if (key.toLowerCase().startsWith(Search)) {
+                    var option = document.createElement("option");
+                    option.text = key;
+                    ResultBox.add(option);
+                    added.push(key);
+                }
+            }
+            
+            for (var key2 in items) {
+                if ((!(added.indexOf(key2) >= 0)) && (key2.toLowerCase().indexOf(Search) >= 0)) {
+                    var option2 = document.createElement("option");
+                    option2.text = key2;
+                    ResultBox.add(option2);
+                }
+            }
+        }
+        function showcommand(){
+            var ResultBox = document.getElementById("ResultBox");
+            var CommandText = document.getElementById("CommandText");
+            CommandText.value = items[ResultBox.options[ResultBox.selectedIndex].text];
+            CommandText.textContent = CommandText.value;
+            
+            CommandText.select();
+            CommandText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+        }
+        function copycommand(){
+            document.execCommand("copy");
+        }
+    </script>
+    
+    <style>
+        body {background-color:#b58645;text-align: center;font-family: Arial, Helvetica, sans-serif;}
+        #CommandText {font-size:20px;width:800px;height:100px;}
+    </style>
+
+    <script src="https://R74n.com/moji/load.js"></script>
+    <script src="https://R74n.com/load.js"></script>
+
+</head>
+
+<body>
+
+<h1>Minecraft Items</h1>
+
+<form id="SearchForm" onsubmit="searchitems(); return false;">
+    <input type="text" oninput="searchitems(); return false;" title="Type a query here and items will appear in the dropdown list." id="SearchBox" autocomplete="off" autofocus="True" class="search">
+</form><br>
+
+<select id="ResultBox" onchange="showcommand();">
+    <option>Test 1</option>
+    <option>Test 2</option>
+    <option>Test 3</option>
+    <option>Test 4</option>
+</select><br><br><br>
+
+<textarea id="CommandText" onclick="this.select();copycommand();"></textarea><br><br>
+
+<p>Commands are copied to your clipboard automatically!</p>
+
+<script>
+    searchitems();
+</script>
+
+<!-- i like having this but ublock blocks these things anyway -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-93720349-6');
+</script>
+
+<!-- R74N.com -->
+</body>
+<!-- R74N.com -->
+</html>

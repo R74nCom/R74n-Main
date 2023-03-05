@@ -1,0 +1,86 @@
+Potion	Potion	minecraft:potion	minecraft:potion	373
+Splash Potion	Splash Potion	minecraft:splash_potion		438
+Lingering Potion	Lingering Potion	minecraft:lingering_potion		441
+Water Bottle	Water Bottle	minecraft:potion{Potion:water}		
+Uncraftable Potion	Uncraftable Potion	minecraft:potion{Potion:empty}		
+Awkward Potion	Awkward Potion	minecraft:potion{Potion:awkward}	minecraft:potion	373:16
+Thick Potion	Thick Potion	minecraft:potion{Potion:thick}	minecraft:potion	373:32
+Mundane Potion	Mundane Potion	minecraft:potion{Potion:mundane}	minecraft:potion	373:64
+Regeneration Potion (0:45)	Regeneration Potion (0:45)	minecraft:potion{Potion:regeneration}	minecraft:potion	373:8193
+Swiftness Potion (3:00)	Swiftness Potion (3:00)	minecraft:potion{Potion:swiftness}	minecraft:potion	373:8194
+Fire Resistance Potion (3:00)	Fire Resistance Potion (3:00)	minecraft:potion{Potion:fire_resistance}	minecraft:potion	373:8195
+Poison Potion (0:45)	Poison Potion (0:45)	minecraft:potion{Potion:poison}	minecraft:potion	373:8196
+Healing Potion	Healing Potion	minecraft:potion{Potion:healing}	minecraft:potion	373:8197
+Night Vision Potion (3:00)	Night Vision Potion (3:00)	minecraft:potion{Potion:night_vision}	minecraft:potion	373:8198
+Weakness Potion (1:30)	Weakness Potion (1:30)	minecraft:potion{Potion:weakness}	minecraft:potion	373:8200
+Strength Potion (3:00)	Strength Potion (3:00)	minecraft:potion{Potion:strength}	minecraft:potion	373:8201
+Slowness Potion (1:30)	Slowness Potion (1:30)	minecraft:potion{Potion:slowness}	minecraft:potion	373:8202
+Harming Potion	Harming Potion	minecraft:potion{Potion:harming}	minecraft:potion	373:8204
+Water Breathing Potion (3:00)	Water Breathing Potion (3:00)	minecraft:potion{Potion:water_breathing}	minecraft:potion	373:8205
+Invisibility Potion (3:00)	Invisibility Potion (3:00)	minecraft:potion{Potion:invisibility}	minecraft:potion	373:8206
+Regeneration Potion II (0:22)	Regeneration Potion II (0:22)	minecraft:potion{Potion:strong_regeneration}	minecraft:potion	373:8225
+Swiftness Potion II (1:30)	Swiftness Potion II (1:30)	minecraft:potion{Potion:strong_swiftness}	minecraft:potion	373:8226
+Poison Potion II (0:22)	Poison Potion II (0:22)	minecraft:potion{Potion:strong_poison}	minecraft:potion	373:8228
+Healing Potion II	Healing Potion II	minecraft:potion{Potion:strong_healing}	minecraft:potion	373:8229
+Strength Potion II (1:30)	Strength Potion II (1:30)	minecraft:potion{Potion:strong_strength}	minecraft:potion	373:8233
+Leaping Potion II (1:30)	Leaping Potion II (1:30)	minecraft:potion{Potion:strong_leaping}	minecraft:potion	373:8235
+Harming Potion II	Harming Potion II	minecraft:potion{Potion:strong_harming}	minecraft:potion	373:8236
+Regeneration Potion (2:00)	Regeneration Potion (2:00)	minecraft:potion{Potion:long_regeneration}	minecraft:potion	373:8257
+Swiftness Potion (8:00)	Swiftness Potion (8:00)	minecraft:potion{Potion:long_swiftness}	minecraft:potion	373:8258
+Fire Resistance Potion (8:00)	Fire Resistance Potion (8:00)	minecraft:potion{Potion:long_fire_resistance}	minecraft:potion	373:8259
+Poison Potion (2:00)	Poison Potion (2:00)	minecraft:potion{Potion:long_poison}	minecraft:potion	373:8260
+Night Vision Potion (8:00)	Night Vision Potion (8:00)	minecraft:potion{Potion:long_night_vision}	minecraft:potion	373:8262
+Weakness Potion (4:00)	Weakness Potion (4:00)	minecraft:potion{Potion:long_weakness}	minecraft:potion	373:8264
+Strength Potion (8:00)	Strength Potion (8:00)	minecraft:potion{Potion:long_strength}	minecraft:potion	373:8265
+Slowness Potion (4:00)	Slowness Potion (4:00)	minecraft:potion{Potion:long_slowness}	minecraft:potion	373:8266
+Leaping Potion (3:00)	Leaping Potion (3:00)	minecraft:potion{Potion:leaping}	minecraft:potion	373:8267
+Water Breathing Potion (8:00)	Water Breathing Potion (8:00)	minecraft:potion{Potion:long_water_breathing}	minecraft:potion	373:8269
+Invisibility Potion (8:00)	Invisibility Potion (8:00)	minecraft:potion{Potion:long_invisibility}	minecraft:potion	373:8270
+Regeneration Potion II (1:00)	Regeneration Potion II (1:00)	minecraft:potion{Potion:strong_regeneration}	minecraft:potion	373:8289
+Swiftness Potion II (4:00)	Swiftness Potion II (4:00)	minecraft:potion{Potion:strong_swiftness}	minecraft:potion	373:8290
+Poison Potion II (1:00)	Poison Potion II (1:00)	minecraft:potion{Potion:strong_poison}	minecraft:potion	373:8292
+Strength Potion II (4:00)	Strength Potion II (4:00)	minecraft:potion{Potion:strong_strength}	minecraft:potion	373:8297
+Potion of the Turtle Master (0:20)	Potion of the Turtle Master (0:20)	minecraft:potion{Potion:turtle_master}		
+Potion of the Turtle Master (0:40)	Potion of the Turtle Master (0:40)	minecraft:potion{Potion:long_turtle_master}		
+Potion of the Turtle Master II (0:20)	Potion of the Turtle Master II (0:20)	minecraft:potion{Potion:strong_turtle_master}		
+Potion of Slow Falling (1:30)	Potion of Slow Falling (1:30)	minecraft:potion{Potion:slow_falling}		
+Potion of Slow Falling (4:00)	Potion of Slow Falling (4:00)	minecraft:potion{Potion:long_slow_falling}		
+Regeneration Splash (0:33) Potion	Regeneration Splash (0:33) Potion	minecraft:splash_potion{Potion:regeneration}	minecraft:potion	373:16385
+Swiftness Splash (2:15) Potion	Swiftness Splash (2:15) Potion	minecraft:splash_potion{Potion:swiftness}	minecraft:potion	373:16386
+Fire Resistance Splash (2:15) Potion	Fire Resistance Splash (2:15) Potion	minecraft:splash_potion{Potion:fire_resistance}	minecraft:potion	373:16387
+Poison Splash (0:33) Potion	Poison Splash (0:33) Potion	minecraft:splash_potion{Potion:poison}	minecraft:potion	373:16388
+Healing Splash Potion	Healing Splash Potion	minecraft:splash_potion{Potion:healing}	minecraft:potion	373:16389
+Night Vision Splash (2:15) Potion	Night Vision Splash (2:15) Potion	minecraft:splash_potion{Potion:night_vision}	minecraft:potion	373:16390
+Weakness Splash (1:07) Potion	Weakness Splash (1:07) Potion	minecraft:splash_potion{Potion:weakness}	minecraft:potion	373:16392
+Strength Splash (2:15) Potion	Strength Splash (2:15) Potion	minecraft:splash_potion{Potion:strength}	minecraft:potion	373:16393
+Slowness Splash (1:07) Potion	Slowness Splash (1:07) Potion	minecraft:splash_potion{Potion:slowness}	minecraft:potion	373:16394
+Harming Splash Potion	Harming Splash Potion	minecraft:splash_potion{Potion:harming}	minecraft:potion	373:16396
+Water Breathing Splash (2:15) Potion	Water Breathing Splash (2:15) Potion	minecraft:splash_potion{Potion:water_breathing}	minecraft:potion	373:16397
+Invisibility Splash (2:15) Potion	Invisibility Splash (2:15) Potion	minecraft:splash_potion{Potion:invisibility}	minecraft:potion	373:16398
+Regeneration II Splash (0:16) Potion	Regeneration II Splash (0:16) Potion	minecraft:splash_potion{Potion:strong_regeneration}	minecraft:potion	373:16417
+Swiftness II Splash (1:07) Potion	Swiftness II Splash (1:07) Potion	minecraft:splash_potion{Potion:strong_swiftness}	minecraft:potion	373:16418
+Poison II Splash (0:16) Potion	Poison II Splash (0:16) Potion	minecraft:splash_potion{Potion:strong_poison}	minecraft:potion	373:16420
+Healing II Splash Potion	Healing II Splash Potion	minecraft:splash_potion{Potion:strong_healing}	minecraft:potion	373:16421
+Strength II Splash (1:07) Potion	Strength II Splash (1:07) Potion	minecraft:splash_potion{Potion:strong_poison}	minecraft:potion	373:16425
+Leaping II Splash (1:07) Potion	Leaping II Splash (1:07) Potion	minecraft:splash_potion{Potion:strong_leaping}	minecraft:potion	373:16427
+Harming II Splash Potion	Harming II Splash Potion	minecraft:splash_potion{Potion:strong_harming}	minecraft:potion	373:16428
+Regeneration Splash (1:30) Potion	Regeneration Splash (1:30) Potion	minecraft:splash_potion{Potion:long_regeneration}	minecraft:potion	373:16449
+Swiftness Splash (6:00) Potion	Swiftness Splash (6:00) Potion	minecraft:splash_potion{Potion:long_swiftness}	minecraft:potion	373:16450
+Fire Resistance Splash (6:00) Potion	Fire Resistance Splash (6:00) Potion	minecraft:splash_potion{Potion:long_fire_resistance}	minecraft:potion	373:16451
+Poison Splash (1:30) Potion	Poison Splash (1:30) Potion	minecraft:splash_potion{Potion:long_poison}	minecraft:potion	373:16452
+Night Vision Splash (6:00) Potion	Night Vision Splash (6:00) Potion	minecraft:splash_potion{Potion:long_night_vision}	minecraft:potion	373:16454
+Weakness Splash (3:00) Potion	Weakness Splash (3:00) Potion	minecraft:splash_potion{Potion:long_weakness}	minecraft:potion	373:16456
+Strength Splash (6:00) Potion	Strength Splash (6:00) Potion	minecraft:splash_potion{Potion:long_strength}	minecraft:potion	373:16457
+Slowness Splash (3:00) Potion	Slowness Splash (3:00) Potion	minecraft:splash_potion{Potion:long_slowness}	minecraft:potion	373:16458
+Leaping Splash (2:15) Potion	Leaping Splash (2:15) Potion	minecraft:splash_potion{Potion:leaping}	minecraft:potion	373:16459
+Water Breathing Splash (6:00) Potion	Water Breathing Splash (6:00) Potion	minecraft:splash_potion{Potion:long_water_breathing}	minecraft:potion	373:16461
+Invisibility Splash (6:00) Potion	Invisibility Splash (6:00) Potion	minecraft:splash_potion{Potion:long_invisibility}	minecraft:potion	373:16462
+Regeneration II Splash (0:45) Potion	Regeneration II Splash (0:45) Potion	minecraft:splash_potion{Potion:strong_regeneration}	minecraft:potion	373:16481
+Swiftness II Splash (3:00) Potion	Swiftness II Splash (3:00) Potion	minecraft:splash_potion{Potion:strong_swiftness}	minecraft:potion	373:16482
+Poison II Splash (0:45) Potion	Poison II Splash (0:45) Potion	minecraft:splash_potion{Potion:strong_poison}	minecraft:potion	373:16484
+Strength II Splash (3:00) Potion	Strength II Splash (3:00) Potion	minecraft:splash_potion{Potion:strong_strength}	minecraft:potion	373:16489
+Splash Turtle Master Potion (0:20)	Splash Turtle Master Potion (0:20)	minecraft:splash_potion{Potion:turtle_master}		
+Splash Turtle Master Potion (0:40)	Splash Turtle Master Potion (0:40)	minecraft:splash_potion{Potion:long_turtle_master}		
+Splash Turtle Master Potion II (0:20)	Splash Turtle Master Potion II (0:20)	minecraft:splash_potion{Potion:strong_turtle_master}		
+Splash Slow Falling Potion (1:30)	Splash Slow Falling Potion (1:30)	minecraft:splash_potion{Potion:slow_falling}		
+Splash Slow Falling Potion (4:00)	Splash Slow Falling Potion (4:00)	minecraft:splash_potion{Potion:long_slow_falling}

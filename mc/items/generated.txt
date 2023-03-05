@@ -1,0 +1,44 @@
+give @p minecraft:potion{Potion:"minecraft:water",display:{Name:'{"text":"Water Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:empty",display:{Name:'{"text":"Empty Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:awkward",display:{Name:'{"text":"Awkward Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:thick",display:{Name:'{"text":"Thick Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:mundane",display:{Name:'{"text":"Mundane Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:regeneration",display:{Name:'{"text":"Regeneration Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:swiftness",display:{Name:'{"text":"Swiftness Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:fire_resistance",display:{Name:'{"text":"Fire Resistance Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:poison",display:{Name:'{"text":"Poison Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:healing",display:{Name:'{"text":"Healing Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:night_vision",display:{Name:'{"text":"Night Vision Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:weakness",display:{Name:'{"text":"Weakness Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strength",display:{Name:'{"text":"Strength Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:slowness",display:{Name:'{"text":"Slowness Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:harming",display:{Name:'{"text":"Harming Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:water_breathing",display:{Name:'{"text":"Water Breathing Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:invisibility",display:{Name:'{"text":"Invisibility Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_regeneration",display:{Name:'{"text":"Strong Regeneration Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_swiftness",display:{Name:'{"text":"Strong Swiftness Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_poison",display:{Name:'{"text":"Strong Poison Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_healing",display:{Name:'{"text":"Strong Healing Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_strength",display:{Name:'{"text":"Strong Strength Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_leaping",display:{Name:'{"text":"Strong Leaping Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_harming",display:{Name:'{"text":"Strong Harming Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_regeneration",display:{Name:'{"text":"Long Regeneration Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_swiftness",display:{Name:'{"text":"Long Swiftness Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_fire_resistance",display:{Name:'{"text":"Long Fire Resistance Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_poison",display:{Name:'{"text":"Long Poison Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_night_vision",display:{Name:'{"text":"Long Night Vision Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_weakness",display:{Name:'{"text":"Long Weakness Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_strength",display:{Name:'{"text":"Long Strength Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_slowness",display:{Name:'{"text":"Long Slowness Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:leaping",display:{Name:'{"text":"Leaping Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_water_breathing",display:{Name:'{"text":"Long Water Breathing Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_invisibility",display:{Name:'{"text":"Long Invisibility Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_regeneration",display:{Name:'{"text":"Strong Regeneration Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_swiftness",display:{Name:'{"text":"Strong Swiftness Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_poison",display:{Name:'{"text":"Strong Poison Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_strength",display:{Name:'{"text":"Strong Strength Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:turtle_master",display:{Name:'{"text":"Turtle Master Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_turtle_master",display:{Name:'{"text":"Long Turtle Master Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:strong_turtle_master",display:{Name:'{"text":"Strong Turtle Master Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:slow_falling",display:{Name:'{"text":"Slow Falling Potion","italic":false}'}} 1
+give @p minecraft:potion{Potion:"minecraft:long_slow_falling",display:{Name:'{"text":"Long Slow Falling Potion","italic":false}'}} 1

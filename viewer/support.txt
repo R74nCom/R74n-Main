@@ -1,0 +1,13 @@
+url=
+YouTube URLs or yt=id
+  loop=0, loop=1
+  start=x (time in seconds)
+  end=x (time in seconds)
+Twitter URLs for tweets, profiles, likes, and moments
+Instagram URLS for posts
+Tenor URLs
+Image URLs (png, jpg, tiff, gif, svg, webp, bmp, heif
+Audio URLs (mp3, wav, ogg)
+  loop=0, loop=1
+Video URLs (mp4, webm, ogg)
+  loop=0, loop=1

@@ -1,0 +1,129 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Sandboxels</title>
+    <meta charset="utf-8">
+    <meta name="description" content="A falling sand simulation game.">
+    <meta name="keywords" content="falling sand, elements, pixel art, simulator, powder">
+    <meta name="author" content="R74n">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://R74n.com/load.js"></script>
+    
+    <style>
+        html, body {
+            width:  100%;
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            font-family: 'Press Start 2P';
+            background-color: #000000;
+            color: #ffffff;
+        }
+        h1 {
+            padding: 10px;
+        }
+        a {color: rgb(255, 0, 255);text-decoration: none;}
+        a:hover {color: rgb(255, 121, 255);}
+        a:active, a:hover:active {color: rgb(255, 179, 255);}
+        #gameDiv { /*game canvas*/
+            border: 1px solid #ffffff;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -0%);
+            -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none; /* Safari */
+                -khtml-user-select: none; /* Konqueror HTML */
+                -moz-user-select: none; /* Old versions of Firefox */
+                    -ms-user-select: none; /* Internet Explorer/Edge */
+                        user-select: none;
+        }
+        button, input[type="submit"], input[type="reset"] {
+            background: none;
+            color: inherit;
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+        }
+        #underBox {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -0%);
+            margin-top: 10px;
+            width: 100%;
+        }
+        #controls button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 1em;
+            text-shadow: 0.5px 1px 4px #000000;
+            color: rgba(255, 255, 255, 0.75);
+            border: 1px solid #797979;
+            margin: 0px 5px 5px 5px;
+            font-variant: small-caps;
+        }
+        #controls button.bright {
+            text-shadow: 0.5px 1px 4px #ffffff;
+            color: rgba(0, 0, 0, 0.75);   
+        }
+        /*Darken when active*/
+        #controls button:active, #controls button:active:hover {
+            filter: brightness(60%);
+        }
+        #controls button:hover {
+            filter: brightness(90%);
+        }
+        #controls button:disabled {
+            cursor: not-allowed;
+        }
+        #controls button[current="true"], #controls button[on="true"] {
+            border: 1px solid #ffffff;
+            filter: brightness(110%);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, .4);
+            color: rgba(255, 255, 255, 1);
+        }
+        #controls button.bright[current="true"] {
+            color: rgba(0, 0, 0, 1);
+        }
+        #controls button[on="true"] {
+            border-color:lime;
+            color:lime;
+        }
+        #controls div {
+            display:block;
+        }
+        .stat {
+            margin-right: 25px;
+            margin-bottom: 5px;
+            float:right;
+        }
+        #stats {
+            margin: 0px 5px 5px 5px;
+            font-size: 0.75em;
+            height: 2em;
+        }
+        #stat-pos, #stat-pixels, #stat-shift, #stat-tps, #stat-ticks {
+            float:left;
+        }
+        .categoryName {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        #extraInfo {
+            margin:5px
+        }
+    </style>
+
+<body>
+    
+    This page has been moved. <a href="https://sandboxels.r74n.com/">Click here for the new link.</a>
+
+</body>
+
+</html>

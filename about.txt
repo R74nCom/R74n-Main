@@ -1,0 +1,12 @@
+[Plain]
+R74n is a website, website collective, and brand with a focus on a wide range of subjects, started in May 2017. It is most known for the Copy Paste Dump website and the emoji artist Twitter page. The variety of topics include but are not limited to emoji & Unicode, programming & technology, language, and pushing things to their limits.
+
+[HTML]
+<dfn>R74n</dfn> is a website, website collective, and brand with a focus on a wide range of subjects, started in <time datetime="2017-05-02 18:45-05:00">May 2017</time>. It is most known for <em><a href="https://c.R74n.com">the Copy Paste Dump</a></em> website and <em><a href="https://twitter.com/CopyPasteDump">the emoji artist</a></em> Twitter page. The variety of topics include but are not limited to emoji & Unicode, programming & technology, language, and pushing things to their limits.
+
+[Markdown]
+**R74n** is a website, website collective, and brand with a focus on a wide range of subjects, started in May 2017. It is most known for *the Copy Paste Dump* website and *the emoji artist* Twitter page. The variety of topics include but are not limited to emoji & Unicode, programming & technology, language, and pushing things to their limits.
+
+[Markdown with Hyperlinks]
+**R74n** is a website, website collective, and brand with a focus on a wide range of subjects, started in May 2017. It is most known for *[the Copy Paste Dump](https://c.R74n.com)* website and *[the emoji artist](https://twitter.com/CopyPasteDump)* Twitter page. The variety of topics include but are not limited to emoji & Unicode, programming & technology, language, and pushing things to their limits.
+

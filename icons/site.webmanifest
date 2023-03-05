@@ -1,0 +1,19 @@
+{
+    "name": "R74n",
+    "short_name": "R74n",
+    "icons": [
+        {
+            "src": "https://R74n.com/icons/android-chrome-192x192.png?v=R74n-2",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://R74n.com/icons/android-chrome-384x384.png?v=R74n-2",
+            "sizes": "384x384",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#000000",
+    "background_color": "#000000",
+    "display": "standalone"
+}
