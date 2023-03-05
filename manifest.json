@@ -1,0 +1,83 @@
+{
+    "short_name": "R74n",
+    "name": "R74n",
+    "icons": [
+      {
+        "src": "/icons/192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/icons/512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      },
+      {
+        "src": "/icons/avatar.png",
+        "type": "image/png",
+        "sizes": "305x305"
+      }
+    ],
+    "start_url": "/?source=pwa",
+    "background_color": "#000000",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#000000",
+    "shortcuts": [
+      {
+        "name": "How do I say hello in...?",
+        "short_name": "Hello",
+        "description": "View ways to say hello in every language",
+        "url": "/hello?source=pwa",
+        "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
+      },
+      {
+        "name": "What does this word mean?",
+        "short_name": "Words",
+        "description": "View words from different areas",
+        "url": "/words?source=pwa",
+        "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
+      },
+      {
+        "name": "Find Unicode characters",
+        "short_name": "UniSearch",
+        "description": "Search for Unicode characters and emojis using keywords",
+        "url": "/unisearch?source=pwa",
+        "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
+      },
+      {
+        "name": "Draw emoji art",
+        "short_name": "Emoji Art Canvas",
+        "description": "Draw art using the emoji art canvas",
+        "url": "/emojiart?source=pwa",
+        "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
+      },
+      {
+        "name": "R74moji",
+        "short_name": "R74moji",
+        "description": "Free pixel emoji",
+        "url": "/moji?source=pwa",
+        "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
+      },
+      {
+        "name": "Convert units",
+        "short_name": "Unit Converter",
+        "description": "Convert many units into many others",
+        "url": "/convert?source=pwa",
+        "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
+      }
+    ],
+    "description": "R74n",
+    "screenshots": [
+      {
+        "src": "/screenshot.png",
+        "type": "image/png",
+        "sizes": "2406x1154"
+      },
+      {
+        "src": "/icons/thumbnail.png",
+        "type": "image/png",
+        "sizes": "651x367"
+      }
+    ]
+  }

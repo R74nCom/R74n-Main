@@ -1,0 +1,27 @@
+﻿{
+	"rss": {
+		"channel": {
+			"title": "R74n",
+			"link": "https://R74n.com",
+			"description": "R74n",
+			"item": [
+				{
+					"title": "R74n Logo",
+					"link": "https://R74n.com/icons/favicon.png",
+					"description": "The logo for R74n in PNG format"
+				},
+				{
+					"title": "R74n Logo SVG",
+					"link": "https://R74n.com/icons/favicon.svg",
+					"description": "The logo for R74n in SVG format"
+				},
+				{
+					"title": "This RSS Page",
+					"link": "https://R74n.com/icons/favicon.rss",
+					"description": "The logo for R74n in RSS format"
+				}
+			]
+		},
+		"_version": "2.0"
+	}
+}

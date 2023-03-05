@@ -1,0 +1,35 @@
+#   Age:-999999
+#   ,Age:-999999
+#   OwnerUUID:"069a79f4-44e9-4726-a5be-fca90e38aaf5
+#   ,OwnerUUID:"069a79f4-44e9-4726-a5be-fca90e38aaf5
+#   display:{Name:'{"text":"Pig Spawn Egg (Baby)","italic":false}'}
+#   display:{Name:'{"text":"Pig Spawn Egg (Baby)","italic":false}'},
+#   give @p minecraft:player_head{SkullOwner:MHF_Alex}
+#babies, tamed, tamed babies
+#䷽﷽ဪ௵︎️ⅷ☫㊙
+
+
+
+give @p minecraft:compass{LodestoneDimension:"minecraft:overworld"}
+give @p minecraft:compass{LodestoneDimension:"minecraft:nether"}
+give @p minecraft:compass{LodestoneDimension:"minecraft:the_end"}
+
+
+give @p minecraft:player_head{SkullOwner:ConnorEatsPants}
+give @p minecraft:player_head{SkullOwner:JamesCharles}*
+give @p minecraft:player_head{SkullOwner:BajanCanadian}
+give @p minecraft:player_head{SkullOwner:xQcOW}
+give @p minecraft:player_head{SkullOwner:Logdotzip}
+give @p minecraft:player_head{SkullOwner:Skeppy}
+give @p minecraft:player_head{SkullOwner:JOEYGRACEFFA}*
+give @p minecraft:player_head{SkullOwner:Grandayy}
+give @p minecraft:player_head{SkullOwner:DanTDM}
+give @p minecraft:player_head{SkullOwner:ZoomersLULW}*
+give @p minecraft:player_head{SkullOwner:DisguisedToast1}*
+give @p minecraft:player_head{SkullOwner:Sykkuno}
+give @p minecraft:player_head{SkullOwner:yvonnieng}*
+give @p minecraft:player_head{SkullOwner:LukeOrSomething}
+give @p minecraft:player_head{SkullOwner:Reflex25}*
+give @p minecraft:player_head{SkullOwner:MHF_Alex}
+give @p minecraft:player_head{SkullOwner:MHF_Alex}
+give @p minecraft:player_head{SkullOwner:MHF_Alex}

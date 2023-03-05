@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<channel>
+  <title>R74n</title>
+  <link>https://R74n.com</link>
+  <description>R74n</description>
+  <item>
+    <title>R74n Logo</title>
+    <link>https://R74n.com/icons/favicon.png</link>
+    <description>The logo for R74n in PNG format</description>
+  </item>
+  <item>
+    <title>R74n Logo SVG</title>
+    <link>https://R74n.com/icons/favicon.svg</link>
+    <description>The logo for R74n in SVG format</description>
+  </item>
+  <item>
+    <title>This RSS Page</title>
+    <link>https://R74n.com/icons/favicon.rss</link>
+    <description>The logo for R74n in RSS format</description>
+  </item>
+</channel>
+
+</rss>

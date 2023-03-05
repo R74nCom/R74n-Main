@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+        <a-assets>
+            <a-asset-item crossorigin id="logo-obj" src="https://R74n.com/icons/favicon.obj"></a-asset-item>
+            <a-asset-item crossorigin id="logo-mtl" src="https://R74n.com/icons/favicon.mtl"></a-asset-item>
+        </a-assets>
+        <a-entity position="0 1.25 -1" obj-model="obj: #logo-obj; mtl: #logo-mtl" scale="1 1 1"></a-entity>
+        <a-sky color="#b2bfbf"></a-sky>
+    </a-scene>
+  </body>
+</html>

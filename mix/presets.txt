@@ -1,0 +1,14 @@
+Mix-Up Default!: air,earth,fire,water,life,void
+Classical 4: air,earth,fire,water
+Classical 5: air,earth,fire,water,aether
+Cooking: bread,beef,pressure,fire,vegetable,tomato,cheese,milk,egg,apple,sugar,water
+Life: egg,time,evolution,plant,water,land,death
+Minecraft: pickaxe,cave,tree,sword,water,lava,iron,chicken,sheep,skeleton,pig,cow,zombie,spider,gold,diamond
+
+
+Doodle Alchemy: air,fire,land,water
+Doodle Devil: beast,air,earth,fire,water,light,order,human,apple
+Doodle Farm: egg,worm,mouse,anchovy
+Doodle Kingdom: life,magic,sky,mountains,flatlands
+Doodle Mafia: building,crime,metal bar,person,wallet
+Club Penguin Card-Jitsu: fire,water,snow

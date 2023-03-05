@@ -1,0 +1,1 @@
+/give @p minecraft:player_head
