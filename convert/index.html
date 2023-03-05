@@ -154,26 +154,28 @@ This HTML and its contents are property of R74n.com.
         if (isNaN(x)) {x=0}
         var MoreLeft = document.getElementById("MoreLeft");
         var MoreRight = document.getElementById("MoreRight");
-        MoreLeft.innerHTML = "";
-        MoreRight.innerHTML = "";
+        MoreLeftHTML = "";
+        MoreRightHTML = "";
         var etype = encodeURI(currenttype);
         var eunit1 = encodeURI(unit1);
         var eunit2 = encodeURI(unit2);
-        MoreLeft.innerHTML += '(⇄) <a class="morelink" href="?'+etype+'/'+x+'/'+eunit2+'/'+eunit1+'">'+x+' '+unit2+' to '+unit1+'</a><br>'
+        MoreLeftHTML += '(⇄) <a class="morelink" href="?'+etype+'/'+x+'/'+eunit2+'/'+eunit1+'">'+x+' '+unit2+' to '+unit1+'</a><br>'
         for (var n in changes) {
           n = changes[n];
           var newx = x+n;
-          MoreLeft.innerHTML += '('+((n > 0) ? '+':'-')+''+Math.abs(n)+') <a class="morelink" href="?'+etype+'/'+(newx)+'/'+eunit1+'/'+eunit2+'">'+(newx)+' '+unit1+' to '+unit2+'</a><br>'
+          MoreLeftHTML += '('+((n > 0) ? '+':'-')+''+Math.abs(n)+') <a class="morelink" href="?'+etype+'/'+(newx)+'/'+eunit1+'/'+eunit2+'">'+(newx)+' '+unit1+' to '+unit2+'</a><br>'
         }
-        MoreLeft.innerHTML += '(½) <a class="morelink" href="?'+etype+'/'+(x/2)+'/'+eunit1+'/'+eunit2+'">'+(x/2)+' '+unit1+' to '+unit2+'</a><br>'
+        MoreLeftHTML += '(½) <a class="morelink" href="?'+etype+'/'+(x/2)+'/'+eunit1+'/'+eunit2+'">'+(x/2)+' '+unit1+' to '+unit2+'</a><br>'
         for (var n in multiples) {
           n = multiples[n];
           var newx = x*n;
-          MoreLeft.innerHTML += '(×'+n+') <a class="morelink" href="?'+etype+'/'+(newx)+'/'+eunit1+'/'+eunit2+'">'+(newx)+' '+unit1+' to '+unit2+'</a><br>'
+          MoreLeftHTML += '(×'+n+') <a class="morelink" href="?'+etype+'/'+(newx)+'/'+eunit1+'/'+eunit2+'">'+(newx)+' '+unit1+' to '+unit2+'</a><br>'
         }
         for (var key in unitdata[currenttype]) {
-          MoreRight.innerHTML += '<a class="morelink" href="?'+etype+'/'+x+'/'+eunit1+'/'+encodeURI(key)+'">'+x+' '+unit1+' to '+key+'</a><br>'
+          MoreRightHTML += '<a class="morelink" href="?'+etype+'/'+x+'/'+eunit1+'/'+encodeURI(key)+'">'+x+' '+unit1+' to '+key+'</a><br>'
         }
+        MoreLeft.innerHTML = MoreLeftHTML;
+        MoreRight.innerHTML = MoreRightHTML;
       }
 
       function update() {
