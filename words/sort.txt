@@ -1,2 +1,0 @@
-def sortlines(text):
-    print("\n".join(sorted(text.splitlines(),key=lambda x:x.lower().replace("#","").replace("@",""))).replace(": "," - "))
