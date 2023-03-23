@@ -849,5 +849,10 @@ abbrs = {
   "statvolt":"statV",
   "abvolt":"abV",
   "volt":"V",
+  "millivolt":"mV",
+  "kilovolt":"kV",
+  "megavolt":"MV",
+  "gigavolt":"GV",
+  "teravolt":"TV",
 
 }
