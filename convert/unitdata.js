@@ -230,7 +230,7 @@ unitdata = {
     "megadeath":1000000,
     "gigadeath":1000000000,
     "bubonic plague":50000000,
-    "COVID-19":2700000,
+    "COVID-19":6878000,
     "spanish flu":50000000,
     "swine flu":284000,
     "US deaths per year":2840000,
@@ -312,7 +312,7 @@ unitdata = {
     "yottasecond":1000000000000000000000000n,
     "business week":432000,
     "dog year":4508132.28,
-    "minecraft tick":20,
+    "minecraft tick":0.05,
     "minecraft day":1200,
     "universe age":4.35485578e17,
     "solar age":1.4525653e17,
@@ -330,6 +330,7 @@ unitdata = {
     "kilowarhol":900000,
     "megawarhol":900000000,
     "atomic unit of time":2.418884254e-17,
+    "alternian sweep":68373339.6,
   },
 
   "musical-interval":{
@@ -365,8 +366,71 @@ unitdata = {
     "millijoule":0.001,
     "microjoule":1e-6,
   },
-  "pressure":{},//pascal
-  "force":{},//newton
+  "pressure":{
+    "pascal":1,
+    "bar":100000,
+    "millibar":100,
+    "decibar":10000,
+    "pound per square inch":6894.76,
+    "atmosphere":101325,
+    "torr":133.322,
+    "barye":0.1,
+    "quectopascal":1e-30,
+    "rontopascal":1e-27,
+    "yoctopascal":1e-24,
+    "zeptopascal":1e-21,
+    "attopascal":1e-18,
+    "femtopascal":1e-15,
+    "picopascal":1e-12,
+    "nanopascal":1e-9,
+    "micropascal":1e-6,
+    "millipascal":0.001,
+    "centipascal":0.01,
+    "decipascal":0.1,
+    "decapascal":10,
+    "hectopascal":100,
+    "kilopascal":1000,
+    "megapascal":1000000,
+    "gigapascal":1000000000,
+    "terapascal":1000000000000,
+    "petapascal":1000000000000000,
+    "exapascal":1e+18,
+    "zettapascal":1e+21,
+    "yottapascal":1e+24,
+    "ronnapascal":1e+27,
+    "quettapascal":1e+30,
+    "centimeter of water":98.0665,
+    "millimeter of water":9.80665,
+    "inch of mercury":3.38639,
+    "inch of water":249.0889,
+    "millimeter of mercury":133.3224,
+    "kilogram per square centimeter":98066.5,
+    "kilopound per square inch":6894757.29,
+    "megapound per square inch":6.89475729e9,
+    "pièze":1000,
+
+  },
+  "force":{
+    "newton":1,
+    "dyne":10e-5,
+    "kilogram-force":9.80665,
+    "pound-force":4.448222,
+    "poundal":0.138255,
+    "kip":4448.22,
+    "metric ton-force":9806.65,
+    "US ton-force":8896.443,
+    "UK ton-force":9964.016,
+    "grain-force":0.0006354602,
+    "gram-force":0.00980665,
+    "ounce-force":0.2780139,
+    "sthène":1000,
+    "micronewton":1e-6,
+    "millinewton":0.001,
+    "centinewton":0.01,
+    "kilonewton":1000,
+    "meganewton":1000000,
+    "giganewton":1000000000,
+  },
   "solid-angle":{
     "square degree":1,
     "steradian":(180/Math.PI)**2,
@@ -644,7 +708,16 @@ unitdata = {
     "rad":0.01,
   },
   "speed":{},//and velocity
-  "voltage":{},//volt
+  "voltage":{
+    "volt":1,
+    "statvolt":299.792458,
+    "abvolt":10e-8,
+    "millivolt":0.001,
+    "kilovolt":1000,
+    "megavolt":1000000,
+    "gigavolt":1000000000,
+    "teravolt":1000000000000,
+  },
   "electric-resistance":{},//ohms
   "electric-charge":{},//coulomb
 
@@ -669,10 +742,20 @@ aliases = {
   "kilocalorie":"Calorie",
   "lunar cycle":"moon phase",
   "revolution":"turn",
-  
-
-  
 }
+
+unitpers = {
+  "speed": ["length","time"],
+}
+// m/s
+// 1/1
+
+// km/min
+// 1000 / 60
+
+// km/min = 1000 / 60 = 16.6666667 m/s
+
+// 16.67 m/s * amount
 
 
 abbrs = {
@@ -706,5 +789,65 @@ abbrs = {
   "planck area":"𝓁²P",
   "square centimeter":"cm²",
   "square millimeter":"mm²",
+  "pascal":"Pa",
+  "bar":"bar",
+  "pound per square inch":"psi",
+  "atmosphere":"atm",
+  "torr":"Torr",
+  "barye":"Ba",
+  "decipascal":"dPa",
+  "centipascal":"cPa",
+  "millipascal":"mPa",
+  "micropascal":"µPa",
+  "nanopascal":"nPa",
+  "picopascal":"pPa",
+  "femtopascal":"fPa",
+  "attopascal":"aPa",
+  "zeptopascal":"zPa",
+  "yoctopascal":"yPa",
+  "rontopascal":"rPa",
+  "quectopascal":"qPa",
+  "decapascal":"daPa",
+  "hectopascal":"hPa",
+  "kilopascal":"kPa",
+  "megapascal":"MPa",
+  "gigapascal":"GPa",
+  "terapascal":"TPa",
+  "petapascal":"PPa",
+  "exapascal":"EPa",
+  "zettapascal":"ZPa",
+  "yottapascal":"YPa",
+  "ronnapascal":"RPa",
+  "quettapascal":"QPa",
+  "centimeter of water":"cmH₂O",
+  "millimeter of water":"mmH₂O",
+  "inch of mercury":"inHg",
+  "inch of water":"inH₂O",
+  "millimeter of mercury":"mmHg",
+  "kilogram per square centimeter":"kg/cm²",
+  "kilopound per square inch":"ksi",
+  "megapound per square inch":"Mpsi",
+  "pièze":"pz",
+  "newton":"N",
+  "dyne":"dyn",
+  "kilogram-force":"kgf",
+  "pound-force":"lbf",
+  "poundal":"pdl",
+  "kip":"kip",
+  "metric ton-force":"tf",
+  "US ton-force":"US tonf",
+  "UK ton-force":"UK tonf",
+  "grain-force":"grf",
+  "gram-force":"gf",
+  "ounce-force":"ozf",
+  "micronewton":"µN",
+  "millinewton":"mN",
+  "centinewton":"cN",
+  "kilonewton":"kN",
+  "meganewton":"MN",
+  "giganewton":"GN",
+  "statvolt":"statV",
+  "abvolt":"abV",
+  "volt":"V",
 
 }

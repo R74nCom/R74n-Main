@@ -90,6 +90,8 @@ This HTML and its contents are property of R74n.com.
           var goal = Number(ycon);
           var final = base/goal;
         }
+        // remove rounding errors
+        if (final.toString().length>10) {final = parseFloat(final.toFixed(10))}
         return final
       }
 
@@ -189,6 +191,17 @@ This HTML and its contents are property of R74n.com.
         }
         updateMore(x)
       }
+      function updateReverse() {
+        var y = parseFloat(document.getElementById("ValueBox2").value);
+        var x = convert(currenttype,y,unit2,unit1);
+        if (isNaN(x)) {
+          document.getElementById("ValueBox1").value = "";
+        }
+        else {
+          document.getElementById("ValueBox1").value = x;
+        }
+        updateMore(y)
+      }
 
       function toTitleCase(str) {
         return str.replace(
@@ -250,21 +263,38 @@ This HTML and its contents are property of R74n.com.
         sorting = method;
         selectType(undefined,true);
       }
+
+      function swapUnits(){
+        var temp = unit1;
+        unit1 = unit2;
+        unit2 = temp;
+        // swap the values of the 2 inputs
+        var temp = document.getElementById("ValueBox1").value;
+        document.getElementById("ValueBox1").value = document.getElementById("ValueBox2").value;
+        document.getElementById("ValueBox2").value = temp;
+        // swap the values of the 2 selects
+        var tempunit1 = document.getElementById("UnitSelect1").value;
+        var tempunit2 = document.getElementById("UnitSelect2").value;
+        document.getElementById("UnitSelect1").value = tempunit2.substring(0,tempunit2.length-1) + "1";
+        document.getElementById("UnitSelect2").value = tempunit1.substring(0,tempunit1.length-1) + "2";
+      }
     </script>
-    <script src="https://R74n.com/moji/load.js"></script>
     <script src="https://R74n.com/load.js"></script>
     <style>
-      input[type="number"] {width:400px;height:40px;font-size:33px;vertical-align:middle;max-width:90%}
-      select {height:60px;font-size:33px;vertical-align:middle;max-width:90%}
+      input[type="number"] {width:300px;height:40px;font-size:24px;vertical-align:middle;max-width:90%}
+      select {height:60px;font-size:24px;vertical-align:middle;max-width:90%}
+      #TypeSelect {font-size:25px}
       #BoxLeft, #BoxRight, #Arrow {display:block}
       #BoxLeft {margin-top:25px}
       #Arrow {font-size:30px;padding:20px}
-      #Arrow::before {content:"↓";}
+      #Arrow::before {content:"↑↓";}
       .content {text-align:center}
       input[type="radio"] {display:inline-block}
       #MoreLeft, #MoreRight {display:inline-block;vertical-align:top;padding:40px}
       #MoreLeft {text-align:left}
       #MoreRight {text-align:right}
+      #UnitSelect1Box, #UnitSelect2Box {display:inline-block;}
+      #UnitSelect1Box select, #UnitSelect2Box select {width:100%;max-width:100%}
       @media only screen and (max-width: 1080px) {
         #Arrow {padding:20px}
         #BoxLeft, #BoxRight, #Arrow {display:block}
@@ -304,22 +334,25 @@ todo:
 
 <select id="TypeSelect" onchange="selectType(this)">
   <option disabled selected>Select a Unit Type</option>
-  <option value="data">Digital Storage (Bytes, Bits)</option>
-  <option value="length">Length (Meters, Inches)</option>
-  <option value="angle">Angle (Degrees, Radians)</option>
   <option value="metric">Arbitrary Metric (Milli, Centi)</option>
-  <option value="number">Quantity / Numbers (Dozens, Hundreds)</option>
-  <option value="death">Deaths (Megadeaths, Gigadeaths)</option>
-  <option value="paper-quantity">Paper Quantity (Sheets, Reams)</option>
-  <option value="money">Money (Robux, Minecoins)</option>
-  <option value="temperature">Temperature (Fahrenheit, Celsius)</option>
   <option value="time">Time (Hours, Days)</option>
+  <option value="length">Length (Meters, Inches)</option>
+  <option value="volume">Volume (Cubic Meters, Liters)</option>
+  <option value="weight">Weight (Grams, Pounds)</option>
+  <option value="pressure">Pressure (Pascals, Bars)</option>
+  <option value="money">Money (Robux, Minecoins)</option>
+  <option value="data">Digital Storage (Bytes, Bits)</option>
+  <option value="temperature">Temperature (Fahrenheit, Celsius)</option>
+  <option value="angle">Angle (Degrees, Radians)</option>
+  <option value="power">Power (Watts, Horsepower)</option>
+  <option value="force">Force (Newtons)</option>
+  <option value="voltage">Voltage (Volts)</option>
+  <option value="number">Quantity / Numbers (Dozens, Hundreds)</option>
+  <option value="paper-quantity">Paper Quantity (Sheets, Reams)</option>
   <option value="solid-angle">Solid Angle (Square Degrees, Steradians)</option>
   <option value="pepper">Pepper Heat (Scoville Units, ASTA)</option>
   <option value="musical-interval">Musical Intervals (Cents, Octaves)</option>
-  <option value="volume">Volume (Cubic Meters, Liters)</option>
-  <option value="weight">Weight (Grams, Pounds)</option>
-  <option value="power">Power (Watts, Horsepower)</option>
+  <option value="death">Deaths (Megadeaths, Gigadeaths)</option>
   <option value="beauty">Beauty (Helens)</option>
   
   
@@ -329,13 +362,23 @@ todo:
 <div id="Box" style="display:none">
 <div id="BoxLeft">
 <input id="ValueBox1" type="number" placeholder="Enter Number" oninput="update()">
-<select id="UnitSelect1" onchange="unit1=this.options[this.options.selectedIndex].getAttribute('unit');update()"></select>
+<div id="UnitSelect2Box">
+  <select id="UnitSelect1" onchange="unit1=this.options[this.options.selectedIndex].getAttribute('unit');update()"></select>
+  <select id="UnitSelect1Per" onchange="unit1per=this.options[this.options.selectedIndex].getAttribute('unit');update()" style="display:none"></select>
+</div>
 </div>
 <div id="Arrow"></div>
 <div id="BoxRight">
-<input id="ValueBox2" readonly type="number" placeholder="Enter Number" oninput="updateR()">
-<select id="UnitSelect2" onchange="unit2=this.options[this.options.selectedIndex].getAttribute('unit');update()"></select>
+<input id="ValueBox2" type="number" placeholder="Enter Number" oninput="updateReverse()">
+<div id="UnitSelect2Box">
+  <select id="UnitSelect2" onchange="unit2=this.options[this.options.selectedIndex].getAttribute('unit');update()"></select>
+  <select id="UnitSelect2Per" onchange="unit2per=this.options[this.options.selectedIndex].getAttribute('unit');update()" style="display:none"></select>
 </div>
+</div>
+<br>
+<!-- centered Swap Units button -->
+<div style="text-align:center">
+  <input type="button" id="SwapButton" onclick="swapUnits()" value="Swap Units"></div>
 <form style="margin-top:50px">Sort Units By:
   <input type="radio" name="sortbtn" selected onclick="updateSort('name')"><label for="name">Name</label>
   <input type="radio" name="sortbtn" onclick="updateSort('value')"><label for="name">Value</label>
@@ -346,22 +389,26 @@ todo:
 
 <div id="MoreBox" style="display:none">
   <div id="MoreLeft">
-    <a class="morelink" href="?data">Data Storage Conversion</a><br>
-    <a class="morelink" href="?length">Length Conversion</a><br>
-    <a class="morelink" href="?angle">Angle Conversion</a><br>
-    <a class="morelink" href="?metric">Arbitrary Conversion</a><br>
-    <a class="morelink" href="?number">Number Conversion</a><br>
-    <a class="morelink" href="?death">Death Conversion</a><br>
-    <a class="morelink" href="?paper-quantity">Paper Quantity Conversion</a><br>
-    <a class="morelink" href="?money">Money Conversion</a><br>
-    <a class="morelink" href="?temperature">Temperature Conversion</a><br>
     <a class="morelink" href="?time">Time Conversion</a><br>
+    <a class="morelink" href="?length">Length Conversion</a><br>
+    <a class="morelink" href="?volume">Volume Conversion</a><br>
+    <a class="morelink" href="?weight">Weight Conversion</a><br>
+    <a class="morelink" href="?pressure">Pressure Conversion</a><br>
+    <a class="morelink" href="?money">Money Conversion</a><br>
+    <a class="morelink" href="?data">Digital Storage Conversion</a><br>
+    <a class="morelink" href="?temperature">Temperature Conversion</a><br>
+    <a class="morelink" href="?angle">Angle Conversion</a><br>
+    <a class="morelink" href="?power">Power Conversion</a><br>
+    <a class="morelink" href="?force">Force Conversion</a><br>
+    <a class="morelink" href="?voltage">Voltage Conversion</a><br>
+    <a class="morelink" href="?number">Quantity Conversion</a><br>
+    <a class="morelink" href="?paper-quantity">Paper Quantity Conversion</a><br>
     <a class="morelink" href="?solid-angle">Solid Angle Conversion</a><br>
     <a class="morelink" href="?pepper">Pepper Heat Conversion</a><br>
-    <a class="morelink" href="?volume">Volume Conversion</a><br>
-    <a class="morelink" href="?weight">Weight/Mass Conversion</a><br>
-    <a class="morelink" href="?power">Power Conversion</a><br>
-    <a class="morelink" href="?beauty">Beauty/Helen Conversion</a><br>
+    <a class="morelink" href="?musical-interval">Musical Interval Conversion</a><br>
+    <a class="morelink" href="?death">Death Conversion</a><br>
+    <a class="morelink" href="?beauty">Beauty Conversion</a><br>
+    <a class="morelink" href="?metric">Arbitrary Metric Conversion</a><br>
   </div>
   <div id="MoreRight">
     <a class="morelink" href="?length/5/inch/centimeter">Inches to Centimeters</a><br>
