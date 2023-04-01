@@ -95,65 +95,80 @@ This HTML and its contents are property of R74n.com.
 
   function setIcon(){
     var icondates = { //m-d
-      "1-1": ["red.png","orange.png","yellow.png","green.png","blue.png","purple.png"],
-      "2-14": "magenta.png",
-      "2-21": "aromantic.png",
-      "3-8": "pink.png",
-      "3-17": ["lime.png","gold.png"],
-      "3-20": "red.png",
-      "3-31": "trans.png",
-      "4-1": "inverted-flipped.png",
-      "4-20": "green.png",
-      "4-22": "lime.png",
-      "4-26": "lesbian.png",
-      "5-17": "rainbow.png",
-      "5-24": "pansexual.png",
-      "6-8": "R74n-GOLD.png",
-      "6-27": "red.png",
-      "7-14": "nonbinary.png",
-      "7-4": ["red.png","white.png","blue.png"],
-      "8-26": "pink.png",
-      "9-11": "blue.png",
-      "9-16": "bisexual.png",
-      "9-23": "bisexual.png",
-      "10-11": "rainbow.png",
-      "10-13": "pink.png",
-      "10-23": "asexual.png",
-      "10-26": "intersex.png",
-      "10-31": "orange.png",
-      "11-8": "intersex.png",
-      "11-20": "trans.png",
-      "12-1": "R74n-GOLD.png",
-      "12-1": "red.png",
-      "12-8": "pansexual.png",
-      "12-31": "gold.png",
+      "1-1": [["red.png","orange.png","yellow.png","green.png","blue.png","purple.png"], "Happy New Year!"],
+      "2-14": [["red.png","magenta.png","pink.png"], "Love is in the air."],
+      "2-21": ["aromantic.png", "Celebrating Aromantic Spectrum Awareness Week"],
+      "3-8": ["pink.png", "Celebrating Women's Day"],
+      "3-17": [["lime.png","gold.png"], "Happy St. Patrick's Day!"],
+      "3-20": ["red.png", "Celebrating HIV/AIDS Awarness Day"],
+      "3-31": ["trans.png", "Celebrating Transgender Day of Visibility"],
+      "4-1": ["inverted-flipped.png", "Something is happening in Sandboxels..."],
+      "4-20": ["green.png", ""],
+      "4-22": ["lime.png", "Celebrating Earth Day"],
+      "4-26": ["lesbian.png", "Celebrating Lesbian Visibility Week"],
+      "5-17": ["rainbow.png", "Celebrating inclusivity"],
+      "5-24": ["pansexual.png", "Celebrating Pansexual Visibility Day"],
+      "6-7": ["https://r74n.com/EoD.png", "Anniversary of Elemental on Discord"],
+      "6-8": ["R74n-GOLD.png", "A special birthday"],
+      "6-27": ["red.png", "National HIV Testing Day"],
+      "7-14": ["nonbinary.png", "Celebrating Non-Binary People's Day"],
+      "7-4": [["red.png","white.png","blue.png"], ""],
+      "8-26": ["pink.png", "Celebrating Women's Equality Day"],
+      "9-11": ["blue.png", "Not forgetting"],
+      "9-16": ["bisexual.png", "Celebrating Bisexual Awareness Week"],
+      "9-23": ["bisexual.png", "Celebrating Bisexual Awareness Week"],
+      "10-11": ["rainbow.png", "Celebrating Coming Out Day"],
+      "10-13": ["pink.png", ""],
+      "10-23": ["asexual.png", "Celebrating Asexual Awareness Week"],
+      "10-26": ["intersex.png", "Celebrating Intersex Awareness Day"],
+      "10-31": ["orange.png", "Happy Halloween!"],
+      "11-8": ["intersex.png", "Celebrating Intersex Solidarity Day"],
+      "11-20": ["trans.png", "Observing Transgender Day of Remembrance"],
+      "12-1": [["red.png","R74n-GOLD.png"], ""],
+      "12-8": ["pansexual.png", "Celebrating Pansexual and Panromantic Pride Day"],
+      "12-15": ["https://sandboxels.r74n.com/icons/icon.png", "Anniversary of Sandboxels"],
+      "12-25": [["red.png","lime.png","green.png"], "Merry Christmas!"],
+      "12-26": [["red.png","green.png"], "Habari Gani!"],
+      "12-31": ["gold.png", "The New Year is upon us!"],
     }
     var iconmonths = {
-      "2": ["red.png","yellow.png","green.png"],
-      "6": "rainbow.png",
-      "12": ["red.png","lime.png","green.png"],
+      "2": [["red.png","yellow.png","green.png"], "Celebrating Black History Month"],
+      "6": ["rainbow.png", "Celebrating Pride Month"],
+      "12": [["red.png","lime.png","green.png"], "Winter holidays!"],
     }
 
     // get today's date
     var currentdate = new Date();
     var currentdatestring = (currentdate.getMonth()+1) + "-" + currentdate.getDate();
+    var currentmonth = currentdate.getMonth()+1;
     var newicon = null;
+    R74nicon = document.getElementById("R74nicon");
     if (icondates[currentdatestring]) {
-      newicon = (icondates[currentdatestring] || "favicon.png");
+      newicon = (icondates[currentdatestring][0] || "favicon.png");
+      var newtitle = icondates[currentdatestring][1];
     }
-    else if (iconmonths[currentdate.getMonth()+1]) {
-      newicon = (iconmonths[currentdate.getMonth()+1] || "favicon.png");
+    else if (iconmonths[currentmonth]) {
+      newicon = (iconmonths[currentmonth][0] || "favicon.png");
+      var newtitle = iconmonths[currentmonth][1];
     }
     if (newicon) {
       if (Array.isArray(newicon)) {
         newicon = newicon[Math.floor(Math.random()*newicon.length)];
       }
-      document.getElementById("R74nicon").src = "icons/" + newicon;
+      // if the newicon doesn't start with http, add "icons/"
+      if (!newicon.startsWith("http")) {
+        newicon = "icons/" + newicon;
+      }
+      R74nicon.src = newicon;
+      if (newtitle) {
+        R74nicon.title = newtitle;
+        console.log(newtitle);
+      }
     }
     else {
-      document.getElementById("R74nicon").src = "icons/favicon.png";
+      R74nicon.src = "icons/favicon.png";
     }
-    document.getElementById("R74nicon").style.display = "inline-block";
+    R74nicon.style.display = "inline-block";
   }
 
     </script>
