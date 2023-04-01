@@ -87,18 +87,83 @@ This HTML and its contents are property of R74n.com.
 
 
 
-
-
+    
     
     <!--<script src="moji/load.js"></script>-->
     <script src="load.js"></script>
+    <script>
+
+  function setIcon(){
+    var icondates = { //m-d
+      "1-1": ["red.png","orange.png","yellow.png","green.png","blue.png","purple.png"],
+      "2-14": "magenta.png",
+      "2-21": "aromantic.png",
+      "3-8": "pink.png",
+      "3-17": ["lime.png","gold.png"],
+      "3-20": "red.png",
+      "3-31": "trans.png",
+      "4-1": "inverted-flipped.png",
+      "4-20": "green.png",
+      "4-22": "lime.png",
+      "4-26": "lesbian.png",
+      "5-17": "rainbow.png",
+      "5-24": "pansexual.png",
+      "6-8": "R74n-GOLD.png",
+      "6-27": "red.png",
+      "7-14": "nonbinary.png",
+      "7-4": ["red.png","white.png","blue.png"],
+      "8-26": "pink.png",
+      "9-11": "blue.png",
+      "9-16": "bisexual.png",
+      "9-23": "bisexual.png",
+      "10-11": "rainbow.png",
+      "10-13": "pink.png",
+      "10-23": "asexual.png",
+      "10-26": "intersex.png",
+      "10-31": "orange.png",
+      "11-8": "intersex.png",
+      "11-20": "trans.png",
+      "12-1": "R74n-GOLD.png",
+      "12-1": "red.png",
+      "12-8": "pansexual.png",
+      "12-31": "gold.png",
+    }
+    var iconmonths = {
+      "2": ["red.png","yellow.png","green.png"],
+      "6": "rainbow.png",
+      "12": ["red.png","lime.png","green.png"],
+    }
+
+    // get today's date
+    var currentdate = new Date();
+    var currentdatestring = (currentdate.getMonth()+1) + "-" + currentdate.getDate();
+    var newicon = null;
+    if (icondates[currentdatestring]) {
+      newicon = (icondates[currentdatestring] || "favicon.png");
+    }
+    else if (iconmonths[currentdate.getMonth()+1]) {
+      newicon = (iconmonths[currentdate.getMonth()+1] || "favicon.png");
+    }
+    if (newicon) {
+      if (Array.isArray(newicon)) {
+        newicon = newicon[Math.floor(Math.random()*newicon.length)];
+      }
+      document.getElementById("R74nicon").src = "icons/" + newicon;
+    }
+    else {
+      document.getElementById("R74nicon").src = "icons/favicon.png";
+    }
+    document.getElementById("R74nicon").style.display = "inline-block";
+  }
+
+    </script>
 
 </head>
 
 <body>
 
 
-<a href="#YOU-ARE-ALREADY-HOME."><img src="icons/favicon.png" class="R74nicon" alt="R74n icon"></a>
+<a href="#YOU-ARE-ALREADY-HOME."><img style="display:none" id="R74nicon" class="R74nicon" alt="R74n icon"></a><script>setIcon();</script>
 <h1 class="pagetitle" title="Please stay a while!">Home</h1><br>
 <div class="content">
 
