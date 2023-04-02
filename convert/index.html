@@ -227,6 +227,10 @@ This HTML and its contents are property of R74n.com.
         var URLSearch = location.search.substring(1);
         if (!(URLSearch=="")) {
           var query = decodeURI(URLSearch).split("/")
+          // trim equal signs from the last query
+          if (query[query.length-1].endsWith("=")) {
+            query[query.length-1] = query[query.length-1].substring(0,query[query.length-1].length-1)
+          }
           var TypeSelect = document.getElementById("TypeSelect");
           var ValueBox1 = document.getElementById("ValueBox1");
           var UnitSelect1 = document.getElementById("UnitSelect1");
