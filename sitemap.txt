@@ -14,6 +14,7 @@ https://r74n.com/words/2021
 https://r74n.com/moji
 https://r74n.com/moji/docs
 https://r74n.com/moji/all
+https://r74n.com/moji/view
 https://r74n.com/PogChamp/
 https://r74n.com/icons/favicon
 https://r74n.com/icons/aframe
@@ -43,3 +44,9 @@ https://r74n.com/forum/
 https://r74n.com/social/
 https://r74n.com/commons/
 https://r74n.com/sandboxels/
+https://r74n.com/pixelflags/
+https://r74n.com/mc/qol
+https://r74n.com/calendar
+https://r74n.com/old
+https://r74n.com/old/sandbox
+https://r74n.com/test/
