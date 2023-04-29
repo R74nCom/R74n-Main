@@ -202,3 +202,7 @@ th {background-color:#00ffff;color:black}
 tr:nth-child(odd){background-color: #272727;}
 
 .linkcategory {color:yellow}
+#newsheader {color:white;background-color:darkred;padding:0.25em;border-radius:10px;}
+#newsheader a {color:lime;}
+#newsheader a:hover {color:rgb(117, 255, 117);}
+#newsheader a:active {color:yellow;}

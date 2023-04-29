@@ -92,6 +92,10 @@ This HTML and its contents are property of R74n.com.
     <!--<script src="moji/load.js"></script>-->
     <script src="load.js"></script>
     <script>
+  function newsFlash(text) {
+    document.getElementById("newsheader").innerHTML = text;
+    document.getElementById("newsheader").style.display = "block";
+  }
 
   function setIcon(){
     var icondates = { //m-d
@@ -109,6 +113,7 @@ This HTML and its contents are property of R74n.com.
       "4-22": ["lime.png", "Celebrating Earth Day"],
       "4-26": ["lesbian.png", "Celebrating Lesbian Visibility Week"],
       "5-1": ["rainbow.png", "Celebrating May Day"],
+      "5-2": ["strobe.gif", "Celebrating R74n's Birthday"],
       "5-5": [["red.png","white_border_black.png","green.png"], "Celebrating Cinco de Mayo"],
       "5-17": ["rainbow.png", "Celebrating inclusivity"],
       "5-24": ["pansexual.png", "Celebrating Pansexual Visibility Day"],
@@ -153,6 +158,7 @@ This HTML and its contents are property of R74n.com.
     var currentdate = new Date();
     var currentdatestring = (currentdate.getMonth()+1) + "-" + currentdate.getDate();
     var currentmonth = currentdate.getMonth()+1;
+    //currentdatestring = "5-2";
     var newicon = null;
     R74nicon = document.getElementById("R74nicon");
     if (icondates[currentdatestring]) {
@@ -181,6 +187,65 @@ This HTML and its contents are property of R74n.com.
       R74nicon.src = "icons/favicon.png";
     }
     R74nicon.style.display = "inline-block";
+
+    // Birthday celebrations
+    if (currentdatestring == "5-2") {
+      R74nicon.parentElement.href = "#HAPPY-BIRTHDAY";
+      document.title = "Happy Birthday R74n!";
+      var pagetitle = document.getElementById("pagetitle"); //h1
+      pagetitle.innerHTML = pagetitle.innerHTML + " 🎉";
+      pagetitle.title = "Happy Birthday R74n!";
+      // add to the top of content div... "Come celebrate with us!"
+      newsFlash("R74n has gained a year of age! Come celebrate with us on <a href='https://discord.gg/ejUc6YPQuS'>Discord</a>!");
+      // https://github.com/loonywizard/js-confetti
+      var confettijs = document.createElement("script");
+      confettijs.src = "confetti.js";
+      confettijs.onload = function() {
+        console.log("Happy Birthday R74n!");
+        const jsConfetti = new JSConfetti();
+        // make icon and pagetitle hover jsConfetti.addConfetti()
+        R74nicon.addEventListener("mouseover", function() {
+          jsConfetti.addConfetti();
+        });
+        pagetitle.addEventListener("mouseover", function() {
+          jsConfetti.addConfetti();
+        });
+        // and onclick
+        R74nicon.addEventListener("click", function() {
+          jsConfetti.addConfetti();
+        });
+        pagetitle.addEventListener("click", function() {
+          jsConfetti.addConfetti();
+        });
+      }
+      document.head.appendChild(confettijs);
+    }
+    else {
+      // if its before may 2 of the current year, add a countdown 
+      var nextbirthday = new Date();
+      if (currentdate.getMonth() < 4 || (currentdate.getMonth() == 4 && currentdate.getDate() < 2)) {
+        nextbirthday.setMonth(4);
+        nextbirthday.setDate(2);
+      }
+      else {
+        nextbirthday.setFullYear(nextbirthday.getFullYear()+1);
+        nextbirthday.setMonth(4);
+        nextbirthday.setDate(2);
+      }
+      nextbirthday.setHours(0);
+      // if it is 1 week or less away, countdown days, or hours if less than 1 day away
+      var daysleft = Math.floor((nextbirthday - currentdate) / (1000 * 60 * 60 * 24));
+      if (daysleft <= 7) {
+        if (daysleft <= 1) {
+          var hoursleft = Math.floor((nextbirthday - currentdate) / (1000 * 60 * 60));
+          var timeleft = hoursleft + " hours";
+        }
+        else {
+          var timeleft = daysleft + " days";
+        }
+        newsFlash("R74n's birthday is in " + timeleft + "!");
+      }
+    }
   }
 
     </script>
@@ -190,9 +255,10 @@ This HTML and its contents are property of R74n.com.
 <body>
 
 
-<a href="#YOU-ARE-ALREADY-HOME."><img style="display:none" id="R74nicon" class="R74nicon" alt="R74n icon"></a><script>setIcon();</script>
-<h1 class="pagetitle" title="Please stay a while!">Home</h1><br>
+<a href="#YOU-ARE-ALREADY-HOME."><img style="display:none" id="R74nicon" class="R74nicon" alt="R74n icon"></a>
+<h1 class="pagetitle" title="Please stay a while!" id="pagetitle">Home</h1><br>
 <div class="content">
+<p id="newsheader" style="display:none;"></p><script>setIcon();</script>
 
 <div style="display:inline-block;vertical-align:top;">
 <strong class="linkcategory">== Spotlight ==</strong>
