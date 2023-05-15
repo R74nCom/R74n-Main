@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="All R74n events and anniversaries">
+    <meta name="description" content="Embed for the R74n Discord server.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, slweeb, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Calendar - R74n</title>
+    <title>R74n Discord Server</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../stylesheet.css"/>
@@ -45,7 +45,26 @@ This HTML and its contents are property of R74n.com.
     <script src="https://R74n.com/load.js"></script>
 
     <style>
-      small, dd {font-style:italic;font-size:medium}
+      .discord-embed {
+        /* centered */
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+      /* on desktop, display it on the side alongside the rest of the content */
+      @media screen and (min-width: 800px) {
+        .discord-embed {
+          margin-left: 1em;
+          display: inline-block;
+          vertical-align: top;
+        }
+        #content1 {
+          width: 60%;
+          display: inline-block;
+          vertical-align: top;
+        }
+      }
+      .pagetitle {color:#5865f2}
     </style>
 
 </head>
@@ -53,14 +72,22 @@ This HTML and its contents are property of R74n.com.
 <body>
 
 
-<a href="." class="backbutton">⦉</a>
-<h1 class="pagetitle">Calendar</h1><br>
+<a href="https://R74n.com" class="backbutton">⦉</a>
+<h1 class="pagetitle">Discord</h1><br>
 <div class="content">
 
-  <p>Events and anniversaries regarding R74n projects.</p>
-  <p><a href="https://calendar.google.com/calendar/embed?src=ladcofi5bc79kluaighvhr817s%40group.calendar.google.com">Direct link to Calendar.</a></p>
-  <p><a href="https://calendar.google.com/calendar/ical/ladcofi5bc79kluaighvhr817s%40group.calendar.google.com/public/basic.ics">Add to my Calendar (iCal).</a></p>
-  <iframe style="width:90%; margin: 0 auto; display: block" src="https://calendar.google.com/calendar/embed?src=ladcofi5bc79kluaighvhr817s%40group.calendar.google.com" style="border: 0" width="800" height="700" frameborder="0" scrolling="no"></iframe>
+<div id="content1">
+<p>We have an official <a href="https://link.r74n.com/discord" target="_blank">Discord server</a>. Other platforms can be found on our <a href="/social/">Social page</a>.</p>
+
+<p>Official invite: <a href="https://discord.gg/ejUc6YPQuS" target="_blank">discord.gg/ejUc6YPQuS</a></p>
+<p>ID: 939255181474955331</p>
+<p>Permalink: <a href="https://discord.com/servers/939255181474955331" target="_blank">discord.com/servers/939255181474955331</a></p>
+</div>
+
+<iframe class="discord-embed" src="https://discord.com/widget?id=939255181474955331&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+
+
+
 
 </div>
 
