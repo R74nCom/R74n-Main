@@ -70,6 +70,8 @@ This HTML and its contents are property of R74n.com.
       .gsc-completion-container {
         background-color: unset!important;
       }
+      .gs-snippet, .gsc-orderby { color:white!important }
+      .gsc-richsnippet-showsnippet-label { color:#ff00ff!important}
     </style>
 
 </head>
@@ -85,7 +87,21 @@ This HTML and its contents are property of R74n.com.
 <script async src="https://cse.google.com/cse.js?cx=559ec3ecab94d46b5">
 </script>
 <div class="gcse-search"></div>
-
+<script>
+  window.addEventListener("load",function(){
+    document.getElementById('gsc-i-id1').setAttribute('placeholder','Search...');
+    // if there is a q in the url, search for it
+    var urlParams = new URLSearchParams(window.location.search);
+    var q = urlParams.get('q');
+    if (q) {
+      document.getElementById('gsc-i-id1').value = q;
+      document.getElementById('gsc-i-id1').focus();
+      document.getElementById('gsc-i-id1').select();
+      // click the search button
+      document.getElementsByClassName('gsc-search-button gsc-search-button-v2')[0].click();
+    }
+  })
+</script>
 
 
 
