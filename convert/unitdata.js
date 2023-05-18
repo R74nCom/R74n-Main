@@ -134,7 +134,7 @@ unitdata = {
     "altuve":1.65,
     "attoparsec":0.03086,
     "beard second":1.0e-8,
-    "jimmy griffin show index":0.1016,
+    "jimmy griffin snow index":0.1016,
     "mickey":5.08e-5,
     "sheppey":1400,
     "wiffle":0.089,
