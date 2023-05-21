@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="All 1000+ free pixel art emojis.">
+    <meta name="description" content="Documentation for the R74n Text Viewer Guide.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, slweeb, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>R74moji, Free Pixel Emoji - R74n</title>
+    <title>Text Viewer Guide - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../stylesheet.css"/>
@@ -41,31 +41,15 @@ This HTML and its contents are property of R74n.com.
     <meta name="msapplication-TileColor" content="#00ffff">
     <meta name="msapplication-config" content="https://R74n.com/icons/browserconfig.xml?v=R74n-2">
     <meta name="theme-color" content="#000000">
-    <!--
-    <style>
-      .R74moji {background-image:url("image/pensive.png");background-size:100% 100%;width:1.75em;height:1.75em;min-width:1em;min-height:1em;display:inline-block;vertical-align:middle;margin-bottom:0.3em}
-    </style>
-    -->
-    <style>
-      .R74mojiImg {cursor:pointer!important}
-    </style>
-    <script>
-      window.addEventListener("load",function(){
 
-        var EmojiCount = document.getElementById("EmojiCount");
-        EmojiCount.innerHTML = "Total Emoji Count: "+Object.keys(R74mojiData).length;
-        var EmojiList = document.getElementById("EmojiList");
-        var R74mojiKeys = Object.keys(R74mojiData).sort()
-        for (var EmojiType_i in R74mojiKeys) {
-          var EmojiType = R74mojiKeys[EmojiType_i];
-          EmojiList.innerHTML += '<a href="view?'+EmojiType+'" target="_blank"><emoji type="'+EmojiType+'"></emoji></a>';
-        }
-
-      })
-    </script>
-    <script src="load.js"></script>
-    <!--<script src="https://R74n.com/moji/load.js"></script>
-    <script src="https://R74n.com/load.js"></script>-->
+    <script src="https://R74n.com/load.js"></script>
+    <style>
+      #commandtable tbody td:nth-child(odd), #parametertable tbody td:nth-child(odd), #specialstringtable tbody td:nth-child(odd), #commandlist li {
+        font-family: monospace;
+      }
+      #commandtable tbody td:nth-child(odd) em {color:lime}
+      em.optional {color:yellow!important}
+    </style>
 
 </head>
 
@@ -73,16 +57,77 @@ This HTML and its contents are property of R74n.com.
 
 
 <a href="." class="backbutton">⦉</a>
-<h1 class="pagetitle">R74moji</h1><br>
+<h1 class="pagetitle">Text Viewer Guide</h1><br>
 <div class="content">
 
-<span id="EmojiCount"></span>
-<br><br>
-<span id="EmojiList"></span>
+<h2 id="markdown">Markdown</h2>
+<p>Text Viewer supports Markdown. More specifically, it uses Showdown, and documentation for that can be found here: http://demo.showdownjs.com/</p>
+
+<p>If the first line starts with "#", the rest of the line will be used as the page title.</p>
+
+<h2 id="special-strings">Special Strings</h2>
+<p>These strings will be replaced:</p>
+<table id="specialstringtable">
+<thead>
+  <tr><th>String</th><th>Replacement</th></tr>
+</thead>
+<tbody>
+  <tr><td>\n</td><td>New Line</td></tr>
+</tbody>
+</table>
 
 
+<h2 id="escaping">Escaping Text</h2>
+<p>You can prevent the following characters from being parsed by preceding them with a backslash (\): &nbsp; \ # { } : | * _</p>
+<p>So, typing \{{command\}} will display as {{command}}.</p>
 
 
+<h2 id="parameters">URL Parameters</h2>
+<p>Simply adding "?Example" to the URL will display "Example".</p>
+<p>To get more complex, use these parameters:</p>
+<table id="parametertable">
+<thead>
+  <tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+  <tr><td>?text=</td><td>Text to be parsed and displayed</td></tr>
+  <tr><td>?title=</td><td>Text to replace the page title</td></tr>
+</tbody>
+</table>
+
+
+<h2 id="commands">Commands</h2>
+<p>Commands can be used to spice up your text.</p>
+<p>Possible formats:</p>
+<ul id="commandlist">
+  <li>{{command}}</li>
+  <li>{{command:arg1|arg2|arg3|...}}</li>
+  <li>{{command|arg1|arg2|arg3|...}}</li>
+</ul>
+<p><em><span style="color:lime">Required</span>, <span style="color:yellow">Optional</span></em></p>
+<table id="commandtable">
+<thead>
+  <tr><th>Command</th><th>Description</th>
+</thead>
+<tbody>
+  <tr>
+    <td>{{error|<em class="optional">message</em>}}</td>
+    <td>Displays an error message.</td>
+  </tr>
+  <tr>
+    <td>{{comment|<em class="optional">text</em>}}</td>
+    <td>Does not display.</td>
+  </tr>
+  <tr>
+    <td>{{replace|<em>text</em>|<em>find</em>|<em class="optional">replace-with</em>}}</td>
+    <td>Replaces text with another.</td>
+  </tr>
+  <tr>
+    <td>{{if|<em>text-to-test</em>|<em>condition=result</em>|<em class="optional">else=result</em>}}</td>
+    <td>Displays text based on conditions. Infinite arguments.</td>
+  </tr>
+</tbody>
+</table>
 
 
 </div>

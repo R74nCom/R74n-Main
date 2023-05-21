@@ -30,6 +30,7 @@ https://r74n.com/icons/braille-art-small-textarea
 https://r74n.com/icons/braille-art-textarea
 https://r74n.com/icons/braille-art-tiny-textarea.html
 https://r74n.com/icons/text
+https://r74n.com/icons/
 https://r74n.com/convert/
 https://r74n.com/octopi
 https://r74n.com/emojiart/
@@ -46,7 +47,18 @@ https://r74n.com/commons/
 https://r74n.com/sandboxels/
 https://r74n.com/pixelflags/
 https://r74n.com/mc/qol
-https://r74n.com/calendar
+https://r74n.com/commons/calendar
 https://r74n.com/old
 https://r74n.com/old/sandbox
 https://r74n.com/test/
+https://r74n.com/twitter/
+https://r74n.com/tiktok/
+https://r74n.com/discord/
+https://r74n.com/twitch/
+https://r74n.com/textviewer/
+https://r74n.com/textviewer/docs
+https://r74n.com/EoD.png
+https://r74n.com/mix/
+https://r74n.com/mix/changelog
+https://r74n.com/search/
+https://r74n.com/guestbook/

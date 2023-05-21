@@ -27,7 +27,7 @@ This HTML and its contents are property of R74n.com.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Text Viewer - R74n</title>
+    <title id="TitleTag">Text Viewer - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../stylesheet.css"/>
@@ -43,25 +43,265 @@ This HTML and its contents are property of R74n.com.
     <meta name="theme-color" content="#000000">
 
     <script src="https://R74n.com/load.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+    <script src="showdown.min.js"></script>
+    <style>
+        #defaultscreen, #loadingscreen {
+            text-align: center;
+        }
+        #defaultscreen {
+            display: none;
+        }
+        #inputdiv {
+            margin-left:auto;
+            margin-right:auto;
+            width: 60%;
+        }
+        /* on mobile take up the whole screen */
+        @media only screen and (max-width: 600px) {
+            #inputdiv {
+                width: 100%
+            }
+        }
+        #textArea {
+            font-family: monospace;
+            width: 100%;
+            max-width: 90%;
+            min-height: 1em;
+            height: 11em;
+            text-align: left;
+        }
+        #submitbutton {
+            margin-left:auto;
+            margin-right:auto;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
     <script>
-      function encodeHTMLEntities(text) {
-        var textArea = document.createElement('textarea');
-        textArea.innerText = text;
-        return textArea.innerHTML;
-      }
-      window.addEventListener("load",function(){
-        if (!(location.search=="")) {
-          var text = encodeHTMLEntities(decodeURI(location.search.substring(1)))
-          text = text.replaceAll("\\n","\n")
-          var converter = new showdown.Converter();
-          text = converter.makeHtml(text);
-          document.getElementById("textdiv").innerHTML = text
+
+var commands = {
+    italic: `"*"+args[0]+"*"`,
+    bold: `"**"+args[0]+"**"`,
+    wrap: `args[1]+args[0]+args[1]`,
+    error: {text:`"*[Error: {{if:"+args[0]+"|undefined=Unknown error|else="+args[0]+"}}]*"`, minArgs:0},
+    "undefined": `"*[Undefined]*"`,
+    "null": `"*[Null]*"`,
+    comment: `""`,
+    "#": `""`,
+
+    replace: {
+        func: function(args) {
+            var text = args[0];
+            var find = args[1];
+            var replace = args[2] || "";
+            return text.replaceAll(find,replace);
+        },
+        minArgs: 2
+    },
+    "if": {
+        func: function(args) {
+            var dict = {};
+            var value = args[0];
+            for (var i = 1; i < args.length; i++) {
+                var arg = args[i];
+                var split = splitOnce(arg,"=");
+                var condition = split[0];
+                var result = split[1];
+                if (condition.substring(0,4) === "&lt;" && value < condition.substring(4)) {
+                    return result;
+                }
+                else if (condition.substring(0,4) === "&gt;" && value > condition.substring(4)) {
+                    return result;
+                }
+                else if (value === condition || condition === "else") {
+                    return result;
+                }
+            }
+            return "";
+        },
+        minArgs: 2
+    },
+    upper: {
+        func: function(args) {
+            return args[0].toUpperCase();
+        },
+        minArgs: 1
+    }
+}
+for (var command in commands) {
+    var commandData = commands[command];
+    if (typeof commandData === "string") { // turn string into an object
+        commands[command] = {
+            text: commands[command]
         }
-        else {
-          document.getElementById("textdiv").innerHTML = "Put anything after a question mark in the URL to display text here!<br><br>For example:<br><br><a href='https://R74n.com/textviewer?This%20is%20a%20test%20for%20R74n%27s%20text%20viewer!'>https://R74n.com/textviewer?This is a test for R74n's text viewer!<br><br>Markdown is supported.</a>"
+        if (commands[command].text.indexOf("args[") !== -1) { // set minimum args if used
+            commands[command].minArgs = 1;
         }
-      })
+        commandData = commands[command];
+    }
+    if (!commandData.minArgs) { // set minimum args if none found
+        commandData.minArgs = 0;
+    }
+}
+
+if (!String.prototype.replaceAll) {
+	String.prototype.replaceAll = function(str, newStr){
+		if (Object.prototype.toString.call(str).toLowerCase() === '[object regexp]') {
+			return this.replace(str, newStr);
+		}
+		return this.replace(new RegExp(str, 'g'), newStr);
+	};
+}
+
+function splitOnce(text,delim) {
+    var parts = text.split(delim);
+    var part1 = parts[0];
+    var part2 = parts.slice(1).join(delim);
+    return [part1,part2]
+}
+
+function parseText(text) {
+    var tries = 0;
+    if (text.startsWith("{{")) { var startswithtag = true }
+    else { var startswithtag = false }
+    while (text.indexOf("{{") !== -1) {
+
+        var newtext = text;
+        var parts = text.split("{{");
+        // console.log(parts)
+        for (var i = 0; i < parts.length; i++) {
+            var part = parts[i];
+            var newpart = part;
+            // console.log(i+" "+part)
+            if (part == "") { continue }
+            if (part.indexOf("}}") === -1) {
+                continue;
+            }
+            // if (!(i===0 && !startswithtag)) {
+            //     newtext += "{{"
+            // }
+            var whole = splitOnce(part,"}}")[0];
+            console.log(whole)
+            // console.log(partextra)
+            // console.log(part)
+            if (whole.indexOf(":") !== -1) { // : format
+                var wholesplit = splitOnce(whole,":");
+                var command = wholesplit[0];
+                var args = wholesplit[1].split("|");
+            }
+            else { // fallback
+                var wholesplit = whole.split("|");
+                // command = first, args = rest
+                var command = wholesplit[0];
+                var args = wholesplit.slice(1);
+            }
+            var result = null;
+            if (!commands[command]) {
+                result = "{{error|Unknown command '"+command+"'}}"
+            }
+            else if (args.length < commands[command].minArgs) {
+                result = "{{error|Expected at least "+commands[command].minArgs+" argument(s)}}"
+            }
+            else if (commands[command].func) {
+                result = commands[command].func(args);
+            }
+            else {
+                result = eval(commands[command].text);
+            }
+            //if (result !== null) {
+                newtext = newtext.replace("{{"+whole+"}}",result);
+            //}
+
+        }
+
+        tries++;
+        if (tries > 50 || (text.length===newtext.length && text===newtext)) {text = newtext;break}
+        text = newtext;
+    }
+    return text
+}
+
+escapableChars = [ "\\", "#" , "{" , "}" , ":" , "|" , "*" , "_" ]
+function escapeText(text) {
+    // loop through escapableChars and turn them into HTML entities
+    for (var i = 0; i < escapableChars.length; i++) {
+        var char = escapableChars[i];
+        text = text.replaceAll("\\"+char, "&#"+char.charCodeAt(0)+";")
+    }
+    return text
+}
+
+// console.log("Parsed: "+parseText("test {{bold|{{italic|Super}} Formatting}} test {{bold|{{italic|Super}} Formatting}} test"))
+
+    </script>
+    <script>
+function encodeHTMLEntities(text) {
+var textArea = document.createElement('textarea');
+textArea.innerText = text;
+return textArea.innerHTML;
+}
+window.addEventListener("load",function(){
+if (!(location.search=="")) {
+    var urlParams = new URLSearchParams(location.search);
+    if (location.search.indexOf("=") === -1) {
+        var text = location.search.substring(1)
+    }
+    else { // look for text= in the url
+        var text = urlParams.get("text");
+        if (!text) {
+            text = "*[No text content]*"
+        }
+    }
+    // load and parse the text
+    text = decodeURIComponent(text);
+    text = encodeHTMLEntities(text).replaceAll("<br>", "\n");
+    text = escapeText(text);
+    text = text.replaceAll("\\n","\n");
+    text = parseText(text);
+    // get and set title
+    var title = urlParams.get("title");;
+    if (text.startsWith("#")) { // first line markdown header
+        var lines = text.split("\n");
+        title = lines[0].substring(1);
+        text = lines.slice(1).join("\n");
+    }
+    if (title) {
+        document.getElementsByClassName("pagetitle")[0].innerHTML = title;
+        document.getElementById("TitleTag").innerHTML = title+" - Text Viewer - R74n";
+    }
+    if (!text) {
+        text = "*[No text content]*"
+    }
+    var converter = new showdown.Converter();
+    text = converter.makeHtml(text);
+    document.getElementById("textdiv").innerHTML = text
+    // set .backbutton href to the same page but without the text in the url
+    document.getElementsByClassName("backbutton")[0].href = "?";
+}
+else {
+    document.getElementById("textdiv").innerHTML = ""
+    // show default screen
+    document.getElementById("defaultscreen").style.display = "block";
+    // hide text div
+    document.getElementById("textdiv").style.display = "none";
+    // set onclick for submit button
+    document.getElementById("submitbutton").onclick = function() {
+        // go to the same page but with the text in the url
+        window.location.href = "?"+encodeURIComponent(document.getElementById("textArea").value);
+    }
+    // command + enter while in textdiv is the same as clicking the submit button
+    document.getElementById("textArea").addEventListener("keydown", function(event) {
+        if (event.keyCode === 13 && event.metaKey) {
+            event.preventDefault();
+            document.getElementById("submitbutton").click();
+        }
+    });
+    // focus on the text area
+    document.getElementById("textArea").focus();
+}
+document.getElementById("loadingscreen").style.display = "none";
+})
     </script>
 
 </head>
@@ -69,12 +309,27 @@ This HTML and its contents are property of R74n.com.
 <body>
 
 
+<a href="https://R74n.com" class="backbutton">⦉</a>
+<h1 class="pagetitle">Text Viewer</h1><br>
 <div class="content">
 <div id="textdiv"></div>
 
 
-
-
+<div id="defaultscreen">
+    <p><em>This tool is in public beta, it is not complete.</em></p>
+    <p>Put anything after a question mark in the URL to display text here!</p>
+    <p>For example:</p>
+    <p><a href="?This%20is%20a%20test%20for%20R74n%27s%20text%20viewer!">https://R74n.com/textviewer?This is a test for R74n's text viewer!</a></p>
+    <div id="inputdiv">
+        <!-- add a text area and a button to submit text -->
+        <textarea id="textArea" placeholder="Enter text to encode…"></textarea>
+        <input type="button" onclick="submitText()" id="submitbutton" value="Submit">
+    </div>
+    <p><a href="docs">Read the documentation.</a></p>
+</div>
+<div id="loadingscreen">
+    Loading...
+</div>
 
 
 </div>

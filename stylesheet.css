@@ -52,13 +52,21 @@ input[type=button], button, input[type=submit], .checkmark {
     cursor: pointer;
     outline: 0;
     margin: 4px 0;
+    line-height: 1;
+    /* color transition */
+    transition: filter 0.2s;
+}
+button {
+
 }
 input[disabled], textarea[disabled], button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
 textarea, button, input[type=button], input[type=submit], .checkmark {
     vertical-align: middle;
 }
+input[type=button]:hover, button:hover, input[type=submit]:hover, .checkmark:hover {
+    filter: brightness(125%);
+}
 input[type=button]:active, button:active, input[type=submit]:active, .checkmark:active {
-    
     filter: brightness(50%);
 }
 
@@ -197,7 +205,7 @@ hr {
 .divblock {display:inline-block;margin:0.4rem;padding:0.4rem;vertical-align:middle;max-width:500px;}
 
 table {border-collapse:collapse}
-td, th {border:0.5px solid gray;padding:5px;padding-left:10px}
+td, th {border:0.5px solid gray;padding:5px;padding-left:10px;padding-right:10px}
 th {background-color:#00ffff;color:black}
 tr:nth-child(odd){background-color: #272727;}
 

@@ -46,7 +46,13 @@ This HTML and its contents are property of R74n.com.
     <style>
       #doc-embed {
         width: 100%;
-        border: none;
+        height: 100%;
+        /* center horizontally on page */
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        /* white border */
+        border: 1px solid white;
       }
     </style>
 
@@ -64,18 +70,15 @@ This HTML and its contents are property of R74n.com.
 <iframe id="doc-embed" src="https://docs.google.com/document/d/e/2PACX-1vTdebD9yfiAfHr2GEwnqwlA6qOaKqd8J3TVc8FLwuKYFLyzKxn1ZZd__YXA6yENtWeBeiLJtAsL-tiS/pub?embedded=true"></iframe>
 
 <script>
-  var iframe = document.getElementById('doc-embed');
-  iframe.addEventListener("load",function() {
-    //get the height of the iframe's content
-    var iframe = document.getElementById('doc-embed');
-    var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-    var iframeHeight = iframeDoc.documentElement.scrollHeight;
-    console.log(iframeHeight)
-    // set the height (same as content) to the iframe
-    iframe.style.height = iframeHeight + 'px';
-  })
+  // make iframe take up the rest of the page
+  var iframe = document.getElementById("doc-embed");
+  iframe.style.height = window.innerHeight-200 + "px";
+  iframe.style.width = window.innerWidth-200 + "px";
+  window.onresize = function() {
+    iframe.style.height = window.innerHeight-200 + "px";
+    iframe.style.width = window.innerWidth-200 + "px";
+  };
 </script>
-
 
 </div>
 
