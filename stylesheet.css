@@ -8,6 +8,7 @@ body {
 .content {
     margin:10px;
     margin-top:20px;
+    overflow-wrap: break-word;
 }
 
 a {color: rgb(255, 0, 255);text-decoration: none;}

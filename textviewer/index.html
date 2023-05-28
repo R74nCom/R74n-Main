@@ -101,7 +101,6 @@ var commands = {
     },
     "if": {
         func: function(args) {
-            var dict = {};
             var value = args[0];
             for (var i = 1; i < args.length; i++) {
                 var arg = args[i];
@@ -122,12 +121,72 @@ var commands = {
         },
         minArgs: 2
     },
+    replacedict: {
+        func: function(args) {
+            var text = args[0];
+            for (var i = 1; i < args.length; i++) {
+                var arg = args[i];
+                var split = splitOnce(arg,"=");
+                var find = split[0];
+                var replace = split[1];
+                text = text.replaceAll(find,replace);
+            }
+            return text;
+        },
+        minArgs: 2
+    },
     upper: {
         func: function(args) {
+            if (args.length === 0) {return ""}
             return args[0].toUpperCase();
-        },
-        minArgs: 1
-    }
+        }
+    },
+    lower: {
+        func: function(args) {
+            if (args.length === 0) {return ""}
+            return args[0].toLowerCase();
+        }
+    },
+    title: {
+        func: function(args) {
+            if (args.length === 0) {return ""}
+            return args[0].toLowerCase().split(" ").map(function(word) {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(" ");
+        }
+    },
+    choose: {
+        func: function(args) {
+            if (args.length === 0) {return ""}
+            if (args.length === 1) {
+                args = args[0].split(/ ?, ?/);
+            }
+            return args[Math.floor(Math.random()*args.length)];
+        }
+    },
+    range: {
+        func: function(args) {
+            if (args.length === 0) { args.push(0); args.push(100) }
+            else if (args.length === 1) {
+                if (args[0].indexOf("-") !== -1) {
+                    args = args[0].split("-");
+                }
+                else {
+                    args.unshift(0)
+                }
+            }
+            var min = parseInt(args[0]);
+            var max = parseInt(args[1]);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    },
+    char: {
+        func: function(args) {
+            if (args.length === 0) { return "" }
+            if (args.length === 1) { args.push(0) }
+            return args[0].charAt(parseInt(args[1]));
+        }
+    },
 }
 for (var command in commands) {
     var commandData = commands[command];
@@ -140,7 +199,7 @@ for (var command in commands) {
         }
         commandData = commands[command];
     }
-    if (!commandData.minArgs) { // set minimum args if none found
+    if (commandData.minArgs === undefined) { // set minimum args if none found
         commandData.minArgs = 0;
     }
 }
@@ -273,6 +332,7 @@ if (!(location.search=="")) {
     if (!text) {
         text = "*[No text content]*"
     }
+    text = text.replaceAll("\n","<br>\n");
     var converter = new showdown.Converter();
     text = converter.makeHtml(text);
     document.getElementById("textdiv").innerHTML = text
