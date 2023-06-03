@@ -58,11 +58,163 @@ This HTML and its contents are property of R74n.com.
 <div style="display:inline-block">➖🟦🟦<br>🟦➖➖🟦<br>🟦➖➖🟦<br>🟦➖➖🟦<br>🟦➖➖🟦<br>➖🟦🟦</div>
 <div style="display:inline-block">➖➖🟦<br>➖🟦🟦<br>🟦➖🟦<br>🟦🟦🟦🟦<br>➖➖🟦<br>➖➖🟦</div>
 <div style="display:inline-block">Page Not Found</div>
-<br><br>
+<br>
+<div style="display:none"><br>
+Did you mean...
+<ul id="matchUl" style="margin-bottom:0px!important"></ul>
+</div>
+<br>
 Problem? Talk it out on our <a href="https://docs.google.com/document/d/1NeMxEPddvqALjupCl0svIUoeklgc973Ev90hI1HNu8s/edit?usp=sharing" target="_blank">public Google Doc</a> or join our <a href="https://link.r74n.com/discord" target="_blank">Discord</a>.
 <br><br>
 Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.com/search">take a search</a>.
 
+
+<script> // 404 handling
+
+  pages = [
+"mc/",
+"mc/uuid",
+"mc/heads",
+"mc/items/",
+"hello/",
+"box/",
+"unisearch/",
+"words/",
+"words/twitter",
+"words/2020",
+"words/tiktok",
+"words/2021",
+"moji",
+"moji/docs",
+"moji/all",
+"moji/view",
+"PogChamp/",
+"icons/favicon",
+"icons/favicon.png",
+"icons/aframe",
+"icons/aframe-small",
+"icons/favicon.pdf",
+"icons/ascii-art-small-textarea",
+"icons/ascii-art-textarea",
+"icons/box-drawings-black",
+"icons/box-drawings-small-textarea",
+"icons/box-drawings-textarea",
+"icons/box-drawings",
+"icons/braille-art-small-textarea",
+"icons/braille-art-textarea",
+"icons/braille-art-tiny-textarea.html",
+"icons/text",
+"icons/",
+"convert/",
+"octopi",
+"emojiart/",
+"emojiart/?Planet%20Earth.30.30.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZ3d3AAAAAAAAAAAAAAZmZnd3dmAAAAAAAAAAAGZmZ3d3d2YAAAAAAAAABmZmd3d3d3ZgAAAAAAAAZndnd3d3d2dmAAAAAAAAZ3dnd3d3d3dmAAAAAAAAZ3d3d3d3d2Z2AAAAAAAHZ3d3d3d3dmZmYAAAAAAHdmd3d3d3dmZmYAAAAAAHdmZnd3d3ZmZmYAAAAAAHZmZnd3d3dmZmYAAAAAAHZmZmd3d3d3dmYAAAAAAHdmZmd3d3d3dmYAAAAAAAd2Znd3d3d3ZmAAAAAAAAd3Znd3d3d3ZmAAAAAAAAd3Znd3d3d3ZnAAAAAAAAB3Z3d3d3d3dwAAAAAAAAAHd3d3d3d3cAAAAAAAAAAAd3d3d3d3AAAAAAAAAAAAAAd3d3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA#Generated",
+"emojiart/?Crying%20Laughing%20Emoji.30.30.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVVVVAAAAAAAAAAAAAAVVVVVVVVAAAAAAAAAAAFVVVVVVVVUAAAAAAAAABVVVVVVVVEVQAAAAAAAAVVmVVVVVWZRUAAAAAAAAVJlVVVVVVZmUAAAAAAAAWZVVVVVVVVmUAAAAAAAFVVkZRVVUkZVVQAAAAAAFVUmZlVVZmZRVQAAAAAAFUilVlVVZVZIlQAAAAAACd2VVVVVVVVZ3IAAAAAB3d1VVVVVVVVV3dwAAAAB3dhKVVVVVWSlndwAAAAB3cpIiERERIilXdwAAAAB3JUESIiIiIRlWdwAAAAAAVVkREREREZVUAAAAAAAABVWZERERmVVAAAAAAAAAAFVVmZmZVVQAAAAAAAAAAAREVVVVREAAAAAAAAAAAAAAREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA#Generated",
+"emojiart/?Sad%20Face.30.30.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEiIhAAAAAAAAAAAAAAEiIiIiIRAAAAAAAAAAABIiIiIiIiEAAAAAAAAAASIiIiIiIiIQAAAAAAAAEiIREiIhESIRAAAAAAAAIiERESIRERIhAAAAAAAAIhESESIRIREhAAAAAAABIhESESIRIRIhEAAAAAACIiEREiIhESIhEAAAAAACIiIiIhEiIiIhEAAAAAACIiIiERERIiIhEAAAAAABIiIhEREREREREAAAAAABEiIRESIhEREREAAAAAAAESIRIiIiERERAAAAAAAAESIiIRESIRERAAAAAAAAERIiIREiIRERAAAAAAAAARESIiIiEREQAAAAAAAAABEREREREREAAAAAAAAAAAERERERERAAAAAAAAAAAAAAERERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+"share/",
+"lore/",
+"lore/map/",
+"hello/changelog",
+"forum/",
+"social/",
+"commons/",
+"pixelflags/",
+"mc/qol",
+"commons/calendar",
+"old",
+"old/sandbox",
+"test/",
+"twitter/",
+"tiktok/",
+"discord/",
+"twitch/",
+"textviewer/",
+"textviewer/docs",
+"EoD.png",
+"mix/",
+"mix/changelog",
+"search/",
+"guestbook/",
+  ]
+  extraPages = {
+    "home": "https://r74n.com",
+    "c": "https://c.r74n.com",
+    "cpd": "https://c.r74n.com",
+    "copy": "https://c.r74n.com",
+    "sandboxels": "https://sandboxels.r74n.com",
+    "sandboxgame": "https://sandboxels.r74n.com",
+    "sandbox": "old/sandbox",
+    "data": "https://data.r74n.com",
+    "wikibase": "https://data.r74n.com",
+    "halacae": "https://docs.google.com/document/d/1mZ2IGrIbfYlUwfuZ53_S0n5O2ne9JUKV0yinIyNwLFU/edit?usp=sharing",
+    "Social-Media-Lists": "https://github.com/R74nCom/Social-Media-Lists"
+  }
+
+  function stringSimilarity(a, b) {
+    var equivalency = 0;
+    var minLength = (a.length > b.length) ? b.length : a.length;
+    var maxLength = (a.length < b.length) ? b.length : a.length;
+    for(var i = 0; i < minLength; i++) {
+      if(a[i] == b[i]) {
+        equivalency++;
+      }
+    }
+    var weight = equivalency / maxLength;
+    return (weight * 100);
+  }
+
+  // loop through pages and extraPages to find the closest match
+  var pathName = window.location.pathname.substring(1).toLowerCase();
+  pathName = "asjdfjasdf";
+  var testedPages = {};
+  for (var i = 0; i < pages.length; i++) {
+    var page = pages[i];
+    var percent = stringSimilarity(pathName, page.toLowerCase());
+    testedPages[page] = percent;
+  }
+  for (var key in extraPages) {
+    var page = extraPages[key];
+    var percent = stringSimilarity(pathName, key.toLowerCase());
+    testedPages[page] = percent;
+  }
+  // get the top 5 matches
+  var topMatches = [];
+  for (var i = 0; i < 3; i++) {
+    var highest = 0;
+    var highestPage = "";
+    for (var key in testedPages) {
+      var page = key;
+      var percent = testedPages[key];
+      if (percent > highest) {
+        highest = percent;
+        highestPage = page;
+      }
+    }
+    topMatches.push(highestPage);
+    delete testedPages[highestPage];
+  }
+  // add them to #matchUl
+  var y = false;
+  if (topMatches.length > 0) {
+    document.getElementById("matchUl").innerHTML = "";
+    for (var i = 0; i < topMatches.length; i++) {
+      var page = topMatches[i];
+      if (page === "") {continue;}
+      var pageName = page;
+      if (pageName[pageName.length - 1] == "/") {
+        pageName = pageName.substring(0, pageName.length - 1);
+      }
+      y = true;
+      if (page.indexOf("://") > -1) {
+        document.getElementById("matchUl").innerHTML += "<li><a href='" + page + "'>" + pageName.split("://")[1] + "</a></li>";
+        continue;
+      }
+      document.getElementById("matchUl").innerHTML += "<li><a href='/" + page + "'>" + pageName + "</a></li>";
+    }
+    if (y){document.getElementById("matchUl").parentElement.style.display = "block";}
+  }
+
+</script>
 
 
 
