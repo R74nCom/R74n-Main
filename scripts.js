@@ -1,7 +1,7 @@
 function setText(e,text) {document.getElementById(e).innerHTML = text;}
 
 function setValue(e,text) {
-  if (!(e=="CopyButton")) {setValue("CopyButton","Copy");}
+  if (!(e==="CopyButton")) {setValue("CopyButton","Copy");}
   document.getElementById(e).value = text;
 }
 
