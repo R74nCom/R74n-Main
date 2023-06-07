@@ -30,8 +30,8 @@ This HTML and its contents are property of R74n.com.
     <title id="TitleTag">Unit Converter - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
-    <link rel="stylesheet" type="text/css" href="../stylesheet.css"/>
     <link rel="stylesheet" type="text/css" href="../normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css"/>
     <link rel="apple-touch-icon" sizes="180x180" href="https://R74n.com/icons/apple-touch-icon.png?v=R74n-2">
     <link rel="icon" type="image/png" sizes="32x32" href="https://R74n.com/icons/favicon-32x32.png?v=R74n-2">
     <link rel="icon" type="image/png" sizes="16x16" href="https://R74n.com/icons/favicon-16x16.png?v=R74n-2">
@@ -294,7 +294,8 @@ This HTML and its contents are property of R74n.com.
       #Arrow::before {content:"↑↓";}
       .content {text-align:center}
       input[type="radio"] {display:inline-block}
-      #MoreLeft, #MoreRight {display:inline-block;vertical-align:top;padding:40px}
+      #MoreLeft, #MoreRight {display:inline-block;vertical-align:top;padding:40px;padding-bottom:0}
+      #MoreBottom {display:block;text-align:center;}
       #MoreLeft {text-align:left}
       #MoreRight {text-align:right}
       #UnitSelect1Box, #UnitSelect2Box {display:inline-block;}
@@ -428,7 +429,9 @@ todo:
     <a class="morelink" href="?time/1/year/day">Years to Days</a><br>
     <a class="morelink" href="?time/1/year/second">Years to Seconds</a><br>
     <a class="morelink" href="?time/2/year/dog%20year">Human Years to Dog Years</a><br>
-
+  </div>
+  <div id="MoreBottom">
+    <p>Missing something? <a href="https://link.r74n.com/convert-feedback" target="_blank">Submit it here</a>!</p>
   </div>
 </div>
 

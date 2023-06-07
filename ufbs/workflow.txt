@@ -1,0 +1,47 @@
+Add New Feedback Form:
+1. Copy "PROJECT Feedback (Example Template)" form
+2. Update the title and description (including links), category options, and anything else specific to the project
+3. Link responses to UFBS Google Sheet
+4. Add response Sheet URL to description
+5. Update Settings > Presentation > Confirmation message
+6. Format response Sheet tab like template
+7. Add Form URL to response Sheet
+
+
+Afterwards:
+- Add Form URL on project webpage
+- Lock and add Form URL on any old Google Docs
+- Add Form and response Sheet URL to UFBS webpage
+
+
+Short Links To Make:
+ufbs - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/
+ufbs-drive - https://drive.google.com/drive/folders/1oWFNQq2bd4PJ7fKIzts95BQLSzD7eixp
+ufbs-template - https://docs.google.com/forms/d/1a8rPRuhApGFstPhShCk409bo7uA1OAjhdmKc1w91yM4/
+
+ufbs-hello - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=521568257
+ufbs-convert - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=881447462
+ufbs-moji - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=1434020933
+ufbs-words - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=1535331905
+ufbs-unisearch - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=1929062332
+ufbs-mix - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=699388667
+ufbs-pixelflags - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=723179617
+ufbs-main - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=1194052128
+ufbs-icons - https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/?resourcekey#gid=1252936018
+
+hello-feedback - https://docs.google.com/forms/d/e/1FAIpQLSdbKRsPLuBT8hn-_49AszCwktFBfZ8xs0atArF2NXKSMgSMEg/viewform
+convert-feedback - https://docs.google.com/forms/d/e/1FAIpQLSfijUizTjW8zQnfZIoJaPqj2-sRdr_rSGDbUPzzYkYQCdUuAw/viewform
+moji-feedback - https://docs.google.com/forms/d/e/1FAIpQLSczlFiu8Xucwtb5ldhc-QQ8lRqfwm64G2CG52XoMKETiQ4P0g/viewform?usp=sf_link
+words-feedback - https://docs.google.com/forms/d/e/1FAIpQLSe0IGuteGO0DwjLsS4yzqTP4rTRyGOAk1AQszXn4s6xthCCgg/viewform?usp=sf_link
+unisearch-feedback - https://docs.google.com/forms/d/e/1FAIpQLSc6udhkQp81iXz55g-ScGPyj6QHy8hGKR-HmF5_m8OWddvqqA/viewform?usp=sf_link
+mix-feedback - https://docs.google.com/forms/d/e/1FAIpQLSe-_4Yc8ViaUqCa1SHEqtnki74D_CBSoi0MqJJKhoq11NsC-Q/viewform?usp=sf_link
+pixelflags-feedback - https://docs.google.com/forms/d/e/1FAIpQLScepQnYihkmJY-JxJJnB7x72VrViHdWjY40_hfgRbsNrIYYQQ/viewform?usp=sf_link
+main-feedback - https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=sf_link
+icons-feedback - https://docs.google.com/forms/d/e/1FAIpQLScG8S4p5mrEQnMayOQccY4QFNvgjaAec66QoVMkn4RIMgCGMg/viewform?usp=sf_link
+
+Other built-in feedback systems on other websites:
+Wikibase - https://link.r74n.com/wikibase-feedback
+Sandboxels - https://docs.google.com/forms/d/e/1FAIpQLSfyNRsMTnEND8WgZ2GdbKr_ZO1vA2T66p31sXXFua-NqTreFQ/viewform?usp=sf_link
+Copy Paste Dump - https://docs.google.com/forms/d/e/1FAIpQLSfb982MRjL6hFDpS4utKzjrDP2UUIPprG8iunwW2t0dxfJvmQ/viewform
+Social Media Lists - https://github.com/R74nCom/Social-Media-Lists/issues/new/choose
+R74n Discord Server - https://discord.com/channels/939255181474955331/1017600950480945172

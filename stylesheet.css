@@ -57,9 +57,6 @@ input[type=button], button, input[type=submit], .checkmark {
     /* color transition */
     transition: filter 0.2s;
 }
-button {
-
-}
 input[disabled], textarea[disabled], button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
 textarea, button, input[type=button], input[type=submit], .checkmark {
     vertical-align: middle;

@@ -135,6 +135,8 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 "mix/changelog",
 "search/",
 "guestbook/",
+"ufbs/",
+"404",
   ]
   extraPages = {
     "home": "https://r74n.com",
@@ -154,6 +156,7 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "doc": "guestbook/",
     "calendar": "commons/calendar/",
     "icon": "icons/favicon.png",
+    "favicon.png": "icons/favicon.png",
     "avatar": "icons/avatar.png",
     "hiew": "hello/",
     "hello-in-every-way": "hello/",
@@ -163,8 +166,15 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "shulker": "box",
     "ryanuwu": "box",
     "minecraft": "mc",
-    "share-buttons": "share",
-    "R74moji": "moji",
+    "share-buttons": "share/",
+    "R74moji": "moji/",
+    "emojis": "moji/",
+    "emotes": "moji/",
+    "feedback": "ufbs/",
+    "fb": "ufbs/",
+    "suggest": "ufbs/",
+    "suggestions": "ufbs/",
+    "contact": "social/",
     "data": "https://data.r74n.com",
     "wikibase": "https://data.r74n.com",
     "halacae": "https://docs.google.com/document/d/1mZ2IGrIbfYlUwfuZ53_S0n5O2ne9JUKV0yinIyNwLFU/edit?usp=sharing",
@@ -186,18 +196,24 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 
   // loop through pages and extraPages to find the closest match
   var pathName = window.location.pathname.substring(1).toLowerCase();
+  pathName = "html";
   var testedPages = {};
   for (var i = 0; i < pages.length; i++) {
     var page = pages[i];
     var percent = stringSimilarity(pathName, page.toLowerCase());
+    if (percent < 35) {continue;}
+    // console.log(percent)
     testedPages[page] = percent;
   }
   for (var key in extraPages) {
     var page = extraPages[key];
     var percent = stringSimilarity(pathName, key.toLowerCase());
-    testedPages[page] = percent;
+    if (percent < 35) {continue;}
+    if (!testedPages[page] || testedPages[page] < percent) {
+      testedPages[page] = percent;
+    }
   }
-  // get the top 5 matches
+  // get the top 3 matches
   var topMatches = [];
   for (var i = 0; i < 3; i++) {
     var highest = 0;
@@ -223,6 +239,11 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
       var pageName = page;
       if (pageName[pageName.length - 1] == "/") {
         pageName = pageName.substring(0, pageName.length - 1);
+      }
+      pageName = pageName.replace("r74n", "R74n");
+      // if its over 50 characters, shorten it
+      if (pageName.length > 50) {
+        pageName = pageName.substring(0, 50) + "...";
       }
       y = true;
       if (page.indexOf("://") > -1) {
