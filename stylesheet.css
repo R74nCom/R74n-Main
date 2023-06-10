@@ -91,6 +91,10 @@ select {
     outline: 0;
     padding: 10px;
 }
+meter, progress {
+    height: 1.5em;
+    vertical-align: middle;
+}
 
 
 ul, dl {

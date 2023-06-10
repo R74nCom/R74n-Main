@@ -9,11 +9,11 @@ X-PHONETIC-LAST-NAME:Are Seven Four en
 ORG:R74n;R74n
 X-PHONETIC-ORG:Are Seven Four en
 TITLE:R74n
-EMAIL;type=INTERNET;type=HOME;type=pref:me@R74n.com
-EMAIL;type=INTERNET;type=WORK:me@R74n.com
-item1.EMAIL;type=INTERNET:me@R74n.com
+EMAIL;type=INTERNET;type=HOME;type=pref:contact@R74n.com
+EMAIL;type=INTERNET;type=WORK:contact@R74n.com
+item1.EMAIL;type=INTERNET:contact@R74n.com
 item1.X-ABLabel:_$!<Other>!$_
-item2.EMAIL;type=INTERNET:me@R74n.com
+item2.EMAIL;type=INTERNET:contact@R74n.com
 item2.X-ABLabel:R74n
 TEL;type=CELL;type=VOICE;type=pref:R74n
 TEL;type=IPHONE;type=CELL;type=VOICE:R74n
