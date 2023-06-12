@@ -313,6 +313,8 @@ if (!(location.search=="")) {
         }
     }
     // load and parse the text
+    // replace + with spaces
+    text = text.replaceAll("+"," ");
     text = decodeURIComponent(text);
     text = encodeHTMLEntities(text).replaceAll("<br>", "\n");
     text = escapeText(text);
