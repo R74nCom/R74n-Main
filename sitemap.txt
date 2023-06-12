@@ -63,3 +63,4 @@ https://r74n.com/mix/changelog
 https://r74n.com/search/
 https://r74n.com/guestbook/
 https://r74n.com/ufbs/
+https://r74n.com/shorten/

@@ -70,7 +70,7 @@ This HTML and its contents are property of R74n.com.
             height: 11em;
             text-align: left;
         }
-        #submitbutton {
+        #submitbutton, #shortenbutton {
             margin-left:auto;
             margin-right:auto;
             display: block;
@@ -187,7 +187,21 @@ var commands = {
             return args[0].charAt(parseInt(args[1]));
         }
     },
+    "set": {
+        func: function(args) {
+            variables[args[0]] = args[1];
+            return "";
+        },
+        minArgs: 2
+    },
+    "var": {
+        func: function(args) {
+            return variables[args[0]] ?? "null";
+        },
+        minArgs: 1
+    }
 }
+variables = {}
 for (var command in commands) {
     var commandData = commands[command];
     if (typeof commandData === "string") { // turn string into an object
@@ -352,6 +366,10 @@ else {
         // go to the same page but with the text in the url
         window.location.href = "?"+encodeURIComponent(document.getElementById("textArea").value);
     }
+    document.getElementById("shortenbutton").onclick = function() {
+        // go to the same page but with the text in the url
+        window.location.href = "/shorten/?"+encodeURIComponent(document.getElementById("textArea").value);
+    }
     // command + enter while in textdiv is the same as clicking the submit button
     document.getElementById("textArea").addEventListener("keydown", function(event) {
         if (event.keyCode === 13 && event.metaKey) {
@@ -384,7 +402,8 @@ document.getElementById("loadingscreen").style.display = "none";
     <div id="inputdiv">
         <!-- add a text area and a button to submit text -->
         <textarea id="textArea" placeholder="Enter text to encode…"></textarea>
-        <input type="button" onclick="submitText()" id="submitbutton" value="Submit">
+        <input type="button" id="submitbutton" value="Submit">
+        <input type="button" id="shortenbutton" value="Shorten Link">
     </div>
     <p><a href="docs">Read the documentation.</a></p>
 </div>
