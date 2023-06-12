@@ -187,19 +187,13 @@ var commands = {
             return args[0].charAt(parseInt(args[1]));
         }
     },
-    "set": {
+    repeat: {
         func: function(args) {
-            variables[args[0]] = args[1];
-            return "";
-        },
-        minArgs: 2
+            if (args.length === 0) { return "" }
+            if (args.length === 1) { args.push(1) }
+            return args[0].repeat(parseInt(args[1]));
+        }
     },
-    "var": {
-        func: function(args) {
-            return variables[args[0]] ?? "null";
-        },
-        minArgs: 1
-    }
 }
 variables = {}
 for (var command in commands) {
