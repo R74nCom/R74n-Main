@@ -362,7 +362,7 @@ else {
     }
     document.getElementById("shortenbutton").onclick = function() {
         // go to the same page but with the text in the url
-        window.location.href = "/shorten/?url="+encodeURIComponent(document.getElementById("textArea").value);
+        window.location.href = "/shorten/?url="+"https://r74n.com/textviewer/?"+encodeURIComponent(document.getElementById("textArea").value);
     }
     // command + enter while in textdiv is the same as clicking the submit button
     document.getElementById("textArea").addEventListener("keydown", function(event) {
