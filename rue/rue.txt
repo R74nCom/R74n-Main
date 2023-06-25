@@ -1,0 +1,52 @@
+Rue
+she/they
+
+
+background: rgb(0,255,0);
+background: -moz-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+background: -webkit-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+background: linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endColorstr="#00ffff",GradientType=1);
+
+https://stackoverflow.com/questions/2717127/gradient-borders
+
+
+txt: 
+R74n: 
+main: 
+c: 
+cpd: 
+sb: 
+sandboxels: 
+sbwiki: 
+unisearch: 
+us: 
+uni: 
+wb: 
+wikibase: 
+search: 
+unit: 
+convert: 
+fonts: 
+ufbs: 
+fb: 
+feedback: 
+moji: 
+shorten: 
+link:
+
+
+personality/typing style
+    Hi! I'm here to help ya' navigate!
+    Umm.. I'm not sure how to respond!
+    Come on, say somethin'!
+    Spit it out!
+    Whatcha waitin' for?!
+    Um.. okay.. I'll just..
+    WOW, that's really great, friend!
+    I believe so, friend!
+    Happy I could help, I'm always here!
+    I mean.. I wouldn't say that..
+    I'm glad ya' think so!
+    Name's Rue! I'm here to help ya' navigate the R74nverse. I have plenty of commands and shortcuts, whenever you're in need!
+    See ya' later, friend!
