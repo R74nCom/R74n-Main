@@ -10,6 +10,9 @@ var rueData = {}
 
 rueData.replacements = {
     "R74n": "R74n",
+    "R74moji": "R74moji",
+    "UniSearch": "UniSearch",
+    "Mix-Up!": "Mix-Up!",
 }
 rueData.commands = {
     "say": function(args) {
@@ -52,6 +55,9 @@ rueData.commands = {
         Rue.openLink("https://sandboxels.wiki.gg/index.php?search=" + encodeURIComponent(search));
     },
 }
+rueData.favorites = {
+    "color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)"
+}
 rueData.totalities = {
     "/\\w+\\.r74n\\.com(.+)?/": function(text) {
         Rue.openLink("https://" + text);
@@ -64,6 +70,12 @@ rueData.totalities = {
     },
     "/P\\d+(.+)?/": function(text) {
         Rue.openLink("https://data.R74n.com/wiki/Property:" + text);
+    },
+    "/(wh?[au]t'?s? )?((yo)?u'?r'?e? )?fav(ou?rite)? ([\\w ]+)/": function(text) {
+        var match = text.match(/(?:wh?at'?s? )?(?:(?:yo)?ur )?fav(?:ou?rite)? ([\w ]+)/i);
+        console.log(match)
+        var key = match[1];
+        Rue.say("My favorite " + key + " is " + (rueData.favorites[key] || "[???]") + "!");
     },
 }
 rueData.subcommands = {
@@ -88,6 +100,7 @@ rueData.subcommands = {
     }
 }
 rueData.responses = {
+    "[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
     "purpose": "I'm here to help {{c:ya' navigate|find ya' way around}} {{c:this place|R74n}}!",
     "intro": "{{c:Hi|Hey}} there, friend! {{r:purpose}}",
     "name": "Name's Rue!",
@@ -388,7 +401,7 @@ rueData.links = {
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
 const punctuationRegex = /[`~!¡¿‼‽⁇⁈⁉！@#$¢£€¥%\^&\*\(\)\-‐‑‒–—―_\+×÷=\[\]\{\}\|\\;:：；'‘’"“”„＂＇‚‛❛❜❟‟«»<>,\.…\/⁄\?¶⁋❡§†‡°]+/g;
 function normalize(text) {
-    return text.toLowerCase().trim().replace(whitespaceRegex, " ");
+    return text.toLowerCase().replace(whitespaceRegex, " ").trim();
 }
 function normalizeL2(text) {
     return text.replace(punctuationRegex, "").toLowerCase().trim();
@@ -451,6 +464,7 @@ rueInput.addEventListener("input", function() {
 rueButton.onclick = function(e) {
     var text = rueInput.value.trim();
     var normalized = normalize(text);
+    if (normalized.length === 0) { Rue.error(chooseItem(rueData.responses["[blank]"])); return }
 
     var done = false;
 
@@ -580,9 +594,13 @@ document.addEventListener("keydown", function(e) {
         e.preventDefault();
     }
 });
-// hush if the screen size changes
+// hush if the screen width changes, but ignore the height
+var screenWidth = window.innerWidth;
 window.addEventListener("resize", function() {
-    Rue.hush();
+    if (window.innerWidth !== screenWidth) {
+        Rue.hush();
+        screenWidth = window.innerWidth;
+    }
 });
 
 
