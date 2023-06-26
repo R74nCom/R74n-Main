@@ -35,10 +35,10 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;
 }
 #rueButton {
-  vertical-align: middle!important; height: 45px!important; width: 45px!important; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  vertical-align: middle!important; height: 45px!important; width: 45px!important; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
 }
 #rueButton:hover {
-  background: url("https://r74n.com/rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
 }
 #rueButton:active, .rueBlink {
   background: url("https://r74n.com/rue/rue-blink.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
@@ -149,6 +149,11 @@ rueData.subcommands = {
             return (rueData.responses[args[0]] || "[???]");
         }
     },
+    kw: {
+        func: function(args) {
+            return (rueData.keywords[args[0]] || "[???]");
+        }
+    },
     link: { // {{link:url|text}}
         func: function(args) {
             return "<a href='"+args[0]+"'>"+(args[1] || args[0])+"</a>";
@@ -179,6 +184,7 @@ rueData.responses = {
     "why": "=purpose",
     "sandtiles": "Sandtiles is a top-down pixel art game that is on an indefinite hiatus.",
     "ontomata": "{{link:https://docs.google.com/document/d/1M8FExUFCsBLv9EeLke00VrdYpYQFPYN11uh9VFi_K10/edit?usp=sharing|Ontomata}} is an ontology and possibly a multiplayer video game slowly being developed.",
+    "lang": "{{kw:language}}",
     
     "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae) ?(there+|rue|friend)?/": "=intro",
     "/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r)?) ?(rue|friend)?/": "See ya' later, friend!",
@@ -190,6 +196,10 @@ rueData.responses = {
     "/dirt ?[,+] ?water/": "You made Mud!",
     "/water ?[,+] ?dirt/": "You made Mud!",
     "ryan is a": "Ryan is a C",
+}
+rueData.keywords = {
+    "language": "I can only speak and respond to English right now! I was written in pure JavaScript.",
+    "birthday": "My (Rue's) birthday is on June 22nd. The R74n website's is on May 2nd. The owner's is a secret!",
 }
 rueData.media = {
     "icon": "https://r74n.com/icons/favicon.png",
@@ -705,6 +715,16 @@ rueButton.onclick = function(e) {
                 }
                 Rue.openLink(link, e);
             });
+        }
+    }
+    if (!done) {
+        // last priority keywords
+        for (keyword in rueData.keywords) {
+            if (normalized.indexOf(keyword) !== -1) {
+                Rue.say(chooseItem(rueData.keywords[keyword]));
+                done = true;
+                break;
+            }
         }
     }
 
