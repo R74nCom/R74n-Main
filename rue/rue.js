@@ -35,13 +35,13 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   vertical-align: middle; height: 25px; border-radius: 100px; border-top-right-radius: 0; border-bottom-right-radius: 0;
 }
 #rueButton {
-  vertical-align: middle; height: 45px; width: 45px; margin: 0; max-height: unset; box-shadow: none; border-radius: 100px; border-top-left-radius: 0; border-bottom-left-radius: 0; background: url("rue/ruemoji.png") no-repeat center; background-size: 30px; background-color: rgb(83, 83, 83);
+  vertical-align: middle; height: 45px; width: 45px; margin: 0; max-height: unset; box-shadow: none; border-radius: 100px; border-top-left-radius: 0; border-bottom-left-radius: 0; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px; background-color: rgb(83, 83, 83);
 }
 #rueButton:hover {
-  background: url("rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  background: url("https://r74n.com/rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
 }
 #rueButton:active, .rueBlink {
-  background: url("rue/rue-blink.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  background: url("https://r74n.com/rue/rue-blink.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
 }
 #rueMessageBox a {
   color: #00FF00;
@@ -909,7 +909,7 @@ console.log("Rue's ready to go!")
 
 // preload blink image
 var img = new Image();
-img.src = "https://R74n.com/rue/rue-blink.png";
+img.src = "https://r74n.com/rue/rue-blink.png";
 
 document.addEventListener("DOMContentLoaded", function(){
     if (!loadedRue) { initRue() }
