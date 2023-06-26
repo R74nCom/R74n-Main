@@ -19,23 +19,23 @@ rueParent.insertAdjacentHTML("beforeend", rueHTML);
 // add html to the end of the head
 document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
 #rueBox {
-  height: 3em; display: table-cell; vertical-align: middle; top: 10px; right: 0; position: absolute; padding-right: 1em; padding-left: 1em;
+  height: 3em!important; display: table-cell!important; vertical-align: middle!important; top: 10px!important; right: 0!important; position: absolute!important; padding-right: 1em!important; padding-left: 1em!important;
 }
 #rueBoxIn {
-  position: relative; top: 50%; transform: translateY(-50%);
-  background: rgb(0,255,0);
-  background: -moz-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
-  background: -webkit-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
-  background: linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endColorstr="#00ffff",GradientType=1);
-  padding: 0.2em; border-radius: 100px;
-  transition: all 0.5s ease;
+  position: relative!important; top: 50%!important; transform: translateY(-50%)!important;
+  background: rgb(0,255,0)!important;
+  background: -moz-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%)!important;
+  background: -webkit-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%)!important;
+  background: linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%)!important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endColorstr="#00ffff",GradientType=1)!important;
+  padding: 0.2em!important; border-radius: 100px!important;
+  transition: all 0.5s ease!important;
 }
 #rueInput {
-  vertical-align: middle; height: 25px; border-radius: 100px; border-top-right-radius: 0; border-bottom-right-radius: 0;
+  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;
 }
 #rueButton {
-  vertical-align: middle; height: 45px; width: 45px; margin: 0; max-height: unset; box-shadow: none; border-radius: 100px; border-top-left-radius: 0; border-bottom-left-radius: 0; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px; background-color: rgb(83, 83, 83);
+  vertical-align: middle!important; height: 45px!important; width: 45px!important; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
 }
 #rueButton:hover {
   background: url("https://r74n.com/rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
@@ -44,17 +44,17 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   background: url("https://r74n.com/rue/rue-blink.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
 }
 #rueMessageBox a {
-  color: #00FF00;
-  font-weight: bold;
+  color: #00FF00!important;
+  font-weight: bold!important;
 }
-#rueMessageBox a:hover { color: #89ff89; }
-#rueMessageBox a:active { color: #c4ffc4; }
+#rueMessageBox a:hover { color: #89ff89!important; }
+#rueMessageBox a:active { color: #c4ffc4!important; }
 /* anything lower than 475 screen width, make rueBox block */
 @media only screen and (max-width: 600px) {
-  #rueBox { display: block; position: relative; padding-right: 0; padding-left: 0; width: 90%; margin-left: auto; margin-right: auto;}
-  #rueBoxIn { margin-left: auto; margin-right: auto; width: 90%; text-align: center; }
-  #rueInput { width: 76%;padding-left: 4%;padding-right: 0; }
-  #rueButton { width: 20%;padding-left: 0;padding-right: 0; }
+  #rueBox { display: block!important; position: relative!important; padding-right: 0!important; padding-left: 0!important; width: 90%!important; margin-left: auto!important; margin-right: auto!important;}
+  #rueBoxIn { margin-left: auto!important; margin-right: auto!important; width: 90%!important; text-align: center!important; }
+  #rueInput { width: 76%!important;padding-left: 4%!important;padding-right: 0!important; }
+  #rueButton { width: 20%!important;padding-left: 0!important;padding-right: 0!important; }
 }
 </style>`);
 
@@ -760,7 +760,7 @@ Rue = {
         if (!rueMessageBox) { // init message box
             rueMessageBox = document.createElement("div");
             rueMessageBox.id = "rueMessageBox";
-            rueMessageBox.style.cssText = "display:none;position:absolute;background:#595959;padding:0.5em;padding-left:0.75em;padding-right:0.75em;clear:both;border:solid;overflow:hidden;transition:background 0.5s, border-color 0.5s;";
+            rueMessageBox.style.cssText = "color:white;display:none;position:absolute;background:#595959;padding:0.5em;padding-left:0.75em;padding-right:0.75em;clear:both;border:solid;overflow:hidden;transition:background 0.5s, border-color 0.5s;";
             document.body.appendChild(rueMessageBox);
         }
         // move message box to below rueBox
