@@ -262,44 +262,6 @@ This HTML and its contents are property of R74n.com.
     </script>
 
     <script src="rue/rue.js"></script>
-    <style>/* Rue */
-#rueBox {
-  height: 3em; display: table-cell; vertical-align: middle; top: 10px; right: 0; position: absolute; padding-right: 1em; padding-left: 1em;
-}
-#rueBoxIn {
-  position: relative; top: 50%; transform: translateY(-50%);
-  background: rgb(0,255,0);
-  background: -moz-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
-  background: -webkit-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
-  background: linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endColorstr="#00ffff",GradientType=1);
-  padding: 0.2em; border-radius: 100px;
-  transition: all 0.5s ease;
-}
-#rueInput {
-  vertical-align: middle; height: 25px; border-radius: 100px; border-top-right-radius: 0; border-bottom-right-radius: 0;
-}
-#rueButton {
-  vertical-align: middle; height: 45px; width: 45px; margin: 0; max-height: unset; box-shadow: none; border-radius: 100px; border-top-left-radius: 0; border-bottom-left-radius: 0; background: url("rue/ruemoji.png") no-repeat center; background-size: 30px; background-color: rgb(83, 83, 83);
-}
-#rueButton:hover {
-  background: url("rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
-}
-#rueButton:active, .rueBlink {
-  background: url("rue/rue-blink.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
-}
-#rueMessageBox a {
-  color: rgb(255, 121, 255);
-}
-/* anything lower than 475 screen width, make rueBox block */
-@media only screen and (max-width: 600px) {
-  #rueBox { display: block; position: relative; padding-right: 0; padding-left: 0; width: 90%; margin-left: auto; margin-right: auto;}
-  #rueBoxIn { margin-left: auto; margin-right: auto; width: 90%; text-align: center; }
-  #rueInput { width: 76%;padding-left: 4%;padding-right: 0; }
-  #rueButton { width: 20%;padding-left: 0;padding-right: 0; }
-}
-    </style>
-
 </head>
 <body>
 
@@ -307,11 +269,7 @@ This HTML and its contents are property of R74n.com.
 <a href="#YOU-ARE-ALREADY-HOME."><noscript><img src="icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n icon"></noscript><img style="display:none" id="R74nicon" class="R74nicon" alt="R74n icon"></a>
 <h1 class="pagetitle" title="Please stay a while!" id="pagetitle">Home</h1><br>
 
-<div id="rueBox">
-  <div id="rueBoxIn">
-    <input type="text" id="rueInput" placeholder="Explore with Rue..." title="Type in your query!" autocomplete="off"><input type="button" id="rueButton" value="&nbsp;" title="Let's go!" aria-label="Search">
-  </div>
-</div>
+<div id="rueBox"></div>
 
 <div class="content">
 <p id="newsheader" style="display:none;"></p><script>setIcon();</script>

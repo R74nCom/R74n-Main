@@ -11,31 +11,6 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endCo
 https://stackoverflow.com/questions/2717127/gradient-borders
 
 
-txt: 
-R74n: 
-main: 
-c: 
-cpd: 
-sb: 
-sandboxels: 
-sbwiki: 
-unisearch: 
-us: 
-uni: 
-wb: 
-wikibase: 
-search: 
-unit: 
-convert: 
-fonts: 
-ufbs: 
-fb: 
-feedback: 
-moji: 
-shorten: 
-link:
-
-
 personality/typing style
     Hi! I'm here to help ya' navigate!
     Umm.. I'm not sure how to respond!

@@ -1,6 +1,62 @@
+console.log("Rue by R74n is enabled on this page.")
 var loadedRue = false;
 function initRue() {
+console.log("Rue's loadin'..")
 
+var rueHTML = `<div id="rueBoxIn">
+  <input type="text" id="rueInput" placeholder="Explore with Rue..." title="Type in your query!" autocomplete="off"><input type="button" id="rueButton" value="&nbsp;" title="Let's go!" aria-label="Search">
+</div>`
+var rueParent = document.body;
+if (document.getElementById("rueBox")) {
+    rueParent = document.getElementById("rueBox");
+}
+else {
+    rueHTML = '<div id="rueBox">' + rueHTML + '</div>';
+}
+// add html to the end of the body
+rueParent.insertAdjacentHTML("beforeend", rueHTML);
+
+// add html to the end of the head
+document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
+#rueBox {
+  height: 3em; display: table-cell; vertical-align: middle; top: 10px; right: 0; position: absolute; padding-right: 1em; padding-left: 1em;
+}
+#rueBoxIn {
+  position: relative; top: 50%; transform: translateY(-50%);
+  background: rgb(0,255,0);
+  background: -moz-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+  background: -webkit-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+  background: linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endColorstr="#00ffff",GradientType=1);
+  padding: 0.2em; border-radius: 100px;
+  transition: all 0.5s ease;
+}
+#rueInput {
+  vertical-align: middle; height: 25px; border-radius: 100px; border-top-right-radius: 0; border-bottom-right-radius: 0;
+}
+#rueButton {
+  vertical-align: middle; height: 45px; width: 45px; margin: 0; max-height: unset; box-shadow: none; border-radius: 100px; border-top-left-radius: 0; border-bottom-left-radius: 0; background: url("rue/ruemoji.png") no-repeat center; background-size: 30px; background-color: rgb(83, 83, 83);
+}
+#rueButton:hover {
+  background: url("rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+}
+#rueButton:active, .rueBlink {
+  background: url("rue/rue-blink.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+}
+#rueMessageBox a {
+  color: #00FF00;
+  font-weight: bold;
+}
+#rueMessageBox a:hover { color: #89ff89; }
+#rueMessageBox a:active { color: #c4ffc4; }
+/* anything lower than 475 screen width, make rueBox block */
+@media only screen and (max-width: 600px) {
+  #rueBox { display: block; position: relative; padding-right: 0; padding-left: 0; width: 90%; margin-left: auto; margin-right: auto;}
+  #rueBoxIn { margin-left: auto; margin-right: auto; width: 90%; text-align: center; }
+  #rueInput { width: 76%;padding-left: 4%;padding-right: 0; }
+  #rueButton { width: 20%;padding-left: 0;padding-right: 0; }
+}
+</style>`);
 
 rueInput = document.getElementById("rueInput");
 rueButton = document.getElementById("rueButton");
@@ -93,11 +149,17 @@ rueData.subcommands = {
             return (rueData.responses[args[0]] || "[???]");
         }
     },
-    link: {
+    link: { // {{link:url|text}}
         func: function(args) {
             return "<a href='"+args[0]+"'>"+(args[1] || args[0])+"</a>";
         }
-    }
+    },
+    i: { // italics {{i:text}}
+        func: function(args) { return "<em>"+(args[0]||"")+"</em>"; }
+    },
+    b: { // bold {{b:text}}
+        func: function(args) { return "<strong>"+(args[0]||"")+"</strong>"; }
+    },
 }
 rueData.responses = {
     "[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
@@ -109,15 +171,25 @@ rueData.responses = {
     "rue": "That's me! {{r:purpose}}",
     "help": "Since I'm only in my {{c:open beta|testing}} stage, I haven't {{c:put together|written up}} a help page yet. Sorry!",
     "r74n": "{{link:https://r74n.com/|R74n}} is the place you're at!",
-    "test": "I think it's {{c:working|a success}}!",
+    "ryan": "My creator! Their Discord is @ryan.",
+    "ryan#4755": "This user is now known as @ryan on Discord.",
+    "@ryan": "This is a user on Discord, with the ID {{link:https://discord.com/users/101070932608561152|101070932608561152}}. Previously ryan#4755.",
+    "test": "I think it's {{c:working|a success}}! There's also the R74n {{link:https://r74n.com/test/|Testing Zone}}.",
+    "<3": "love>>>O-oh..",
+    "why": "=purpose",
+    "sandtiles": "Sandtiles is a top-down pixel art game that is on an indefinite hiatus.",
+    "ontomata": "{{link:https://docs.google.com/document/d/1M8FExUFCsBLv9EeLke00VrdYpYQFPYN11uh9VFi_K10/edit?usp=sharing|Ontomata}} is an ontology and possibly a multiplayer video game slowly being developed.",
     
     "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae) ?(there+|rue|friend)?/": "=intro",
     "/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r)?) ?(rue|friend)?/": "See ya' later, friend!",
     "/(who|what)( (are|r) (you|u)|is (this|rue))/": "=who",
-    "/dirt ?[,+] ?water/": "You made Mud!",
-    "/water ?[,+] ?dirt/": "You made Mud!",
     "/no+|nah+|nope+/": "No.. problem!",
     "/(yes+|ya+|yeah+|yep+|yas+)(sir)?/": "Noted!",
+    "/(f[uv*#]ck|screw) ?(you|u|off)/": "angry>>>..Not {{c:cool|nice}}.",
+
+    "/dirt ?[,+] ?water/": "You made Mud!",
+    "/water ?[,+] ?dirt/": "You made Mud!",
+    "ryan is a": "Ryan is a C",
 }
 rueData.media = {
     "icon": "https://r74n.com/icons/favicon.png",
@@ -161,6 +233,9 @@ rueData.links = {
     "fonts": "https://c.r74n.com/fonts/?text=$1",
     "font": "https://c.r74n.com/fonts/?text=$1",
     "txt": "https://r74n.com/textviewer/?text=$1",
+    "textviewer": "=txt",
+    "text viewer": "=txt",
+    "view text": "=txt",
     "hiew": "https://r74n.com/hello/",
     "hiew:changes": "https://r74n.com/hello/changelog",
     "hellos": "=hiew",
@@ -249,9 +324,11 @@ rueData.links = {
     "discord": "https://discord.gg/ejUc6YPQuS",
     "discord.gg": "=discord",
     "discord invite": "=discord",
+    "server invite": "=discord",
     "discord server": "=discord",
     "r74n discord server": "=discord",
     "server": "=discord",
+    "server page": "https://discord.com/servers/r74n-sandboxels-939255181474955331",
     "disgd": "=discord",
     "discd": "=discord",
     "discrd": "=discord",
@@ -275,7 +352,12 @@ rueData.links = {
     "commons:whiteboard": "https://jamboard.google.com/d/1nL0lNWQMkdh8RKc8Tmzr3vBHB_EvDK5ziSI1uxxj0Tk/edit?usp=sharing",
     "commons:todo": "https://to-do.microsoft.com/tasks/sharing?InvitationToken=WOup1zn_TzP5uTIX-DUngQe2iwEHi8htYn7Xe6Yrj4i1LgkCR_Uy0jMCa1WdmY9qY",
     "commons:microsoftlist": "https://lists.live.com/:l:/g/personal/dc19101fcc1d9097/FOpKZGNxtb5BjESKMBwMOW4Bb0awIV1A4OD9XkIS46bF3Q?e=eNM7D9",
-    "commons:ywot": "https://www.yourworldoftext.com/~R74n/",
+    "ywot": "https://www.yourworldoftext.com/~R74n/",
+    "commons:ywot": "=ywot",
+    "your world of text": "=ywot",
+    "yourworldoftext": "=ywot",
+    "yourworldoftext.com": "=ywot",
+    "~r74n": "=ywot",
     "view guestbook": "https://r74n.com/guestbook/",
     "doc": "=guestbook",
     "google doc": "=guestbook",
@@ -308,6 +390,7 @@ rueData.links = {
     "wb": "=wikibase",
     "data": "=wikibase",
     "r74n wikibase": "=wikibase",
+    "special:recentchanges": "https://data.r74n.com/wiki/Special:RecentChanges?hideWikibase=1&hidelog=1&limit=50&days=7&enhanced=1&urlversion=2",
     "icons": "https://r74n.com/icons/",
     "logos": "=icons",
     "favicons": "=icons",
@@ -337,12 +420,16 @@ rueData.links = {
     "sandboxels:modlist": "=sandboxels:mods",
     "example_mod.js": "https://sandboxels.r74n.com/mods/example_mod.js",
     "eod": "https://discord.gg/jHeqgdM",
+    "eode": "https://discord.com/api/oauth2/authorize?client_id=819076922867712031&permissions=3136&scope=bot%20applications.commands",
+    "705084182673621033": "https://discord.com/channels/705084182673621033/",
     "elemental on discord": "=eod",
     "elementalondiscord": "=eod",
     "tiktok": "https://www.tiktok.com/@r74n.com",
     "@r74n.com": "=tiktok",
     "twitter": "https://twitter.com/R74ncom",
     "@r74ncom": "=twitter",
+    "twt": "=twitter",
+    "twttr": "=twitter",
     "youtube": "https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA/",
     "yt": "=youtube",
     "uczs6ufdfidxbhvl001gwfea": "=youtube",
@@ -364,6 +451,12 @@ rueData.links = {
     "on google": "https://www.google.com/search?kgmid=/g/11m0q5kt97",
     "u/r74ncom": "https://www.reddit.com/user/R74nCom",
     "/u/r74ncom": "=u/R74nCom",
+    "user/r74ncom": "=u/R74nCom",
+    "/user/r74ncom": "=u/R74nCom",
+    "u/emoji_artist": "https://www.reddit.com/user/emoji_artist",
+    "/u/emoji_artist": "=u/emoji_artist",
+    "user/emoji_artist": "=u/emoji_artist",
+    "/user/emoji_artist": "=u/emoji_artist",
     "r/74n": "https://www.reddit.com/r/74n/",
     "r/74ncom": "https://www.reddit.com/r/74ncom/",
     "r/sandboxels": "https://www.reddit.com/r/sandboxels/",
@@ -396,6 +489,51 @@ rueData.links = {
     "hidden sandboxels elements": "=hidden elements",
     "emoji__artist": "https://www.tiktok.com/@emoji__artist",
     "@emoji__artist": "=emoji__artist",
+    "r74nwiki": "https://r74n.fandom.com/wiki/",
+    "r74n wiki": "=r74nwiki",
+    "eodwiki": "https://elemental-on-discord.fandom.com/wiki/",
+    "elemental on discord wiki": "=eodwiki",
+    "eod wiki": "=eodwiki",
+    "user:r74n": "https://data.r74n.com/wiki/User:R74n",
+    "twitch": "https://www.twitch.tv/R74n_com",
+    "betterttv": "https://betterttv.com/users/615df8e4d442dd7e80e0d019",
+    "bttv": "=betterttv",
+    "frankerfacez": "https://www.frankerfacez.com/channel/r74n_com",
+    "ffz": "=frankerfacez",
+    "7tv": "https://7tv.app/users/62585504c2162b2c28623eb2",
+    "social blade": "https://socialblade.com/tiktok/user/r74n.com",
+    "facebook": "https://www.facebook.com/R74n-106371942050914",
+    "spacehey": "https://spacehey.com/r74n",
+    "mastodon": "https://mastodon.gamedev.place/@R74n",
+    "tumblr": "https://r74n.tumblr.com/",
+    "box": "https://r74n.com/box",
+    "ryanuwu": "=box",
+    "shulker box": "=box",
+    "shulker boxes": "=box",
+    "shulkers": "=box",
+    "boxes": "=box",
+    "/give": "=box",
+    "itemcult": "https://discord.gg/8TsNvEy",
+    "item cult": "=itemcult",
+    "minecraft item cult": "=itemcult",
+    "shorten": "https://r74n.com/shorten/?url=$1",
+    "shorten link": "=shorten",
+    "shorten url": "=shorten",
+    "link shortener": "=shorten",
+    "url shortener": "=shorten",
+    "testing zone": "https://r74n.com/test/",
+    "ads": "https://www.google.com/adsense/",
+    "/twitter": "https://r74n.com/twitter",
+    "/twitch": "https://r74n.com/twitch",
+    "/tiktok": "https://r74n.com/tiktok",
+    "/discord": "https://r74n.com/tiktok",
+    "/test": "https://r74n.com/test",
+    "emoji art canvas": "https://r74n.com/emojiart",
+    "twitter dm": "https://twitter.com/messages/compose?recipient_id=1436857621827530753",
+    "#r74n": "https://twitter.com/hashtag/R74n",
+    "#copypastedump": "https://twitter.com/hashtag/CopyPasteDump",
+    "#cpd": "=#copypastedump",
+    "#emojiart": "https://twitter.com/hashtag/emojiart",
 }
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
@@ -529,7 +667,7 @@ rueButton.onclick = function(e) {
     if (!done) {
         // media display
         done = tryVariants(normalized, rueData.media, function(link) {
-            Rue.say("Check this out!<div style='text-align:center;display:block;height:200px;width:100%'><a href='"+link+"'><img src='"+link+"' style='max-width:100%;max-height:100%;' alt='Displayed Image'></a></div>");
+            Rue.showMedia(link,"Check this out!");
         });
     }
 
@@ -607,14 +745,22 @@ window.addEventListener("resize", function() {
 Rue = {
     say: function(message, opt) {
         if (!opt) { opt = {} }
+        if (message.indexOf(">>>") !== -1) {
+            var split = message.split(">>>");
+            if (split.length > 1 && Rue[split[0]]) {
+                Rue[split[0]](split[1]);
+                return;
+            }
+        }
         if (message.indexOf("{{") !== -1) {
             message = parseText(message);
         }
+        message = message.replace(/\n/g, "<br>");
         var rueMessageBox = document.getElementById("rueMessageBox");
         if (!rueMessageBox) { // init message box
             rueMessageBox = document.createElement("div");
             rueMessageBox.id = "rueMessageBox";
-            rueMessageBox.style.cssText = "display:none;position:absolute;background:#6b6b6b;padding:0.5em;clear:both;border:solid;overflow:hidden;transition:background 0.5s, border-color 0.5s;";
+            rueMessageBox.style.cssText = "display:none;position:absolute;background:#595959;padding:0.5em;padding-left:0.75em;padding-right:0.75em;clear:both;border:solid;overflow:hidden;transition:background 0.5s, border-color 0.5s;";
             document.body.appendChild(rueMessageBox);
         }
         // move message box to below rueBox
@@ -623,7 +769,7 @@ Rue = {
         rueMessageBox.style.width = (rueInput.offsetWidth+20) + "px";
         rueMessageBox.innerHTML = message;
         rueMessageBox.style.borderColor = (opt.color || "white");
-        rueMessageBox.style.background = (opt.bg || "#6b6b6b");
+        rueMessageBox.style.background = (opt.bg || "#595959");
         rueMessageBox.style.display = "block";
         // set border-radius proportionate to height. more height = less border-radius, min 16px
         rueMessageBox.style.borderRadius = Math.max((100 - (rueMessageBox.offsetHeight / 1.4)),16) + "px";
@@ -660,14 +806,26 @@ Rue = {
     sad: function(message) {
         Rue.say(message, {color:"blue",bg:"#5b5b7b"});
     },
+    angry: function(message) {
+        Rue.say(message, {color:"red",bg:"#7b5b5b"});
+    },
     love: function(message) {
         Rue.say(message, {color:"#ff00ff",bg:"#7b5b7b"});
+    },
+    flushed: function(message) {
+        Rue.say(message, {color:"#ffff00",bg:"#7b7b5b"});
+    },
+    anxious: function(message) {
+        Rue.say(message, {color:"#7900b5",bg:"#483b4e"});
     },
     official: function(message) {
         Rue.say(message, {color:"#00ffff",bg:"#5b7b7b"});
     },
     loading: function() {
-        Rue.say("Just a second... :)");
+        Rue.say("Just a {{c:sec|second|moment}}.. :)");
+    },
+    showMedia: function(url, message) {
+        Rue.say((message || "") + "<div style='text-align:center;display:block;height:200px;width:100%'><a href='"+url+"'><img src='"+url+"' style='max-width:100%;max-height:100%;' alt='Displayed Image' title='Click to Open'></a></div>");
     },
     openLink: function(url,e) {
         Rue.loading();
@@ -746,7 +904,7 @@ function parseText(text) {
 
 
 
-
+console.log("Rue's ready to go!")
 }
 
 // preload blink image
@@ -759,3 +917,7 @@ document.addEventListener("DOMContentLoaded", function(){
 document.addEventListener("load", function(){
     if (!loadedRue) { initRue() }
 });
+// if the document is already loaded, initRue
+if (document.readyState === "complete" || document.readyState === "interactive") {
+    initRue();
+}

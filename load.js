@@ -17,4 +17,45 @@ function R74n() {
   console.log("R74n")
 }
 
+function callRue() {
+	if (typeof Rue === "undefined" && !document.getElementById("rueScript")) {
+		console.log("Calling Rue...")
+		document.body.insertAdjacentHTML("beforeend", `<div style="position:absolute;top:1em;right:1em;padding-right:1em;padding-left:1em;display:block;text-align:center;border:solid white;background:rgb(107, 107, 107);border-radius:100px;height:2em;line-height:2em;width:10em;cursor:pointer" id="rueCallerBox" onclick="this.style.display='none'">☎️ Calling Rue...</div>`);
+		document.head.insertAdjacentHTML("beforeend", "<script>Rue = {};</script>");
+		var script = document.createElement("script");
+		script.id = "rueScript";
+		script.onload = function() {
+			document.getElementById("rueCallerBox").remove();
+			var rueHasLoaded = setInterval(function() {
+				if (typeof Rue !== "undefined") {
+					clearInterval(rueHasLoaded);
+					document.getElementById("rueInput").focus();
+					Rue.blink();
+					Rue.say("Hello! Type in certain commands to make me do things.");
+				}
+			}, 10);
+		}
+		script.onerror = function() {
+			console.log("Rue failed to load!");
+			document.getElementById("rueCallerBox").innerHTML = "❌ Rue failed to load!";
+			setTimeout(function() {
+				document.getElementById("rueCallerBox").remove();
+			}, 2000);
+		}
+		script.src = "rue/rue.js";
+		document.head.appendChild(script);
+	}
+	else {
+		console.log("Rue is already here!");
+	}
+}
+
+// if metaKey + shift + R is pressed, add Rue script to the head
+window.addEventListener("keydown", function(e) {
+	if (e.key === "r" && e.shiftKey && e.metaKey) {
+		callRue();
+		e.preventDefault();
+	}
+});
+
 });
