@@ -130,7 +130,7 @@ rueData.commands = {
         var seed = normalizeL2(normalize(args.join(" ")));
         Rue.showMedia("https://picsum.photos/seed/"+seed+"/500/400", "This image is unique to "+args.join(" ")+"!", "Brought to you by Lorem Picsum");
     },
-    "/(repeat( (that|it))?|say( (that|it))? again|come again|what)$/": function() {
+    "/(repeat( (that|it))?|say( (that|it))? again|come again|what)(\\?+)?$/": function() {
         if (Rue.brain.lastMessage) {
             Rue.say(Rue.brain.lastMessage);
         }
@@ -818,6 +818,22 @@ rueButton.onclick = function(e) {
     if (!done) {
     var commandBase = null;
     var argsArray = null;
+    // commands with spaces
+    for (key in rueData.commands) {
+        if (key.indexOf(" ") !== -1) {
+            // if text starts with key+" " or is equal to key, set commandBase to key and argsArray to the rest of text split by whitespace
+            if (text.indexOf(key+" ") === 0) {
+                commandBase = key;
+                argsArray = text.split(key+" ")[1].replace(whitespaceRegex, " ").split(" ");
+                break;
+            }
+            else if (text === key) {
+                commandBase = key;
+                argsArray = [];
+                break;
+            }
+        }
+    }
     // JS commands
     if (!commandBase) {
         commandBase = normalized.split(" ")[0];
@@ -928,19 +944,6 @@ rueButton.onclick = function(e) {
                 argsArray = text.replace(regex, "").replace(whitespaceRegex, " ").split(" ");
                 rueData.commands[key](argsArray);
                 done = true;
-                break;
-            }
-        }
-        else if (key.indexOf(" ") !== -1) {
-            // if text starts with key+" " or is equal to key, set commandBase to key and argsArray to the rest of text split by whitespace
-            if (text.indexOf(key+" ") === 0) {
-                commandBase = key;
-                argsArray = text.split(key+" ")[1].replace(whitespaceRegex, " ").split(" ");
-                break;
-            }
-            else if (text === key) {
-                commandBase = key;
-                argsArray = [];
                 break;
             }
         }
