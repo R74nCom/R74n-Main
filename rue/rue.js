@@ -19,7 +19,7 @@ rueParent.insertAdjacentHTML("beforeend", rueHTML);
 // add html to the end of the head
 document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
 #rueBox {
-  height: 3em!important; display: table-cell!important; vertical-align: middle!important; top: 10px!important; right: 0!important; position: absolute!important; padding-right: 1em!important; padding-left: 1em!important;
+  height: 3em!important; display: table-cell!important; vertical-align: middle!important; top: 10px!important; right: 0!important; position: absolute!important; padding-right: 1em!important; padding-left: 1em!important; z-index:7474!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important;
 }
 #rueBoxIn {
   position: relative!important; top: 50%!important; transform: translateY(-50%)!important;
@@ -32,7 +32,7 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   transition: all 0.5s ease!important;
 }
 #rueInput {
-  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;
+  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px;
 }
 #rueButton {
   vertical-align: middle!important; height: 45px!important; width: 45px!important; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
@@ -95,6 +95,11 @@ rueData.commands = {
         search = search.replace(/^(search )?(for) /g, "");
         Rue.openLink("https://www.google.com/search?q=" + encodeURIComponent(search));
     },
+    "bing": function(args) {
+        var search = args.join(" ");
+        search = search.replace(/^(search )?(for) /g, "");
+        Rue.openLink("https://www.bing.com/search?q=" + encodeURIComponent(search));
+    },
     "csearch": function(args) {
         var search = args.join(" ");
         search = search.replace(/^(for) /g, "");
@@ -109,6 +114,17 @@ rueData.commands = {
         var search = args.join(" ");
         search = search.replace(/^(for) /g, "");
         Rue.openLink("https://sandboxels.wiki.gg/index.php?search=" + encodeURIComponent(search));
+    },
+    "qr": function(args) {
+        var data = args.join(" ");
+        Rue.showMedia("https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=" + encodeURIComponent(data||"https://R74n.com/"), "QR Code coming right up!");
+    },
+    "fox": function() {
+        Rue.showMedia("https://randomfox.ca/images/" + Math.floor(Math.random()*123+1) + ".jpg", "Fox for you! 🦊", "Brought to you by RandomFox.ca");
+    },
+    "myimage": function(args) {
+        var seed = normalizeL2(normalize(args.join(" ")));
+        Rue.showMedia("https://picsum.photos/seed/"+seed+"/500/400", "This image is unique to "+args.join(" ")+"!", "Brought to you by Lorem Picsum");
     },
 }
 rueData.favorites = {
@@ -165,9 +181,16 @@ rueData.subcommands = {
     b: { // bold {{b:text}}
         func: function(args) { return "<strong>"+(args[0]||"")+"</strong>"; }
     },
+    bi: {text:`"{{b:{{i:"+args[0]+"}}}}"`},
+    ib: {text:`"{{i:{{b:"+args[0]+"}}}}"`},
 }
 rueData.responses = {
     "[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
+    "[unsure]": "Umm.. I'm not sure how to respond!",
+    "[wait]": "Just a {{c:sec|second|moment}}.. :)",
+    "[confirm]": "Press me or [Enter] again to confirm!",
+    "[confirmsearch]": "Should I {{bi:run a search}}",
+    "[newtab]": "Check out the tab that just opened!",
     "purpose": "I'm here to help {{c:ya' navigate|find ya' way around}} {{c:this place|R74n}}!",
     "intro": "{{c:Hi|Hey}} there, friend! {{r:purpose}}",
     "name": "Name's Rue!",
@@ -185,6 +208,8 @@ rueData.responses = {
     "sandtiles": "Sandtiles is a top-down pixel art game that is on an indefinite hiatus.",
     "ontomata": "{{link:https://docs.google.com/document/d/1M8FExUFCsBLv9EeLke00VrdYpYQFPYN11uh9VFi_K10/edit?usp=sharing|Ontomata}} is an ontology and possibly a multiplayer video game slowly being developed.",
     "lang": "{{kw:language}}",
+    "2023": "My birth year!",
+    "june": "My birth month! (The 22nd, to be exact.) See the {{link:https://r74n.com/commons/calendar|calendar}} for more events in June.",
     
     "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae) ?(there+|rue|friend)?/": "=intro",
     "/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r)?) ?(rue|friend)?/": "See ya' later, friend!",
@@ -196,6 +221,7 @@ rueData.responses = {
     "/dirt ?[,+] ?water/": "You made Mud!",
     "/water ?[,+] ?dirt/": "You made Mud!",
     "ryan is a": "Ryan is a C",
+    "otter": "🦦",
 }
 rueData.keywords = {
     "language": "I can only speak and respond to English right now! I was written in pure JavaScript.",
@@ -205,6 +231,7 @@ rueData.media = {
     "icon": "https://r74n.com/icons/favicon.png",
     "favicon": "=icon",
     "logo": "=icon",
+    "qr": "https://imgur.com/ilim881",
 }
 rueData.links = {
     "main": "https://r74n.com/",
@@ -436,6 +463,7 @@ rueData.links = {
     "elementalondiscord": "=eod",
     "tiktok": "https://www.tiktok.com/@r74n.com",
     "@r74n.com": "=tiktok",
+    "tt": "=tiktok",
     "twitter": "https://twitter.com/R74ncom",
     "@r74ncom": "=twitter",
     "twt": "=twitter",
@@ -459,6 +487,9 @@ rueData.links = {
     "picrew": "https://picrew.me/image_maker/1276358",
     "imgur": "https://imgur.com/user/R74ncom",
     "on google": "https://www.google.com/search?kgmid=/g/11m0q5kt97",
+    "sketchfab": "https://sketchfab.com/R74n",
+    "ios shortcut": "https://www.icloud.com/shortcuts/f78a979d937841eba4a290f922c3acc4",
+    "authenticator": "otpauth://totp/R74n?secret=MRXWOUC2G5KFSQKYJM2VQ42TMQ3EWM22JJ2WSOKHJM3WG6KRHFJEMWDSPJIWC4RYLBJDQNSTIJHA&issuer=R74n",
     "u/r74ncom": "https://www.reddit.com/user/R74nCom",
     "/u/r74ncom": "=u/R74nCom",
     "user/r74ncom": "=u/R74nCom",
@@ -506,6 +537,8 @@ rueData.links = {
     "eod wiki": "=eodwiki",
     "user:r74n": "https://data.r74n.com/wiki/User:R74n",
     "twitch": "https://www.twitch.tv/R74n_com",
+    "r74n_com": "=twitch",
+    "ttv": "=twitch",
     "betterttv": "https://betterttv.com/users/615df8e4d442dd7e80e0d019",
     "bttv": "=betterttv",
     "frankerfacez": "https://www.frankerfacez.com/channel/r74n_com",
@@ -610,6 +643,16 @@ rueInput.addEventListener("input", function() {
     }
 });
 rueButton.onclick = function(e) {
+    if (Rue.brain.confirming) {
+        if (Rue.brain.confirming === rueInput.value) {
+            Rue.brain.afterConfirm(e);
+            Rue.brain.confirming = false;
+            Rue.brain.afterConfirm = undefined;
+            return
+        }
+        Rue.brain.confirming = false;
+        Rue.brain.afterConfirm = undefined;
+    }
     var text = rueInput.value.trim();
     var normalized = normalize(text);
     if (normalized.length === 0) { Rue.error(chooseItem(rueData.responses["[blank]"])); return }
@@ -729,7 +772,9 @@ rueButton.onclick = function(e) {
     }
 
     if (!done) {
-        Rue.error("Umm.. I'm not sure how to respond!");
+        Rue.confirm("{{r:[unsure]}}\n{{r:[confirmsearch]}}?", function(e) {
+            Rue.openLink("https://r74n.com/search/?q=" + encodeURIComponent(text) +"#gsc.tab=0&gsc.q="+encodeURIComponent(text)+"&gsc.sort=", e);
+        })
     }
 };
 rueInput.addEventListener("keydown", function(e) {
@@ -842,10 +887,15 @@ Rue = {
         Rue.say(message, {color:"#00ffff",bg:"#5b7b7b"});
     },
     loading: function() {
-        Rue.say("Just a {{c:sec|second|moment}}.. :)");
+        Rue.say("{{r:[wait]}}");
     },
-    showMedia: function(url, message) {
-        Rue.say((message || "") + "<div style='text-align:center;display:block;height:200px;width:100%'><a href='"+url+"'><img src='"+url+"' style='max-width:100%;max-height:100%;' alt='Displayed Image' title='Click to Open'></a></div>");
+    showMedia: function(url, message, caption) {
+        Rue.say((message || "") + "<div style='text-align:center;display:block;height:200px;width:100%;margin-top:10px;margin-bottom:10px'><a style='vertical-align:middle' href='"+url+"'><img src='"+url+"' style='max-width:100%;max-height:100%;vertical-align:middle' alt='Displayed Image' title='Click to Open'></a>" + (caption ? "<span style='text-align:center;font-size:0.75em;display:block;vertical-align:bottom'>"+caption+"</span>" : "") + "</div>");
+    },
+    confirm: function(message, func, opts) {
+        Rue.brain.confirming = rueInput.value;
+        Rue.brain.afterConfirm = func;
+        Rue.say(message+"\n{{r:[confirm]}}", {color:"#ffff00",bg:"#7b7b5b"});
     },
     openLink: function(url,e) {
         Rue.loading();
@@ -854,7 +904,7 @@ Rue = {
         }
         else {
             window.open(url, "_blank");
-            Rue.say("Check out the tab that just opened!")
+            Rue.say("{{r:[newtab]}}")
         }
     },
     // randomly add .rueBlink to rueButton at random intervals

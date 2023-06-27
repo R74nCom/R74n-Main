@@ -18,7 +18,8 @@ a:hover {color: rgb(255, 121, 255);}
 
 
 .pagetitle, .backbutton, .R74nicon {display: inline-block;margin:0px;vertical-align: middle;margin-left:10px}
-.pagetitle, .R74nicon, .backbutton {font-size:4.5vw; }
+.pagetitle, .R74nicon {font-size:4.5vw; }
+.backbutton {font-size:60px}
 
 .pagetitle {margin-left: 10px;}
 .R74nicon {height:50px;width:50px;transition:3s;}
