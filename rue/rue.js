@@ -32,10 +32,13 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   transition: all 0.5s ease!important;
 }
 #rueInput {
-  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px;
+  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px;margin:0!important;border-style:none!important
+}
+#rueInput::placeholder, #rueInput:-ms-input-placeholder, #rueInput::-ms-input-placeholder {
+    color: lightgray!important;opacity: 1;
 }
 #rueButton {
-  vertical-align: middle!important; height: 45px!important; width: 45px!important; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  vertical-align: middle!important; height: 45px!important; width: 45px!important; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;border-style:none!important
 }
 #rueButton:hover {
   background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
@@ -825,7 +828,7 @@ Rue = {
         if (!rueMessageBox) { // init message box
             rueMessageBox = document.createElement("div");
             rueMessageBox.id = "rueMessageBox";
-            rueMessageBox.style.cssText = "color:white;display:none;position:absolute;background:#595959;padding:0.5em;padding-left:0.75em;padding-right:0.75em;clear:both;border:solid;overflow:hidden;transition:background 0.5s, border-color 0.5s;";
+            rueMessageBox.style.cssText = "color:white;display:none;position:absolute;background:#595959;padding:0.5em;padding-left:0.75em;padding-right:0.75em;clear:both;border:solid;overflow:hidden;transition:background 0.5s, border-color 0.5s;z-index:7474";
             document.body.appendChild(rueMessageBox);
         }
         // move message box to below rueBox
