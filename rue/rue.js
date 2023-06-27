@@ -93,6 +93,7 @@ rueData.commands = {
         search = search.replace(/^(for) /g, "");
         Rue.openLink("https://r74n.com/search/?q=" + encodeURIComponent(search) +"#gsc.tab=0&gsc.q="+encodeURIComponent(search)+"&gsc.sort=");
     },
+    "look up": "=search",
     "google": function(args) {
         var search = args.join(" ");
         search = search.replace(/^(search )?(for) /g, "");
@@ -108,7 +109,7 @@ rueData.commands = {
         search = search.replace(/^(for) /g, "");
         Rue.openLink("https://c.r74n.com/search?q=" + encodeURIComponent(search) +"#gsc.tab=0&gsc.q="+encodeURIComponent(search)+"&gsc.sort=");
     },
-    "wbsearch": function(args) {
+    "/w(iki)?b(ase)? ?search/": function(args) {
         var search = args.join(" ");
         search = search.replace(/^(for) /g, "");
         Rue.openLink("https://data.r74n.com/w/index.php?search=" + encodeURIComponent(search));
@@ -126,9 +127,21 @@ rueData.commands = {
         Rue.showMedia("https://randomfox.ca/images/" + Math.floor(Math.random()*123+1) + ".jpg", "Fox for you! 🦊", "Brought to you by RandomFox.ca");
     },
     "myimage": function(args) {
+        if (args.length === 0) {
+            Rue.say("You need to provide a seed, like your name!")
+            return;
+        }
         var seed = normalizeL2(normalize(args.join(" ")));
         Rue.showMedia("https://picsum.photos/seed/"+seed+"/500/400", "This image is unique to "+args.join(" ")+"!", "Brought to you by Lorem Picsum");
     },
+    "/(repeat( (that|it))?|say( (that|it))? again|come again|what)$/": function() {
+        if (Rue.brain.lastMessage) {
+            Rue.say(Rue.brain.lastMessage);
+        }
+        else {
+            Rue.say("I didn't say anything!");
+        }
+    }
 }
 rueData.favorites = {
     "color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)"
@@ -605,17 +618,19 @@ function chooseItem(array) {
     }
     return array;
 }
-function tryVariants(text, dict, func) {
-    if (dict[text]) { func(...chooseValue(dict,text)); return true; }
+function tryVariants(text, dict, func, ignoreRegex) {
+    if (dict[text]) { return func(...chooseValue(dict,text)) || true; }
     var n2 = normalizeL2(text);
-    if (dict[n2]) { func(...chooseValue(dict,n2)); return true; }
+    if (dict[n2]) { return func(...chooseValue(dict,n2)) || true;; }
     var ns = n2.replace(whitespaceRegex, "");
-    if (dict[ns]) { func(...chooseValue(dict,ns)); return true; }
-    for (var key in dict) {
-        // if it starts and ends with /, test it as a regex
-        if (key.charCodeAt(0) === 47 && key.charCodeAt(key.length-1) === 47 && key.length > 2) {
-            var regex = new RegExp("^(" + key.slice(1,-1) + ")$", "gi");
-            if (regex.test(text) || regex.test(n2)) { func(...chooseValue(dict,key)); return true; }
+    if (dict[ns]) { return func(...chooseValue(dict,ns)) || true; }
+    if (!ignoreRegex) {
+        for (var key in dict) {
+            // if it starts and ends with /, test it as a regex
+            if (key.charCodeAt(0) === 47 && key.charCodeAt(key.length-1) === 47 && key.length > 2) {
+                var regex = new RegExp("^(" + key.slice(1,-1) + ")$", "gi");
+                if (regex.test(text) || regex.test(n2)) { return func(...chooseValue(dict,key)) || true; }
+            }
         }
     }
 }
@@ -667,14 +682,45 @@ rueButton.onclick = function(e) {
         func(text);
     });
 
+    if (!done) {
+    var commandBase = null;
+    var argsArray = null;
     // JS commands
-    var commandBase = normalized.split(" ")[0];
-    var argsArray = text.replace(whitespaceRegex, " ").split(" ").slice(1);
-    // if the commandBase has a : in it, split it and put the rest at the beginning of argsArray
-    if (commandBase.indexOf(":") !== -1) {
-        var split = text.split(" ")[0].split(/:(.+)/);
-        commandBase = split[0];
-        argsArray.unshift(split[1]);
+    for (key in rueData.commands) {
+        if (key.charCodeAt(0) === 47 && key.charCodeAt(key.length-1) === 47 && key.length > 2) {
+            var regex = new RegExp("^(" + key.slice(1,-1) + ")( |$)", "gi");
+            if (regex.test(text)) {
+                commandBase = key;
+                // argsArray = split by regex, use the second half, and split by whitespace
+                argsArray = text.replace(regex, "").replace(whitespaceRegex, " ").split(" ");
+                rueData.commands[key](argsArray);
+                done = true;
+                break;
+            }
+        }
+        else if (key.indexOf(" ") !== -1) {
+            // if text starts with key+" " or is equal to key, set commandBase to key and argsArray to the rest of text split by whitespace
+            if (text.indexOf(key+" ") === 0) {
+                commandBase = key;
+                argsArray = text.split(key+" ")[1].replace(whitespaceRegex, " ").split(" ");
+                break;
+            }
+            else if (text === key) {
+                commandBase = key;
+                argsArray = [];
+                break;
+            }
+        }
+    }
+    if (!commandBase) {
+        commandBase = normalized.split(" ")[0];
+        argsArray = text.replace(whitespaceRegex, " ").split(" ").slice(1);
+        // if the commandBase has a : in it, split it and put the rest at the beginning of argsArray
+        if (commandBase.indexOf(":") !== -1) {
+            var split = text.split(" ")[0].split(/:(.+)/);
+            commandBase = split[0];
+            argsArray.unshift(split[1]);
+        }
     }
     // group together args surrounded by quotes, keeping all other args separate
     if (text.indexOf('"') !== -1) {
@@ -709,10 +755,11 @@ rueButton.onclick = function(e) {
         if (currentArg !== "") { args.push(currentArg); }
         argsArray = args;
     }
+    }
     if (!done) {
         done = tryVariants(commandBase, rueData.commands, function(func) {
             func(argsArray);
-        });
+        }, true);
     }
     if (!done) {
         // basic responses
@@ -824,6 +871,7 @@ Rue = {
             message = parseText(message);
         }
         message = message.replace(/\n/g, "<br>");
+        Rue.brain.lastMessage = message;
         var rueMessageBox = document.getElementById("rueMessageBox");
         if (!rueMessageBox) { // init message box
             rueMessageBox = document.createElement("div");
@@ -922,7 +970,9 @@ Rue = {
         // call this function again after a random interval
         if (loop) { setTimeout(function(){Rue.blink(true)}, Math.random() * 3000); }
     },
-    brain: {}
+    brain: {
+        "lastResponse": "",
+    }
 }
 setTimeout(function(){Rue.blink(true)}, Math.random() * 3000);
 
