@@ -23,11 +23,11 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
 }
 #rueBoxIn {
   position: relative!important; top: 50%!important; transform: translateY(-50%)!important;
-  background: rgb(0,255,0)!important;
-  background: -moz-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%)!important;
-  background: -webkit-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%)!important;
-  background: linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%)!important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endColorstr="#00ffff",GradientType=1)!important;
+  background: rgb(0,255,0);
+  background: -moz-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+  background: -webkit-linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+  background: linear-gradient(37deg, rgba(0,255,0,1) 0%, rgba(0,255,255,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endColorstr="#00ffff",GradientType=1);
   padding: 0.2em!important; border-radius: 100px!important;
   transition: all 0.5s ease!important;
 }
@@ -41,7 +41,7 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   vertical-align: middle!important; height: 45px!important; width: 45px!important; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;border-style:none!important
 }
 #rueButton:hover {
-  background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  background: url("https://r74n.com/rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
 }
 #rueButton:active, .rueBlink {
   background: url("https://r74n.com/rue/rue-blink.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
@@ -65,6 +65,8 @@ rueInput = document.getElementById("rueInput");
 rueButton = document.getElementById("rueButton");
 rueBox = document.getElementById("rueBox");
 
+var currentURL = window.location.href;
+
 var rueData = {}
 
 rueData.replacements = {
@@ -75,18 +77,12 @@ rueData.replacements = {
 }
 rueData.commands = {
     "say": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify what I should say!") }
         Rue.say(args.join(" "));
     },
     "args": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify any arguments!") }
         Rue.say(args.join(","));
-    },
-    "http": function(args) {
-        // go to the url
-        Rue.openLink("http:" + args.join(" "));
-    },
-    "https": function(args) {
-        // go to the url
-        Rue.openLink("https:" + args.join(" "));
     },
     "search": function(args) {
         var search = args.join(" ");
@@ -119,9 +115,9 @@ rueData.commands = {
         search = search.replace(/^(for) /g, "");
         Rue.openLink("https://sandboxels.wiki.gg/index.php?search=" + encodeURIComponent(search));
     },
-    "qr": function(args) {
+    "/qr[ \\-]?(code)?/": function(args) {
         var data = args.join(" ");
-        Rue.showMedia("https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=" + encodeURIComponent(data||"https://R74n.com/"), "QR Code coming right up!");
+        Rue.showMedia("https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=" + encodeURIComponent(data||currentURL), "QR Code coming right up!");
     },
     "fox": function() {
         Rue.showMedia("https://randomfox.ca/images/" + Math.floor(Math.random()*123+1) + ".jpg", "Fox for you! 🦊", "Brought to you by RandomFox.ca");
@@ -141,7 +137,39 @@ rueData.commands = {
         else {
             Rue.say("I didn't say anything!");
         }
-    }
+    },
+    "refresh": function() {
+        location.reload();
+    },
+    "/print$/": function() {
+        window.print();
+    },
+    "print": "=say",
+    "simon says": "=say",
+    "speak": "=say",
+    "rainbow": function() {
+        var style = document.createElement("style");
+        style.innerHTML = `@keyframes rueRainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }`;
+        document.head.appendChild(style);
+        document.body.style.animation = "rueRainbow 5s infinite";
+        Rue.say("Be who you are!")
+    },
+    "black and white": function() {
+        document.body.style.filter = "grayscale(100%)";
+    },
+    "event": function() {
+        if (typeof currentEvent !== "undefined") {
+            Rue.say("Current event: " + currentEvent);
+        }
+        else { Rue.say("No event detected!!") }
+    },
+    "title": function() {
+        Rue.say("Page title: " + document.title);
+    },
+
 }
 rueData.favorites = {
     "color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)"
@@ -161,9 +189,68 @@ rueData.totalities = {
     },
     "/(wh?[au]t'?s? )?((yo)?u'?r'?e? )?fav(ou?rite)? ([\\w ]+)/": function(text) {
         var match = text.match(/(?:wh?at'?s? )?(?:(?:yo)?ur )?fav(?:ou?rite)? ([\w ]+)/i);
-        console.log(match)
         var key = match[1];
         Rue.say("My favorite " + key + " is " + (rueData.favorites[key] || "[???]") + "!");
+    },
+    "/https?:\\/\\/.+/": function(text) {
+        Rue.openLink(text);
+    },
+    "/www\\..+/": function(text) {
+        Rue.openLink("http://" + text);
+    },
+    "/[\\w\\.]+\\.(com?|org|net|co\\.uk|edu|gov)(\\/.+)?/": function(text) {
+        Rue.openLink("http://" + text);
+    },
+    "/leave|self destruct|go away|hide|run away|exit|close/": function() {
+        Rue.say("I'll leave right after ya' click somewhere else! See ya' {{c:soon|later}}, friend!");
+        Rue.brain.afterClickOff = function() {
+            document.getElementById("rueBox").remove();
+            delete Rue;
+            if (document.getElementById("rueScript")) {
+                document.getElementById("rueScript").remove();
+            }
+            console.log("Rue has left the building.");
+        }
+    },
+    "/(submit|post|add|suggest)? ?(feedback|fb|suggestion|suggest) (for|to|of|4) (.+)/": function(text) {
+        var match = text.match(/(?:submit|post|add|suggest)? ?(?:feedback|fb|suggestion|suggest) (?:for|to|of|4) (.+)/i);
+        var key = normalize(match[1]);
+        key = chooseValue(rueData.links, key)[1];
+        console.log(key)
+        var feedbackKey = "feedback:" + key;
+        if (rueData.links[feedbackKey]) {
+            Rue.openLink(rueData.links[feedbackKey]);
+        }
+    },
+    "/(.+)[ \\-](feedback|fb|suggestions?)/": function(text) {
+        var match = text.match(/(.+)[ \-](?:feedback|fb|suggestions?)/i);
+        var key = normalize(match[1]);
+        key = chooseValue(rueData.links, key)[1];
+        console.log(key)
+        var feedbackKey = "feedback:" + key;
+        if (rueData.links[feedbackKey]) {
+            Rue.openLink(rueData.links[feedbackKey]);
+        }
+    },
+    "/(view|show|see)? ?((feedback)? ?responses) (for|to|of|4) (.+)/": function(text) {
+        var match = text.match(/(?:view|show|see)? ?(?:(?:feedback)? ?responses) (?:for|to|of|4) (.+)/i);
+        var key = normalize(match[1]);
+        key = chooseValue(rueData.links, key)[1];
+        console.log(key)
+        var feedbackKey = "responses:" + key;
+        if (rueData.links[feedbackKey]) {
+            Rue.openLink(rueData.links[feedbackKey]);
+        }
+    },
+    "/(.+)[ \\-](feedback|fb|suggestions?)? responses/": function(text) {
+        var match = text.match(/(.+)[ \\-](?:feedback|fb|suggestions?)? responses/i);
+        var key = normalize(match[1]);
+        key = chooseValue(rueData.links, key)[1];
+        console.log(key)
+        var feedbackKey = "responses:" + key;
+        if (rueData.links[feedbackKey]) {
+            Rue.openLink(rueData.links[feedbackKey]);
+        }
     },
 }
 rueData.subcommands = {
@@ -214,6 +301,7 @@ rueData.responses = {
     "who": "{{r:name}} {{r:purpose}}",
     "rue": "That's me! {{r:purpose}}",
     "help": "Since I'm only in my {{c:open beta|testing}} stage, I haven't {{c:put together|written up}} a help page yet. Sorry!",
+    "/explore( with (rue|you|u))?/": "Type in a place ya'd like to go, and I'll {{c:take|bring}} ya' there!",
     "r74n": "{{link:https://r74n.com/|R74n}} is the place you're at!",
     "ryan": "My creator! Their Discord is @ryan.",
     "ryan#4755": "This user is now known as @ryan on Discord.",
@@ -252,6 +340,9 @@ rueData.media = {
 rueData.links = {
     "main": "https://r74n.com/",
     "r74n": "=main",
+    "main website": "=main",
+    "r74n.com": "=main",
+    "www.r74n.com": "=main",
     "/": "=main",
     "sandboxels": "https://sandboxels.r74n.com",
     "sbxls": "=sandboxels",
@@ -292,6 +383,7 @@ rueData.links = {
     "hiew": "https://r74n.com/hello/",
     "hiew:changes": "https://r74n.com/hello/changelog",
     "hellos": "=hiew",
+    "hello": "=hiew",
     "hello in every way": "=hiew",
     "convert": "https://r74n.com/convert/?",
     "converter": "=convert",
@@ -446,7 +538,10 @@ rueData.links = {
     "special:recentchanges": "https://data.r74n.com/wiki/Special:RecentChanges?hideWikibase=1&hidelog=1&limit=50&days=7&enhanced=1&urlversion=2",
     "icons": "https://r74n.com/icons/",
     "logos": "=icons",
+    "r74n icons": "=icons",
+    "r74n logos": "=icons",
     "favicons": "=icons",
+    "favicon.*": "=icons",
     "old": "https://r74n.com/old/",
     "time machine": "=old",
     "old site": "=old",
@@ -593,6 +688,44 @@ rueData.links = {
     "#copypastedump": "https://twitter.com/hashtag/CopyPasteDump",
     "#cpd": "=#copypastedump",
     "#emojiart": "https://twitter.com/hashtag/emojiart",
+    "feedback:hiew": "https://link.R74n.com/hello-feedback",
+    "feedback:convert": "https://link.R74n.com/convert-feedback",
+    "feedback:moji": "https://link.R74n.com/moji-feedback",
+    "feedback:words": "https://link.R74n.com/words-feedback",
+    "feedback:unisearch": "https://link.R74n.com/unisearch-feedback",
+    "feedback:mix": "https://link.R74n.com/mix-feedback",
+    "feedback:pixelflags": "https://link.R74n.com/pixelflags-feedback",
+    "feedback:main": "https://link.R74n.com/main-feedback",
+    "feedback:icons": "https://link.R74n.com/icons-feedback",
+    "feedback:sandboxels": "https://link.r74n.com/sandboxels-feedback",
+    "feedback:cpd": "https://docs.google.com/forms/d/e/1FAIpQLSfb982MRjL6hFDpS4utKzjrDP2UUIPprG8iunwW2t0dxfJvmQ/viewform",
+    "feedback:wikibase": "https://link.r74n.com/wikibase-feedback",
+    "feedback:sml": "https://github.com/R74nCom/Social-Media-Lists/issues/new/choose",
+    "feedback:discord": "https://discord.com/channels/939255181474955331/1017600950480945172",
+    "feedback:commons": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=R74n+Commons",
+    "feedback:search": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Search",
+    "feedback:social": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=New+social+account",
+    "feedback:old": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=R74n+Time+Machine",
+    "feedback:shorten": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Link+Shortener",
+    "feedback:rue": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Rue+/+Explore+with+Rue",
+    "feedback:other": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other",
+    "feedback:general": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other",
+    "feedback:misc": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other",
+    "responses:hiew": "https://link.R74n.com/ufbs-hello",
+    "responses:convert": "https://link.R74n.com/ufbs-convert",
+    "responses:moji": "https://link.R74n.com/ufbs-moji",
+    "responses:words": "https://link.R74n.com/ufbs-words",
+    "responses:unisearch": "https://link.R74n.com/ufbs-unisearch",
+    "responses:mix": "https://link.R74n.com/ufbs-mix",
+    "responses:pixelflags": "https://link.R74n.com/ufbs-pixelflags",
+    "responses:main": "https://link.R74n.com/ufbs-main",
+    "responses:icons": "https://link.R74n.com/ufbs-icons",
+    "responses:sandboxels": "https://link.r74n.com/sandboxels-feedback-responses",
+    "responses:wikibase": "https://data.r74n.com/wiki/Talk:Community",
+    "wikibase community": "=responses:wikibase",
+    "talk:community": "=responses:wikibase",
+    "responses:sml": "https://github.com/R74nCom/Social-Media-Lists/issues",
+    "responses:discord": "https://discord.com/channels/939255181474955331/1017600950480945172",
 }
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
@@ -686,32 +819,6 @@ rueButton.onclick = function(e) {
     var commandBase = null;
     var argsArray = null;
     // JS commands
-    for (key in rueData.commands) {
-        if (key.charCodeAt(0) === 47 && key.charCodeAt(key.length-1) === 47 && key.length > 2) {
-            var regex = new RegExp("^(" + key.slice(1,-1) + ")( |$)", "gi");
-            if (regex.test(text)) {
-                commandBase = key;
-                // argsArray = split by regex, use the second half, and split by whitespace
-                argsArray = text.replace(regex, "").replace(whitespaceRegex, " ").split(" ");
-                rueData.commands[key](argsArray);
-                done = true;
-                break;
-            }
-        }
-        else if (key.indexOf(" ") !== -1) {
-            // if text starts with key+" " or is equal to key, set commandBase to key and argsArray to the rest of text split by whitespace
-            if (text.indexOf(key+" ") === 0) {
-                commandBase = key;
-                argsArray = text.split(key+" ")[1].replace(whitespaceRegex, " ").split(" ");
-                break;
-            }
-            else if (text === key) {
-                commandBase = key;
-                argsArray = [];
-                break;
-            }
-        }
-    }
     if (!commandBase) {
         commandBase = normalized.split(" ")[0];
         argsArray = text.replace(whitespaceRegex, " ").split(" ").slice(1);
@@ -810,6 +917,35 @@ rueButton.onclick = function(e) {
             });
         }
     }
+
+    // regex commands
+    for (key in rueData.commands) {
+        if (key.charCodeAt(0) === 47 && key.charCodeAt(key.length-1) === 47 && key.length > 2) {
+            var regex = new RegExp("^(" + key.slice(1,-1) + ")( |$)", "gi");
+            if (regex.test(text)) {
+                commandBase = key;
+                // argsArray = split by regex, use the second half, and split by whitespace
+                argsArray = text.replace(regex, "").replace(whitespaceRegex, " ").split(" ");
+                rueData.commands[key](argsArray);
+                done = true;
+                break;
+            }
+        }
+        else if (key.indexOf(" ") !== -1) {
+            // if text starts with key+" " or is equal to key, set commandBase to key and argsArray to the rest of text split by whitespace
+            if (text.indexOf(key+" ") === 0) {
+                commandBase = key;
+                argsArray = text.split(key+" ")[1].replace(whitespaceRegex, " ").split(" ");
+                break;
+            }
+            else if (text === key) {
+                commandBase = key;
+                argsArray = [];
+                break;
+            }
+        }
+    }
+
     if (!done) {
         // last priority keywords
         for (keyword in rueData.keywords) {
@@ -900,6 +1036,10 @@ Rue = {
                     // kill Rue.brain.closeMessageEvent
                     document.removeEventListener("click", Rue.brain.closeMessageEvent);
                     Rue.brain.closeMessageEvent = null;
+                    if (Rue.brain.afterClickOff) {
+                        Rue.brain.afterClickOff();
+                        Rue.brain.afterClickOff = null;
+                    }
                 }
             }
             document.addEventListener("click", Rue.brain.closeMessageEvent);
