@@ -119,6 +119,10 @@ rueData.commands = {
         var data = args.join(" ");
         Rue.showMedia("https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=" + encodeURIComponent(data||currentURL), "QR Code coming right up!");
     },
+    "save archive": function(args) {
+        var data = args.join(" ");
+        Rue.openLink("https://web.archive.org/save/" + encodeURIComponent(data||currentURL));
+    },
     "fox": function() {
         Rue.showMedia("https://randomfox.ca/images/" + Math.floor(Math.random()*123+1) + ".jpg", "Fox for you! 🦊", "Brought to you by RandomFox.ca");
     },
@@ -214,7 +218,7 @@ rueData.totalities = {
     "/[\\w\\.]+\\.(com?|org|net|co\\.uk|edu|gov)(\\/.+)?/": function(text) {
         Rue.openLink("http://" + text);
     },
-    "/leave|self destruct|go away|hide|run away|exit|close|turn off|shut up|stfu/": function() {
+    "/leave|self[ \\-]?destruct|go away|hide|run away|exit|close|turn off|shut up|stfu|lock ?down/": function() {
         Rue.say("I'll leave right after ya' click somewhere else! See ya' {{c:soon|later}}, friend!");
         Rue.brain.afterClickOff = function() {
             document.getElementById("rueBox").remove();
@@ -265,6 +269,38 @@ rueData.totalities = {
         }
         else { Rue.say("I don't have a response link for that! Try checkin' out the {{link:https://r74n.com/ufbs/|feedback page}}!")}
     },
+    "clicker": function() {
+        Rue.addEnv("clicker",1);
+        Rue.say("You've used the clicker " + Rue.getEnv("clicker") + " times!");
+    },
+    "export data": function() {
+        // download JSON of Rue.userData
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(Rue.userData));
+        var dlAnchorElem = document.createElement('a');
+        dlAnchorElem.setAttribute("href", dataStr);
+        dlAnchorElem.setAttribute("download", "rue-data.json");
+        dlAnchorElem.click();
+        Rue.say("Download startin' now!");
+    },
+    "import data": function() {
+        // upload JSON of Rue.userData
+        Rue.confirm("Are you sure you wanna override your current data?", function() {
+            Rue.say("A file select menu should've popped up!");
+            var input = document.createElement("input");
+            input.type = "file";
+            input.accept = "application/json";
+            input.onchange = function() {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    Rue.userData = JSON.parse(reader.result);
+                    Rue.changedUserData();
+                };
+                reader.readAsText(input.files[0]);
+                Rue.say("Data's been imported!");
+            };
+            input.click();
+        })
+    }
 }
 rueData.subcommands = {
     c: {
@@ -278,7 +314,7 @@ rueData.subcommands = {
     },
     r: {
         func: function(args) {
-            return (rueData.responses[args[0]] || "[???]");
+            return (chooseItem(rueData.responses[args[0]]) || "[???]");
         }
     },
     kw: {
@@ -307,6 +343,10 @@ rueData.responses = {
     "[confirm]": "Press me or [Enter] again to confirm!",
     "[confirmsearch]": "Should I {{bi:run a search}}",
     "[newtab]": "Check out the tab that just opened!",
+    "[whatsup]": [
+        "{{c:I'm just|Just}} learnin' {{c:some|a couple|a few|a bunch of|a ton of}} new {{c:commands|phrases}}!",
+        "{{c:I'm just|Just}} talkin' to {{c:some fans of {{c:R74n|Sandboxels|Copy Paste Dump}}|you|people like you}}!",
+    ],
     "purpose": "I'm here to help {{c:ya' navigate|find ya' way around}} {{c:this place|R74n}}!",
     "intro": "{{c:Hi|Hey}} there, friend! {{r:purpose}}",
     "name": "Name's Rue!",
@@ -314,13 +354,25 @@ rueData.responses = {
     "who": "{{r:name}} {{r:purpose}}",
     "rue": "That's me! {{r:purpose}}",
     "help": "Since I'm only in my {{c:open beta|testing}} stage, I haven't {{c:put together|written up}} a help page yet. Sorry!",
+    "help me": "=help",
     "/explore( with (rue|you|u))?/": "Type in a place ya'd like to go, and I'll {{c:take|bring}} ya' there!",
+    "privacy": "While talking to me, no outside connection is made, and all data is stored right here in your browser!",
+    "ai": "I make no (ZERO!) use of artificial intelligence, or machine learning!",
+    "price": "I'm free to use anywhere I'm enabled, such as the {{link:https://r74n.com/|R74n website}}!",
+    "cost": "=price",
+    "fee": "=price",
+    "name origin": "My name, Rue, comes from the herb-of-grace, also known as the common rue. It's a plant in the genus Ruta.",
+    "#00ffff": "official>>>This color is great!",
+    "#00ff00": "success>>>This color {{c:fits|suits}} me well!",
+
     "r74n": "{{link:https://r74n.com/|R74n}} is the place you're at!",
     "ryan": "My creator! Their Discord is @ryan.",
     "ryan#4755": "This user is now known as @ryan on Discord.",
     "@ryan": "This is a user on Discord, with the ID {{link:https://discord.com/users/101070932608561152|101070932608561152}}. Previously ryan#4755.",
     "test": "I think it's {{c:working|a success}}! There's also the R74n {{link:https://r74n.com/test/|Testing Zone}}.",
     "<3": "love>>>O-oh..",
+    "/il[yu]|(i )?lo+ve+ (you|u|ya)/": "=<3",
+    "sex": "=<3",
     "why": "=purpose",
     "sandtiles": "Sandtiles is a top-down pixel art game that is on an indefinite hiatus.",
     "ontomata": "{{link:https://docs.google.com/document/d/1M8FExUFCsBLv9EeLke00VrdYpYQFPYN11uh9VFi_K10/edit?usp=sharing|Ontomata}} is an ontology and possibly a multiplayer video game slowly being developed.",
@@ -328,13 +380,20 @@ rueData.responses = {
     "2023": "My birth year!",
     "june": "My birth month! (The 22nd, to be exact.) See the {{link:https://r74n.com/commons/calendar|calendar}} for more events in June.",
     
-    "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae) ?(there+|rue|friend)?/": "=intro",
+    "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae|gm+|good ?(morn(in+[g']+)|even(in+[g']+)|after ?noon)) ?(there+|rue|friend|again)?/": "=intro",
     "/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r)?) ?(rue|friend)?/": "See ya' later, friend!",
+    "/((goo+d|gud) ?(night+|nite+)|gn+|sweet dreams+|sleep tight+|sleep well+) ?(rue|friend)?/": "{{c:Have a good night|Goodnight}}, friend! {{c:Sleep tight|Sleep well|Rest well}}!",
     "/(who|what)( (are|r) (you|u)|is (this|rue))/": "=who",
     "/no+|nah+|nope+/": "No.. problem!",
     "/(yes+|ya+|yeah+|yep+|yas+)(sir)?/": "Noted!",
+    "/(ok([aeiy]+)?( ?dok(ie+|ey+))?|got (it|you|u)|alri(ght|te)y?) ?(then)?/": ":)",
     "/(f[uv*#]ck|screw) ?(you|u|off)/": "angry>>>..Not {{c:cool|nice}}.",
-
+    "/(how (are|r) ?(you|u)|hr[uy])( [dg]oing)?/": "{{c:I'm|I am|Rue's}} {{c:doin' |feelin' |}}{{c:very good|great|perfect|awesome|wonderful}}{{c: right now| at the moment|}}!{{c: {{r:[whatsup]}}|}}",
+    "/(wh?[au]t('?| i)s? up+)/": "{{r:[whatsup]}}",
+    "/(th?(ank(s+)?|ks|x+) ?(you+|u+)?|ty+(sm+)?) ?(rue|friend)?/": "Of course! I'm always {{c:here|around}} to help{{c: ya'|}}, friend!",
+    "/(pretty )?(please+|plz+|pls+|pleek)/": "I'll try my best!",
+    "/who (made|created|develop(ed|s)|started|invented|came up with) (you|u|ya|rue)/": "I was {{c:created|made|developed}} by {{link:https://R74n.com/|R74n}}!",
+    
     "/dirt ?[,+] ?water/": "You made Mud!",
     "/water ?[,+] ?dirt/": "You made Mud!",
     "ryan is a": "Ryan is a C",
@@ -351,12 +410,18 @@ rueData.responses = {
 rueData.keywords = {
     "language": "I can only speak and respond to English right now! I was written in pure JavaScript.",
     "birthday": "My (Rue's) birthday is on June 22nd. The R74n website's is on May 2nd. The owner's is a secret!",
+    "human": "I am not a real {{c:human|person}}! I'm a {{c:chatbot|robot}}!",
+    "robot": "I am a {{c:chatbot|robot}} designed to help you navigate R74n!",
 }
 rueData.media = {
     "icon": "https://r74n.com/icons/favicon.png",
     "favicon": "=icon",
     "logo": "=icon",
     "avatar": "https://r74n.com/icons/avatar.png",
+    "selfie": "https://r74n.com/rue/ruemoji.png",
+    "ruemoji": "=selfie",
+    "self-portrait": "=selfie",
+    "self portrait": "=selfie",
     "pfp": "=avatar",
     "profile picture": "=avatar",
     "profile pic": "=avatar",
@@ -381,6 +446,7 @@ rueData.media = {
     "emoji artist icon": "=emoji artist avatar",
     "mommy": "https://media.tenor.com/l8-Qe7WJ3NgAAAAC/sandboxels-sandbox.gif",
     "billboard": "https://media.tenor.com/Y2E-v2DNuV8AAAAC/r74n-billboard.gif",
+    "komodohype": "https://static-cdn.jtvnw.net/emoticons/v1/305954156/4.0",
 }
 rueData.links = {
 "main": "https://r74n.com/",
@@ -662,9 +728,20 @@ rueData.links = {
 "#sandboxels-feedback": "https://discord.com/channels/939255181474955331/939352388635066429",
 "#sandboxels-modding": "https://discord.com/channels/939255181474955331/939352271500738560",
 "#r74um": "https://discord.com/channels/939255181474955331/1019686599975505930",
-"r74um": "https://discord.com/channels/939255181474955331/1019686599975505930",
+"r74um": "=#r74um",
 "#announcements": "https://discord.com/channels/939255181474955331/939345813837066320",
 "#rules": "https://discord.com/channels/939255181474955331/939347812750082099",
+"#todo": "https://discord.com/channels/939255181474955331/1086848432653729812",
+"#copy-paste-dump": "https://discord.com/channels/939255181474955331/1097676268813692941",
+"#hello": "https://discord.com/channels/939255181474955331/939351881354969108",
+"#mix-up!": "https://discord.com/channels/939255181474955331/939350777925861376",
+"#moji": "https://discord.com/channels/939255181474955331/939352594667671572",
+"#ontomata": "https://discord.com/channels/939255181474955331/959190386461524008",
+"#word-watch": "https://discord.com/channels/939255181474955331/939351845804048444",
+"#unit-converter": "https://discord.com/channels/939255181474955331/1081758223570317312",
+"#other-projects": "https://discord.com/channels/939255181474955331/1117887308486676570",
+"#wiki": "https://discord.com/channels/939255181474955331/1110213985711689758",
+"#wikibase": "https://discord.com/channels/939255181474955331/1045491520368807957",
 "sandboxels:modding": "https://sandboxels.wiki.gg/wiki/Modding_tutorial",
 "modding tutorial": "=sandboxels:modding",
 "sandboxels modding": "=sandboxels:modding",
@@ -766,6 +843,7 @@ rueData.links = {
 "7tv": "https://7tv.app/users/62585504c2162b2c28623eb2",
 "social blade": "https://socialblade.com/tiktok/user/r74n.com",
 "facebook": "https://www.facebook.com/R74n-106371942050914",
+"facebook:cpd": "https://www.facebook.com/people/Copy-Paste-Dump/100064888965562/",
 "spacehey": "https://spacehey.com/r74n",
 "mastodon": "https://mastodon.gamedev.place/@R74n",
 "tumblr": "https://r74n.tumblr.com/",
@@ -779,6 +857,9 @@ rueData.links = {
 "itemcult": "https://discord.gg/8TsNvEy",
 "item cult": "=itemcult",
 "minecraft item cult": "=itemcult",
+"mc:discord": "=itemcult",
+"discord:mc": "=itemcult",
+"discord:minecraft": "=itemcult",
 "shorten": "https://r74n.com/shorten/?url=$1",
 "shorten link": "=shorten",
 "shorten url": "=shorten",
@@ -862,6 +943,31 @@ rueData.links = {
 "#play12": "https://discord.com/channels/705084182673621033/751121153594097835",
 "#play00": "https://discord.com/channels/705084182673621033/752592397963362354",
 "#play14": "https://discord.com/channels/705084182673621033/806585361089167361",
+"qol": "https://r74n.com/mc/qol",
+"quality of life": "=qol",
+"quality of life datapack": "=qol",
+"mc/qol": "=qol",
+"quality_of_life.zip": "https://r74n.com/mc/quality_of_life.zip",
+"uuid": "https://r74n.com/mc/uuid",
+"mc/uuid": "=uuid",
+"minecraft uuid generator": "=uuid",
+"hd heads": "https://r74n.com/mc/heads",
+"minecraft hd heads": "=hd heads",
+"hd head library": "=hd heads",
+"head library": "=hd heads",
+"minecraft heads": "=hd heads",
+"mc/heads": "=hd heads",
+"minecraft items": "https://r74n.com/mc/items/",
+"mc/items": "=minecraft items",
+"special items": "=minecraft items",
+"archive": "https://web.archive.org/web/2023062320274974747474/https://r74n.com/",
+"archived": "=archive",
+"wayback": "=archive",
+"wayback machine": "=archive",
+"internet archive": "=archive",
+"archive.org": "=archive",
+"web.archive.org": "=archive",
+"web archive": "=archive",
 }
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
@@ -907,6 +1013,9 @@ function tryVariants(text, dict, func, ignoreRegex) {
 
 loadedRue = true;
 rueInput.addEventListener("input", function() {
+    if (Rue.brain.afterClickOff) {
+        Rue.brain.afterClickOff = undefined;
+    }
     var text = rueInput.value;
     // console.log(text)
 
@@ -1249,10 +1358,38 @@ Rue = {
         // call this function again after a random interval
         if (loop) { setTimeout(function(){Rue.blink(true)}, Math.random() * 3000); }
     },
+    getRue: function(key) { return Rue.userData.rue[key]; },
+    setRue: function(key, value) { Rue.userData.rue[key] = value; Rue.changedUserData(); return value },
+    addRue: function(key, value) { if (!Rue.userData.rue[key]){Rue.userData.rue[key]=0} Rue.userData.rue[key] += value; Rue.changedUserData(); return Rue.userData.rue[key] },
+    delRue: function(key) { delete Rue.userData.rue[key]; Rue.changedUserData(); },
+    getUser: function(key) { return Rue.userData.user[key]; },
+    setUser: function(key, value) { Rue.userData.user[key] = value; Rue.changedUserData(); return value },
+    addUser: function(key, value) { if (!Rue.userData.user[key]){Rue.userData.user[key]=0} Rue.userData.user[key] += value; Rue.changedUserData(); return Rue.userData.user[key] },
+    delUser: function(key) { delete Rue.userData.user[key]; Rue.changedUserData() },
+    getEnv: function(key) { return Rue.userData.env[key]; },
+    setEnv: function(key, value) { Rue.userData.env[key] = value; Rue.changedUserData(); return value },
+    addEnv: function(key, value) { if (!Rue.userData.env[key]){Rue.userData.env[key]=0} Rue.userData.env[key] += value; Rue.changedUserData(); return Rue.userData.env[key] },
+    delEnv: function(key) { delete Rue.userData.env[key]; Rue.changedUserData() },
+    changedUserData: function() { Rue.saveUserData() },
+    saveUserData: function() {
+        localStorage.setItem("rueUserData", JSON.stringify(Rue.userData));
+    },
+    loadUserData: function() {
+        var data = localStorage.getItem("rueUserData");
+        if (data) {
+            Rue.userData = JSON.parse(data);
+        }
+    },
+    userData: {
+        rue: {},
+        user: {},
+        env: {}
+    },
     brain: {
         "lastResponse": "",
     }
 }
+Rue.loadUserData();
 setTimeout(function(){Rue.blink(true)}, Math.random() * 3000);
 
 
