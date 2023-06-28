@@ -66,7 +66,7 @@ This HTML and its contents are property of R74n.com.
 
 <!-- Create a Twitch.Embed object that will render within the "twitch-embed" element. -->
 <script type="text/javascript">
-  var urlParams = new URLSearchParams(window.location.search);
+  urlParams = new URLSearchParams(window.location.search);
   var embed = new Twitch.Embed("twitch-embed", {
     // width = the width of content
     width: "100%",
@@ -84,9 +84,18 @@ This HTML and its contents are property of R74n.com.
   });
 </script>
 
+<div id="otherinfodiv">
 <p>Our main Twitch is <a href="https://www.twitch.tv/R74n_com" target="_blank">/R74n_com</a>. Other platforms can be found on our <a href="/social/">Social page</a>.</p>
 
 <p>Our emotes are available on <a href="https://betterttv.com/users/615df8e4d442dd7e80e0d019" title="/users/615df8e4d442dd7e80e0d019" target="_blank">BetterTTV</a>, <a href="https://www.frankerfacez.com/channel/r74n_com" title="/channel/R74n_com" target="_blank">FrankerFaceZ</a>, and <a href="https://7tv.app/users/62585504c2162b2c28623eb2" title="/users/62585504c2162b2c28623eb2" target="_blank">7TV</a>.</p>
+</div>
+<script>
+  if (urlParams.get("channel")) {
+    document.getElementById("otherinfodiv").style.display = "none";
+    // update the title
+    document.title = urlParams.get("channel") + " on Twitch";
+  }
+</script>
 
 
 
