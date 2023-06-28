@@ -66,11 +66,12 @@ This HTML and its contents are property of R74n.com.
 
 <!-- Create a Twitch.Embed object that will render within the "twitch-embed" element. -->
 <script type="text/javascript">
+  var urlParams = new URLSearchParams(window.location.search);
   var embed = new Twitch.Embed("twitch-embed", {
     // width = the width of content
     width: "100%",
     height: 600,
-    channel: "R74n_com",
+    channel: urlParams.get("channel") || "R74n_com",
     layout: "video",
     autoplay: false,
     // Only needed if this page is going to be embedded on other websites
