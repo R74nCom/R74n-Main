@@ -185,7 +185,7 @@ rueData.commands = {
         var word = args.join(" ");
         // wiktionary
         Rue.openLink("https://en.wiktionary.org/w/index.php?go=Go&search=" + encodeURIComponent(word));
-    }
+    },
 
 }
 rueData.favorites = {
@@ -1260,7 +1260,7 @@ Rue = {
         if (!rueMessageBox) { // init message box
             rueMessageBox = document.createElement("div");
             rueMessageBox.id = "rueMessageBox";
-            rueMessageBox.style.cssText = "color:white;display:none;position:absolute;background:#595959;padding:0.5em;padding-left:0.75em;padding-right:0.75em;clear:both;border:solid;overflow:hidden;transition:background 0.5s, border-color 0.5s;z-index:7474";
+            rueMessageBox.style.cssText = "color:white;display:none;position:absolute;background:#595959;padding:0.5em;padding-left:0.75em;padding-right:0.75em;clear:both;border:solid;overflow:hidden;transition:background 0.5s, border-color 0.5s;z-index:7474;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important";
             document.body.appendChild(rueMessageBox);
         }
         // move message box to below rueBox
