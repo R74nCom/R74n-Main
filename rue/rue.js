@@ -466,6 +466,7 @@ rueData.responses = {
     "watch out": "anxious>>>WHAT!!",
     "boo": "anxious>>>AHHHH!!",
     
+    
     "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae|gm+|good ?(morn(in+[g']+)|even(in+[g']+)|after ?noon)|👋) ?(there+|rue|friend|again)?/": "=intro",
     "/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r)?) ?(rue|friend)?/": "See ya' later, friend!",
     "/((goo+d|gud) ?(night+|nite+)|gn+|sweet dreams+|sleep tight+|sleep well+) ?(rue|friend)?/": "{{c:Have a good night|Goodnight}}, friend! {{c:Sleep tight|Sleep well|Rest well}}!",
