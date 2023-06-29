@@ -2,6 +2,15 @@ console.log("Rue by R74n is enabled on this page.")
 var loadedRue = false;
 function initRue() {
 console.log("Rue's loadin'..")
+var urlParams = new URLSearchParams(window.location.search);
+var rueParam = (urlParams.get('rue')||"").toLowerCase();
+if (rueParam === "false" || rueParam === "off") {
+    if (document.getElementById("rueBox")) {
+        document.getElementById("rueBox").remove();
+    }
+    console.log("Rue's been blocked by a URL parameter.")
+    return;
+}
 
 var rueHTML = `<div id="rueBoxIn">
   <input type="text" id="rueInput" placeholder="Explore with Rue..." title="Type in your query!" autocomplete="off"><input type="button" id="rueButton" value="&nbsp;" title="Let's go!" aria-label="Search">
@@ -32,7 +41,7 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   transition: all 0.5s ease!important;
 }
 #rueInput {
-  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px;margin:0!important;border-style:none!important
+  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px;margin:0!important;border-style:none!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important;
 }
 #rueInput::placeholder, #rueInput:-ms-input-placeholder, #rueInput::-ms-input-placeholder {
     color: lightgray!important;opacity: 1;
@@ -79,6 +88,15 @@ rueData.commands = {
     "say": function(args) {
         if (args.length === 0) { Rue.error("You didn't specify what I should say!") }
         Rue.say(args.join(" "));
+    },
+    "sticky": function(args) {
+        Rue.sticky();
+        if (args.length === 0) { Rue.say("Sticky mode enabled! My messages will stay here until you type 'unsticky'!") }
+        else { Rue.say(args.join(" ")); }
+    },
+    "unsticky": function() {
+        Rue.unsticky();
+        Rue.say("Unstickied!")
     },
     "args": function(args) {
         if (args.length === 0) { Rue.error("You didn't specify any arguments!") }
@@ -215,7 +233,7 @@ rueData.totalities = {
     "/www\\..+/": function(text) {
         Rue.openLink("http://" + text);
     },
-    "/[\\w\\.]+\\.(com?|org|net|co\\.uk|edu|gov)(\\/.+)?/": function(text) {
+    "/[\\w\\.]+\\.(com?|org|net|co\\.uk|edu|gov|tv|io)(\\/.+)?/": function(text) {
         Rue.openLink("http://" + text);
     },
     "/leave|self[ \\-]?destruct|go away|hide|run away|exit|close|turn off|shut up|stfu|lock ?down/": function() {
@@ -293,6 +311,9 @@ rueData.totalities = {
                 var reader = new FileReader();
                 reader.onload = function() {
                     Rue.userData = JSON.parse(reader.result);
+                    if (!Rue.userData.rue) { Rue.userData.rue = {} }
+                    if (!Rue.userData.user) { Rue.userData.user = {} }
+                    if (!Rue.userData.env) { Rue.userData.env = {} }
                     Rue.changedUserData();
                 };
                 reader.readAsText(input.files[0]);
@@ -300,8 +321,45 @@ rueData.totalities = {
             };
             input.click();
         })
+    },
+    "reset data": function() {
+        Rue.confirm("Are you sure you wanna ERASE ALL your data? You should 'export data' first, it cannot be undone..", function() {
+            Rue.userData = {
+                rue: {},
+                user: {},
+                env: {},
+            };
+            Rue.changedUserData();
+            Rue.say("Data's been reset!");
+        })
+    },
+    "blink": function() {
+        Rue.blink();
+    },
+}
+rueData.activities = {
+    "testactivity": function(text) {
+        console.log(Rue.brain.stage);
+        if (Rue.brain.stage === 1) {
+            Rue.confirm("Go to the next stage?",function(){
+                Rue.brain.stage = 2;
+            })
+        }
+        else if (Rue.brain.stage === 2) {
+            if (text === "WIN") {
+                Rue.brain.stage = 3;
+                Rue.say("Continue on!")
+                return;
+            }
+            Rue.say("Type 'WIN' to continue!")
+        }
+        else if (Rue.brain.stage === 3) {
+            Rue.say("You did it!");
+            Rue.endActivity();
+        }
     }
 }
+rueData.exitTerms = ["exit","stop","cancel","leave","shut up","stfu","end","end activity","stop activity","cancel activity","leave activity","quit","quit activity","escape","finish","pause"];
 rueData.subcommands = {
     c: {
         func: function(args) {
@@ -314,7 +372,14 @@ rueData.subcommands = {
     },
     r: {
         func: function(args) {
-            return (chooseItem(rueData.responses[args[0]]) || "[???]");
+            args = args.join(" ");
+            return (chooseItem(rueData.responses[args]) || "[???]");
+        }
+    },
+    l: {
+        func: function(args) {
+            args = args.join(" ");
+            return (chooseItem(rueData.links[args]) || "[???]");
         }
     },
     kw: {
@@ -335,6 +400,14 @@ rueData.subcommands = {
     },
     bi: {text:`"{{b:{{i:"+args[0]+"}}}}"`},
     ib: {text:`"{{i:{{b:"+args[0]+"}}}}"`},
+    lower: { func: function(args) { return (args[0]||"").toLowerCase(); } },
+    upper: { func: function(args) { return (args[0]||"").toUpperCase(); } },
+    title: {
+        func: function(args) {
+            var text = args[0]||"";
+            return text.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
+    },
 }
 rueData.responses = {
     "[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
@@ -347,6 +420,7 @@ rueData.responses = {
         "{{c:I'm just|Just}} learnin' {{c:some|a couple|a few|a bunch of|a ton of}} new {{c:commands|phrases}}!",
         "{{c:I'm just|Just}} talkin' to {{c:some fans of {{c:R74n|Sandboxels|Copy Paste Dump}}|you|people like you}}!",
     ],
+    "[endactivity]": "You've left the activity!",
     "purpose": "I'm here to help {{c:ya' navigate|find ya' way around}} {{c:this place|R74n}}!",
     "intro": "{{c:Hi|Hey}} there, friend! {{r:purpose}}",
     "name": "Name's Rue!",
@@ -369,9 +443,9 @@ rueData.responses = {
     "ryan": "My creator! Their Discord is @ryan.",
     "ryan#4755": "This user is now known as @ryan on Discord.",
     "@ryan": "This is a user on Discord, with the ID {{link:https://discord.com/users/101070932608561152|101070932608561152}}. Previously ryan#4755.",
-    "test": "I think it's {{c:working|a success}}! There's also the R74n {{link:https://r74n.com/test/|Testing Zone}}.",
+    "/test(ing?)?/": "I think it's {{c:working|a success}}! There's also the R74n {{link:https://r74n.com/test/|Testing Zone}}.",
     "<3": "love>>>O-oh..",
-    "/il[yu]|(i )?lo+ve+ (you|u|ya)/": "=<3",
+    "/il[yu]|(i )?lo+ve+ (you+|u+|ya+)/": "=<3",
     "sex": "=<3",
     "why": "=purpose",
     "sandtiles": "Sandtiles is a top-down pixel art game that is on an indefinite hiatus.",
@@ -379,20 +453,36 @@ rueData.responses = {
     "lang": "{{kw:language}}",
     "2023": "My birth year!",
     "june": "My birth month! (The 22nd, to be exact.) See the {{link:https://r74n.com/commons/calendar|calendar}} for more events in June.",
+    "business": "Our email is open for any business inquiries: {{link:mailto:contact@R74n.com|contact@R74n.com}}",
+    "advertise": "=business",
+    "biz": "=business",
+    "inquiry": "=business",
+    "inquiries": "=business",
+    "mods": "If you're looking for Sandboxels mods, try checking the {{link:https://link.r74n.com/sandboxels-mods|Mod List}}.",
+    "mod": "=mods",
+    "modding": "=mods",
+    "/\\.+/": "error>>>{{r:[blank]}}",
+    "/embarr?assing/": "flushed>>>Y-yeah..",
+    "watch out": "anxious>>>WHAT!!",
+    "boo": "anxious>>>AHHHH!!",
     
-    "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae|gm+|good ?(morn(in+[g']+)|even(in+[g']+)|after ?noon)) ?(there+|rue|friend|again)?/": "=intro",
+    "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae|gm+|good ?(morn(in+[g']+)|even(in+[g']+)|after ?noon)|👋) ?(there+|rue|friend|again)?/": "=intro",
     "/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r)?) ?(rue|friend)?/": "See ya' later, friend!",
     "/((goo+d|gud) ?(night+|nite+)|gn+|sweet dreams+|sleep tight+|sleep well+) ?(rue|friend)?/": "{{c:Have a good night|Goodnight}}, friend! {{c:Sleep tight|Sleep well|Rest well}}!",
     "/(who|what)( (are|r) (you|u)|is (this|rue))/": "=who",
     "/no+|nah+|nope+/": "No.. problem!",
     "/(yes+|ya+|yeah+|yep+|yas+)(sir)?/": "Noted!",
-    "/(ok([aeiy]+)?( ?dok(ie+|ey+))?|got (it|you|u)|alri(ght|te)y?) ?(then)?/": ":)",
+    "/(o?kk?([aeiy]+)?( ?dok(ie+|ey+))?|got (it|you|u)|alri(ght|te)y?) ?(then)?/": ":)",
     "/(f[uv*#]ck|screw) ?(you|u|off)/": "angry>>>..Not {{c:cool|nice}}.",
     "/(how (are|r) ?(you|u)|hr[uy])( [dg]oing)?/": "{{c:I'm|I am|Rue's}} {{c:doin' |feelin' |}}{{c:very good|great|perfect|awesome|wonderful}}{{c: right now| at the moment|}}!{{c: {{r:[whatsup]}}|}}",
     "/(wh?[au]t('?| i)s? up+)/": "{{r:[whatsup]}}",
     "/(th?(ank(s+)?|ks|x+) ?(you+|u+)?|ty+(sm+)?) ?(rue|friend)?/": "Of course! I'm always {{c:here|around}} to help{{c: ya'|}}, friend!",
     "/(pretty )?(please+|plz+|pls+|pleek)/": "I'll try my best!",
     "/who (made|created|develop(ed|s)|started|invented|came up with) (you|u|ya|rue)/": "I was {{c:created|made|developed}} by {{link:https://R74n.com/|R74n}}!",
+    "/(you|u|rue|that|this)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really)? ?(wrong|incorrect|stupid|dummy|dumbass|idiot|false|[md]isinfo(rmation)?|lie|liar|mistaken)/": "I'm not perfect! Leave me some feedback {{link:https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Rue+/+Explore+with+Rue|here}}!",
+    "/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really)? ?(nice|amazing|awesome|cool|epic|helpful|good|great)/": "happy>>>:)",
+    "/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really)? ?(cute+|hot|attractive|pretty|handsome)/": "love>>>O-oh.. Thank{{c:s| you}}..",
+    "/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really)? ?(mean|rude|asshole|bad)/": "sad>>>I apologize if I hurt you.. I didn't mean it!",
     
     "/dirt ?[,+] ?water/": "You made Mud!",
     "/water ?[,+] ?dirt/": "You made Mud!",
@@ -412,6 +502,8 @@ rueData.keywords = {
     "birthday": "My (Rue's) birthday is on June 22nd. The R74n website's is on May 2nd. The owner's is a secret!",
     "human": "I am not a real {{c:human|person}}! I'm a {{c:chatbot|robot}}!",
     "robot": "I am a {{c:chatbot|robot}} designed to help you navigate R74n!",
+    "[swear]": "angry>>>..Not {{c:cool|nice}}.",
+    "fuck":"=[swear]","shit":"=[swear]","bitch":"=[swear]","asshole":"=[swear]","dumbass":"=[swear]",
 }
 rueData.media = {
     "icon": "https://r74n.com/icons/favicon.png",
@@ -453,6 +545,7 @@ rueData.links = {
 "r74n": "=main",
 "main website": "=main",
 "r74n.com": "=main",
+"r47n.com": "=main",
 "www.r74n.com": "=main",
 "/": "=main",
 "sandboxels": "https://sandboxels.r74n.com",
@@ -465,6 +558,21 @@ rueData.links = {
 "snadboxels": "=sandboxels",
 "sand boxels": "=sandboxels",
 "sandvoxels": "=sandboxels",
+"sandboxels.com": "=sandboxels",
+"sandboxels.io": "=sandboxels",
+"sandboxles.com": "=sandboxels",
+"sandboxles.io": "=sandboxels",
+"sandbloxels": "=sandboxels",
+"sandbloxles": "=sandboxels",
+"sandboxls": "=sandboxels",
+"sanboxels": "=sandboxels",
+"sand bloxels": "=sandboxels",
+"sand boxles": "=sandboxels",
+"sandboxels.r74n": "=sandboxels",
+"snadboxels": "=sandboxels",
+"sandboxel": "=sandboxels",
+"sanboxel": "=sandboxels",
+"samdboxels": "=sandboxels",
 "sandboxels:changes": "https://sandboxels.r74n.com/changelog",
 "sandboxels:changes.txt": "https://sandboxels.r74n.com/changelog.txt",
 "sb": "=sandboxels",
@@ -820,6 +928,7 @@ rueData.links = {
 "github:c": "=github:cpd",
 "github:copy": "=github:cpd",
 "github:main": "https://github.com/R74nCom/R74n-Main",
+"github:nv7": "https://github.com/Nv7-GitHub",
 "r74moji-essentials": "https://github.com/R74nCom/R74moji-Essentials",
 "r74moji essentials": "=r74moji-essentials",
 "link": "https://link.r74n.com/",
@@ -833,7 +942,7 @@ rueData.links = {
 "elemental on discord wiki": "=eodwiki",
 "eod wiki": "=eodwiki",
 "user:r74n": "https://data.r74n.com/wiki/User:R74n",
-"twitch": "https://www.twitch.tv/R74n_com",
+"twitch": "https://r74n.com/twitch?channel=$1",
 "r74n_com": "=twitch",
 "ttv": "=twitch",
 "betterttv": "https://betterttv.com/users/615df8e4d442dd7e80e0d019",
@@ -968,6 +1077,90 @@ rueData.links = {
 "archive.org": "=archive",
 "web.archive.org": "=archive",
 "web archive": "=archive",
+"notepad": "https://r74n.com/rue/notepad",
+"note pad": "=notepad",
+"notebook": "=notepad",
+"rue notepad": "=notepad",
+"rue's notepad": "=notepad",
+"notes": "=notepad",
+"whiteboard": "https://r74n.com/rue/whiteboard",
+"white board": "=whiteboard",
+"canvas": "=whiteboard",
+"blackboard": "=whiteboard",
+"black board": "=whiteboard",
+"chalkboard": "=whiteboard",
+"chalk board": "=whiteboard",
+"google currents": "https://currents.google.com/109950009865760845171",
+"google plus": "=google currents",
+"google+": "=google currents",
+"google +": "=google currents",
+"linen": "https://www.linen.dev/d/r74n/c/%F0%9F%92%AC-general",
+"character.ai": "https://beta.character.ai/profile/?char=RJaUNQ3vn182wAXqRvy_ixjdb7mfjee6bQC98jS0sCw",
+"c.ai": "=character.ai",
+"vimeo": "https://vimeo.com/r74n",
+"caffeine": "https://www.caffeine.tv/R74n",
+"telegram": "https://t.me/R74nn",
+"slack": "https://r74n.slack.com",
+"scratch": "https://scratch.mit.edu/users/R74nCom/",
+"scratch.mit.edu": "=scratch",
+"disqus": "https://disqus.com/by/r74n/",
+"imgflip": "https://imgflip.com/user/R74n",
+"pixabay": "https://pixabay.com/users/r74n-23374443/",
+"abbreviations.com": "https://www.abbreviations.com/user/180721",
+"stands4": "=abbreviations.com",
+"medium": "https://r74n.medium.com/",
+"myspace": "https://myspace.com/r74n",
+"kahoot": "https://create.kahoot.it/profiles/4ab32612-d7a3-49be-b36d-26a339e78ce5",
+"stumbled": "https://cloudhiker.net/users/R74n",
+"quizlet": "https://quizlet.com/R74nCom",
+"sporcle": "https://www.sporcle.com/user/R74n/",
+"flipboard": "https://flipboard.com/@R74n",
+"nightcafe": "https://creator.nightcafe.studio/u/R74n",
+"we heart it": "https://weheartit.com/R74nCom",
+"hacker news": "https://news.ycombinator.com/user?id=R74n",
+"pronouny": "https://pronouny.xyz/u/r74n",
+"fontstruct": "https://fontstruct.com/fontstructors/2096822/r74n",
+"revue": "https://www.getrevue.co/profile/R74n",
+"icebergcharts.com": "https://icebergcharts.com/u/R74n",
+"iceberg": "https://icebergcharts.com/i/R74n",
+"wiki.gg": "https://sandboxels.wiki.gg/wiki/User:R74n",
+"miraheze": "https://meta.miraheze.org/wiki/User:R74n",
+"fandom": "https://r74n.fandom.com/wiki/User:R74n",
+"ifunny": "https://ifunny.co/user/R74nCom",
+"tiermaker": "https://tiermaker.com/user/15418730",
+"collins dictionary": "https://www.collinsdictionary.com/profile/99198-R74n",
+"crowdin": "https://crowdin.com/profile/R74n",
+"ifttt": "https://ifttt.com/p/r74ncom",
+"all 2048": "https://all2048.com/user/r74n",
+"curiouscat": "https://curiouscat.live/R74nCom",
+"steam": "https://steamcommunity.com/id/R74n/",
+"crunchyroll": "https://www.crunchyroll.com/user/R74n",
+"airtable": "https://airtable.com/shrKVzUPjcvFPsJNG/",
+"carrd": "https://r74n.carrd.co/",
+"carrd.co": "=carrd",
+"linktree": "https://linktr.ee/R74n",
+"linktr.ee": "=linktree",
+"pronouns.page": "https://en.pronouns.page/@R74n",
+"about.me": "https://about.me/R74n/",
+"500px": "https://500px.com/p/r74n",
+"g2": "https://www.g2.com/users/63ee025a-2399-4ac0-b3f1-0ec3e7434b9e",
+"giant bomb": "https://www.giantbomb.com/r74n/3010-22285/",
+"giantbomb": "=giant bomb",
+"giant bomb:sandboxels": "https://www.giantbomb.com/sandboxels/3030-85063/",
+"giant bomb:eod": "https://www.giantbomb.com/elemental-on-discord/3030-83072/",
+"solo.to": "https://solo.to/r74n",
+"rentry.co": "https://rentry.co/R74n",
+"ilink": "https://il.ink/R74nCom",
+"txti": "http://txti.es/r74n",
+"mmm.page": "https://r74n.mmm.page/",
+"mobygames": "https://www.mobygames.com/company/45927/r74n/",
+"mobygames:sandboxels": "https://www.mobygames.com/game/179419/sandboxels/",
+"urban dictionary": "https://www.urbandictionary.com/define.php?term=R74n",
+"symbols.com": "https://www.symbols.com/symbol/r74n-logo",
+"wikidata": "https://wikidata.org/wiki/",
+"wd": "=wikidata",
+"nv7": "https://nv7haven.com/",
+"nv7:eod": "https://nv7haven.com/eod",
 }
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
@@ -977,6 +1170,10 @@ function normalize(text) {
 }
 function normalizeL2(text) {
     return text.replace(punctuationRegex, "").toLowerCase().trim();
+}
+function encodeHTML(text) {
+    if (Array.isArray(text)) { return text.map(encodeHTML); }
+    return text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
 }
 function chooseValue(dict, key) {
     // if the first character of dict[key] is =, and dict[new key] exists, set key to new key
@@ -1034,7 +1231,7 @@ rueInput.addEventListener("input", function() {
         rueInput.selectionEnd = cursorPosition;
     }
     // close message box if needed
-    if (Rue.brain.speaking && !Rue.brain.asking) {
+    if (Rue.brain.speaking && !Rue.brain.sticky) {
         Rue.hush();
     }
 });
@@ -1044,12 +1241,22 @@ rueButton.onclick = function(e) {
             Rue.brain.afterConfirm(e);
             Rue.brain.confirming = false;
             Rue.brain.afterConfirm = undefined;
-            return
+            if (!Rue.brain.activity) {return;}
         }
         Rue.brain.confirming = false;
         Rue.brain.afterConfirm = undefined;
     }
     var text = rueInput.value.trim();
+    if (Rue.brain.activity) { // handle activities
+        if (rueData.exitTerms.indexOf(text.toLowerCase()) !== -1) {
+            Rue.endActivity();
+            Rue.say("{{r:[endactivity]}}")
+        }
+        else {
+            rueData.activities[Rue.brain.activity](encodeHTML(text));
+        }
+        return;
+    }
     var normalized = normalize(text);
     if (normalized.length === 0) { Rue.error(chooseItem(rueData.responses["[blank]"])); return }
 
@@ -1057,8 +1264,13 @@ rueButton.onclick = function(e) {
 
     // regex totalities
     done = tryVariants(text, rueData.totalities, function(func) {
-        func(text);
+        func(encodeHTML(text));
     });
+    if (!done) { // activities
+        done = tryVariants(text, rueData.activities, function(func, activity) {
+            Rue.startActivity(activity);
+        });
+    }
 
     if (!done) {
     var commandBase = null;
@@ -1126,7 +1338,7 @@ rueButton.onclick = function(e) {
     }
     if (!done) {
         done = tryVariants(commandBase, rueData.commands, function(func) {
-            func(argsArray);
+            func(encodeHTML(argsArray));
         }, true);
     }
     if (!done) {
@@ -1187,7 +1399,7 @@ rueButton.onclick = function(e) {
                 commandBase = key;
                 // argsArray = split by regex, use the second half, and split by whitespace
                 argsArray = text.replace(regex, "").replace(whitespaceRegex, " ").split(" ");
-                rueData.commands[key](argsArray);
+                rueData.commands[key](encodeHTML(argsArray));
                 done = true;
                 break;
             }
@@ -1198,7 +1410,7 @@ rueButton.onclick = function(e) {
         // last priority keywords
         for (keyword in rueData.keywords) {
             if (normalized.indexOf(keyword) !== -1) {
-                Rue.say(chooseItem(rueData.keywords[keyword]));
+                Rue.say(rueData.keywords[chooseValue(rueData.keywords,keyword)[1]]);
                 done = true;
                 break;
             }
@@ -1278,6 +1490,7 @@ Rue = {
         // if anywhere else is clicked, Rue.hush()
         if (!Rue.brain.closeMessageEvent) {
             Rue.brain.closeMessageEvent = function(e) {
+                if (Rue.brain.sticky) { return; }
                 // if e.target is not inside rueBox element
                 if (!rueBox.contains(e.target) && !rueMessageBox.contains(e.target)) {
                     Rue.hush();
@@ -1305,6 +1518,9 @@ Rue = {
         Rue.say(errorMessage, {color:"red",bg:"#7b5b5b"});
     },
     success: function(message) {
+        Rue.say(message, {color:"lime",bg:"#5b7b5b"});
+    },
+    happy: function(message) {
         Rue.say(message, {color:"lime",bg:"#5b7b5b"});
     },
     sad: function(message) {
@@ -1380,6 +1596,35 @@ Rue = {
             Rue.userData = JSON.parse(data);
         }
     },
+    startActivity: function(activity) {
+        Rue.brain.activity = chooseValue(rueData.activities,activity)[1];
+        Rue.brain.stage = 1;
+        rueData.activities[activity]();
+        Rue.sticky();
+    },
+    endActivity: function() {
+        Rue.brain.activity = null;
+        Rue.brain.stage = 0;
+        Rue.unsticky();
+    },
+    sticky: function() { Rue.brain.sticky = true; },
+    unsticky: function() { Rue.brain.sticky = false; },
+    addRueData: function(dict, replaceMode) {
+        for (key in dict) {
+            if (!replaceMode && rueData[key]) {
+                if (Array.isArray(rueData[key])) { rueData[key] = rueData[key].concat(dict[key]); }
+                else if (typeof rueData[key] === "object") {
+                    for (subkey in dict[key]) {
+                        rueData[key][subkey] = dict[key][subkey];
+                    }
+                }
+                else { rueData[key] = dict[key]; }
+            }
+            else {
+                rueData[key] = dict[key];
+            }
+        }
+    },
     userData: {
         rue: {},
         user: {},
@@ -1387,7 +1632,7 @@ Rue = {
     },
     brain: {
         "lastResponse": "",
-    }
+    },
 }
 Rue.loadUserData();
 setTimeout(function(){Rue.blink(true)}, Math.random() * 3000);
@@ -1444,6 +1689,10 @@ function parseText(text) {
 
 
 console.log("Rue's ready to go!")
+if (rueParam && rueParam !== "true" && rueParam !== "on") {
+    rueInput.value = encodeHTML(rueParam);
+    rueButton.onclick();
+}
 }
 
 // preload blink image

@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>Rue's Notepad</title>
+    <style>
+        body, html {
+            color: white;
+            background-color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:22px;
+            word-wrap: break-word;
+            padding: 1em;
+        }
+    </style>
+    <script>
+        window.addEventListener("load",function(){
+            var rueNotepad = localStorage.getItem('rueNotepad');
+            if (rueNotepad == null) {
+                rueNotepad = '';
+            }
+            var lt = /</g, 
+                gt = />/g, 
+                ap = /'/g, 
+                ic = /"/g;
+                rueNotepad = rueNotepad.toString().replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;");
+            document.body.innerHTML = rueNotepad;
+            // when body changes, update localStorage with a timeout for performance
+            var timeout = null;
+            document.body.onkeyup = function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    console.log(1)
+                    localStorage.setItem('rueNotepad', document.body.innerHTML);
+                }, 200);
+            };
+        })
+    </script>
+</head>
+<body contenteditable></body>
+</html>

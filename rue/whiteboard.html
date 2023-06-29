@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>Rue's Temporary Whiteboard</title>
+    <style>
+        body, html {
+            color: white;
+            background-color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:22px;
+            word-wrap: break-word;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script>
+        window.addEventListener("load",function(){
+            // when dragging on #canvas, draw a line between the mouse's current and previous position
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            var mouse = null;
+            var last_mouse = null;
+            var draw = false;
+            canvas.addEventListener('mousemove', function(e) {
+                if (draw) {
+                    if (!mouse) {
+                        mouse = {x: e.pageX - this.offsetLeft, y: e.pageY - this.offsetTop};
+                    }
+                    if (!last_mouse) {
+                        last_mouse = {x: mouse.x, y: mouse.y};
+                    }
+                    else {
+                        last_mouse.x = mouse.x;
+                        last_mouse.y = mouse.y;
+                        mouse.x = e.pageX - this.offsetLeft;
+                        mouse.y = e.pageY - this.offsetTop;
+                    }
+                }
+            }, false);
+            canvas.addEventListener('mousedown', function(e) {
+                draw = true;
+                last_mouse = {x: mouse.x, y: mouse.y};
+                mouse = {x: e.pageX - this.offsetLeft, y: e.pageY - this.offsetTop};
+            }, false);
+            canvas.addEventListener('mouseup', function(e) {
+                draw = false;
+                last_mouse = null;
+                mouse = null;
+            }, false);
+            // draw a line between the mouse's current and previous position
+            function mainLoop() {
+                if (draw && last_mouse && mouse) {
+                    ctx.beginPath();
+                    ctx.moveTo(last_mouse.x, last_mouse.y);
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.strokeStyle = 'white';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            }
+            setInterval(mainLoop, 1);
+            // set the canvas to the size of the window
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas, false);
+        })
+    </script>
+</head>
+<body><canvas id="canvas"></canvas></body>
+</html>
