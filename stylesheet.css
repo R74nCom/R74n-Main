@@ -207,7 +207,7 @@ hr {
 
 .divblock {display:inline-block;margin:0.4rem;padding:0.4rem;vertical-align:middle;max-width:500px;}
 
-table {border-collapse:collapse}
+table {border-collapse:collapse;margin-left: 2em}
 td, th {border:0.5px solid gray;padding:5px;padding-left:10px;padding-right:10px}
 th {background-color:#00ffff;color:black}
 tr:nth-child(odd){background-color: #272727;}
@@ -217,3 +217,10 @@ tr:nth-child(odd){background-color: #272727;}
 #newsheader a {color:lime;}
 #newsheader a:hover {color:rgb(117, 255, 117);}
 #newsheader a:active {color:yellow;}
+
+kbd {background-color:rgb(59, 59, 59);color:white;border-radius:5px;padding:2px;padding-left:5px;padding-right:5px;margin-left:3px;margin-right:3px;line-height:1.5;}
+
+/* Mobile styles */
+@media only screen and (max-width: 700px) {
+    table {margin-left: 0em}
+}

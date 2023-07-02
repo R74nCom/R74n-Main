@@ -7,6 +7,8 @@ if (!String.prototype.replaceAll) {
 	};
 };
 
+urlParams = new URLSearchParams(window.location.search);
+
 
 window.addEventListener("load",function(){
 
@@ -47,6 +49,9 @@ function callRue() {
 	else {
 		console.log("Rue is already here!");
 	}
+}
+if (urlParams.get("rue") && urlParams.get("rue") !== "false" && urlParams.get("rue") !== "off") {
+	callRue();
 }
 
 // if metaKey + shift + R is pressed, add Rue script to the head

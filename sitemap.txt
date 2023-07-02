@@ -64,3 +64,5 @@ https://r74n.com/search/
 https://r74n.com/guestbook/
 https://r74n.com/ufbs/
 https://r74n.com/shorten/
+https://r74n.com/rue/
+https://r74n.com/rue/docs
