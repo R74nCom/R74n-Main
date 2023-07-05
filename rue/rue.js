@@ -45,7 +45,7 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   white-space: nowrap!important;
 }
 #rueInput {
-  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px!important;margin:0!important;border-style:none!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important;
+  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px!important;margin:0!important;border-style:none!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important; box-sizing:unset!important
 }
 #rueInput::placeholder {color: lightgray!important;opacity: 1!important;}
 #rueInput:-ms-input-placeholder {color: lightgray!important}
