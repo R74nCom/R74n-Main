@@ -42,13 +42,14 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ff00",endColorstr="#00ffff",GradientType=1);
   padding: 0.2em!important; border-radius: 100px!important;
   transition: all 0.5s ease!important;
+  white-space: nowrap!important;
 }
 #rueInput {
-  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px;margin:0!important;border-style:none!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important;
+  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px!important;margin:0!important;border-style:none!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important;
 }
-#rueInput::placeholder, #rueInput:-ms-input-placeholder, #rueInput::-ms-input-placeholder {
-    color: lightgray!important;opacity: 1!important;
-}
+#rueInput::placeholder {color: lightgray!important;opacity: 1!important;}
+#rueInput:-ms-input-placeholder {color: lightgray!important}
+#rueInput::-ms-input-placeholder {color: lightgray!important}
 #rueButton {
   vertical-align: middle!important; height: 45px!important; width: 45px; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;border-style:none!important; touch-action:manipulation;
 }
@@ -108,8 +109,8 @@ rueData.replacements = {
 }
 rueData.commands = {
     "say": function(args) {
-        if (args.length === 0) { Rue.error("You didn't specify what I should say!") }
-        Rue.say(args.join(" "));
+        if (args.length === 0) { Rue.error("You didn't specify what I should say!"); return }
+        Rue.say(args.join(" ").replaceAll("\\n","\n").replaceAll("\\t","\t"));
     },
     "sticky": function(args) {
         Rue.sticky();
@@ -121,7 +122,7 @@ rueData.commands = {
         Rue.say("Unstickied!")
     },
     "args": function(args) {
-        if (args.length === 0) { Rue.error("You didn't specify any arguments!") }
+        if (args.length === 0) { Rue.error("You didn't specify any arguments!"); return }
         Rue.say(args.join(","));
     },
     "search": function(args) {
@@ -130,11 +131,20 @@ rueData.commands = {
         Rue.openLink("https://r74n.com/search/?q=" + encodeURIComponent(search) +"#gsc.tab=0&gsc.q="+encodeURIComponent(search)+"&gsc.sort=");
     },
     "look up": "=search",
+    "query": "=search",
     "google": function(args) {
         var search = args.join(" ");
         search = search.replace(/^(search )?(for) /g, "");
         Rue.openLink("https://www.google.com/search?q=" + encodeURIComponent(search));
     },
+    "google images": function(args) {
+        var search = args.join(" ");
+        search = search.replace(/^(search )?(for) /g, "");
+        Rue.openLink("https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(search));
+    },
+    "gimages": "=google images",
+    "imagesearch": "=google images",
+    "imgsearch": "=google images",
     "bing": function(args) {
         var search = args.join(" ");
         search = search.replace(/^(search )?(for) /g, "");
@@ -163,10 +173,7 @@ rueData.commands = {
         var data = args.join(" ");
         Rue.openLink("https://web.archive.org/save/" + encodeURIComponent(data||currentURL));
     },
-    "fox": function() {
-        Rue.showMedia("https://randomfox.ca/images/" + Math.floor(Math.random()*123+1) + ".jpg", "Fox for you! 🦊", "Brought to you by RandomFox.ca");
-    },
-    "myimage": function(args) {
+    "/my ?image/": function(args) {
         if (args.length === 0) {
             Rue.say("You need to provide a seed, like your name!")
             return;
@@ -184,17 +191,28 @@ rueData.commands = {
     },
     "copy that": function() {
         if (Rue.brain.lastMessage) {
-            Rue.say(Rue.brain.lastMessage)
+            Rue.say(Rue.brain.lastMessage);
             Rue.copyText(document.getElementById("rueMessageBox").innerText);
-            Rue.say("Copied it to ya' clipboard!")
+            Rue.say("Copied it to ya' clipboard!");
         }
-        else {
-            Rue.say("I didn't say anything!");
+        else { Rue.say("I didn't say anything!"); }
+    },
+    "save that": function() {
+        if (Rue.brain.lastMessage) {
+            Rue.say(Rue.brain.lastMessage);
+            Rue.userData.rue.savedResponses.push(document.getElementById("rueMessageBox").innerText.replaceAll("\n"," "));
+            Rue.say("Saved the last response! View them with the 'saved responses' command!");
         }
+        else { Rue.say("I didn't say anything!"); }
+    },
+    "saved responses": function() {
+        if (Rue.getRue("savedResponses").length === 0) { Rue.say("You don't have any saved responses! Say 'save that' to save one!"); return }
+        Rue.paginate("Below are all the responses you've saved!\n\n" + Rue.getRue("savedResponses").join("\n\n"), 5);
     },
     "refresh": function() {
         location.reload();
     },
+    "reload": "=refresh",
     "/print$/": function() {
         Rue.say("Printing!")
         var temp = rueBox.display;
@@ -215,11 +233,257 @@ rueData.commands = {
     "facetime": "=call",
     "define": function(args) {
         var word = args.join(" ");
-        // wiktionary
         Rue.openLink("https://en.wiktionary.org/w/index.php?go=Go&search=" + encodeURIComponent(word));
     },
-
-}
+    "dictionary": "=define",
+    "wiktionary": "=define",
+    "urban dictionary": function(args) {
+        var word = args.join(" ");
+        if (!word) {word = "R74n"}
+        Rue.openLink("https://www.urbandictionary.com/define.php?term=" + encodeURIComponent(word));
+    },
+    "udefine": "=urban dictionary",
+    "uddefine": "=urban dictionary",
+    "defineud": "=urban dictionary",
+    "ud": "=urban dictionary",
+    "wikipedia": function(args) {
+        var word = args.join(" ");
+        Rue.openLink("https://en.wikipedia.org/w/index.php?go=Go&search=" + encodeURIComponent(word));
+    },
+    "wp": "=wikipedia",
+    "wikipedia.org": "=wikipedia",
+    "wolfram": function(args) {
+        var text = args.join(" ");
+        Rue.openLink("https://www.wolframalpha.com/input/?i=" + encodeURIComponent(text));
+    },
+    "wolframalpha": "=wolfram",
+    "title": function(args) {
+        if (args.length === 0) { rueData.totalities.title(); return }
+        Rue.say("{{title:"+args.join(" ")+"}}");
+    },
+    "/title( ?case)?/": "=title",
+    "/lower( ?case)?/": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify what I should say!"); return }
+        Rue.say(args.join(" ").toLowerCase());
+    },
+    "/upper( ?case)?/": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify what I should say!"); return }
+        Rue.say(args.join(" ").toUpperCase());
+    },
+    "/capitali[sz]e/": "=/upper( ?case)?/",
+    "/http[ \\.]?cat/": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify a status code! (100-599)"); return }
+        var code = args[0];
+        if (code.match(/^[1-5][0-9][0-9]$/)) {
+            Rue.showMedia("https://http.cat/"+code+".jpg", "Unique cat for status "+args[0]+"!", "Brought to you by HTTP Cats");
+        }
+        else { Rue.error("That's not a valid status code! (100-599)"); }
+    },
+    "/http[ \\.]?dog/": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify an status code! (100-599)"); return }
+        var code = args[0];
+        if (code.match(/^[1-5][0-9][0-9]$/)) {
+            Rue.showMedia("https://http.dog/"+code+".jpg", "Unique dog for status "+args[0]+"!", "Brought to you by HTTP Status Dogs");
+        }
+        else { Rue.error("That's not a valid status code! (100-599)"); }
+    },
+    "8ball": function(args) {
+        if (args.length === 0) { Rue.error("You didn't ask a question!"); return }
+        var question = args.join(" ");
+        if (question.match(/^(when|why|who|how)/i)) { Rue.error("That's not a yes or no question!"); return }
+        question = ultraNormalize(question);
+        Rue.say("🎱 My 8-Ball says.. " + seedChoose(["Yes","No","{{c:Absolutely|Definitely}}","{{c:Absolutely|Definitely}} not","Maybe"],question)+"!");
+    },
+    "8-ball": "=8ball",
+    "eightball": "=8ball",
+    "/(roll( a)? )?dic?es?( ?roll)?/": function(args) {
+        var sides = parseInt(args[0] || 6);
+        if (isNaN(sides)) { Rue.error("That's not a number!"); return }
+        var roll = Math.floor(Math.random()*sides+1);
+        Rue.say("🎲 You rolled a " + roll + "!");
+    },
+    "/((rand(om)? ?)?num(ber)?|rng|range) ?(between|from)?/": function(args) {
+        var min = 1;
+        var max = 100;
+        if (args.length === 1) {
+            if (args[0].indexOf("-") !== -1) {
+                var args = args[0].split("-");
+                min = parseInt(args[0]);
+                max = parseInt(args[1]);
+            }
+            else { max = parseInt(args[0]); }
+        }
+        else if (args.length === 2) { min = parseInt(args[0]); max = parseInt(args[1]); }
+        else if (args.length === 3) { min = parseInt(args[0]); max = parseInt(args[2]); }
+        if (isNaN(min) || isNaN(max)) { Rue.error("You entered an invalid number range!"); return }
+        Rue.say("Your random number is " + Math.floor(Math.random()*(max-min+1)+min) + "!");
+    },
+    "/(rue)?coin ?flip|flip a (rue)?coin|heads or tails/": function() {
+        var result = chooseItem(["heads","tails"]);
+        Rue.say("🪙 You flipped a " + result + "!");
+        Rue.addUser("flips:" + result, 1);
+    },
+    "/choose( from| either| between)?/": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify any options!"); return }
+        args = args.filter(function(item) { return item !== "or" && item !== "and" });
+        Rue.say("I choose " + chooseItem(args).replace(/,$/,"") + "!");
+    },
+    "ping": function(args) {
+        var url = (args[0] || currentURL) + "?ping=" + Math.random();
+        var start = Date.now();
+        // fetch the url and get the time it took
+        fetch(url).then(function() {
+            var time = Date.now() - start;
+            Rue.say("Pong! (" + time + "ms)");
+        }).catch(function() {
+            Rue.error("I couldn't reach that URL!");
+        })
+    },
+    "pong": "=ping",
+    "fetch": "=ping",
+    "inv": function(args) {
+        var item = args.join(" ").toLowerCase();
+        var message = "";
+        var total = 0;
+        if (!item) {
+            for (var key in Rue.userData.user.inv) {
+                message += key.toTitleCase() + " (" + Rue.userData.user.inv[key] + ")\n";
+                total += Rue.userData.user.inv[key];
+            }
+            message = message.slice(0,-1);
+            if (total === 0) { Rue.say("You don't have any items!"); return}
+            Rue.paginate("Below are all the items ya' have! ("+total+" Total)\n\n" + message);
+        }
+        else {
+            if (Rue.getItem(item) === 0) { Rue.say("You don't have any " + item.toTitleCase() + "!"); return }
+            Rue.say("You have " + Rue.getItem(item) + " " + item.toTitleCase() + "!");
+        }
+    },
+    "inventory": "=inv",
+    "bag": "=inv",
+    "items": "=inv",
+    "throw away": function(args) {
+        var amount = 1;
+        var item = args.join(" ");
+        if (args.length > 1 && !isNaN(parseInt(args[args.length-1]))) {
+            amount = parseInt(args[args.length-1]);
+            item = args.slice(0,-1).join(" ");
+        }
+        if (!item) { Rue.error("You didn't specify what to throw away!"); return }
+        if (!amount) { Rue.error("You didn't specify a valid amount!"); return }
+        item = item.toLowerCase();
+        if (Rue.getItem(item) < amount) { Rue.error("You don't have that many " + item.toTitleCase() + "! (You have " + Rue.getItem(item) + ")"); return }
+        Rue.confirm("Are you sure you wanna permanently throw away " + amount + " " + item.toTitleCase() + "?", function() {
+            Rue.delItem(item, amount);
+            Rue.say("You threw away " + amount + " " + item.toTitleCase() + "!");
+        })
+    },
+    "throw out": "=throw away",
+    "trash": "=throw away",
+    "gamble": function(args) {
+        var amount = parseInt(args[0]);
+        if (isNaN(amount)) { Rue.error("You didn't specify a valid amount!"); return }
+        if (Rue.getItem("ruecoin") < amount) { Rue.error("You don't have that many Ruecoins! (You have {{ruecoin}}" + Rue.getItem("ruecoin") + ")"); return }
+        // 50% chance of losing the amount, 50% chance of winning 2x the amount
+        if (Math.random() < 0.5) {
+            Rue.delItem("ruecoin", amount);
+            Rue.addUser("losses");
+            Rue.addUser("losses:gamble");
+            Rue.say("You lost ya' bet of {{ruecoin}}" + amount + ".. No refunds! ({{ruecoin}}" + Rue.getItem("ruecoin") + ")");
+        }
+        else {
+            Rue.addItem("ruecoin", amount);
+            Rue.addUser("wins");
+            Rue.addUser("wins:gamble");
+            Rue.say("You doubled ya' bet and won {{ruecoin}}" + amount + "! ({{ruecoin}}" + Rue.getItem("ruecoin") + ")");
+        }
+    },
+    "gamba": "=gamble",
+    "lottery": function() {
+        if (Rue.getItem("ruecoin") < 2) { Rue.error("You don't have enough Ruecoins! A lottery ticket costs {{ruecoin}}2.."); return }
+        Rue.confirm("Wanna buy a lottery ticket for {{ruecoin}}2? (You have {{ruecoin}}" + Rue.getItem("ruecoin") + ")", function() {
+            Rue.delItem("ruecoin", 2);
+            var numbers = "{{rng}}{{rng}} {{rng}}{{rng}} {{rng}}{{rng}} {{rng}}{{rng}} {{rng}}{{rng}} {{rng}}{{rng}}";
+            if (Math.random() < 0.0000033333333333333333) {
+                Rue.addItem("ruecoin", 200000);
+                Rue.say(numbers+"\n\nYou won the lottery and got {{ruecoin}}200,000! ({{ruecoin}}");
+            }
+            else {
+                Rue.say(numbers+"\n\nYou didn't win the lottery.. Better luck next time!");
+            }
+        })
+    },
+    "calculate": function(args) {
+        var result = Rue.calculate(args.join(" "));
+        if (result === null) { Rue.error("I don't understand this expression!"); return }
+        Rue.say(result);
+    },
+    "calc": "=calculate",
+    "eval": "=calculate",
+    "evaluate": "=calculate",
+    "math": "=calculate",
+    "calculation": "=calculate",
+    "calculator": "=calculate",
+    "rate": function(args) {
+        var thing = ultraNormalize(args.join(" "));
+        if (!thing) { Rue.error("You didn't specify what to rate!"); return }
+        Rue.say("Hmm.. I{{c:'ll|}} {{c:rate|give}} " + args.join(" ") + " a " + seedRange(0,10,"rueRate--"+thing) + "/10!");
+    },
+    "rate me": function() {
+        Rue.say("Hmm.. I{{c:'ll|}} {{c:rate|give}} you a " + seedRange(0,10,"rueRate--"+Rue.getUser("userSeed")) + "/10!");
+    },
+    "rateme": "=rate me",
+    "tts": function(args) {
+        if (!('speechSynthesis' in window)) { Rue.error("Awkward.. Your browser doesn't support text to speech!! :("); return }
+        var text = args.join(" ");
+        if (!text) { Rue.error("You didn't specify what to say!"); return }
+        var msg = new SpeechSynthesisUtterance();
+        msg.text = text;
+        window.speechSynthesis.speak(msg);
+        Rue.say(text, true);
+    },
+    "text to speech": "=tts",
+    "texttospeech": "=tts",
+    "t2s": "=tts",
+    "mcserver": function(args) {
+        var address = args.join(" ");
+        if (!address) { Rue.error("You didn't specify a Minecraft: Java Edition IP address!"); return }
+        // call https://api.mcsrvstat.us/2/
+        Rue.callAPI("https://api.mcsrvstat.us/2/"+address, function(data) {
+            if (data.online) {
+                Rue.say(address+" is online with "+data.players.online+" players!\n\nVersion: "+data.version+"!");
+            }
+            else {
+                Rue.say(address+" if offline..")
+            }
+        })
+    },
+    "translate": function(args) {
+        var text = args.join(" ");
+        Rue.openLink("https://translate.google.com/?sl=auto&tl=en&op=translate&text=" + encodeURIComponent(text));
+    },
+    "gtranslate": "=translate",
+    "google translate": "=translate",
+    "me": function(args) {
+        var text = args.join(" ");
+        Rue.say("{{act:"+text+"}}");
+    },
+    "cookie": function(args) {
+        // set cookie args[0] to args[1]
+        if (args.length === 0) { Rue.error("You didn't specify a cookie name!"); return }
+        if (args.length === 1) {
+            var match = document.cookie.match(new RegExp('(^| )' + args[0] + '=([^;]+)'));
+            if (match) { Rue.say("The value of the cookie '" + args[0] + "' is '" + match[2] + "'!"); }
+            else { Rue.say("The cookie '" + args[0] + "' doesn't exist!"); }
+        }
+        else { // set the cookie
+            var name = args[0];
+            var value = args.slice(1).join(" ");
+            document.cookie = name + "=" + value + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+            Rue.say("Set the cookie '" + name + "' to '" + value + "'!");
+        }
+    },
+} // commands
 rueData.favorites = {
     "color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)"
 }
@@ -338,15 +602,12 @@ rueData.totalities = {
     },
     "reset data": function() {
         Rue.confirm("Are you sure you wanna ERASE ALL your data? You should 'export data' first, it cannot be undone..", function() {
-            Rue.userData = {
-                rue: {},
-                user: {},
-                env: {},
-            };
+            Rue.userData = JSON.parse(JSON.stringify(Rue.defaultUserData));
             Rue.changedUserData();
             Rue.say("Data's been reset!");
         })
     },
+    "erase data": "=reset data",
     "blink": function() {
         Rue.blink();
     },
@@ -359,6 +620,18 @@ rueData.totalities = {
             Rue.say("1 Bitcoin is currently worth $" + data.bitcoin.usd + "! (CoinGecko)");
         })
     },
+    "bitcoin": "=btc",
+    "dogecoin": function() {
+        Rue.callAPI("https://api.coingecko.com/api/v3/simple/price?ids=dogecoin&vs_currencies=usd", function(data) {
+            Rue.say("1 Dogecoin is currently worth $" + data.dogecoin.usd + "! (CoinGecko)");
+        })
+    },
+    "ethereum": function() {
+        Rue.callAPI("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd", function(data) {
+            Rue.say("1 Ethereum is currently worth $" + data.ethereum.usd + "! (CoinGecko)");
+        })
+    },
+    "eth": "=ethereum",
     "rainbow": function() {
         var style = document.createElement("style");
         style.innerHTML = `@keyframes rueRainbow {
@@ -372,6 +645,10 @@ rueData.totalities = {
     "black and white": function() {
         document.body.style.filter = "grayscale(100%)";
     },
+    "grayscale": "=black and white",
+    "greyscale": "=black and white",
+    "black & white": "=black and white",
+    "b&w": "=black and white",
     "event": function() {
         if (typeof currentEvent !== "undefined") {
             Rue.say("Current event: " + currentEvent);
@@ -381,18 +658,197 @@ rueData.totalities = {
     "title": function() {
         Rue.say("Page title: " + document.title);
     },
+    "pagetitle": "=title",
+    "page title": "=title",
     "url": function() {
         Rue.say("Current URL: " + window.location.href);
     },
     "currenturl": "=url",
     "link": "=url",
+    "href": "=url",
     "/\\/.+/": function(text) {
         Rue.openLink(currentURL + text);
     },
     "/\\.\\.\\/(.+)?/": function(text) {
         Rue.openLink(currentURL + "/" + text);
     },
-}
+    "fox": function() {
+        Rue.showMedia("https://randomfox.ca/images/" + Math.floor(Math.random()*123+1) + ".jpg", "Fox for you! 🦊", "Brought to you by RandomFox.ca");
+    },
+    "cat": function() {
+        Rue.showMedia("https://cataas.com/cat?"+Math.random(), "Kitty for you! 🐱", "Brought to you by CATAAS.com");
+    },
+    "coffee": function() {
+        Rue.showMedia("https://coffee.alexflipnote.dev/random?"+Math.random(), "Coffee for you! ☕", "Brought to you by coffee.alexflipnote.dev");
+    },
+    "/cat ?gif/": function() {
+        Rue.showMedia("https://cataas.com/cat/gif?"+Math.random(), "Kitty GIF for you! 🐱", "Brought to you by CATAAS.com");
+    },
+    "bear": function() {
+        Rue.showMedia("https://placebear.com/"+(500+Math.floor(Math.random()*50))+"/"+(500+Math.floor(Math.random()*50)), "Bear for you! 🐻", "Brought to you by placebear.com");
+    },
+    "kitten": function() {
+        Rue.showMedia("https://placekitten.com/"+(500+Math.floor(Math.random()*50))+"/"+(500+Math.floor(Math.random()*50)), "Kitten for you! 🐱", "Brought to you by placekitten.com");
+    },
+    "dog": function() {
+        Rue.callAPI("https://random.dog/woof.json", function(data) {
+            Rue.showMedia(data.url, "Dog for you! 🐶", "Brought to you by random.dog");
+        })
+    },
+    "shibe": function() {
+        Rue.callAPI("https://shibe.online/api/shibes?count=1&urls=true&httpsUrls=true", function(data) {
+            Rue.showMedia(data[0], "Shibe for you! 🐶", "Brought to you by shibe.online");
+        })
+    },
+    "shiba inu": "=shibe",
+    "shiba": "=shibe",
+    "bird": function() {
+        Rue.callAPI("https://shibe.online/api/birds?count=1&urls=true&httpsUrls=true", function(data) {
+            Rue.showMedia(data[0], "Bird for you! 🐦", "Brought to you by shibe.online");
+        })
+    },
+    "birb": "=bird",
+    "animal": function() {
+        rueData.totalities[chooseItem(["fox","cat","/cat ?gif/","bear","kitten","dog","shibe","bird"])]()
+    },
+    "/(what('| i)?s? )?(today'?s |the )?(date|day|today)( is it)?/": function() {
+        var date = new Date();
+        Rue.say("It's currently " + date.getDayName() + ", " + date.getMonthName() + " " + date.getDate() + ", " + date.getFullYear() + "!");
+    },
+    "/(what('| i)?s? )?(the )?(month)( is it)?/": function() {
+        Rue.say("It's currently " + new Date().getMonthName() + "!");
+    },
+    "/(what('| i)?s? )?(the )?(week)( is it)?/": function() {
+        Rue.say("It's currently week " + new Date().getWeek() + " of " + new Date().getFullYear() + "!");
+    },
+    "/(what('| i)?s? )?(the )?(time)( is it)?/": function() {
+        Rue.say("It's currently " + new Date().toLocaleTimeString() + "!");
+    },
+    "/(what('| i)?s? )?(the )?(utc( ?time)?)( is it)?/": function() {
+        Rue.say("In UTC, it's currently " + new Date().toUTCString() + "!");
+    },
+    "/(what('| i)?s? )?(the )?(day of( the)? year)( is it)?/": function() {
+        Rue.say("It's currently day " + new Date().getYearDay() + " of " + new Date().getFullYear() + "!");
+    },
+    "/(what('| i)?s? )?(the )?(week ?day|day of( the)? week)( is it)?/": function() {
+        Rue.say("It's currently " + new Date().getDayName() + "!");
+    },
+    "uptime": function() {
+        var time = Date.now() - 1687725300000;
+        var days = Math.floor(time / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+        Rue.say("I've been online for " + days + " days, " + hours + " hours, and " + minutes + " minutes!");
+    },
+    "age": "=uptime",
+    "pathname": function() {
+        Rue.say("Current pathname: " + window.location.pathname);
+    },
+    "path": "=pathname",
+    "protocol": function() {
+        Rue.say("You are currently using the " + window.location.protocol.replace(":","").toUpperCase() +" protocol!");
+    },
+    "/https?/": "=protocol",
+    "website": function() {
+        if (!window.location.hostname) { Rue.error("Doesn't look like you're on a website!"); return }
+        Rue.say("You are on " + window.location.hostname + "!");
+    },
+    "hostname": "=website",
+    "host": "=website",
+    "domain": "=website",
+    "host name": "=website",
+    "site": "=website",
+    "/(today'?s|daily)? ?fortune( cookie)?( of the day)?|fotd/": function() {
+        Rue.say("{{act:crack}} Today's fortune...\n\n{{sc:{{today}}|Be a|Live for|Strive for|Conquer|Seek the|Ask the|Find the|Think of the|Imagine a}} {{sc:{{today}}|dog|Rue|website|server|paper|cat|rabbit|squirrel|coin|tree|diamond|pile of sand|greeting|unit of time|emoji|symbol|flag}}, {{sc:{{today}}|and|and then|then you|then, and only then, you|}} {{sc:{{today}}|become|find|learn}} {{sc:{{today}}|love|fortune|programming|the truth|your true self|real|God|the dream|life itself|family|health|strength|the Sun}}.")
+    },
+    "/(i('?| a)m )?feeling lucky|random (link|page)/": function() {
+        // pick a random link from rueData.links to open
+        var link = chooseValue(rueData.links,chooseItem(Object.keys(rueData.links)))[0];
+        Rue.openLink(link);
+    },
+    "balance": function() {
+        Rue.say("You have {{ruecoin}}" + Rue.getItem("ruecoin") + " to your name! (Ruecoins)");
+    },
+    "bal": "=balance",
+    "money": "=balance",
+    "cash": "=balance",
+    "coins": "=balance",
+    "ruecoins": "=balance",
+    "ruecoin": "=balance",
+    "/daily ?(rewards?|coins?|gifts?)?/": function() {
+        if (Rue.getUser("lastDaily") === today()) { Rue.error("You already collected your daily reward today!"); return }
+        var amount = Math.floor(Math.random()*41+10); // 10-50
+        Rue.addUser("dailyClaimed");
+        Rue.addItem("ruecoin", amount);
+        Rue.setUser("lastDaily", today());
+        Rue.say("You received {{ruecoin}}" + amount + "! (Ruecoins)");
+    },
+    "me": function() {
+        // show all user data
+        var message = "";
+        var sorted = Object.keys(Rue.userData.user).sort();
+        for (var i = 0; i < sorted.length; i++) {
+            var key = sorted[i];
+            var value = Rue.userData.user[key];
+            if (typeof value === "object") { continue }
+            message += key + ": " + value + "\n";
+        }
+        message = message.slice(0,-1);
+        Rue.paginate("Here's all your user data! You can download it with 'export data'.\n\n" + message);
+    },
+    "stats": "=me",
+    "statistics": "=me",
+    "/(user|my) ?data/": "=me",
+    "/(user|my) ?(stat(istic)?s)/": "=me",
+    "/[ru]\\/\\w+/": function(text) {
+        Rue.openLink("https://reddit.com/" + text);
+    },
+    "/#[0-9a-f]{3,6}/": function(text) {
+        Rue.say("Here's a preview of that color!", {bg:text});
+    },
+    "/file ?size/": function() {
+        // get https://r74n.com/rue/rue.js and get the file size
+        Rue.loading();
+        fetch("https://r74n.com/rue/rue.js").then(function(response) {
+            response.text().then(function(text) {
+                Rue.say("My source code is " + Math.round(text.length/1000) + " KB large! That's " + (text.length/1000/2200*100).toFixed(2) + "% of an average webpage!");
+            })
+        })
+    },
+    "mute": function() {
+        Rue.say("I'll be quiet until ya' say 'unmute'!");
+        Rue.brain.mute = true;
+    },
+    "/time ?out/": "=mute",
+    "unmute": function() {
+        Rue.brain.mute = false;
+        Rue.say("Phew! Good to be back!");
+    },
+    "untimeout": "=unmute",
+    "deafen": function() {
+        Rue.say("I'll stop listening until ya' say 'undeafen'!");
+        Rue.brain.deaf = true;
+    },
+    "undeafen": function() {
+        Rue.brain.deaf = false;
+        Rue.say("Phew! Good to be back!");
+    },
+    "/die|kys|kill ?(yo)?urself/": function() { Rue.sleep(7474747474) },
+    "xp": function() {
+        Rue.say("You have " + Rue.getUser("xp") + " XP, which makes you Level " + Rue.getUser("level") + "!\n\nYou can get XP just by talking to me once per minute!");
+    },
+    "experience": "=xp",
+    "exp": "=xp",
+    "level": function() {
+        Rue.say("You're at Level " + Rue.getUser("level") + ", with " + Rue.getUser("xp") + " XP!\n\nYou can get XP just by talking to me once per minute!");
+    },
+    "lvl": "=level",
+    "rank": "=level",
+    "cookies": function() {
+        // all cookies that don't start with _
+        Rue.paginate("Cookies on this page:\n\n"+document.cookie.split("; ").filter(function(cookie) { return cookie[0] !== "_" }).join("\n"));
+    },
+} // totalities
 rueData.activities = {
     "testactivity": function(text) {
         console.log(Rue.brain.stage);
@@ -413,17 +869,68 @@ rueData.activities = {
             Rue.say("You did it!");
             Rue.endActivity();
         }
-    }
+    },
+    "rps": function(text) {
+        if (Rue.brain.stage === 1) {
+            Rue.brain.rps = Math.floor(Math.random()*3+1);
+            Rue.say("Alright, I picked mine! Rock, paper, or scissors?");
+            Rue.brain.stage = 2;
+            Rue.clearInput();
+        }
+        else if (Rue.brain.stage === 2) {
+            var rps = text.toLowerCase();
+            if (rps === "rock" || rps === "paper" || rps === "scissors") {
+                if (rps === "rock") { rps = 1 }
+                else if (rps === "paper") { rps = 2 }
+                else if (rps === "scissors") { rps = 3 }
+                if (rps === Rue.brain.rps) { Rue.say("It's a tie! I picked " + ["rock","paper","scissors"][Rue.brain.rps-1] + "!"); Rue.addUser("ties:rps");Rue.addUser("ties") }
+                else if (rps === 1 && Rue.brain.rps === 3) { Rue.say("You win! I picked scissors!"); Rue.addUser("wins:rps");Rue.addUser("wins")}
+                else if (rps === 2 && Rue.brain.rps === 1) { Rue.say("You win! I picked rock!"); Rue.addUser("wins:rps");Rue.addUser("wins")}
+                else if (rps === 3 && Rue.brain.rps === 2) { Rue.say("You win! I picked paper!"); Rue.addUser("wins:rps");Rue.addUser("wins")}
+                else { Rue.say("I win! I picked " + ["rock","paper","scissors"][Rue.brain.rps-1] + "!"); Rue.addUser("losses:rps");Rue.addUser("losses")}
+                Rue.endActivity();
+            }
+            else { Rue.say("That's not an option! Rock, paper, or scissors?") }
+        }
+    },
+    "rock paper scissors": "=rps",
 }
-rueData.exitTerms = ["exit","stop","cancel","leave","shut up","stfu","end","end activity","stop activity","cancel activity","leave activity","quit","quit activity","escape","finish","pause"];
+rueData.exitTerms = ["exit","stop","close","x","cancel","leave","shut up","stfu","end","end activity","stop activity","cancel activity","leave activity","quit","quit activity","escape","finish","pause"];
+function today() {
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    return today.getTime();
+}
 rueData.subcommands = {
     c: {
         func: function(args) {
             if (args.length === 0) {return ""}
-            if (args.length === 1) {
-                args = args[0].split(/ ?, ?/);
-            }
             return args[Math.floor(Math.random()*args.length)];
+        }
+    },
+    sc: {
+        func: function(args) {
+            if (args.length === 0) {return ""}
+            if (args.length === 1) {return "[???]"}
+            var choices = args.slice(1);
+            return choices[Math.floor(seedRandom(args[0])*choices.length)];
+        }
+    },
+    rng: {
+        func: function() {
+            return Math.floor(Math.random()*10);
+        }  
+    },
+    today: {
+        func: function() {
+            return today();
+        }
+    },
+    hour: {
+        func: function() {
+            var today = new Date();
+            today.setMinutes(0,0,0);
+            return today.getTime();
         }
     },
     r: {
@@ -454,6 +961,28 @@ rueData.subcommands = {
     b: { // bold {{b:text}}
         func: function(args) { return "<strong>"+(args[0]||"")+"</strong>"; }
     },
+    sup: { // superscript {{sup:text}}
+        func: function(args) { return "<sup>"+(args[0]||"")+"</sup>"; }
+    },
+    sub: { // subscript {{sub:text}}
+        func: function(args) { return "<sub>"+(args[0]||"")+"</sub>"; }
+    },
+    ul: { // underline {{ul:text}}
+        func: function(args) { return "<span style='text-decoration:underline'>"+(args[0]||"")+"</span>"; }
+    },
+    strike: { // strikethrough {{strike:text}}
+        func: function(args) { return "<span style='text-decoration:line-through'>"+(args[0]||"")+"</span>"; }
+    },
+    small: { // small {{small:text}}
+        func: function(args) { return "<small>"+(args[0]||"")+"</small>"; }
+    },
+    big: { // big {{big:text}}
+        func: function(args) { return "<span style='font-size:1.5em'>"+(args[0]||"")+"</span>"; }
+    },
+    code: { // code {{code:text}}
+        func: function(args) { return "<code>"+(args[0]||"")+"</code>"; }
+    },
+    // say {{b:test}} {{i:test}} {{sup:test}} {{sub:test}} {{ul:test}} {{strike:test}} {{small:test}} {{big:test}} {{code:test}}
     bi: {text:`"{{b:{{i:"+args[0]+"}}}}"`},
     ib: {text:`"{{i:{{b:"+args[0]+"}}}}"`},
     lower: { func: function(args) { return (args[0]||"").toLowerCase(); } },
@@ -461,10 +990,12 @@ rueData.subcommands = {
     title: {
         func: function(args) {
             var text = args[0]||"";
-            return text.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+            return text.toTitleCase();
         }
     },
     ak: { func: function() { return Rue.brain.actionKey; } },
+    act: {text:`"{{i:*"+args[0]+"*}}"`},
+    ruecoin: {text:`"<span style='color:lime'>{{strike:{{code:R}}}}</span>"`},
 
 }
 rueData.responses = {
@@ -482,17 +1013,21 @@ rueData.responses = {
     "[wakeup]": ["Yawwwnnn.. Good morning!","anxious>>>AHHH!!.. Oh.. Hey there.."],
     "[error]": "An error has occurred! D:",
     "[success]": "Task successful!",
+    "[sameurl]": "That's where you're at!",
+    "[learnmore]": "You can learn more about me {{link:https://r74n.com/rue|here}}.",
     "purpose": "I'm here to help {{c:ya' navigate|find ya' way around}} {{c:this place|R74n}}!",
-    "intro": "{{c:Hi|Hey}} there, friend! {{r:purpose}}",
+    "intro": "{{c:Hi|Hey}} there, friend! {{r:purpose}}\n\n{{r:[learnmore]}}",
     "name": "Name's Rue!",
     "pronouns": "I use she/they pronouns!",
-    "who": "{{r:name}} {{r:purpose}}",
-    "rue": "That's me! {{r:purpose}}",
-    "rue help": "Just type in a phrase or keyword and press my face or [Enter] to send it!\n\nFor a more detailed guide, check out the {{link:https://r74n.com/rue/docs|Explore with Rue Guidebook}}!",
+    "who": "{{r:name}} {{r:purpose}}\n\n{{r:[learnmore]}}",
+    "rue": "That's me! {{r:purpose}}\n\n{{r:[learnmore]}}",
+    "[guide]": "For a more detailed guide, check out the {{link:https://r74n.com/rue/docs|Explore with Rue Guidebook}}",
+    "rue help": "Just type in a phrase or keyword and press my face or [Enter] to send it!\n\n{{r:[guide]}}!",
     "[helpbeta]": "Since I'm only in my {{c:open beta|testing}} stage, I haven't {{c:put together|written up}} a help page yet. Sorry!",
     "help": "{{r:rue help}}\n\nFor help with other projects, try leaving {{link:https://r74n.com/ufbs/|feedback}} or joining our {{link:https://link.r74n.com/discord|Discord}}!",
     "help me": "=help",
     "guide": "=help",
+    "readme": "=help",
     "docs": "=help",
     "documentation": "=help",
     "guidebook": "=help",
@@ -506,6 +1041,10 @@ rueData.responses = {
     "manual": "=help",
     "assistance": "=help",
     "halp": "=help",
+    "commands": "For a list of all commands, check out the {{link:https://r74n.com/rue/docs|Explore with Rue Guidebook}}!",
+    "all commands": "=commands",
+    "responses": "=commands",
+    "cmds": "=commands",
     "/explore( with (rue|you|u))?/": "Type in a place ya'd like to go, and I'll {{c:take|bring}} ya' there!",
     "privacy": "While talking to me, no outside connection is made, and all data is stored right here in your browser!",
     "ai": "I make no (ZERO!) use of artificial intelligence, or machine learning!",
@@ -524,6 +1063,11 @@ rueData.responses = {
     "terms and conditions": "=terms",
     "terms & conditions": "=terms",
     "t&c": "=terms",
+    "terms of service": "=terms",
+    "termsofservice": "=terms",
+    "tos": "=terms",
+    "terms of use": "=terms",
+    "usage terms": "=terms",
     "apply": "We don't hire anyone right now! {{r:business}}",
     "jobs": "=apply",
     "name origin": "My name, Rue, comes from the herb-of-grace, also known as the common rue. It's a plant in the genus Ruta.",
@@ -531,8 +1075,25 @@ rueData.responses = {
     "#00ff00": "success>>>This color {{c:fits|suits}} me well!",
     "ellipsis": "I prefer the double ellipses..",
     "ellipses": "=ellipsis",
+    "prefix": "No prefixes are needed to run commands! Just type it directly in here!",
+    "source code": "You can view my source code, {{link:https://r74n.com/rue/rue.js}}.",
+    "source": "=source code",
+    "src": "=source code",
+    ".js": "=source code",
+    "js": "=source code",
+    "hug": "love>>>{{act:hug}} {{c:It|Everything}}{{c:'s gonna| will|'ll}} be {{c:okay|alright}}..",
+    "kiss": "love>>>Mwah!!",
+    "headpat": "love>>>{{act:pat pat{{c: pat|}}{{c: pat|}}}}",
+    "slap": "angry>>>{{act:SLAP!!}} SNAP OUT OF IT!!",
+    "save data": "I automatically save your user data! Type 'export data' to download it!",
+    "credit": "I was coded by R74n!",
+    "credits": "=credit",
+    "level up": "You can level up by getting XP! Type 'xp' to see how much ya' have!",
+    "levelup": "=level up",
+    "lvl up": "=level up",
+    "get levels": "=level up",
+    "get xp": "Right now, you can get XP just by talking to me once per minute!",
 
-    "r74n": "{{link:https://r74n.com/|R74n}} is the place you're at!",
     "ryan": "My creator! Their Discord is @ryan.",
     "ryan#4755": "This user is now known as @ryan on Discord.",
     "@ryan": "This is a user on Discord, with the ID {{link:https://discord.com/users/101070932608561152|101070932608561152}}. Previously ryan#4755.",
@@ -562,9 +1123,19 @@ rueData.responses = {
     "hey google": "=alexa",
     "hey siri": "=alexa",
     "bing chat": "=alexa",
+    "jarvis": "=alexa",
+    "echo": "=alexa",
+    "amazon": "=alexa",
+    "computer": "I'm running on ya' computer or mobile device right now!",
+    "affirmation": ["I love talkin' to ya'!","I think ya' gonna do great things!","You've got {{c:nice {{c:hair|eyes|lips|teeth}}|a nice {{c:nose|smile|voice|body}}}}!","Ya' lookin' really {{c:cute|nice|good|confident}} {{c:today|right now}}!","You are stronger than you {{c:know|think}}!","You make your own {{c:decision|choice}}s!","You can think clearly and rationally!","You are completely safe here.","Everything is okay!","You are able to do anything."],
+    "affirm me": "=affirmation",
+    "compliment": "=affirmation",
+    "compliment me": "=affirmation",
+    "update": "I update automatically when ya' refresh the page!",
+    "currency": "I use the {{ruecoin}}Ruecoin as the currency here! Its real-world value is currently unknown..",
 
     
-    "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?yo|howdy+|halacihae|gm+|good ?(morn(in+([g']+)?)?|even(in+[g']+)|after ?noon)|👋) ?(there+)? ?(there+|rue|friend|again)?/": "=intro",
+    "/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?y+(o+)?|howdy+|halacihae|gm+|g'?mornin[g']?|good ?(morn(in+([g']+)?)?|even(in+[g']+)|after ?noon)|👋|welcome( back)?|salutations?|greetings?|hewwo+|hiya+|oi+|ahoy+) ?(there+)? ?(there+|rue|friend|again|world|matey?)?/": "=intro",
     "/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r)?) ?(rue|friend)?/": "See ya' later, friend!",
     "/((goo+d|gud) ?(night+|nite+)|gn+|sweet dreams+|sleep tight+|sleep well+) ?(rue|friend)?/": "{{c:Have a good night|Goodnight}}, friend! {{c:Sleep tight|Sleep well|Rest well}}!",
     "/(who|what)( (are|r) (you|u)|is (this|rue))/": "=who",
@@ -595,7 +1166,18 @@ rueData.responses = {
     "imposter": "=amogus",
     "impostor": "=amogus",
     "pride": "🏳️‍🌈 🏳️‍⚧️ ❤️🧡💛💚💙💜 🌈 {{link:https://c.r74n.com/pride|More on Copy Paste Dump}}",
-}
+    "@everyone": "angry>>>What's that for..",
+    "@here": "=@everyone",
+    "@nobody": "..",
+    "@noone": "=@nobody",
+    "@no one": "=@nobody",
+    "@someone": ["angry>>>What's that for..",".."],
+    "loss": "|  ||\n|| |_",
+    "lenny": "( ͡° ͜ʖ ͡°)",
+    "tableflip": "(╯°□°)╯︵ ┻━┻",
+    "unflip": "┬─┬ノ( º _ ºノ)",
+    "shrug": "¯\_(ツ)_/¯",
+} // responses
 rueData.keywords = {
     "language": "I can only speak and respond to English right now! I was written in pure JavaScript.",
     "birthday": "My (Rue's) birthday is on June 22nd. The R74n website's is on May 2nd. The owner's is a secret!",
@@ -678,6 +1260,7 @@ rueData.media = {
     "mommy": "https://media.tenor.com/l8-Qe7WJ3NgAAAAC/sandboxels-sandbox.gif",
     "billboard": "https://media.tenor.com/Y2E-v2DNuV8AAAAC/r74n-billboard.gif",
     "komodohype": "https://static-cdn.jtvnw.net/emoticons/v1/305954156/4.0",
+    "rickroll": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
 }
 rueData.links = {
 "main": "https://r74n.com/",
@@ -689,6 +1272,7 @@ rueData.links = {
 "/": "=main",
 "rue guide": "https://r74n.com/rue/docs",
 "rue docs": "=rue guide",
+"rue.js": "https://r74n.com/rue/rue.js",
 "rue guidebook": "=rue guide",
 "explore with rue guidebook": "=rue guide",
 "explore with rue guide": "=rue guide",
@@ -723,6 +1307,7 @@ rueData.links = {
 "sanboxel": "=sandboxels",
 "samdboxels": "=sandboxels",
 "sandboxels:changes": "https://sandboxels.r74n.com/changelog",
+"sandboxels:updates": "=sandboxels:changes",
 "sandboxels:changes.txt": "https://sandboxels.r74n.com/changelog.txt",
 "sb": "=sandboxels",
 "sblite": "https://sandboxels.r74n.com/lite",
@@ -865,6 +1450,8 @@ rueData.links = {
 "pogchamp": "=pogchamps",
 "all twitch pogchamps": "=pogchamps",
 "pogchampening": "=pogchamps",
+"pogs": "=pogchamps",
+"poggers": "=pogchamps",
 "octopi": "https://r74n.com/octopi/",
 "octopuses": "=octopi",
 "octopus": "=octopi",
@@ -1095,8 +1682,13 @@ rueData.links = {
 "github:copy": "=github:cpd",
 "github:main": "https://github.com/R74nCom/R74n-Main",
 "github:nv7": "https://github.com/Nv7-GitHub",
+"github:sandboxels": "https://github.com/R74nCom/sandboxels",
+"github:sb": "=github:sandboxels",
+"github:sml": "https://github.com/R74nCom/Social-Media-Lists",
+"github:social-media-lists": "=github:sml",
 "r74moji-essentials": "https://github.com/R74nCom/R74moji-Essentials",
 "r74moji essentials": "=r74moji-essentials",
+"github:r74moji-essentials": "=r74moji-essentials",
 "link": "https://link.r74n.com/",
 "hidden elements": "https://link.r74n.com/hidden-elements",
 "hidden sandboxels elements": "=hidden elements",
@@ -1174,6 +1766,7 @@ rueData.links = {
 "feedback:old": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=R74n+Time+Machine",
 "feedback:shorten": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Link+Shortener",
 "feedback:rue": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Rue+/+Explore+with+Rue",
+"suggest command": "=feedback:rue",
 "feedback:other": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other",
 "feedback:general": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other",
 "feedback:misc": "https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other",
@@ -1321,13 +1914,13 @@ rueData.links = {
 "mmm.page": "https://r74n.mmm.page/",
 "mobygames": "https://www.mobygames.com/company/45927/r74n/",
 "mobygames:sandboxels": "https://www.mobygames.com/game/179419/sandboxels/",
-"urban dictionary": "https://www.urbandictionary.com/define.php?term=R74n",
 "symbols.com": "https://www.symbols.com/symbol/r74n-logo",
 "wikidata": "https://wikidata.org/wiki/",
 "wd": "=wikidata",
 "nv7": "https://nv7haven.com/",
 "nv7:eod": "https://nv7haven.com/eod",
-}
+"pointlesssites": "https://www.pointlesssites.com/site-search.asp?t=R74n",
+} // links
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
 const punctuationRegex = /[`~!¡¿‼‽⁇⁈⁉！@#$¢£€¥%\^&\*\(\)\-‐‑‒–—―_\+×÷=\[\]\{\}\|\\;:：；'‘’"“”„＂＇‚‛❛❜❟‟«»<>,\.…\/⁄\?¶⁋❡§†‡°]+/g;
@@ -1336,6 +1929,9 @@ function normalize(text) {
 }
 function normalizeL2(text) {
     return text.replace(punctuationRegex, "").toLowerCase().trim();
+}
+function ultraNormalize(text) {
+    return text.replace(/&|'?n'|'n?/g,"and").replace(punctuationRegex, "").toLowerCase().trim().replace(whitespaceRegex,"").replace(/[eiou]/g,"a").replace(/i?es|ys/g,"s");
 }
 function encodeHTML(text) {
     if (Array.isArray(text)) { return text.map(encodeHTML); }
@@ -1408,7 +2004,7 @@ rueButton.onclick = function(e) { // send message
         return;
     }
     if (Rue.brain.cooldown) { return; }
-    if (Rue.brain.confirming) {
+    if (Rue.brain.confirming && !Rue.brain.paginate) {
         if (Rue.brain.confirming === rueInput.value) {
             Rue.brain.afterConfirm(e);
             Rue.brain.confirming = false;
@@ -1418,7 +2014,8 @@ rueButton.onclick = function(e) { // send message
         Rue.brain.confirming = false;
         Rue.brain.afterConfirm = undefined;
     }
-    var text = rueInput.value.trim();
+    var text = rueInput.value.trim().replace(/ {2,}/g, " ");;
+    if (Rue.brain.deaf && text !== "undeafen") { return; }
     if (Rue.brain.activity) { // handle activities
         if (rueData.exitTerms.indexOf(text.toLowerCase()) !== -1) {
             Rue.endActivity();
@@ -1430,7 +2027,35 @@ rueButton.onclick = function(e) { // send message
         return;
     }
     var normalized = normalize(text);
+    if (Rue.brain.paginate) {
+        if (rueData.exitTerms.indexOf(normalized) !== -1) {
+            Rue.unsticky();
+            Rue.hush();
+            Rue.brain.paginate = null;
+            return;
+        }
+        if (["n","next",">"].indexOf(normalized) !== -1) {
+            Rue.nextPage(); return;
+        }
+        if (["p","prev","previous","back","b","<"].indexOf(normalized) !== -1) {
+            Rue.prevPage(); return;
+        }
+        Rue.unsticky();
+        Rue.brain.paginate = null;
+    }
     if (normalized.length === 0) { Rue.error(chooseItem(rueData.responses["[blank]"])); return }
+    Rue.addUser("sentMessages", 1);
+    Rue.addUser("sentWords", normalized.split(" ").length);
+    Rue.addUser("sentChars", text.length);
+    // xp
+    var tempdate = new Date();
+    tempdate.setSeconds(0,0);
+    var thisminute = tempdate.getTime();
+    if (Rue.getUser("lastMinute") !== thisminute) {
+        Rue.setUser("lastMinute", thisminute);
+        Rue.addUser("xp", 15);
+        Rue.setUser("level", Math.floor(Math.sqrt(Rue.getUser("xp")/10)));
+    }
 
     var done = false;
 
@@ -1521,22 +2146,10 @@ rueButton.onclick = function(e) { // send message
     }
     if (!done) {
         // try calculation
-        var mathExpression = text.toLowerCase();
-        // loop through rueData.mathReplacements
-        for (var key in rueData.mathReplacements) {
-            mathExpression = mathExpression.replaceAll(key, chooseValue(rueData.mathReplacements,key)[0]);
-        }
-        if (!/^[\d\. ]+$/gi.test(mathExpression) && /^(([+\-\/\*\d ()\.e]| Infinity | NaN )+)?(\d| Infinity | NaN )(([+\-\/\*\d ()\.e]| Infinity | NaN )+)?$/gi.test(mathExpression)) {
-            mathExpression = mathExpression.replaceAll(/e{2,}/g, "e");
-            try {
-                var e = Math.E;
-                var mathResult = eval(mathExpression);
-                Rue.say(mathResult);
-                done = true;
-            }
-            catch (e) {
-                done = false;
-            }
+        var mathResult = Rue.calculate(text);
+        if (mathResult !== null) {
+            Rue.say(mathResult);
+            done = true;
         }
     }
     if (!done) {
@@ -1557,6 +2170,10 @@ rueButton.onclick = function(e) { // send message
             // open link
             if (link.indexOf("$1") !== -1) {
                 link = link.replace("$1", "");
+            }
+            // if link is the same as currentURL
+            if (link === window.location.href) {
+                Rue.say("{{r:[sameurl]}}"); return
             }
             Rue.openLink(link, e);
         });
@@ -1589,6 +2206,7 @@ rueButton.onclick = function(e) { // send message
         }
     }
 
+    if (!done) {
     // regex commands
     for (key in rueData.commands) {
         if (key.charCodeAt(0) === 47 && key.charCodeAt(key.length-1) === 47 && key.length > 2) {
@@ -1597,11 +2215,13 @@ rueButton.onclick = function(e) { // send message
                 key = chooseValue(rueData.commands,key)[1];
                 // argsArray = split by regex, use the second half, and split by whitespace
                 argsArray = text.replace(regex, "").replace(whitespaceRegex, " ").split(" ");
+                if (argsArray.length === 1 && argsArray[0].length === 0) { argsArray = []; }
                 rueData.commands[key](encodeHTML(argsArray));
                 done = true;
                 break;
             }
         }
+    }
     }
 
     if (!done) {
@@ -1634,6 +2254,12 @@ rueInput.addEventListener("keydown", function(e) {
         }
     }
     else if (e.keyCode === 27 || e.keyCode === 9) { // escape or tab = hush
+        if (Rue.brain.paginate) {
+            Rue.brain.paginate = null;
+        }
+        if (Rue.sticky) {
+            Rue.unsticky();
+        }
         Rue.hush();
     }
     else if (e.keyCode === 8 && rueInput.value.length === 0) { // backspace
@@ -1674,6 +2300,7 @@ window.addEventListener("resize", function() {
 Rue = {
     say: function(message, opt) {
         if (Rue.brain.sleeping) { Rue.wake(); }
+        if (Rue.brain.mute) { return; }
         if (!opt) { opt = {} }
         message = message.toString();
         if (message.indexOf("{{") !== -1) {
@@ -1749,7 +2376,7 @@ Rue = {
         Rue.say(message, {color:"blue",bg:"#5b5b7b"});
     },
     angry: function(message) {
-        Rue.say(message, {color:"red",bg:"#7b5b5b"});
+        Rue.say(message, {color:"#ff4400",bg:"#7b645b"});
     },
     love: function(message) {
         Rue.say(message, {color:"#ff00ff",bg:"#7b5b7b"});
@@ -1763,11 +2390,30 @@ Rue = {
     official: function(message) {
         Rue.say(message, {color:"#00ffff",bg:"#5b7b7b"});
     },
+    alert: function(message) {
+        Rue.say("{{b:ALERT: "+message+"}}", {color:"#00ffff",bg:"red"});
+    },
     loading: function() {
         Rue.say("{{r:[wait]}}");
     },
     showMedia: function(url, message, caption) {
-        Rue.say((message || "") + "<div style='text-align:center;display:block;height:200px;width:100%;margin-top:10px;margin-bottom:10px'><a style='vertical-align:middle' href='"+url+"'><img src='"+url+"' style='max-width:100%;max-height:100%;vertical-align:middle' alt='Displayed Image' title='Click to Open'></a>" + (caption ? "<span style='text-align:center;font-size:0.75em;display:block;vertical-align:bottom'>"+caption+"</span>" : "") + "</div>");
+        // video
+        if (url.match(/\.(mp4|webm|ogg|mov|avi|wmv|flv|mkv|3gp)$/gi)) {
+            var element = "<video src='"+url+"' style='max-width:100%;max-height:100%;vertical-align:middle' controls autoplay></video>"
+        }
+        // audio
+        else if (url.match(/\.(mp3|wav|wma|aac|flac)$/gi)) {
+            var element = "<audio src='"+url+"' style='max-width:100%;max-height:100%;vertical-align:middle' controls autoplay></audio>"
+        }
+        // youtube
+        else if (url.match(/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/gi)) {
+            var videoID = url.split(/(youtube\.com\/watch\?v=|youtu\.be\/)/)[2].split("&")[0];
+            var element = `<iframe width="560" height="315" style='max-width:100%;max-height:100%;vertical-align:middle' src="https://www.youtube-nocookie.com/embed/`+videoID+`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen autoplay></iframe>`
+        }
+        else { // image
+            var element = "<img src='"+url+"' style='max-width:100%;max-height:100%;vertical-align:middle' alt='Displayed Image' title='Click to Open'></a>"
+        }
+        Rue.say((message || "") + "<div style='text-align:center;display:block;height:200px;width:100%;margin-top:10px;margin-bottom:10px'><a style='vertical-align:middle' href='"+url+"'>" + element + (caption ? "<span style='text-align:center;font-size:0.75em;display:block;vertical-align:bottom'>"+caption+"</span>" : "") + "</div>");
     },
     confirm: function(message, func) {
         Rue.brain.confirming = rueInput.value;
@@ -1775,6 +2421,7 @@ Rue = {
         Rue.say(message+"\n{{r:[confirm]}}", {color:"#ffff00",bg:"#7b7b5b"});
     },
     openLink: function(url,e) {
+        url = url.replaceAll("$1", "");
         Rue.loading();
         if (!e || !(e.metaKey||e.ctrlKey)) {
             window.open(url, "_self");
@@ -1799,25 +2446,70 @@ Rue = {
     },
     getRue: function(key) { return Rue.userData.rue[key]; },
     setRue: function(key, value) { Rue.userData.rue[key] = value; Rue.changedUserData(); return value },
-    addRue: function(key, value) { if (!Rue.userData.rue[key]){Rue.userData.rue[key]=0} Rue.userData.rue[key] += value; Rue.changedUserData(); return Rue.userData.rue[key] },
+    addRue: function(key, value) { if(value===undefined){value=1} if (!Rue.userData.rue[key]){Rue.userData.rue[key]=0} Rue.userData.rue[key] += value; Rue.changedUserData(); return Rue.userData.rue[key] },
     delRue: function(key) { delete Rue.userData.rue[key]; Rue.changedUserData(); },
     getUser: function(key) { return Rue.userData.user[key]; },
     setUser: function(key, value) { Rue.userData.user[key] = value; Rue.changedUserData(); return value },
-    addUser: function(key, value) { if (!Rue.userData.user[key]){Rue.userData.user[key]=0} Rue.userData.user[key] += value; Rue.changedUserData(); return Rue.userData.user[key] },
+    addUser: function(key, value) { if(value===undefined){value=1} if (!Rue.userData.user[key]){Rue.userData.user[key]=0} Rue.userData.user[key] += value; Rue.changedUserData(); return Rue.userData.user[key] },
     delUser: function(key) { delete Rue.userData.user[key]; Rue.changedUserData() },
     getEnv: function(key) { return Rue.userData.env[key]; },
     setEnv: function(key, value) { Rue.userData.env[key] = value; Rue.changedUserData(); return value },
-    addEnv: function(key, value) { if (!Rue.userData.env[key]){Rue.userData.env[key]=0} Rue.userData.env[key] += value; Rue.changedUserData(); return Rue.userData.env[key] },
+    addEnv: function(key, value) { if(value===undefined){value=1} if (!Rue.userData.env[key]){Rue.userData.env[key]=0} Rue.userData.env[key] += value; Rue.changedUserData(); return Rue.userData.env[key] },
     delEnv: function(key) { delete Rue.userData.env[key]; Rue.changedUserData() },
+    addItem: function(item,amount) {
+        item = item.toString().toLowerCase();
+        if (amount === undefined) { amount = 1; }
+        if (!Rue.userData.user.inv[item]) { Rue.userData.user.inv[item] = 0; }
+        Rue.userData.user.inv[item] += amount;
+        Rue.changedUserData();
+        return Rue.userData.user.inv[item];
+    },
+    delItem: function(item,amount) {
+        item = item.toString().toLowerCase();
+        if (amount === undefined) { amount = 1; }
+        if (!Rue.userData.user.inv[item]) { Rue.userData.user.inv[item] = 0; }
+        Rue.userData.user.inv[item] -= amount;
+        if (Rue.userData.user.inv[item] <= 0) { delete Rue.userData.user.inv[item]; }
+        Rue.changedUserData();
+        return Rue.userData.user.inv[item];
+    },
+    getItem: function(item) {
+        item = item.toString().toLowerCase();
+        if (!Rue.userData.user.inv[item]) { return 0; }
+        return Rue.userData.user.inv[item];
+    },
     changedUserData: function() { Rue.saveUserData() },
     saveUserData: function() {
         localStorage.setItem("rueUserData", JSON.stringify(Rue.userData));
     },
+    defaultUserData: {
+        rue: {
+            savedResponses: [],
+        },
+        user: {
+            inv: {},
+        },
+        env: {}
+    },
     loadUserData: function() {
         var data = localStorage.getItem("rueUserData");
-        if (data) {
-            Rue.userData = JSON.parse(data);
+        if (!data) { data = JSON.parse(JSON.stringify(Rue.defaultUserData)); }
+        else {
+            data = JSON.parse(data);
+            // loop through defaultUserData
+            for (var datacat in Rue.defaultUserData) {
+                if (!data[datacat]) { data[datacat] = {}; }
+                for (key in Rue.defaultUserData[datacat]) {
+                    if (!data[datacat][key]) {
+                        var value = Rue.defaultUserData[datacat][key];
+                        if (typeof value === "object") { data[datacat][key] = JSON.parse(JSON.stringify(value)); }
+                        else { data[datacat][key] = value; }
+                    }
+                }
+            }
         }
+        if (!data.user.userSeed) { data.user.userSeed = Math.floor(Math.random() * 1000000000); }
+        Rue.userData = data;
     },
     startActivity: function(activity) {
         Rue.brain.activity = chooseValue(rueData.activities,activity)[1];
@@ -1882,11 +2574,66 @@ Rue = {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
         xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
+            Rue.hush();
+            if (xhr.readyState === 4 && callback) {
                 callback(JSON.parse(xhr.responseText));
             }
         }
+        xhr.onerror = function() {
+            Rue.error("Error " + xhr.status + ": " + xhr.statusText);
+        }
         xhr.send();
+    },
+    focus: function(response) {
+        rueInput.focus();
+        if (response) { Rue.say(response); }
+    },
+    setInput: function(text) { rueInput.value = text; },
+    clearInput: function() { rueInput.value = ""; },
+    calculate: function(mathExpression) {
+        mathExpression = mathExpression.toLowerCase();
+        // loop through rueData.mathReplacements
+        for (var key in rueData.mathReplacements) {
+            mathExpression = mathExpression.replaceAll(key, chooseValue(rueData.mathReplacements,key)[0]);
+        }
+        if (!/^[\d\. ]+$/gi.test(mathExpression) && /^(([+\-\/\*\d ()\.e]| Infinity | NaN )+)?(\d| Infinity | NaN )(([+\-\/\*\d ()\.e]| Infinity | NaN )+)?$/gi.test(mathExpression)) {
+            mathExpression = mathExpression.replaceAll(/e{2,}/g, "e");
+            try {
+                var e = Math.E;
+                var mathResult = eval(mathExpression);
+                return mathResult;
+            }
+            catch (e) {
+                return null;
+            }
+        }
+        return null;
+    },
+    paginate: function(array, perPage, page) {
+        perPage = perPage || 10;
+        page = page || 1;
+        if (!array && Rue.brain.paginate) { array = Rue.brain.paginate.array; }
+        if (typeof array === "string") { array = array.split("\n"); }
+        // store the array and perPage to Rue.brain.paginate
+        Rue.brain.paginate = {array:array,perPage:perPage,current:page};
+        var items = array.slice((page-1)*perPage,page*perPage);
+        var text = items.join("\n");
+        Rue.sticky();
+        Rue.say(text+"\n\n<div style='text-align:center;'><span onmouseup='Rue.prevPage()' style='cursor:pointer'>←</span> "+page+" / "+Math.ceil(array.length/perPage)+" <span onmouseup='Rue.nextPage()' style='cursor:pointer'>→</span></div>");
+    },
+    nextPage: function() {
+        var page = Rue.brain.paginate.current;
+        if (page*Rue.brain.paginate.perPage < Rue.brain.paginate.array.length) {
+            page++;
+            Rue.paginate(Rue.brain.paginate.array, Rue.brain.paginate.perPage, page);
+        }
+    },
+    prevPage: function() {
+        var page = Rue.brain.paginate.current;
+        if (page > 1) {
+            page--;
+            Rue.paginate(Rue.brain.paginate.array, Rue.brain.paginate.perPage, page);
+        }
     },
     userData: {
         rue: {},
@@ -1954,9 +2701,26 @@ function parseText(text) {
     }
     return text
 }
+// replaceAll polyfill
 if (!String.prototype.replaceAll) {String.prototype.replaceAll = function(str, newStr){if (Object.prototype.toString.call(str).toLowerCase() === '[object regexp]') {return this.replace(str, newStr);}return this.replace(new RegExp(str, 'g'), newStr);};};
-
-
+// Math.seedrandom https://github.com/davidbau/seedrandom
+!function(f,a,c){var s,l=256,p="random",d=c.pow(l,6),g=c.pow(2,52),y=2*g,h=l-1;function n(n,t,r){function e(){for(var n=u.g(6),t=d,r=0;n<g;)n=(n+r)*l,t*=l,r=u.g(1);for(;y<=n;)n/=2,t/=2,r>>>=1;return(n+r)/t}var o=[],i=j(function n(t,r){var e,o=[],i=typeof t;if(r&&"object"==i)for(e in t)try{o.push(n(t[e],r-1))}catch(n){}return o.length?o:"string"==i?t:t+"\0"}((t=1==t?{entropy:!0}:t||{}).entropy?[n,S(a)]:null==n?function(){try{var n;return s&&(n=s.randomBytes)?n=n(l):(n=new Uint8Array(l),(f.crypto||f.msCrypto).getRandomValues(n)),S(n)}catch(n){var t=f.navigator,r=t&&t.plugins;return[+new Date,f,r,f.screen,S(a)]}}():n,3),o),u=new m(o);return e.int32=function(){return 0|u.g(4)},e.quick=function(){return u.g(4)/4294967296},e.double=e,j(S(u.S),a),(t.pass||r||function(n,t,r,e){return e&&(e.S&&v(e,u),n.state=function(){return v(u,{})}),r?(c[p]=n,t):n})(e,i,"global"in t?t.global:this==c,t.state)}function m(n){var t,r=n.length,u=this,e=0,o=u.i=u.j=0,i=u.S=[];for(r||(n=[r++]);e<l;)i[e]=e++;for(e=0;e<l;e++)i[e]=i[o=h&o+n[e%r]+(t=i[e])],i[o]=t;(u.g=function(n){for(var t,r=0,e=u.i,o=u.j,i=u.S;n--;)t=i[e=h&e+1],r=r*l+i[h&(i[e]=i[o=h&o+t])+(i[o]=t)];return u.i=e,u.j=o,r})(l)}function v(n,t){return t.i=n.i,t.j=n.j,t.S=n.S.slice(),t}function j(n,t){for(var r,e=n+"",o=0;o<e.length;)t[h&o]=h&(r^=19*t[h&o])+e.charCodeAt(o++);return S(t)}function S(n){return String.fromCharCode.apply(0,n)}if(j(c.random(),a),"object"==typeof module&&module.exports){module.exports=n;try{s=require("crypto")}catch(n){}}else"function"==typeof define&&define.amd?define(function(){return n}):c["seed"+p]=n}("undefined"!=typeof self?self:this,[],Math);
+function seedRandom(seed) {
+    var rng = new Math.seedrandom(seed);
+    return rng();
+}
+function seedRange(min, max, seed) {
+    return Math.floor(seedRandom(seed) * (max - min + 1)) + min;
+}
+function seedChoose(choices, seed) {
+    return choices[Math.floor(seedRandom(seed) * choices.length)];
+}
+// more Date functions
+Date.prototype.getMonthName = function() {return ["January","February","March","April","May","June","July","August","September","October","November","December"][ this.getMonth() ];};
+Date.prototype.getDayName = function() {return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][ this.getDay() ];};
+Date.prototype.getWeek = function() {var onejan = new Date(this.getFullYear(),0,1);var today = new Date(this.getFullYear(),this.getMonth(),this.getDate());var dayOfYear = ((today - onejan + 86400000)/86400000);return Math.ceil(dayOfYear/7)};
+Date.prototype.getYearDay = function() {var onejan = new Date(this.getFullYear(),0,1);var today = new Date(this.getFullYear(),this.getMonth(),this.getDate());return Math.ceil((today - onejan + 86400000)/86400000)};
+String.prototype.toTitleCase = function() {return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});};
 
 
 console.log("Rue's ready to go!")
