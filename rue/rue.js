@@ -2128,7 +2128,7 @@ rueData.responses = {
     "information": "=help",
     "other": "=help",
     "changelog": "To see the latest features added to Rue, see the {{link:https://r74n.com/rue/changelog|Explore with Rue Changelog}}!",
-    "changes": "=changelog",
+    "changes": "=changelog", 
     "/what('?s| is) new/": "=changelog",
     "latest updates": "=changelog",
     "latest changes": "=changelog",
