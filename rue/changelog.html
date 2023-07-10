@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Browser chatbot developed for and by R74n.">
+    <meta name="description" content="Changes to Explore with Rue by R74n.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Explore with Rue - R74n</title>
+    <title>Explore with Rue Changelog - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
@@ -43,8 +43,17 @@ This HTML and its contents are property of R74n.com.
     <meta name="msapplication-config" content="https://R74n.com/icons/browserconfig.xml?v=R74n-2">
 
     <script src="https://R74n.com/load.js"></script>
-
-    <script src="rue.js"></script>
+    <style>
+      .monotable tbody tr td:first-child, .monolist li {
+        font-family: monospace;
+      }
+      .monotable tbody tr td:first-child em, em.required, code.required {color:lime}
+      em.optional, code.optional {color:yellow!important}
+      h3 {
+        margin-top: 2em;
+        color: lime;
+      }
+    </style>
     <style>
       /*Center #rueBox in #rueContainer*/
       #rueContainer {
@@ -61,36 +70,58 @@ This HTML and its contents are property of R74n.com.
   #rueButton { width: 22%!important;padding-left: 0!important;padding-right: 0!important; }
       }
     </style>
+
+    <script src="rue.js"></script>
 </head>
 <body>
 
 
-<a href="https://R74n.com" class="backbutton">⦉</a>
-<h1 class="pagetitle">Explore with Rue</h1><br>
+<a href="." class="backbutton">⦉</a>
+<h1 class="pagetitle">Rue Changelog</h1><br>
 <div class="content">
 
 <div id="rueContainer" style="text-align:center;width:100%">
   <div id="rueBox" style="height:66px" class="rueWideScreen"></div>
 </div>
 
-<p><dfn>Rue</dfn> is a chatbot specialized for navigating and exploring R74n projects. It is found by default on the <a href="https://r74n.com/">main page</a>, and can currently be activated on any page of the main R74n website by pressing <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>.</p>
-<p>You can leave suggestions with the <a href="https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Rue+/+Explore+with+Rue">Feedback Form</a>, or say "Rue feedback".</p>
-<p>Try out some of our favorite examples:</p>
+<p>This changelog only contains additions and major changes from v1.1 and above. Easter eggs, variants, and minor changes are not included. More can be found in the <a href="docs">Explore with Rue Guidebook</a>.</p>
+
+
+<h2>Versions</h2>
+
+<h3 id="1.1">v1.1 - Jul 10, 2023</h3>
 <ul>
-  <li><code>fonts:Hello World!</code></li>
-  <li><code>search for water</code></li>
-  <li><code>howdy there, Rue!</code></li>
-  <li><code>what's ur favorite color?</code></li>
-  <li><code>feedback for Sandboxels</code></li>
-  <li><code>Rue bug report</code></li>
+  <li>Custom command aliases</li>
+  <li>Custom tags / responses</li>
+  <li>Custom links</li>
+  <li>Counters</li>
+  <li>New commands: accountage, add alias, add counter, add link, add tag, alias, aliases, alignment, append tag, archive, archive.is, archive.ph, baconipsum, bank, beard, bigcat, blink me, blockquote, cache, catgirl, century, check link, clear cache, clear cookies, codeblock, compatibility, copy, corgi, countdown, counter, counters, covid, covid us, custom links, daily picture, deal card, deposit, ding, duck, duplicate tab, edit page, foxgirl, generate password, giphy, google lens, google news, goose, goto, highlighter, httpgarden, husky, i am over 16, i am over 18, i am over 21, i don't have epilepsy, invert colors, invisible ink, iq, joke, jquery, kill me, links, lizard, lock, louder, luck, meat, metadata, monero, monkey, mute audio, myrobot, new tab, no parameters, origin, os, past life, paste, pin, quiter, random character, random digit, random letter, random lowercase, random punctuation, random uppercase, redtext, remaining deck, remove alias, remove counter, remove link, remove tag, rename alias, rename counter, rename link, rename tag, reset counter, reset deck, robots.txt, rue size, russian roulette, save archive.is, save archive.ph, sayraw, schema validator, sepia, set counter, set title, shout, similarweb, skull, slots, smug, sort, speedtest, spoiler, tag, tags, tenor, thanos snap, timer, tinyurl, translate page, unmute audio, unshorten, useragent, volume, waifu, website, whois, win rate, window size, withdraw, yatranslate, yatranslate page, year</li>
+  <li>Various Easter eggs and informational responses</li>
+  <li>Underscores in calculations now use last result</li>
+  <li>New formatting options (See with 'formattest'!)</li>
+  <li>Daily XP gain</li>
+  <li>Image pasting capabilities</li>
+  <li>New changelog (That's where you're at!)</li>
 </ul>
-<p>For detailed help, check out the <a href="docs">Explore with Rue Guidebook</a>!</p>
-<p>See all the latest updates on the <a href="changelog">Explore with Rue Changelog</a>!</p>
-<p>Drag this link to your bookmarks to summon Rue anywhere: <a href='javascript:if(typeof Rue==="undefined"&&!document.getElementById("rueScript")){var script=document.createElement("script");script.id="rueScript";script.onload=function(){var rueHasLoaded=setInterval(function(){if(typeof Rue!=="undefined"){clearInterval(rueHasLoaded);document.getElementById("rueInput").focus();Rue.blink();Rue.say("Hello! Type in certain commands to make me do things.");}},10);};script.src="https://r74n.com/rue/rue.js";document.head.appendChild(script);}' title="Rue">Rue Bookmarklet</a></p>
 
+<h3 id="1.0.1">v1.0.1 - Jul 5, 2023</h3>
+<p>Small hotfix for external script.</p>
 
+<h3 id="1.0">v1.0 - Jul 4, 2023</h3>
+<p>First announced release - now out of beta.</p>
 
+<h3 id="0.5">v0.5 - Jul 2, 2023</h3>
+<h3 id="0.4">v0.4 - Jun 29, 2023</h3>
+<h3 id="0.3">v0.3 - Jun 27, 2023</h3>
+<h3 id="0.2">v0.2 - Jun 26, 2023</h3>
 
+<h3 id="0.1.1">v0.1.1 - Jun 25, 2023</h3>
+
+<h3 id="0.1">v0.1 - Jun 25, 2023</h3>
+<p>First public release of Explore with Rue.</p>
+
+<h3 id="pre">pre - Jun 22, 2023</h3>
+<p>Development started.</p>
 
 
 </div>
