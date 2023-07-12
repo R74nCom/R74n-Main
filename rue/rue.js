@@ -1605,7 +1605,7 @@ rueData.totalities = {
         message = message.slice(0,-1);
         Rue.paginate("Here's all the metadata tags on this page:\n\n" + message);
     },
-    "/edit ?(this ?)page/": function() {
+    "/edit ?(this ?)?page/": function() {
         if (document.body.contentEditable === 'true') {
             document.body.contentEditable = 'false';
             document.designMode='off';
@@ -1727,13 +1727,11 @@ rueData.totalities = {
     "every tag": "=tags",
     "custom responses": "=tags",
     "paste": function() {
-        async function paste() {
-            Rue.say("Trying to paste.. Do you see a permission dialog?")
-            const text = await navigator.clipboard.readText();
+        Rue.say("Trying to paste.. Do you see a permission dialog?")
+        navigator.clipboard.readText().then(function(text) {
             Rue.say(encodeHTML(text));
             if (!text) { Rue.error("I couldn't paste anything from your clipboard!"); return }
-        }
-        paste();
+        })
     },
     "clipboard": "=paste",
     "links": function() {
@@ -2128,7 +2126,7 @@ rueData.responses = {
     "information": "=help",
     "other": "=help",
     "changelog": "To see the latest features added to Rue, see the {{link:https://r74n.com/rue/changelog|Explore with Rue Changelog}}!",
-    "changes": "=changelog", 
+    "changes": "=changelog",
     "/what('?s| is) new/": "=changelog",
     "latest updates": "=changelog",
     "latest changes": "=changelog",
