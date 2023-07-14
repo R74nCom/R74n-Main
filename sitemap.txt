@@ -66,3 +66,4 @@ https://r74n.com/ufbs/
 https://r74n.com/shorten/
 https://r74n.com/rue/
 https://r74n.com/rue/docs
+https://r74n.com/rue/changelog
