@@ -142,6 +142,7 @@ unitdata = {
   "megalithic yard":0.8297,
   "cicero":0.00451167,
   "half-marathon":21082.4064,
+  "hammer unit":0.01905,
 
 
 },
