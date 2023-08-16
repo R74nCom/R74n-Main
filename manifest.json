@@ -46,13 +46,6 @@
         "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
       },
       {
-        "name": "Draw emoji art",
-        "short_name": "Emoji Art Canvas",
-        "description": "Draw art using the emoji art canvas",
-        "url": "/emojiart?source=pwa",
-        "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
-      },
-      {
         "name": "R74moji",
         "short_name": "R74moji",
         "description": "Free pixel emoji",
@@ -64,6 +57,13 @@
         "short_name": "Unit Converter",
         "description": "Convert many units into many others",
         "url": "/convert?source=pwa",
+        "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
+      },
+      {
+        "name": "Submit feedback",
+        "short_name": "Feedback",
+        "description": "File feedback through our Universal Feedback System (UFBS)",
+        "url": "/ufbs?source=pwa",
         "icons": [{ "src": "/icons/avatar.png", "sizes": "305x305" }]
       }
     ],
