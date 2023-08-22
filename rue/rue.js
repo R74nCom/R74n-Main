@@ -94,7 +94,7 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
     #rueBoxIn.rueWideScreen { margin-left: auto!important; margin-right: auto!important; text-align: center!important; }
     #rueInput.rueWideScreen { width: 76%!important;padding-left: 4%!important;padding-right: 0!important; }
     #rueButton.rueWideScreen { width: 20%!important;padding-left: 0!important;padding-right: 0!important; }
-  }
+}
 </style>`);
 
 rueInput = document.getElementById("rueInput");
@@ -2138,6 +2138,15 @@ rueData.totalities = {
     },
     "/\\b\\d{1,6} +.{2,25}\\b(avenue|ave|court|ct|street|st|drive|dr|lane|ln|road|rd|circle|cir|boulevard|blvd|plaza|parkway|pkwy|alley)[.,]?(.{0,25} +\\b\\d{5}\\b)?( .+)?/": "=[address]",
     "/(\\b( +)?\\d{1,6} +(north|east|south|west|n|e|s|w)[,.]?){2}(.{0,25} +\\b\\d{5}\\b)?\\b( .+)?/": "=[address]",
+    "/(?:ISBN(?:-13)?:?\\ )?(?=[0-9]{13}$|(?=(?:[0-9]+[-\\ ]){4})[-\\ 0-9]{17}$)97[89][-\\ ]?[0-9]{1,5}[-\\ ]?[0-9]+[-\\ ]?[0-9]+[-\\ ]?[0-9]/": function(text) {
+        Rue.say("This looks like an ISBN number! You can {{link:https://www.amazon.com/s?i=stripbooks&k="+text+"|search it}} or {{link:https://www.worldcat.org/search?q="+text+"|find it in a library}}.");
+    },
+    "/[A-HJ-NPR-Za-hj-npr-z\\d]{8}[\\dX][A-HJ-NPR-Za-hj-npr-z\\d]{2}\\d{6}/": function(text) {
+        Rue.say("This looks like a vehicle identification number! You can {{link:https://www.vindecoderz.com/EN/check-lookup/"+text+"|check it online}}!");
+    },
+    "/[$][a-z][a-z0-9_&'-]{1,15}/": function(text) {
+        Rue.say("For stocks or crypto, view this on {{link:https://finance.yahoo.com/quote/"+text+"|Yahoo Finance}}!");
+    },
     "reboot": function() {
         Rue.say("Be right back!");
         Rue.wait(1, function() {
@@ -2416,6 +2425,10 @@ rueData.subcommands = {
             return "<img style='display:inline-block;height:1.5em;width:auto;vertical-align:middle' src='"+args[0]+"'>";
         }
     },
+    bul: {text:`"•"`},
+    unchk: {text:`"☐"`},
+    chk: {text:`"☑"`},
+    xchk: {text:`"☒"`},
     moji: {text:`"{{emote:https://r74n.com/moji/png/"+args[0]+".png}}"`},
     bi: {text:`"{{b:{{i:"+args[0]+"}}}}"`},
     ib: {text:`"{{i:{{b:"+args[0]+"}}}}"`},
@@ -2525,6 +2538,11 @@ rueData.responses = {
     "cost": "=price",
     "fee": "=price",
     "contact": "There are many ways to contact us! The best ways are our {{link:https://link.r74n.com/discord|Discord}} or {{link:https://twitter.com/R74nCom|Twitter}}. We also have accounts practically {{link:https://r74n.com/social|everywhere}}, and an email too: {{link:mailto:contact@r74n.com|contact@R74n.com}} :)",
+    "contact us": "=contact",
+    "contact me": "=contact",
+    "contact u": "=contact",
+    "contact you": "=contact",
+    "contact r74n": "=contact",
     "ads": "R74n projects use non-intrusive Google Adsense ads to help support the mission!",
     "analytics": "R74n projects use Google Analytics to help us understand how people use our projects!",
     "terms": "Just be cool!!",
@@ -2764,6 +2782,7 @@ rueData.responses = {
     "/water ?[,+] ?dirt/": "You made Mud!",
     "ryan is a": "Ryan is a C",
     "otter": "🦦",
+    "😥": "What's wrong??",
     "amogus": "ꇺ Ꭿ ඞ ඩා 𐐘 𐑀 📮 {{link:https://c.r74n.com/among-us/|More on Copy Paste Dump}}",
     "among us": "=amogus",
     "amongus": "=amogus",
@@ -3002,6 +3021,15 @@ rueData.links = {
 "rue hand book": "=rue guide",
 "rue manual": "=rue guide",
 "rue page": "https://r74n.com/rue/",
+"rue partners": "https://r74n.com/rue/partners",
+"rue partner": "=rue partners",
+"partners": "=rue partners",
+"partner": "=rue partners",
+"partnership": "=rue partners",
+"official rue partners": "=rue partners",
+"official rue partner": "=rue partners",
+"orp": "=rue partners",
+"orps": "=rue partners",
 "sandboxels": "https://sandboxels.r74n.com",
 "sbxls": "=sandboxels",
 "sandboxles": "=sandboxels",
@@ -3653,6 +3681,7 @@ rueData.links = {
 "lingojam": "https://lingojam.com/R74n-com",
 "perchance": "https://perchance.org/r74n",
 "redbubble": "https://www.redbubble.com/people/R74n/shop",
+"temu": "https://temu.to/m/us0rKljtxAkxcjd",
 } // links
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
@@ -4179,6 +4208,14 @@ rueInput.addEventListener("keydown", function(e) {
         }
     }
 });
+rueInput.addEventListener("click", function(e) {
+    // double click while empty = unfocus
+    if (e.detail >= 2 && rueInput.value.length === 0) {
+        Rue.blink();
+        rueInput.blur();
+        e.preventDefault();
+    }
+})
 window.addEventListener("blur", function() { // window loses focus
     Rue.brain.metaKey = false;
     Rue.brain.shiftKey = false;
