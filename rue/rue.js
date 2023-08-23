@@ -3682,6 +3682,13 @@ rueData.links = {
 "perchance": "https://perchance.org/r74n",
 "redbubble": "https://www.redbubble.com/people/R74n/shop",
 "temu": "https://temu.to/m/us0rKljtxAkxcjd",
+
+"meese": "https://www.moosenotmeese.org/", //partner
+"moosenotmeese": "=meese",
+"moose not meese": "=meese",
+"mooses": "=meese",
+"moosen": "=meese",
+"plural of moose": "=meese",
 } // links
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
