@@ -105,162 +105,199 @@ This HTML and its contents are property of R74n.com.
     <!--<script src="moji/load.js"></script>-->
     <script src="load.js"></script>
     <script>
-  function newsFlash(text) {
-    document.getElementById("newsheader").innerHTML = text;
-    document.getElementById("newsheader").style.display = "block";
+function newsFlash(text) {
+  document.getElementById("newsheader").innerHTML = text;
+  document.getElementById("newsheader").style.display = "block";
+}
+
+function setIcon(){
+  var icondates = { //m-d
+    "1-1": [["red.png","orange.png","yellow.png","green.png","blue.png","purple.png"], "Happy New Year!"],
+    "2-14": [["red.png","magenta.png","pink.png"], "Love is in the air."],
+    "2-21": ["aromantic.png", "Celebrating Aromantic Spectrum Awareness Week"],
+    "3-8": ["pink.png", "Celebrating Women's Day"],
+    "3-17": [["lime.png","gold.png"], "Happy St. Patrick's Day!"],
+    "3-20": ["red.png", "Celebrating HIV/AIDS Awarness Day"],
+    "3-31": ["trans.png", "Celebrating Transgender Day of Visibility"],
+    "4-1": ["inverted-flipped.png", "Something is happening in Sandboxels..."],
+    "4-2": ["blue.png", "Observing Autism Awareness Day"],
+    "4-6": ["asexual.png", "Observing Asexuality Day"],
+    "4-20": ["green.png", "funny number"],
+    "4-22": ["lime.png", "Celebrating Earth Day"],
+    "4-26": ["lesbian.png", "Celebrating Lesbian Visibility Week"],
+    "5-1": ["rainbow.png", "Celebrating May Day"],
+    "5-2": ["strobe.gif", "Celebrating R74n's Birthday"],
+    "5-5": [["red.png","white_border_black.png","green.png"], "Celebrating Cinco de Mayo"],
+    "5-17": ["rainbow.png", "Celebrating inclusivity"],
+    "5-24": ["pansexual.png", "Celebrating Pansexual Visibility Day"],
+    "6-7": ["https://r74n.com/EoD.png", "Anniversary of Elemental on Discord"],
+    "6-8": ["R74n-GOLD.png", "A special birthday"],
+    "6-27": ["red.png", "National HIV Testing Day"],
+    "7-14": ["nonbinary.png", "Celebrating Non-Binary People's Day"],
+    "7-4": [["red.png","white_border_black.png","blue.png"], ""],
+    "8-26": ["pink.png", "Celebrating Women's Equality Day"],
+    "9-11": ["blue.png", "Not forgetting"],
+    "9-16": ["bisexual.png", "Celebrating Bisexual Awareness Week"],
+    "9-23": ["bisexual.png", "Celebrating Bisexual Awareness Week"],
+    "10-11": ["rainbow.png", "Celebrating Coming Out Day"],
+    "10-13": ["pink.png", ""],
+    "10-23": ["asexual.png", "Celebrating Asexual Awareness Week"],
+    "10-26": ["intersex.png", "Celebrating Intersex Awareness Day"],
+    "10-31": ["orange.png", "Happy Halloween!"],
+    "11-8": ["intersex.png", "Celebrating Intersex Solidarity Day"],
+    "11-20": ["trans.png", "Observing Transgender Day of Remembrance"],
+    "12-1": [["red.png","R74n-GOLD.png"], ""],
+    "12-8": ["pansexual.png", "Celebrating Pansexual and Panromantic Pride Day"],
+    "12-15": ["https://sandboxels.r74n.com/icons/icon.png", "Anniversary of Sandboxels"],
+    "12-25": [["red.png","lime.png","green.png"], "Merry Christmas!"],
+    "12-26": [["red.png","green.png"], "Habari Gani!"],
+    "12-31": ["gold.png", "The New Year is upon us!"],
+    //update yearly:
+    "2-10": ["red.png", "Celebrating the Lunar New Year"],
+    "4-9": [["white_border_black.png","pink.png","yellow.png"], "Celebrating Easter"],
+    "5-29": ["white_border_black.png", "Remembering"], //memorial day
+    "9-4": ["red.png", "Celebrating workers"], //labor day
+    "10-9": ["orange.png", "Celebrating Indigenous peoples"],
+    "11-23": [["brown.png","orange.png","yellow.png"], "Giving thanks"],
+
+  }
+  var iconmonths = {
+    "2": [["red.png","yellow.png","green.png"], "Celebrating Black History Month"],
+    "6": ["rainbow.png", "Celebrating Pride Month"],
+    "12": [["red.png","lime.png","green.png"], "Winter holidays!"],
   }
 
-  function setIcon(){
-    var icondates = { //m-d
-      "1-1": [["red.png","orange.png","yellow.png","green.png","blue.png","purple.png"], "Happy New Year!"],
-      "2-14": [["red.png","magenta.png","pink.png"], "Love is in the air."],
-      "2-21": ["aromantic.png", "Celebrating Aromantic Spectrum Awareness Week"],
-      "3-8": ["pink.png", "Celebrating Women's Day"],
-      "3-17": [["lime.png","gold.png"], "Happy St. Patrick's Day!"],
-      "3-20": ["red.png", "Celebrating HIV/AIDS Awarness Day"],
-      "3-31": ["trans.png", "Celebrating Transgender Day of Visibility"],
-      "4-1": ["inverted-flipped.png", "Something is happening in Sandboxels..."],
-      "4-2": ["blue.png", "Observing Autism Awareness Day"],
-      "4-6": ["asexual.png", "Observing Asexuality Day"],
-      "4-20": ["green.png", "funny number"],
-      "4-22": ["lime.png", "Celebrating Earth Day"],
-      "4-26": ["lesbian.png", "Celebrating Lesbian Visibility Week"],
-      "5-1": ["rainbow.png", "Celebrating May Day"],
-      "5-2": ["strobe.gif", "Celebrating R74n's Birthday"],
-      "5-5": [["red.png","white_border_black.png","green.png"], "Celebrating Cinco de Mayo"],
-      "5-17": ["rainbow.png", "Celebrating inclusivity"],
-      "5-24": ["pansexual.png", "Celebrating Pansexual Visibility Day"],
-      "6-7": ["https://r74n.com/EoD.png", "Anniversary of Elemental on Discord"],
-      "6-8": ["R74n-GOLD.png", "A special birthday"],
-      "6-27": ["red.png", "National HIV Testing Day"],
-      "7-14": ["nonbinary.png", "Celebrating Non-Binary People's Day"],
-      "7-4": [["red.png","white_border_black.png","blue.png"], ""],
-      "8-26": ["pink.png", "Celebrating Women's Equality Day"],
-      "9-11": ["blue.png", "Not forgetting"],
-      "9-16": ["bisexual.png", "Celebrating Bisexual Awareness Week"],
-      "9-23": ["bisexual.png", "Celebrating Bisexual Awareness Week"],
-      "10-11": ["rainbow.png", "Celebrating Coming Out Day"],
-      "10-13": ["pink.png", ""],
-      "10-23": ["asexual.png", "Celebrating Asexual Awareness Week"],
-      "10-26": ["intersex.png", "Celebrating Intersex Awareness Day"],
-      "10-31": ["orange.png", "Happy Halloween!"],
-      "11-8": ["intersex.png", "Celebrating Intersex Solidarity Day"],
-      "11-20": ["trans.png", "Observing Transgender Day of Remembrance"],
-      "12-1": [["red.png","R74n-GOLD.png"], ""],
-      "12-8": ["pansexual.png", "Celebrating Pansexual and Panromantic Pride Day"],
-      "12-15": ["https://sandboxels.r74n.com/icons/icon.png", "Anniversary of Sandboxels"],
-      "12-25": [["red.png","lime.png","green.png"], "Merry Christmas!"],
-      "12-26": [["red.png","green.png"], "Habari Gani!"],
-      "12-31": ["gold.png", "The New Year is upon us!"],
-      //update yearly:
-      "2-10": ["red.png", "Celebrating the Lunar New Year"],
-      "4-9": [["white_border_black.png","pink.png","yellow.png"], "Celebrating Easter"],
-      "5-29": ["white_border_black.png", "Remembering"], //memorial day
-      "9-4": ["red.png", "Celebrating workers"], //labor day
-      "10-9": ["orange.png", "Celebrating Indigenous peoples"],
-      "11-23": [["brown.png","orange.png","yellow.png"], "Giving thanks"],
+  // get today's date
+  var currentdate = new Date();
+  var currentdatestring = (currentdate.getMonth()+1) + "-" + currentdate.getDate();
+  var currentmonth = currentdate.getMonth()+1;
+  //currentdatestring = "5-2";
+  var newicon = null;
+  R74nicon = document.getElementById("R74nicon");
+  if (icondates[currentdatestring]) {
+    newicon = (icondates[currentdatestring][0] || "favicon.png");
+    var newtitle = icondates[currentdatestring][1];
+  }
+  else if (iconmonths[currentmonth]) {
+    newicon = (iconmonths[currentmonth][0] || "favicon.png");
+    var newtitle = iconmonths[currentmonth][1];
+  }
+  if (newicon) {
+    if (Array.isArray(newicon)) {
+      newicon = newicon[Math.floor(Math.random()*newicon.length)];
+    }
+    // if the newicon doesn't start with http, add "icons/"
+    if (!newicon.startsWith("http")) {
+      newicon = "icons/" + newicon;
+    }
+    R74nicon.src = newicon;
+    if (newtitle) {
+      R74nicon.title = newtitle;
+      console.log(newtitle);
+      currentEvent = newtitle;
+    }
+  }
+  else {
+    R74nicon.src = "icons/favicon.png";
+  }
+  R74nicon.style.display = "inline-block";
 
+  // Birthday celebrations
+  if (currentdatestring == "5-2") {
+    R74nicon.parentElement.href = "#HAPPY-BIRTHDAY";
+    document.title = "Happy Birthday R74n!";
+    var pagetitle = document.getElementById("pagetitle"); //h1
+    pagetitle.innerHTML = pagetitle.innerHTML + " 🎉";
+    pagetitle.title = "Happy Birthday R74n!";
+    // add to the top of content div... "Come celebrate with us!"
+    newsFlash("R74n has gained a year of age! Come celebrate with us on <a href='https://discord.gg/ejUc6YPQuS'>Discord</a>!");
+    // https://github.com/loonywizard/js-confetti
+    var confettijs = document.createElement("script");
+    confettijs.src = "confetti.js";
+    confettijs.onload = function() {
+      console.log("Happy Birthday R74n!");
+      const jsConfetti = new JSConfetti();
+      // make icon and pagetitle hover jsConfetti.addConfetti()
+      R74nicon.addEventListener("mouseover", function() {
+        jsConfetti.addConfetti();
+      });
+      pagetitle.addEventListener("mouseover", function() {
+        jsConfetti.addConfetti();
+      });
+      // and onclick
+      R74nicon.addEventListener("click", function() {
+        jsConfetti.addConfetti();
+      });
+      pagetitle.addEventListener("click", function() {
+        jsConfetti.addConfetti();
+      });
     }
-    var iconmonths = {
-      "2": [["red.png","yellow.png","green.png"], "Celebrating Black History Month"],
-      "6": ["rainbow.png", "Celebrating Pride Month"],
-      "12": [["red.png","lime.png","green.png"], "Winter holidays!"],
-    }
-
-    // get today's date
-    var currentdate = new Date();
-    var currentdatestring = (currentdate.getMonth()+1) + "-" + currentdate.getDate();
-    var currentmonth = currentdate.getMonth()+1;
-    //currentdatestring = "5-2";
-    var newicon = null;
-    R74nicon = document.getElementById("R74nicon");
-    if (icondates[currentdatestring]) {
-      newicon = (icondates[currentdatestring][0] || "favicon.png");
-      var newtitle = icondates[currentdatestring][1];
-    }
-    else if (iconmonths[currentmonth]) {
-      newicon = (iconmonths[currentmonth][0] || "favicon.png");
-      var newtitle = iconmonths[currentmonth][1];
-    }
-    if (newicon) {
-      if (Array.isArray(newicon)) {
-        newicon = newicon[Math.floor(Math.random()*newicon.length)];
-      }
-      // if the newicon doesn't start with http, add "icons/"
-      if (!newicon.startsWith("http")) {
-        newicon = "icons/" + newicon;
-      }
-      R74nicon.src = newicon;
-      if (newtitle) {
-        R74nicon.title = newtitle;
-        console.log(newtitle);
-        currentEvent = newtitle;
-      }
+    document.head.appendChild(confettijs);
+  }
+  else {
+    // if its before may 2 of the current year, add a countdown 
+    var nextbirthday = new Date();
+    if (currentdate.getMonth() < 4 || (currentdate.getMonth() == 4 && currentdate.getDate() < 2)) {
+      nextbirthday.setMonth(4);
+      nextbirthday.setDate(2);
     }
     else {
-      R74nicon.src = "icons/favicon.png";
+      nextbirthday.setFullYear(nextbirthday.getFullYear()+1);
+      nextbirthday.setMonth(4);
+      nextbirthday.setDate(2);
     }
-    R74nicon.style.display = "inline-block";
-
-    // Birthday celebrations
-    if (currentdatestring == "5-2") {
-      R74nicon.parentElement.href = "#HAPPY-BIRTHDAY";
-      document.title = "Happy Birthday R74n!";
-      var pagetitle = document.getElementById("pagetitle"); //h1
-      pagetitle.innerHTML = pagetitle.innerHTML + " 🎉";
-      pagetitle.title = "Happy Birthday R74n!";
-      // add to the top of content div... "Come celebrate with us!"
-      newsFlash("R74n has gained a year of age! Come celebrate with us on <a href='https://discord.gg/ejUc6YPQuS'>Discord</a>!");
-      // https://github.com/loonywizard/js-confetti
-      var confettijs = document.createElement("script");
-      confettijs.src = "confetti.js";
-      confettijs.onload = function() {
-        console.log("Happy Birthday R74n!");
-        const jsConfetti = new JSConfetti();
-        // make icon and pagetitle hover jsConfetti.addConfetti()
-        R74nicon.addEventListener("mouseover", function() {
-          jsConfetti.addConfetti();
-        });
-        pagetitle.addEventListener("mouseover", function() {
-          jsConfetti.addConfetti();
-        });
-        // and onclick
-        R74nicon.addEventListener("click", function() {
-          jsConfetti.addConfetti();
-        });
-        pagetitle.addEventListener("click", function() {
-          jsConfetti.addConfetti();
-        });
-      }
-      document.head.appendChild(confettijs);
-    }
-    else {
-      // if its before may 2 of the current year, add a countdown 
-      var nextbirthday = new Date();
-      if (currentdate.getMonth() < 4 || (currentdate.getMonth() == 4 && currentdate.getDate() < 2)) {
-        nextbirthday.setMonth(4);
-        nextbirthday.setDate(2);
+    nextbirthday.setHours(0);
+    // if it is 1 week or less away, countdown days, or hours if less than 1 day away
+    var daysleft = Math.floor((nextbirthday - currentdate) / (1000 * 60 * 60 * 24));
+    if (daysleft <= 7) {
+      if (daysleft <= 1) {
+        var hoursleft = Math.floor((nextbirthday - currentdate) / (1000 * 60 * 60));
+        var timeleft = hoursleft + " hours";
       }
       else {
-        nextbirthday.setFullYear(nextbirthday.getFullYear()+1);
-        nextbirthday.setMonth(4);
-        nextbirthday.setDate(2);
+        var timeleft = daysleft + " days";
       }
-      nextbirthday.setHours(0);
-      // if it is 1 week or less away, countdown days, or hours if less than 1 day away
-      var daysleft = Math.floor((nextbirthday - currentdate) / (1000 * 60 * 60 * 24));
-      if (daysleft <= 7) {
-        if (daysleft <= 1) {
-          var hoursleft = Math.floor((nextbirthday - currentdate) / (1000 * 60 * 60));
-          var timeleft = hoursleft + " hours";
-        }
-        else {
-          var timeleft = daysleft + " days";
-        }
-        newsFlash("R74n's birthday is in " + timeleft + "!");
+      newsFlash("R74n's birthday is in " + timeleft + "!");
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  // Temporary news flashes
+  var newsFlashes = [
+    ["8/24-9/5","NEWS FLASH: Do you own a cool website? Become a <a href='rue/partners'>Rue Partner</a> to get a command for it in our chatbot, and linked on the page!"],
+  ];
+  // loop through newsFlashes, if today is between the start and end dates, display the message
+  try {
+    var today = new Date();
+    for (var i=0; i<newsFlashes.length; i++) {
+      var dates = newsFlashes[i][0].split('-');
+      console.log(dates)
+      var start = new Date(dates[0]);
+      if (dates.length > 1) {
+        var end = new Date(dates[1]);
+      }
+      else {
+        var end = new Date(dates[0]);
+      }
+      // set year
+      start.setFullYear(today.getFullYear());
+      end.setFullYear(today.getFullYear());
+      // set time
+      start.setHours(0,0,0);
+      end.setHours(23,59,59);
+      // if today is between the start and end dates
+      if (today >= start && today <= end) {
+        var message = newsFlashes[i][1];
+        newsFlash(message);
+        break;
       }
     }
   }
+  catch (e) {
+    console.log(e);
+  }
+});
 
     </script>
 
