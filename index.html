@@ -274,17 +274,13 @@ document.addEventListener("DOMContentLoaded", function(){
     var today = new Date();
     for (var i=0; i<newsFlashes.length; i++) {
       var dates = newsFlashes[i][0].split('-');
-      console.log(dates)
-      var start = new Date(dates[0]);
+      var start = new Date(dates[0] + "/"+today.getFullYear());
       if (dates.length > 1) {
-        var end = new Date(dates[1]);
+        var end = new Date(dates[1] + "/"+today.getFullYear());
       }
       else {
-        var end = new Date(dates[0]);
+        var end = new Date(dates[0] + "/"+today.getFullYear());
       }
-      // set year
-      start.setFullYear(today.getFullYear());
-      end.setFullYear(today.getFullYear());
       // set time
       start.setHours(0,0,0);
       end.setHours(23,59,59);
