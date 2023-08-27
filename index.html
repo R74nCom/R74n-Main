@@ -98,6 +98,7 @@ This HTML and its contents are property of R74n.com.
     <meta name="twitter:creator" content="R74nCom">
     <meta name="twitter:creator:id" content="1436857621827530753">
     <meta name="fb:admins" content="100083189389697">
+    <!-- <meta name="apple-itunes-app" content="app-id=myAppStoreID"> -->
     
 
 
@@ -288,6 +289,7 @@ document.addEventListener("DOMContentLoaded", function(){
       if (today >= start && today <= end) {
         var message = newsFlashes[i][1];
         newsFlash(message);
+        currentNewsFlash = message;
         break;
       }
     }
