@@ -2184,6 +2184,18 @@ rueData.totalities = {
     "back a page": "=previous page",
     "back button": "=previous page",
     "last page": "=previous page",
+
+    "/is (.+) down/": function(text) { //partner
+        var match = text.match(/is (.+) down/i);
+        var key = match[1];
+        if (key.indexOf(".") !== -1) {
+            var url = urlToHostname(key);
+            Rue.openLink("https://www.isitdownrightnow.com/"+url+".html")
+        }
+        else {
+            Rue.openLink("https://downdetector.com/search/?q="+key)
+        }
+    },
 } // totalities
 rueData.activities = {
     "testactivity": function(text) {
