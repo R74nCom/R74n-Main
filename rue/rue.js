@@ -3702,6 +3702,10 @@ rueData.links = {
 "perchance": "https://perchance.org/r74n",
 "redbubble": "https://www.redbubble.com/people/R74n/shop",
 "temu": "https://temu.to/m/us0rKljtxAkxcjd",
+"translation hub": "https://r74n.com/translate",
+"translate hub": "https://r74n.com/translate",
+"translation": "https://r74n.com/translate",
+"translations": "https://r74n.com/translate",
 
 "meese": "https://www.moosenotmeese.org/", //partner
 "moosenotmeese": "=meese",
