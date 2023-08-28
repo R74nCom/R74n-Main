@@ -1303,6 +1303,14 @@ rueData.commands = {
     "enabled mods": "=mod list",
     "rue mods": "=mod list",
     "modded rue": "=mod list",
+
+    "downdetector": function(args) { //partner
+        if (args.length === 0) {
+            Rue.openLink("https://downdetector.com/");
+            return;
+        }
+        Rue.openLink("https://downdetector.com/search/?q="+args[0])
+    },
 } // commands
 rueData.favorites = {
     "color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)"
