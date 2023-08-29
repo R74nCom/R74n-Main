@@ -268,7 +268,9 @@ function setIcon(){
 document.addEventListener("DOMContentLoaded", function(){
   // Temporary news flashes
   var newsFlashes = [
-    ["8/24-9/5","NEWS FLASH: Do you own a cool website? Become a <a href='rue/partners'>Rue Partner</a> to get a command for it in our chatbot, and linked on the page!"],
+    ["8/24-9/6","NEWS FLASH: Do you own a cool website? Become a <a href='rue/partners'>Rue Partner</a> to get a command for it in our chatbot, and linked on the page!"],
+    ["9/6-9/10","NEWS FLASH: Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
+    ["9/12-9/15","NEWS FLASH: Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
   ];
   // loop through newsFlashes, if today is between the start and end dates, display the message
   try {
@@ -288,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function(){
       // if today is between the start and end dates
       if (today >= start && today <= end) {
         var message = newsFlashes[i][1];
-        // newsFlash(message);
+        newsFlash(message);
         currentNewsFlash = message;
         break;
       }
