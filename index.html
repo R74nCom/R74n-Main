@@ -111,6 +111,12 @@ This HTML and its contents are property of R74n.com.
 function newsFlash(text) {
   document.getElementById("newsheader").innerHTML = text;
   document.getElementById("newsheader").style.display = "block";
+  document.getElementById("newsheader").style.backgroundColor = "darkred";
+}
+function splashText(text) {
+  document.getElementById("newsheader").innerHTML = text;
+  document.getElementById("newsheader").style.display = "block";
+  document.getElementById("newsheader").style.backgroundColor = "#363636";
 }
 
 function setIcon(){
@@ -266,39 +272,7 @@ function setIcon(){
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-  // Temporary news flashes
-  var newsFlashes = [
-    ["8/24-9/6","NEWS FLASH: Do you own a cool website? Become a <a href='rue/partners'>Rue Partner</a> to get a command for it in our chatbot, and linked on the page!"],
-    ["9/6-9/10","NEWS FLASH: Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
-    ["9/12-9/15","NEWS FLASH: Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
-  ];
-  // loop through newsFlashes, if today is between the start and end dates, display the message
-  try {
-    var today = new Date();
-    for (var i=0; i<newsFlashes.length; i++) {
-      var dates = newsFlashes[i][0].split('-');
-      var start = new Date(dates[0] + "/"+today.getFullYear());
-      if (dates.length > 1) {
-        var end = new Date(dates[1] + "/"+today.getFullYear());
-      }
-      else {
-        var end = new Date(dates[0] + "/"+today.getFullYear());
-      }
-      // set time
-      start.setHours(0,0,0);
-      end.setHours(23,59,59);
-      // if today is between the start and end dates
-      if (today >= start && today <= end) {
-        var message = newsFlashes[i][1];
-        newsFlash(message);
-        currentNewsFlash = message;
-        break;
-      }
-    }
-  }
-  catch (e) {
-    console.log(e);
-  }
+  
 });
 
     </script>
@@ -397,6 +371,42 @@ document.addEventListener("DOMContentLoaded", function(){
     <dd>Discover the dark secrets of R74n</dd>
 </dl>
 </div>
+
+<script> // after content loaded
+// Temporary news flashes
+var newsFlashes = [
+  ["8/24-9/6","NEWS FLASH: Do you own a cool website? Become a <a href='rue/partners'>Rue Partner</a> to get a command for it in our chatbot, and linked on the page!"],
+  ["9/6-9/10","NEWS FLASH: Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
+  ["9/12-9/15","NEWS FLASH: Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
+];
+// loop through newsFlashes, if today is between the start and end dates, display the message
+try {
+  var today = new Date();
+  for (var i=0; i<newsFlashes.length; i++) {
+    var dates = newsFlashes[i][0].split('-');
+    var start = new Date(dates[0] + "/"+today.getFullYear());
+    if (dates.length > 1) {
+      var end = new Date(dates[1] + "/"+today.getFullYear());
+    }
+    else {
+      var end = new Date(dates[0] + "/"+today.getFullYear());
+    }
+    // set time
+    start.setHours(0,0,0);
+    end.setHours(23,59,59);
+    // if today is between the start and end dates
+    if (today >= start && today <= end) {
+      var message = newsFlashes[i][1];
+      newsFlash(message);
+      currentNewsFlash = message;
+      break;
+    }
+  }
+}
+catch (e) {
+  console.log(e);
+}
+</script>
 
 
 
