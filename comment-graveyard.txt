@@ -1,0 +1,8 @@
+  <!--<li><a href="emojiart/">Emoji Art Canvas</a></li>
+    <em>Draw emoji pixel art to your heart's content</em>-->
+
+  <!-- <dt><a href="https://docs.google.com/document/d/1G78Ec9pr2IpwEbBPWwRDzuAxs31QjHHMNaGXwtmqznY/edit">R74moji Suggestion Doc</a></dt>
+    <dd>Suggest emojis for me to draw!!!</dd> -->
+  <!-- <dt><a href="commons/calendar">R74n Calendar</a></dt>
+    <dd>Events and anniversaries</dd> -->
+
