@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Miscellaneous external links about R74n.">
+    <meta name="description" content="Various tests and experiments for R74n's PixelFlags.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Link Dump - R74n</title>
+    <title>PixelFlags Testing Zone - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
@@ -43,52 +43,68 @@ This HTML and its contents are property of R74n.com.
     <meta name="msapplication-config" content="https://R74n.com/icons/browserconfig.xml?v=R74n-2">
 
     <script src="https://R74n.com/load.js"></script>
+    <script>
+      chosenFlag = "pride/rainbow";
+      // check url query
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('flag')) {
+        chosenFlag = urlParams.get('flag');
+      }
+    </script>
 
 </head>
 <body>
 
 
-<a href="https://R74n.com" class="backbutton">⦉</a>
-<h1 class="pagetitle">Link Dump</h1>
+<a href="." class="backbutton">⦉</a>
+<h1 class="pagetitle">PixelFlags Testing Zone</h1>
 <div class="content">
-<p>Who doesn't love links? Not us! That's why we needed a place to put all the links that don't fit anywhere else.</p>
-<ul>
-  <li>patorjk.com<ul>
-    <li><a href="https://patorjk.com/misc/scrollingtext/timewaster.php?text=R74n&autoscroll=OFF&duration=20">Scrolling Text Time Waster</a></li>
-    <li><a href="https://patorjk.com/software/taag/#t=R74n">Text to ASCII Art Generator</a></li>
-    <li><a href="https://patorjk.com/keyboard-layout-analyzer/#/load/2ldGksr1">Keyboard Layout Analyzer</a></li>
-  </ul></li>
-  <li><a href="https://typatone.com/?message=R74n">Typatone</a></li>
-  <li>Flippity.net<ul>
-    <li><a href="https://flippity.net/ff.php?c=R74n">Fun with Fonts</a></li>
-    <li><a href="https://flippity.net/bi-pl.php?c=R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n,R74n&f=1">Bingo</a></li>
-    <li><a href="https://flippity.net/wm.php?x=Ja6W">WordMaster Game</a></li>
-    <li><a href="https://flippity.net/rp.php?c=R74n,R74n,R74n,R74n,R74n,R74n,R74n">Random Name Picker</a></li>
-  </ul></li>
-  <li><a href="https://krikienoid.github.io/flagwaver/#?src=https%3A%2F%2Fr74n.com%2Ficons%2Fthumbnail.png">FlagWaver</a></li>
-  <li><a href="https://anotepad.com/notes/tksw9wb9">aNotepad</a></li>
-  <li><a href="https://notepad.link/share/YCiHyBtmChb2khyxfZ2b">Notepad.link</a></li>
-  <li><a href="https://shrib.com/#Titus_GodPNd">Shrib</a></li>
-  <li><a href="https://goonlinetools.com/online-notepad/v/#charming3203">Go Online Tools Notepad</a></li>
-  <li><a href="https://pastebin.com/ET4G2e8M">Pastebin</a> <a href="https://pastebin.com/raw/ET4G2e8M">[Raw]</a></li>
-  <li><img src="https://counter.digits.net/?counter={be0df474-5ab9-fe94-21e8-326ac9f1be99}&template=simple" alt="Hit Counter by Digits"/></li>
-  <li><script type="text/javascript" src="//counter.websiteout.net/js/2/0/0/0"></script></li>
-  <li><a href="http://users3.smartgb.com/g/g.php?a=s&i=g36-35007-d3">Smart Guestbook</a></li>
-  <li><a href="https://wordart.com/puyndyj80vqy/word-art">WordArt.com</a></li>
-  <li><a href="https://www.computerhope.com/cgi-bin/text-tool.pl?text=R74n">Computer Hope Online Text Tool</a></li>
-  <li><a href="https://scratch.mit.edu/projects/573236064/">R74n Logo Scratch Project</a><ul>
-    <li><a href="https://turbowarp.org/573236064">R74n Logo TurboWarp</a></li>
-  </ul></li>
-  <li>KreativeKorp<ul>
-    <li><a href="https://www.kreativekorp.com/charset/whatis/?q=R74n">Unicode String Decoder</a></li>
-  </ul></li>
-  <li><a href="https://makecode.microbit.org/12804-10484-94635-62162">micro:bit MakeCode Name Tag</a></li>
-  <li><a href="https://flamingtext.com/Cool-Text-Generator?text=R74n">flamingtext.com</a></li>
-</ul>
 
+<img src="https://r74n.com/pixelflags/png/pride/rainbow.png" class="pixelflag" id="flag1">
+<script>
+  // set to chosenFlag
+  var flag1 = document.getElementById("flag1");
+  flag1.src = "https://r74n.com/pixelflags/png/" + chosenFlag + ".png";
+</script>
 
+<pixelflag>pride/rainbow</pixelflag>
+<script>
+  var pf = document.getElementsByTagName("pixelflag");
+  for (var i = 0; i < pf.length; i++) {
+    var flagElement = pf[i];
+    var flagName = chosenFlag || flagElement.innerHTML.replace(/\s/g, '').toLowerCase();
+    var flagURL = "https://r74n.com/pixelflags/png/" + flagName + ".png";
+    flagElement.innerHTML = "<img src='" + flagURL + "' class='pixelflag' alt='Flag (" + flagName + ")'>";
+  }
+</script>
 
-
+<br>
+<canvas height="500" width="500" id="canvas"></canvas>
+<style>
+  #canvas {
+    vertical-align: middle;
+    image-rendering:pixelated
+  }
+</style>
+<script>
+  // draw the flag centered vertically and fitted to the canvas
+  var canvas = document.getElementById("canvas");
+  // make sure the canvas is square and divisible by 32
+  canvas.width = 32 * Math.floor(canvas.width / 32);
+  canvas.height = 32 * Math.floor(canvas.height / 32);
+  var ctx = canvas.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  ctx.mozImageSmoothingEnabled = false;
+  ctx.webkitImageSmoothingEnabled = false;
+  var img = new Image();
+  img.onload = function() {
+    var scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+    var x = (canvas.width / 2) - (img.width / 2) * scale;
+    var y = (canvas.height / 2) - (img.height / 2) * scale;
+    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+  }
+  img.src = "https://r74n.com/pixelflags/png/" + chosenFlag + ".png";
+</script>
 
 
 </div>

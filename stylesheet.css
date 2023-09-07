@@ -219,6 +219,12 @@ tr:nth-child(odd){background-color: #272727;}
 #newsheader a:hover {color:rgb(117, 255, 117);}
 #newsheader a:active {color:yellow;}
 
+.pixelart, .pixelflag {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
 kbd {background-color:rgb(59, 59, 59);color:white;border-radius:5px;padding:2px;padding-left:5px;padding-right:5px;margin-left:3px;margin-right:3px;line-height:1.5;}
 
 /* Mobile styles */
