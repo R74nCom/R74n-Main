@@ -110,10 +110,10 @@ function showWordInfo(word,soft){
     if (tempWord.startsWith(key)) {
       var guessedWord = halacaeWords[key.replace(/ø/g, "oo").replace(/æ/g, "ae")];
       if (key.match(/^[aeiouøæ]$/i)) { // modifier
-        if (key === "e") { guess = guess.substring(0,guess.length-1) + "-like" }
-        else if (key === "u") { guess = guess.substring(0,guess.length-1) + "-ing" }
-        else if (key === "a") { guess = guess.substring(0,guess.length-1) + "-ness" }
-        else { guess = guessedWord + " " + guess }
+        if (key === "e") { guess = guess.substring(0,guess.length-1) + "-like " }
+        else if (key === "u") { guess = guess.substring(0,guess.length-1) + "-ing " }
+        else if (key === "a") { guess = guess.substring(0,guess.length-1) + "-ness " }
+        else { guess = guessedWord + " " + guess + " " }
       }
       else {
         guess += guessedWord + " ";
