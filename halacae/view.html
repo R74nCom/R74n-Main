@@ -62,7 +62,7 @@ This HTML and its contents are property of R74n.com.
 <script>
 function showWordInfo(word,soft){
   word = word.toLowerCase();
-  if (!word.match(/^(ae?|e|i|oo?|u)?([chlmprsy-]?(ae?|e|i|oo?|u))+$/i)) {
+  if (!word.match(/^(ae?|e|i|oo?|u)?(([chlmprsy-](ae?|e|i|oo?|u))+)?$/i)) {
     if (soft !== true) {wordInfoE.innerHTML = "That's not a valid Halacae word. Make sure it is only one!";}
     if (word.length === 0) {
       wordInfoE.innerHTML = "Enter a word to see its info.";

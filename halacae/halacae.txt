@@ -16,8 +16,8 @@ Vowel: ^(ae?|e|i|oo?|u)$
 Consonant: ^[chlmprsy-]$
 Letter: ^(ae?|e|i|oo?|u|[chlmprsy-])$
 Basic Word: ^[chlmprsy-]?(ae?|e|i|oo?|u)$
-Word: ^(ae?|e|i|oo?|u)?([chlmprsy-]?(ae?|e|i|oo?|u))+$
-Text: ^["']?((ae?|e|i|oo?|u)?([chlmprsy-]?(ae?|e|i|oo?|u))+)((([ ,.?!"']+)?(ae?|e|i|oo?|u)?([chlmprsy-]?(ae?|e|i|oo?|u))+)+)?([.?!"']+)?$
+Word: ^(ae?|e|i|oo?|u)?(([chlmprsy-](ae?|e|i|oo?|u))+)?$
+Text: ^["']?((ae?|e|i|oo?|u)?(([chlmprsy-](ae?|e|i|oo?|u))+)?)((([ ,.?!"']+)?(ae?|e|i|oo?|u)?(([chlmprsy-](ae?|e|i|oo?|u))+)?)+)?([.?!"']+)?$
 Adjective: [^a]e((-(i|oo?))+)?$
 Verb: u((-(i|oo?))+)?$
 
