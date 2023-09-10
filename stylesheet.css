@@ -224,6 +224,7 @@ tr:nth-child(odd){background-color: #272727;}
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
 }
+.grayimg {background-color:gray;padding:5px;}
 
 kbd {background-color:rgb(59, 59, 59);color:white;border-radius:5px;padding:2px;padding-left:5px;padding-right:5px;margin-left:3px;margin-right:3px;line-height:1.5;}
 

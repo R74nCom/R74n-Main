@@ -1,0 +1,38 @@
+Vowels: a e i ae o oo u
+Consonants: c h l m p r s y -
+
+ca ce ci cae co coo cu
+ha he hi hae ho hoo hu
+la le li lae lo loo lu
+ma me mi mae mo moo mu
+pa pe pi pae po poo pu
+ra re ri rae ro roo ru
+sa se si sae so soo su
+ya ye yi yae yo yoo yu
+-a -e -i -ae -o -oo -u
+
+[Regex]
+Vowel: ^(ae?|e|i|oo?|u)$
+Consonant: ^[chlmprsy-]$
+Letter: ^(ae?|e|i|oo?|u|[chlmprsy-])$
+Basic Word: ^[chlmprsy-]?(ae?|e|i|oo?|u)$
+Word: ^(ae?|e|i|oo?|u)?([chlmprsy-]?(ae?|e|i|oo?|u))+$
+Text: ^["']?((ae?|e|i|oo?|u)?([chlmprsy-]?(ae?|e|i|oo?|u))+)((([ ,.?!"']+)?(ae?|e|i|oo?|u)?([chlmprsy-]?(ae?|e|i|oo?|u))+)+)?([.?!"']+)?$
+Adjective: [^a]e((-(i|oo?))+)?$
+Verb: u((-(i|oo?))+)?$
+
+[Functions]
+Normalize:
+    Remove - at start
+    Lowercase
+Add modifier to word
+    If ends with a, replace a with the vowel
+    If ends with the vowel, do nothing
+    If ends with other, add -(vowel)
+Convert word to adjective
+    Add modifier to word(e)
+Convert word to verb
+    Add modifier to word(u)
+Strip modifier from word
+    Replace all vowels at end with a
+Arabic to Halacae Numeral
