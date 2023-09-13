@@ -135,6 +135,37 @@ function showWordInfo(word,soft){
   }
   wordInfo += "<br><br>Approximate Definition: " + (guess||"Could not determine.");
 
+  var consonantMeanings = {
+    c: "consciousness",
+    h: "humanity",
+    l: "academia",
+    m: "nature",
+    p: "energy",
+    r: "discipline",
+    s: "sensation",
+    y: "construction"
+  }
+  // determine percentages of each consonant compared to other consonants
+  var consonantCounts = {};
+  for (var i = 0; i < word.length; i++) {
+    var letter = word[i];
+    if (!letter.match(/[chlmprsy]/i)) { continue; }
+    if (!consonantCounts[letter]) { consonantCounts[letter] = 0; }
+    consonantCounts[letter]++;
+  }
+  var consonantPercentages = {};
+  for (var letter in consonantCounts) {
+    consonantPercentages[letter] = consonantCounts[letter] / word.match(/[chlmprsy]/gi).length * 100;
+  }
+  // sort consonant percentages
+  var consonantPercentagesSorted = Object.keys(consonantPercentages).sort(function(a,b){return consonantPercentages[b]-consonantPercentages[a]});
+  // add consonant percentages to wordInfo
+  wordInfo += "<br><br>Semantic Percentages:<br>";
+  for (var i = 0; i < consonantPercentagesSorted.length; i++) {
+    var letter = consonantPercentagesSorted[i];
+    wordInfo += consonantMeanings[letter] + " ("+letter+"): " + consonantPercentages[letter].toFixed(2) + "%<br>";
+  }
+
   wordInfoE.innerHTML = wordInfo;
 }
   // if url param "word", use that, else use whole query string
