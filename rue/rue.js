@@ -2646,7 +2646,7 @@ rueData.responses = {
     "lang": "{{kw:language}}",
     "2023": "My birth year!",
     "june": "My birth month! (The 22nd, to be exact.) See the {{link:https://r74n.com/commons/calendar|calendar}} for more events in June.",
-    "mods": "If you're looking for Sandboxels mods, try checking the {{link:https://link.r74n.com/sandboxels-mods|Mod List}}.",
+    "mods": "If you're looking for Sandboxels mods, try checking the {{link:https://sandboxels.r74n.com/mod-list|Mod List}}.",
     "mod": "=mods",
     "modding": "=mods",
     "/\\.+/": "error>>>{{r:[blank]}}", //"..."

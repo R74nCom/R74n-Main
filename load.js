@@ -9,15 +9,57 @@ if (!String.prototype.replaceAll) {
 
 urlParams = new URLSearchParams(window.location.search);
 
+const LSPrefix = "R74nMain-";
+class R74nClass {
+	constructor() {
+		this.R74n = () => {console.log("R74n")}
+		this.start = new Date();
+	}
+	get(key) {
+		return localStorage.getItem(LSPrefix+key);
+	}
+	set(key, value) {
+		return localStorage.setItem(LSPrefix+key, value);
+	}
+	add(key, value) {
+		var old = get(key);
+		if (!old) { return set(key,value); }
+		if (isNaN(parseFloat(old))) {
+			try {
+				var parsed = JSON.parse(old);
+				if (Array.isArray(parsed)) {
+					parsed.push(value);
+					return set(key, JSON.stringify(parsed));
+				}
+			}
+			catch { return set(key, old+value); }
+		}
+		return set(key, parseFloat(old)+value);
+	}
+	del(key) {
+		return localStorage.removeItem(LSPrefix+key);
+	}
+	keys() {
+		return listLS(LSPrefix);
+	}
+}
+const R74n = new R74nClass();
+
+function listLS(prefix) {
+	prefix = prefix || "";
+	var keys = [];
+	for (var i = 0; i < localStorage.length; i++) {
+		if (localStorage.key(i).startsWith(prefix)) {
+			keys.push(localStorage.key(i).replace(prefix,""));
+		}
+	}
+	return keys;
+}
 
 window.addEventListener("load",function(){
 
 // Console Watermark
 console.log("%c WELCOME TO R74n ","position: absolute; top: 50%; right: 50%; transform: translate(50%,-50%); font-family: Arial; font-size: 3em; font-weight: 700; color: #00ffff; text-shadow: 1px 1px 1px #14c9c9, 1px 2px 1px #14c9c9, 1px 3px 1px #14c9c9, 1px 4px 1px #14c9c9, 1px 5px 1px #14c9c9, 1px 13px 6px rgba(16,16,16,0.4), 1px 22px 10px rgba(16,16,16,0.2), 1px 25px 35px rgba(16,16,16,0.2), 1px 30px 60px rgba(16,16,16,0.4);padding:10px")
-
-function R74n() {
-  console.log("R74n")
-}
 
 function callRue() {
 	if (typeof Rue === "undefined" && !document.getElementById("rueScript")) {
