@@ -22,19 +22,19 @@ class R74nClass {
 		return localStorage.setItem(LSPrefix+key, value);
 	}
 	add(key, value) {
-		var old = get(key);
-		if (!old) { return set(key,value); }
+		var old = R74n.get(key);
+		if (!old) { return R74n.set(key,value); }
 		if (isNaN(parseFloat(old))) {
 			try {
 				var parsed = JSON.parse(old);
 				if (Array.isArray(parsed)) {
 					parsed.push(value);
-					return set(key, JSON.stringify(parsed));
+					return R74n.set(key, JSON.stringify(parsed));
 				}
 			}
-			catch { return set(key, old+value); }
+			catch { return R74n.set(key, old+value); }
 		}
-		return set(key, parseFloat(old)+value);
+		return R74n.set(key, parseFloat(old)+value);
 	}
 	del(key) {
 		return localStorage.removeItem(LSPrefix+key);
