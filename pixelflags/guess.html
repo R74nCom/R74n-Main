@@ -71,7 +71,7 @@ This HTML and its contents are property of R74n.com.
       #gameinputs {
         padding-top: 5px;
       }
-      #gameinputs, #gamestats {
+      #gameinputs, #gamestats, #gameoptions {
         text-align: center;
       }
       #gameinputs input, #gameinputs select {
@@ -84,7 +84,7 @@ This HTML and its contents are property of R74n.com.
       #gameinputs select {
         margin-top: 15px
       }
-      #gamestats {
+      #gamestats, #gameoptions {
         margin-top: 15px;
       }
       input.correct {
@@ -112,7 +112,7 @@ This HTML and its contents are property of R74n.com.
   <input type="button" value="United Kingdom">
   <input type="button" value="United Kingdom">
   <input type="button" value="United Kingdom">
-  <select onchange="currentSet = this.value; refreshFlag(); updateStats();">
+  <select onchange="currentSet = this.value; streak=0; refreshFlag(); updateStats();">
     <option value="country" selected>Countries</option>
     <option value="state">US States</option>
     <option value="pride">Pride Flags</option>
@@ -121,6 +121,9 @@ This HTML and its contents are property of R74n.com.
 </div>
 <div id="gamestats">
   Correct Guesses: ...<br>
+</div>
+<div id="gameoptions">
+  <input class="checkbox" id="speedrunMode" type="checkbox" value="" onchange="speedrun = document.getElementById('speedrunMode').checked"><label for="speedrunMode">Speedrun Mode</label>
 </div>
 <script>
   var canvas = document.getElementById("canvas");
@@ -171,12 +174,17 @@ flagPrefixes = {
     setTimeout(function() {
       refreshFlag();
       played = false;
-    }, 1000);
+    }, speedrun ? 250 : 1000);
   }
   function updateStats() {
-    document.getElementById("gamestats").innerHTML = "Correct Guesses: " + (R74n.get("PixelFlagsGuessCorrect-"+currentSet)||0);
+    document.getElementById("gamestats").innerHTML =
+      "Correct Guesses: " + (R74n.get("PixelFlagsGuessCorrect-"+currentSet)||0) +
+      "<br>Streak: " + streak +
+      "<br>Highest Streak: " + (R74n.get("PixelFlagsGuessStreakHigh-"+currentSet)||0);
   }
-  played = false;
+  var played = false;
+  var speedrun = false;
+  var streak = 0;
   updateStats();
   function refreshFlag() {
     // clear classes correct and incorrect from buttons in gameinputs
@@ -203,9 +211,15 @@ flagPrefixes = {
       if (button.value == answerText) {
         button.classList.add("correct");
         R74n.add("PixelFlagsGuessCorrect-"+currentSet,1)
+        streak++;
+        if (streak > parseInt(R74n.get("PixelFlagsGuessStreakHigh-"+currentSet)||0)) {
+          R74n.set("PixelFlagsGuessStreakHigh-"+currentSet,streak);
+        }
         updateStats();
       } else {
         button.classList.add("incorrect");
+        streak = 0;
+        updateStats();
         // add correct to the correct button
         for (var i = 0; i < buttons.length; i++) {
           if (buttons[i].value == answerText) {
