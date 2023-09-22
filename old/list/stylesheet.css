@@ -1,0 +1,19 @@
+h1,h2,h3,h4,h5,h6,title,ul,ol {margin:0px;padding:0px;}
+
+ul,ol {margin-left:30px}
+
+body {
+    background-color: #23272A;
+    color: #ffffff;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1 {margin-top: -5px;padding-bottom:10px}
+a {
+    color: #7289DA;
+}
+
+.blur {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(255,255,255,0.5);
+}

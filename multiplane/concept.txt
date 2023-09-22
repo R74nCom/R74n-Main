@@ -20,4 +20,6 @@ R00100-R001FF Projects
 
 (i)R00007     - Slot 7 in the Imaginary dimension
 
-- [ ] 
+Assignment - When an single entity is given a code
+Assignment Drop - When multiple entities are given codes
+fabrication, conception, emanation, assignment, creation, materialization, manifestation
