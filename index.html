@@ -215,10 +215,9 @@ function setIcon(){
   if (currentdatestring == "5-2") {
     R74nicon.parentElement.href = "#HAPPY-BIRTHDAY";
     document.title = "Happy Birthday R74n!";
-    var pagetitle = document.getElementById("pagetitle"); //h1
+    var pagetitle = document.getElementById("pagetitle");
     pagetitle.innerHTML = pagetitle.innerHTML + " 🎉";
     pagetitle.title = "Happy Birthday R74n!";
-    // add to the top of content div... "Come celebrate with us!"
     newsFlash("R74n has gained a year of age! Come celebrate with us on <a href='https://discord.gg/ejUc6YPQuS'>Discord</a>!");
     // https://github.com/loonywizard/js-confetti
     var confettijs = document.createElement("script");
@@ -227,19 +226,11 @@ function setIcon(){
       console.log("Happy Birthday R74n!");
       const jsConfetti = new JSConfetti();
       // make icon and pagetitle hover jsConfetti.addConfetti()
-      R74nicon.addEventListener("mouseover", function() {
-        jsConfetti.addConfetti();
-      });
-      pagetitle.addEventListener("mouseover", function() {
-        jsConfetti.addConfetti();
-      });
+      R74nicon.addEventListener("mouseover", ()=>{jsConfetti.addConfetti()});
+      pagetitle.addEventListener("mouseover", ()=>{jsConfetti.addConfetti()});
       // and onclick
-      R74nicon.addEventListener("click", function() {
-        jsConfetti.addConfetti();
-      });
-      pagetitle.addEventListener("click", function() {
-        jsConfetti.addConfetti();
-      });
+      R74nicon.addEventListener("click", ()=>{jsConfetti.addConfetti()});
+      pagetitle.addEventListener("click", ()=>{jsConfetti.addConfetti()});
     }
     document.head.appendChild(confettijs);
   }
@@ -294,9 +285,9 @@ function setIcon(){
 <strong class="linkcategory">== Spotlight ==</strong>
 <dl>
   <dt class="glowbullet"><a href="https://sandboxels.R74n.com">Sandboxels</a></dt>
-      <dd>Intricate falling-sand simulation game</dd>
+      <dd>Intricate falling-sand simulator</dd>
   <dt class="glowbullet"><a href="https://c.R74n.com">Copy Paste Dump</a></dt>
-    <dd>Copy and paste everything this Summer</dd>
+    <dd>Copy and paste everything this Fall</dd>
   <dt><a href="hello/">Hello in Every Way</a></dt>
       <dd>Learn to greet anyone and anything, anytime</dd>
   <dt><a href="convert/">Unit Converter</a></dt>
@@ -304,7 +295,7 @@ function setIcon(){
   <dt><a href="moji/">R74moji</a></dt>
     <dd>Feel anything. Be anyone.</dd>
   <dt><a href="pixelflags/">PixelFlags</a></dt>
-    <dd>582 tiny pixel art flags + <a href="pixelflags/guess">guessing game</a></dd>
+    <dd>582 tiny pixel art flags & guessing game</dd>
   <dt><a href="words/">Words and Definitions</a></dt>
     <dd>Learn words from all cultures of the world</dd>
   <dt><a href="unisearch/">Uni<wbr>Search</a></dt>

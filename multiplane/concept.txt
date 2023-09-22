@@ -1,0 +1,23 @@
+	Entity
+R0000n///////////////////	///////////////////////////////
+0	R74n
+1	
+…	
+E	
+F	
+
+* dimension (3D, contains multiplanes, each multiplane has a modifier like 1(default) or negative or imaginary, like a mirror world with a twist)
+* multiplane (2D, contains planes, 1048575 slots each)
+* massive planes (sections of the multiplane split up)
+* big blocks (sections of each plane reserved for certain types)
+* row (n in R0000n)
+* slot (cell in a row)
+
+Format:
+Planes:
+R00000-R000FF Fundamentals
+R00100-R001FF Projects
+
+(i)R00007     - Slot 7 in the Imaginary dimension
+
+- [ ] 

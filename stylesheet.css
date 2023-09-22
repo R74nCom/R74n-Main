@@ -35,8 +35,13 @@ img, audio, video {vertical-align:middle;max-width:100%}
     transition:30s;
 }
 
+textarea, button, input, .checkmark {
+    vertical-align: middle;
+    color-scheme: dark;
+}
 input[type=submit] {background-color: rgb(126, 126, 126)!important;}
-input[type=button], button, input[type=submit], .checkmark {
+input[type=reset] {background-color: rgb(111, 79, 79)!important;}
+input[type=button], button, input[type=submit], input[type=reset], .checkmark {
     background-color: rgb(107,107,107);
     color: rgb(255,255,255);
     box-shadow: 0em -0.1em 0em inset rgb(0,0,0,0.5);
@@ -59,17 +64,17 @@ input[type=button], button, input[type=submit], .checkmark {
     transition: filter 0.2s;
 }
 input[disabled], textarea[disabled], button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
-textarea, button, input[type=button], input[type=submit], .checkmark {
-    vertical-align: middle;
-}
 input[type=button]:hover, button:hover, input[type=submit]:hover, .checkmark:hover {
     filter: brightness(125%);
+}
+input[type=button][disabled]:hover, button[disabled]:hover, input[type=submit][disabled]:hover {
+    filter: brightness(75%);
 }
 input[type=button]:active, button:active, input[type=submit]:active, .checkmark:active {
     filter: brightness(50%);
 }
 
-textarea, input[type=text], input[type=number] {
+textarea, input[type=text], input[type=number], input[type=date], input[type=datetime-local], input[type=month], input[type=week], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=time], input[type=url] {
     background-color: rgb(107,107,107);
     color: rgb(255,255,255);
     border-radius: 15px;
@@ -96,6 +101,17 @@ meter, progress {
     height: 1.5em;
     vertical-align: middle;
 }
+input[type="color"] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: rgb(107,107,107);
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    vertical-align: middle;
+    height: 1.75em;
+}
 
 
 ul, dl {
@@ -110,7 +126,8 @@ ul li::before, dl dt::before {
     margin-left: 0.5em; /* Also needed for space (tweak if needed) */
   }
 li.redbullet::before, dt.redbullet::before {color:red;}
-li.glowbullet::before, dt.glowbullet::before {text-shadow: 0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px;}
+li.cyanbullet::before, dt.cyanbullet::before {color:#00ffff;}
+li.glowbullet::before, dt.glowbullet::before, .glowtext {text-shadow: 0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px;}
 li.graybullet::before, dt.graybullet::before {color:gray;}
 li.yellowbullet::before, dt.yellowbullet::before {color:yellow;}
 ol {list-style: none; counter-reset: li}

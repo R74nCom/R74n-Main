@@ -67,16 +67,16 @@ This HTML and its contents are property of R74n.com.
 <div class="content">
 <span style="display:block">Here are all the special things (like inputs and stuff) that R74n supports.</span>
 <div class="divblock">
-  <dl style="margin-bottom:0px"><dt>List Item</dt><dd>Description</dd><dt class="redbullet">List Item (Red)</dt><dt class="yellowbullet">List Item (Yellow)</dt><dt class="graybullet">List Item (Gray)</dt></ul>
-  <ol style="margin-top:0px"><li>Ordered List Item</li><li class="redbullet">Ordered List Item (Red)</li><li class="yellowbullet">Ordered List Item (Yellow)</li><li class="graybullet">Ordered List Item (Gray)</li></ol>
+  <dl style="margin-bottom:0px"><dt>List Item</dt><dd>Description</dd><dt class="redbullet">List Item (Red)</dt><dt class="yellowbullet">List Item (Yellow)</dt><dt class="graybullet">List Item (Gray)</dt><dt class="glowbullet">List Item (Glowing)</dt><dt class="cyanbullet">List Item (Cyan)</dt></ul>
+  <ol style="margin-top:0px"><li>Ordered List Item</li><li class="redbullet">Ordered List Item (Red)</li><li class="yellowbullet">Ordered List Item (Yellow)</li><li class="graybullet">Ordered List Item (Gray)</li><li class="glowbullet">Ordered List Item (Glowing)</li><li class="cyanbullet">Ordered List Item (Cyan)</li></ol>
 </div>
 <div class="divblock">
   <input type="button" value="Button" onclick="buttontest(this);return false">
   <input style="background-color:red" type="button" value="Button" onclick="buttontest(this);return false">
   <input style="background-color:orange" type="button" value="Button" onclick="buttontest(this);return false">
-  <input style="background-color:yellow;color:magenta" type="button" value="Button" onclick="buttontest(this);return false">
-  <input style="background-color:lime" type="button" value="Button" onclick="buttontest(this);return false">
-  <input style="background-color:cyan" type="button" value="Button" onclick="buttontest(this);return false">
+  <input style="background-color:yellow;color:black" type="button" value="Button" onclick="buttontest(this);return false">
+  <input style="background-color:lime;color:black" type="button" value="Button" onclick="buttontest(this);return false">
+  <input style="background-color:cyan;color:black" type="button" value="Button" onclick="buttontest(this);return false">
   <input style="background-color:magenta" type="button" value="Button" onclick="buttontest(this);return false">
   <input style="background-color:white;color:black" type="button" value="Button" onclick="buttontest(this);return false">
   <input type="button" value="Disabled" onclick="buttontest(this);return false" disabled>
@@ -144,7 +144,43 @@ This HTML and its contents are property of R74n.com.
   <meter></meter>
   <meter value="74" max="100"></meter>
 </div>
+<div class="divblock">
+  <span class="glowtext" style="color:#00ffff">Glowing Text</span>
+</div>
 
+
+
+<div>
+  <form onsubmit="return false">
+    <!--Tuesday, May 2, 2017, 6:45 PM Eastern Time-->
+    <input type="button" value="Button">
+    <input type="color" value="#00ffff">
+    <input type="date" value="2017-05-02">
+    <input type="datetime-local" value="2017-05-02T18:45">
+    <input type="email" placeholder="Email...">
+    <input type="file">
+    <input type="hidden">
+    <input type="month" value="2017-05">
+    <input type="number" value="74" placeholder="Amount">
+    <input type="password" placeholder="Password...">
+    <input type="radio">
+    <input type="range" min="0" max="100" value="74">
+    <input type="reset">
+    <input type="search" placeholder="Search...">
+    <input type="submit">
+    <input type="tel" placeholder="(000) 000-0000">
+    <input type="text" placeholder="Text...">
+    <input type="time" value="18:45">
+    <input type="url" placeholder="URL...">
+    <input type="week" value="2017-W18">
+    <fieldset>
+      <legend>Legend</legend>
+      <input type="checkbox" id="TestCheckbox4" value=""><label for="TestCheckbox4">Test Checkbox</label><br>
+      <input type="checkbox" id="TestCheckbox5" value=""><label for="TestCheckbox5">Test Checkbox</label><br>
+      <input type="checkbox" id="TestCheckbox6" value=""><label for="TestCheckbox6">Test Checkbox</label>
+    </fieldset>
+  </form>
+</div>
 
 
 <hr>
