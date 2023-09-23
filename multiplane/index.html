@@ -61,6 +61,9 @@ This HTML and its contents are property of R74n.com.
         text-align: center;
         min-width: 0.8em;
       }
+      .tabContent {
+        display: none;
+      }
     </style>
     <script>
       window.addEventListener("load",function() {
@@ -80,12 +83,30 @@ This HTML and its contents are property of R74n.com.
 
 <p id="loadingText">Plane Explorer Loading...</p>
 
-<p>Jump To: <select id="planeSelect"></select></p>
+<input type="button" id="tabButton-table" value="Table" onclick="openTab('table')" selected="true">
+<input type="button" id="tabButton-unions" value="Unions" onclick="initUnions();openTab('unions')">
 
-<table id="compactTable"></table>
-<table id="planeTable"></table>
+<div class="tabContent" id="tab-table" style="display:block">
+  <p>Jump To: <select id="planeSelect"></select></p>
+  <p>Dimension: <select id="dimensionSelect"></select></p>
+  <table id="compactTable"></table>
+  <table id="planeTable"></table>
+</div>
+
+<div class="tabContent" id="tab-unions" style="display:block">
+  <table id="unionTable"></table>
+</div>
 
 <script>
+  function openTab(id) {
+    var tabs = document.getElementsByClassName("tabContent");
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].style.display = "none";
+      document.getElementById("tabButton-"+tabs[i].id.split("tab-")[1]).setAttribute("selected","false");
+    }
+    document.getElementById("tab-"+id).style.display = "block";
+    document.getElementById("tabButton-"+id).setAttribute("selected","true");
+  }
   function addRow(left,right,span) {
     var table = document.getElementById("planeTable");
     var row = table.insertRow(-1);
@@ -150,15 +171,24 @@ This HTML and its contents are property of R74n.com.
       "dimension": dimension,
     };
   }
-  function getEntityAt(decimal) {
+  function getEntityAt(decimal,dimension) {
     var hex = decimal.toString(16);
-    if (multiplaneEntities[hex]) {
-      return multiplaneEntities[hex];
+    if (dimension) {
+      var dimensionPrefix = "("+dimension+")";
     }
-    if (multiplaneEntities[hex.toUpperCase()]) {
-      return multiplaneEntities[hex.toUpperCase()];
+    else { dimensionPrefix = ""; }
+    if (multiplaneEntities[dimensionPrefix+hex]) {
+      return multiplaneEntities[dimensionPrefix+hex];
+    }
+    if (multiplaneEntities[dimensionPrefix+hex.toUpperCase()]) {
+      return multiplaneEntities[dimensionPrefix+hex.toUpperCase()];
     }
     return "";
+  }
+
+  currentState = {
+    "decimal": 0,
+    "dimension": "",
   }
 
   function initSelect() {
@@ -167,7 +197,7 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < keys.length; i++) {
       var option = document.createElement("option");
       option.value = keys[i].split("-")[0];
-      option.innerHTML = multiplanePlanes[keys[i]] + " (" + keys[i] + ")";
+      option.innerHTML = keys[i] + " " + multiplanePlanes[keys[i]];
       select.appendChild(option);
     }
     select.addEventListener("change",function() {
@@ -177,20 +207,39 @@ This HTML and its contents are property of R74n.com.
         initTable(parsed.decimal);
       }
     });
+    
+    var dselect = document.getElementById("dimensionSelect");
+    var dkeys = Object.keys(multiplaneDimensions);
+    for (var i = 0; i < dkeys.length; i++) {
+      var option = document.createElement("option");
+      option.value = dkeys[i];
+      if (!dkeys[i]) {
+        option.innerHTML = multiplaneDimensions[dkeys[i]];
+      }
+      else {
+        option.innerHTML = multiplaneDimensions[dkeys[i]] + " (" + dkeys[i] + ")";
+      }
+      dselect.appendChild(option);
+    }
+    dselect.addEventListener("change",function() {
+      currentState.dimension = dselect.value;
+      initTable(currentState.decimal);
+    });
   }
 
   function initTable(currentNum) {
     currentNum = currentNum||0;
     currentNum = Math.max(currentNum,0);
     currentNum = Math.min(currentNum,1048575-255);
+    currentState.decimal = currentNum;
     var currentPrefix = currentNum % 16;
-    var currentDimension = "";
+    var currentDimension = currentState.dimension||"";
     if (currentDimension) {
       var dimensionPrefix = "("+currentDimension+")";
     }
     else { dimensionPrefix = ""; }
     document.getElementById("planeTable").innerHTML = "<thead><tr><th>"+dimensionPrefix+"R<em>nnnnn</em></th><th>Entity</th></tr></thead>";
-    document.getElementById("compactTable").innerHTML = "<thead>   <tr><th colspan='17'>R"+((currentNum/16).toString(16).toUpperCase().padStart(4,"0").slice(0, -1))+"yx</th></tr>   <tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>";
+    document.getElementById("compactTable").innerHTML = "<thead>   <tr><th colspan='17'>"+dimensionPrefix+"R"+((currentNum/16).toString(16).toUpperCase().padStart(4,"0").slice(0, -1))+"yx</th></tr>   <tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>";
     var start = currentNum;
     var end = currentNum+256;
     addControlRow(start);
@@ -204,7 +253,7 @@ This HTML and its contents are property of R74n.com.
       }
       var left = (currentNum%16).toString(16).toUpperCase();
       // var right = String.fromCharCode(currentNum+32);
-      var right = getEntityAt(currentNum);
+      var right = getEntityAt(currentNum,currentDimension);
       addRow(prefix+left,right);
       // last character of left
       if (!right) {
@@ -215,6 +264,18 @@ This HTML and its contents are property of R74n.com.
       currentNum++;
     }
     addControlRow(start);
+  }
+
+  function initUnions() {
+    var table = document.getElementById("unionTable");
+    table.innerHTML = "<thead><tr><th>Union</th><th>Entity</th></tr></thead>";
+    for (union in multiplaneUnions) {
+      var row = table.insertRow(-1);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      cell1.innerHTML = union;
+      cell2.innerHTML = multiplaneUnions[union];
+    }
   }
 </script>
 

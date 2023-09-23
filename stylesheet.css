@@ -63,6 +63,9 @@ input[type=button], button, input[type=submit], input[type=reset], .checkmark {
     /* color transition */
     transition: filter 0.2s;
 }
+input[type=button][selected=true] {
+    filter: brightness(150%);
+}
 input[disabled], textarea[disabled], button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
 input[type=button]:hover, button:hover, input[type=submit]:hover, .checkmark:hover {
     filter: brightness(125%);
