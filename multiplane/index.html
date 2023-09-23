@@ -93,7 +93,8 @@ This HTML and its contents are property of R74n.com.
   <table id="planeTable"></table>
 </div>
 
-<div class="tabContent" id="tab-unions" style="display:block">
+<div class="tabContent" id="tab-unions" style="display:none">
+  <p>Any possible union is valid and useable, but they do not have an officially-defined meaning unless declared here.</p>
   <table id="unionTable"></table>
 </div>
 
@@ -257,9 +258,9 @@ This HTML and its contents are property of R74n.com.
       addRow(prefix+left,right);
       // last character of left
       if (!right) {
-        addCell("#",right,"",false);
+        addCell("#",prefix+left,"",false);
       } else {
-        addCell("#",right,"#"+prefix+left,false);
+        addCell("#",prefix+left+" "+right,"#"+prefix+left,false);
       }
       currentNum++;
     }

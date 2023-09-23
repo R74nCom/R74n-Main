@@ -6,21 +6,42 @@ R0000n///////////////////	///////////////////////////////
 E	
 F	
 
-* dimension (3D, contains multiplanes, each multiplane has a modifier like 1(default) or negative or imaginary, like a mirror world with a twist)
-* multiplane (2D, contains planes, 1048575 slots each)
-* massive planes (sections of the multiplane split up)
-* big blocks (sections of each plane reserved for certain types)
-* row (n in R0000n)
-* slot (cell in a row)
-
 Format:
-Planes:
 R00000-R000FF Fundamentals
-R00100-R001FF Projects
 
 (i)R00007     - Slot 7 in the Imaginary dimension
+
+Dimension - Modifier to a code in the default multiplane
+Multiplane - Huge 2D area; Contains planes; Has 1048575 slots each
+Plane - Large section of a multiplane; Varying size
+Block - Section of a plane; Varying size
+Row - Collection of 16 slots, 0-F; The n in R0000n
+Slot - One cell in a row which can be allocated to an entity
 
 Allocation - When an single entity is given a code
 Code Update - When multiple entities are given codes
 Reservation - Empty codes that serve a preemptive purpose
 Union - Set of two codes or other unions that form a new concept - e.g. R00001+(i)R00007
+
+Block Sizes (Bz):
+Bz1 - 256     ; 16x16          ; R00000-R000FF
+Bz2 - 4096    ; 16x16x16       ; R00000-R00FFF
+Bz3 - 65536   ; 16x16x16x16    ; R00000-R0FFFF
+Bz4 - 1048576 ; 16x16x16x16x16 ; R00000-RFFFFF
+
+Future planes & blocks:
+Foundation
+	...
+Project Spaces
+	Languages (Bz2, from HiEW)
+	Units (Bz2)
+	PixelFlags (Bz2)
+	R74moji (Bz2)
+	Social Media Accounts (Bz2)
+	Logos (Bz2)
+		R74n Logos (Bz1)
+Descriptors
+	Countries & Regions (Bz2)
+	Colors (Bz1)
+
+Dimensions starting with "x" can be user-assigned and used for whatever purpose without necessarily correlating to the default dimension.
