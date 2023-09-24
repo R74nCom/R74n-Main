@@ -8,6 +8,7 @@ F
 
 Format:
 R00000-R000FF Fundamentals
+(-)R00000-R000FF (-)Fundamentals    (Ranges can't cross dimensions, so second doesn't matter)
 
 (i)R00007     - Slot 7 in the Imaginary dimension
 
@@ -40,8 +41,11 @@ Project Spaces
 	Social Media Accounts (Bz2)
 	Logos (Bz2)
 		R74n Logos (Bz1)
+	Halacae (Bz1)
+	Elemental on Discord (Bz3)
 Descriptors
 	Countries & Regions (Bz2)
 	Colors (Bz1)
 
-Dimensions starting with "x" can be user-assigned and used for whatever purpose without necessarily correlating to the default dimension.
+Dimensions starting with "x" (e.g. (xtest)) can be user-assigned and used for whatever purpose without necessarily correlating to the default dimension.
+There are 65536 user-assigned codes from RF0000-RFFFFF, at the end of the multiplane.
