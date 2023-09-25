@@ -45,11 +45,21 @@ This HTML and its contents are property of R74n.com.
     <script src="https://R74n.com/load.js"></script>
 
     <script>
+function permutateAlphabet(n,alphabet) {
+  // A, B, C ... AA, AB
+  var letters = [];
+  while (n >= alphabet.length) {
+    letters.push(alphabet[n%alphabet.length]);
+    n = Math.floor(n/alphabet.length)-1;
+  }
+  letters.push(alphabet[n]);
+  return letters.reverse().join("");
+}
 sequencers = {
   "Decimal": (n) => n,
   "Even": (n) => n*2,
   "Odd": (n) => n*2+1,
-  "Primes": (n) => {
+  "Prime": (n) => {
     var primes = [2];
     var i = 3;
     while (primes.length < n) {
@@ -67,7 +77,7 @@ sequencers = {
     }
     return primes[primes.length-1];
   },
-  "Powers of 2": (n) => Math.pow(2, n),
+  "Power of 2": (n) => Math.pow(2, n),
   "Binary": (n) => n.toString(2),
   "Hexadecimal": (n) => n.toString(16),
   "Octal": (n) => n.toString(8),
@@ -77,7 +87,7 @@ sequencers = {
   "Senary": (n) => n.toString(6),
   "Septenary": (n) => n.toString(7),
   "Nonary": (n) => n.toString(9),
-  "Roman": (n) => {
+  "Roman Numeral": (n) => {
     var roman = "";
     var romanNums = ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"];
     var romanVals = [1000,900,500,400,100,90,50,40,10,9,5,4,1];
@@ -89,17 +99,8 @@ sequencers = {
     }
     return roman;
   },
-  "Letters": (n) => {
-    // A, B, C ... AA, AB
-    var letters = "";
-    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    while (n >= alphabet.length) {
-      letters += alphabet.charAt(n%alphabet.length);
-      n = Math.floor(n/alphabet.length)-1;
-    }
-    letters += alphabet.charAt(n);
-    return letters.split("").reverse().join("");
-  },
+  "Letter": (n) => permutateAlphabet(n,"ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+  "Emoji Square": (n) => permutateAlphabet(n,["🟥","🟧","🟨","🟩","🟦","🟪","⬛️","⬜️","🟫"]),
 }
 
 currentNum = 0;
@@ -136,6 +137,17 @@ function start(sequencer) {
     }
   };
   nextNum(100);
+  if (sequencer !== "Decimal") {
+    document.querySelector("title").innerText = sequencer+" Sequence - R74n";
+    history.pushState(null, null, "?"+sequencer);
+  }
+  else {
+    document.querySelector("title").innerText = "Sequence - R74n";
+    // remove url query
+    history.pushState(null, null, window.location.pathname);
+  }
+  clearButtons();
+  document.getElementById("buttonDiv").querySelector("input[value='"+sequencer+"']").setAttribute("selected", true);
 }
     </script>
 
@@ -151,11 +163,18 @@ function start(sequencer) {
 <div id="sequenceDiv" style="text-align: center;">1<br>2<br>3</div>
 
 <script>
+  function clearButtons() {
+    // find the button with selected=true and set it to false
+    var button = document.getElementById("buttonDiv").querySelector("input[selected=true]");
+    if (button) {
+      button.setAttribute("selected", false);
+    }
+  }
   function createButtons() {
     var buttonDiv = document.getElementById("buttonDiv");
     buttonDiv.innerHTML = "";
     for (var sequencer in sequencers) {
-      buttonDiv.innerHTML += "<input type='button' onclick='start(this.value)' value='"+sequencer+"'> ";
+      buttonDiv.innerHTML += `<input type='button' onclick='start(this.value); clearButtons(); this.setAttribute("selected",true)' value='`+sequencer+`'> `;
     }
   }
   createButtons();
