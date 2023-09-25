@@ -164,6 +164,7 @@ currentNum = 0;
 lastNum = undefined;
 currentSequencer = "Decimal";
 function nextNum(n) {
+  var newNumbers = "";
   for (var i = 0; i < (n||1); i++) {
     var sequenceDiv = document.getElementById("sequenceDiv");
     try {
@@ -180,8 +181,9 @@ function nextNum(n) {
     else if (result === Infinity && lastNum === Infinity) { return }
     currentNum++;
     lastNum = result;
-    sequenceDiv.innerHTML += "<br>"+result;
+    newNumbers += "<br>"+result;
   }
+  sequenceDiv.innerHTML += newNumbers;
 }
 function start(sequencer) {
   currentNum = 0;
