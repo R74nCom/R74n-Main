@@ -1,11 +1,3 @@
-	Entity
-R0000n///////////////////	///////////////////////////////
-0	R74n
-1	
-…	
-E	
-F	
-
 Format:
 R00000-R000FF Fundamentals
 (-)R00000-R000FF (-)Fundamentals    (Ranges can't cross dimensions, so second doesn't matter)
