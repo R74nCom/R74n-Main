@@ -78,6 +78,7 @@ sequencers = {
     return primes[primes.length-1];
   },
   "Power of 2": (n) => Math.pow(2, n),
+  "Power of 10": (n) => Math.pow(10, n),
   "Binary": (n) => n.toString(2),
   "Hexadecimal": (n) => n.toString(16),
   "Octal": (n) => n.toString(8),
@@ -87,6 +88,7 @@ sequencers = {
   "Senary": (n) => n.toString(6),
   "Septenary": (n) => n.toString(7),
   "Nonary": (n) => n.toString(9),
+  "Duodecimal": (n) => n.toString(12),
   "Roman Numeral": (n) => {
     var roman = "";
     var romanNums = ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"];
@@ -101,18 +103,74 @@ sequencers = {
   },
   "Letter": (n) => permutateAlphabet(n,"ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
   "Emoji Square": (n) => permutateAlphabet(n,["🟥","🟧","🟨","🟩","🟦","🟪","⬛️","⬜️","🟫"]),
+  "Halacae Numeral": (n) => {
+    var prefixes = {1:"-",2:"C",3:"H",4:"L",5:"M",6:"P",7:"R",8:"S",9:"Y"};
+    var suffixes = {0:"A",1:"E",2:"I",3:"O",4:"U",5:"AE",6:"OO"};
+    if (n === 0) {return "o"}
+    n = n.toString();
+    var result = "";
+    /* Python:
+    for place in range(len(num))[::-1]:#list(range(len(num)))[::-1]:
+        char = num[::-1][place]
+        if int(char) in prefixes:
+            new += prefixes[int(char)]+suffixes[place]
+    return new.strip("-")
+    */
+    // o,A,CA,HA,LA,MA,PA,RA,SA,YA,E,E-A,ECA,EHA,ELA,EMA,EPA,ERA,ESA,EYA,CE,CE-A,CECA,CEHA,CELA,CEMA,CEPA,CERA,...
+    for (var place = n.length-1; place >= 0; place--) {
+      var char = n[n.length-1-place];
+      if (char in prefixes) {
+        result += prefixes[char]+suffixes[place];
+      }
+    }
+    if (result.charAt(0) === "-") {
+      result = result.substring(1);
+    }
+    return result;
+  },
+  "Tally": (n) => "|".repeat(n),
+  "Negative": (n) => -n,
+  "Sine": (n,l) => Math.sin((l===undefined) ? 1 : l),
+  "Egyptian Numeral": (n) => {
+    var result = "";
+    result = "𓁨".repeat(parseInt(n/1000000));
+    n = n%1000000;
+    result += "𓆐".repeat(parseInt(n/100000));
+    n = n%100000;
+    result += "𓂭".repeat(parseInt(n/10000));
+    n = n%10000;
+    result += "𓆼".repeat(parseInt(n/1000));
+    n = n%1000;
+    result += "𓍢".repeat(parseInt(n/100));
+    n = n%100;
+    result += "𓎆".repeat(parseInt(n/10));
+    n = n%10;
+    result += "𓏤".repeat(parseInt(n/1));
+    return result;
+  },
+  "Hex Color": (n) => {
+    var hex = n.toString(16).padStart(6,"0");
+    return "<span style='background-color:#"+hex+"'>#"+hex+"</span>";
+  },
+  "Rainbow": (n) => {
+    r = Math.floor(Math.sin(n*0.01+0)*127+128);
+    g = Math.floor(Math.sin(n*0.01+2)*127+128);
+    b = Math.floor(Math.sin(n*0.01+4)*127+128);
+    return "<span style='background-color:rgb("+r+","+g+","+b+")'>rgb("+r+","+g+","+b+")</span>";
+  },
 }
 
 currentNum = 0;
-lastNum = 0;
+lastNum = undefined;
 currentSequencer = "Decimal";
 function nextNum(n) {
   for (var i = 0; i < (n||1); i++) {
     var sequenceDiv = document.getElementById("sequenceDiv");
     try {
-      var result = sequencers[currentSequencer](currentNum);
+      var result = sequencers[currentSequencer](currentNum, lastNum);
     }
     catch (e) {
+      console.log("ERROR: " + e)
       result = "";
     }
     if (result === "" || (currentNum===1 && result===lastNum)) {
@@ -127,7 +185,7 @@ function nextNum(n) {
 }
 function start(sequencer) {
   currentNum = 0;
-  lastNum = 0;
+  lastNum = undefined;
   currentSequencer = sequencer;
   document.getElementById("sequenceDiv").innerHTML = "";
   // when the user is near the bottom of the page, generate more content
