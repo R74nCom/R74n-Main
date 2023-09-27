@@ -13,7 +13,7 @@ Slot - One cell in a row which can be allocated to an entity
 
 Allocation - When an single entity is given a code
 Code Update - When multiple entities are given codes
-Reservation - Empty codes that serve a preemptive purpose
+Reservation - Empty codes that serve a preemptive purpose, marked by [reserved] or otherwise specified
 Union - Set of two codes or other unions that form a new concept - e.g. R00001+(i)R00007
 
 Block Sizes (Bz):
@@ -24,7 +24,7 @@ Bz4 - 1048576 ; 16x16x16x16x16 ; R00000-RFFFFF
 
 Future planes & blocks:
 Foundation
-	...
+	Meta (Things related to the Multiplane, Bz1)
 Project Spaces
 	Languages (Bz2, from HiEW)
 	Units (Bz2)
@@ -38,6 +38,23 @@ Project Spaces
 Descriptors
 	Countries & Regions (Bz2)
 	Colors (Bz1)
+	Days Since R74n Epoch (May 2, 2017—October 6, 2039, Leap days included, Bz2*2)
+	UTC Offsets (UTC+1:00, UTC+1:15, UTC+1:30, UTC+1:45, etc. (96 entities), Bz1)
+	Extended Timekeeping (Bz1)
+		Hours 0-23
+		Minutes 0-59
+		Seconds 0-59
+		Months 0-11
+		Weekdays 0-6
+
+Future Features:
+- Plane Tree (List of each plane inside one another)
+- Multiplane Search (Search all allocations)
+- Example Page
+	- Displaying a date and time in union format
+- URL Parameter to navigate
+	- Auto-updating URL
+	- Temporary highlight for desired element
 
 Dimensions starting with "x" (e.g. (xtest)) can be user-assigned and used for whatever purpose without necessarily correlating to the default dimension.
 There are 65536 user-assigned codes from RF0000-RFFFFF, at the end of the multiplane.

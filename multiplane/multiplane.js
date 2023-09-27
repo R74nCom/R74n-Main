@@ -14,6 +14,9 @@ multiplaneEntities = {
   "22": "unknown",
   "23": "true",
   "24": "false",
+  "25": "multiple entities",
+  "26": "entity without code",
+  "28": "or",
   
   "74": "[reserved]",
 
@@ -164,9 +167,10 @@ multiplanePlanes = {
     "R01100-R011FF": "",
     "R01200-R012FF": "",
     "R01300-R013FF": "",
-  "R10000-R10FFF": "",
-  "R11000-R11FFF": "",
-  "R12000-R12FFF": "",
+  "R10000-R1FFFF": "Descriptors",
+  "R20000-R20FFF": "",
+  "R21000-R21FFF": "",
+  "R22000-R22FFF": "",
   "RD0000-RDFFFF": "Wikibase Item Compatibility",
   "RE0000-REFFFF": "Ontomata Class Compatibility",
   "RF0000-RFFFFF": "Private Use Plane",
@@ -174,6 +178,9 @@ multiplanePlanes = {
 
 
 multiplaneUnions = {
+  "R00003+R00023": "fact",
+  "R00003+R00024": "misinformation",
+  "R00023+R00028+R00024": "true or false",
   "R00003+R00088": "reference website",
   "R000F1+R000FF": "number 16",
   "R00531+R00533": "copy-paste",

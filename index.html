@@ -163,17 +163,18 @@ function setIcon(){
     "12-31": ["gold.png", "The New Year is upon us!"],
     //update yearly:
     "2-10": ["red.png", "Celebrating the Lunar New Year"],
-    "4-9": [["white_border_black.png","pink.png","yellow.png"], "Celebrating Easter"],
-    "5-29": ["white_border_black.png", "Remembering"], //memorial day
-    "9-4": ["red.png", "Celebrating workers"], //labor day
+    "3-31": [["white_border_black.png","pink.png","yellow.png"], "Celebrating Easter"],
+    "5-27": ["white_border_black.png", "Remembering"], //memorial day
+    "9-2": ["red.png", "Celebrating workers"], //labor day
     "10-9": ["orange.png", "Celebrating Indigenous peoples"],
     "11-23": [["brown.png","orange.png","yellow.png"], "Giving thanks"],
 
   }
   var iconmonths = {
     "2": [["red.png","yellow.png","green.png"], "Celebrating Black History Month"],
-    "6": ["rainbow.png", "Celebrating Pride Month"],
-    "12": [["red.png","lime.png","green.png"], "Winter holidays!"],
+    "6": ["rainbow.png", "Celebrating Pride Month", ["❤️","🧡","💛","💚","💙","💜"]],
+    "10": ["pumpkin.png", "Happy Halloween!", ["🎃","💀","🍫","🍬","🍭","🕷","🕸","👹","👻","🦇"]],
+    "12": [["red.png","lime.png","green.png"], "Winter holidays!", ["❄️","🎁"]],
   }
 
   // get today's date
@@ -182,14 +183,17 @@ function setIcon(){
   var currentmonth = currentdate.getMonth()+1;
   //currentdatestring = "5-2";
   var newicon = null;
+  var eventdata = null;
   R74nicon = document.getElementById("R74nicon");
   if (icondates[currentdatestring]) {
     newicon = (icondates[currentdatestring][0] || "favicon.png");
     var newtitle = icondates[currentdatestring][1];
+    eventdata = icondates[currentdatestring];
   }
   else if (iconmonths[currentmonth]) {
     newicon = (iconmonths[currentmonth][0] || "favicon.png");
     var newtitle = iconmonths[currentmonth][1];
+    eventdata = iconmonths[currentmonth];
   }
   if (newicon) {
     if (Array.isArray(newicon)) {
@@ -208,6 +212,18 @@ function setIcon(){
   }
   else {
     R74nicon.src = "icons/favicon.png";
+  }
+  if (eventdata && eventdata[2]) {
+    // https://github.com/loonywizard/js-confetti
+    var confettijs = document.createElement("script");
+    confettijs.src = "confetti.js";
+    confettijs.onload = function() {
+      const jsConfetti = new JSConfetti();
+      // make icon and pagetitle hover jsConfetti.addConfetti()
+      R74nicon.addEventListener("mouseover", ()=>{jsConfetti.addConfetti({emojis:eventdata[2],confettiNumber: 10})});
+      R74nicon.addEventListener("click", ()=>{jsConfetti.addConfetti({emojis:eventdata[2],confettiNumber: 10})});
+    }
+    document.head.appendChild(confettijs);
   }
   R74nicon.style.display = "inline-block";
 
@@ -281,7 +297,9 @@ function setIcon(){
 <div class="content">
 <p id="newsheader" style="display:none;"></p><script>setIcon();</script>
 
-<div style="display:inline-block;vertical-align:top;">
+<!-- <div class="homefundivtop">Fun stuff could go here!</div> -->
+
+<div class="homediv">
 <strong class="linkcategory">== Spotlight ==</strong>
 <dl>
   <dt class="glowbullet"><a href="https://sandboxels.R74n.com">Sandboxels</a></dt>
@@ -305,7 +323,7 @@ function setIcon(){
 </dl>
 </div>
 
-<div style="display:inline-block;vertical-align:top;">
+<div class="homediv">
 <strong class="linkcategory">== R74n ==</strong>
 <dl>
   <dt class="glowbullet"><a href="https://discord.gg/ejUc6YPQuS">R74n Discord Server</a></dt>
@@ -319,7 +337,7 @@ function setIcon(){
   <dt><a href="social/">Social</a></dt>
     <dd>All of our many social accounts</dd>
   <dt><a href="https://data.R74n.com/">Wikibase</a></dt>
-    <dd>Structured data about R74n anyone can edit</dd>
+    <dd>Structured data about R74n</dd>
   <dt><a href="icons/">R74n Icons</a></dt>
     <dd>Iconic R74n logo in every color and format</dd>
   <dt><a href="rue/">Explore with Rue</a></dt>
@@ -329,11 +347,15 @@ function setIcon(){
 </dl>
 </div>
 
-<div style="display:inline-block;vertical-align:top;">
+<!-- <div class="homefundiv">Fun stuff could go here!</div> -->
+
+<div class="homediv">
 <strong class="linkcategory">== Miscellaneous ==</strong>
 <dl>
   <dt><a href="mix/">Mix<wbr>-<wbr>Up!</a></dt>
     <dd>Come up with an answer to endless combinations</dd>
+  <dt class="glowbullet"><a href="sequence/">Sequence</a></dt>
+    <dd>Endless streams of various number systems</dd>
   <dt><a href="translate/">Translation Hub</a></dt>
     <dd>Contribute your multilingual knowledge</dd>
   <dt><a href="https://github.com/R74nCom/Social-Media-Lists" target="_blank">Social Media Lists</a></dt>
@@ -342,8 +364,6 @@ function setIcon(){
     <dd>Get help and cool items for your favorite block game</dd>
   <dt><a href="halacae/">Halacae</a></dt>
     <dd>Interpretive constructed language with minimal letters</dd>
-  <dt><a href="PogChamp/">All Twitch Pog<wbr>Champs</a></dt>
-    <dd>Every Pog<wbr>Champ up to the Pog<wbr>Champening</dd>
   <dt><a href="octopi">Types of Octopi</a></dt>
     <dd>Very old, very real</dd>
   <dt><a href="old/">Time Machine</a></dt>

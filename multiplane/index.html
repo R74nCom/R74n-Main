@@ -45,8 +45,12 @@ This HTML and its contents are property of R74n.com.
     <script src="https://R74n.com/load.js"></script>
     
     <style>
-      .spanRow {
+      .titleRow {
         background-color: #00ffff;
+        color: black;
+      }
+      .spanRow {
+        background-color: #00b4b4;
         color: black;
       }
       table {
@@ -66,7 +70,25 @@ This HTML and its contents are property of R74n.com.
       }
     </style>
     <script>
+      planeList = [];
       window.addEventListener("load",function() {
+        for (var range in multiplanePlanes) {
+          var min = parsePlanecode(range.split("-")[0]).decimal;
+          var max = parsePlanecode(range.split("-")[1]).decimal;
+          planeList.push({
+            "min": min,
+            "max": max,
+            "range": range,
+            "name": multiplanePlanes[range],
+          });
+        }
+        planeList.sort(function(a,b) {
+          return a.min - b.min;
+        });
+        planeListHSort = planeList.slice(0); // hierarchical sort
+        planeListHSort.sort(function(a,b) {
+          return (a.max-a.min) - (b.max-b.min);
+        });
         initSelect();
         initTable();
         document.getElementById("loadingText").remove();
@@ -84,15 +106,21 @@ This HTML and its contents are property of R74n.com.
 <p id="loadingText">Plane Explorer Loading...</p>
 
 <input type="button" id="tabButton-table" value="Table" onclick="openTab('table')" selected="true">
+<input type="button" id="tabButton-planes" value="Planes" onclick="initPlanes();openTab('planes')">
 <input type="button" id="tabButton-unions" value="Unions" onclick="initUnions();openTab('unions')">
 
 <input type="button" value="More Info" onclick="window.open('concept.txt')">
 
 <div class="tabContent" id="tab-table" style="display:block">
-  <p>Jump To: <select id="planeSelect"></select></p>
-  <p>Dimension: <select id="dimensionSelect"></select></p>
+  <p>Jump To: <select id="planeSelect"><option selected disabled>Loading...</option></select></p>
+  <p>Dimension: <select id="dimensionSelect"><option selected disabled>Loading...</option></select></p>
   <table id="compactTable"></table>
   <table id="planeTable"></table>
+</div>
+
+<div class="tabContent" id="tab-planes" style="display:none">
+  <p>Planes and blocks are displayed here, which are ranges allocated to particular purposes.</p>
+  <div id="planeList"></div>
 </div>
 
 <div class="tabContent" id="tab-unions" style="display:none">
@@ -124,11 +152,11 @@ This HTML and its contents are property of R74n.com.
       cell1.className = "spanRow";
     }
   }
-  function addCell(text,title,link,span) {
+  function addCell(text,title,link,isTitle) {
     var table = document.getElementById("compactTable");
     // use last row
     var row = table.rows[table.rows.length-1];
-    if (span || !row) {
+    if (isTitle || !row) {
       row = table.insertRow(-1);
     }
     var cell = row.insertCell(-1);
@@ -138,18 +166,14 @@ This HTML and its contents are property of R74n.com.
       cell.innerHTML = text;
     }
     cell.title = title;
-    if (span) {
-      cell.className = "spanRow";
+    if (isTitle) {
+      cell.className = "titleRow";
     }
   }
-  function addControlRow(start) {
-    addRow(
-    "<a href=\"javascript:initTable(0)\">&lt;&lt;</a> " +
-    "<a href=\"javascript:initTable("+(start-256)+")\">&lt;</a>"
-    ,
-    "<a href=\"javascript:initTable("+(start+256)+")\">&gt;</a> " +
-    "<a href=\"javascript:initTable(1048320)\">&gt;&gt;</a>"
-    );
+  function controlRow(start) {
+    return "<a href=\"javascript:initTable("+(start-256)+")\" style='float:left'>◀</a>"
+      +
+    "<a href=\"javascript:initTable("+(start+256)+")\" style='float:right'>▶</a> "
   }
 
   function parsePlanecode(code) {
@@ -188,6 +212,13 @@ This HTML and its contents are property of R74n.com.
     }
     return "";
   }
+  function getPlaneAt(decimal) {
+    for (var i = 0; i < planeListHSort.length; i++) {
+      if (decimal >= planeListHSort[i].min && decimal <= planeListHSort[i].max) {
+        return planeListHSort[i];
+      }
+    }
+  }
 
   currentState = {
     "decimal": 0,
@@ -196,10 +227,12 @@ This HTML and its contents are property of R74n.com.
 
   function initSelect() {
     var select = document.getElementById("planeSelect");
+    select.innerHTML = "<option value='unknown' id='planeOption-unknown' disabled>Select a plane</option>";
     var keys = Object.keys(multiplanePlanes);
     for (var i = 0; i < keys.length; i++) {
       var option = document.createElement("option");
       option.value = keys[i].split("-")[0];
+      option.id = "planeOption-"+keys[i];
       option.innerHTML = keys[i] + " " + multiplanePlanes[keys[i]];
       select.appendChild(option);
     }
@@ -212,10 +245,12 @@ This HTML and its contents are property of R74n.com.
     });
     
     var dselect = document.getElementById("dimensionSelect");
+    dselect.innerHTML = "<option value='unknown' id='dimensionOption-unknown' disabled>Select a dimension</option>";
     var dkeys = Object.keys(multiplaneDimensions);
     for (var i = 0; i < dkeys.length; i++) {
       var option = document.createElement("option");
       option.value = dkeys[i];
+      option.id = "dimensionOption-"+dkeys[i];
       if (!dkeys[i]) {
         option.innerHTML = multiplaneDimensions[dkeys[i]];
       }
@@ -241,11 +276,19 @@ This HTML and its contents are property of R74n.com.
       var dimensionPrefix = "("+currentDimension+")";
     }
     else { dimensionPrefix = ""; }
-    document.getElementById("planeTable").innerHTML = "<thead><tr><th>"+dimensionPrefix+"R<em>nnnnn</em></th><th>Entity</th></tr></thead>";
-    document.getElementById("compactTable").innerHTML = "<thead>   <tr><th colspan='17'>"+dimensionPrefix+"R"+((currentNum/16).toString(16).toUpperCase().padStart(4,"0").slice(0, -1))+"yx</th></tr>   <tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>";
+    document.getElementById("planeTable").innerHTML = "";
+    document.getElementById("planeTable").innerHTML += "<thead><tr><th colspan='2'>"+controlRow(currentNum)+"</th></tr><tr><th>"+dimensionPrefix+"R<em>nnnnn</em></th><th>Entity</th></tr></thead>";
+    document.getElementById("compactTable").innerHTML = "<thead>   <tr><th><a href=\"javascript:initTable("+(currentNum-256)+")\">◀</a></th><th colspan='15'>"+dimensionPrefix+"R"+((currentNum/16).toString(16).toUpperCase().padStart(4,"0").slice(0, -1))+"yx</th><th><a href=\"javascript:initTable("+(currentNum+256)+")\">▶</a></th></tr>   <tr><th>•</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>";
+    // set select to current plane
+    var currentPlane = getPlaneAt(currentNum);
+    if (currentPlane) {
+      document.getElementById("planeOption-"+currentPlane.range).selected = true
+    }
+    else {
+      document.getElementById("planeOption-unknown").selected = true
+    }
     var start = currentNum;
     var end = currentNum+256;
-    addControlRow(start);
     // loop through currentNum to currentNum+255
     for (var i = start; i < end; i++) {
       if (i % 16 == 0) {
@@ -266,18 +309,44 @@ This HTML and its contents are property of R74n.com.
       }
       currentNum++;
     }
-    addControlRow(start);
+    // addControlRow(start);
   }
 
   function initUnions() {
     var table = document.getElementById("unionTable");
-    table.innerHTML = "<thead><tr><th>Union</th><th>Entity</th></tr></thead>";
-    for (union in multiplaneUnions) {
+    table.innerHTML = "<thead><tr><th>Union</th><th>Composite Entity</th><th>Union (Names)</th></tr></thead>";
+    for (var union in multiplaneUnions) {
       var row = table.insertRow(-1);
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
       cell1.innerHTML = union;
       cell2.innerHTML = multiplaneUnions[union];
+      var entities = union.split("+");
+      var entityNames = [];
+      for (var i = 0; i < entities.length; i++) {
+        entityNames.push(getEntityAt(parsePlanecode(entities[i]).decimal,parsePlanecode(entities[i]).dimension) || "[???]");
+      }
+      cell3.innerHTML = entityNames.join(" + ");
+    }
+  }
+
+  function initPlanes() {
+    var listDiv = document.getElementById("planeList");
+    listDiv.innerHTML = "";
+    var lastMin = 0;
+    var lastMax = 0;
+    var indent = 0;
+    for (var i = 0; i < planeList.length; i++) {
+      var plane = planeList[i];
+      if (lastMax && plane.min >= lastMin && plane.min <= lastMax) {
+        indent = 1;
+      } else {
+        indent = 0;
+        lastMin = plane.min;
+        lastMax = plane.max;
+      }
+      listDiv.innerHTML += "&nbsp; &nbsp; ".repeat(indent) + "<a href=\"javascript:openTab('table');initTable("+plane.min+")\">"+plane.range+" "+plane.name+"</a><br>";
     }
   }
 </script>

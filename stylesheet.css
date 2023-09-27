@@ -23,6 +23,7 @@ a:hover {color: rgb(255, 121, 255);}
 
 .pagetitle {margin-left: 10px;}
 .R74nicon {height:50px;width:50px;transition:3s;}
+.iconimg {height:50px;width:50px;}
 
 b {font-weight:bold;}
 i {font-style:italic;}
@@ -119,7 +120,7 @@ input[type="color"] {
 
 ul, dl {
     list-style: none; /* Remove default bullets */
-  }
+}
 ul li::before, dl dt::before {
     content: "\003E\00A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
     color: lime; /* Change the color */
@@ -127,7 +128,7 @@ ul li::before, dl dt::before {
     display: inline-block; /* Needed to add space between the bullet and the text */
     /*width: 1em; /* Also needed for space (tweak if needed) */
     margin-left: 0.5em; /* Also needed for space (tweak if needed) */
-  }
+}
 li.redbullet::before, dt.redbullet::before {color:red;}
 li.cyanbullet::before, dt.cyanbullet::before {color:#00ffff;}
 li.glowbullet::before, dt.glowbullet::before, .glowtext {text-shadow: 0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px;}
@@ -226,6 +227,9 @@ hr {
 .toc {margin:0px;}
 
 .divblock {display:inline-block;margin:0.4rem;padding:0.4rem;vertical-align:middle;max-width:500px;}
+.homediv {display:inline-block;vertical-align:top;}
+.homefundiv, .homefundivtop {display:block;padding-bottom:1em;padding-top:1em;margin-bottom:1em;text-align: center; border-radius: 30px; border:solid white}
+.homefundivtop {margin-top:1em}
 
 table {border-collapse:collapse;margin-left: 2em;overflow-wrap: anywhere;}
 td, th {border:0.5px solid gray;padding:5px;padding-left:10px;padding-right:10px}

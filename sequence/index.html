@@ -158,6 +158,7 @@ sequencers = {
     b = Math.floor(Math.sin(n*0.01+4)*127+128);
     return "<span style='background-color:rgb("+r+","+g+","+b+")'>rgb("+r+","+g+","+b+")</span>";
   },
+  "Random": (n) => Math.floor(Math.random()*100000000000000000),
 }
 
 currentNum = 0;
