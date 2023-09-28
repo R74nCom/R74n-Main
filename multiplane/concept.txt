@@ -58,6 +58,7 @@ Future Features:
 - URL Parameter to navigate
 	- Auto-updating URL
 	- Temporary highlight for desired element
+- Enter code on Table page
 
 Dimensions starting with "x" (e.g. (xtest)) can be user-assigned and used for whatever purpose without necessarily correlating to the default dimension.
 There are 65536 user-assigned codes from RF0000-RFFFFF, at the end of the multiplane.

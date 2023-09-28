@@ -367,7 +367,7 @@ This HTML and its contents are property of R74n.com.
     else { dimensionPrefix = ""; }
     document.getElementById("planeTable").innerHTML = "";
     document.getElementById("planeTable").innerHTML += "<thead><tr><th colspan='2'>"+controlRow(currentNum)+"</th></tr><tr><th>"+dimensionPrefix+"R<em>nnnnn</em></th><th>Entity</th></tr></thead>";
-    document.getElementById("compactTable").innerHTML = "<thead>   <tr><th><a href=\"javascript:initTable("+(currentNum-256)+")\">◀</a></th><th colspan='15'>"+dimensionPrefix+"R"+((currentNum/16).toString(16).toUpperCase().padStart(4,"0").slice(0, -1))+"yx</th><th><a href=\"javascript:initTable("+(currentNum+256)+")\">▶</a></th></tr>   <tr><th>•</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>";
+    document.getElementById("compactTable").innerHTML = "<thead>   <tr><th><a href=\"javascript:initTable("+(currentNum-256)+")\">◀︎</a></th><th colspan='15'>"+dimensionPrefix+"R"+((currentNum/16).toString(16).toUpperCase().padStart(4,"0").slice(0, -1))+"yx</th><th><a href=\"javascript:initTable("+(currentNum+256)+")\">▶︎</a></th></tr>   <tr><th>•</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>";
     // set select to current plane
     var currentPlane = getPlaneAt(currentNum);
     if (currentPlane) {
@@ -398,7 +398,6 @@ This HTML and its contents are property of R74n.com.
       }
       currentNum++;
     }
-    // addControlRow(start);
   }
 
   function initUnions() {

@@ -3737,6 +3737,7 @@ rueData.links = {
 "multiplane": "https://r74n.com/multiplane/",
 "sequence": "https://r74n.com/sequence/",
 "sequencer": "=sequence",
+"patreon": "https://www.patreon.com/R74n",
 
 "meese": "https://www.moosenotmeese.org/", //partner
 "moosenotmeese": "=meese",
