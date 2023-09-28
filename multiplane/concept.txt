@@ -34,11 +34,11 @@ Project Spaces
 	Logos (Bz2)
 		R74n Logos (Bz1)
 	Halacae (Bz1)
+	Universal Feedback System (Bz1)
 	Elemental on Discord (Bz3)
 Descriptors
 	Countries & Regions (Bz2)
-	Colors (Bz1)
-	Days Since R74n Epoch (May 2, 2017—October 6, 2039, Leap days included, Bz2*2)
+	Days Since R74n Epoch (May 2, 2017—October 5, 2039, Leap days included, Bz2*2)
 	UTC Offsets (UTC+1:00, UTC+1:15, UTC+1:30, UTC+1:45, etc. (96 entities), Bz1)
 	Extended Timekeeping (Bz1)
 		Hours 0-23
@@ -46,12 +46,15 @@ Descriptors
 		Seconds 0-59
 		Months 0-11
 		Weekdays 0-6
+	Colors (Bz1)
+	Numeral Compatibility
 
 Future Features:
 - Plane Tree (List of each plane inside one another)
 - Multiplane Search (Search all allocations)
 - Example Page
 	- Displaying a date and time in union format
+	- Feedback
 - URL Parameter to navigate
 	- Auto-updating URL
 	- Temporary highlight for desired element

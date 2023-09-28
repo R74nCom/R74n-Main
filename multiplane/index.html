@@ -68,9 +68,75 @@ This HTML and its contents are property of R74n.com.
       .tabContent {
         display: none;
       }
+      .highlight {
+        background-color: rgb(149, 149, 0);
+        transition: background-color 0s;
+      }
     </style>
     <script>
       planeList = [];
+      function highlight(element) {
+        if (!element) {return;}
+        element.classList.add("highlight");
+        setTimeout(function() {
+          element.style.transition = "background-color 3s";
+          element.classList.remove("highlight");
+        },3000);
+        // jump to element
+        const y = element.getBoundingClientRect().top + window.scrollY;
+        window.scroll({top: y-75,behavior: 'smooth'});
+      }
+      function handleURL() {
+        if (window.location.search.length <= 1) {return;}
+        var params = new URLSearchParams(window.location.search);
+        if (params.has("dimension")) {
+          var dimension = params.get("dimension");
+          if (multiplaneDimensions[dimension]) {
+            currentState.dimension = dimension;
+          }
+          initTable();
+          openTab("table");
+        }
+        if (params.has("code")) {
+          var code = params.get("code").split("-")[0];
+          var codeData = parsePlanecode(code);
+          if (codeData.dimension && multiplaneDimensions[codeData.dimension]) {
+            currentState.dimension = codeData.dimension;
+          }
+          else if (currentState.dimension) {
+            code = "("+currentState.dimension+")"+code;
+          }
+          initTable(codeData.decimal);
+          openTab("table");
+          highlight(document.getElementById(code));
+        }
+        else if (params.has("plane")) {
+          var code = params.get("plane").split("-")[0];
+          var codeData = parsePlanecode(code);
+          if (codeData.dimension && multiplaneDimensions[codeData.dimension]) {
+            currentState.dimension = codeData.dimension;
+          }
+          else if (currentState.dimension) {
+            code = "("+currentState.dimension+")"+code;
+          }
+          initTable(codeData.decimal);
+          openTab("table");
+        }
+        else if (params.has("union")) {
+          initUnions();
+          openTab("unions");
+          highlight(document.getElementById(params.get("union").replace(/ +/g,"+")));
+        }
+        else if (params.get("search")) {
+          openTab("search");
+          document.getElementById("searchBox").value = params.get("search");
+          searchMultiplane(params.get("search"));
+          document.getElementById('searchBox').focus();
+        }
+        if (document.getElementById("tabButton-"+window.location.search.substr(1))) {
+          document.getElementById("tabButton-"+window.location.search.substr(1)).click();
+        }
+      }
       window.addEventListener("load",function() {
         for (var range in multiplanePlanes) {
           var min = parsePlanecode(range.split("-")[0]).decimal;
@@ -91,6 +157,12 @@ This HTML and its contents are property of R74n.com.
         });
         initSelect();
         initTable();
+        if (window.location.search) {
+          handleURL();
+        }
+        window.addEventListener("popstate",function() {
+          handleURL();
+        });
         document.getElementById("loadingText").remove();
       });
     </script>
@@ -108,6 +180,7 @@ This HTML and its contents are property of R74n.com.
 <input type="button" id="tabButton-table" value="Table" onclick="openTab('table')" selected="true">
 <input type="button" id="tabButton-planes" value="Planes" onclick="initPlanes();openTab('planes')">
 <input type="button" id="tabButton-unions" value="Unions" onclick="initUnions();openTab('unions')">
+<input type="button" id="tabButton-search" value="Search" onclick="document.getElementById('searchBox').focus();openTab('search')">
 
 <input type="button" value="More Info" onclick="window.open('concept.txt')">
 
@@ -126,6 +199,12 @@ This HTML and its contents are property of R74n.com.
 <div class="tabContent" id="tab-unions" style="display:none">
   <p>Any possible union is valid and useable, but they do not have an officially-defined meaning unless declared here.</p>
   <table id="unionTable"></table>
+</div>
+
+<div class="tabContent" id="tab-search" style="display:none">
+  <p><input type="text" placeholder="Search..." id="searchBox" onchange="searchMultiplane(this.value)" autocomplete="off"></p>
+  <ul id="searchResults">
+  </ul>
 </div>
 
 <script>
@@ -171,9 +250,9 @@ This HTML and its contents are property of R74n.com.
     }
   }
   function controlRow(start) {
-    return "<a href=\"javascript:initTable("+(start-256)+")\" style='float:left'>◀</a>"
+    return "<a href=\"javascript:initTable("+(start-256)+")\" style='float:left'>◀︎</a>"
       +
-    "<a href=\"javascript:initTable("+(start+256)+")\" style='float:right'>▶</a> "
+    "<a href=\"javascript:initTable("+(start+256)+")\" style='float:right'>▶︎</a> "
   }
 
   function parsePlanecode(code) {
@@ -198,7 +277,10 @@ This HTML and its contents are property of R74n.com.
       "dimension": dimension,
     };
   }
-  function getEntityAt(decimal,dimension) {
+  function decimalToPlanecode(decimal) {
+    return "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
+  }
+  function getEntityAt(decimal,dimension,plane) {
     var hex = decimal.toString(16);
     if (dimension) {
       var dimensionPrefix = "("+dimension+")";
@@ -209,6 +291,9 @@ This HTML and its contents are property of R74n.com.
     }
     if (multiplaneEntities[dimensionPrefix+hex.toUpperCase()]) {
       return multiplaneEntities[dimensionPrefix+hex.toUpperCase()];
+    }
+    if (plane && multiplaneProcedural[plane.range]) {
+      return multiplaneProcedural[plane.range](decimal,dimension);
     }
     return "";
   }
@@ -269,9 +354,13 @@ This HTML and its contents are property of R74n.com.
     currentNum = currentNum||0;
     currentNum = Math.max(currentNum,0);
     currentNum = Math.min(currentNum,1048575-255);
+    currentNum = Math.floor(currentNum/256)*256;
     currentState.decimal = currentNum;
     var currentPrefix = currentNum % 16;
     var currentDimension = currentState.dimension||"";
+    if (document.getElementById("dimensionSelect").value !== currentDimension) {
+      document.getElementById("dimensionSelect").value = currentDimension;
+    }
     if (currentDimension) {
       var dimensionPrefix = "("+currentDimension+")";
     }
@@ -299,7 +388,7 @@ This HTML and its contents are property of R74n.com.
       }
       var left = (currentNum%16).toString(16).toUpperCase();
       // var right = String.fromCharCode(currentNum+32);
-      var right = getEntityAt(currentNum,currentDimension);
+      var right = getEntityAt(currentNum,currentDimension,currentPlane);
       addRow(prefix+left,right);
       // last character of left
       if (!right) {
@@ -321,6 +410,7 @@ This HTML and its contents are property of R74n.com.
       var cell2 = row.insertCell(1);
       var cell3 = row.insertCell(2);
       cell1.innerHTML = union;
+      cell1.id = union;
       cell2.innerHTML = multiplaneUnions[union];
       var entities = union.split("+");
       var entityNames = [];
@@ -346,7 +436,52 @@ This HTML and its contents are property of R74n.com.
         lastMin = plane.min;
         lastMax = plane.max;
       }
-      listDiv.innerHTML += "&nbsp; &nbsp; ".repeat(indent) + "<a href=\"javascript:openTab('table');initTable("+plane.min+")\">"+plane.range+" "+plane.name+"</a><br>";
+      listDiv.innerHTML += "&nbsp; &nbsp; ".repeat(indent) + "<a href=\"javascript:openTab('table');initTable("+plane.min+")\">"+plane.range+"</a> "+plane.name+"<br>";
+    }
+  }
+
+  function goto(query) {
+    history.pushState(null, null, "?"+query);
+    handleURL();
+  }
+  function searchMultiplane(query) {
+    var searchResults = document.getElementById("searchResults");
+    searchResults.innerHTML = "";
+    query = query.toLowerCase().trim();
+    if (!query) { return; }
+    var results = [];
+    for (var entity in multiplaneEntities) {
+      if (multiplaneEntities[entity].toLowerCase().indexOf(query) !== -1) {
+        if (entity.indexOf(")") !== -1) {
+          var dimensionPrefix = entity.split(")")[0]+")";
+          var entityBase = entity.split(")")[1];
+        }
+        else { var dimensionPrefix = "";var entityBase = entity;}
+        results.push("<a href=\"javascript:goto('code="+dimensionPrefix+decimalToPlanecode(parseInt(entityBase,16))+"')\">"+dimensionPrefix+decimalToPlanecode(parseInt(entityBase,16))+"</a> "+multiplaneEntities[entity]);
+      }
+    }
+    for (var union in multiplaneUnions) {
+      if (multiplaneUnions[union].toLowerCase().indexOf(query) !== -1) {
+        results.push("<a href=\"javascript:goto('union="+union+"')\">"+union+"</a> "+multiplaneUnions[union]);
+      }
+    }
+    for (var range in multiplanePlanes) {
+      if (multiplanePlanes[range].toLowerCase().indexOf(query) !== -1) {
+        results.push("<a href=\"javascript:goto('plane="+range+"')\">"+range+"</a> "+multiplanePlanes[range]);
+      }
+    }
+    results = results.slice(0,25);
+    // add to search results
+    if (results.length) {
+      for (var i = 0; i < results.length; i++) {
+        var li = document.createElement("li");
+        li.innerHTML = results[i];
+        searchResults.appendChild(li);
+      }
+    } else {
+      var li = document.createElement("li");
+      li.innerHTML = "No results found.";
+      searchResults.appendChild(li);
     }
   }
 </script>
