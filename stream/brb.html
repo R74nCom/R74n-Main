@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+⢠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⣀⣀⠄⠄⠄⠄⠄⠄⠄⠄⣀⣀⣀⣀⣀⣀⣀⡀
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣆⡀⠄⠄⠄⠄⠿⠿⠿⠿⢿⣿⣿⠇
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠄⠄⠄⠄⠄⠄⠄⣠⣿⡿⠁⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠈⠹⣿⣿⣿⣿⣧⠄⠄⠄⠄⠄⣰⣿⡿⠁⠄⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⠄⠄⠄⠄⢀⣿⣿⠇⠄⠄⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⢀⣿⣿⣿⣿⡟⠄⠄⠄⠄⠘⠛⠛⢀⣀⣀⠄
+⢸⣿⣿⣿⣿⣤⣤⣤⣤⣤⣤⣤⣶⣾⣿⣿⣿⡿⠄⠄⠄⠄⠄⠄⢀⣴⣿⣿⣿⠄
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⠄⠄⠄⠄⠄⠄⣠⣿⠟⢹⣿⣿⠄
+⢸⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⣿⣯⣍⠁⠄⠄⠄⠄⠄⠄⢀⣾⣿⣉⣀⣸⣿⣿⣀
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠙⢿⣿⣿⣿⣷⣄⠄⠄⠄⠄⠄⠸⠿⠿⠿⠿⢿⣿⣿⠿
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠈⣿⣿⣿⣿⣿⣆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠸⠿⠿⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿⣿⣿⣇⠄⠄⠄⠄⣿⣿⣧⣾⣿⣿⣷⡀
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠈⢻⣿⣿⣿⣿⣦⠄⠄⠄⣿⣿⡏⠄⢸⣿⣿⡇
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⢿⣿⣿⣿⣿⣆⠄⠄⣿⣿⡇⠄⢸⣿⣿⡇
+⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
+This HTML and its contents are property of R74n.com.
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Meta page to help with streaming.">
+    <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="titleTag">Be Right Back! - R74n</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="dot-32x32.png">
+
+    <script src="https://R74n.com/load.js"></script>
+
+</head>
+<body>
+
+
+<a href="." class="backbutton">⦉</a>
+<h1 class="pagetitle"></h1>
+<div class="content" style="text-align: center;">
+
+
+<span style="font-size:80px;" id="titleSpan" contenteditable="true">Be Right Back!</span><br><br>
+<span style="font-size:50px;" id="descSpan" contenteditable="true">The stream will resume soon! Get a snack?</span><br><br>
+
+<div id="videoDiv"></div>
+<script>
+  function refreshVideo() {
+    var vids = {
+      "uqcIqsz6EWY": 65,
+      "6cM5Dnoilug": 1303,
+      "bmS75At9W3I": 2584,
+      "EMW9Yy9hikY": 2227,
+      "C-IkdJ5jCZI": 118,
+      "VXepnvKo1IA": 1006,
+    }
+    var videoKeys = Object.keys(vids);
+    var videoID = videoKeys[Math.floor(Math.random() * videoKeys.length)];
+    document.getElementById("videoDiv").innerHTML = `<iframe width="660" height="415" src="https://www.youtube.com/embed/`+videoID+`?autoplay=1&mute=1&rel=0&loop=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    // pause when window is not focused, resume when it is
+    window.onblur = function() {
+      var iframe = document.getElementsByTagName("iframe")[0].contentWindow;
+      iframe.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+    };
+    window.onfocus = function() {
+      var iframe = document.getElementsByTagName("iframe")[0].contentWindow;
+      iframe.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    };
+    setTimeout(refreshVideo, vids[videoID] * 1000);
+  }
+  var params = new URLSearchParams(window.location.search);
+  if (!params.has("noVideo")) {
+    refreshVideo();
+  }
+  if (params.has("title")) {
+    document.getElementById("titleTag").innerText = decodeURIComponent(params.get("title")).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    document.getElementById("titleSpan").innerText = decodeURIComponent(params.get("title")).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  if (params.has("desc")) {
+    document.getElementById("descSpan").innerText = decodeURIComponent(params.get("desc")).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+</script>
+
+
+
+
+</div>
+
+
+<!-- i like having this but ublock blocks these things anyway -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>

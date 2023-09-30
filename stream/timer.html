@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+⢠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⣀⣀⠄⠄⠄⠄⠄⠄⠄⠄⣀⣀⣀⣀⣀⣀⣀⡀
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣆⡀⠄⠄⠄⠄⠿⠿⠿⠿⢿⣿⣿⠇
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠄⠄⠄⠄⠄⠄⠄⣠⣿⡿⠁⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠈⠹⣿⣿⣿⣿⣧⠄⠄⠄⠄⠄⣰⣿⡿⠁⠄⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⠄⠄⠄⠄⢀⣿⣿⠇⠄⠄⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⢀⣿⣿⣿⣿⡟⠄⠄⠄⠄⠘⠛⠛⢀⣀⣀⠄
+⢸⣿⣿⣿⣿⣤⣤⣤⣤⣤⣤⣤⣶⣾⣿⣿⣿⡿⠄⠄⠄⠄⠄⠄⢀⣴⣿⣿⣿⠄
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⠄⠄⠄⠄⠄⠄⣠⣿⠟⢹⣿⣿⠄
+⢸⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⣿⣯⣍⠁⠄⠄⠄⠄⠄⠄⢀⣾⣿⣉⣀⣸⣿⣿⣀
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠙⢿⣿⣿⣿⣷⣄⠄⠄⠄⠄⠄⠸⠿⠿⠿⠿⢿⣿⣿⠿
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠈⣿⣿⣿⣿⣿⣆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠸⠿⠿⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿⣿⣿⣇⠄⠄⠄⠄⣿⣿⣧⣾⣿⣿⣷⡀
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠈⢻⣿⣿⣿⣿⣦⠄⠄⠄⣿⣿⡏⠄⢸⣿⣿⡇
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⢿⣿⣿⣿⣿⣆⠄⠄⣿⣿⡇⠄⢸⣿⣿⡇
+⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
+This HTML and its contents are property of R74n.com.
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Meta page to help with streaming.">
+    <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer - R74n</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="dot-32x32.png">
+
+    <script src="https://R74n.com/load.js"></script>
+
+</head>
+<body>
+
+
+<a href="." class="backbutton">⦉</a>
+<h1 class="pagetitle"></h1>
+<div class="content" style="text-align: center;">
+
+<span style="font-size:80px;width:80%;user-select: none" contenteditable="true" id="titleSpan">Countdown</span><br><br>
+<span style="font-size:80px;" id="timeSpan">0:00:00</span><br><br>
+<span style="font-size:50px;" id="inputSpan">
+  <input type="number" id="minutesBox" placeholder="Minutes" style="width:50%">
+</span><br><br>
+
+<script>
+  function startTimer() {
+    var minutes = document.getElementById("minutesBox").value;
+    var seconds = minutes * 60;
+    var time = seconds;
+    var timeSpan = document.getElementById("timeSpan");
+    var inputSpan = document.getElementById("inputSpan");
+    inputSpan.style.display = "none";
+    timeSpan.style.display = "block";
+    var f = function() {
+      var hours = Math.floor(time / 3600);
+      var minutes = Math.floor((time % 3600) / 60);
+      var seconds = Math.floor(time % 60);
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+      timeSpan.innerHTML = hours + ":" + minutes + ":" + seconds;
+      time--;
+      if (time < 0) {
+        clearInterval(x);
+        timeSpan.innerHTML = "0:00:00";
+        inputSpan.style.display = "block";
+        timeSpan.style.display = "none";
+      }
+    }
+    var x = setInterval(f, 1000);
+    f();
+  }
+  document.getElementById("minutesBox").addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      startTimer();
+    }
+  });
+  // get url query
+  var params = new URLSearchParams(window.location.search);
+  if (params.has("title")) {
+    document.getElementById("titleSpan").innerText = decodeURIComponent(params.get("title")).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  if (params.has("minutes")) {
+    document.getElementById("minutesBox").value = params.get("minutes");
+    startTimer();
+  }
+</script>
+
+
+
+
+</div>
+
+
+<!-- i like having this but ublock blocks these things anyway -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>
