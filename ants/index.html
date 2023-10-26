@@ -248,15 +248,30 @@ function generateAnt(id) {
 
   var colonyID = seedRange(1, 72727272700, id+"Colony");
   d.colony = "#"+colonyID;
-  var colonyPopulation = seedRange(1000, 1000000, colonyID+"Population");
+  var colonyPopulation = seedRange(1000, 500000, colonyID+"Population");
   if (seedRange(1,colonyPopulation,colonyID) === 1) {
     d.role = "queen";
     d.sex = "female";
+    var birthdate = new Date(Date.now() - seedRange(0, 946080000000, id+"Birthdate")); //today-30yr
+    d.eggs = seedRange(0, 10000000, id+"Eggs");
+  }
+  else if (seedRandom(id+"Sex") < 0.25) {
+    d.role = "drone";
+    d.sex = "male";
+    var birthdate = new Date(Date.now() - seedRange(0, 1814400000, id+"Birthdate")); //today-3wk
   }
   else {
-    d.role = seedRandom(id) < 0.25 ? "drone" : "worker";
-    d.sex = seedRandom(id) < 0.25 ? "male" : "female";
+    d.role = "worker";
+    d.sex = "female";
+    var birthdate = new Date(Date.now() - seedRange(0, 94608000000, id+"Birthdate")); //today-3yr
   }
+  d.birthdate = birthdate.toDateString() + " " + birthdate.toLocaleTimeString();
+  var age = Math.floor((Date.now() - birthdate) / 86400000);
+  if (age < 365) { d.age = age + " day(s)"; }
+  else { d.age = Math.floor(age / 365.25) + " year(s)"; }
+
+  var currentMinute = new Date().getMinutes();
+  var currentDay = new Date().toDateString();
 
   return d;
 }
@@ -287,6 +302,11 @@ window.addEventListener("load", function() {
       }
       if (commonName) { var displayName = commonName + " <span class=\"antNameExtra\">("+taxonName+")</span>"; }
       else { var displayName = taxonName; }
+      var colonyID = seedRange(1, 72727272700, antID+"Colony");
+      var colonyPopulation = seedRange(1000, 500000, colonyID+"Population");
+      if (seedRange(1,colonyPopulation,colonyID) === 1) { //is queen
+        displayName = "👑"+displayName;
+      }
       newText += "<tr data-antid=\"" + antID + "\" onclick='viewAnt("+antID+")'><td>#"+antID+"</td><td>"+
         "<span class=\"antName\">"+displayName+"</span>"+
         "<span class=\"antMeta\">"+location+"</span>"
