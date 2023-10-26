@@ -94,5 +94,6 @@ antData.commonNames = {
 "Tetramorium immigrans": "pavement ant",
 "Tetramorium": "pavement ant",
 "Wasmannia auropunctata": "little fire ant",
-"Zigrasimeciinae": "iron-maiden ants",
+"Zigrasimeciinae": "iron-maiden ant",
+"Monomorium floricola": "flower ant",
 }

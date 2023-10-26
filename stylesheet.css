@@ -11,7 +11,7 @@ body {
     overflow-wrap: break-word;
 }
 
-a {color: rgb(255, 0, 255);text-decoration: none;}
+a {color: rgb(255, 0, 255);text-decoration: none;cursor:pointer}
 a:active, a:hover:active {color: rgb(255, 179, 255);}
 a:hover {color: rgb(255, 121, 255);}
 

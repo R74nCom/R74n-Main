@@ -35,7 +35,7 @@ antData.locations = {
 34:"Burkina Faso",
 35:"Burundi",
 36:"Cambodia",
-37:"Cameroun",
+37:"Cameroon",
 38:"Canada",
 39:"Canary Islands",
 40:"Cape Verde",
