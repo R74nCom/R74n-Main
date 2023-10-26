@@ -1,0 +1,27 @@
+17707638804494072
+10492761571906132
+8478114716759634
+7896146717147318
+19388411218052616
+19307502856768000
+484774421760533
+15070592751618852
+7019508806069533
+3043646351370675
+7670305801213569
+7877797775929577
+3684411241020720
+
+
+
+
+i = 0;
+while (i < 1000000) {
+    var antID = Math.floor(Math.random() * 2e16) + 1;
+    var colonyID = seedRange(1, 72727272700, antID+"Colony");
+    var colonyPopulation = seedRange(1000, 500000, colonyID+"Population");
+    if (seedRange(1,colonyPopulation,colonyID) === 1) { //is queen
+        console.log(antID)
+    }
+    i++;
+}

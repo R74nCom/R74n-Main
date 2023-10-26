@@ -191,6 +191,24 @@ function showReel() {
 currentAnt = null;
 reelScroll = null;
 genericAttributes = ["genus","species","subspecies","taxonName","locationID","location","commonName"];
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+fancyAttributes = {
+  "sex": (x) => "<span style='color:"+(x === "female" ? "pink" : "skyblue")+"'>"+(x === "female" ? "♀" : "♂")+" "+x+"</span>",
+  "role": (x) => x === "queen" ? "<span style='color:yellow'>👑 queen</span>" : (x === "unassigned" ? "<span style='color:#aaaaaa'>unassigned</span>" : x),
+  "colony": (x) => "#"+x,
+  "metabolism": (x) => x+"x",
+  "eggs": (x) => numberWithCommas(x),
+}
+function attributeDisplay(attribute,value) {
+  if (fancyAttributes[attribute]) {
+    return fancyAttributes[attribute](value);
+  }
+  else {
+    return value;
+  }
+}
 function viewAnt(id) {
   reelScroll = window.scrollY;
   // remove data-prevant if it exists
@@ -216,7 +234,7 @@ function viewAnt(id) {
     var td1 = document.createElement("td");
     var td2 = document.createElement("td");
     td1.innerHTML = key;
-    td2.innerHTML = d[key];
+    td2.innerHTML = attributeDisplay(key,d[key]);
     tr.appendChild(td1);
     tr.appendChild(td2);
     antInfoTable.appendChild(tr);
@@ -247,28 +265,49 @@ function generateAnt(id) {
   else if (antData.commonNames[taxonData[0]+" "+taxonData[1]+" "+taxonData[2]] !== undefined) { d.commonName = antData.commonNames[taxonData[0]+" "+taxonData[1]+" "+taxonData[2]] }
 
   var colonyID = seedRange(1, 72727272700, id+"Colony");
-  d.colony = "#"+colonyID;
+  d.colony = colonyID;
   var colonyPopulation = seedRange(1000, 500000, colonyID+"Population");
+  // get today at midnight
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  today = today.getTime();
   if (seedRange(1,colonyPopulation,colonyID) === 1) {
     d.role = "queen";
     d.sex = "female";
-    var birthdate = new Date(Date.now() - seedRange(0, 946080000000, id+"Birthdate")); //today-30yr
+    var birthdate = new Date(today - seedRange(0, 946080000000, id+"Birthdate")); //today-30yr
     d.eggs = seedRange(0, 10000000, id+"Eggs");
   }
   else if (seedRandom(id+"Sex") < 0.25) {
     d.role = "drone";
     d.sex = "male";
-    var birthdate = new Date(Date.now() - seedRange(0, 1814400000, id+"Birthdate")); //today-3wk
+    var birthdate = new Date(today - seedRange(0, 1814400000, id+"Birthdate")); //today-3wk
   }
   else {
     d.role = "worker";
     d.sex = "female";
-    var birthdate = new Date(Date.now() - seedRange(0, 94608000000, id+"Birthdate")); //today-3yr
+    var birthdate = new Date(today - seedRange(0, 94608000000, id+"Birthdate")); //today-3yr
   }
   d.birthdate = birthdate.toDateString() + " " + birthdate.toLocaleTimeString();
-  var age = Math.floor((Date.now() - birthdate) / 86400000);
+  var age = Math.floor((today - birthdate) / 86400000);
   if (age < 365) { d.age = age + " day(s)"; }
   else { d.age = Math.floor(age / 365.25) + " year(s)"; }
+  d.metabolism = Math.round((seedRandom(id+"Metabolism") * 1.5 + 0.5) * 100) / 100;
+  if (age < 10*d.metabolism) {
+    d.stage = "egg";
+    d.role = "unassigned";
+  }
+  else if (age < 19*d.metabolism) {
+    if (age < 13*d.metabolism) {d.stage = "larva";}
+    else if (age < 15*d.metabolism) {d.stage = "larva (1st moult)";}
+    else if (age < 17*d.metabolism) {d.stage = "larva (2nd moult)";}
+    else if (age < 19*d.metabolism) {d.stage = "larva (3rd moult)";}
+    d.role = "unassigned";
+  }
+  else if (age < 38*d.metabolism) {
+    d.stage = "pupa";
+    d.role = "unassigned";
+  }
+  else { d.stage = "adult"; }
 
   var currentMinute = new Date().getMinutes();
   var currentDay = new Date().toDateString();
@@ -305,7 +344,7 @@ window.addEventListener("load", function() {
       var colonyID = seedRange(1, 72727272700, antID+"Colony");
       var colonyPopulation = seedRange(1000, 500000, colonyID+"Population");
       if (seedRange(1,colonyPopulation,colonyID) === 1) { //is queen
-        displayName = "👑"+displayName;
+        displayName = "👑 "+displayName;
       }
       newText += "<tr data-antid=\"" + antID + "\" onclick='viewAnt("+antID+")'><td>#"+antID+"</td><td>"+
         "<span class=\"antName\">"+displayName+"</span>"+
