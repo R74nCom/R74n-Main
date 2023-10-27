@@ -131,6 +131,7 @@ This HTML and its contents are property of R74n.com.
     <script src="taxonData.js"></script>
     <script src="locationData.js"></script>
     <script src="otherData.js"></script>
+    <script src="../rue/textParser.js"></script>
 </head>
 <body>
 
@@ -194,6 +195,7 @@ genericAttributes = ["genus","species","subspecies","taxonName","locationID","lo
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+const signs = ['Aries: The Ram','Taurus: The Bull','Gemini: The Twins','Cancer: The Crab','Leo: The Lion','Virgo: The Virgin','Libra: The Scales','Scorpio: The Scorpion','Sagittarius: The Archer','Capricorn: The Goat','Aquarius: The Water Bearer','Pisces: The Fish'];
 fancyAttributes = {
   "sex": (x) => "<span style='color:"+(x === "female" ? "pink" : "skyblue")+"'>"+(x === "female" ? "♀" : "♂")+" "+x+"</span>",
   "role": (x) => x === "queen" ? "<span style='color:yellow'>👑 queen</span>" : (x === "unassigned" ? "<span style='color:#aaaaaa'>unassigned</span>" : x),
@@ -203,11 +205,10 @@ fancyAttributes = {
 }
 function attributeDisplay(attribute,value) {
   if (fancyAttributes[attribute]) {
-    return fancyAttributes[attribute](value);
+    value = fancyAttributes[attribute](value);
   }
-  else {
-    return value;
-  }
+  value = parseText(value);
+  return value;
 }
 function viewAnt(id) {
   reelScroll = window.scrollY;
@@ -271,30 +272,41 @@ function generateAnt(id) {
   var today = new Date();
   today.setHours(0,0,0,0);
   today = today.getTime();
+  var currentMinute = new Date().getMinutes();
+  var currentDay = new Date().toDateString();
   if (seedRange(1,colonyPopulation,colonyID) === 1) {
     d.role = "queen";
     d.sex = "female";
     var birthdate = new Date(today - seedRange(0, 946080000000, id+"Birthdate")); //today-30yr
     d.eggs = seedRange(0, 10000000, id+"Eggs");
+    d.currently = seedChoose(antData.queenActions, id+"Action"+currentMinute);
   }
   else if (seedRandom(id+"Sex") < 0.25) {
     d.role = "drone";
     d.sex = "male";
     var birthdate = new Date(today - seedRange(0, 1814400000, id+"Birthdate")); //today-3wk
+    d.currently = seedChoose(antData.droneActions, id+"Action"+currentMinute);
   }
   else {
     d.role = "worker";
     d.sex = "female";
     var birthdate = new Date(today - seedRange(0, 94608000000, id+"Birthdate")); //today-3yr
+    d.currently = seedChoose(antData.workerActions, id+"Action"+currentMinute);
   }
-  d.birthdate = birthdate.toDateString() + " " + birthdate.toLocaleTimeString();
+  if (Math.random() < 0.05) {
+    d.disease = seedChoose(antData.diseases, id+"Disease");
+  }
+  d.birthdate = birthdate.toLocaleDateString("en", { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric' })
   var age = Math.floor((today - birthdate) / 86400000);
-  if (age < 365) { d.age = age + " day(s)"; }
+  if (age < 30) { d.age = age + " day(s)"; }
+  else if (age < 365) { d.age = Math.floor(age / 30) + " month(s)"; }
   else { d.age = Math.floor(age / 365.25) + " year(s)"; }
+  d.zodiac = signs[ Number(new Intl.DateTimeFormat('fr-TN-u-ca-persian', {month: 'numeric'}).format(birthdate)) - 1 ];
   d.metabolism = Math.round((seedRandom(id+"Metabolism") * 1.5 + 0.5) * 100) / 100;
   if (age < 10*d.metabolism) {
     d.stage = "egg";
     d.role = "unassigned";
+    d.currently = "developing";
   }
   else if (age < 19*d.metabolism) {
     if (age < 13*d.metabolism) {d.stage = "larva";}
@@ -302,15 +314,15 @@ function generateAnt(id) {
     else if (age < 17*d.metabolism) {d.stage = "larva (2nd moult)";}
     else if (age < 19*d.metabolism) {d.stage = "larva (3rd moult)";}
     d.role = "unassigned";
+    d.currently = seedChoose(antData.larvaActions, id+"Action"+currentMinute);
   }
   else if (age < 38*d.metabolism) {
     d.stage = "pupa";
     d.role = "unassigned";
+    d.currently = "developing";
   }
   else { d.stage = "adult"; }
-
-  var currentMinute = new Date().getMinutes();
-  var currentDay = new Date().toDateString();
+  d.size = seedChoose(["tiny","small","average","average","average","large"], id+"Size");
 
   return d;
 }

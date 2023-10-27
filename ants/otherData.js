@@ -1,3 +1,4 @@
+// COMMON NAMES
 antData.commonNames = {
 "Acanthomyops": "citronella ant",
 "Acromyrmex": "leaf-cutter ant",
@@ -96,4 +97,66 @@ antData.commonNames = {
 "Wasmannia auropunctata": "little fire ant",
 "Zigrasimeciinae": "iron-maiden ant",
 "Monomorium floricola": "flower ant",
+"Cephalotes atratus": "kaka-sikikoko",
 }
+
+// LISTS
+antData.predators = ["ant","caterpillar","spider","fly","beetle","worm","bird","snail","slug","bee","wasp","fish","lizard","snake","frog","toad","mantis","anteater","antlion","assassin bug"];
+antData.diseases = ["zombie-ant fungus","strepsiptera","nematode","cordyceps","ophiocordyceps"]
+
+// ACTIONS
+antData.workerActions = [
+"eating",
+"drinking",
+"following pheromone trail",
+"battling {{wc|"+antData.predators.join("|")+"}}",
+"taking a break",
+"swimming",
+"climbing {{c|wall|leg|pant leg|furniture|rock|hill|tree|blade of grass}}",
+"staying still",
+"escaping ant trap",
+"investigating",
+"performing trophallaxis",
+"caring for aphids",
+"caring for larvae",
+"cultivating fungus",
+"harvesting nectar",
+"communicating",
+"breaking down food",
+"death spiraling",
+"carrying {{c|carcass|crumb|leaf|captive|sand}}",
+"alerting the colony",
+"exploring the unknown",
+"constructing hill",
+"digging",
+"dying",
+];
+antData.droneActions = [
+"eating",
+"drinking",
+"following pheromone trail",
+"sitting around",
+"walking aimlessly",
+"mating",
+"communicating",
+"breaking down food",
+"staying still",
+"dying",
+];
+antData.queenActions = [
+"eating",
+"drinking",
+"taking a break",
+"laying eggs",
+"mating",
+"basking",
+"commanding",
+"communicating",
+"breaking down food",
+"staying still",
+"dying",
+];
+antData.larvaActions = [
+"being fed",
+"squirming",
+];
