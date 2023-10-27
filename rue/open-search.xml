@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Explore with Rue (R74n)</ShortName>
+  <Description>Use Explore with Rue to search or go to R74n projects.</Description>
+  <Tags>R74n rue r</Tags>
+  <Contact>contact@R74n.com</Contact>
+  <Url type="application/rss+xml"
+       template="https://r74n.com/?rue={searchTerms}"/>
+  <Developer>R74n</Developer>
+  <Query role="example" searchTerms="sandboxels fb" />
+  <Attribution>All Rights Reserved. R74n</Attribution>
+  <Image width="48" height="48" type="image/x-icon">https://r74n.com/icons/favicon.ico</Image>
+</OpenSearchDescription>
