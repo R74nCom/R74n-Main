@@ -1,0 +1,73 @@
+urn:<NID>:<NSS>
+^urn:[a-zA-Z0-9][a-zA-Z0-9-]{0,31}:([a-zA-Z0-9()+,\-.:=@;$_!*']|%[0-9a-fA-F]{2})++$
+^urn:[a-zA-Z0-9][a-zA-Z0-9-]{0,31}:([a-zA-Z0-9()+,\-.:=@;$_!*']|%[0-9a-fA-F]{2})++( +\/\/.+)?$
+<NID>   -   A-Z 0-9
+<NSS>   -   A-Z 0-9 ( ) + , - . : = @ ; $ _ ! * '
+            or percent-encoded characters
+custom standard: : / | are interchangeable
+
+urn:X-R74n:main
+urn:X-R74n:sandboxels
+urn:X-R74n:sandboxels:element:sand    //sand
+urn:X-R74n:sandboxels:mod:example_mod.js
+urn:X-R74n:sandboxels:mod-list
+urn:X-R74n:multiplane:R00100
+urn:X-R74n:multiplane:R00531+R00533
+urn:X-R74n:moji:powercry_bow
+urn:X-R74n:pixelflag:country:united_states
+urn:X-R74n:wikibase:item:Q162
+urn:X-R74n:wikibase:property:P26
+urn:X-R74n:wikibase:lexeme:L38
+urn:X-R74n:wikibase:main:Main_Page
+urn:X-R74n:cpd
+urn:X-R74n:cpd:fonts
+urn:X-R74n:cpd:converter:zalgo:Hello%3F
+urn:X-R74n:cpd:search:test
+urn:X-R74n:link:main-feedback
+
+urn:X-R74n:twt:R74nCom:p:1712974492979368384    //post (tweet)
+urn:X-R74n:twt:R74nCom:l:1436860568888037379    //list
+urn:X-R74n:twt:R74nCom:l:self    //lists they're on
+urn:X-R74n:tiktok:r74n.com:p:7293960531319311658    //post (video)
+urn:X-R74n:tiktok:r74n.com:l:7254663614588570410    //playlist
+urn:X-R74n:discord:main:c:939345813837066320    //channel
+urn:X-R74n:discord:main:c:939345813837066320:1162525200504598559    //message
+urn:X-R74n:discord:main:e:R74n:939346903320121354    //emote
+urn:X-R74n:discord:main:r:939346547412434985    //role
+urn:X-R74n:discord:main:j    //invite
+urn:X-R74n:discord:main:j:ejUc6YPQuS
+urn:X-R74n:discord:eod:c:708175342463877127
+urn:X-R74n:yt:R74n:p:dkzDIDtKCIU    //post (video)
+urn:X-R74n:yt:R74n:l:PLEAHJ-z9RtzctWSzCaoJkoyccrlg4p2Nf    //playlist
+urn:X-R74n:yt:R74n:t:UgkxriN1hjDo5__Gp5Ngpqj2Y9cr8JYXp-Fk    //community post
+urn:X-R74n:ig:r74ndev:p:Cy1wqoJM-Y5    //post
+urn:X-R74n:ig:r74ndev:h:18037566277473804    //story highlight
+urn:X-R74n:ig:r74ndev:s:3223868288542160261    //story
+urn:X-R74n:pin:R74nCom:p:580401470752456100    //post (pin)
+urn:X-R74n:pin:R74nCom:l:sandboxels    //list (board)
+urn:X-R74n:imgur:R74ncom:i:c7sYYLt    //image
+urn:X-R74n:gh:R74nCom:o:Social-Media-Lists    //repository
+urn:X-R74n:gh:R74nCom:o:sandboxels:pr:31    //pull request
+urn:X-R74n:email:contact
+
+p - post
+l - list
+c - channel
+e - emote
+r - user role
+t - text post
+s - story
+h - highlight
+i - image URL
+o - repository
+j - invite
+
+URI:
+R74n://<NSS> == urn:X-R74n:<NSS>
+
+TODO:
+- resolver
+- wikibase properties to connect and link
+    - R74n Identifiers sheet
+- 
+

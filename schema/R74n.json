@@ -1,0 +1,59 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "additionalType": "WebSite",
+  "name": "R74n",
+  "alternateName": "R74n Collective",
+  "description": "Website collective, developer of Sandboxels, the Copy paste Dump, and more.",
+  "url": "https://R74n.com/",
+  "logo": "https://R74n.com/icons/favicon.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "contact@R74n.com",
+    "contactType": "customer service",
+    "availableLanguage": "en",
+    "url": "https://R74n.com/ufbs/",
+    "name": "Contact R74n"
+  },
+  "sameAs": [
+    "https://R74n.com/",
+    "https://www.facebook.com/R74n-106371942050914",
+    "https://twitter.com/R74nCom",
+    "https://www.instagram.com/r74ndev/",
+    "https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA/",
+    "https://www.pinterest.com/R74nCom/"
+  ],
+  "email": "contact@R74n.com",
+  "foundingDate": "2017-05-02",
+  "keywords": "R74n",
+  "knowsLanguage": "en",
+  "legalName": "R74n",
+  "naics": "511210",
+  "identifier": [
+    "0000000513144203",
+    "/g/11m0q5kt97"
+  ],
+  "image": "https://i.imgur.com/sUV2rWI.png",
+  "mainEntityOfPage": "https://R74n.com/",
+  "owns": [
+    {
+      "@type": "Product",
+      "additionalType": "VideoGame",
+      "name": "Sandboxels",
+      "url": "https://sandboxels.R74n.com/",
+      "logo": "https://sandboxels.R74n.com/icons/icon.png",
+      "description": "Sandboxels is a free falling-sand simulator that can be played in your browser. It features heat simulation, electricity, density, chemical reactions, cooking, fire spread, and over 400 unique elements to play with.",
+      "mobileUrl": "https://sandboxels.R74n.com/",
+      "releaseDate": "2021-12-15",
+      "productionDate": "2021-12",
+      "identifier": "10.5281/zenodo.10044909",
+      "sameAs": "https://R74n.com/schema/Sandboxels.json"
+    }
+  ],
+  "accessMode": "textual",
+  "archivedAt": "http://web.archive.org/web/https://r74n.com/",
+  "copyrightYear": 2017,
+  "discussionUrl": "https://r74n.com/ufbs/",
+  "inLanguage": "en",
+  "thumbnailUrl": "https://r74n.com/icons/thumbnail.png"
+}

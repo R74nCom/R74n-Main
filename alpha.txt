@@ -1,0 +1,117 @@
+R74n Standard Alpha Namespaces
+
+Guidelines:
+  - Case-insensitive, listed lowercase here because everything is related to R74n, therefore it must not be included
+  - A-Z and -
+  - Dash (-) may be substituted for underscore (_)
+
+Multiletter:
+commons         R74n Commons
+convert         Unit Converter
+converters      Text Converters, Copy Paste Dump
+copy            Copy & Paste Dump, old website (copy.R74n.Com)
+cpd             Copy Paste Dump (c.R74n.com)
+csearch         Copy Paste Dump Search
+eod             Elemental on Discord
+halacae         Halacae
+hello           Hello in Every Way
+icons           R74n Icons
+link            R74n Link Shortener (link.R74n.com)
+lore            R74n Lore
+main            Main R74n website (R74n.com)
+mc              Minecraft Tools
+mix             Mix-Up!
+moji            R74moji
+multiplane      Multiplane
+octopi          Types of Octopi
+old             Time Machine
+pixelflag       PixelFlag, individual
+pixelflags      PixelFlags, project
+rue             Explore with Rue
+sandboxels      Sandboxels (sandboxels.R74n.com)
+sbwiki          Sandboxels Wiki (sandboxels.wiki.gg)
+search          R74n Search
+sequence        Sequence
+share           Share Buttons
+sml             Social-Media-Lists
+social          Social
+supporters      Supporters
+translate       Translation Hub
+ufbs            Universal Feedback System
+unisearch       UniSearch
+wikibase        R74n Wikibase (data.R74n.com)
+words           Words and Definitions
+
+twt             on Twitter
+tiktok          on TikTok
+discord         on Discord
+yt              on YouTube
+ig              on Instagram
+facebook        on Facebook
+pin             on Pinterest
+imgur           on Imgur
+gh              on GitHub
+email           via email (...@R74n.com)
+bsky            on Bluesky
+masto           on Mastodon
+threads         on Threads
+snap            on Snapchat
+patreon         on Patreon
+paypal          on PayPal
+google          on Google
+reddit          on Reddit
+twitch          on Twitch
+giphy           on Giphy
+
+
+
+
+
+
+Two-Letter:
+co    R74n Commons
+uc    Unit Converter
+tc    Text Converters, Copy Paste Dump
+cn    Copy & Paste Dump, old website (copy.R74n.Com)
+cd    Copy Paste Dump (c.R74n.com)
+cs    Copy Paste Dump Search
+ed    Elemental on Discord
+ha    Halacae
+hi    Hello in Every Way
+ic    R74n Icons
+li    R74n Link Shortener (link.R74n.com)
+lo    R74n Lore
+ma    Main R74n website (R74n.com)
+mc    Minecraft Tools
+mx    Mix-Up!
+mj    R74moji
+mp    Multiplane
+pi    Types of Octopi
+ol    Time Machine
+pl    PixelFlag, individual
+pf    PixelFlags, project
+ru    Explore with Rue
+sb    Sandboxels (sandboxels.R74n.com)
+sw    Sandboxels Wiki (sandboxels.wiki.gg)
+ms    R74n Search
+sq    Sequence
+sh    Share Buttons
+sm    Social-Media-Lists
+sc    Social
+sp    Supporters
+tr    Translation Hub
+fb    Universal Feedback System
+us    UniSearch
+wb    R74n Wikibase (data.R74n.com)
+wd    Words and Definitions
+
+tw    on Twitter
+tt    on TikTok
+dc    on Discord
+yt    on YouTube
+ig    on Instagram
+fk    on Facebook
+pn    on Pinterest
+im    on Imgur
+gh    on GitHub
+em    via email (...@R74n.com)

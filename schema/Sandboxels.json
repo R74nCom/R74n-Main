@@ -1,0 +1,120 @@
+{
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "additionalType": "WebSite",
+    "name": "Sandboxels",
+    "description": "Sandboxels is a free falling-sand simulator that can be played in your browser. It features heat simulation, electricity, density, chemical reactions, cooking, fire spread, and over 400 unique elements to play with.",
+    "url": "https://sandboxels.R74n.com/",
+    "logo": "https://sandboxels.R74n.com/icons/icon.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "contact@R74n.com",
+      "contactType": "customer service",
+      "availableLanguage": "en",
+      "url": "https://R74n.com/ufbs/",
+      "name": "Contact R74n"
+    },
+    "sameAs": [
+      "https://sandboxels.R74n.com/"
+    ],
+    "identifier": [
+        "/g/11spmybz10",
+        "10.5281/zenodo.10044909"
+    ],
+    "datePublished": "2021-12-15",
+    "dateCreated": "2021-12",
+    "gamePlatform": "Web",
+    "playMode": "SinglePlayer",
+    "gameItem": {
+        "@type": "Thing",
+        "name": "Sand",
+        "sameAs": "https://data.r74n.com/entity/Q162",
+        "identifier": "sand"
+    },
+    "numberOfPlayers": {
+        "@type": "QuantitativeValue",
+        "minValue": "1",
+        "maxValue": "1"
+    },
+    "applicationCategory": "Game, Multimedia",
+    "applicationSubCategory": "Educational Game",
+    "applicationSuite": "R74n",
+    "featureList": "https://sandboxels.wiki.gg/wiki/Category:Gameplay",
+    "releaseNotes": "https://sandboxels.r74n.com/changelog",
+    "screenshot": "https://sandboxels.r74n.com/icons/wallpaper.png",
+    "softwareHelp": {
+        "@type": "WebPage",
+        "url": "https://sandboxels.r74n.com/help"
+    },
+    "softwareRequirements": "HTML5",
+    "softwareVersion": "1.9",
+    "archivedAt": "http://web.archive.org/web/https://sandboxels.r74n.com/",
+    "author": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "character": {
+        "@type": "Person",
+        "name": "Human",
+        "sameAs": "https://data.r74n.com/entity/Q574",
+        "gender": "Mixed",
+        "hasOccupation": {
+            "@type": "Occupation",
+            "name": "Dummy",
+            "responsibilities": "Destructive toy for the player."
+        },
+        "height": {
+            "@type": "QuantitativeValue",
+            "value": 2,
+            "unitText": "Sandboxels pixel"
+        }
+    },
+    "copyrightHolder": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "copyrightYear": 2021,
+    "creator": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "creditText": "R74n",
+    "discussionUrl": "https://sandboxels.R74n.com/feedback",
+    "educationalUse": "experimental",
+    "genre": "Falling-sand",
+    "inLanguage": "en",
+    "headline": "Sandboxels - Experimentation simulator",
+    "isPartOf": "https://R74n.com/",
+    "keywords": "falling sand, elements, pixel art, simulator, powder",
+    "learningResourceType": "lab",
+    "maintainer": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "url": "https://sandboxels.R74n.com/"
+    },
+    "producer": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "publication": {
+        "@type": "PublicationEvent",
+        "startDate": "2021-12-15",
+        "name": "Sandboxels Release"
+    },
+    "teaches": "Chemistry, Physics, Biology",
+    "thumbnailUrl": "https://sandboxels.r74n.com/icons/wallpaper.png"
+}
