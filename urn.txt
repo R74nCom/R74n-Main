@@ -24,6 +24,11 @@ urn:X-R74n:cpd:fonts
 urn:X-R74n:cpd:converter:zalgo:Hello%3F
 urn:X-R74n:cpd:search:test
 urn:X-R74n:link:main-feedback
+urn:X-R74n:ufbs:sandboxels:q    //Sandboxels feedback form
+urn:X-R74n:ufbs:sandboxels:a    //Sandboxels response sheet
+urn:X-R74n:ufbs:sandboxels:a:827    //Sandboxels feedback #827
+urn:X-R74n:ufbs:sandboxels:stats
+urn:X-R74n:commons:docs
 
 urn:X-R74n:twt:R74nCom:p:1712974492979368384    //post (tweet)
 urn:X-R74n:twt:R74nCom:l:1436860568888037379    //list
@@ -49,6 +54,10 @@ urn:X-R74n:imgur:R74ncom:i:c7sYYLt    //image
 urn:X-R74n:gh:R74nCom:o:Social-Media-Lists    //repository
 urn:X-R74n:gh:R74nCom:o:sandboxels:pr:31    //pull request
 urn:X-R74n:email:contact
+urn:X-R74n:reddit:g:74n:w:index    //wiki page
+urn:X-R74n:reddit:g:74n:p:17cmhl8    //post
+urn:X-R74n:reddit:u:R74nCom
+urn:X-R74n:reddit:u:R74nCom:l:R74n    //list (multireddit)
 
 p - post
 l - list
@@ -61,6 +70,11 @@ h - highlight
 i - image URL
 o - repository
 j - invite
+q - questions
+a - answers
+w - wiki
+g - group
+u - user
 
 URI:
 R74n://<NSS> == urn:X-R74n:<NSS>

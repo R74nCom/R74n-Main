@@ -63,6 +63,20 @@ reddit          on Reddit
 twitch          on Twitch
 giphy           on Giphy
 
+gdocs           on Google Docs
+gcal            on Google Calendar
+gearth          on Google Earth
+gforms          on Google Forms
+gsheets         on Google Sheets
+gslides         on Google Slides
+gclassroom      on Google Classroom
+ggroups         on Google Groups
+gjamboard       on Google Jamboard
+gmaps           on Google Maps
+gdrive          on Google Drive
+mforms          on Microsoft Forms
+mlists          on Microsoft Lists
+
 
 
 
@@ -73,7 +87,7 @@ co    R74n Commons
 uc    Unit Converter
 tc    Text Converters, Copy Paste Dump
 cn    Copy & Paste Dump, old website (copy.R74n.Com)
-cd    Copy Paste Dump (c.R74n.com)
+cv    Copy Paste Dump (c.R74n.com)
 cs    Copy Paste Dump Search
 ed    Elemental on Discord
 ha    Halacae
@@ -97,7 +111,7 @@ ms    R74n Search
 sq    Sequence
 sh    Share Buttons
 sm    Social-Media-Lists
-sc    Social
+so    Social
 sp    Supporters
 tr    Translation Hub
 fb    Universal Feedback System
@@ -115,3 +129,11 @@ pn    on Pinterest
 im    on Imgur
 gh    on GitHub
 em    via email (...@R74n.com)
+md    on Mastodon
+sc    on Snapchat
+pa    on Patreon
+pp    on PayPal
+go    on Google
+rd    on Reddit
+tv    on Twitch
+gy    on Giphy
