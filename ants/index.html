@@ -171,9 +171,9 @@ This HTML and its contents are property of R74n.com.
   <div id="antFrame">
     <a id="backToReel" onclick="showReel(); return false">⦉ Ant Reel</a>
     <div id="antInfo">
-      <p class="antInfoTitle">
+      <p id="antInfoTitle" class="antInfoTitle">
         ant<br>
-        <span class="antInfoMeta">Sampling ant...<br>#####<br>Somewhere</span>
+        <span id="antInfoMeta" class="antInfoMeta">Sampling ant...<br>#####<br>Somewhere</span>
       </p>
       <table id="antInfoTable">
         <tr><td>colony</td><td><a>sampling...</a></td></tr>
@@ -242,8 +242,8 @@ This HTML and its contents are property of R74n.com.
     <div id="funeralMain">
       <p class="antInfoTitle" id="funeralInfoTitle" style="margin-top:0">fire ant<br><span class="antInfoMeta">Myrmica deplanata<br><small>#7032047466135639</small></span><br><br><em>death by lawnmower at 2 month(s) old</em><br><span class="antInfoMeta">Namibia</span></p>
       <div id="funeralAltar" style="text-align:center">
-        <img src="image/extra.png" style="width:90%;max-height:150px">
-        <img src="image/casket.png" style="width:90%;max-height:150px">
+        <img src="image/extra.png" style="width:90%;max-height:150px;cursor: pointer;" onclick="alert('What is this, a funeral for ants?')">
+        <img src="image/casket.png" style="width:90%;max-height:150px;cursor: pointer;" onclick="alert('Due to the horrific nature of ant death, the Queen has opted for a closed-casket funeral.')">
       </div>
       <div id="funeralVote">
         <p id="voteDecision" style="margin-bottom:5px">Vote in progress... (34s)</p>
@@ -262,19 +262,19 @@ funeralAnt = null;
 funeralTicker = null;
 funeralTicks = 0;
 function startFuneral() {
-  var currentMinute = new Date().getMinutes();
-  var currentSecond = new Date().getSeconds();
+  var currentMinute = new Date().getUTCMinutes();
+  var currentSecond = new Date().getUTCSeconds();
   // day:hour:minute
-  var currentTime = new Date().getDay()+":"+new Date().getHours()+":"+currentMinute;
+  var currentTime = new Date().getUTCDay()+":"+new Date().getUTCHours()+":"+currentMinute;
   var id = seedRange(1,2e16,"funeral"+currentTime);
   funeralAnt = generateAnt(id);
   var d = funeralAnt;
   var infoTitle = document.getElementById("funeralInfoTitle");
   if (d.commonName) {
-    infoTitle.innerHTML = d.commonName+'<br><span class="antInfoMeta">'+d.taxonName+'<br><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.location+'</span>';
+    infoTitle.innerHTML = d.commonName+'<br><span class="antInfoMeta">'+d.taxonName+'<br><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
   }
   else {
-    infoTitle.innerHTML = d.taxonName+'<br><span class="antInfoMeta"><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.location+'</span>';
+    infoTitle.innerHTML = d.taxonName+'<br><span class="antInfoMeta"><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
   }
   document.getElementById("votePurgatory").setAttribute("data-voted","false");
   document.getElementById("voteParadise").setAttribute("data-voted","false");
@@ -283,12 +283,11 @@ function startFuneral() {
   funeralTicker = setInterval(function() {
     funeralTicks -= 1;
     if (funeralTicks < 0) {
-      //document.getElementById("previousFuneral").innerHTML = 'fire ant<br><span class="antInfoMeta">Myrmica deplanata<br><small style="font-size:0.65em;">#7032047466135639</small><br>Namibia</span><br><br>Decision: PURGATORY'
       if (funeralAnt.commonName) {
-        document.getElementById("previousFuneral").innerHTML = funeralAnt.commonName+'<br><span class="antInfoMeta">'+funeralAnt.taxonName+'<br><small>#'+funeralAnt.id+'</small></span><br><br>Decision: '+parseText(seedChoose(["PARADISE","PURGATORY"],"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+funeralAnt.location+'</span>';
+        document.getElementById("previousFuneral").innerHTML = funeralAnt.commonName+'<br><span class="antInfoMeta">'+funeralAnt.taxonName+'<br><small>#'+funeralAnt.id+'</small><br>'+funeralAnt.location+'</span><br><br>Decision: '+parseText(seedChoose(["PARADISE","PURGATORY"],"funeral"+currentTime));
       }
       else {
-        document.getElementById("previousFuneral").innerHTML = funeralAnt.taxonName+'<br><span class="antInfoMeta"><small>#'+funeralAnt.id+'</small></span><br><br>Decision: '+parseText(seedChoose(["PARADISE","PURGATORY"],"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+funeralAnt.location+'</span>';
+        document.getElementById("previousFuneral").innerHTML = funeralAnt.taxonName+'<br><span class="antInfoMeta"><small>#'+funeralAnt.id+'</small><br>'+funeralAnt.location+'</span><br><br>Decision: '+parseText(seedChoose(["PARADISE","PURGATORY"],"funeral"+currentTime));
       }
       endFuneral();startFuneral();
     }
@@ -378,7 +377,7 @@ function attributeDisplay(attribute,value) {
   if (fancyAttributes[attribute]) {
     value = fancyAttributes[attribute](value);
   }
-  value = parseText(value);
+  value = parseText(value.toString());
   return value;
 }
 function viewAnt(id) {
@@ -545,6 +544,16 @@ window.addEventListener("load", function() {
     }
   };
   nextAnts(100);
+});
+
+// keyboard shortcuts
+window.addEventListener("keydown", function(e) {
+  // esc or backspace = back to reel
+  if (e.keyCode === 27 || e.keyCode === 8) {
+    if (currentAnt) {
+      showReel();
+    }
+  }
 });
 
 </script>
