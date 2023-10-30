@@ -45,7 +45,7 @@ This HTML and its contents are property of R74n.com.
     <script src="https://R74n.com/load.js"></script>
 
     <style>
-      #antReel, #antFrame, #antFuneral {
+      #antReel, #antFrame, #antFuneral, #antChallenges {
         text-align: center;
         border: solid white;
         max-width: 650px;
@@ -156,6 +156,7 @@ This HTML and its contents are property of R74n.com.
 <div id="controlDiv">
   <input type="button" id="tabButton-reel" value="Ant Reel" onclick="openTab('reel')" selected="true">
   <input type="button" id="tabButton-funeral" value="Funerals" onclick="openTab('funeral');startFuneral()">
+  <input type="button" id="tabButton-challenges" value="Challenges" onclick="openTab('challenges');">
 </div>
 <div class="tabContent" id="tab-reel">
   <div id="antReel">
@@ -255,6 +256,23 @@ This HTML and its contents are property of R74n.com.
   </div>
 </div>
 
+<div class="tabContent" id="tab-challenges" style="display:none">
+  <div id="antChallenges">
+    <p>These are some fun challenges for you to complete on your own!</p>
+    <ul style="text-align: left;">
+      <li>Find an Ant from your country</li>
+      <li>Attend a funeral and decide their fate</li>
+      <li>Find an Ant egg laid today</li>
+      <li>Catch an ant in the act 😳</li>
+      <li>Find an Ant with your Zodiac sign</li>
+      <li>Find a 2 and a half-year-old Ant</li>
+      <li>Find an Ant with your exact birthday</li>
+      <li>Find an Ant born at an angel number time</li>
+      <li>Find a Queen Ant 👑 (ULTRA HARD)</li>
+    </ul>
+  </div>
+</div>
+
 
 <script>
 
@@ -270,11 +288,12 @@ function startFuneral() {
   funeralAnt = generateAnt(id);
   var d = funeralAnt;
   var infoTitle = document.getElementById("funeralInfoTitle");
+  var genderSymbol = "<span style='color:"+(d.sex === "female" ? "pink" : "skyblue")+"'>"+(d.sex === "female" ? "♀" : "♂")+"</span> ";
   if (d.commonName) {
-    infoTitle.innerHTML = d.commonName+'<br><span class="antInfoMeta">'+d.taxonName+'<br><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
+    infoTitle.innerHTML = genderSymbol+d.commonName+'<br><span class="antInfoMeta">'+d.taxonName+'<br><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
   }
   else {
-    infoTitle.innerHTML = d.taxonName+'<br><span class="antInfoMeta"><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
+    infoTitle.innerHTML = genderSymbol+d.taxonName+'<br><span class="antInfoMeta"><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
   }
   document.getElementById("votePurgatory").setAttribute("data-voted","false");
   document.getElementById("voteParadise").setAttribute("data-voted","false");
@@ -361,7 +380,7 @@ function showReel() {
 }
 currentAnt = null;
 reelScroll = null;
-genericAttributes = ["genus","species","subspecies","taxonName","locationID","location","commonName"];
+genericAttributes = ["id","genus","species","subspecies","taxonName","locationID","location","commonName"];
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -372,6 +391,9 @@ fancyAttributes = {
   "colony": (x) => "#"+x,
   "metabolism": (x) => x+"x",
   "eggs": (x) => numberWithCommas(x),
+  "birthdate": (x) => {
+    return "<a target='_blank' href='https://calendar.google.com/calendar/r/eventedit?text=Ant+Birthday&dates="+x.toISOString().replace(/-|:|\.\d\d\d/g,"")+"Z/"+(new Date(x.getTime()+86400000)).toISOString().replace(/-|:|\.\d\d\d/g,"")+"Z&details=Ant+Birthday&location=Earth&sf=true&output=xml'>"+x.toLocaleDateString("en", { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric' })+"</a>";
+  }
 }
 function attributeDisplay(attribute,value) {
   if (fancyAttributes[attribute]) {
@@ -464,10 +486,10 @@ function generateAnt(id) {
     var birthdate = new Date(today - seedRange(0, 94608000000, id+"Birthdate")); //today-3yr
     d.currently = seedChoose(antData.workerActions, id+"Action"+currentMinute);
   }
-  if (Math.random() < 0.05) {
+  if (seedRandom(id+"Disease") < 0.05) {
     d.disease = seedChoose(antData.diseases, id+"Disease");
   }
-  d.birthdate = birthdate.toLocaleDateString("en", { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric' })
+  d.birthdate = birthdate;
   var age = Math.floor((today - birthdate) / 86400000);
   if (age < 30) { d.age = age + " day(s)"; }
   else if (age < 365) { d.age = Math.floor(age / 30) + " month(s)"; }
