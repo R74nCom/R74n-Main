@@ -3738,6 +3738,12 @@ rueData.links = {
 "sequence": "https://r74n.com/sequence/",
 "sequencer": "=sequence",
 "patreon": "https://www.patreon.com/R74n",
+"ants": "https://R74n.com/ants/",
+"ant": "=ants",
+"every ant": "=ants",
+"every ant on earth": "=ants",
+"eaoe": "=ants",
+"ant browser": "=ants",
 
 "meese": "https://www.moosenotmeese.org/", //partner
 "moosenotmeese": "=meese",
