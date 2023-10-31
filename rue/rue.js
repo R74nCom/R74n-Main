@@ -3744,6 +3744,8 @@ rueData.links = {
 "every ant on earth": "=ants",
 "eaoe": "=ants",
 "ant browser": "=ants",
+"turbowarp": "https://turbowarp.org/editor",
+"tw": "=turbowarp",
 
 "meese": "https://www.moosenotmeese.org/", //partner
 "moosenotmeese": "=meese",
@@ -3751,6 +3753,8 @@ rueData.links = {
 "mooses": "=meese",
 "moosen": "=meese",
 "plural of moose": "=meese",
+"5b": "https://www.infernity.dev/HTML5b/", //partner
+"infernity": "https://www.infernity.dev/", //partner
 } // links
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
