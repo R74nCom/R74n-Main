@@ -88,6 +88,8 @@ multiplaneEntities = {
   "154": "R74n Socials Page",
   "160": "Types of Octopi",
   "161": "Social Media Lists",
+  "162": "Sequence",
+  "163": "Every Ant on Earth",
   "180": "Minecraft Tools",
   "181": "HD Head Library",
   "182": "Quality of Life",

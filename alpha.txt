@@ -41,6 +41,7 @@ ufbs            Universal Feedback System
 unisearch       UniSearch
 wikibase        R74n Wikibase (data.R74n.com)
 words           Words and Definitions
+ants            Every Ant on Earth
 
 twt             on Twitter
 tiktok          on TikTok
@@ -118,6 +119,7 @@ fb    Universal Feedback System
 us    UniSearch
 wb    R74n Wikibase (data.R74n.com)
 wd    Words and Definitions
+an    Every Ant on Earth
 
 tw    on Twitter
 tt    on TikTok

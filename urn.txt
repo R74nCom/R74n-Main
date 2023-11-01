@@ -94,4 +94,5 @@ TODO:
     - Multiplane to QuickStatements script
     - custom site styling MediaWiki:Common.css
     - custom sidebar links MediaWiki:Sidebar
+    - Update property ordering
 
