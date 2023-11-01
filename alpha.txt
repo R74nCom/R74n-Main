@@ -5,137 +5,95 @@ Guidelines:
   - A-Z and -
   - Dash (-) may be substituted for underscore (_)
 
-Multiletter:
-commons         R74n Commons
-convert         Unit Converter
-converters      Text Converters, Copy Paste Dump
-copy            Copy & Paste Dump, old website (copy.R74n.Com)
-cpd             Copy Paste Dump (c.R74n.com)
-csearch         Copy Paste Dump Search
-eod             Elemental on Discord
-halacae         Halacae
-hello           Hello in Every Way
-icons           R74n Icons
-link            R74n Link Shortener (link.R74n.com)
-lore            R74n Lore
-main            Main R74n website (R74n.com)
-mc              Minecraft Tools
-mix             Mix-Up!
-moji            R74moji
-multiplane      Multiplane
-octopi          Types of Octopi
-old             Time Machine
-pixelflag       PixelFlag, individual
-pixelflags      PixelFlags, project
-rue             Explore with Rue
-sandboxels      Sandboxels (sandboxels.R74n.com)
-sbwiki          Sandboxels Wiki (sandboxels.wiki.gg)
-search          R74n Search
-sequence        Sequence
-share           Share Buttons
-sml             Social-Media-Lists
-social          Social
-supporters      Supporters
-translate       Translation Hub
-ufbs            Universal Feedback System
-unisearch       UniSearch
-wikibase        R74n Wikibase (data.R74n.com)
-words           Words and Definitions
-ants            Every Ant on Earth
 
-twt             on Twitter
-tiktok          on TikTok
-discord         on Discord
-yt              on YouTube
-ig              on Instagram
-facebook        on Facebook
-pin             on Pinterest
-imgur           on Imgur
-gh              on GitHub
-email           via email (...@R74n.com)
-bsky            on Bluesky
-masto           on Mastodon
-threads         on Threads
-snap            on Snapchat
-patreon         on Patreon
-paypal          on PayPal
-google          on Google
-reddit          on Reddit
-twitch          on Twitch
-giphy           on Giphy
+TWO   MULTI           NAME
 
-gdocs           on Google Docs
-gcal            on Google Calendar
-gearth          on Google Earth
-gforms          on Google Forms
-gsheets         on Google Sheets
-gslides         on Google Slides
-gclassroom      on Google Classroom
-ggroups         on Google Groups
-gjamboard       on Google Jamboard
-gmaps           on Google Maps
-gdrive          on Google Drive
-mforms          on Microsoft Forms
-mlists          on Microsoft Lists
+co    commons         R74n Commons
+uc    convert         Unit Converter
+tc    converters      Text Converters, Copy Paste Dump
+cn    copy            Copy & Paste Dump, old website (copy.R74n.Com)
+cv    cpd             Copy Paste Dump (c.R74n.com)
+cs    csearch         Copy Paste Dump Search
+ed    eod             Elemental on Discord
+ha    halacae         Halacae
+hi    hello           Hello in Every Way
+ic    icons           R74n Icons
+li    link            R74n Link Shortener (link.R74n.com)
+lo    lore            R74n Lore
+ma    main            Main R74n website (R74n.com)
+mc    mc              Minecraft Tools
+mx    mix             Mix-Up!
+mj    moji            R74moji
+mp    multiplane      Multiplane
+pi    octopi          Types of Octopi
+ol    old             Time Machine
+pl    pixelflag       PixelFlag, individual
+pf    pixelflags      PixelFlags, project
+ru    rue             Explore with Rue
+sb    sandboxels      Sandboxels (sandboxels.R74n.com)
+sw    sbwiki          Sandboxels Wiki (sandboxels.wiki.gg)
+ms    search          R74n Search
+sq    sequence        Sequence
+sh    share           Share Buttons
+sm    sml             Social-Media-Lists
+so    social          Social
+sp    supporters      Supporters
+tr    translate       Translation Hub
+fb    ufbs            Universal Feedback System
+us    unisearch       UniSearch
+wb    wikibase        R74n Wikibase (data.R74n.com)
+wd    words           Words and Definitions
+an    ants            Every Ant on Earth
+on    ontomata        Ontomata
+st    sandtiles       Sandtiles
+ca    capitalize      R74n Capitalization Standard
+qu    questions       Questions
+pc    pogchamps       All Twitch PogChamps
+al    alpha           R74n Standard Alpha Namespaces
+am    alphamul        Multiletter Alpha Namespaces
+at    alphatwo        Two-letter Alpha Namespaces
+pj    projects        R74n Projects (in general)
+rn    urn             X-R74n Univeral Resource Name Namespace
+oi    oid             R74n OID Registration Authority
+
+tw    twt             on Twitter
+tt    tiktok          on TikTok
+dc    discord         on Discord
+yt    yt              on YouTube
+ig    ig              on Instagram
+fk    facebook        on Facebook
+pn    pin             on Pinterest
+im    imgur           on Imgur
+gh    gh              on GitHub
+em    email           via email (...@R74n.com)
+      bsky            on Bluesky
+md    masto           on Mastodon
+      threads         on Threads
+sc    snap            on Snapchat
+pa    patreon         on Patreon
+pp    paypal          on PayPal
+go    google          on Google
+rd    reddit          on Reddit
+tv    twitch          on Twitch
+gy    giphy           on Giphy
+
+      gdocs           on Google Docs
+      gcal            on Google Calendar
+      gearth          on Google Earth
+      gforms          on Google Forms
+      gsheets         on Google Sheets
+      gslides         on Google Slides
+      gclassroom      on Google Classroom
+      ggroups         on Google Groups
+      gjamboard       on Google Jamboard
+      gmaps           on Google Maps
+      gdrive          on Google Drive
+      mforms          on Microsoft Forms
+      mlists          on Microsoft Lists
 
 
 
 
 
-
-Two-Letter:
-co    R74n Commons
-uc    Unit Converter
-tc    Text Converters, Copy Paste Dump
-cn    Copy & Paste Dump, old website (copy.R74n.Com)
-cv    Copy Paste Dump (c.R74n.com)
-cs    Copy Paste Dump Search
-ed    Elemental on Discord
-ha    Halacae
-hi    Hello in Every Way
-ic    R74n Icons
-li    R74n Link Shortener (link.R74n.com)
-lo    R74n Lore
-ma    Main R74n website (R74n.com)
-mc    Minecraft Tools
-mx    Mix-Up!
-mj    R74moji
-mp    Multiplane
-pi    Types of Octopi
-ol    Time Machine
-pl    PixelFlag, individual
-pf    PixelFlags, project
-ru    Explore with Rue
-sb    Sandboxels (sandboxels.R74n.com)
-sw    Sandboxels Wiki (sandboxels.wiki.gg)
-ms    R74n Search
-sq    Sequence
-sh    Share Buttons
-sm    Social-Media-Lists
-so    Social
-sp    Supporters
-tr    Translation Hub
-fb    Universal Feedback System
-us    UniSearch
-wb    R74n Wikibase (data.R74n.com)
-wd    Words and Definitions
-an    Every Ant on Earth
-
-tw    on Twitter
-tt    on TikTok
-dc    on Discord
-yt    on YouTube
-ig    on Instagram
-fk    on Facebook
-pn    on Pinterest
-im    on Imgur
-gh    on GitHub
-em    via email (...@R74n.com)
-md    on Mastodon
-sc    on Snapchat
-pa    on Patreon
-pp    on PayPal
-go    on Google
-rd    on Reddit
-tv    on Twitch
-gy    on Giphy
+MP        MP        AM            AT      OID
+R00111    #273      sandboxels    sb      1.3.6.1.4.1.61117.1.273
