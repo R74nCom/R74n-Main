@@ -40,6 +40,7 @@ so    social          Social
 sp    supporters      Supporters
 tr    translate       Translation Hub
 fb    ufbs            Universal Feedback System
+fo    fonts           Fancy Font Generator, Copy Paste Dump
 us    unisearch       UniSearch
 wb    wikibase        R74n Wikibase (data.R74n.com)
 wd    words           Words and Definitions
@@ -49,10 +50,10 @@ st    sandtiles       Sandtiles
 ca    capitalize      R74n Capitalization Standard
 qu    questions       Questions
 pc    pogchamps       All Twitch PogChamps
+pj    projects        R74n Projects (in general)
 al    alpha           R74n Standard Alpha Namespaces
 am    alphamul        Multiletter Alpha Namespaces
 at    alphatwo        Two-letter Alpha Namespaces
-pj    projects        R74n Projects (in general)
 rn    urn             X-R74n Univeral Resource Name Namespace
 oi    oid             R74n OID Registration Authority
 

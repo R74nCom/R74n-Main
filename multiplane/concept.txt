@@ -23,31 +23,31 @@ Bz3 - 65536   ; 16x16x16x16    ; R00000-R0FFFF
 Bz4 - 1048576 ; 16x16x16x16x16 ; R00000-RFFFFF
 
 Future planes & blocks:
-Foundation
-	Meta (Things related to the Multiplane, Bz1)
-Project Spaces
-	Languages (Bz2, from HiEW)
-	Units (Bz2)
-	PixelFlags (Bz2)
-	R74moji (Bz2)
-	Social Media Accounts (Bz2)
-	Logos (Bz2)
-		R74n Logos (Bz1)
-	Halacae (Bz1)
-	Universal Feedback System (Bz1)
-	Elemental on Discord (Bz3)
-Descriptors
-	Countries & Regions (Bz2)
-	Days Since R74n Epoch (May 2, 2017—October 5, 2039, Leap days included, Bz2*2)
-	UTC Offsets (UTC+1:00, UTC+1:15, UTC+1:30, UTC+1:45, etc. (96 entities), Bz1)
-	Extended Timekeeping (Bz1)
-		Hours 0-23
-		Minutes 0-59
-		Seconds 0-59
-		Months 0-11
-		Weekdays 0-6
-	Colors (Bz1)
-	Numeral Compatibility
+~Foundation
+	~Meta (Things related to the Multiplane, Bz1)
+~Project Spaces
+	~Languages (Bz2, from HiEW)
+	~Units (Bz2)
+	~PixelFlags (Bz2)
+	~R74moji (Bz2)
+	~Social Media Accounts (Bz2)
+	~Logos (Bz2)
+		~R74n Logos (Bz1)
+	~Halacae (Bz1)
+	~Universal Feedback System (Bz1)
+	~Elemental on Discord (Bz3)
+~Descriptors
+	~Countries & Regions (Bz2)
+	~Days Since R74n Epoch (May 2, 2017—October 5, 2039, Leap days included, Bz2*2)
+	~UTC Offsets (UTC+1:00, UTC+1:15, UTC+1:30, UTC+1:45, etc. (96 entities), Bz1)
+	~Extended Timekeeping (Bz1)
+		~Hours 0-23
+		~Minutes 0-59
+		~Seconds 0-59
+		~Months 0-11
+		~Weekdays 0-6
+	~Colors (Bz1)
+	~Numeral Compatibility
 
 Future Features:
 - Plane Tree (List of each plane inside one another)

@@ -49,6 +49,11 @@ ARC         -   PURPOSE
 61117.9999  -   Example, for explanation only
 
 
+Concepts may be represented by multiple OIDs in different arcs. Canonical OIDs are determined based on this priority chain, with the most important being first. For example, if a concept is represented in 61117.1 and 61117.3, the one under 61117.1 is the canonical OID for that concept.
+
+OID Priority Chain: 61117.1 > 61117.3 > 61117.4 > 61117.9000 > 61117.9998
+
+
 
 ========================================
 3 - Inherent OIDs
@@ -62,6 +67,7 @@ ARC.<child>                     -   PURPOSE
 61117.4.<class ID>              -   Ontomata
 
 For example, 61117.1.273 is automatically allocated to Sandboxels, R00111 (#273) in the Multiplane.
+
 
 
 ========================================
