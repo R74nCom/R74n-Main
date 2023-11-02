@@ -33,6 +33,8 @@ OIDs under 61117.9000 can be requested by contacting R74n, either by email (cont
 
 Additionally, a person or organization may freely allocate children of their R74n Wikibase item’s QID under 61117.3, if it exists.
 
+A helpful guide to registration can be found here: https://r74n.com/id/oid
+
 
 
 ========================================
