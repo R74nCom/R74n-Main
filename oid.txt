@@ -104,7 +104,6 @@ The following list contains OIDs with definitions, as opposed to being inherent.
 61117.5.2.1         -   Positive Numerical Value
 61117.5.11.65535    -   R74n Cyan (#00ffff)
 61117.9000          -   Requested, see section 1
-61117.9000.123      -   Requested Example
 61117.9000.1        -   infernostars [https://www.infernity.dev/oid-schema.txt]
 61117.9000.123      -   Requested Example
 61117.9998          -   Experimental, for testing only
