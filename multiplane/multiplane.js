@@ -46,7 +46,6 @@ multiplaneEntities = {
   "97": "word definition",
   "98": "emoji",
   "99": "list",
-  "9A": "project",
   
   "F0": "digit 0",
   "F1": "digit 1",
@@ -111,6 +110,7 @@ multiplaneEntities = {
   "1F2": "Two-letter Alpha Namespaces",
   "1F3": "X-R74n Univeral Resource Name Namespace",
   "1F4": "R74n OID Registration Authority",
+  "1F5": "R74n UUID Namespace",
   
   "2C0": "R74n Discord server",
   "2C1": "Copy Paste Dump Discord server",
@@ -185,6 +185,10 @@ multiplaneEntities = {
 
   "3000": "English",
   "3001": "Halacae",
+  "3002": "Python",
+  "3003": "HTML",
+  "3004": "CSS",
+  "3005": "JavaScript",
 
   "6000": "individual PixelFlag",
 

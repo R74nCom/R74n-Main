@@ -56,6 +56,7 @@ am    alphamul        Multiletter Alpha Namespaces
 at    alphatwo        Two-letter Alpha Namespaces
 rn    urn             X-R74n Univeral Resource Name Namespace
 oi    oid             R74n OID Registration Authority
+ui    uuid            R74n UUID Namespace
 
 tw    twt             on Twitter
 tt    tiktok          on TikTok
