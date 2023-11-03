@@ -38,7 +38,9 @@ A helpful guide to registration can be found here: https://r74n.com/id/oid
 
 
 ========================================
-2 - OID Arcs
+2 - Main OID Arcs
+
+The following are the direct children of the root node.
 
 ARC         -   PURPOSE
 
@@ -46,6 +48,7 @@ ARC         -   PURPOSE
 61117.2     -   General R74n Needs
 61117.3     -   R74n Wikibase, for compatibility
 61117.4     -   Ontomata, for compatibility
+61117.5     -   Notation
 61117.9000  -   Requested, see section 1
 61117.9998  -   Experimental, for testing only
 61117.9999  -   Example, for explanation only
@@ -62,20 +65,47 @@ OID Priority Chain: 61117.1 > 61117.9000 > 61117.3 > 61117.4 > 61117.9998
 
 The following OID arcs contain inherently valid children which are based off existing databases or standards.
 
-ARC.<child>                     -   PURPOSE
+ARC.<child>                          -   PURPOSE
 
-61117.1.<decimal planecode>     -   Multiplane
-61117.3.<QID>                   -   R74n Wikibase
-61117.4.<class ID>              -   Ontomata
+61117.1.<decimal planecode>          -   Multiplane
+61117.3.<QID>                        -   R74n Wikibase
+61117.4.<class ID>                   -   Ontomata
+61117.5.2.0.<whole>                  -   Negative Numerical Value (e.g. -7)
+61117.5.2.0.<whole>.<decimals>       -   Negative Numerical Value (e.g. -7.4)
+61117.5.2.1.<whole>                  -   Positive Numerical Value (e.g. 7)
+61117.5.2.1.<whole>.<decimals>       -   Positive Numerical Value (e.g. 7.4)
+61117.5.2.10.<decimal>               -   Unicode character (e.g. 182 == ¶)
+61117.5.2.10.<decimal>.<decimal>...  -   String (e.g. 82.55.52.110 == R74n)
+61117.5.2.11.<decimal>               -   Color code (e.g. 65535 == #00ffff)
 
 For example, 61117.1.273 is automatically allocated to Sandboxels, R00111 (#273) in the Multiplane.
+
+Note for external repository managers: These inherent OIDs do NOT need to be listed in the repository, as they are automatically valid. However, any may be listed for convenience.
 
 
 
 ========================================
-4 - Predefined OID Repository
+4 - R74n OID Repository
 
 The following list contains OIDs with definitions, as opposed to being inherent.
 
-61117.9000.1        -   infernostars
+61117.1             -   Multiplane, to identify R74n projects and concepts
+61117.2             -   General R74n Needs
+61117.3             -   R74n Wikibase, for compatibility
+61117.4             -   Ontomata, for compatibility
+61117.5             -   Notation
+61117.5.0           -   Null
+61117.5.1           -   Boolean
+61117.5.1.0         -   True (Boolean)
+61117.5.1.1         -   False (Boolean)
+61117.5.1.2         -   Maybe (Boolean)
+61117.5.2           -   Numerical Value
+61117.5.2.0         -   Negative Numerical Value
+61117.5.2.1         -   Positive Numerical Value
+61117.5.11.65535    -   R74n Cyan (#00ffff)
+61117.9000          -   Requested, see section 1
 61117.9000.123      -   Requested Example
+61117.9000.1        -   infernostars [https://www.infernity.dev/oid-schema.txt]
+61117.9000.123      -   Requested Example
+61117.9998          -   Experimental, for testing only
+61117.9999          -   Example, for explanation only

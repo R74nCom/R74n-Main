@@ -112,6 +112,9 @@ multiplaneEntities = {
   "1F3": "X-R74n Univeral Resource Name Namespace",
   "1F4": "R74n OID Registration Authority",
   
+  "2C0": "R74n Discord server",
+  "2C1": "Copy Paste Dump Discord server",
+  "2C2": "minecraft item cult",
   "2D2": "Sandboxels Wiki",
 
 // Particulars //

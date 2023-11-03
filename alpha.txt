@@ -96,5 +96,5 @@ gy    giphy           on Giphy
 
 
 
-MP        MP        AM            AT      OID
-R00111    #273      sandboxels    sb      1.3.6.1.4.1.61117.1.273
+MP        MP        AM            AT      OID                           UUID
+R00111    #273      sandboxels    sb      1.3.6.1.4.1.61117.1.273       948d248f-fd72-59b1-bae0-dba9c046da9b
