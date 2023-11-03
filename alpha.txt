@@ -3,7 +3,7 @@ R74n Standard Alpha Namespaces
 Guidelines:
   - Case-insensitive, listed lowercase here because everything is related to R74n, therefore it must not be included
   - A-Z and -
-  - Dash (-) may be substituted for underscore (_)
+  - Dash (-) may be substituted by underscore (_), but not together
 
 
 TWO   MULTI           NAME

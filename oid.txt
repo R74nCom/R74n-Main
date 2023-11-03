@@ -59,6 +59,18 @@ Concepts may be represented by multiple OIDs in different arcs. Canonical OIDs a
 OID Priority Chain: 61117.1 > 61117.9000 > 61117.3 > 61117.4 > 61117.9998
 
 
+Named identifiers for ASN.1 notation, based on R74n Standard Alpha Namespaces:
+
+multiplane(1) / mp(1)
+x-general(2)
+wikibase(3) / wb(3)
+ontomata(4) / om(4)
+x-notation(5)
+x-requested(9000)
+experiment(9998)
+example(9999)
+
+
 
 ========================================
 3 - Inherent OIDs
@@ -87,7 +99,7 @@ Note for external repository managers: These inherent OIDs do NOT need to be lis
 ========================================
 4 - R74n OID Repository
 
-The following list contains OIDs with definitions, as opposed to being inherent.
+The following list contains OIDs with definitions, as opposed to being inherent. Definitions here take priority over any inherent ones.
 
 61117.1             -   Multiplane, to identify R74n projects and concepts
 61117.2             -   General R74n Needs
