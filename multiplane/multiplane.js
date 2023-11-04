@@ -17,6 +17,10 @@ multiplaneEntities = {
   "25": "multiple entities",
   "26": "entity without code",
   "28": "or",
+  "29": "example",
+  "2A": "experiment",
+  "2B": "reservation",
+  "2C": "not applicable",
   
   "74": "[reserved]",
 
@@ -156,6 +160,11 @@ multiplaneEntities = {
   "549": "search",
   "560": "conversion",
 
+// Individuals //
+  "600": "Ryan, R74n developer",
+// Organizations //
+  "700": "R74n Collective",
+
 // Meta //
   "F00": "planecode",
   "F01": "entity",
@@ -170,8 +179,10 @@ multiplaneEntities = {
   "F0A": "Bz3 block",
   "F0B": "Bz4 block",
   "F0C": "plane",
-  "F0D": "multiplane",
+  "F0D": "multiplane, individual",
   "F0E": "dimension",
+  "F10": "hex planecode (Rxxxxx)",
+  "F11": "decimal planecode (#xxx...)",
   "F20": "allocation",
   "F21": "code update",
 
@@ -190,7 +201,90 @@ multiplaneEntities = {
   "3004": "CSS",
   "3005": "JavaScript",
 
-  "6000": "individual PixelFlag",
+  "6000": "PixelFlag, individual",
+
+// Halacae //
+  "A000": "Halacae Handbook",
+  "A010": "Halacae vowel a",
+  "A011": "Halacae vowel e",
+  "A012": "Halacae vowel i",
+  "A013": "Halacae vowel ae",
+  "A014": "Halacae vowel o",
+  "A015": "Halacae vowel oo",
+  "A016": "Halacae vowel u",
+  "A017": "Halacae consonant c",
+  "A018": "Halacae consonant h",
+  "A019": "Halacae consonant l",
+  "A01A": "Halacae consonant m",
+  "A01B": "Halacae consonant p",
+  "A01C": "Halacae consonant r",
+  "A01D": "Halacae consonant s",
+  "A01E": "Halacae consonant y",
+  "A01F": "Halacae consonant -",
+
+// Commons //
+  "A110": "R74n Guestbook",
+  "A111": "R74n Calendar",
+  "A112": "R74n Commons Spreadsheet",
+  "A113": "R74n Commons Presentation",
+  "A114": "R74n Earth",
+  "A115": "R74n Audience Survey",
+  "A116": "R74n Appointment Form",
+  "A117": "R74n University",
+  "A118": "R74n Commons Painting",
+  "A119": "R74n Commons Group",
+  "A11A": "R74n Commons Whiteboard",
+  "A11B": "R74moji Suggestions/Requests Doc",
+  "A11C": "PixelFlags Requests Doc",
+  "A130": "R74n Microsoft Form",
+  "A131": "R74n Microsoft To Do List",
+  "A132": "R74n Microsoft List",
+// Universal Feedback System //
+  "A200": "feedback form",
+  "A201": "response sheet",
+  "A202": "response tab",
+  "A203": "feedback response",
+  "A204": "feedback timestamp",
+  "A205": "feedback note",
+  "A206": "feedback text",
+  "A207": "feedback category",
+  "A210": "Status: Accepted",
+  "A211": "Status: Published",
+  "A212": "Status: Rejected",
+  "A213": "Status: On Hold",
+  "A214": "Status: N/A",
+  "A215": "Status: Thanks!",
+  "A216": "Status: Coming Soon",
+  "A220": "UFBS Google Drive folder",
+
+  "A251": "Sandboxels Suggestions",
+  "A252": "Copy Paste Dump Submissions",
+  "A253": "Main R74n Feedback",
+  "A254": "Hello in Every Way Feedback",
+  "A255": "Unit Converter Feedback",
+  "A256": "R74moji Feedback",
+  "A257": "Words and Definitions Feedback",
+  "A258": "UniSearch Feedback",
+  "A259": "Mix-Up! Feedback",
+  "A25A": "PixelFlags Feedback",
+  "A25B": "R74n Icons Feedback",
+  "A25C": "UFBS Secure Line",
+  "A25D": "UFBS Feedback Form Template",
+  
+  "A2A0": "UFBS Response Sheet",
+  "A2A1": "Sandboxels Suggestions (Responses)",
+  "A2A2": "Copy Paste Dump Submissions (Responses)",
+  "A2A3": "Main R74n response tab",
+  "A2A4": "Hello in Every Way response tab",
+  "A2A5": "Unit Converter response tab",
+  "A2A6": "R74moji response tab",
+  "A2A7": "Words and Definitions response tab",
+  "A2A8": "UniSearch response tab",
+  "A2A9": "Mix-Up! response tab",
+  "A2AA": "PixelFlags response tab",
+  "A2AB": "R74n Icons response tab",
+  "A2AC": "UFBS Secure Line (Responses)",
+  "A2AD": "UFBS Response Tab Template",
 
 // Days Since R74n Epoch //
   "11000": "May 2, 2017",
@@ -293,6 +387,8 @@ multiplanePlanes = {
     "R00300-R003FF": "Particulars",
     "R00400-R004FF": "Resource Types",
     "R00500-R005FF": "Actions",
+    "R00600-R006FF": "Individuals",
+    "R00700-R007FF": "Organizations",
     "R00F00-R00FFF": "Meta",
   "R01000-R0FFFF": "Project Spaces",
     "R01000-R01FFF": "Copy Paste Dump",
@@ -307,8 +403,8 @@ multiplanePlanes = {
       "R08300-R08FFF": "Other Logos",
     "R09000-R09FFF": "Elemental on Discord",
     "R0A000-R0A0FF": "Halacae",
-    "R0A100-R0A1FF": "Universal Feedback System",
-    "R0A200-R0A2FF": "",
+    "R0A100-R0A2FF": "R74n Commons",
+    "R0A200-R0A2FF": "Universal Feedback System",
     "R0A300-R0A3FF": "",
     "R0A400-R0A4FF": "",
     "R0A500-R0A5FF": "",
@@ -322,6 +418,7 @@ multiplanePlanes = {
   "R20000-R20FFF": "",
   "R21000-R21FFF": "",
   "R22000-R22FFF": "",
+  "R74000-R74FFF": "[reserved]",
   "RD0000-RDFFFF": "Wikibase Item Compatibility",
   "RE0000-REFFFF": "Ontomata Class Compatibility",
   "RF0000-RFFFFF": "Private Use Plane",
@@ -337,10 +434,10 @@ multiplaneProcedural = {
   },
   "R1B000-R1FFFF": function(decimal,dimension) {
     if (dimension === "") {
-      return "Number " + (decimal-110592);
+      return "number " + (decimal-110592);
     }
     if (dimension === "-" && decimal > 110592) {
-      return "Number -" + (decimal-110592);
+      return "number -" + (decimal-110592);
     }
     return "";
   },
@@ -366,4 +463,13 @@ multiplaneUnions = {
   "R00003+R00088": "reference website",
   "R000F1+R000FF": "number 16",
   "R00531+R00533": "copy-paste",
+  "R0A017+R0A010": "Halacae 'ca'",
+  "R0A018+R0A010": "Halacae 'ha'",
+  "R0A019+R0A010": "Halacae 'la'",
+  "R0A01A+R0A010": "Halacae 'ma'",
+  "R0A01B+R0A010": "Halacae 'pa'",
+  "R0A01C+R0A010": "Halacae 'ra'",
+  "R0A01D+R0A010": "Halacae 'sa'",
+  "R0A01E+R0A010": "Halacae 'ya'",
+  "R0A01F+R0A010": "Halacae '-a'",
 }

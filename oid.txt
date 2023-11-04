@@ -13,14 +13,18 @@ OID-IRI Notation:
 
 DER Encoding: 06:08:2B:06:01:04:01:83:DD:3D
 
-Creation Date: 2023-11-01
-
 R74n Standard Alpha Namespace:
     oid (Multiletter)
     oi (Two-letter)
 
+Multiplane: R001F4 (#500)
+
 URN:
     urn:oid:1.3.6.1.4.1.61117
+
+Creation Date: 2023-11-01
+
+For the remainder of this document, "61117" will be used as a shorthand for the whole node.
 
 
 
@@ -49,6 +53,7 @@ ARC         -   PURPOSE
 61117.3     -   R74n Wikibase, for compatibility
 61117.4     -   Ontomata, for compatibility
 61117.5     -   Notation
+61117.100   -   Confidential, subrepository hidden for privacy
 61117.9000  -   Requested, see section 1
 61117.9998  -   Experimental, for testing only
 61117.9999  -   Example, for explanation only
@@ -102,10 +107,13 @@ Note for external repository managers: These inherent OIDs do NOT need to be lis
 The following list contains OIDs with definitions, as opposed to being inherent. Definitions here take priority over any inherent ones.
 
 61117.1             -   Multiplane, to identify R74n projects and concepts
+61117.1.273         -   Sandboxels
+61117.1.500         -   R74n OID Registration Authority
 61117.2             -   General R74n Needs
 61117.3             -   R74n Wikibase, for compatibility
 61117.4             -   Ontomata, for compatibility
 61117.5             -   Notation
+61117.5.0           -   Null
 61117.5.0           -   Null
 61117.5.1           -   Boolean
 61117.5.1.0         -   True (Boolean)

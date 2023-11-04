@@ -87,11 +87,18 @@ TODO:
         UUIDv5
         Official R74n Namespace UUID: ca069732-780c-11ee-b962-000000000074
             urn:uuid:ca069732-780c-11ee-b962-000000000074
+            Integer: 268538275572115285380101426435393060980
+            Time created: 2023-10-31 16:44:41.943429.0 UTC
         https://www.uuidtools.com/v5
-            generated with standard project alphanumeric code (e.g. moji)
+            generated with standard project alpha code (e.g. moji)
+        https://www.uuidtools.com/decode
+            UUID to integer
         R74n ns:URL UUIDv5: 30f26a7b-c3f7-557e-a0fd-37ae650cd194
+            Integer: 65061639378571951846713969871736852884
         R74n ns:DNS UUIDv5: 0132d690-97eb-5108-976f-8d19beb5a530
+            Integer: 1593194730238957486669373887137293616
         R74n ns:OID UUIDv5: f5278121-088f-5930-bd99-1cd091e1a81f
+            Integer: 325865977592804658835651574992885360671
     - generated timestamp for projects
     - Multiplane to QuickStatements script
     - custom site styling MediaWiki:Common.css

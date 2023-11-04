@@ -2,7 +2,7 @@ Format:
 R00000-R000FF Fundamentals
 (-)R00000-R000FF (-)Fundamentals    (Ranges can't cross dimensions, so second doesn't matter)
 
-(i)R00007     - Slot 7 in the Imaginary dimension
+(i)R00007     - 	Slot 7 in the Imaginary dimension
 
 Dimension - Modifier to a code in the default multiplane
 Multiplane - Huge 2D area; Contains planes; Has 1048575 slots each
@@ -23,42 +23,13 @@ Bz3 - 65536   ; 16x16x16x16    ; R00000-R0FFFF
 Bz4 - 1048576 ; 16x16x16x16x16 ; R00000-RFFFFF
 
 Future planes & blocks:
-~Foundation
-	~Meta (Things related to the Multiplane, Bz1)
-~Project Spaces
-	~Languages (Bz2, from HiEW)
-	~Units (Bz2)
-	~PixelFlags (Bz2)
-	~R74moji (Bz2)
-	~Social Media Accounts (Bz2)
-	~Logos (Bz2)
-		~R74n Logos (Bz1)
-	~Halacae (Bz1)
-	~Universal Feedback System (Bz1)
-	~Elemental on Discord (Bz3)
-~Descriptors
-	~Countries & Regions (Bz2)
-	~Days Since R74n Epoch (May 2, 2017—October 5, 2039, Leap days included, Bz2*2)
-	~UTC Offsets (UTC+1:00, UTC+1:15, UTC+1:30, UTC+1:45, etc. (96 entities), Bz1)
-	~Extended Timekeeping (Bz1)
-		~Hours 0-23
-		~Minutes 0-59
-		~Seconds 0-59
-		~Months 0-11
-		~Weekdays 0-6
-	~Colors (Bz1)
-	~Numeral Compatibility
+- All assigned!
 
 Future Features:
-- Plane Tree (List of each plane inside one another)
-- Multiplane Search (Search all allocations)
-- Example Page
-	- Displaying a date and time in union format
-	- Feedback
-- URL Parameter to navigate
-	- Auto-updating URL
-	- Temporary highlight for desired element
+- Auto-updating URL parameters
 - Enter code on Table page
 
 Dimensions starting with "x" (e.g. (xtest)) can be user-assigned and used for whatever purpose without necessarily correlating to the default dimension.
 There are 65536 user-assigned codes from RF0000-RFFFFF, at the end of the multiplane.
+
+Slots marked "[reserved]" are not to be used.
