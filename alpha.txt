@@ -44,6 +44,7 @@ fo    fonts           Fancy Font Generator, Copy Paste Dump
 us    unisearch       UniSearch
 wb    wikibase        R74n Wikibase (data.R74n.com)
 wd    words           Words and Definitions
+tx    textviewer      Text Viewer
 an    ants            Every Ant on Earth
 on    ontomata        Ontomata
 st    sandtiles       Sandtiles

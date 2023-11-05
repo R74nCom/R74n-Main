@@ -117,6 +117,9 @@ urnResolvers = {
     if (args[0] === "focus") { return "https://R74n.com/rue/?rue=focus"; }
     return "https://R74n.com/rue/"+args.join("/");
 },
+"textviewer": (args) => {
+    return "https://R74n.com/textviewer/?"+(args[1]||"");
+},
 "convert": (args) => {
     //https://r74n.com/convert/?length/5/inch/centimeter
     var url = "https://R74n.com/convert/?";
@@ -150,7 +153,7 @@ urnResolvers = {
 "search": (args) => {return "https://R74n.com/search/?q="+(args[0]||"");},
 "sequence": (args) => {return "https://R74n.com/sequence/?"+(args[0]||"");},
 "share": (args) => {return "https://R74n.com/share/"+args.join("/");},
-"sml": (args) => {return "https://github.com/R74nCom/Social-Media-Lists/tree/main/"+args.join("/");},
+"sml": (args) => {return "urn:X-R74n:gh:R74nCom:o:Social-Media-Lists:"+args.join(":");},
 "social": (args) => {return "https://R74n.com/social/"+args.join("/");},
 "supporters": (args) => {return "https://R74n.com/supporters/"+args.join("/");},
 "translate": (args) => {return "https://R74n.com/translate/"+args.join("/");},
@@ -196,6 +199,7 @@ urnResolvers = {
     if (args[1] === "e") {url = "https://cdn.discordapp.com/emojis/"+args[3]; return url;}
     if (args[1] === "r") {return "<@&"+args[2]+">";}
     if (args[1] === "j") {return "https://discord.gg/"+args[2];}
+    return url;
 },
 "yt": (args) => {
     var user = args[0];
