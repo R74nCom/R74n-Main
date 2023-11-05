@@ -280,41 +280,6 @@ This HTML and its contents are property of R74n.com.
   function decimalToPlanecode(decimal) {
     return "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
   }
-  function getEntityAt(decimal,dimension,plane,formatted) {
-    var hex = decimal.toString(16);
-    if (dimension) {
-      var dimensionPrefix = "("+dimension+")";
-    }
-    else { dimensionPrefix = ""; }
-    var name = "";
-    if (multiplaneEntities[dimensionPrefix+hex]) {
-      name = multiplaneEntities[dimensionPrefix+hex];
-    }
-    else if (multiplaneEntities[dimensionPrefix+hex.toUpperCase()]) {
-      name = multiplaneEntities[dimensionPrefix+hex.toUpperCase()];
-    }
-    else if (plane && multiplaneProcedural[plane.range]) {
-      name = multiplaneProcedural[plane.range](decimal,dimension);
-    }
-    if (name.indexOf("//") !== -1) {
-      var data = name.split("//");
-      name = data[0];
-      if (formatted) {
-        var external = data.slice(1).join("//");
-        var link = null;
-        if (external.match(/^urn:/)) { link = "https://R74n.com/id/?"+external }
-        else if (external.match(/^http/)) { link = external }
-        else if (external.match(/^[QPL]\d+$/)) { link = "https://data.R74n.com/entity/"+external }
-        else if (external.match(/^([0-2])((\.0)|(\.[1-9][0-9]*))*$/)) { link = "https://R74n.com/id/?"+external }
-        else if (external.match(/^(61117)((\.0)|(\.[1-9][0-9]*))*$/)) { link = "https://R74n.com/id/?1.3.6.1.4.1."+external }
-        else if (external.match(/^[a-z-]+$/)) { link = "https://R74n.com/id/?"+external }
-        if (link) {
-          name = " <a href=\""+link+"\" target=\"_blank\">"+name+"</a>";
-        }
-      }
-    }
-    return name;
-  }
   function getPlaneAt(decimal) {
     for (var i = 0; i < planeListHSort.length; i++) {
       if (decimal >= planeListHSort[i].min && decimal <= planeListHSort[i].max) {

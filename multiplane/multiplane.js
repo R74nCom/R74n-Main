@@ -22,6 +22,7 @@ multiplaneEntities = {
   "2B": "reservation",
   "2C": "not applicable",
   "2D": "temporary entity",
+  "2E": "private use value",
   
   "74": "[reserved]",
 
@@ -135,6 +136,19 @@ multiplaneEntities = {
 // Resource Types //
   "400": "cloud document",
   "410": "Google Doc",
+  "411": "Google Calendar item",
+  "412": "Google Earth item",
+  "413": "Google Form",
+  "414": "Google Sheet",
+  "415": "Google Slides",
+  "416": "Google Classroom",
+  "417": "Google Group",
+  "418": "Google Jamboard",
+  "419": "Google Maps item",
+  "41A": "Google Drive item",
+  "420": "Microsoft Form",
+  "421": "Microsoft List",
+  "422": "Microsoft To Do list",
 
 // Actions //
   "510": "mouse event",
@@ -172,6 +186,30 @@ multiplaneEntities = {
   "802": "185.199.109.153//https://pages.github.com/",
   "803": "185.199.110.153//https://pages.github.com/",
   "804": "185.199.111.153//https://pages.github.com/",
+  "805": "<username>@R74n.com",
+  "806": "contact@R74n.com",
+// External Platforms //
+  "910": "Twitter",
+  "911": "TikTok",
+  "912": "Discord",
+  "913": "YouTube",
+  "914": "Instagram",
+  "915": "Facebook",
+  "916": "Pinterest",
+  "917": "Imgur",
+  "918": "GitHub",
+  "919": "Bluesky",
+  "91A": "Mastodon",
+  "91B": "Threads",
+  "91C": "Tumblr",
+  "91D": "Snapchat",
+  "91E": "Patreon",
+  "91F": "PayPal",
+  "920": "Google",
+  "921": "Reddit",
+  "922": "Twitch",
+  "923": "Giphy",
+  "924": "SpaceHey",
 
 // Meta //
   "F00": "planecode",
@@ -198,12 +236,12 @@ multiplaneEntities = {
 
 // Copy Paste Dump //
   "1000": "Copy Paste Dump Main Page",
-  "1004": "Fancy Font Generator",
-  "1005": "Text Converters",
-  "1008": "Copy Paste Dump Search",
+  "1004": "Fancy Font Generator//urn:fonts",
+  "1005": "Text Converters//urn:converters",
+  "1008": "Copy Paste Dump Search//urn:csearch",
 
   "3000": "English",
-  "3001": "Halacae",
+  "3001": "Halacae//urn:halacae",
   "3002": "Python",
   "3003": "HTML",
   "3004": "CSS",
@@ -295,6 +333,8 @@ multiplaneEntities = {
   "A2AB": "R74n Icons response tab",
   "A2AC": "UFBS Secure Line (Responses)",
   "A2AD": "UFBS Response Tab Template",
+
+  "10000": "United States",
 
 // Days Since R74n Epoch //
   "11000": "May 2, 2017",
@@ -400,6 +440,7 @@ multiplanePlanes = {
     "R00600-R006FF": "Individuals",
     "R00700-R007FF": "Organizations",
     "R00800-R008FF": "Domain Names, Addresses",
+    "R00900-R009FF": "External Platforms",
     "R00F00-R00FFF": "Meta",
   "R01000-R0FFFF": "Project Spaces",
     "R01000-R01FFF": "Copy Paste Dump",
@@ -483,4 +524,43 @@ multiplaneUnions = {
   "R0A01D+R0A010": "Halacae 'sa'",
   "R0A01E+R0A010": "Halacae 'ya'",
   "R0A01F+R0A010": "Halacae '-a'",
+}
+
+
+
+function getEntityAt(decimal,dimension,plane,formatted,customName) {
+  var hex = decimal.toString(16);
+  if (dimension) {
+    var dimensionPrefix = "("+dimension+")";
+  }
+  else { dimensionPrefix = ""; }
+  var name = "";
+  if (multiplaneEntities[dimensionPrefix+hex]) {
+    name = multiplaneEntities[dimensionPrefix+hex];
+  }
+  else if (multiplaneEntities[dimensionPrefix+hex.toUpperCase()]) {
+    name = multiplaneEntities[dimensionPrefix+hex.toUpperCase()];
+  }
+  else if (plane && multiplaneProcedural[plane.range]) {
+    name = multiplaneProcedural[plane.range](decimal,dimension);
+  }
+  if (name.indexOf("//") !== -1) {
+    var data = name.split("//");
+    name = customName || data[0];
+    if (formatted) {
+      var external = data.slice(1).join("//");
+      var link = null;
+      if (external.match(/^urn:/)) { link = "https://R74n.com/id/?"+external }
+      else if (external.match(/^http/)) { link = external }
+      else if (external.match(/^[QPL]\d+$/)) { link = "https://data.R74n.com/entity/"+external }
+      else if (external.match(/^([0-2])((\.0)|(\.[1-9][0-9]*))*$/)) { link = "https://R74n.com/id/?"+external }
+      else if (external.match(/^(61117)((\.0)|(\.[1-9][0-9]*))*$/)) { link = "https://R74n.com/id/?1.3.6.1.4.1."+external }
+      else if (external.match(/^[a-z-]+$/)) { link = "https://R74n.com/id/?"+external }
+      if (link) {
+        name = " <a href=\""+link+"\" target=\"_blank\">"+name+"</a>";
+      }
+    }
+  }
+  else if (customName) { name = customName; }
+  return name;
 }

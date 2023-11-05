@@ -281,6 +281,7 @@ function resolveURN(urn) {
 
 function resolveID(id,auto,redirect) {
   id = id.trim();
+  if (!id) { return textResolution("No ID provided!"); }
   var r = null;
   if (id.match(/^urn:/i)) {
     r = resolveURN(id);

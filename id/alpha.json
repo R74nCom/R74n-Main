@@ -91,5 +91,5 @@
 [42,   "xp",   "experiment",   "experimental, for testing only"],
 [45,   "xt",   "temp",         "temporary, may be removed or reused"],
 [43,   "xx",   "x",            "reserved"],
-[46,   "  ",   "x-<extra>",    "private use (custom)"]
+[46,   "  ",   "x-&lt;extra&gt;",    "private use (custom)"]
 ]

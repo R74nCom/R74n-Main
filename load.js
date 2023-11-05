@@ -56,6 +56,13 @@ function listLS(prefix) {
 	return keys;
 }
 
+function getJSON(url) {
+    var Httpreq = new XMLHttpRequest();
+    Httpreq.open("GET",url,false);
+    Httpreq.send(null);
+    return JSON.parse(Httpreq.responseText);
+}
+
 window.addEventListener("load",function(){
 
 // Console Watermark
