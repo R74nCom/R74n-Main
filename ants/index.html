@@ -561,6 +561,18 @@ window.addEventListener("load", function() {
     antTableBody.insertAdjacentHTML("beforeend", newText);
   }
 
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("ant").match(/^\d+$/)) {
+    viewAnt(parseInt(urlParams.get("ant")));
+  }
+  else if (urlParams.has("funerals")) {
+    openTab("funeral");
+    startFuneral();
+  }
+  else if (urlParams.has("challenges")) {
+    openTab("challenges");
+  }
+
   // when the user is near the bottom of the page, generate more content
   window.onscroll = function() {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {

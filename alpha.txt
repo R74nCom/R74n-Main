@@ -92,6 +92,7 @@ gy    giphy           on Giphy
       gdrive          on Google Drive
       mforms          on Microsoft Forms
       mlists          on Microsoft Lists
+      mtodo           on Microsoft To Do
 
 xe    example         example, for explanation only
 xm    mul             multiple namespaces

@@ -14,11 +14,11 @@ urn:X-R74n:sandboxels:mod-list
 urn:X-R74n:multiplane:R00100
 urn:X-R74n:multiplane:R00531+R00533
 urn:X-R74n:moji:powercry_bow
-urn:X-R74n:pixelflag:country:united_states
-urn:X-R74n:wikibase:item:Q162
-urn:X-R74n:wikibase:property:P26
-urn:X-R74n:wikibase:lexeme:L38
-urn:X-R74n:wikibase:main:Main_Page
+urn:X-R74n:pixelflags:country:united_states
+urn:X-R74n:wikibase:entity:Q162
+urn:X-R74n:wikibase:entity:P26
+urn:X-R74n:wikibase:entity:L38
+urn:X-R74n:wikibase:Main_Page
 urn:X-R74n:cpd
 urn:X-R74n:cpd:fonts
 urn:X-R74n:cpd:converter:zalgo:Hello%3F
@@ -27,8 +27,9 @@ urn:X-R74n:link:main-feedback
 urn:X-R74n:ufbs:sandboxels:q    //Sandboxels feedback form
 urn:X-R74n:ufbs:sandboxels:a    //Sandboxels response sheet
 urn:X-R74n:ufbs:sandboxels:a:827    //Sandboxels feedback #827
-urn:X-R74n:ufbs:sandboxels:stats
-urn:X-R74n:commons:docs
+urn:X-R74n:commons:gdocs
+urn:X-R74n:ants:ant:11393649554265412
+urn:X-R74n:rue:ask:Hello%3F
 
 urn:X-R74n:twt:R74nCom:p:1712974492979368384    //post (tweet)
 urn:X-R74n:twt:R74nCom:l:1436860568888037379    //list
@@ -39,8 +40,7 @@ urn:X-R74n:discord:main:c:939345813837066320    //channel
 urn:X-R74n:discord:main:c:939345813837066320:1162525200504598559    //message
 urn:X-R74n:discord:main:e:R74n:939346903320121354    //emote
 urn:X-R74n:discord:main:r:939346547412434985    //role
-urn:X-R74n:discord:main:j    //invite
-urn:X-R74n:discord:main:j:ejUc6YPQuS
+urn:X-R74n:discord:main:j:ejUc6YPQuS    //invite
 urn:X-R74n:discord:eod:c:708175342463877127
 urn:X-R74n:yt:R74n:p:dkzDIDtKCIU    //post (video)
 urn:X-R74n:yt:R74n:l:PLEAHJ-z9RtzctWSzCaoJkoyccrlg4p2Nf    //playlist
@@ -75,6 +75,7 @@ a - answers
 w - wiki
 g - group
 u - user
+v - version
 
 URI:
 R74n://<NSS> == urn:X-R74n:<NSS>

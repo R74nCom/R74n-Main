@@ -31,13 +31,13 @@ For the remainder of this document, "61117" will be used as a shorthand for the 
 ========================================
 1 - Registration
 
-OIDs under the 61117 arc require explicit permission from R74n or to be listed in this document, under secton 4 - Predefined OID Repository.
+OIDs under the 61117 arc require explicit permission from R74n or to be listed in this document, under secton 4 - R74n OID Repository.
 
-OIDs under 61117.9000 can be requested by contacting R74n, either by email (contact@R74n.com) or another way.
+OIDs under 61117.9000 can be requested for free by contacting R74n, either by email (contact@R74n.com) or another way.
 
 Additionally, a person or organization may freely allocate children of their R74n Wikibase item’s QID under 61117.3, if it exists.
 
-A helpful guide to registration can be found here: https://r74n.com/id/oid
+A helpful guide to registration can be found here: https://R74n.com/id/oid
 
 
 

@@ -44,6 +44,10 @@ This HTML and its contents are property of R74n.com.
 
     <script src="https://R74n.com/load.js"></script>
 
+    <script src="resolver.js"></script>
+    <script src="../multiplane/multiplane.js"></script>
+    <!-- <script src="../rue/rue.js"></script> -->
+
 </head>
 <body>
 
@@ -51,6 +55,29 @@ This HTML and its contents are property of R74n.com.
 <a href="https://R74n.com" class="backbutton">⦉</a>
 <h1 class="pagetitle">Identifiers</h1>
 <div class="content">
+
+<div style="text-align: center;">
+  <p>R74n ID Resolver</p>
+  <p>
+    <input type="text" placeholder="Enter ID..." id="resolveInput" onkeydown="if (event.keyCode == 13) {resolveID(this.value,false,true)}">
+    <input type="button" value="Resolve" onclick="resolveID(document.getElementById('resolveInput').value,false,true)" id="resolveButton">
+  </p>
+  <p style="display:none" id="resolveOutput">Resolving...</p>
+</div>
+
+<script>
+  var urlParams = new URLSearchParams(window.location.search);
+  var redirect = true;
+  if (urlParams.get("redirect") === "false") {
+    redirect = false;
+  }
+  if (urlParams.has("id")) {
+    resolveID(urlParams.get("id"),true,redirect);
+  }
+  else if (location.search.length > 1 && location.search.indexOf("=") == -1) {
+    resolveID(location.search.substring(1),true,redirect);
+  }
+</script>
 
 <p>🚧 This page is under construction!! Stay tuned. 🚧</p>
 
