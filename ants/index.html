@@ -562,7 +562,7 @@ window.addEventListener("load", function() {
   }
 
   var urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get("ant").match(/^\d+$/)) {
+  if (urlParams.has("ant") && urlParams.get("ant").match(/^\d+$/)) {
     viewAnt(parseInt(urlParams.get("ant")));
   }
   else if (urlParams.has("funerals")) {
