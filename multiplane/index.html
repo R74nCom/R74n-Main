@@ -477,7 +477,7 @@ This HTML and its contents are property of R74n.com.
           var entityBase = entity.split(")")[1];
         }
         else { var dimensionPrefix = "";var entityBase = entity;}
-        results.push("<a href=\"javascript:goto('code="+dimensionPrefix+decimalToPlanecode(parseInt(entityBase,16))+"')\">"+dimensionPrefix+decimalToPlanecode(parseInt(entityBase,16))+"</a> "+multiplaneEntities[entity]);
+        results.push("<a href=\"javascript:goto('code="+dimensionPrefix+decimalToPlanecode(parseInt(entityBase,16))+"')\">"+dimensionPrefix+decimalToPlanecode(parseInt(entityBase,16))+"</a> "+multiplaneEntities[entity].split("//")[0]);
       }
     }
     for (var union in multiplaneUnions) {

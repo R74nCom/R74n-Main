@@ -21,6 +21,7 @@ multiplaneEntities = {
   "2A": "experiment",
   "2B": "reservation",
   "2C": "not applicable",
+  "2D": "temporary entity",
   
   "74": "[reserved]",
 
@@ -165,6 +166,12 @@ multiplaneEntities = {
   "600": "Ryan, R74n developer",
 // Organizations //
   "700": "R74n Collective//1.3.6.1.4.1.61117",
+// Domain Names, Addresses //
+  "800": "r74n.com//https://r74n.com",
+  "801": "185.199.108.153//https://pages.github.com/",
+  "802": "185.199.109.153//https://pages.github.com/",
+  "803": "185.199.110.153//https://pages.github.com/",
+  "804": "185.199.111.153//https://pages.github.com/",
 
 // Meta //
   "F00": "planecode",
@@ -392,6 +399,7 @@ multiplanePlanes = {
     "R00500-R005FF": "Actions",
     "R00600-R006FF": "Individuals",
     "R00700-R007FF": "Organizations",
+    "R00800-R008FF": "Domain Names, Addresses",
     "R00F00-R00FFF": "Meta",
   "R01000-R0FFFF": "Project Spaces",
     "R01000-R01FFF": "Copy Paste Dump",

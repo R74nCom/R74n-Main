@@ -72,6 +72,7 @@ em    email           via email (...@R74n.com)
       bsky            on Bluesky
 md    masto           on Mastodon
       threads         on Threads
+tu    tumblr          on Tumblr
 sc    snap            on Snapchat
 pa    patreon         on Patreon
 pp    paypal          on PayPal
@@ -100,6 +101,7 @@ xm    mul             multiple namespaces
 xn    unknown         unknown
 xo    other           namespace without code/not applicable to any namespace
 xp    experiment      experimental, for testing only
+xt    temp            temporary, may be removed or reused
 xx    x               reserved
       x-<extra>       private use (custom)
 

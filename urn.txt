@@ -105,4 +105,6 @@ TODO:
     - custom site styling MediaWiki:Common.css
     - custom sidebar links MediaWiki:Sidebar
     - Update property ordering
-
+- Waterjuice Free OID: 1.3.6.1.4.1.54392.5.1891
+- ViaThinkSoft Free OID: 1.3.6.1.4.1.37476.9000.176
+- Joseph Studio Domain Name OID: 1.3.6.1.4.1.47816.83.6516589.1916220526
