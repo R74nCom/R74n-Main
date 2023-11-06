@@ -150,6 +150,10 @@ urnResolvers = {
     if (args[0] === "user" || args[0] === "User") { return "https://sandboxels.wiki.gg/wiki/User:"+args[1]; }
     return "https://sandboxels.wiki.gg/wiki/"+args.join("/");
 },
+"eodwiki": (args) => {
+    if (args[0] === "user" || args[0] === "User") { return "https://elemental-on-discord.fandom.com/wiki/User:"+args[1]; }
+    return "https://elemental-on-discord.fandom.com/wiki/"+args.join("/");
+},
 "search": (args) => {return "https://R74n.com/search/?q="+(args[0]||"");},
 "sequence": (args) => {return "https://R74n.com/sequence/?"+(args[0]||"");},
 "share": (args) => {return "https://R74n.com/share/"+args.join("/");},
