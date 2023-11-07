@@ -1,0 +1,11 @@
+These Alpha-2 codes must not be assigned.
+
+CP
+CX
+FG
+FU
+HH
+NI
+OF
+PH
+SX

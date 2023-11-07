@@ -165,6 +165,7 @@ urnResolvers = {
 "words": (args) => {return "https://R74n.com/words/"+args.join("/");},
 "capitalize": (args) => {return "https://R74n.com/lore/#Capitalize";},
 "pogchamps": (args) => {return "https://R74n.com/PogChamp/"+args.join("/");},
+"id": (args) => {return "https://R74n.com/id/?"+(args[0]||"");},
 "projects": (args) => {return "urn:main";},
 "alpha": (args) => {return "https://R74n.com/id/alpha";},
 "alphamul": (args) => {return "https://R74n.com/id/alpha";},
@@ -252,6 +253,10 @@ urnResolvers = {
         return "https://www.reddit.com/user/"+args[1];
     }
 },
+"oid": (args) => {
+    if (args[0]) { return resolveOID(args[0]); }
+    return "https://R74n.com/id/oid";
+},
 }
 function resolveURN(urn) {
     var parts = urn.split(":");
@@ -282,12 +287,34 @@ function resolveURN(urn) {
     }
     return false;
 }
+function resolvePlanecode(decimal) {
+    var hex = decimal.toString(16).toUpperCase();
+    var value = multiplaneEntities[hex];
+    if (!value) { return false }
+    if (value.indexOf("//") === -1) { return false }
+    return value.split("//").slice(1).join("//");
+}
+function resolveOID(oid) {
+    if (!oid.startsWith("1.3.6.1.4.1.61117")) { return false }
+    oid = oid.split("1.3.6.1.4.1.")[1];
+    var parts = oid.split(".");
+    parts = parts.map((x) => parseInt(x));
+    if (parts[1] === 1) { // Multiplane
+        if (parts[2] === undefined) { return "https://R74n.com/multiplane/" }
+        return resolvePlanecode(parts[2]);
+    }
+    if (parts[1] === 3) { // Multiplane
+        if (parts[2] === undefined) { return "https://data.R74n.com/" }
+        return "https://data.R74n.com/entity/Q"+parts[2];
+    }
+}
 
-function resolveID(id,auto,redirect) {
-  id = id.trim();
-  if (!id) { return textResolution("No ID provided!"); }
+function detectID(id) {
   var r = null;
-  if (id.match(/^urn:/i)) {
+  if (id.match(/^https?:\/\//i)) { // URL
+    r = id;
+  }
+  else if (id.match(/^urn:/i)) { // URN
     r = resolveURN(id);
   }
   else if (id.match(/^X-R74n:/i)) {
@@ -306,16 +333,53 @@ function resolveID(id,auto,redirect) {
     id = "urn:X-R74n:"+id;
     r = resolveURN(id);
   }
+  else if (id.match(/^R[0-9a-f]{1,5}$/i)) { // Multiplane hex planecode
+    r = resolvePlanecode(parseInt(id.substring(1),16));
+  }
+  else if (id.match(/^#\d+$/i)) { // Multiplane decimal planecode
+    r = resolvePlanecode(parseInt(id.substring(1)));
+  }
+  else if (id.match(/^[QPL]\d+$/i)) { // Wikibase entity ID
+    r = "https://data.R74n.com/entity/"+id.toUpperCase();
+  }
+  else if (id.match(/^([0-2])((\.0)|(\.[1-9][0-9]*))*$/i)) { // OID
+    r = resolveOID(id);
+  }
+  else if (id.match(/^61117((\.0)|(\.[1-9][0-9]*))*$/i)) { // OID shorthand
+    r = resolveOID("1.3.6.1.4.1."+id);
+  }
+  else if (id.startsWith("{") && id.endsWith("}")) { // ASN.1 Notation
+    r = resolveOID(id.match(/\(\d+\)|(?: |^)\d+|\d+(?: |$)/g).join(".").replace(/[\(\) ]/g,""))
+  }
+  else if (id.match(/^[a-z]{2}$/i)) { // Alpha-2
+    id = id.toLowerCase();
+    var row = alphaCodes.filter((x) => x[1] === id);
+    if (row.length) { r = row[0][2] }
+  }
+  else {
+    return [null,id]
+  }
+  return [r,id]
+}
 
-  if (!r) { return textResolution("Could not resolve ID:\n"+id); }
+function resolveID(id,auto,mode) {
+  // mode 0 = text no redirect, 1 = redirect, 2 = just return value
+  id = id.trim();
+  if (!id) { return mode===2 ? null : textResolution("No ID provided!"); }
+  var r = detectID(id);
+  id = r[1];
+  r = r[0];
+
+  if (!r) { return textResolution(mode===2 ? id : "Could not resolve ID:\n"+id); }
   if (typeof r === "string") {
-    if (r.match(/^https?:\/\//i) && redirect) {
+    if (r.match(/^https?:\/\//i) && mode && mode !== 2) {
         return linkResolution(r,auto);
     }
-    if (r.match(/^urn:/i)) {
-        return resolveID(decodeURIComponent(r),auto,redirect);
+    var r2 = detectID(r);
+    if (r2[0] !== null) {
+        return resolveID(decodeURIComponent(r2[1]),auto,mode);
     }
-    return textResolution(id+"\n↓\n"+r);
+    if (mode !== 2) { return textResolution(id+"\n↓\n"+r); }
   }
   return r;
 }
