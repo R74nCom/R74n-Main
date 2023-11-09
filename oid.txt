@@ -74,6 +74,7 @@ x-general(2)
 wikibase(3) / wb(3)
 ontomata(4) / om(4)
 x-notation(5)
+x-private(100)
 x-requested(9000)
 experiment(9998)
 example(9999)
@@ -94,10 +95,21 @@ ARC.<child>                          -   PURPOSE
 61117.5.2.0.<whole>.<decimals>       -   Negative Numerical Value (e.g. -7.4)
 61117.5.2.1.<whole>                  -   Positive Numerical Value (e.g. 7)
 61117.5.2.1.<whole>.<decimals>       -   Positive Numerical Value (e.g. 7.4)
-61117.5.10.<decimal>                 -   Unicode character (e.g. 182 == ¶)
+61117.5.10.<decimal>                 -   Unicode Character (e.g. 182 == ¶)
 61117.5.10.<decimal>.<decimal>...    -   String (e.g. 82.55.52.110 == R74n)
-61117.5.11.<decimal>                 -   Color code (e.g. 65535 == #00ffff)
-61117.5.20.<decimal>                 -   Integer representation of ONLY R74n Namespace UUIDv5s [https://R74n.com/uuid.txt]
+61117.5.11.<decimal>                 -   Color Code (e.g. 65535 == #00ffff)
+61117.5.12.0.<yr>                    -   Gregorian Year BC
+61117.5.12.0.<yr>.<mo>               -   Gregorian Year+Month BC
+61117.5.12.0.<yr>.<mo>.<d>           -   Gregorian Year+Month+Day BC
+61117.5.12.1.<yr>                    -   Gregorian Year AD (e.g. 2017)
+61117.5.12.1.<yr>.<mo>               -   Gregorian Year+Month AD (e.g. 2017.5)
+61117.5.12.1.<yr>.<mo>.<d>           -   Gregorian Year+Month+Day AD (e.g. 2017.5.2)
+61117.5.13.<hr>                      -   Hour in 24HR format (e.g. 13)
+61117.5.13.<hr>.<m>                  -   Hour+Minute in 24HR format (e.g. 13.37)
+61117.5.13.<hr>.<m>.<s>              -   Hour+Minute+Second in 24HR format (e.g. 13.37.42)
+61117.5.13.<hr>.<m>.<s>.<ms>         -   Time+Milliseconds
+61117.5.14.<decimal>.<decimal>...    -   Version Number (e.g. 1.8.6)
+61117.5.20.<decimal>                 -   Integer representation of ONLY R74n Namespace UUIDv5s [https://R74n.com/id/uuid]
 
 For example, 61117.1.273 is automatically allocated to Sandboxels, R00111 (#273) in the Multiplane.
 
@@ -119,17 +131,22 @@ The following list contains OIDs with definitions, as opposed to being inherent.
 61117.5             -   Notation
 61117.5.0           -   Null
 61117.5.1           -   Boolean
-61117.5.1.0         -   True (Boolean)
-61117.5.1.1         -   False (Boolean)
+61117.5.1.0         -   False (Boolean)
+61117.5.1.1         -   True (Boolean)
 61117.5.1.2         -   Maybe (Boolean)
 61117.5.2           -   Numerical Value
 61117.5.2.0         -   Negative Numerical Value
 61117.5.2.1         -   Positive Numerical Value
-61117.5.10          -   Unicode character
-61117.5.11          -   Color code
+61117.5.10          -   Unicode Character
+61117.5.11          -   Color Code
 61117.5.11.65535    -   R74n Cyan (#00ffff)
+61117.5.12          -   Gregorian Dates
+61117.5.12.0        -   Gregorian BC
+61117.5.12.1        -   Gregorian AD
+61117.5.13          -   Time of Day
+61117.5.14          -   Version Number
 61117.5.20          -   UUIDv5 in the Official R74n Namespace
-61117.5.20.268538275572115285380101426435393060980 -  Official R74n Namespace UUIDv5 [https://R74n.com/uuid.txt]
+61117.5.20.268538275572115285380101426435393060980  -  Official R74n Namespace UUIDv5 [https://R74n.com/uuid.txt]
 61117.100           -   Confidential, subrepository hidden for privacy
 61117.9000          -   Requested, see section 1
 61117.9000.1        -   infernostars [https://www.infernity.dev/oid-schema.txt]
