@@ -136,7 +136,7 @@ urnResolvers = {
     if (args[0] === "names") { return fromPlanecode("A001"); }
     if (args[0] === "numbers") { return fromPlanecode("A002"); }
     if (args[0] === "transcriptions") { return fromPlanecode("A003"); }
-    if (args[0] === "view" && args[1]) { return "https://R74n.com/halacae/view?word="+args[1] }
+    if (args[0] === "view") { return "https://R74n.com/halacae/view?word="+(args[1]||"") }
     return "https://R74n.com/halacae/"+args.join("/");
 },
 "hello": (args) => {return "https://R74n.com/hello/"+args.join("/");},
@@ -172,6 +172,10 @@ urnResolvers = {
 "alphatwo": (args) => {return "https://R74n.com/id/alpha";},
 "urn": (args) => {return "https://R74n.com/id/urn";},
 "uuid": (args) => {return "https://R74n.com/id/uuid";},
+"schema": (args) => {
+    if (args[0]) { return "https://R74n.com/schema/"+args[0]+".json"}
+    return "https://R74n.com/schema/";
+},
 
 "twt": (args) => {
     var user = args[0];
@@ -309,9 +313,9 @@ function resolveOID(oid) {
     }
 }
 
-function detectID(id) {
+function detectID(id,auto) {
   var r = null;
-  if (id.match(/^https?:\/\//i)) { // URL
+  if (id.match(/^https?:\/\//i) && !auto) { // URL
     r = id;
   }
   else if (id.match(/^urn:/i)) { // URN
@@ -356,6 +360,12 @@ function detectID(id) {
     var row = alphaCodes.filter((x) => x[1] === id);
     if (row.length) { r = row[0][2] }
   }
+  else if (id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) { // UUID
+    id = id.toLowerCase();
+    var key = Object.keys(UUIDs).find(key => UUIDs[key] === id);
+    if (key) { r = "urn:"+key }
+    if (id === R74nUUID) { r = "urn:main" }
+  }
   else {
     return [null,id]
   }
@@ -366,7 +376,7 @@ function resolveID(id,auto,mode) {
   // mode 0 = text no redirect, 1 = redirect, 2 = just return value
   id = id.trim();
   if (!id) { return mode===2 ? null : textResolution("No ID provided!"); }
-  var r = detectID(id);
+  var r = detectID(id,auto);
   id = r[1];
   r = r[0];
 
@@ -375,7 +385,7 @@ function resolveID(id,auto,mode) {
     if (r.match(/^https?:\/\//i) && mode && mode !== 2) {
         return linkResolution(r,auto);
     }
-    var r2 = detectID(r);
+    var r2 = detectID(r,auto);
     if (r2[0] !== null) {
         return resolveID(decodeURIComponent(r2[1]),auto,mode);
     }

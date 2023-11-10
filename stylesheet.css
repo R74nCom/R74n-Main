@@ -212,6 +212,7 @@ hr {
 
 /*.lidesc {margin-left:10px;}*/
 .lidesc, dd {font-style:italic;}
+dd {margin-inline-end: 20px;}
 .lidesc::before, dd::before {content:"↳ "}
 .cw[open="false"] {cursor:pointer;background-color:rgb(39, 39, 39);padding:5px;border-radius:20px;line-height:2;}
 .cw[open="false"]:active {background-color:rgb(61, 61, 61);}
@@ -235,6 +236,7 @@ table {border-collapse:collapse;margin-left: 2em;overflow-wrap: anywhere;}
 td, th {border:0.5px solid gray;padding:5px;padding-left:10px;padding-right:10px}
 th {background-color:#00ffff;color:black}
 tr:nth-child(odd){background-color: #272727;}
+.fullTable {margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset}
 .imgtext { height:1em }
 
 .linkcategory {color:yellow}

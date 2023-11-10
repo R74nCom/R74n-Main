@@ -1,3 +1,11 @@
+Disclaimer: This document is outdated. Please see the following:
+JSON Data File: https://R74n.com/id/uuid.json
+UUID Main Page: https://R74n.com/id/uuid
+
+
+
+
+
 Version: UUIDv5
 
 [R74n Namespace UUIDs]

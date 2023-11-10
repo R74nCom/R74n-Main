@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Standardized 2-letter and multiletter codes for R74n projects.">
+    <meta name="description" content="Standardized Universally Unique Identifiers for R74n projects.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Standard Alpha Namespaces - R74n</title>
+    <title>Universally Unique Identifiers - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
@@ -44,32 +44,60 @@ This HTML and its contents are property of R74n.com.
 
     <script src="https://R74n.com/load.js"></script>
 
-    <script src="resolver.js"></script>
-    <script src="../multiplane/multiplane.js"></script>
     <script>
+      UUIDs = getJSON('https://R74n.com/id/uuid.json');
+      R74nUUID = "ca069732-780c-11ee-b962-000000000074";
+    </script>
+
+    <!-- UUID Generation Script -->
+    <!-- <script>
       alphaCodes = getJSON('https://R74n.com/id/alpha.json');
       R74nUUID = "ca069732-780c-11ee-b962-000000000074";
     </script>
+    <script type="module">
+      import { v5 as uuidv5 } from 'https://jspm.dev/uuid';
+      console.log(uuidv5("sandboxels","ca069732-780c-11ee-b962-000000000074"));
+      var generated = {};
+      alphaCodes.forEach((row) => {
+        generated[row[2]] = uuidv5(row[2],"ca069732-780c-11ee-b962-000000000074");
+      })
+      console.log(generated);
+    </script> -->
 
 </head>
 <body>
 
 
 <a href="." class="backbutton">⦉</a>
-<h1 class="pagetitle">Alpha Namespaces</h1>
+<h1 class="pagetitle">UUIDs</h1>
 <div class="content">
 
-<p>For short strings of text, R74n uses the <strong>R74n Standard Alpha Namespaces</strong> to identify projects.</p>
-<p>The <strong>Multiletter Alpha Codes</strong> are most often used, and can contain any letters A-Z, along with dashes (-). If needed, underscores (_) can replace them. For example, <em>cpd</em> represents the <a href="https://c.R74n.com">Copy Paste Dump</a>.</p>
-<p><strong>Two-letter Alpha Codes</strong> are also documented, and contain exactly 2 letters A-Z. For example, <em>sb</em> represents <a href="https://sandboxels.R74n.com">Sandboxels</a>.</p>
-<p>They are used in the <a href="../ufbs/">Universal Feedback System</a> and <a href="urn">X-R74n URN Namespace</a>, among others.</p>
+<p>If necessary, R74n has a standard procedure for generating <strong>Universally Unique Identifiers</strong> (UUIDs) to represent projects.</p>
+<p>We use UUIDv5, which requires a namespace and a seed string. You can use an online tool like <a href="https://www.uuidtools.com/v5" target="_blank">this one</a>.</p>
+<p>Official R74n Namespace UUID: ca069732-780c-11ee-b962-000000000074</p>
+<p>For the seed string, also called <em>name</em>, you <strong><em>must</em></strong> use a lowercase standard <a href="alpha">Multiletter Alpha Namespace</a>. If none are applicable, a custom one can be used like this: x-anythinghere</p>
+<p>For example, when you use <em>sandboxels</em>, it should generate: 948d248f-fd72-59b1-bae0-dba9c046da9b</p>
+<p>There are countless UUIDs, but below is a list of samples.</p>
 
-<table id="idTable" style="margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset">
+<table id="idTable" class="fullTable">
   <thead>
-    <tr><th>Alpha-M</th><th>Alpha-2</th><th>Name</th></tr>
+    <tr><th>Alpha-M</th><th>UUID</th></tr>
   </thead>
   <tbody id="idTableBody">
-    <tr><td colspan="3" style="text-align: center;">Loading Table...</td></tr>
+    <tr><td colspan="2" style="text-align: center;">Loading Table...</td></tr>
+  </tbody>
+</table>
+
+<p>Extra UUIDs outside the R74n Namespace:</p>
+
+<table class="fullTable">
+  <thead>
+    <tr><th>Description</th><th>UUID</th><th>Seed</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ns:URL (v5)</td><td>30f26a7b-c3f7-557e-a0fd-37ae650cd194</td><td><a href="https://r74n.com/">https://r74n.com/</a></td></tr>
+    <tr><td>ns:DNS (v5)</td><td>0132d690-97eb-5108-976f-8d19beb5a530</td><td>r74n.com</td></tr>
+    <tr><td>ns:OID (v5)</td><td>f5278121-088f-5930-bd99-1cd091e1a81f</td><td>1.3.6.1.4.1.61117</td></tr>
   </tbody>
 </table>
 
@@ -77,20 +105,9 @@ This HTML and its contents are property of R74n.com.
   window.addEventListener("load",function() {
     var idTableBody = document.getElementById("idTableBody");
     idTableBody.innerHTML = "";
-    alphaCodes.forEach(row => {
-      var decimal = row[0];
-      var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
-      if (row[1] === "  " || !row[1]) { var alpha2 = "--"; }
-      else { var alpha2 = row[1]; }
-      if (!row[2]) {
-        var alphaM = "--";
-      }
-      else {
-        var alphaM = row[2];
-      }
-      var name = getEntityAt(decimal,"",{},true,row[3])
-      idTableBody.innerHTML += "<tr><td>"+alphaM+"</td><td>"+alpha2+"</td><td>"+name+"</td></tr>";
-    });
+    for (var alphaM in UUIDs) {
+      idTableBody.innerHTML += "<tr><td>"+alphaM+"</td><td>"+UUIDs[alphaM]+"</td></tr>";
+    }
   })
 </script>
 

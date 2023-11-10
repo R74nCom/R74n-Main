@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Standardized 2-letter and multiletter codes for R74n projects.">
+    <meta name="description" content="List of schema files for R74n projects.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Standard Alpha Namespaces - R74n</title>
+    <title>Schema - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
@@ -42,57 +42,24 @@ This HTML and its contents are property of R74n.com.
     <meta name="theme-color" content="#00ffff">
     <meta name="msapplication-config" content="https://R74n.com/icons/browserconfig.xml?v=R74n-2">
 
-    <script src="https://R74n.com/load.js"></script>
-
-    <script src="resolver.js"></script>
-    <script src="../multiplane/multiplane.js"></script>
-    <script>
-      alphaCodes = getJSON('https://R74n.com/id/alpha.json');
-      R74nUUID = "ca069732-780c-11ee-b962-000000000074";
-    </script>
+    <script src="../load.js"></script>
 
 </head>
 <body>
 
 
-<a href="." class="backbutton">⦉</a>
-<h1 class="pagetitle">Alpha Namespaces</h1>
+<a href="https://R74n.com" class="backbutton">⦉</a>
+<h1 class="pagetitle">Schema</h1>
 <div class="content">
 
-<p>For short strings of text, R74n uses the <strong>R74n Standard Alpha Namespaces</strong> to identify projects.</p>
-<p>The <strong>Multiletter Alpha Codes</strong> are most often used, and can contain any letters A-Z, along with dashes (-). If needed, underscores (_) can replace them. For example, <em>cpd</em> represents the <a href="https://c.R74n.com">Copy Paste Dump</a>.</p>
-<p><strong>Two-letter Alpha Codes</strong> are also documented, and contain exactly 2 letters A-Z. For example, <em>sb</em> represents <a href="https://sandboxels.R74n.com">Sandboxels</a>.</p>
-<p>They are used in the <a href="../ufbs/">Universal Feedback System</a> and <a href="urn">X-R74n URN Namespace</a>, among others.</p>
+<dl>
+  <dt><a href="R74n.json">R74n</a></dt>
+  <dt><a href="Sandboxels.json">Sandboxels</a></dt>
+</dl>
 
-<table id="idTable" style="margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset">
-  <thead>
-    <tr><th>Alpha-M</th><th>Alpha-2</th><th>Name</th></tr>
-  </thead>
-  <tbody id="idTableBody">
-    <tr><td colspan="3" style="text-align: center;">Loading Table...</td></tr>
-  </tbody>
-</table>
 
-<script>
-  window.addEventListener("load",function() {
-    var idTableBody = document.getElementById("idTableBody");
-    idTableBody.innerHTML = "";
-    alphaCodes.forEach(row => {
-      var decimal = row[0];
-      var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
-      if (row[1] === "  " || !row[1]) { var alpha2 = "--"; }
-      else { var alpha2 = row[1]; }
-      if (!row[2]) {
-        var alphaM = "--";
-      }
-      else {
-        var alphaM = row[2];
-      }
-      var name = getEntityAt(decimal,"",{},true,row[3])
-      idTableBody.innerHTML += "<tr><td>"+alphaM+"</td><td>"+alpha2+"</td><td>"+name+"</td></tr>";
-    });
-  })
-</script>
+
+
 
 
 

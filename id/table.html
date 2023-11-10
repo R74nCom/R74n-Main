@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Standardized 2-letter and multiletter codes for R74n projects.">
+    <meta name="description" content="Table of standard identifiers for R74n projects.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Standard Alpha Namespaces - R74n</title>
+    <title>Identifier Table - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
@@ -56,20 +56,17 @@ This HTML and its contents are property of R74n.com.
 
 
 <a href="." class="backbutton">⦉</a>
-<h1 class="pagetitle">Alpha Namespaces</h1>
+<h1 class="pagetitle">Identifier Table</h1>
 <div class="content">
 
-<p>For short strings of text, R74n uses the <strong>R74n Standard Alpha Namespaces</strong> to identify projects.</p>
-<p>The <strong>Multiletter Alpha Codes</strong> are most often used, and can contain any letters A-Z, along with dashes (-). If needed, underscores (_) can replace them. For example, <em>cpd</em> represents the <a href="https://c.R74n.com">Copy Paste Dump</a>.</p>
-<p><strong>Two-letter Alpha Codes</strong> are also documented, and contain exactly 2 letters A-Z. For example, <em>sb</em> represents <a href="https://sandboxels.R74n.com">Sandboxels</a>.</p>
-<p>They are used in the <a href="../ufbs/">Universal Feedback System</a> and <a href="urn">X-R74n URN Namespace</a>, among others.</p>
+<p>Below is a table containing important IDs for concepts assigned to <a href="alpha">Alpha Namespaces</a>. It does not show every ID in existence.</p>
 
-<table id="idTable" style="margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset">
+<table id="idTable" class="fullTable">
   <thead>
-    <tr><th>Alpha-M</th><th>Alpha-2</th><th>Name</th></tr>
+    <tr><th>Multiplane R</th><th>Multiplane #</th><th>Alpha-M</th><th>Alpha-2</th><th>Name</th><th>OID</th></tr>
   </thead>
   <tbody id="idTableBody">
-    <tr><td colspan="3" style="text-align: center;">Loading Table...</td></tr>
+    <tr><td colspan="6" style="text-align: center;">Loading Table...</td></tr>
   </tbody>
 </table>
 
@@ -89,7 +86,7 @@ This HTML and its contents are property of R74n.com.
         var alphaM = row[2];
       }
       var name = getEntityAt(decimal,"",{},true,row[3])
-      idTableBody.innerHTML += "<tr><td>"+alphaM+"</td><td>"+alpha2+"</td><td>"+name+"</td></tr>";
+      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/multiplane/?code="+planecode+"'>"+planecode+"</a></td><td><a href='https://R74n.com/multiplane/?code="+planecode+"'>#"+decimal+"</a></td><td>"+alphaM+"</td><td>"+alpha2+"</td><td>"+name+"</td><td><a href='http://www.oid-info.com/cgi-bin/display?action=display&oid=1.3.6.1.4.1.61117.1."+decimal+"' target='_blank'>61117.1."+decimal+"</a></td></tr>";
     });
   })
 </script>

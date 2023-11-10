@@ -125,6 +125,7 @@ multiplaneEntities = {
 "1F4": "R74n OID Registration Authority//urn:oid",
 "1F5": "R74n UUID Namespace//urn:uuid",
 "1F6": "R74n Identifiers Page//urn:id",
+"1F7": "R74n Schemas//urn:schema",
 
 "2C0": "R74n Discord server//urn:discord:main",
 "2C1": "Copy Paste Dump Discord server//urn:discord:cpd",

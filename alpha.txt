@@ -1,3 +1,11 @@
+Disclaimer: This document is outdated. Please see the following:
+JSON Data File: https://R74n.com/id/alpha.json
+Alpha Namespace Main Page: https://R74n.com/id/alpha
+
+
+
+
+
 R74n Standard Alpha Namespaces
 
 Guidelines:

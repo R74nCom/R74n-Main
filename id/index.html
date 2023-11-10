@@ -48,16 +48,10 @@ This HTML and its contents are property of R74n.com.
     <script src="../multiplane/multiplane.js"></script>
     <script>
       alphaCodes = getJSON('https://R74n.com/id/alpha.json');
+      UUIDs = getJSON('https://R74n.com/id/uuid.json');
       R74nUUID = "ca069732-780c-11ee-b962-000000000074";
     </script>
 
-    <!-- <script type="module">
-      import { v5 as uuidv5 } from 'https://jspm.dev/uuid';
-      console.log(uuidv5("sandboxels","ca069732-780c-11ee-b962-000000000074"));
-      alphaCodes.forEach((row) => {
-        console.log(row[2]+" - "+uuidv5(row[2],"ca069732-780c-11ee-b962-000000000074"))
-      })
-    </script> -->
     <!-- <script src="../rue/rue.js"></script> -->
 
 </head>
@@ -77,16 +71,71 @@ This HTML and its contents are property of R74n.com.
   <p style="display:none" id="resolveOutput">Resolving...</p>
 </div>
 
-<p>🚧 This page is under construction!! Stay tuned. 🚧</p>
+<div id="idContent" style="display:none;">
+<p>R74n uses many standards to identify projects and concepts, some proprietary and others commonplace.</p>
 
-<table id="idTable" style="margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset">
+<p>Use the form above to redirect to pages identified by an ID. (e.g. <a href="https://R74n.com/id?urn:sandboxels:changelog">R74n.com/id?urn:sandboxels:changelog</a>). It supports R74n <a href="urn">URNs</a>, <a href="alpha">Alpha Namespaces</a>, <a href="uuid">UUIDs</a>, <a href="https://data.R74n.com/">QIDs</a>, URLs, <a href="../multiplane/">Multiplane</a> hex & decimal planecodes, and some <a href="oid">OIDs</a> in dot and ASN.1 notation.</p>
+
+<dl>
+  <dt><a href="table">Identifier Table</a></dt>
+    <dd>List of important standard identifiers</dd>
+  <dt class="glowbullet"><a href="oid">Object Identifiers (OIDs)</a></dt>
+    <dd>Get your own tree to manage for free! See <a href="../oid.txt">Guidelines</a>.</dd>
+  <dt><a href="../multiplane/">Multiplane</a></dt>
+    <dd>Standard numerical ID grid</dd>
+  <dt><a href="alpha">Standard Alpha Namespaces</a></dt>
+    <dd>Multiletter and two-letter</dd>
+  <dt><a href="urn">X-R74n URN Namespace</a></dt>
+    <dd>Permalinks to projects</dd>
+  <dt><a href="uuid">Universally Unique Identifiers (UUIDs)</a></dt>
+    <dd>Standard hexadecimal IDs for projects</dd>
+  <dt><a href="https://data.R74n.com/">R74n Wikibase</a></dt>
+    <dd>Structured data items (QIDs)</dd>
+  <dt><a href="../schema/">Schema</a></dt>
+    <dd>Structured data files for R74n projects</dd>
+  <dt><a href="../social/">Socials</a></dt>
+    <dd>Usernames, user IDs</dd>
+  <dt><a href="../commons/">R74n Commons</a></dt>
+    <dd>IDs for cloud files</dd>
+</dl>
+
+<h2>Other IDs</h2>
+<p>R74n controls many identifiers in external standards as well. Miscellaneous ones are listed below.</p>
+<strong>Identifiers representing R74n</strong>
+<table id="idTable" class="fullTable">
   <thead>
-    <tr><th>Multiplane R</th><th>Multiplane #</th><th>Alpha-M</th><th>Alpha-2</th><th>Name</th><th>OID</th></tr>
+    <tr><th>Standard</th><th>Value</th></tr>
   </thead>
   <tbody id="idTableBody">
-    <tr><td colspan="6" style="text-align: center;">Loading Table...</td></tr>
+    <tr><td>Domain</td><td><a href="https://R74n.com/">r74n.com</a></td></tr>
+    <tr><td>Google</td><td><a href="https://www.google.com/search?kgmid=/g/11m0q5kt97">/g/11m0q5kt97</a></td></tr>
+    <tr><td>IGDB</td><td><a href="https://www.igdb.com/companies/r74n">r74n</a></td></tr>
+    <tr><td>ISNI</td><td><a href="https://isni.bl.uk/search/isni/0000000513144203">0000000513144203</a></td></tr>
+    <tr><td>OID</td><td><a href="http://oid-info.com/get/1.3.6.1.4.1.61117">1.3.6.1.4.1.61117</a></td></tr>
+    <tr><td>PEN</td><td><a href="https://www.iana.org/assignments/enterprise-numbers/?q=61117">61117</a></td></tr>
+    <tr><td>Perma.cc</td><td><a href="https://perma.cc/DQS8-9S6T">DQS8-9S6T</a></td></tr>
+    <tr><td>PURL</td><td><a href="https://purl.org/r74n">r74n</a></td></tr>
+    <tr><td>URL</td><td><a href="https://R74n.com/">https://R74n.com/</a></td></tr>
+    <tr><td>W3ID</td><td><a href="https://w3id.org/r74n">r74n</a></td></tr>
   </tbody>
 </table>
+
+<br><strong>Identifiers representing Sandboxels</strong>
+<table class="fullTable">
+  <thead>
+    <tr><th>Standard</th><th>Value</th></tr>
+  </thead>
+  <tbody id="idTableBody">
+    <tr><td>DOI</td><td><a href="https://doi.org/10.5281/zenodo.10044909">zenodo.10044909</a></td></tr>
+    <tr><td>Domain</td><td><a href="https://sandboxels.R74n.com/">sandboxels.r74n.com</a></td></tr>
+    <tr><td>Google</td><td><a href="https://www.google.com/search?kgmid=/g/11spmybz10">/g/11spmybz10</a></td></tr>
+    <tr><td>IGDB</td><td><a href="https://www.igdb.com/games/187147/countdown">187147</a></td></tr>
+    <tr><td>Perma.cc</td><td><a href="https://perma.cc/65PW-F997">65PW-F997</a></td></tr>
+    <tr><td>PURL</td><td><a href="https://purl.org/r74n/sandboxels">r74n/sandboxels</a></td></tr>
+    <tr><td>URL</td><td><a href="https://sandboxels.R74n.com/">https://sandboxels.R74n.com/</a></td></tr>
+  </tbody>
+</table>
+</div>
 
 <script>
   var urlParams = new URLSearchParams(window.location.search);
@@ -104,24 +153,9 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("resolveOutput").style.display = "block";
     resolveID(location.search.substring(1),true,redirect);
   }
-  window.addEventListener("load",function() {
-    var idTableBody = document.getElementById("idTableBody");
-    idTableBody.innerHTML = "";
-    alphaCodes.forEach(row => {
-      var decimal = row[0];
-      var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
-      if (row[1] === "  " || !row[1]) { var alpha2 = "--"; }
-      else { var alpha2 = row[1]; }
-      if (!row[2]) {
-        var alphaM = "--";
-      }
-      else {
-        var alphaM = row[2];
-      }
-      var name = getEntityAt(decimal,"",{},true,row[3])
-      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/multiplane/?code="+planecode+"'>"+planecode+"</a></td><td><a href='https://R74n.com/multiplane/?code="+planecode+"'>#"+decimal+"</a></td><td>"+alphaM+"</td><td>"+alpha2+"</td><td>"+name+"</td><td><a href='http://www.oid-info.com/cgi-bin/display?action=display&oid=1.3.6.1.4.1.61117.1."+decimal+"' target='_blank'>61117.1."+decimal+"</a></td></tr>";
-    });
-  })
+  else {
+    document.getElementById("idContent").style.display = "block";
+  }
 </script>
 
 

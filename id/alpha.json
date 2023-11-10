@@ -52,6 +52,7 @@
 [500,   "oi",   "oid",          ""],
 [501,   "ui",   "uuid",         ""],
 [502,   "id",   "id",           "R74n Identifiers"],
+[503,   "se",   "schema",       ""],
 [3856,  "mh",   "mphex",        "Multiplane hexadecimal planecode"],
 [3857,  "mn",   "mpdec",        "Multiplane decimal planecode"],
 [2053,  "em",   "email",        "via email (...@R74n.com)"],
