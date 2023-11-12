@@ -244,7 +244,7 @@ multiplaneEntities = {
 // Project Spaces //
 
 // Copy Paste Dump //
-"1000": "Copy Paste Dump Main Page",
+"1000": "Copy Paste Dump Main Page//urn:cpd:index.html",
 "1004": "Fancy Font Generator//urn:fonts",
 "1005": "Text Converters//urn:converters",
 "1008": "Copy Paste Dump Search//urn:csearch",
@@ -343,7 +343,7 @@ multiplaneEntities = {
 "A25D": "UFBS Feedback Form Template//https://docs.google.com/forms/d/e/1FAIpQLSfT4QX9ZtMGRot63SJQPDToxKT12Di7tfkTPfa7xR7taShhsw/viewform",
 
 "A2A0": "UFBS Response Sheet//https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/edit",
-"A2A1": "Sandboxels Suggestions (Responses)//https://docs.google.com/spreadsheets/d/16bcUB6iM0yeVKmJ0FXGp9WES5Ek7YHOYbjGEuTgZsGg/edit",
+"A2A1": "Sandboxels Suggestions (Responses)//https://docs.google.com/spreadsheets/d/16bcUB6iM0yeVKmJ0FXGp9WES5Ek7YHOYbjGEuTgZsGg/edit#gid=1808539091",
 "A2A2": "Copy Paste Dump Submissions (Responses)",
 "A2A3": "Main R74n response tab//https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/edit?resourcekey#gid=1194052128",
 "A2A4": "Hello in Every Way response tab//https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/edit?resourcekey#gid=521568257",

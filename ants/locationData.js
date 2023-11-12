@@ -241,7 +241,7 @@ antData.locations = {
 240:"Vanuatu",
 241:"Venezuela",
 242:"Vietnam",
-243:"Wallis and Futuna Islands",
+243:"Wallis and Futuna",
 244:"Yemen",
 245:"Zambia",
 246:"Zimbabwe",

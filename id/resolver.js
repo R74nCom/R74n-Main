@@ -93,7 +93,17 @@ urnResolvers = {
 "ufbs": (args) => {
     if (args[0]) {
         if (!args[1] || args[1] === "q") { return "urn:X-R74n:link:"+args[0]+"-feedback"; }
-        return "urn:X-R74n:link:ufbs-"+args[0];
+        var ufbs = {
+            "sandboxels":"R0A2A1","cpd":"R0A2A2","main":"R0A2A3","hello":"R0A2A4","convert":"R0A2A5","moji":"R0A2A6","words":"R0A2A7","unisearch":"R0A2A8","mix":"R0A2A9","pixelflags":"R0A2AA","icons":"R0A2AB"
+        }
+        var link = fromPlanecode(ufbs[args[0]]);
+        if (!link) { return "urn:X-R74n:link:ufbs-"+args[0]; }
+        if (args[2]) {
+            if (link.indexOf("#") === -1) { link += "#" }
+            else { link += "&" }
+            link += "range=A"+args[2];
+        }
+        return link;
     }
     return "https://R74n.com/ufbs/"+args.join("/");
 },
@@ -302,6 +312,7 @@ function resolveOID(oid) {
     if (!oid.startsWith("1.3.6.1.4.1.61117")) { return false }
     oid = oid.split("1.3.6.1.4.1.")[1];
     var parts = oid.split(".");
+    if (parts.length === 1) { return "https://R74n.com/id/oid" }
     parts = parts.map((x) => parseInt(x));
     if (parts[1] === 1) { // Multiplane
         if (parts[2] === undefined) { return "https://R74n.com/multiplane/" }
