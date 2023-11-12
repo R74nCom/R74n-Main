@@ -30,6 +30,8 @@ i {font-style:italic;}
 
 img, audio, video {vertical-align:middle;max-width:100%}
 
+.vertical {font-family:'Mongolian Baiti','Noto Sans Mongolian',sans-serif;font-size:140%;-webkit-writing-mode:vertical-lr;-moz-writing-mode:vertical-lr;writing-mode:vertical-lr;writing-mode:vertical-ideographic;layout-flow:vertical-ideographic;}
+
 
 .R74nicon:hover {
     filter:hue-rotate(3600deg);
