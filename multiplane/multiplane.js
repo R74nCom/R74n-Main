@@ -117,6 +117,7 @@ multiplaneEntities = {
 "182": "Quality of Life//urn:mc:qol",
 "183": "UUID Generator//urn:mc:uuid",
 "184": "Special Items//urn:mc:items",
+"185": "RyanUwU Shulker Boxes//https://r74n.com/box/",
 "190": "All Twitch PogChamps//urn:pogchamps",
 "1F0": "R74n Standard Alpha Namespaces//urn:alpha",
 "1F1": "Multiletter Alpha Namespaces//urn:alphamul",
@@ -132,6 +133,7 @@ multiplaneEntities = {
 "2C2": "minecraft item cult//urn:discord:mc",
 "2D2": "Sandboxels Wiki//urn:sbwiki",
 "2D3": "Elemental on Discord Wiki//urn:eodwiki",
+"2E0": "R74n OIDplus Instance//https://hosted.oidplus.com/r74n/",
 
 // Particulars //
 "300": "living thing",
