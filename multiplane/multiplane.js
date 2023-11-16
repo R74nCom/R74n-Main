@@ -133,7 +133,7 @@ multiplaneEntities = {
 "2C2": "minecraft item cult//urn:discord:mc",
 "2D2": "Sandboxels Wiki//urn:sbwiki",
 "2D3": "Elemental on Discord Wiki//urn:eodwiki",
-"2E0": "R74n OIDplus Instance//https://hosted.oidplus.com/r74n/",
+"2E0": "R74n OIDplus Instance//urn:oidplus",
 
 // Particulars //
 "300": "living thing",

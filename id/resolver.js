@@ -268,8 +268,12 @@ urnResolvers = {
     }
 },
 "oid": (args) => {
+    if (args[0] === "txt") { return "https://R74n.com/oid.txt"; }
     if (args[0]) { return resolveOID(args[0]); }
     return "https://R74n.com/id/oid";
+},
+"oidplus": (args) => {
+    return "https://oid.R74n.com/?goto="+args.join(":");
 },
 }
 function resolveURN(urn) {
