@@ -177,11 +177,31 @@ urnResolvers = {
 "pogchamps": (args) => {return "https://R74n.com/PogChamp/"+args.join("/");},
 "id": (args) => {return "https://R74n.com/id/?"+(args[0]||"");},
 "projects": (args) => {return "urn:main";},
-"alpha": (args) => {return "https://R74n.com/id/alpha";},
-"alphamul": (args) => {return "https://R74n.com/id/alpha#Alpha-M";},
-"alphatwo": (args) => {return "https://R74n.com/id/alpha#Alpha-2";},
-"urn": (args) => {return "https://R74n.com/id/urn";},
-"uuid": (args) => {return "https://R74n.com/id/uuid";},
+"alpha": (args) => {
+    if (args[0]) { return args[0]; }
+    return "https://R74n.com/id/alpha";
+},
+"alphamul": (args) => {
+    if (args[0]) { return args[0]; }
+    return "https://R74n.com/id/alpha#Alpha-M";
+},
+"alphatwo": (args) => {
+    if (args[0]) { return args[0]; }
+    return "https://R74n.com/id/alpha#Alpha-2";
+},
+"urn": (args) => { return "https://R74n.com/id/urn"; },
+"uuid": (args) => {
+    if (args[0]) { return "https://R74n.com/id/?"+args[0].join("-"); }
+    return "https://R74n.com/id/uuid";
+},
+"oid": (args) => {
+    if (args[0] === "txt") { return "https://R74n.com/oid.txt"; }
+    if (args[0]) { return resolveOID(args[0]); }
+    return "https://R74n.com/id/oid";
+},
+"oidplus": (args) => {
+    return "https://oid.R74n.com/?goto="+args.join(":");
+},
 "schema": (args) => {
     if (args[0]) { return "https://R74n.com/schema/"+args[0]+".json"}
     return "https://R74n.com/schema/";
@@ -266,14 +286,6 @@ urnResolvers = {
         if (args[2] === "l") { return "https://www.reddit.com/user/"+args[1]+"/m/"+args[3]; }
         return "https://www.reddit.com/user/"+args[1];
     }
-},
-"oid": (args) => {
-    if (args[0] === "txt") { return "https://R74n.com/oid.txt"; }
-    if (args[0]) { return resolveOID(args[0]); }
-    return "https://R74n.com/id/oid";
-},
-"oidplus": (args) => {
-    return "https://oid.R74n.com/?goto="+args.join(":");
 },
 }
 function resolveURN(urn) {

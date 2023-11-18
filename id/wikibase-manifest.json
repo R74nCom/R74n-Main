@@ -1,0 +1,34 @@
+{
+  "version": "2.0",
+  "mediawiki": {
+    "name": "R74n Wikibase",
+    "root": "https://data.r74n.com/wiki/",
+    "main_page": "https://data.r74n.com/Main_Page",
+    "api": "https://data.r74n.com/w/api.php"
+  },
+  "wikibase": {
+    "site_iri": "https://data.r74n.com/entity/",
+    "maxlag": 5,
+    "max_edits_per_minute": 60,
+    "tag": "openrefine-${version}",
+    "properties": {
+      "instance_of": "P1",
+      "subclass_of": "P2"
+    }
+  },
+  "oauth": {
+    "registration_page": "https://data.r74n.com/wiki/Special:OAuthConsumerRegistration/propose"
+  },
+  "entity_types": {
+    "item": {
+       "site_iri": "http://data.r74n.com/entity/",
+       "reconciliation_endpoint": "https://wikidata.reconci.link/${lang}/api",
+       "mediawiki_api": "https://data.r74n.com/w/api.php"
+    },
+    "property": {
+       "site_iri": "http://data.r74n.com/entity/",
+       "mediawiki_api": "https://data.r74n.com/w/api.php"
+    }
+  },
+  "hide_structured_fields_in_mediainfo": false
+}
