@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Standardized 2-letter and multiletter codes for R74n projects.">
+    <meta name="description" content="Standardized Application Identifiers for R74n projects.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Standard Alpha Namespaces - R74n</title>
+    <title>Application Identifiers - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
@@ -56,17 +56,17 @@ This HTML and its contents are property of R74n.com.
 
 
 <a href="." class="backbutton">⦉</a>
-<h1 class="pagetitle">Alpha Namespaces</h1>
+<h1 class="pagetitle">AIDs</h1>
 <div class="content">
 
-<p>For short strings of text, R74n uses the <strong>R74n Standard Alpha Namespaces</strong> to identify projects.</p>
-<p>The <strong id="Alpha-M">Multiletter Alpha Codes</strong> are most often used, and can contain any letters A-Z, along with dashes (-). If needed, underscores (_) can replace them. For example, <em>cpd</em> represents the <a href="https://c.R74n.com">Copy Paste Dump</a>.</p>
-<p><strong id="Alpha-2">Two-letter Alpha Codes</strong> are also documented, and contain exactly 2 letters A-Z. For example, <em>sb</em> represents <a href="https://sandboxels.R74n.com">Sandboxels</a>.</p>
-<p>They are used in the <a href="../ufbs/">Universal Feedback System</a> and <a href="urn">X-R74n URN Namespace</a>, among others.</p>
+<p>R74n controls an AID, or Application Identifier (ISO/IEC 7816), granted under <a href="https://oidplus.viathinksoft.com/oidplus/?goto=aid%3AD276000186F1" target="_blank">ViaThinkSoft's FreeOID</a> system.</p>
+<p>The root AID is <code>D2 76 00 01 86 F1 <strong>17 6F</strong></code>, with our part in bold.</p>
+<p>Identifiers under <code>D2 76 00 01 86 F1 <strong>17 6F FF 00 [PIX]</strong></code>, where [PIX] is a lowercase <a href="alpha#Alpha-2">Two-letter Alpha Code</a> in hexadecimal, represent R74n projects</p>
+<p>For example, Sandboxels is represented by <code>D2 76 00 01 86 F1 <strong>17 6F FF 00 73 62</strong></code>, for "sb".</p>
 
 <table id="idTable" style="margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset">
   <thead>
-    <tr><th>Alpha-M</th><th>Alpha-2</th><th>Name</th></tr>
+    <tr><th>AID</th><th>Alpha-2</th><th>Name</th></tr>
   </thead>
   <tbody id="idTableBody">
     <tr><td colspan="3" style="text-align: center;">Loading Table...</td></tr>
@@ -80,16 +80,13 @@ This HTML and its contents are property of R74n.com.
     alphaCodes.forEach(row => {
       var decimal = row[0];
       var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
-      if (row[1] === "  " || !row[1]) { var alpha2 = "--"; }
+      if (row[1] === "  " || !row[1]) { return; }
       else { var alpha2 = row[1]; }
-      if (!row[2]) {
-        var alphaM = "--";
-      }
-      else {
-        var alphaM = row[2];
-      }
+      if (alpha2.length !== 2) {return}
+      alpha2 = alpha2.toLowerCase();
+      var alpha2hex = alpha2.charCodeAt(0).toString(16).padStart(2,"0")+alpha2.charCodeAt(1).toString(16).padStart(2,"0")
       var name = getEntityAt(decimal,"",{},true,row[3])
-      idTableBody.innerHTML += "<tr><td>"+alphaM+"</td><td>"+alpha2+"</td><td>"+name+"</td></tr>";
+      idTableBody.innerHTML += "<tr><td><small>D276000186F1</small> 176FFF00 <strong>"+alpha2hex.toUpperCase()+"</strong></td><td>"+alpha2+"</td><td>"+name+"</td></tr>";
     });
   })
 </script>
