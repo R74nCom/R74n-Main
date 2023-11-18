@@ -493,7 +493,7 @@ multiplanePlanes = {
     "R13200-R132FF": "Colors",
     "R1B000-R1FFFF": "Numeral Compatibility", //Numbers 0-20478
   "R20000-R2FFFF": "Requested",
-    "R20000-R200FF": "ViaThinkSoft",
+    "R20000-R200FF": "ViaThinkSoft I",
   "R30000-R30FFF": "",
   "R31000-R31FFF": "",
   "R32000-R32FFF": "",
