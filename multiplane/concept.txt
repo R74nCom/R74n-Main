@@ -33,3 +33,5 @@ Dimensions starting with "x" (e.g. (xtest)) can be user-assigned and used for wh
 There are 65536 user-assigned codes from RF0000-RFFFFF, at the end of the multiplane.
 
 Slots marked "[reserved]" are not to be used.
+
+Parts of the Requested block will be assigned to third parties on request, in multiples of Bz1.

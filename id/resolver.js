@@ -313,9 +313,9 @@ function resolvePlanecode(decimal) {
     return value.split("//").slice(1).join("//");
 }
 function resolveOID(oid) {
-    if (!oid.startsWith("1.3.6.1.4.1.61117")) { return false }
-    oid = oid.split("1.3.6.1.4.1.")[1];
-    var parts = oid.split(".");
+    if (!oid.startsWith("1.3.6.1.4.1.61117")) { return "https://oid.R74n.com/?goto=oid%3A"+oid }
+    oidRel = oid.split("1.3.6.1.4.1.")[1];
+    var parts = oidRel.split(".");
     if (parts.length === 1) { return "https://R74n.com/id/oid" }
     parts = parts.map((x) => parseInt(x));
     if (parts[1] === 1) { // Multiplane
@@ -326,6 +326,7 @@ function resolveOID(oid) {
         if (parts[2] === undefined) { return "https://data.R74n.com/" }
         return "https://data.R74n.com/entity/Q"+parts[2];
     }
+    return "https://oid.R74n.com/?goto=oid%3A"+oid;
 }
 
 function detectID(id,auto) {
