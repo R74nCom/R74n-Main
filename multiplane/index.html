@@ -217,17 +217,20 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("tab-"+id).style.display = "block";
     document.getElementById("tabButton-"+id).setAttribute("selected","true");
   }
-  function addRow(left,right,span) {
+  function addRow(left,mid,right,span) {
     var table = document.getElementById("planeTable");
     var row = table.insertRow(-1);
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
     cell1.id = left;
     cell1.innerHTML = left;
-    cell2.innerHTML = right;
+    cell2.innerHTML = mid;
+    cell3.innerHTML = right;
     if (span) {
-      cell1.colSpan = 2;
+      cell1.colSpan = 3;
       cell2.remove();
+      cell3.remove();
       cell1.className = "spanRow";
     }
   }
@@ -349,7 +352,7 @@ This HTML and its contents are property of R74n.com.
     }
     else { dimensionPrefix = ""; }
     document.getElementById("planeTable").innerHTML = "";
-    document.getElementById("planeTable").innerHTML += "<thead><tr><th colspan='2'>"+controlRow(currentNum)+"</th></tr><tr><th>"+dimensionPrefix+"R<em>nnnnn</em></th><th>Entity</th></tr></thead>";
+    document.getElementById("planeTable").innerHTML += "<thead><tr><th colspan='3'>"+controlRow(currentNum)+"</th></tr><tr><th>"+dimensionPrefix+"R<em>nnnnn</em></th><th>"+dimensionPrefix+"#<em>nnnnn</em></th><th>Entity</th></tr></thead>";
     document.getElementById("compactTable").innerHTML = "<thead>   <tr><th><a href=\"javascript:initTable("+(currentNum-256)+")\">◀︎</a></th><th colspan='15'>"+dimensionPrefix+"R"+((currentNum/16).toString(16).toUpperCase().padStart(4,"0").slice(0, -1))+"yx</th><th><a href=\"javascript:initTable("+(currentNum+256)+")\">▶︎</a></th></tr>   <tr><th>•</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>";
     // set select to current plane
     var currentPlane = getPlaneAt(currentNum);
@@ -366,13 +369,13 @@ This HTML and its contents are property of R74n.com.
       if (i % 16 == 0) {
         // show the prefix
         var prefix = dimensionPrefix + "R" + (i/16).toString(16).toUpperCase().padStart(4,"0");
-        addRow(prefix+"<em>n</em>","",true);
+        addRow(prefix+"<em>n</em>","","",true);
         addCell((i/16).toString(16).toUpperCase().substr(-1),"","",true);
       }
       var left = (currentNum%16).toString(16).toUpperCase();
       // var right = String.fromCharCode(currentNum+32);
       var right = getEntityAt(currentNum,currentDimension,currentPlane,true);
-      addRow(prefix+left,right);
+      addRow(prefix+left,dimensionPrefix+"#"+currentNum,right);
       if (right.indexOf("<") !== -1) {
         right = getEntityAt(currentNum,currentDimension,currentPlane,false);
       }
