@@ -53,6 +53,7 @@ multiplaneEntities = {
 "97": "word definition",
 "98": "emoji",
 "99": "list",
+"9A": "identifier",
 
 "F0": "digit 0",
 "F1": "digit 1",
@@ -127,6 +128,7 @@ multiplaneEntities = {
 "1F5": "R74n UUID Namespace//urn:uuid",
 "1F6": "R74n Identifiers Page//urn:id",
 "1F7": "R74n Schemas//urn:schema",
+"1F8": "R74n Archival Resource Keys//urn:ark",
 
 "2C0": "R74n Discord server//urn:discord:main",
 "2C1": "Copy Paste Dump Discord server//urn:discord:cpd",

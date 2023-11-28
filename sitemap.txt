@@ -87,3 +87,5 @@ https://r74n.com/id/alpha
 https://r74n.com/id/oid
 https://r74n.com/id/urn
 https://r74n.com/id/uuid
+https://r74n.com/id/aid
+https://r74n.com/id/ark

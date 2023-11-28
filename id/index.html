@@ -74,7 +74,7 @@ This HTML and its contents are property of R74n.com.
 <div id="idContent" style="display:none;">
 <p>R74n uses many standards to identify projects and concepts, some proprietary and others commonplace.</p>
 
-<p>Use the form above to redirect to pages identified by an ID. (e.g. <a href="https://R74n.com/id?urn:sandboxels:changelog">R74n.com/id?urn:sandboxels:changelog</a>). It supports R74n <a href="urn">URNs</a>, <a href="alpha">Alpha Namespaces</a>, <a href="uuid">UUIDs</a>, <a href="https://data.R74n.com/">QIDs</a>, URLs, <a href="../multiplane/">Multiplane</a> hex & decimal planecodes, and some <a href="oid">OIDs</a> in dot and ASN.1 notation.</p>
+<p>Use the form above to redirect to pages identified by an ID. (e.g. <a href="https://R74n.com/id?urn:sandboxels:changelog">R74n.com/id?urn:sandboxels:changelog</a>). See the <a href="#Supported">Supported Formats</a>.</p>
 
 <dl>
   <dt><a href="table">Identifier Table</a></dt>
@@ -91,6 +91,8 @@ This HTML and its contents are property of R74n.com.
     <dd>Permalinks to projects</dd>
   <dt><a href="uuid">Universally Unique Identifiers (UUIDs)</a></dt>
     <dd>Standard hexadecimal IDs for projects</dd>
+  <dt><a href="ark">Archival Resource Keys (ARKs)</a></dt>
+    <dd>Globally resolvable persistent identifiers</dd>
   <dt><a href="aid">Application Identifiers (AIDs)</a></dt>
     <dd>Derivative hexadecimal IDs for projects</dd>
   <dt><a href="https://data.R74n.com/">R74n Wikibase</a></dt>
@@ -101,31 +103,42 @@ This HTML and its contents are property of R74n.com.
     <dd>Usernames, user IDs</dd>
   <dt><a href="../commons/">R74n Commons</a></dt>
     <dd>IDs for cloud files</dd>
+  <dt><a href="curie.txt">Compact URI (CURIE)</a> [txt]</dt>
 </dl>
 
-<h2>Other IDs</h2>
+<h2 id="List">Other IDs</h2>
 <p>R74n controls many identifiers in external standards as well. Miscellaneous ones are listed below.</p>
-<strong>Identifiers representing R74n</strong>
+<h3 id="R74n">Identifiers representing R74n</h3>
 <table id="idTable" class="fullTable">
   <thead>
     <tr><th>Standard</th><th>Value</th></tr>
   </thead>
   <tbody id="idTableBody">
+    <!-- <tr><td>ORCID</td><td><a href="https://orcid.org/0009-0000-1383-6665">0009-0000-1383-6665</a></td></tr> -->
+    <!-- <tr><td>OSF</td><td><a href="https://osf.io/pcez5/">pcez5</a></td></tr> -->
+    <!-- <tr><td>Squarespace</td><td>2119986225_DOMAIN_COM-VRSN</td></tr> -->
     <tr><td>AID</td><td><a href="https://oid.R74n.com/?goto=aid%3AD276000186F1176F">D2 76 00 01 86 F1 17 6F</a></td></tr>
+    <tr><td>ARK</td><td><a href="https://n2t.net/ark:49595">ark:49595</a></td></tr>
+    <tr><td>DOI</td><td><a href="https://doi.org/10.17605/OSF.IO/PCEZ5">10.17605/OSF.IO/PCEZ5</a></td></tr>
     <tr><td>Domain</td><td><a href="https://R74n.com/">r74n.com</a></td></tr>
-    <tr><td>Google</td><td><a href="https://www.google.com/search?kgmid=/g/11m0q5kt97">/g/11m0q5kt97</a></td></tr>
     <tr><td>IGDB</td><td><a href="https://www.igdb.com/companies/r74n">r74n</a></td></tr>
-    <tr><td>ISNI</td><td><a href="https://isni.bl.uk/search/isni/0000000513144203">0000000513144203</a></td></tr>
+    <tr><td>ISNI</td><td><a href="https://isni.org/isni/0000000513144203">0000000513144203</a></td></tr>
+    <tr><td>KGMID</td><td><a href="https://www.google.com/search?kgmid=/g/11m0q5kt97">/g/11m0q5kt97</a></td></tr>
+    <tr><td>NAAN</td><td><a href="https://n2t.net/ark:49595">49595</a></td></tr>
     <tr><td>OID</td><td><a href="http://oid-info.com/get/1.3.6.1.4.1.61117">1.3.6.1.4.1.61117</a></td></tr>
     <tr><td>PEN</td><td><a href="https://www.iana.org/assignments/enterprise-numbers/?q=61117">61117</a></td></tr>
     <tr><td>Perma.cc</td><td><a href="https://perma.cc/DQS8-9S6T">DQS8-9S6T</a></td></tr>
     <tr><td>PURL</td><td><a href="https://purl.org/r74n">r74n</a></td></tr>
     <tr><td>URL</td><td><a href="https://R74n.com/">https://R74n.com/</a></td></tr>
+    <tr><td>URN</td><td><a href="https://oid.r74n.com/?goto=other%3Aurn%3AX-R74n">urn:X-R74n</a></td></tr>
+    <tr><td>UUID</td><td><a href="https://oid.r74n.com/?goto=guid%3Aca069732-780c-11ee-b962-000000000074">ca069732-780c-11ee-b962-000000000074</a></td></tr>
     <tr><td>W3ID</td><td><a href="https://w3id.org/r74n">r74n</a></td></tr>
+    <tr><td>WEID</td><td><a href="https://oid.r74n.com/?goto=oid%3A1.3.6.1.4.1.61117">weid:pen:1B5P-1</a></td></tr>
+    <tr><td>X.500DN</td><td><a href="https://oid.r74n.com/?goto=x500dn%3A%2Fc%3Dus%2Fo%3DR74n">/c=us/o=R74n</a></td></tr>
   </tbody>
 </table>
 
-<br><strong>Identifiers representing Sandboxels</strong>
+<h3 id="Sandboxels">Identifiers representing Sandboxels</h3>
 <table class="fullTable">
   <thead>
     <tr><th>Standard</th><th>Value</th></tr>
@@ -137,7 +150,32 @@ This HTML and its contents are property of R74n.com.
     <tr><td>IGDB</td><td><a href="https://www.igdb.com/games/187147/countdown">187147</a></td></tr>
     <tr><td>Perma.cc</td><td><a href="https://perma.cc/65PW-F997">65PW-F997</a></td></tr>
     <tr><td>PURL</td><td><a href="https://purl.org/r74n/sandboxels">r74n/sandboxels</a></td></tr>
+    <tr><td>SWHID</td><td><a href="https://archive.softwareheritage.org/browse/revision/5a5813a8f4f418540f1bdb765d293735541bf7fd/">swh:1:rev:5a5813a8f4f418540f1bdb765d293735541bf7fd</a></td></tr>
     <tr><td>URL</td><td><a href="https://sandboxels.R74n.com/">https://sandboxels.R74n.com/</a></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="Supported">ID Resolver Supported Formats</h3>
+<p>Identifiers outside the scope of R74n may not resolve properly.</p>
+<table class="fullTable">
+  <thead>
+    <tr><th>Standard</th><th>Example</th></tr>
+  </thead>
+  <tbody id="idTableBody">
+    <tr><td><a href="aid">AID</a></td><td>D276000186F1176FFF007362</td></tr>
+    <tr><td><a href="ark">ARK</a></td><td>ark:/49595/mp/R00111</td></tr>
+    <tr><td><a href="../multiplane/">Multiplane</a></td><td>R00111<br>#273</td></tr>
+    <tr><td><a href="https://purl.org/">PURL</a></td><td>purl.org/R74n/sandboxels</td></tr>
+    <tr><td><a href="oid">OID (ASN.1)</a></td><td><small>	{ iso(1) identified-organization(3) dod(6) internet(1) private(4) enterprise(1) 61117 multiplane(1) sandboxels(273) }</small></td></tr>
+    <tr><td><a href="oid">OID (OID-IRI)</a></td><td><small>/ISO/Identified-Organization/6/1/4/1/61117/1/273</small></td></tr>
+    <tr><td><a href="oid">OID (WEID)</a></td><td>weid:pen:1B5P-1-7L-1</td></tr>
+    <tr><td><a href="oid">OID</a></td><td>1.3.6.1.4.1.61117<br>1.3.6.1.4.1.61117.1.273<br>1.3.6.1.4.1.61117.5.11<br>61117.1.273</td></tr>
+    <tr><td><a href="https://data.R74n.com/">R74n Wikibase</a></td><td>Q10<br>P19<br>L44<br>E2</td></tr>
+    <tr><td><a href="../sitemap.txt">URL</a></td><td>https://sandboxels.R74n.com/<br>sandboxels.R74n.com</td></tr>
+    <tr><td><a href="urn">URN</a></td><td>urn:X-R74n:sandboxels<br>X-R74n:sandboxels<br>urn:R74n:sandboxels<br>R74n:sandboxels<br>sandboxels:changelog</td></tr>
+    <tr><td><a href="uuid">UUID</a></td><td>948d248f-fd72-59b1-bae0-dba9c046da9b</td></tr>
+    <tr><td><a href="https://oid.r74n.com/?goto=x500dn%3A">X.500DN</a></td><td>/C=us/O=R74n<br>/C=us/O=R74n/OU=sandboxels</td></tr>
   </tbody>
 </table>
 </div>

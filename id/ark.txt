@@ -1,0 +1,16 @@
+# ARK Syntax
+    0-9 a-z A-Z = ~ * + @ _ $ . /
+    "-" (hyphen) is ignored anywhere
+    case-sensitive
+    "/" separates path components
+
+Root Node: ark:/49595
+Example: ark:/49595/main
+Hyperlink: <a href="https://n2t.net/ark:/49595"> ark:/49595 </a>
+
+# Main Nodes
+The main nodes have children, separated by "/". Main node names are standard Two-Letter Alpha Namespaces (https://r74n.com/id/alpha).
+ark:/49595/mp/   -   Multiplane, in Hexadecimal Planecode format (e.g. R001F8)
+ark:/49595/wb/   -   R74n Wikibase, in QID, PID, or LID format (e.g. Q123, P123, L123)
+ark:/49595/am/   -   Multi-Letter Alpha Namespace, with - replaced with _ (e.g. sandboxels)
+ark:/49595/at/   -   Two-Letter Alpha Namespace (e.g. sb)

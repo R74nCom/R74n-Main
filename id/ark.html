@@ -21,13 +21,13 @@ This HTML and its contents are property of R74n.com.
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Standardized Application Identifiers, or AIDs, for R74n projects.">
+    <meta name="description" content="Resolvable Archival Resource Keys, or ARKs, for R74n projects and concepts.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
-    <title>Application Identifiers - R74n</title>
+    <title>Archival Resource Keys - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
     <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
@@ -56,17 +56,32 @@ This HTML and its contents are property of R74n.com.
 
 
 <a href="." class="backbutton">⦉</a>
-<h1 class="pagetitle">AIDs</h1>
+<h1 class="pagetitle">ARKs</h1>
 <div class="content">
 
-<p>R74n controls an AID, or Application Identifier (ISO/IEC 7816), granted under <a href="https://oidplus.viathinksoft.com/oidplus/?goto=aid%3AD276000186F1" target="_blank">ViaThinkSoft's FreeOID</a> system.</p>
-<p>The root AID is <code>D2 76 00 01 86 F1 <strong>17 6F</strong></code>, with our part in bold.</p>
-<p>Identifiers under <code>D2 76 00 01 86 F1 <strong>17 6F FF 00 [PIX]</strong></code>, where [PIX] is a lowercase <a href="alpha#Alpha-2">Two-letter Alpha Code</a> in hexadecimal, represent R74n projects</p>
-<p>For example, Sandboxels is represented by <code>D2 76 00 01 86 F1 <strong>17 6F FF 00 73 62</strong></code>, for "sb".</p>
+<p>R74n has been assigned NAAN <strong>49595</strong>, making it possible for us to mint <a href="https://arks.org/">Archival Resource Keys</a>, or ARKs.</p>
+<p>R74n ARKs are defined under <strong><a href="https://n2t.net/ark:/49595/">ark:/49595/</a></strong>, which is divided into a number of main nodes:</p>
+<table style="margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset">
+  <thead>
+    <tr><th>Main Node</th><th>Purpose</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ark:/49595/mp/</td><td><a href="../multiplane/">Multiplane</a>, in Hexadecimal Planecode format</td><td>ark:/49595/mp/R001F8</td></tr>
+    <tr><td>ark:/49595/wb/</td><td><a href="https://data.R74n.com/">R74n Wikibase</a>, in QID, PID, or LID format</td><td>ark:/49595/wb/Q123<br>ark:/49595/wb/P123<br>ark:/49595/wb/L44</td></tr>
+    <tr><td>ark:/49595/am/</td><td><a href="alpha#Alpha-M">Multi-Letter Alpha Namespace</a></td><td>ark:/49595/am/sandboxels</td></tr>
+    <tr><td>ark:/49595/at/</td><td><a href="alpha#Alpha-2">Two-Letter Alpha Namespace</a></td><td>ark:/49595/at/sb</td></tr>
+  </tbody>
+</table>
+
+<p>ARKs can be resolved with our <a href=".">ID Resolver</a> or through <a href="https://n2t.net/">N2T.net</a>, like so:</p>
+<p><a href="https://R74n.com/id?ark:/49595/mp/R00111"><code>https://R74n.com/id?ark:/49595/mp/R00111</code></a></p>
+<p><a href="https://n2t.net/ark:49595/mp/R00111"><code>https://n2t.net/ark:49595/mp/R00111</code></a></p>
+
+<p>Below is a list of R74n ARKs, not including the Wikibase: (Total: <span id="totalIDs">Loading...</span>)</p>
 
 <table id="idTable" style="margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset">
   <thead>
-    <tr><th>AID</th><th>Alpha-2</th><th>Name</th></tr>
+    <tr><th>ARK</th><th>Name</th></tr>
   </thead>
   <tbody id="idTableBody">
     <tr><td colspan="3" style="text-align: center;">Loading Table...</td></tr>
@@ -76,7 +91,20 @@ This HTML and its contents are property of R74n.com.
 <script>
   window.addEventListener("load",function() {
     var idTableBody = document.getElementById("idTableBody");
+    var total = 4;
     idTableBody.innerHTML = "";
+    alphaCodes.forEach(row => {
+      var decimal = row[0];
+      var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
+      if (row[2] === "  " || !row[2]) { return; }
+      else { var alphaM = row[2]; }
+      if (alphaM.indexOf("-") !== -1) {return}
+      alphaM = alphaM.toLowerCase();
+      var name = getEntityAt(decimal,"",{},false,row[3])
+      var ark = "ark:/49595/am/"+alphaM;
+      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
+      total++;
+    });
     alphaCodes.forEach(row => {
       var decimal = row[0];
       var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
@@ -84,10 +112,21 @@ This HTML and its contents are property of R74n.com.
       else { var alpha2 = row[1]; }
       if (alpha2.length !== 2) {return}
       alpha2 = alpha2.toLowerCase();
-      var alpha2hex = alpha2.charCodeAt(0).toString(16).padStart(2,"0")+alpha2.charCodeAt(1).toString(16).padStart(2,"0")
-      var name = getEntityAt(decimal,"",{},true,row[3])
-      idTableBody.innerHTML += "<tr><td><small>D276000186F1</small> 176FFF00 <strong>"+alpha2hex.toUpperCase()+"</strong></td><td>"+alpha2+"</td><td>"+name+"</td></tr>";
+      var name = getEntityAt(decimal,"",{},false,row[3])
+      var ark = "ark:/49595/at/"+alpha2;
+      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
+      total++;
     });
+    for (var hex in multiplaneEntities) {
+      if (hex.indexOf("(") !== -1) { continue }
+      var decimal = parseInt(hex,16);
+      var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
+      var name = getEntityAt(decimal,"",{},false)
+      var ark = "ark:/49595/mp/"+planecode;
+      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
+      total++;
+    }
+    document.getElementById("totalIDs").innerHTML = total;
   })
 </script>
 

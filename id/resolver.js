@@ -63,7 +63,10 @@ urnResolvers = {
     return "https://R74n.com/pixelflags/"+args.join("/");
 },
 "wikibase": (args) => {
-    if (args[0] === "entity") { return "https://data.R74n.com/entity/"+args[1]; }
+    if (args[0] === "entity") {
+        if (!args[1]) { return "https://data.R74n.com/" }
+        return "https://data.R74n.com/entity/"+args[1];
+    }
     if (args[0] === "user" || args[0] === "User") { return "https://data.R74n.com/wiki/User:"+args[1]; }
     if (args[0] === "query") { return "https://data.R74n.com/query/embed.html#"+args[1]; }
     if (args[0] === "watchlist") { return "https://data.R74n.com/wiki/Special:Watchlist"; }
@@ -199,6 +202,11 @@ urnResolvers = {
     if (args[0]) { return resolveOID(args[0]); }
     return "https://R74n.com/id/oid";
 },
+"ark": (args) => {
+    if (args[0] === "txt") { return "https://R74n.com/id/ark.txt"; }
+    if (args[0]) { return resolveARK("ark:"+decodeURIComponent(args.join("/"))); }
+    return "https://R74n.com/id/ark";
+},
 "oidplus": (args) => {
     return "https://oid.R74n.com/?goto="+args.join(":");
 },
@@ -274,7 +282,7 @@ urnResolvers = {
     }
 },
 "email": (args) => {
-    return "mailto:"+args[0]+"@R74n.com";
+    return "mailto:"+(args[0]||"contact")+"@R74n.com";
 },
 "reddit": (args) => {
     if (args[0] === "g") {
@@ -320,8 +328,7 @@ function resolveURN(urn) {
 function resolvePlanecode(decimal) {
     var hex = decimal.toString(16).toUpperCase();
     var value = multiplaneEntities[hex];
-    if (!value) { return false }
-    if (value.indexOf("//") === -1) { return false }
+    if (!value || value.indexOf("//") === -1) { return "https://R74n.com/multiplane?code=R"+hex.padStart(5,"0") }
     return value.split("//").slice(1).join("//");
 }
 function resolveOID(oid) {
@@ -334,11 +341,23 @@ function resolveOID(oid) {
         if (parts[2] === undefined) { return "https://R74n.com/multiplane/" }
         return resolvePlanecode(parts[2]);
     }
-    if (parts[1] === 3) { // Multiplane
+    if (parts[1] === 3) { // Wikibase
         if (parts[2] === undefined) { return "https://data.R74n.com/" }
         return "https://data.R74n.com/entity/Q"+parts[2];
     }
     return "https://oid.R74n.com/?goto=oid%3A"+oid;
+}
+function resolveARK(ark) {
+    ark = ark.replace(/^\/|\/$|-/g,""); // trim slashes, remove dashes
+    var parts = ark.split(/ark:\/?/i)[1].split("/");
+    if (parts.length === 0) { return "https://R74n.com/id/ark" }
+    if (parts[0] !== "49595") { return "https://n2t.net/"+ark }
+    if (parts[1] === undefined) { return "https://R74n.com/" }
+    parts[1] = parts[1].toLowerCase();
+    if (parts[1] === "mp") { return parts[2]; }
+    if (parts[1] === "wb") { return "urn:wikibase:entity:"+(parts[2]||"") }
+    if (parts[1] === "am") { return "urn:alphamul:"+(parts[2]||"") }
+    if (parts[1] === "at") { return "urn:alphatwo:"+(parts[2]||"") }
 }
 
 function detectID(id,auto) {
@@ -349,30 +368,50 @@ function detectID(id,auto) {
   else if (id.match(/^urn:/i)) { // URN
     r = resolveURN(id);
   }
-  else if (id.match(/^X-R74n:/i)) {
+  else if (id.match(/^\/?ark:\/?/i)) { // ARK
+    r = resolveARK(id);
+  }
+  else if (id.match(/^weid:pen:.+/i)) { // WEID
+    var parts = id.split(":");
+    parts = parts[2].split("-");
+    parts = parts.map((x) => parseInt(x,36)); // convert to base10
+    parts.pop(); // remove check digit
+    var oid = "1.3.6.1.4.1."+parts.join(".");
+    r = resolveOID(oid);
+  }
+  else if (id.match(/^\/?ISO\/Identified-Organization\/.+/i)) { // WEID
+    // /ISO/Identified-Organization/
+    var parts = id.toLowerCase().split("identified-organization/")[1].split("/");
+    var oid = "1.3."+parts.join(".");
+    r = resolveOID(oid);
+  }
+  else if (id.match(/^X-R74n:/i)) { // URN shorthand
     id = "urn:"+id;
     r = resolveURN(id);
   }
-  else if (id.match(/^R74n:/i)) {
+  else if (id.match(/^R74n:/i)) { // URN shorthand
     id = "urn:X-"+id;
     r = resolveURN(id);
   }
-  else if (id.match(/^[\w-]+:/i)) {
+  else if (id.match(/^[\w-]+:/i)) { // URN shorthand fallback
     id = "urn:X-R74n:"+id;
     r = resolveURN(id);
   }
-  else if (urnResolvers[id]) {
+  else if (urnResolvers[id]) { // URN namespace-only fallback
     id = "urn:X-R74n:"+id;
     r = resolveURN(id);
   }
   else if (id.match(/^R[0-9a-f]{1,5}$/i)) { // Multiplane hex planecode
     r = resolvePlanecode(parseInt(id.substring(1),16));
   }
-  else if (id.match(/^#\d+$/i)) { // Multiplane decimal planecode
+  else if (id.match(/^#\d{1,7}$/i)) { // Multiplane decimal planecode
     r = resolvePlanecode(parseInt(id.substring(1)));
   }
   else if (id.match(/^[QPL]\d+$/i)) { // Wikibase entity ID
     r = "https://data.R74n.com/entity/"+id.toUpperCase();
+  }
+  else if (id.match(/^[E]\d+$/i)) { // Wikibase entity schema ID
+    r = "https://data.r74n.com/wiki/EntitySchema:"+id.toUpperCase();
   }
   else if (id.match(/^([0-2])((\.0)|(\.[1-9][0-9]*))*$/i)) { // OID
     r = resolveOID(id);
@@ -382,6 +421,32 @@ function detectID(id,auto) {
   }
   else if (id.startsWith("{") && id.endsWith("}")) { // ASN.1 Notation
     r = resolveOID(id.match(/\(\d+\)|(?: |^)\d+|\d+(?: |$)/g).join(".").replace(/[\(\) ]/g,""))
+  }
+  else if (id.match(/^([a-z0-9\.]+)?(R74n\.com|purl\.org\/r74n)(\/.+)?$/i)) { // URL without scheme
+    r = "https://"+id;
+  }
+  else if (id.match(/^D2 ?76 ?00 ?01 ?86 ?F1 ?17 ?6F([ 0-9a-f]+)?$/i)) { // AID
+    var aid = id.replace(/ /g,"").split("D276000186F117")[1];
+    // split every 2 chars
+    var aid = aid.match(/.{1,2}/g);
+    if (!aid[2]) { r = "https://R74n.com/" }
+    else if (aid[2] === "00") {
+        if (!aid[3] || !aid[4]) { r = "urn:alphatwo" }
+        else { r = String.fromCharCode(parseInt(aid[3],16)) + String.fromCharCode(parseInt(aid[4],16)); }
+    }
+  }
+  else if (id.match(/(\/)?(\w+=\w+)(\/)?/i) && id.indexOf("=us") !== -1) { // X.500DN
+    // split by / and = into a dictionary
+    var dn = id.split("/");
+    dn = dn.filter((x) => x);
+    dn = dn.map((x) => x.split("="));
+    var dnObj = {};
+    dn.forEach((x) => { dnObj[x[0].toUpperCase()] = x[1] });
+    dn = dnObj;
+    if (dn.C.toLowerCase() === "us" && dn.O === "R74n") {
+        if (!dn.OU) { r = "https://R74n.com/" }
+        else { r = dn.OU.toLowerCase() }
+    }
   }
   else if (id.match(/^[a-z]{2}$/i)) { // Alpha-2
     id = id.toLowerCase();
@@ -410,7 +475,7 @@ function resolveID(id,auto,mode) {
 
   if (!r) { return textResolution(mode===2 ? id : "Could not resolve ID:\n"+id); }
   if (typeof r === "string") {
-    if (r.match(/^https?:\/\//i) && mode && mode !== 2) {
+    if (r.match(/^https?:\/\/|^mailto:|^tel:/i) && mode && mode !== 2) {
         return linkResolution(r,auto);
     }
     var r2 = detectID(r,auto);

@@ -1,0 +1,15 @@
+R74n Compact URI (CURIE) Syntax
+
+http://r74n.com/id?$id
+
+R74n -> http://r74n.com/id?
+R74n:sandboxels -> http://r74n.com/id?sandboxels
+
+<html xmlns:R74n="http://r74n.com/id?">
+    <head>...</head>
+    <body>
+        <p>
+            Play <a href="[R74n:sandboxels]">Sandboxels</a>!
+        </p>
+    </body>
+</html>

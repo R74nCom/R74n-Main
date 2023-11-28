@@ -53,6 +53,7 @@
 [499,   "rn",   "urn",          ""],
 [500,   "oi",   "oid",          ""],
 [736,   "op",   "oidplus",      ""],
+[504,   "ak",   "ark",          ""],
 [501,   "ui",   "uuid",         ""],
 [502,   "id",   "id",           "R74n Identifiers"],
 [503,   "se",   "schema",       ""],
