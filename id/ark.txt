@@ -4,13 +4,24 @@
     case-sensitive
     "/" separates path components
 
+# ARK Information
 Root Node: ark:/49595
-Example: ark:/49595/main
+Example: ark:/49595/mpR001F8
 Hyperlink: <a href="https://n2t.net/ark:/49595"> ark:/49595 </a>
 
-# Main Nodes
-The main nodes have children, separated by "/". Main node names are standard Two-Letter Alpha Namespaces (https://r74n.com/id/alpha).
-ark:/49595/mp/   -   Multiplane, in Hexadecimal Planecode format (e.g. R001F8)
-ark:/49595/wb/   -   R74n Wikibase, in QID, PID, or LID format (e.g. Q123, P123, L123)
-ark:/49595/am/   -   Multi-Letter Alpha Namespace, with - replaced with _ (e.g. sandboxels)
-ark:/49595/at/   -   Two-Letter Alpha Namespace (e.g. sb)
+# Prefixes
+Resources in our ARKs are prefixed with a standard Two-Letter Alpha Namespace (https://r74n.com/id/alpha) to determine its location.
+For example, ark:/49595/mpR001F8
+The prefixes are listed below.
+
+ark:/49595/mp    -   Multiplane, in Hexadecimal Planecode format (e.g. mpR001F8)
+ark:/49595/wb    -   R74n Wikibase, in QID, PID, or LID format (e.g. wbQ123, wbP123, wbL123)
+ark:/49595/am    -   Multi-Letter Alpha Namespace, with - replaced with _ (e.g. amsandboxels)
+ark:/49595/at    -   Two-Letter Alpha Namespace (e.g. atsb)
+ark:/49595/rq    -   Requested, children of each child can be assigned by its authority designated below, separated by "/" (eg rq123)
+
+# ARK Children
+Children of ARKs are separated by "/". Children can also have children, in an infinite tree-like structure.
+
+# ARK Registry
+Miscellaneous ARKs, not including implicit ones, are listed below.

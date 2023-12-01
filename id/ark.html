@@ -60,22 +60,24 @@ This HTML and its contents are property of R74n.com.
 <div class="content">
 
 <p>R74n has been assigned NAAN <strong>49595</strong>, making it possible for us to mint <a href="https://arks.org/">Archival Resource Keys</a>, or ARKs.</p>
-<p>R74n ARKs are defined under <strong><a href="https://n2t.net/ark:/49595/">ark:/49595/</a></strong>, which is divided into a number of main nodes:</p>
+<p>R74n ARKs are defined under <strong><a href="https://n2t.net/ark:/49595/">ark:/49595/</a></strong>.</p>
+<p>Resources in our ARKs are prefixed with a standard <Two-Letter Alpha Namespace to determine its location.</p>
 <table style="margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset">
   <thead>
     <tr><th>Main Node</th><th>Purpose</th><th>Example</th></tr>
   </thead>
   <tbody>
-    <tr><td>ark:/49595/mp/</td><td><a href="../multiplane/">Multiplane</a>, in Hexadecimal Planecode format</td><td>ark:/49595/mp/R001F8</td></tr>
-    <tr><td>ark:/49595/wb/</td><td><a href="https://data.R74n.com/">R74n Wikibase</a>, in QID, PID, or LID format</td><td>ark:/49595/wb/Q123<br>ark:/49595/wb/P123<br>ark:/49595/wb/L44</td></tr>
-    <tr><td>ark:/49595/am/</td><td><a href="alpha#Alpha-M">Multi-Letter Alpha Namespace</a></td><td>ark:/49595/am/sandboxels</td></tr>
-    <tr><td>ark:/49595/at/</td><td><a href="alpha#Alpha-2">Two-Letter Alpha Namespace</a></td><td>ark:/49595/at/sb</td></tr>
+    <tr><td>ark:/49595/mp</td><td><a href="../multiplane/">Multiplane</a>, in Hexadecimal Planecode format</td><td>ark:/49595/mpR001F8</td></tr>
+    <tr><td>ark:/49595/wb</td><td><a href="https://data.R74n.com/">R74n Wikibase</a>, in QID, PID, or LID format</td><td>ark:/49595/wbQ123<br>ark:/49595/wbP123<br>ark:/49595/wbL44</td></tr>
+    <tr><td>ark:/49595/am</td><td><a href="alpha#Alpha-M">Multi-Letter Alpha Namespace</a></td><td>ark:/49595/amsandboxels</td></tr>
+    <tr><td>ark:/49595/at</td><td><a href="alpha#Alpha-2">Two-Letter Alpha Namespace</a></td><td>ark:/49595/atsb</td></tr>
+    <tr><td>ark:/49595/rq</td><td>Requested</td><td>ark:/49595/rq123</td></tr>
   </tbody>
 </table>
 
 <p>ARKs can be resolved with our <a href=".">ID Resolver</a> or through <a href="https://n2t.net/">N2T.net</a>, like so:</p>
-<p><a href="https://R74n.com/id?ark:/49595/mp/R00111"><code>https://R74n.com/id?ark:/49595/mp/R00111</code></a></p>
-<p><a href="https://n2t.net/ark:49595/mp/R00111"><code>https://n2t.net/ark:49595/mp/R00111</code></a></p>
+<p><a href="https://R74n.com/id?ark:/49595/mpR00111"><code>https://R74n.com/id?ark:/49595/mpR00111</code></a></p>
+<p><a href="https://n2t.net/ark:49595/mpR00111"><code>https://n2t.net/ark:49595/mpR00111</code></a></p>
 
 <p>Below is a list of R74n ARKs, not including the Wikibase: (Total: <span id="totalIDs">Loading...</span>)</p>
 
@@ -101,7 +103,7 @@ This HTML and its contents are property of R74n.com.
       if (alphaM.indexOf("-") !== -1) {return}
       alphaM = alphaM.toLowerCase();
       var name = getEntityAt(decimal,"",{},false,row[3])
-      var ark = "ark:/49595/am/"+alphaM;
+      var ark = "ark:/49595/am"+alphaM;
       idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
       total++;
     });
@@ -113,7 +115,7 @@ This HTML and its contents are property of R74n.com.
       if (alpha2.length !== 2) {return}
       alpha2 = alpha2.toLowerCase();
       var name = getEntityAt(decimal,"",{},false,row[3])
-      var ark = "ark:/49595/at/"+alpha2;
+      var ark = "ark:/49595/at"+alpha2;
       idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
       total++;
     });
@@ -122,7 +124,7 @@ This HTML and its contents are property of R74n.com.
       var decimal = parseInt(hex,16);
       var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
       var name = getEntityAt(decimal,"",{},false)
-      var ark = "ark:/49595/mp/"+planecode;
+      var ark = "ark:/49595/mp"+planecode;
       idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
       total++;
     }

@@ -23,6 +23,7 @@ multiplaneEntities = {
 "2C": "not applicable",
 "2D": "temporary entity",
 "2E": "private use value",
+"2F": "requested entity",
 
 "4A": "[reserved]",
 "74": "[reserved]",
@@ -148,20 +149,20 @@ multiplaneEntities = {
 
 // Resource Types //
 "400": "cloud document",
-"410": "Google Doc",
-"411": "Google Calendar item",
-"412": "Google Earth item",
-"413": "Google Form",
-"414": "Google Sheet",
-"415": "Google Slides",
-"416": "Google Classroom",
-"417": "Google Group",
-"418": "Google Jamboard",
-"419": "Google Maps item",
-"41A": "Google Drive item",
-"420": "Microsoft Form",
-"421": "Microsoft List",
-"422": "Microsoft To Do list",
+"410": "Google Doc//https://docs.google.com/",
+"411": "Google Calendar item//https://calendar.google.com/",
+"412": "Google Earth item//https://earth.google.com/",
+"413": "Google Form//https://forms.google.com/",
+"414": "Google Sheet//http://sheets.google.com/",
+"415": "Google Slides//https://slides.google.com/",
+"416": "Google Classroom//https://classroom.google.com/",
+"417": "Google Group//https://groups.google.com/",
+"418": "Google Jamboard//https://jamboard.google.com/",
+"419": "Google Maps item//https://maps.google.com/",
+"41A": "Google Drive item//https://drive.google.com/",
+"420": "Microsoft Form//https://forms.office.com/",
+"421": "Microsoft List//https://lists.live.com/",
+"422": "Microsoft To Do list//https://to-do.microsoft.com/",
 
 // Actions //
 "510": "mouse event",
@@ -331,6 +332,7 @@ multiplaneEntities = {
 "A215": "Status: Thanks!",
 "A216": "Status: Coming Soon",
 "A220": "UFBS Google Drive folder//https://drive.google.com/drive/folders/1oWFNQq2bd4PJ7fKIzts95BQLSzD7eixp",
+"A230": "Identifier Request Form//https://docs.google.com/forms/d/e/1FAIpQLSekHUr87kNfkZYK_WpXEC1eqZ_eDLbE-yJElGBAgpFAM4SLSw/viewform",
 
 "A251": "Sandboxels Suggestions//https://docs.google.com/forms/d/e/1FAIpQLSfyNRsMTnEND8WgZ2GdbKr_ZO1vA2T66p31sXXFua-NqTreFQ/viewform",
 "A252": "Copy Paste Dump Submissions//https://docs.google.com/forms/d/e/1FAIpQLSfb982MRjL6hFDpS4utKzjrDP2UUIPprG8iunwW2t0dxfJvmQ/viewform",
@@ -496,7 +498,7 @@ multiplanePlanes = {
     "R1B000-R1FFFF": "Numeral Compatibility", //Numbers 0-20478
   "R20000-R2FFFF": "Requested",
     "R20000-R200FF": "ViaThinkSoft I",
-  "R30000-R30FFF": "",
+  "R30000-R30FFF": "Requested Individual Slots",
   "R31000-R31FFF": "",
   "R32000-R32FFF": "",
   "R74000-R74FFF": "[reserved]",
@@ -524,7 +526,7 @@ multiplaneProcedural = {
   },
   "RD0000-RDFFFF": function(decimal,dimension) {
     if (dimension === "" && decimal > 851968) {
-      return "Q" + (decimal-851968);
+      return "Q" + (decimal-851968) + "//https://data.r74n.com/entity/Q" + (decimal-851968);
     }
     return "";
   },
@@ -579,7 +581,7 @@ function getEntityAt(decimal,dimension,plane,formatted,customName) {
     if (formatted) {
       var external = data.slice(1).join("//");
       var link = null;
-      if (external.match(/^urn:/)) { link = "https://R74n.com/id/?"+external }
+      if (external.match(/^(urn|ark):/)) { link = "https://R74n.com/id/?"+external }
       else if (external.match(/^http/)) { link = external }
       else if (external.match(/^[QPL]\d+$/)) { link = "https://data.R74n.com/entity/"+external }
       else if (external.match(/^([0-2])((\.0)|(\.[1-9][0-9]*))*$/)) { link = "https://R74n.com/id/?"+external }

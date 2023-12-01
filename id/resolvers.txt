@@ -1,0 +1,24 @@
+These resolvers can redirect to many R74n projects.
+
+[All IDs]
+https://R74n.com/id?
+https://purl.org/r74n/id?
+https://w3id.org/r74n/id?
+
+
+[ARKs]
+https://R74n.com/id?ark:/49595/
+https://n2t.net/ark:49595/
+https://purl.org/r74n/ark/49595/
+https://w3id.org/arkid/ark:/49595/
+https://w3id.org/r74n/id?ark:/49595/
+https://identifiers.org/ark:/49595/
+
+
+[OIDs]
+https://identifiers.org/oid:1.3.6.1.4.1.61117
+
+
+[DOIs]
+https://doi.org/10.17605/OSF.IO/PCEZ5
+https://identifiers.org/doi:10.17605/OSF.IO/PCEZ5

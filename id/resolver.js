@@ -178,7 +178,11 @@ urnResolvers = {
 "words": (args) => {return "https://R74n.com/words/"+args.join("/");},
 "capitalize": (args) => {return "https://R74n.com/lore/#Capitalize";},
 "pogchamps": (args) => {return "https://R74n.com/PogChamp/"+args.join("/");},
-"id": (args) => {return "https://R74n.com/id/?"+(args[0]||"");},
+"id": (args) => {
+    if (args[0] === "request") { return "R0A230"; }
+    if (args[0] === "why") { return "https://R74n.com/id/why"; }
+    return "https://R74n.com/id/?"+(args[0]||"");
+},
 "projects": (args) => {return "urn:main";},
 "alpha": (args) => {
     if (args[0]) { return args[0]; }
@@ -349,15 +353,18 @@ function resolveOID(oid) {
 }
 function resolveARK(ark) {
     ark = ark.replace(/^\/|\/$|-/g,""); // trim slashes, remove dashes
+    var form = ark.split(".").slice(1).join(".");
+    var ark = ark.split(".")[0];
     var parts = ark.split(/ark:\/?/i)[1].split("/");
     if (parts.length === 0) { return "https://R74n.com/id/ark" }
     if (parts[0] !== "49595") { return "https://n2t.net/"+ark }
     if (parts[1] === undefined) { return "https://R74n.com/" }
-    parts[1] = parts[1].toLowerCase();
-    if (parts[1] === "mp") { return parts[2]; }
-    if (parts[1] === "wb") { return "urn:wikibase:entity:"+(parts[2]||"") }
-    if (parts[1] === "am") { return "urn:alphamul:"+(parts[2]||"") }
-    if (parts[1] === "at") { return "urn:alphatwo:"+(parts[2]||"") }
+    var prefix = parts[1].substring(0,2);
+    var id = parts[1].substring(2);
+    if (prefix === "mp") { return id; }
+    if (prefix === "wb") { return "urn:wikibase:entity:"+(id||"") }
+    if (prefix === "am") { return "urn:alphamul:"+(id||"") }
+    if (prefix === "at") { return "urn:alphatwo:"+(id||"") }
 }
 
 function detectID(id,auto) {
