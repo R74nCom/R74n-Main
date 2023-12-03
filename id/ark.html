@@ -95,6 +95,7 @@ This HTML and its contents are property of R74n.com.
     var idTableBody = document.getElementById("idTableBody");
     var total = 4;
     idTableBody.innerHTML = "";
+    var newHTML = "";
     alphaCodes.forEach(row => {
       var decimal = row[0];
       var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
@@ -104,7 +105,7 @@ This HTML and its contents are property of R74n.com.
       alphaM = alphaM.toLowerCase();
       var name = getEntityAt(decimal,"",{},false,row[3])
       var ark = "ark:/49595/am"+alphaM;
-      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
+      newHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
       total++;
     });
     alphaCodes.forEach(row => {
@@ -116,7 +117,7 @@ This HTML and its contents are property of R74n.com.
       alpha2 = alpha2.toLowerCase();
       var name = getEntityAt(decimal,"",{},false,row[3])
       var ark = "ark:/49595/at"+alpha2;
-      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
+      newHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
       total++;
     });
     for (var hex in multiplaneEntities) {
@@ -125,9 +126,10 @@ This HTML and its contents are property of R74n.com.
       var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
       var name = getEntityAt(decimal,"",{},false)
       var ark = "ark:/49595/mp"+planecode;
-      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
+      newHTML += "<tr><td><a href='https://R74n.com/id?"+ark+"'>"+ark+"</a></td><td>"+name+"</td></tr>";
       total++;
     }
+    idTableBody.innerHTML = newHTML;
     document.getElementById("totalIDs").innerHTML = total;
   })
 </script>
