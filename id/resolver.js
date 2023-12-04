@@ -480,7 +480,13 @@ function resolveID(id,auto,mode) {
   id = r[1];
   r = r[0];
 
-  if (!r) { return textResolution(mode===2 ? id : "Could not resolve ID:\n"+id); }
+  if (!r) {
+    // if first character is "/", try resolving without it
+    if (id.startsWith("/")) {
+        return resolveID(id.substring(1),auto,mode);
+    }
+    return textResolution(mode===2 ? id : "Could not resolve ID:\n"+id);
+  }
   if (typeof r === "string") {
     if (r.match(/^https?:\/\/|^mailto:|^tel:/i) && mode && mode !== 2) {
         return linkResolution(r,auto);
