@@ -99,6 +99,9 @@ This HTML and its contents are property of R74n.com.
         }
         if (params.has("code")) {
           var code = params.get("code").split("-")[0];
+          if (code === "" && location.hash && !isNaN(location.hash.substring(1))) { // Decimal Planecodes
+            code = decimalToPlanecode(parseInt(location.hash.substring(1)));
+          }
           var codeData = parsePlanecode(code);
           if (codeData.dimension && multiplaneDimensions[codeData.dimension]) {
             currentState.dimension = codeData.dimension;

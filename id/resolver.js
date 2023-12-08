@@ -69,6 +69,10 @@ urnResolvers = {
     }
     if (args[0] === "user" || args[0] === "User") { return "https://data.R74n.com/wiki/User:"+args[1]; }
     if (args[0] === "query") { return "https://data.R74n.com/query/embed.html#"+args[1]; }
+    if (args[0] === "pageid") { return "https://data.r74n.com/w/index.php?curid="+args[1]; }
+    if (args[0] === "revision") { return "https://data.r74n.com/w/index.php?oldid="+args[1]; }
+    if (args[0] === "userid") { return "https://data.r74n.com/wiki/Special:Redirect/user/"+args[1]; }
+    if (args[0] === "log") { return "https://data.r74n.com/w/index.php?title=Special%3ALog&logid="+args[1]; }
     if (args[0] === "watchlist") { return "https://data.R74n.com/wiki/Special:Watchlist"; }
     if (args[0] === "recent") { return "https://data.R74n.com/wiki/Special:RecentChanges"; }
     return "https://data.R74n.com/wiki/"+args.join("/");
@@ -181,6 +185,7 @@ urnResolvers = {
 "id": (args) => {
     if (args[0] === "request") { return "R0A230"; }
     if (args[0] === "why") { return "https://R74n.com/id/why"; }
+    if (args[0] === "resolver") { return "https://R74n.com/id/"; }
     return "https://R74n.com/id/?"+(args[0]||"");
 },
 "projects": (args) => {return "urn:main";},
@@ -416,6 +421,18 @@ function detectID(id,auto) {
   }
   else if (id.match(/^[QPL]\d+$/i)) { // Wikibase entity ID
     r = "https://data.R74n.com/entity/"+id.toUpperCase();
+  }
+  else if (id.match(/^[QPL]\d+\$[0-9a-f\-]+$/i)) { // Wikibase statement ID
+    var entityid = id.split("$")[0].toUpperCase();
+    r = "https://data.R74n.com/entity/"+entityid+"#"+entityid+"$"+id.split("$")[1].toLowerCase();
+  }
+  else if (id.match(/^L\d+-[SF]\d+$/i)) { // Wikibase lexeme sense/form ID
+    r = "https://data.R74n.com/entity/"+id.toUpperCase().replace("-","#");
+  }
+  else if (id.match(/^L\d+-[SF]\d+\$[0-9a-f\-]+$/i)) { // Wikibase lexeme sense/form statement ID
+    var entityid = id.split("-")[0].toUpperCase();
+    var subid = id.split("$")[0].toUpperCase();
+    r = "https://data.R74n.com/entity/"+entityid+"#"+subid+"$"+id.split("$")[1].toLowerCase();
   }
   else if (id.match(/^[E]\d+$/i)) { // Wikibase entity schema ID
     r = "https://data.r74n.com/wiki/EntitySchema:"+id.toUpperCase();

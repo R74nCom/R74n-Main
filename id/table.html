@@ -48,6 +48,7 @@ This HTML and its contents are property of R74n.com.
     <script src="../multiplane/multiplane.js"></script>
     <script>
       alphaCodes = getJSON('https://R74n.com/id/alpha.json');
+      multiplaneToWikibase = getJSON('https://R74n.com/multiplane/multiplane-to-wikibase.json');
       R74nUUID = "ca069732-780c-11ee-b962-000000000074";
     </script>
 
@@ -60,10 +61,11 @@ This HTML and its contents are property of R74n.com.
 <div class="content">
 
 <p>Below is a table containing important IDs for concepts assigned to <a href="alpha">Alpha Namespaces</a>. It does not show every ID in existence.</p>
+<p>It also supports <a href="?col=name,multiplane,decimal,alphamul,alphatwo,oid,qid,ark,aid,uuid">custom</a> and <a href="?col=name,multiplane,!qid">required</a> columns</p>
 
 <table id="idTable" class="fullTable">
-  <thead>
-    <tr><th>Multiplane R</th><th>Multiplane #</th><th>Alpha-M</th><th>Alpha-2</th><th>Name</th><th>OID</th></tr>
+  <thead id="idTableHead">
+    <tr><th>Multiplane R</th><th>Multiplane #</th><th>Alpha-M</th><th>Alpha-2</th><th>Name</th><th>OID</th><th>QID</th></tr>
   </thead>
   <tbody id="idTableBody">
     <tr><td colspan="6" style="text-align: center;">Loading Table...</td></tr>
@@ -71,24 +73,165 @@ This HTML and its contents are property of R74n.com.
 </table>
 
 <script>
-  window.addEventListener("load",function() {
-    var idTableBody = document.getElementById("idTableBody");
-    idTableBody.innerHTML = "";
-    alphaCodes.forEach(row => {
-      var decimal = row[0];
-      var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
-      if (row[1] === "  " || !row[1]) { var alpha2 = "--"; }
-      else { var alpha2 = row[1]; }
-      if (!row[2]) {
-        var alphaM = "--";
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has("col")) { // Custom Table
+    UUIDs = getJSON('https://R74n.com/id/uuid.json');
+    var cols = urlParams.get("col").split(",");
+    window.addEventListener("load",function() {
+      var multiplaneToAlpha = {};
+      alphaCodes.forEach(row => {
+        var planecode = "R"+row[0].toString(16).toUpperCase().padStart(5,"0");
+        multiplaneToAlpha[planecode] = [row[1],row[2]];
+      });
+      var rows = {};
+
+      for (var hex in multiplaneEntities) {
+        if (hex.indexOf("(") !== -1) { continue; }
+        var planecode = "R"+hex.toUpperCase().padStart(5,"0");
+        var decimal = parseInt(hex,16);
+        var name = getEntityAt(decimal,"",{},true)
+        if (multiplaneToAlpha[planecode] && multiplaneToAlpha[planecode][0] !== "  ") {
+          var alpha2 = multiplaneToAlpha[planecode][0];
+          var aid = "D276000186F1176FFF00"+alpha2.charCodeAt(0).toString(16).padStart(2,"0")+alpha2.charCodeAt(1).toString(16).padStart(2,"0").toUpperCase();
+        }
+        else {
+          var alpha2 = "";
+          var aid = "";
+        }
+        if (multiplaneToAlpha[planecode] && multiplaneToAlpha[planecode][1]) {
+          var alphaM = multiplaneToAlpha[planecode][1];
+          if (UUIDs[alphaM]) { var uuid = UUIDs[alphaM]; }
+          else { var uuid = ""; }
+        }
+        else { var alphaM = ""; }
+        var oid = "1.3.6.1.4.1.61117.1."+decimal;
+        if (multiplaneToWikibase[planecode]) { var qid = multiplaneToWikibase[planecode]; }
+        else { var qid = ""; }
+        var ark = "ark:/49595/mp"+planecode;
+
+        var rowData = {
+          "multiplane": planecode,
+          "decimal": "#"+decimal,
+          "alphamul": alphaM,
+          "alphatwo": alpha2,
+          "name": name,
+          "oid": oid,
+          "qid": qid,
+          "ark": ark,
+          "aid": aid,
+          "uuid": uuid,
+        };
+        rows[planecode] = rowData;
       }
-      else {
-        var alphaM = row[2];
+      // add columns from url into idTableHead
+      var idTableHead = document.getElementById("idTableHead");
+      // only add columns that are specified in the URL
+      var newHead = "<tr>";
+      var colNames = {
+        "multiplane": "Multiplane R",
+        "decimal": "Multiplane #",
+        "alphamul": "Alpha-M",
+        "alphatwo": "Alpha-2",
+        "name": "Name",
+        "oid": "OID",
+        "qid": "QID",
+        "aid": "AID",
+        "ark": "ARK",
+        "uuid": "UUID",
       }
-      var name = getEntityAt(decimal,"",{},true,row[3])
-      idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/multiplane/?code="+planecode+"'>"+planecode+"</a></td><td><a href='https://R74n.com/multiplane/?code="+planecode+"'>#"+decimal+"</a></td><td>"+alphaM+"</td><td>"+alpha2+"</td><td>"+name+"</td><td><a href='http://www.oid-info.com/cgi-bin/display?action=display&oid=1.3.6.1.4.1.61117.1."+decimal+"' target='_blank'>61117.1."+decimal+"</a></td></tr>";
-    });
-  })
+      var colLinks = {
+        "multiplane": "https://r74n.com/multiplane/?code=$id",
+        "decimal": "https://r74n.com/multiplane/?code=$id",
+        "oid": "http://www.oid-info.com/cgi-bin/display?action=display&oid=$id",
+        "qid": "https://data.r74n.com/entity/$id",
+        "aid": "https://r74n.com/id/?$id",
+        "uuid": "https://r74n.com/id/?$id",
+        "ark": "https://n2t.net/$id",
+      }
+      var requiredCols = [];
+      for (var i = 0; i < cols.length; i++) {
+        var col = cols[i];
+        if (col.startsWith("!")) {
+          col = col.slice(1);
+          cols[i] = col;
+          requiredCols.push(col);
+        }
+        if (colNames[col]) {
+          newHead += "<th>"+colNames[col]+"</th>";
+        }
+        else {
+          newHead += "<th>"+col+" (?)</th>";
+        }
+      }
+      newHead += "</tr>";
+      idTableHead.innerHTML = newHead;
+      var rowList = [];
+      for (var planecode in rows) {
+        // if not all required columns are present, skip this row
+        var skip = false;
+        for (var i = 0; i < requiredCols.length; i++) {
+          var col = requiredCols[i];
+          if (!rows[planecode][col]) {
+            console.log(rows[planecode])
+            skip = true;
+            break;
+          }
+        }
+        if (skip) { continue }
+        var newRow = [];
+        for (var i = 0; i < cols.length; i++) {
+          var col = cols[i];
+          if (rows[planecode][col]) {
+            newRow.push(rows[planecode][col]);
+          }
+          else {
+            newRow.push("");
+          }
+        }
+        rowList.push(newRow);
+      }
+      // add rows to idTableBody
+      var idTableBody = document.getElementById("idTableBody");
+      var html = "";
+      rowList.forEach(row => {
+        html += "<tr>";
+        for (var i = 0; i < row.length; i++) {
+          var cell = "";
+          if (colLinks[cols[i]]) {
+            cell = "<a href='"+colLinks[cols[i]].replace(/\$id/g,row[i])+"'>"+row[i]+"</a>";
+          }
+          else {
+            cell = row[i];
+          }
+          html += "<td>"+cell+"</td>";
+        }
+        html += "</tr>";
+      });
+      idTableBody.innerHTML = html;
+    })
+  }
+  else { // Default Table
+    window.addEventListener("load",function() {
+      var idTableBody = document.getElementById("idTableBody");
+      idTableBody.innerHTML = "";
+      alphaCodes.forEach(row => {
+        var decimal = row[0];
+        var planecode = "R"+decimal.toString(16).toUpperCase().padStart(5,"0");
+        if (row[1] === "  " || !row[1]) { var alpha2 = "--"; }
+        else { var alpha2 = row[1]; }
+        if (!row[2]) {
+          var alphaM = "--";
+        }
+        else {
+          var alphaM = row[2];
+        }
+        var name = getEntityAt(decimal,"",{},true,row[3])
+        if (multiplaneToWikibase[planecode]) { var qid = multiplaneToWikibase[planecode]; }
+        else { var qid = ""; }
+        idTableBody.innerHTML += "<tr><td><a href='https://R74n.com/multiplane/?code="+planecode+"'>"+planecode+"</a></td><td><a href='https://R74n.com/multiplane/?code="+planecode+"'>#"+decimal+"</a></td><td>"+alphaM+"</td><td>"+alpha2+"</td><td>"+name+"</td><td><a href='http://www.oid-info.com/cgi-bin/display?action=display&oid=1.3.6.1.4.1.61117.1."+decimal+"' target='_blank'>61117.1."+decimal+"</a></td><td><a href='https://data.r74n.com/entity/"+qid+"' target='_blank'>"+qid+"</a></td></tr>";
+      });
+    })
+  }
 </script>
 
 
