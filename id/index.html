@@ -201,12 +201,12 @@ This HTML and its contents are property of R74n.com.
   if (urlParams.has("id")) {
     document.getElementById("resolveInput").value = urlParams.get("id");
     document.getElementById("resolveOutput").style.display = "block";
-    resolveID(urlParams.get("id"),true,redirect);
+    resolveID(decodeURIComponent(urlParams).get("id"),true,redirect);
   }
   else if (location.search.length > 1 && location.search.indexOf("=") == -1) {
     document.getElementById("resolveInput").value = location.search.substring(1);
     document.getElementById("resolveOutput").style.display = "block";
-    resolveID(location.search.substring(1),true,redirect);
+    resolveID(decodeURIComponent(location.search.substring(1)),true,redirect);
   }
   else {
     document.getElementById("idContent").style.display = "block";
