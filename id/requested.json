@@ -16,7 +16,7 @@
         "name": "Test Organization",
         "email": "test2@R74n.com",
         "url": "https://r74n.com/test",
-        "resolver": "https://r74n.com/id?$id",
+        "resolver": "https://r74n.com/id?test-$id",
         "multiplane": "R30001",
         "oid": "1.3.6.1.4.1.61117.9000.8",
         "ark": "ark:/49595/rq2",

@@ -2,4 +2,6 @@ D2 76 00 01 86 F1 17 6F             - R74n
 D2 76 00 01 86 F1 17 6F FF          - R74n ID Space
 D2 76 00 01 86 F1 17 6F FF 00       - Two-Letter Alpha Namespaces
 D2 76 00 01 86 F1 17 6F FF EE       - Requested
+D2 76 00 01 86 F1 17 6F FF EE 01    - Test Individual
+D2 76 00 01 86 F1 17 6F FF EE 02    - Test Organization
 D2 76 00 01 86 F1 17 6F FF FF       - Example

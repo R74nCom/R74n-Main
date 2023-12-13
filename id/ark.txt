@@ -25,3 +25,5 @@ Children of ARKs are separated by "/". Children can also have children, in an in
 
 # ARK Registry
 Miscellaneous ARKs, not including implicit ones, are listed below.
+ark:/49595/rq1   -   Test Individual
+ark:/49595/rq2   -   Test Organization

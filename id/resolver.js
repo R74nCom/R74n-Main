@@ -336,8 +336,12 @@ function resolveURN(urn) {
 }
 function resolvePlanecode(decimal) {
     var hex = decimal.toString(16).toUpperCase();
+    var hexFormatted = "R"+hex.padStart(5,"0");
+    if (hexFormatted.match(/^R30[0-9A-F]{3}$/g)) { // Requested
+        return findRequested("multiplane",hexFormatted);
+    }
     var value = multiplaneEntities[hex];
-    if (!value || value.indexOf("//") === -1) { return "https://R74n.com/multiplane?code=R"+hex.padStart(5,"0") }
+    if (!value || value.indexOf("//") === -1) { return "https://R74n.com/multiplane?code="+hexFormatted }
     return value.split("//").slice(1).join("//");
 }
 function resolveOID(oid) {
@@ -353,6 +357,9 @@ function resolveOID(oid) {
     if (parts[1] === 3) { // Wikibase
         if (parts[2] === undefined) { return "https://data.R74n.com/" }
         return "https://data.R74n.com/entity/Q"+parts[2];
+    }
+    if (parts[1] === 9000) { // Requested
+        return findRequested("oid",oid)
     }
     return "https://oid.R74n.com/?goto=oid%3A"+oid;
 }
@@ -370,6 +377,35 @@ function resolveARK(ark) {
     if (prefix === "wb") { return "urn:wikibase:entity:"+(id||"") }
     if (prefix === "am") { return "urn:alphamul:"+(id||"") }
     if (prefix === "at") { return "urn:alphatwo:"+(id||"") }
+    if (prefix === "rq") {
+        if (!ark.startsWith("ark:/")) { ark = "ark:/"+ark.split("ark:")[1]; }
+        return findRequested("ark",ark);
+    }
+}
+let requestedIDs = null;
+function requested() {
+    if (requestedIDs === null) {
+        requestedIDs = getJSON("https://R74n.com/id/requested.json");
+    }
+    return requestedIDs;
+}
+function findRequested(key, value) {
+    var reqdata = requested();
+    for (var k in reqdata) {
+        if (reqdata[k][key] !== undefined && reqdata[k][key] === value) { return resolveRequested(k, value); }
+    }
+    return false;
+}
+function resolveRequested(namespace, value) {
+    var data = requested()[namespace];
+    if (!data) { return false; }
+    if (data.resolver) {
+        if (!value) { value = ""; }
+        return data.resolver.replace(/\$id/g,value);
+    }
+    if (data.url) { return data.url; }
+    if (data.multiplane) { return data.multiplane; }
+    return false;
 }
 
 function detectID(id,auto) {
@@ -457,6 +493,9 @@ function detectID(id,auto) {
     else if (aid[2] === "00") {
         if (!aid[3] || !aid[4]) { r = "urn:alphatwo" }
         else { r = String.fromCharCode(parseInt(aid[3],16)) + String.fromCharCode(parseInt(aid[4],16)); }
+    }
+    else if (aid[2] === "EE") { // Requested
+        r = findRequested("aid","D276000186F1176FFFEE"+aid[3]);
     }
   }
   else if (id.match(/(\/)?(\w+=\w+)(\/)?/i) && id.indexOf("=us") !== -1) { // X.500DN

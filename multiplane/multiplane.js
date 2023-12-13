@@ -365,6 +365,7 @@ multiplaneEntities = {
 "A2AD": "UFBS Response Tab Template//https://docs.google.com/spreadsheets/d/1-MkG02D3BIwlPjl31uuu3BO0b7DP0gOd3djXNCEH4ZU/edit#gid=0",
 
 "10000": "United States",
+"14000": "R74n Vault",
 
 // Days Since R74n Epoch //
 "11000": "May 2, 2017",
@@ -440,6 +441,10 @@ multiplaneEntities = {
 "1322E":"light gray",
 "1320F":"white",
 
+// Requested Individual Slots //
+"30000":"Test Individual//https://r74n.com/test",
+"30001":"Test Organization//https://r74n.com/test",
+
 "(-)0": "something",
 "(∞)1": "everything",
 "(-)2": "actionless",
@@ -496,6 +501,8 @@ multiplanePlanes = {
     "R13000-R130FF": "UTC Offsets",
     "R13100-R131FF": "Extended Timekeeping",
     "R13200-R132FF": "Colors",
+    // extra space
+    "R14000-R14FFF": "Specific Locations",
     "R1B000-R1FFFF": "Numeral Compatibility", //Numbers 0-20478
   "R20000-R2FFFF": "Requested",
     "R20000-R200FF": "ViaThinkSoft I",

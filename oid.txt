@@ -221,6 +221,8 @@ The following list contains OIDs with definitions, as opposed to being inherent.
 61117.9000.3        -   ggod
 61117.9000.5        -   meese/jayd
 61117.9000.6        -   Wikibee
+61117.9000.7        -   Test Individual
+61117.9000.8        -   Test Organization
 61117.9000.123      -   Requested Example
 61117.9998          -   Experimental, for testing only
 61117.9999          -   Example, for explanation only
