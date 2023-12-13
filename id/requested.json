@@ -1,0 +1,50 @@
+{
+    "testindividual": {
+        "name": "Test Individual",
+        "url": "https://r74n.com/test",
+        "multiplane": "R30000",
+        "oid": "1.3.6.1.4.1.61117.9000.7",
+        "ark": "ark:/49595/rq1",
+        "qid": "Q2625",
+        "uuid": "3a30ac37-8b28-58f3-8ef4-8bf4c381dba9",
+        "aid": "D276000186F1176FFFEE01",
+        "twitter": "R74nCom",
+        "tiktok": "r74n.com",
+        "kgmid": "/g/11m0q5kt97"
+    },
+    "testorg": {
+        "name": "Test Organization",
+        "email": "test2@R74n.com",
+        "url": "https://r74n.com/test",
+        "resolver": "https://r74n.com/id?$id",
+        "multiplane": "R30001",
+        "oid": "1.3.6.1.4.1.61117.9000.8",
+        "ark": "ark:/49595/rq2",
+        "qid": "Q2626",
+        "uuid": "b4686f4c-6206-5035-9293-171953794846",
+        "aid": "D276000186F1176FFFEE02",
+        "isni": "0000000513144203",
+        "pen": "61117"
+    },
+    "infernostars": {
+        "name": "infernostars",
+        "url": "https://www.infernity.dev/",
+        "oid": "1.3.6.1.4.1.61117.9000.1"
+    },
+    "alice": {
+        "name": "alice",
+        "oid": "1.3.6.1.4.1.61117.9000.2"
+    },
+    "ggod": {
+        "name": "ggod",
+        "oid": "1.3.6.1.4.1.61117.9000.3"
+    },
+    "jayd": {
+        "name": "meese/jayd",
+        "oid": "1.3.6.1.4.1.61117.9000.5"
+    },
+    "wikibee": {
+        "name": "Wikibee",
+        "oid": "1.3.6.1.4.1.61117.9000.6"
+    }
+}
