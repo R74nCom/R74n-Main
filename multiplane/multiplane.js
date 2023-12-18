@@ -445,6 +445,9 @@ multiplaneEntities = {
 "30000":"Test Individual//https://r74n.com/test",
 "30001":"Test Organization//https://r74n.com/test",
 
+// Published Files //
+"40000":"Sandboxels Census 2023 Report//https://docs.google.com/document/u/1/d/e/2PACX-1vRgvT542zEWrL5NQcAXUpu1JokW_vNfjgxQANCmnr8J7LKcDSTdwGcTovkno_EYNPP_A4uJpyrrEUG7/pub",
+
 "(-)0": "something",
 "(∞)1": "everything",
 "(-)2": "actionless",
@@ -509,6 +512,10 @@ multiplanePlanes = {
   "R30000-R30FFF": "Requested Individual Slots",
   "R31000-R31FFF": "",
   "R32000-R32FFF": "",
+  "R40000-R4FFFF": "Published Files",
+    "R40000-R43FFF": "Published Texts",
+    "R44000-R47FFF": "Published Media",
+  "R50000-R00FFF": "",
   "R74000-R74FFF": "[reserved]",
   "RD0000-RDFFFF": "Wikibase Item Compatibility",
   "RE0000-REFFFF": "Ontomata Class Compatibility",
