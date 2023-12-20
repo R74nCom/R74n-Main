@@ -46,5 +46,24 @@
     "wikibee": {
         "name": "Wikibee",
         "oid": "1.3.6.1.4.1.61117.9000.6"
+    },
+    "serioustar": {
+        "name": "Serioustar",
+        "url": "https://en.pronouns.page/@Serioustar",
+        "multiplane": "R30002",
+        "oid": "1.3.6.1.4.1.61117.9000.9",
+        "ark": "ark:/49595/rq4",
+        "qid": "Q685",
+        "uuid": "a590e0e8-cc52-5547-b96a-b83b03937950",
+        "aid": "D276000186F1176FFFEE03"
+    },
+    "doc": {
+        "name": "Doc",
+        "url": "https://www.youtube.com/@DccToon",
+        "oid": "1.3.6.1.4.1.61117.9000.10"
+    },
+    "steyero": {
+        "name": "steyerofoam",
+        "oid": "1.3.6.1.4.1.61117.9000.11"
     }
 }
