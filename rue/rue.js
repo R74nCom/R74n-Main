@@ -3755,6 +3755,7 @@ rueData.links = {
 "plural of moose": "=meese",
 "5b": "https://www.infernity.dev/HTML5b/", //partner
 "infernity": "https://www.infernity.dev/", //partner
+"adryd": "https://adryd.com/",
 } // links
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
