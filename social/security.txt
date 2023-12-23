@@ -1,0 +1,3 @@
+Risk of being included in a data breach increases with the number of accounts you have.
+
+To combat this, we only use randomly generated passwords, publicly available email addresses, and no personal information for our accounts, so the effect is absolutely minimal.
