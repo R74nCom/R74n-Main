@@ -2,6 +2,7 @@
 
 > Version 1.0, December 2023
 > Original: https://R74n.com/license.txt
+> Archive: https://web.archive.org/web/20231223194422/https://r74n.com/license.txt
 
 > Copyright (C) 2024 R74n
 > All Rights Reserved
