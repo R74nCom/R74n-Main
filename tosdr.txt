@@ -6,7 +6,7 @@ Document-Name: Privacy Policy
 Url: https://r74n.com/privacy
 
 Document-Name: R74n Content License
-Url: https://sandboxels.r74n.com/license.txt
+Url: https://r74n.com/license.txt
 
 Document-Name: R74n Content License (Sandboxels)
-Url: https://r74n.com/license.txt
+Url: https://sandboxelsr74n.com/license.txt
