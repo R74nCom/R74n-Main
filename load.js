@@ -105,7 +105,7 @@ if (urlParams.get("rue") && urlParams.get("rue") !== "false" && urlParams.get("r
 
 // if metaKey + shift + R is pressed, add Rue script to the head
 window.addEventListener("keydown", function(e) {
-	if (e.shiftKey && (e.metaKey||e.ctrlKey) && e.key.toLowerCase() === "r") {
+	if (e.shiftKey && (e.metaKey||e.ctrlKey) && e.key.toLowerCase() === "e") {
 		callRue();
 		e.preventDefault();
 	}

@@ -4298,8 +4298,8 @@ document.addEventListener("keydown", function(e) {
     if (e.metaKey || e.ctrlKey) {
         Rue.brain.metaKey = true;
     }
-    // command + shift + r = focus on Rue
-    if (e.shiftKey && (Rue.brain.metaKey||e.metaKey||e.ctrlKey) && e.key.toLowerCase() === "r") {
+    // command + shift + e = focus on Rue
+    if (e.shiftKey && (Rue.brain.metaKey||e.metaKey||e.ctrlKey) && e.key.toLowerCase() === "e") {
         rueInput.focus();
         Rue.blink();
         Rue.say("Hello! Type in certain commands to make me do things.");

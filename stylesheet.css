@@ -234,7 +234,9 @@ dd {margin-inline-end: 20px;}
 .homefundiv, .homefundivtop {display:block;padding-bottom:1em;padding-top:1em;margin-bottom:1em;text-align: center; border-radius: 30px; border:solid white}
 .homefundivtop {margin-top:1em}
 
-table {border-collapse:collapse;margin-left: 2em;overflow-wrap: anywhere;}
+.simplefooter {font-size:0.7em;text-align:center;display:block}
+
+table {border-collapse:collapse;margin-left: 0.5em;overflow-wrap: anywhere;}
 td, th {border:0.5px solid gray;padding:5px;padding-left:10px;padding-right:10px}
 th {background-color:#00ffff;color:black}
 tr:nth-child(odd){background-color: #272727;}

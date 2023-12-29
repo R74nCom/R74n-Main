@@ -89,3 +89,6 @@ https://r74n.com/id/urn
 https://r74n.com/id/uuid
 https://r74n.com/id/aid
 https://r74n.com/id/ark
+https://r74n.com/meta/
+https://r74n.com/collab/
+https://r74n.com/outlinks/
