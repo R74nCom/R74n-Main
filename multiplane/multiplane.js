@@ -96,6 +96,7 @@ multiplaneEntities = {
 "143": "R74n Link Shortener//urn:link",
 "144": "Multiplane//urn:multiplane",
 "145": "Ontomata",
+"146": "R74n Newsletter//https://news.r74n.com/",
 "150": "R74n Search//urn:search",
 "151": "R74n Translation Hub//urn:translate",
 "152": "R74n Lore//urn:lore",
