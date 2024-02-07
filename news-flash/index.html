@@ -25,10 +25,9 @@ This HTML and its contents are property of R74n.com.
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
-    <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
+    <meta name="twitter:image" content="https://R74n.com/icons/avatar.png">
     <title>News Flash Archive - R74n</title>
-    <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
+    <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     <link rel="apple-touch-icon" sizes="180x180" href="https://R74n.com/icons/apple-touch-icon.png?v=R74n-2">
@@ -55,8 +54,49 @@ This HTML and its contents are property of R74n.com.
 
 <p>This is what a News Flash looks like:</p>
 <img alt="R74n News Flash" src="https://i.imgur.com/sUV2rWI.png" style="border:white solid">
-<p>There's nothing here yet...</p>
 
+<ul id="newsFlashList"></ul>
+
+<script>
+var newsFlashes = [
+  2023,
+  ["8/24-9/6","Do you own a cool website? Become a <a href='rue/partners'>Rue Partner</a> to get a command for it in our chatbot, and linked on the page!"],
+  ["9/6-9/10","Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
+  ["9/12-9/15","Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
+  ["9/27-9/30","Want to see every number ever? <a href='sequence/'>Now you can</a>!"],
+  ["10/1-10/3","Trick-or-treating is currently going on in the <a href='https://discord.gg/ejUc6YPQuS'>Discord server</a>!"],
+  ["10/4-10/4","THIS IS A TEST of the National Wireless Emergency Alert System. No action is needed."],
+  ["10/5-10/15","Happy October! 🎃 Please submit Halloween or other holiday event ideas with the <a href='https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other' target='_blank'>Feedback Form</a>!"],
+  ["10/16-10/31","Trick-or-treating is currently going on in the <a href='https://discord.gg/ejUc6YPQuS'>Discord server</a>!"],
+  ["11/1-11/8","Explore the <a href='multiplane/'>Multiplane</a>.."],
+  ["11/9-11/18","Want to see every ant in the world? <a href='ants/'>Now you can</a>!"],
+  ["12/2-12/5","<a href='https://sandboxels.R74n.com/'>Sandboxels</a> now has pipes, coffee, nuts, jelly, and more!"],
+  ["12/6-12/10","Send us an email? <a href='mailto:contact@r74n.com'>contact@R74n.com</a>"],
+  ["12/16-12/19","The results of the Sandboxels Census 2023 are IN! <a href='https://docs.google.com/document/u/1/d/e/2PACX-1vRgvT542zEWrL5NQcAXUpu1JokW_vNfjgxQANCmnr8J7LKcDSTdwGcTovkno_EYNPP_A4uJpyrrEUG7/pub'>See them here</a>."],
+  ["12/20-12/25","Happy holidays from R74n! ⛄️"],
+  ["12/26-12/30","Want free identifiers for you or your projects? <a href='https://docs.google.com/forms/d/e/1FAIpQLSekHUr87kNfkZYK_WpXEC1eqZ_eDLbE-yJElGBAgpFAM4SLSw/viewform'>Apply now</a>!"],
+  2024,
+  ["1/1-1/1","2023 was our biggest year yet! Happy new year!!!"],
+  ["1/2-1/10","We now have a free <a href='https://news.R74n.com/subscribe'>email newsletter</a>!"],
+  ["1/10-1/20","Have a cool project or website? We now have <a href='https://r74n.com/collab/'>many ways to collaborate</a>!"],
+];
+var currentYear = 2023;
+for (var i = 0; i < newsFlashes.length; i++) {
+  if (typeof newsFlashes[i] === "number") {
+    currentYear = newsFlashes[i];
+    var newsFlashItem = document.createElement("li");
+    newsFlashItem.innerHTML = "<em>" + currentYear + "</em>";
+    document.getElementById("newsFlashList").appendChild(newsFlashItem);
+    continue;
+  }
+  var newsFlash = newsFlashes[i];
+  var newsFlashDate = newsFlash[0];
+  var newsFlashMessage = newsFlash[1];
+  var newsFlashItem = document.createElement("li");
+  newsFlashItem.innerHTML = "<strong>" + newsFlashDate + "</strong>: " + newsFlashMessage;
+  document.getElementById("newsFlashList").appendChild(newsFlashItem);
+}
+</script>
 
 
 
