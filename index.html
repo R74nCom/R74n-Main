@@ -425,7 +425,7 @@ try {
   "@context": "https://schema.org",
   "@type": "SpecialAnnouncement",
   "name": "News Flash ${start.toLocaleDateString()}",
-  "text": "${document.getElementById(newsheader).textContent}",
+  "text": "${document.getElementById("newsheader").textContent}",
   "datePosted": "${startISO}",
   "expires": "${endISO}"
 }`;
@@ -433,6 +433,7 @@ try {
       script.setAttribute('type', 'application/ld+json');
       script.textContent = structuredDataText;
       document.head.appendChild(script);
+      console.log("test")
       break;
     }
   }
