@@ -29,8 +29,7 @@ This HTML and its contents are property of R74n.com.
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/favicon.png">
     <title>R74n</title>
-    <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"]}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org","@type": "Organization","url": "https://r74n.com","logo": "https://r74n.com/icons/favicon.png"}</script>
+    <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>
     <meta property="og:title" content="R74n">
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
@@ -396,24 +395,7 @@ function setIcon(){
 <script> // after content loaded
 // Temporary news flashes
 var newsFlashes = [
-  ["8/24-9/6","NEWS FLASH: Do you own a cool website? Become a <a href='rue/partners'>Rue Partner</a> to get a command for it in our chatbot, and linked on the page!"],
-  ["9/6-9/10","NEWS FLASH: Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
-  ["9/12-9/15","NEWS FLASH: Check out the new R74n <a href='translate/'>Translation Hub</a>! Contribute your knowledge of other languages or codes"],
-  ["9/27-9/30","NEWS FLASH: Want to see every number ever? <a href='sequence/'>Now you can</a>!"],
-  ["10/1-10/3","NEWS FLASH: Trick-or-treating is currently going on in the <a href='https://discord.gg/ejUc6YPQuS'>Discord server</a>!"],
-  ["10/4-10/4","NEWS FLASH: THIS IS A TEST of the National Wireless Emergency Alert System. No action is needed."],
-  ["10/5-10/15","NEWS FLASH: Happy October! 🎃 Please submit Halloween or other holiday event ideas with the <a href='https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other' target='_blank'>Feedback Form</a>!"],
-  ["10/16-10/31","NEWS FLASH: Trick-or-treating is currently going on in the <a href='https://discord.gg/ejUc6YPQuS'>Discord server</a>!"],
-  ["11/1-11/8","NEWS FLASH: Explore the <a href='multiplane/'>Multiplane</a>.."],
-  ["11/9-11/18","NEWS FLASH: Want to see every ant in the world? <a href='ants/'>Now you can</a>!"],
-  ["12/2-12/5","NEWS FLASH: <a href='https://sandboxels.R74n.com/'>Sandboxels</a> now has pipes, coffee, nuts, jelly, and more!"],
-  ["12/6-12/10","NEWS FLASH: Send us an email? <a href='mailto:contact@r74n.com'>contact@R74n.com</a>"],
-  ["12/16-12/19","NEWS FLASH: The results of the Sandboxels Census 2023 are IN! <a href='https://docs.google.com/document/u/1/d/e/2PACX-1vRgvT542zEWrL5NQcAXUpu1JokW_vNfjgxQANCmnr8J7LKcDSTdwGcTovkno_EYNPP_A4uJpyrrEUG7/pub'>See them here</a>."],
-  ["12/20-12/25","NEWS FLASH: Happy holidays from R74n! ⛄️"],
-  ["12/26-12/30","NEWS FLASH: Want free identifiers for you or your projects? <a href='https://docs.google.com/forms/d/e/1FAIpQLSekHUr87kNfkZYK_WpXEC1eqZ_eDLbE-yJElGBAgpFAM4SLSw/viewform'>Apply now</a>!"],
-  ["1/1-1/1","NEWS FLASH: 2023 was our biggest year yet! Happy new year!!!"],
-  ["1/2-1/10","NEWS FLASH: We now have a free <a href='https://news.R74n.com/subscribe'>email newsletter</a>!"],
-  ["1/10-1/20","NEWS FLASH: Have a cool project or website? We now have <a href='https://r74n.com/collab/'>many ways to collaborate</a>!"],
+  ["2/6-2/10","Sandboxels v1.9.3 includes new chemicals, foods, and over 100 changes! <a href='https://sandboxels.r74n.com/'>Play Now</a>"],
 ];
 // loop through newsFlashes, if today is between the start and end dates, display the message
 try {
@@ -432,9 +414,25 @@ try {
     end.setHours(23,59,59);
     // if today is between the start and end dates
     if (today >= start && today <= end) {
-      var message = newsFlashes[i][1];
+      var message = "NEWS FLASH: "+newsFlashes[i][1];
       newsFlash(message);
       currentNewsFlash = message;
+      // 2020-03-17T08:00 format
+      var startISO = start.toISOString().split('T')[0];
+      var endISO = end.toISOString().split('T')[0];
+      var structuredDataText = `
+{
+  "@context": "https://schema.org",
+  "@type": "SpecialAnnouncement",
+  "name": "News Flash ${start.toLocaleDateString()}",
+  "text": "${document.getElementById(newsheader).textContent}",
+  "datePosted": "${startISO}",
+  "expires": "${endISO}"
+}`;
+      const script = document.createElement('script');
+      script.setAttribute('type', 'application/ld+json');
+      script.textContent = structuredDataText;
+      document.head.appendChild(script);
       break;
     }
   }
