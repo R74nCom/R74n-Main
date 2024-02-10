@@ -110,7 +110,7 @@ This HTML and its contents are property of R74n.com.
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://r74n.com/search?q={search_term_string}"
+            "urlTemplate": "https://r74n.com/search/?q={search_term_string}"
           },
           "query-input": "required name=search_term_string"
         }]
@@ -396,7 +396,7 @@ function setIcon(){
 <script> // after content loaded
 // Temporary news flashes
 var newsFlashes = [
-  ["2/6-2/10","Sandboxels v1.9.3 includes new chemicals, foods, and over 100 changes! <a href='https://sandboxels.r74n.com/'>Play Now</a>"],
+  ["2/6-2/15","Sandboxels v1.9.3 includes new chemicals, foods, and over 100 changes! <a href='https://sandboxels.r74n.com/'>Play Now</a>"],
 ];
 // loop through newsFlashes, if today is between the start and end dates, display the message
 try {
@@ -428,7 +428,17 @@ try {
   "name": "News Flash ${start.toLocaleDateString()}",
   "text": "${document.getElementById("newsheader").textContent}",
   "datePosted": "${startISO}",
-  "expires": "${endISO}"
+  "expires": "${endISO}",
+  "spatialCoverage": [
+    {"type": "Country","name": "US"},
+    {"type": "Country","name": "UK"},
+    {"type": "Country","name": "Philippines"},
+    {"type": "Country","name": "Vietnam"},
+    {"type": "Country","name": "Canada"},
+    {"type": "Country","name": "Mexico"},
+    {"type": "Country","name": "Brazil"},
+    {"type": "Country","name": "Indonesia"}
+  ]
 }`;
       const script = document.createElement('script');
       script.setAttribute('type', 'application/ld+json');
