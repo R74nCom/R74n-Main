@@ -1,8 +1,8 @@
 # R74n Content License
 
-> Version 1.0, December 2023
+> Version 1.1, February 2024
 > Original: https://R74n.com/license.txt
-> Archive: https://web.archive.org/web/20231223194422/https://r74n.com/license.txt
+> Archive: https://web.archive.org/web/20240208113646/https://r74n.com/license.txt
 
 > Copyright (C) [year] [author]
 
@@ -32,6 +32,8 @@ Everyone is permitted to copy and distribute verbatim or modified copies of this
  - Advertising
  - Selling
  - Any other means of generating income
+
+ 2a. You may, however, create articles describing our content, such as a wiki article, without permission, even if it is commercial. You are allowed to include screenshots or video recordings of our content anywhere.
 
 3. Any content you use must be clearly credited to us, unless otherwise stated.
 

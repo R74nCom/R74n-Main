@@ -231,7 +231,7 @@ unitdata = {
   "megadeath":1000000,
   "gigadeath":1000000000,
   "bubonic plague":50000000,
-  "COVID-19":6878000,
+  "COVID-19":6982620,
   "spanish flu":50000000,
   "swine flu":284000,
   "US deaths per year":2840000,

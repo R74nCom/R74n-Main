@@ -63,6 +63,21 @@ function getJSON(url) {
     return JSON.parse(Httpreq.responseText);
 }
 
+function schemaDate(date) {
+	return date.toISOString().split('T')[0];
+}
+function addSchema(schema,id) {
+	var structuredDataText = JSON.stringify(schema);
+	if (document.getElementById(id)) {
+		document.getElementById(id).remove();
+	}
+	const script = document.createElement('script');
+	script.setAttribute('type', 'application/ld+json');
+	script.textContent = structuredDataText;
+	script.id = id;
+	document.head.appendChild(script);
+}
+
 window.addEventListener("load",function(){
 
 // Console Watermark

@@ -1311,6 +1311,30 @@ rueData.commands = {
         }
         Rue.openLink("https://downdetector.com/search/?q="+args[0])
     },
+    "allchemy": function(args) { //partner
+        var url = "https://allchemy.io/";
+        if (args.length > 0) {
+            if (args[0].charAt(0) === "@") {
+                url += args[0];
+            }
+            else if (args[0] === "items") {
+                url += "items"
+            }
+            else if (args[0] === "search") {
+                url += "items?search="+args.slice(1).join(" ");
+            }
+            else {
+                url += "items/"+args.join(" ").toLocaleLowerCase()
+                .replace(/\(.+\)/g, '')
+                .trim()
+                .replace(/[^a-z0-9- /]/g, '')
+                .replace(/[- /]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+            }
+        }
+        Rue.openLink(url)
+    },
+    "infinite craft": "=allchemy",
 } // commands
 rueData.favorites = {
     "color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)"

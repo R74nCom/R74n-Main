@@ -443,8 +443,8 @@ try {
       const script = document.createElement('script');
       script.setAttribute('type', 'application/ld+json');
       script.textContent = structuredDataText;
+      script.id = "schemaNewsFlash";
       document.head.appendChild(script);
-      console.log("test")
       break;
     }
   }

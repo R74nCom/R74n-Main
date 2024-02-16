@@ -1,6 +1,6 @@
 # ID: xxx # R74n Service ID
 
-Domains: r74n.com,sandboxels.r74n.com,c.r74n.com,copy.r74n.com,oid.r74n.com,data.r74n.com
+Domains: r74n.com,sandboxels.r74n.com,c.r74n.com,copy.r74n.com,oid.r74n.com,data.r74n.com,news.r74n.com
 
 Document-Name: Privacy Policy
 Url: https://r74n.com/privacy
