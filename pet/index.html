@@ -20,13 +20,13 @@
 ⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
 This HTML and its contents are property of R74n.com.
 -->
-    <meta name="description" content="Get your own command in the Rue chatbot! (NOT AI!!!!!)">
+    <meta name="description" content="R74n">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
-    <meta name="twitter:image" content="https://R74n.com/rue/ruemoji.png">
-    <title>Official Rue Partners - R74n</title>
+    <meta name="twitter:image" content="https://R74n.com/icons/avatar.png">
+    <title>Human Pet Simulator - R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
@@ -42,63 +42,113 @@ This HTML and its contents are property of R74n.com.
 
     <script src="https://R74n.com/load.js"></script>
 
-    <script src="rue.js"></script>
-    <style>
-      /*Center #rueBox in #rueContainer*/
-      #rueContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      @media only screen and (min-width: 600px) {
-        #rueBox {
-          width: 50%;
+    <script>
+      gameData = {
+        attributes: {},
+        species: {}
+      };
+      function addDataPoint(section,data) {
+        var name = data.name||Math.random().toString().slice(2);
+        delete data.name;
+        if (gameData[section][name] !== undefined) {
+          var data2 = gameData[section][name];
+          for (var key in data) {
+            var value = data[key];
+            var value2 = data2[key];
+            if (Array.isArray(value2)) {
+              for (var i = 0; i < value.length; i++) {
+                if (value2.indexOf(value[i]) === -1) { value2.push(value[i]); }
+              }
+            }
+            else if (typeof value2 === "object") {
+              for (var key2 in value) {
+                if (!value2[key2]) { value2[key2] = value[key2]; }
+              }
+            }
+            else if (value2 === undefined) {
+              data2[key] = value;
+            }
+          }
         }
-        #rueBoxIn { margin-left: auto!important; margin-right: auto!important; text-align: center!important; }
-  #rueInput { width: 75%!important;padding-left: 4%!important;padding-right: 0!important; }
-  #rueButton { width: 22%!important;padding-left: 0!important;padding-right: 0!important; }
+        else {
+          gameData[section][name] = data;
+        }
+      }
+      function addData(data) {
+        if (data.attributes !== undefined) {
+          for (var i = 0; i < data.attributes.length; i++) {
+            var attr = data.attributes[i];
+            addDataPoint("attributes",attr);
+          } 
+        }
+        if (data.species !== undefined) {
+          for (var i = 0; i < data.species.length; i++) {
+            var species = data.species[i];
+          } 
+        }
+      }
+      function addDataURL(url) {
+        var data = getJSON(url);
+        addData(data);
+      }
+      window.addEventListener("load",function() {
+        // make a script tag for base.js
+        var script = document.createElement("script");
+        script.src = "base.js";
+        document.head.appendChild(script);
+      })
+    </script>
+
+    <style>
+      #petFrame {
+        text-align: center;
+        border: solid white;
+        max-width: 650px;
+        margin: auto;
+      }
+      #petInfoTable {
+        margin: 0;
+        width: 100%;
+        text-align: left;
+      }
+      #petInfo {
+        width: 100%;
+        display: block;
+      }
+      /* #petInfo p:first-child {} */
+      .petInfoMeta, #petInfoMeta {
+        font-style: italic;
+        color: #aaaaaa;
+      }
+      @media only screen and (max-width: 750px) {
+        #petFrame {
+          max-width: 100%;
+        }
       }
     </style>
+
 </head>
 <body>
 
 
-<a href="." class="backbutton">⦉</a>
-<h1 class="pagetitle">Official Rue Partners</h1>
+<a href="https://R74n.com" class="backbutton">⦉</a>
+<h1 class="pagetitle">Human Pet Simulator</h1>
 <div class="content">
 
-<p><dfn>Rue</dfn> is a chatbot specialized for navigating and exploring R74n projects, and beyond! She's located on the main page.</p>
-<p>There are <a href="docs">hundreds of commands</a>, many of which link to other websites! Rue Partners get their own specialized commands for free, which may have some utility for users!</p>
-<p>Rue does <strong><em>NOT</em></strong> use any AI, just pure code!</p>
+<!--Charactometer-->
+<!--Sample Pets-->
 
-<div id="rueContainer" style="text-align:center;width:100%">
-  <div id="rueBox" style="height:66px" class="rueWideScreen"></div>
+<div id="petFrame">
+<div id="petInfo">
+  <p id="petInfoTitle" class="petInfoTitle">
+    Sample Pet<br>
+    <span id="petInfoMeta" class="petInfoMeta">extra tidbit</span>
+  </p>
+  <table id="petInfoTable">
+    <tr><td>colony</td><td>sampling...</td></tr>
+  </table>
 </div>
-
-
-<p>Try out some examples of what you could have:</p>
-<ul>
-  <li><code>google Cats</code></li>
-  <li><code>similarweb R74n.com</code></li>
-  <li><code>fonts:Hello World!</code></li>
-  <li><code>translate ¡Hola Mundo!</code></li>
-  <li><code>u/<em>&lt;Your Reddit username&gt;</em></code></li>
-  <li><code>wp 2023 in Science</code></li>
-</ul>
-
-<p><strong>What do I need to do?</strong> - Just reach out! You have no obligations whatsoever! Either <a href="mailto:contact@r74n.com">email</a> or <a href="https://link.r74n.com/discord">Discord</a>.</p>
-
-<p>All Official Rue Partners:</p>
-<ul>
-  <li><a href="https://downdetector.com/" target="_blank">Downdetector</a> - <em>is Spectrum down?</em></li>
-  <li><a href="https://allchemy.io/" target="_blank">Allchemy</a> - <em>allchemy Milk Chocolate, allchemy @R74n, allchemy search Sandbox</em></li>
-  <li><a href="https://www.moosenotmeese.org/" target="_blank">MooseNotMeese.org</a> - <em>meese, moosenotmeese, mooses, plural of moose</em></li>
-  <li><a href="https://www.luciteria.com/" target="_blank">Luciteria</a> - <em>buy gallium, luciteria cubes, purchase uranium</em></li>
-  <li><a href="https://www.infernity.dev/" target="_blank">infernity.dev</a> - <em>5b, infernity</em></li>
-  <li><em>We're just getting started! More to come.</em></li>
-</ul>
-
-
+</div>
 
 
 

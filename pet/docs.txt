@@ -1,0 +1,16 @@
+attributes
+    name, string
+    type, string("float","integer","string")
+    choices, array<any>
+    min, number
+    max, number
+    displayRange, object
+    depend, object
+        on: string
+        onPart: string("value","display")
+        map: object
+
+
+species
+    name, string
+    attributes, array<string>

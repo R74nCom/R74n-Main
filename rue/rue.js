@@ -1303,13 +1303,34 @@ rueData.commands = {
     "enabled mods": "=mod list",
     "rue mods": "=mod list",
     "modded rue": "=mod list",
+    "buy": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify what to shop for!"); return }
+        var term = args.join(" ");
+        //if (term.match(/(.+ )?(terms)( .+)?/i)) {
+        if (term.match(/elements?|chemicals?|element cubes?|(.+ )?(hydrogen|boron|carbon|nitrogen|oxygen|fluorine|neon|silicon|phosphorus|sulfur|chlorine|argon|manganese|iron|cobalt|nickel|copper|zinc|arsenic|bromine|krypton|molybdenum|silver|tin|antimony|iodine|xenon|lanthanum|tantalum|tungsten|platinum|gold|mercury|lead|bismuth|astatine|radon|tennessine|oganesson|(hel|lith|beryll|sod|magnes|alumin|potass|calc|scand|titan|vanad|chrom|gall|german|selen|rubid|stront|yttr|zircon|niob|technet|ruthen|rhod|pallad|cadm|ind|tellur|caes|bar|cer|praseodym|neodym|prometh|samar|europ|gadolin|terb|dyspros|holm|erb|thul|ytterb|lutet|hafn|rhen|osm|irid|thall|polon|franc|rad|actin|thor|protactin|uran|neptun|pluton|americ|cur|berkel|californ|einstein|ferm|mendelev|nobel|lawrenc|rutherford|dubn|seaborg|bohr|hass|meitner|darmstadt|roentgen|copernic|nihon|flerov|moscov|livermor)ium)( .+)?/i)) {
+            rueData.commands["luciteria"](args);
+        }
+        else {
+            Rue.openLink("https://www.google.com/search?tbm=shop&q="+term);
+        }
+    },
+    "shop": "=buy",
+    "shopping": "=buy",
+    "purchase": "=buy",
 
     "downdetector": function(args) { //partner
         if (args.length === 0) {
             Rue.openLink("https://downdetector.com/");
             return;
         }
-        Rue.openLink("https://downdetector.com/search/?q="+args[0])
+        Rue.openLink("https://downdetector.com/search/?q="+args.join(" "))
+    },
+    "luciteria": function(args) { //partner
+        if (args.length === 0) {
+            Rue.openLink("https://www.luciteria.com/");
+            return;
+        }
+        Rue.openLink("https://www.luciteria.com/search?q="+args.join(" "))
     },
     "allchemy": function(args) { //partner
         var url = "https://allchemy.io/";

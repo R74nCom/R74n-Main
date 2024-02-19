@@ -1,0 +1,39 @@
+{
+    "attributes": [
+        {
+            "name": "gender",
+            "type": "float",
+            "min": 0,
+            "max": 1,
+            "displayRange": [
+                [0,0.25,"masculine"],
+                [0.25,0.35,"masc leaning"],
+                [0.35,0.65,"androgynous"],
+                [0.65,0.75,"fem leaning"],
+                [0.75,1,"feminine"]
+            ]
+        },
+        {
+            "name": "pronouns",
+            "type": "string",
+            "depend": {
+                "on": "gender",
+                "onPart": "display",
+                "map": {
+                    "masculine": "he/him",
+                    "masc leaning": "he/they",
+                    "androgynous": "they/them",
+                    "fem leaning": "she/they",
+                    "feminine": "she/her"
+                }
+            }
+        }
+    ],
+
+    "species": [
+        {
+            "name": "human",
+            "attributes": ["gender"]
+        }
+    ]
+}
