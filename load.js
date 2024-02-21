@@ -78,6 +78,11 @@ function addSchema(schema,id) {
 	document.head.appendChild(script);
 }
 
+function playSound(url) {
+	var audio = new Audio(url);
+	audio.play();
+}
+
 window.addEventListener("load",function(){
 
 // Console Watermark

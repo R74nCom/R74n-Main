@@ -1,4 +1,4 @@
-window.addEventListener("load",function(){
+window.addEventListener("DOMContentLoaded",function(){
 var elements = document.getElementsByClassName("cw");
 for (var i = 0; i < elements.length; i++) {
     var element = elements.item(i);

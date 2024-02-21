@@ -14,8 +14,12 @@ body {
 a {color: rgb(255, 0, 255);text-decoration: none;cursor:pointer}
 a:active, a:hover:active {color: rgb(255, 179, 255);}
 a:hover {color: rgb(255, 121, 255);}
+a.newLink::before {color: red; content: "(NEW) "}
+a.newLink:hover::before { filter:brightness(200%);}
+a.newLink:active::before { filter:brightness(300%);}
 
-
+::selection {background:#00ffff; color:#000000;}
+::-moz-selection {background:#00ffff; color:#000000;}
 
 .pagetitle, .backbutton, .R74nicon {display: inline-block;margin:0px;vertical-align: middle;margin-left:10px}
 .pagetitle, .R74nicon {font-size:4.5vw; }
@@ -261,4 +265,8 @@ kbd {background-color:rgb(59, 59, 59);color:white;border-radius:5px;padding:2px;
 /* Mobile styles */
 @media only screen and (max-width: 700px) {
     table {margin-left: 0em}
+}
+
+.textButton {
+    cursor: pointer;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
 }

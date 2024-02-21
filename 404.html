@@ -55,7 +55,7 @@ This HTML and its contents are property of R74n.com.
 <div style="display:inline-block">➖➖🟦<br>➖🟦🟦<br>🟦➖🟦<br>🟦🟦🟦🟦<br>➖➖🟦<br>➖➖🟦</div>
 <div style="display:inline-block">➖🟦🟦<br>🟦➖➖🟦<br>🟦➖➖🟦<br>🟦➖➖🟦<br>🟦➖➖🟦<br>➖🟦🟦</div>
 <div style="display:inline-block">➖➖🟦<br>➖🟦🟦<br>🟦➖🟦<br>🟦🟦🟦🟦<br>➖➖🟦<br>➖➖🟦</div>
-<div style="display:inline-block">Page Not Found</div>
+<div style="display:inline-block"><span id="noun">Page</span> <span id="negative">Not</span> <span id="verb">Found</span></div>
 <br>
 <div style="display:none"><br>
 Did you mean...
@@ -162,6 +162,7 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 "meta/",
 "collab/",
 "outlinks/",
+"sitemap.txt",
 "404",
 ]
   extraPages = {
@@ -222,6 +223,11 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "elemental": "eod/",
     "elem": "eod/",
     "disqus": "forum/",
+    "friends": "outlinks/",
+    "pages": "sitemap.txt",
+    "sitemap": "sitemap.txt",
+    "sitemap.xml": "sitemap.txt",
+    "about": "meta/",
     "data": "https://data.r74n.com",
     "wikibase": "https://data.r74n.com",
     "news": "https://news.r74n.com",
@@ -239,6 +245,29 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "offline-use": "https://sandboxels.r74n.com/offline-use"
   }
 
+  nounChanges = {
+    "/halacae/": "lami-oo-i",
+    "/words/": "Word List",
+    "/ants/": "Ant",
+    "/pixelflags/": "Flag",
+    "/moji/": "R74moji",
+    "/hello/": "Goodbye",
+    "/icons/": "Icon",
+    "/id/": "Identifier",
+    "/commons/": "Common",
+    "/social/": "Profile",
+    "/mc/": "George",
+  }
+  negativeChanges = {
+    "/halacae/": "o",
+    "/hello/": "in Every",
+  }
+  verbChanges = {
+    "/halacae/": "samo-u",
+    "/hello/": "Way",
+    "/id/": "Resolved",
+  }
+
   function stringSimilarity(a, b) {
     var equivalency = 0;
     var minLength = (a.length > b.length) ? b.length : a.length;
@@ -254,6 +283,7 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 
   // loop through pages and extraPages to find the closest match
   var pathName = window.location.pathname.substring(1).toLowerCase();
+  // var pathName = "https://r74n.com/hello/test"; //test
   var testedPages = {};
   for (var i = 0; i < pages.length; i++) {
     var page = pages[i];
@@ -310,6 +340,22 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
       document.getElementById("matchUl").innerHTML += "<li><a href='/" + page + "'>" + pageName + "</a></li>";
     }
     if (y){document.getElementById("matchUl").parentElement.style.display = "block";}
+  }
+
+  for (var term in nounChanges) {
+    if (pathName.indexOf(term) > -1) {
+      document.getElementById("noun").innerText = nounChanges[term];
+    }
+  }
+  for (var term in negativeChanges) {
+    if (pathName.indexOf(term) > -1) {
+      document.getElementById("negative").innerText = negativeChanges[term];
+    }
+  }
+  for (var term in verbChanges) {
+    if (pathName.indexOf(term) > -1) {
+      document.getElementById("verb").innerText = verbChanges[term];
+    }
   }
 
 </script>
