@@ -1317,6 +1317,15 @@ rueData.commands = {
     "shop": "=buy",
     "shopping": "=buy",
     "purchase": "=buy",
+    "download": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify a media URL!"); return }
+        Rue.openLink("https://cobalt.tools/?u="+args.join(" "));
+    },
+    "dl": "=download",
+    "cobalt": "=download", //partner
+    "cobalt.tools": "=download",
+    "cobalt tools": "=download",
+    "cobalttools": "=download",
 
     "downdetector": function(args) { //partner
         if (args.length === 0) {

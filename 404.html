@@ -62,9 +62,9 @@ Did you mean...
 <ul id="matchUl" style="margin-bottom:0px!important"></ul>
 </div>
 <br>
-Problem? Talk it out on our <a href="https://docs.google.com/document/d/1NeMxEPddvqALjupCl0svIUoeklgc973Ev90hI1HNu8s/edit?usp=sharing" target="_blank">public Google Doc</a> or join our <a href="https://link.r74n.com/discord" target="_blank">Discord</a>.
+Problem? Send us <a href="https://r74n.com/ufbs/#Projects" target="_blank">feedback</a> or join our <a href="https://link.r74n.com/discord" target="_blank">Discord</a>.
 <br><br>
-Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.com/search">take a search</a>.
+Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.com/search" id="404Search">take a search</a>.
 
 
 <script> // 404 handling
@@ -359,6 +359,8 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
       document.getElementById("verb").innerText = verbChanges[term];
     }
   }
+
+  document.getElementById("404Search").href += "?q=" + pathName.replace(/[\/\.\-_]/g, " ");
 
 </script>
 
