@@ -42,6 +42,8 @@ This HTML and its contents are property of R74n.com.
 
     <script src="https://R74n.com/load.js"></script>
 
+    <script src="foodData.js"></script>
+
     <style>
       .content {
         margin: 0;
@@ -60,6 +62,7 @@ This HTML and its contents are property of R74n.com.
         border: solid 3px #614202;
         box-sizing: border-box;
         background-color: #614202;
+        text-shadow: 0px 3px 4px rgba(0,0,0,0.25);
       }
       #gameCanvas {
         background-color: #e3d5ba;
@@ -98,7 +101,7 @@ This HTML and its contents are property of R74n.com.
         flex-grow: 1;
         height: 100%;
         box-shadow: -3px 0px 4px rgba(0,0,0,0.25);
-        z-index: 6;
+        z-index: 7;
       }
       #controlsBar button {
         flex-grow: 1;
@@ -132,15 +135,18 @@ This HTML and its contents are property of R74n.com.
         box-sizing: border-box;
         box-shadow: 0px 3px 4px rgba(0,0,0,0.25);
         z-index: 5;
+        position: relative;
         /* background-image: url('wood.png');
         background-size: 100px 100px; */
       }
       #prepBar ::placeholder {
         color: #614202;
+        text-shadow: none;
         opacity: 1; /* Firefox */
       }
       #prepBar ::-ms-input-placeholder { /* Edge 12 -18 */
-        color: red;
+        color: #614202;
+        text-shadow: none;
       }
       #prepText {
         width: 100%;
@@ -152,7 +158,56 @@ This HTML and its contents are property of R74n.com.
         text-align: left;
         border-radius: 0;
         font-size: 30px;
+        text-shadow: 0px 3px 4px rgba(0,0,0,0.25);
       }
+      #searchResultsDiv {
+        position: absolute;
+        display: none;
+        top: 48px;
+        width: 100%;
+        left: 0px;
+        background-color: #9b6723;
+        border-bottom: solid 3px #614202;
+        box-sizing: border-box;
+        box-shadow: 0px 3px 4px rgba(0,0,0,0.25);
+        max-height: 10em;
+        overflow-y: scroll;
+        z-index: 6;
+      }
+      /* inside #searchResults, have up to 5 searchResult divs side by side */
+      #searchResults {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+      }
+      .searchResult {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 5px;
+        box-shadow: 0px 3px 4px rgba(0,0,0,0.25);
+        border: solid 1px #775104;
+        cursor: pointer;
+        background-color: #9b6723;
+        flex-grow: 1;
+      }
+      .searchResult:hover {
+        background-color: rgb(183, 130, 25);
+      }
+      .searchResult img {
+        width: 2em;
+        height: 2em;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+        -webkit-filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.25));
+        filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.25));
+      }
+      .searchResult span {
+        font-size: 20px;
+      }
+
 
       /* mobile */
       @media (max-width: 700px) {
@@ -178,7 +233,22 @@ This HTML and its contents are property of R74n.com.
 <div id="gameDiv">
   <div id="mainDiv" style="display: none;">
     <div id="prepBar">
-      <input type="text" id="prepText" placeholder="Search ingredients...">
+      <input type="text" id="prepText" placeholder="Search ingredients..." autocomplete="off">
+      <div id="searchResultsDiv">
+        <div id="searchResults">
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Two</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese 3</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Four</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Four</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Big Text A LOT</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Big Text A LOT</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Ch</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Ch</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Ch</span></div>
+          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Ch</span></div>
+        </div>
+      </div>
     </div>
     <canvas id="gameCanvas"></canvas>
   </div>
@@ -228,13 +298,21 @@ This HTML and its contents are property of R74n.com.
   }
   fps = 30;
   gameLoop = null;
+  ticks = 0;
   function tick() {
     drawCanvas();
+    ticks++;
   }
   imageCache = {};
+  searchTimeout = null;
+  currentIngredient = "";
+  currentView = "bowl";
+  shiftDown = false;
+  mousePos = {x: 0, y: 0};
   function loadImage(src) {
     if (imageCache[src] == undefined) {
       imageCache[src] = new Image();
+      imageCache[src].loaded = false;
       imageCache[src].onload = function() {
         this.loaded = true;
       }
@@ -287,15 +365,24 @@ This HTML and its contents are property of R74n.com.
     return [r * 255, g * 255, b * 255];
   }
   function colorizeImage(src,h,s,l) {
-    var img = loadImage(src);
-    if (!img.loaded) { return img; }
     var name = src+h+","+s+","+l;
     if (imageCache[name]) { return imageCache[name]; }
+    var img = loadImage(src);
     var canvas = document.createElement('canvas');
     canvas.width = img.width;
     canvas.height = img.height;
     var ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
+    if (!img.loaded) {
+      if (!img.loadpilled) {
+        img.addEventListener('load', function() {
+          colorizeImage(src,h,s,l).src;
+        });
+        img.loadpilled = true;
+      }
+      img.id = name;
+      return img;
+    }
     var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < imgData.data.length; i += 4) {
       var rgb = [imgData.data[i], imgData.data[i+1], imgData.data[i+2]];
@@ -311,25 +398,128 @@ This HTML and its contents are property of R74n.com.
     ctx.putImageData(imgData, 0, 0);
     imageCache[name] = new Image();
     imageCache[name].src = canvas.toDataURL();
+    imageCache[name].id = name;
     return imageCache[name];
+  }
+  function colorizeStandard(src,h,s,l) {
+    return colorizeImage(src, (h/360), (s/100-0.87), (l/100-0.56))
   }
   var imgPath = "https://r74n.com/cook/";
   function drawCanvas() {
-    // draw from file table.png to fit the whole canvas
-    ctx.drawImage(loadImage(imgPath+'table.png'), 0, 0, canvas.width, canvas.height);
-    // put in the middle on the table
-    // drawImageSized("bowl.png", [0.25, 0.4], [0.75, 0.75]);
-    var bowlImg = loadImage(imgPath+'bowl.png');
-    ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
-    var liquidImg = colorizeImage('bowl_liquid.png',0.1,0,0.2);
-    ctx.drawImage(liquidImg, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (viewRenderer[currentView] !== undefined) { viewRenderer[currentView]() }
+  }
+  viewRenderer = {
+    "bowl": function() {
+      // draw from file table.png to fit the whole canvas
+      ctx.drawImage(loadImage(imgPath+'table.png'), 0, 0, canvas.width, canvas.height);
+      // put in the middle on the table
+      // drawImageSized("bowl.png", [0.25, 0.4], [0.75, 0.75]);
+      ctx.shadowOffsetY = 7;
+      ctx.shadowColor = "black";
+      ctx.shadowBlur = 20;
+      var bowlImg = loadImage(imgPath+'bowl.png');
+      ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
+      ctx.shadowColor = "transparent";
+      var liquidImg = colorizeStandard('bowl_liquid.png', 180, 27, 35);
+      ctx.drawImage(liquidImg, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
+    }
   }
   refreshCanvas();
   window.addEventListener('resize', refreshCanvas);
+
+  function selectIngredient(ingredient) {
+    currentIngredient = ingredient;
+    document.getElementById('prepText').value = formatName(ingredient);
+  }
+  function formatName(ingredient) {
+    if (ingredients[ingredient] !== undefined && ingredients[ingredient].name) {
+      ingredient = ingredients[ingredient].name;
+    }
+    ingredient = ingredient.replace(/_/g, " ");
+    ingredient = ingredient.replace(
+      /\w\S*/g,
+      function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    )
+    return ingredient;
+  }
+  function searchIngredients(query) {
+    var searchResults = document.getElementById('searchResults');
+    searchResults.innerHTML = "";
+    if (!query) { hideSearchResults(); return; }
+    query = query.toLowerCase().replace(/ /g, "_");
+    var redo = false;
+    var count = 0;
+    for (var key in ingredients) {
+      if (count > 10) { break; }
+      if (key.indexOf(query) != -1) {
+        var info = ingredients[key];
+        var canvas = colorizeStandard("../shapes/png/"+info.shape+".png", info.h, info.s, info.l);
+        var div = document.createElement('div');
+        div.className = 'searchResult';
+        div.innerHTML = "<img src='"+canvas.src+"'><span>"+formatName(key)+"</span>";
+        div.setAttribute('data-ingredient', key);
+        div.onclick = function() {
+          selectIngredient(this.getAttribute('data-ingredient'));
+          document.getElementById('prepText').value = formatName(currentIngredient);
+          document.getElementById('searchResultsDiv').style.display = 'none';
+        }
+        console.log(canvas.loaded)
+        if (canvas.loaded === false) {
+          redo = true;
+        }
+        else {
+          searchResults.appendChild(div);
+        }
+      }
+      count++;
+    }
+    if (redo) {
+      setTimeout(function() {
+        searchIngredients(query);
+      }, 100);
+      return;
+    }
+    if (searchResults.innerHTML.length == 0) {
+      searchResults.innerHTML = "<span>No ingredients found... :(</span>";
+    }
+    showSearchResults();
+  }
+
   window.addEventListener('load', function(){
     document.getElementById('loadingScreen').style.display = 'none';
     document.getElementById('mainDiv').style.display = 'flex';
     document.getElementById('rightDiv').style.display = 'flex';
+    var gameCanvas = document.getElementById('gameCanvas');
+    var rightDiv = document.getElementById('rightDiv');
+    var prepBar = document.getElementById('prepBar');
+    var prepText = document.getElementById('prepText');
+    var searchResults = document.getElementById('searchResultsDiv');
+
+    // Event Listeners
+    hideSearchResults = () => document.getElementById('searchResultsDiv').style.display = 'none';
+    showSearchResults = () => document.getElementById('searchResultsDiv').style.display = 'block';
+    prepText.addEventListener('click', function(e) {
+      searchIngredients(this.value)
+    });
+    prepText.addEventListener('input', function(e) {
+      if (this.value.length === 0) { hideSearchResults(); return }
+      document.getElementById('searchResults').innerHTML = "Searching... :)";
+      showSearchResults();
+      // timeout to prevent spamming
+      if (searchTimeout) { clearTimeout(searchTimeout); }
+      searchTimeout = setTimeout(function() {
+        searchIngredients(prepText.value);
+      }, 250);
+    });
+    prepBar.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+    document.body.addEventListener('click', hideSearchResults);
+
+    // Initiation
     refreshCanvas();
     gameLoop = setInterval(tick, 1000 / fps);
   });
