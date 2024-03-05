@@ -235,29 +235,17 @@ This HTML and its contents are property of R74n.com.
     <div id="prepBar">
       <input type="text" id="prepText" placeholder="Search ingredients..." autocomplete="off">
       <div id="searchResultsDiv">
-        <div id="searchResults">
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Two</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese 3</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Four</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Four</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Big Text A LOT</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Cheese Big Text A LOT</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Ch</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Ch</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Ch</span></div>
-          <div class="searchResult"><img src="../shapes/png/circle_porous.png"><span>Ch</span></div>
-        </div>
+        <div id="searchResults"></div>
       </div>
     </div>
     <canvas id="gameCanvas"></canvas>
   </div>
   <div id="rightDiv" style="display: none;">
     <div id="controlsBar">
-      <button selected><img src="../shapes/png/semicircle_bottom.png" class="pixelart"></button>
-      <button><img src="../shapes/png/stack.png" class="pixelart"></button>
-      <button><img src="../shapes/png/flame.png" class="pixelart"></button>
-      <button><img src="../shapes/png/liquid.png" class="pixelart"></button>
+      <button selected id="button-bowl" onclick="changeView('bowl')"><img src="../shapes/png/semicircle_bottom.png" class="pixelart"></button>
+      <button id="button-stack" onclick="changeView('stack')"><img src="../shapes/png/stack.png" class="pixelart"></button>
+      <button id="button-stove" onclick="changeView('stove')"><img src="../shapes/png/flame.png" class="pixelart"></button>
+      <button id="button-blend" onclick="changeView('blend')"><img src="../shapes/png/liquid.png" class="pixelart"></button>
     </div>
   </div>
   <div id="loadingScreen">
@@ -307,6 +295,7 @@ This HTML and its contents are property of R74n.com.
   searchTimeout = null;
   currentIngredient = "";
   currentView = "bowl";
+  viewData = {};
   shiftDown = false;
   mousePos = {x: 0, y: 0};
   function loadImage(src) {
@@ -423,6 +412,23 @@ This HTML and its contents are property of R74n.com.
       ctx.shadowColor = "transparent";
       var liquidImg = colorizeStandard('bowl_liquid.png', 180, 27, 35);
       ctx.drawImage(liquidImg, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
+      // draw transparent ingredient at mousePos
+      if (currentIngredient) {
+        ctx.globalAlpha = 0.5;
+        var ingredientImg = colorizeStandard("../shapes/png/"+ingredients[currentIngredient].shape+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
+        ctx.drawImage(ingredientImg, mousePos.x - ingredientImg.width, mousePos.y - ingredientImg.height, ingredientImg.width*2, ingredientImg.height*2);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+  function changeView(view) {
+    currentView = view;
+    document.getElementById('controlsBar').querySelectorAll('button[selected]').forEach(function(button) {
+      button.removeAttribute('selected');
+    });
+    document.getElementById('controlsBar').querySelector('#button-'+view).setAttribute('selected', '');
+    if (!viewData[view]) {
+      viewData[view] = {"total":[],"contained":[]};
     }
   }
   refreshCanvas();
@@ -430,6 +436,7 @@ This HTML and its contents are property of R74n.com.
 
   function selectIngredient(ingredient) {
     currentIngredient = ingredient;
+    if (!ingredient || !ingredients[ingredient]) { return; }
     document.getElementById('prepText').value = formatName(ingredient);
   }
   function formatName(ingredient) {
@@ -449,13 +456,16 @@ This HTML and its contents are property of R74n.com.
     var searchResults = document.getElementById('searchResults');
     searchResults.innerHTML = "";
     if (!query) { hideSearchResults(); return; }
+    var queryO = query;
     query = query.toLowerCase().replace(/ /g, "_");
+    if (query === "*test") { query = "" }
     var redo = false;
     var count = 0;
     for (var key in ingredients) {
       if (count > 10) { break; }
       if (key.indexOf(query) != -1) {
         var info = ingredients[key];
+        if (info.hidden || info.group === "generic") { continue; }
         var canvas = colorizeStandard("../shapes/png/"+info.shape+".png", info.h, info.s, info.l);
         var div = document.createElement('div');
         div.className = 'searchResult';
@@ -466,7 +476,6 @@ This HTML and its contents are property of R74n.com.
           document.getElementById('prepText').value = formatName(currentIngredient);
           document.getElementById('searchResultsDiv').style.display = 'none';
         }
-        console.log(canvas.loaded)
         if (canvas.loaded === false) {
           redo = true;
         }
@@ -478,7 +487,7 @@ This HTML and its contents are property of R74n.com.
     }
     if (redo) {
       setTimeout(function() {
-        searchIngredients(query);
+        searchIngredients(queryO);
       }, 100);
       return;
     }
@@ -486,6 +495,66 @@ This HTML and its contents are property of R74n.com.
       searchResults.innerHTML = "<span>No ingredients found... :(</span>";
     }
     showSearchResults();
+  }
+  function finalizeIngredient(ingredient) {
+    var info = ingredients[ingredient];
+    if (info.r) {
+      var r = info.r;var g = info.g;var b = info.b;
+      var hsl = rgbToHsl(r, g, b);
+      info.h = hsl[0] * 360;
+      info.s = hsl[1] * 100;
+      info.l = hsl[2] * 100;
+    }
+    if (info.rgb) {
+      var rgb = info.rgb.split(",");
+      var hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
+      info.h = hsl[0] * 360;
+      info.s = hsl[1] * 100;
+      info.l = hsl[2] * 100;
+    }
+    if (info.hsl) {
+      var hsl = info.hsl.split(",");
+      info.h = hsl[0];
+      info.s = hsl[1];
+      info.l = hsl[2];
+    }
+    if (info.color) {
+      var color = info.color;
+      if (color.charCodeAt(0) == 35) {
+        color = color.substring(1);
+      }
+      var r = parseInt(color.substring(0, 2), 16);
+      var g = parseInt(color.substring(2, 4), 16);
+      var b = parseInt(color.substring(4, 6), 16);
+      var hsl = rgbToHsl(r, g, b);
+      info.h = hsl[0] * 360;
+      info.s = hsl[1] * 100;
+      info.l = hsl[2] * 100;
+    }
+    if (!info.h) { info.h=0 }
+    if (!info.s) { info.s=0 }
+    if (!info.l) { info.l=50 }
+    if (!info.shape) {
+      info.shape = ingredientAttr(ingredient, "shape") || "rhombus";
+    }
+    if (!info.group) {
+      var parentGroup = ingredientAttr(ingredient, "group");
+      if (!parentGroup || parentGroup === "generic") {
+        info.group = "other";
+      }
+    }
+  }
+  function ingredientAttr(ingredient, attr) {
+    if (ingredients[ingredient] === undefined) { return undefined; }
+    if (ingredients[ingredient][attr] === undefined) {
+      if (ingredients[ingredient].type) {
+        return ingredientAttr(ingredients[ingredient].type, attr);
+      }
+    }
+    else {
+      return ingredients[ingredient][attr];
+    }
+    return undefined;
   }
 
   window.addEventListener('load', function(){
@@ -501,11 +570,13 @@ This HTML and its contents are property of R74n.com.
     // Event Listeners
     hideSearchResults = () => document.getElementById('searchResultsDiv').style.display = 'none';
     showSearchResults = () => document.getElementById('searchResultsDiv').style.display = 'block';
-    prepText.addEventListener('click', function(e) {
-      searchIngredients(this.value)
+    prepText.addEventListener('focus', function(e) {
+      if (document.getElementById('searchResults').innerHTML) { showSearchResults(); }
+      this.value = "";
+      // searchIngredients(this.value)
     });
     prepText.addEventListener('input', function(e) {
-      if (this.value.length === 0) { hideSearchResults(); return }
+      if (this.value.length === 0) { hideSearchResults(); selectIngredient(null); return }
       document.getElementById('searchResults').innerHTML = "Searching... :)";
       showSearchResults();
       // timeout to prevent spamming
@@ -518,8 +589,28 @@ This HTML and its contents are property of R74n.com.
       e.stopPropagation();
     });
     document.body.addEventListener('click', hideSearchResults);
+    window.addEventListener('keydown', function(e) {
+      if (e.keyCode == 16) { shiftDown = true; }
+    });
+    window.addEventListener('keyup', function(e) {
+      if (e.keyCode == 16) { shiftDown = false; }
+    });
+    window.addEventListener('blur', function(e) {
+      shiftDown = false;
+    });
+    window.addEventListener('mousemove', function(e) {
+      // get mouse position on canvas
+      var rect = gameCanvas.getBoundingClientRect();
+      mousePos = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      }
+    });
 
-    // Initiation
+    // Initialization
+    for (var key in ingredients) {
+      finalizeIngredient(key);
+    }
     refreshCanvas();
     gameLoop = setInterval(tick, 1000 / fps);
   });

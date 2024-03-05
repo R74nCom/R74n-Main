@@ -1,55 +1,62 @@
+/*
+[Ingredient Properties]
+name: override default name
+type: inherits properties from specified ingredient
+group: other(default), generic(hidden), dairy, mineral, carb, fruit
+shape: R74n Shapes file name, without .png
+behavior: 0=default, 1=liquid, 2=powder
+adj: adjective to describe ingredient in dish
+hidden: true=hidden from ingredient list
+*/
+
 ingredients = {
+liquid: {
+    group:"generic",
+    shape:"liquid",
+    behavior:1
+},
+powder: {
+    group:"generic",
+    shape:"powder",
+    behavior:2
+},
+water: {
+    type:"liquid",
+    color:"#5abcd8",
+},
+oil: {
+    type:"liquid",
+    color:"#DBCF5C",
+},
+egg: {
+    shape:"ovoid",
+    color:"#F0EAD6",
+},
+salt: {
+    type:"powder",
+    group:"mineral",
+    shape:"powder_rough",
+    color:"#e3e3e3",
+},
+sugar: {
+    type:"powder",
+    group:"carb",
+    color:"#f2f2f2",
+},
+flour: {
+    type:"powder",
+    group:"carb",
+    color:"#f4efe5",
+},
 cheese: {
-    h:50,s:100,l:50,
-    type:"dairy",
+    color:"#ffdd33",
+    group:"dairy",
     shape:"circle_porous",
     adj:"cheesy"
 },
-red_cheese: {
-    h:0,s:100,l:50,
-    type:"dairy",
-    shape:"circle_porous",
-    adj:"cheesy"
-},
-orange_cheese: {
-    h:25,s:100,l:50,
-    type:"dairy",
-    shape:"circle_porous",
-    adj:"cheesy"
-},
-green_cheese: {
-    h:100,s:100,l:50,
-    type:"dairy",
-    shape:"circle_porous",
-    adj:"cheesy"
-},
-blue_cheese: {
-    h:200,s:100,l:50,
-    type:"dairy",
-    shape:"circle_porous",
-    adj:"cheesy"
-},
-purple_cheese: {
-    h:300,s:100,l:50,
-    type:"dairy",
-    shape:"circle_porous",
-    adj:"cheesy"
-},
-black_cheese: {
-    h:0,s:0,l:20,
-    type:"dairy",
-    shape:"circle_porous",
-    adj:"cheesy"
-},
-white_cheese: {
-    h:0,s:0,l:75,
-    type:"dairy",
-    shape:"circle_porous",
-    adj:"cheesy"
-},
-not_cheese: {
-    h:0,s:50,l:90,
-    type:"dairy",
-    shape:"sus",
+apple: {
+    color:"#dd1533",
+    group:"fruit",
+    shape:"fruit_bipod_stem"
 },
 }
