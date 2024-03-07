@@ -73,6 +73,7 @@ This HTML and its contents are property of R74n.com.
         image-rendering: pixelated;
         image-rendering: -moz-crisp-edges;
         image-rendering: crisp-edges;
+        user-select: none;
       }
       #loadingScreen {
         background-color: #e3d5ba;
@@ -102,6 +103,7 @@ This HTML and its contents are property of R74n.com.
         height: 100%;
         box-shadow: -3px 0px 4px rgba(0,0,0,0.25);
         z-index: 7;
+        user-select: none;
       }
       #controlsBar button {
         flex-grow: 1;
@@ -254,8 +256,6 @@ This HTML and its contents are property of R74n.com.
 </div>
 <script>
   function refreshCanvas() {
-    var canvas = document.getElementById('gameCanvas');
-    var gameDiv = document.getElementById('gameDiv');
     canvas.width = gameDiv.clientWidth - document.getElementById('controlsBar').clientWidth;
     canvas.height = gameDiv.clientHeight - document.getElementById('prepBar').clientHeight - 2;
     ctx.webkitImageSmoothingEnabled = false;
@@ -284,7 +284,7 @@ This HTML and its contents are property of R74n.com.
   else {
     // desktop scripts
   }
-  fps = 30;
+  fps = 40;
   gameLoop = null;
   ticks = 0;
   function tick() {
@@ -296,8 +296,9 @@ This HTML and its contents are property of R74n.com.
   currentIngredient = "";
   currentView = "bowl";
   viewData = {};
-  shiftDown = false;
+  controlState = {};
   mousePos = {x: 0, y: 0};
+  foodScale = 2.25;
   function loadImage(src) {
     if (imageCache[src] == undefined) {
       imageCache[src] = new Image();
@@ -378,7 +379,9 @@ This HTML and its contents are property of R74n.com.
       var hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
       hsl[0] = Math.min(1, Math.max(0, hsl[0] + h));
       hsl[1] = Math.min(1, Math.max(0, hsl[1] + s));
-      hsl[2] = Math.min(1, Math.max(0, hsl[2] + l));
+      if (hsl[2] > 0.2 || l < hsl[2]) {
+        hsl[2] = Math.min(1, Math.max(0, hsl[2] + l));
+      }
       rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
       imgData.data[i] = rgb[0];
       imgData.data[i+1] = rgb[1];
@@ -397,28 +400,141 @@ This HTML and its contents are property of R74n.com.
   function drawCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (viewRenderer[currentView] !== undefined) { viewRenderer[currentView]() }
+    tickPlaced();
+    // draw a blue rectangle at the bottom of the bowl for its hitbox
+    if (viewInfo[currentView] !== undefined && viewInfo[currentView].hitbox) {
+      var bowlImg = loadImage(viewInfo[currentView].image);
+      var hitbox = viewInfo[currentView].hitbox;
+      ctx.fillStyle = "rgba(0,0,255,0.5)";
+      // relative to bowlImg width and height and its position on canvas, topleft = 0, topright = 1, bottomright = 2, bottomleft = 3, height = 4
+      ctx.fillRect(bowlImg.width*hitbox[0] + canvas.width/2 - bowlImg.width/2*5, bowlImg.height*hitbox[1] + canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*hitbox[2], bowlImg.height*hitbox[4]);
+    }
+  }
+  function drawPlaced() {
+    // loop through viewData[currentView].total and draw each at their x and y
+    for (var i = 0; i < viewData[currentView].total.length; i++) {
+      var placed = viewData[currentView].total[i];
+      var ingredientImg = colorizeStandard("../shapes/png/"+ingredients[placed.id].shape+".png", ingredients[placed.id].h, ingredients[placed.id].s, ingredients[placed.id].l);
+      if (ingredientImg.loaded === false) { continue; }
+      ctx.drawImage(ingredientImg, placed.x - ingredientImg.width/2*foodScale, placed.y - ingredientImg.height/2*foodScale, ingredientImg.width*foodScale, ingredientImg.height*foodScale);
+    }
+  }
+  function placeIngredient(ingredient, x, y) {
+    var info = ingredients[ingredient];
+    if (info.behavior > 0) {
+      var size = 4*foodScale;
+    }
+    else {
+      var size = 32*foodScale;
+    }
+    viewData[currentView].total.push({id:ingredient, x:x, y:y, h:size, w:size});
+  }
+  function tickPlaced() {
+    if (viewInfo[currentView] !== undefined && viewInfo[currentView].hitbox) {
+      var bowlImg = loadImage(viewInfo[currentView].image);
+      var hitbox = viewInfo[currentView].hitbox;
+    }
+    else {var hitbox = null}
+    for (var i = 0; i < viewData[currentView].total.length; i++) {
+      var placed = viewData[currentView].total[i];
+      if (placed.done) { continue; }
+      if (placed.vx === undefined) { placed.vx = 0; }
+      else if (placed.vx) { placed.x += placed.vx; }
+      if (placed.vy === undefined) { placed.vy = 0; }
+      else if (placed.vy) { placed.y += placed.vy; }
+      placed.vy += 0.5;
+      if (Math.random() < 0.25) {
+        // check collision with other placed
+        for (var j = 0; j < viewData[currentView].total.length; j++) {
+          if (i === j) { continue; }
+          var other = viewData[currentView].total[j];
+          if (placed.x < other.x + other.w &&
+            placed.x + placed.w > other.x &&
+            placed.y < other.y + other.h &&
+            placed.y + placed.h > other.y) {
+            // collision
+            // bounce in opposite direction
+            if (other.done && placed.y > canvas.height/2 && placed.y < other.y) {
+              placed.done = true;
+            }
+            else if (placed.x < other.x) {
+              placed.vx = -(Math.random()*4+1);
+            }
+            else {
+              placed.vx = (Math.random()*4+1);
+            }
+          }
+        }
+        // if its outside the canvas, remove it
+        if (placed.x < 0 || placed.x > canvas.width || placed.y > canvas.height) {
+          viewData[currentView].total.splice(i, 1);
+          i--;
+        }
+      }
+      // check collision with the bowl
+      // equations: ctx.fillRect(bowlImg.width*hitbox[0] + canvas.width/2 - bowlImg.width/2*5, bowlImg.height*hitbox[1] + canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*hitbox[2], bowlImg.height*hitbox[4]);
+      // if inside hitbox, set done to true
+      if (hitbox) {
+        if (placed.x > bowlImg.width*hitbox[0] + canvas.width/2 - bowlImg.width/2*5 && placed.x < bowlImg.width*hitbox[0] + canvas.width/2 - bowlImg.width/2*5 + bowlImg.width*hitbox[2] && placed.y > bowlImg.height*hitbox[1] + canvas.height/2 - bowlImg.height/2*5+75 && placed.y < bowlImg.height*hitbox[1] + canvas.height/2 - bowlImg.height/2*5+75 + bowlImg.height*hitbox[4]) {
+          placed.done = true;
+        }
+      }
+    }
+  }
+  function checkCollision(placed,i) {
+    for (var j = 0; j < viewData[currentView].total.length; j++) {
+      if (i === j) { continue; }
+      var other = viewData[currentView].total[j];
+      if (placed.x < other.x + other.w &&
+        placed.x + placed.w > other.x &&
+        placed.y < other.y + other.h &&
+        placed.y + placed.h > other.y) {
+        // collision
+        return true;
+      }
+    }
+    return false;
   }
   viewRenderer = {
     "bowl": function() {
       // draw from file table.png to fit the whole canvas
-      ctx.drawImage(loadImage(imgPath+'table.png'), 0, 0, canvas.width, canvas.height);
+      ctx.drawImage(loadImage('table.png'), 0, 0, canvas.width, canvas.height);
       // put in the middle on the table
       // drawImageSized("bowl.png", [0.25, 0.4], [0.75, 0.75]);
       ctx.shadowOffsetY = 7;
       ctx.shadowColor = "black";
       ctx.shadowBlur = 20;
-      var bowlImg = loadImage(imgPath+'bowl.png');
+      var bowlImg = loadImage('bowl.png');
       ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
       ctx.shadowColor = "transparent";
-      var liquidImg = colorizeStandard('bowl_liquid.png', 180, 27, 35);
-      ctx.drawImage(liquidImg, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
+      if (viewData.bowl.liquid) {
+        var liquidColor = [viewData.bowl.liquidH/viewData.bowl.liquid, viewData.bowl.liquidS/viewData.bowl.liquid, viewData.bowl.liquidL/viewData.bowl.liquid]
+        // var liquidImg = colorizeStandard('bowl_liquid.png', 180, 27, 35);
+        var liquidImg = colorizeStandard('bowl_liquid.png', liquidColor[0], liquidColor[1], liquidColor[2]);
+        ctx.drawImage(liquidImg, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
+      }
+      drawPlaced();
       // draw transparent ingredient at mousePos
       if (currentIngredient) {
         ctx.globalAlpha = 0.5;
         var ingredientImg = colorizeStandard("../shapes/png/"+ingredients[currentIngredient].shape+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
-        ctx.drawImage(ingredientImg, mousePos.x - ingredientImg.width, mousePos.y - ingredientImg.height, ingredientImg.width*2, ingredientImg.height*2);
+        ctx.drawImage(ingredientImg, mousePos.x - ingredientImg.width/2*foodScale, mousePos.y - ingredientImg.height/2*foodScale, ingredientImg.width*foodScale, ingredientImg.height*foodScale);
         ctx.globalAlpha = 1;
       }
+      if (viewData.bowl.liquid) {
+        ctx.globalAlpha = 0.75;
+        var liquidImg2 = colorizeStandard('bowl_liquid_front.png', liquidColor[0], liquidColor[1], liquidColor[2]);
+        ctx.drawImage(liquidImg2, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
+        ctx.globalAlpha = 1;
+      }
+      var bowlImg2 = loadImage('bowl_front.png');
+      ctx.drawImage(bowlImg2, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
+    }
+  }
+  viewInfo = {
+    "bowl": {
+      "image": "bowl.png",
+      "hitbox": [0.5,3,4,1,0.5]
     }
   }
   function changeView(view) {
@@ -431,6 +547,7 @@ This HTML and its contents are property of R74n.com.
       viewData[view] = {"total":[],"contained":[]};
     }
   }
+  changeView('bowl');
   refreshCanvas();
   window.addEventListener('resize', refreshCanvas);
 
@@ -454,6 +571,7 @@ This HTML and its contents are property of R74n.com.
   }
   function searchIngredients(query) {
     var searchResults = document.getElementById('searchResults');
+    selectIngredient("");
     searchResults.innerHTML = "";
     if (!query) { hideSearchResults(); return; }
     var queryO = query;
@@ -465,7 +583,7 @@ This HTML and its contents are property of R74n.com.
       if (count > 10) { break; }
       if (key.indexOf(query) != -1) {
         var info = ingredients[key];
-        if (info.hidden || info.group === "generic") { continue; }
+        if (info.hidden) { continue; }
         var canvas = colorizeStandard("../shapes/png/"+info.shape+".png", info.h, info.s, info.l);
         var div = document.createElement('div');
         div.className = 'searchResult';
@@ -475,6 +593,7 @@ This HTML and its contents are property of R74n.com.
           selectIngredient(this.getAttribute('data-ingredient'));
           document.getElementById('prepText').value = formatName(currentIngredient);
           document.getElementById('searchResultsDiv').style.display = 'none';
+          controlState.inMenu = false;
         }
         if (canvas.loaded === false) {
           redo = true;
@@ -482,8 +601,8 @@ This HTML and its contents are property of R74n.com.
         else {
           searchResults.appendChild(div);
         }
+        count++;
       }
-      count++;
     }
     if (redo) {
       setTimeout(function() {
@@ -543,6 +662,7 @@ This HTML and its contents are property of R74n.com.
         info.group = "other";
       }
     }
+    if (info.group === "generic") { info.hidden = true }
   }
   function ingredientAttr(ingredient, attr) {
     if (ingredients[ingredient] === undefined) { return undefined; }
@@ -568,8 +688,12 @@ This HTML and its contents are property of R74n.com.
     var searchResults = document.getElementById('searchResultsDiv');
 
     // Event Listeners
-    hideSearchResults = () => document.getElementById('searchResultsDiv').style.display = 'none';
-    showSearchResults = () => document.getElementById('searchResultsDiv').style.display = 'block';
+    hideSearchResults = () => {
+      document.getElementById('searchResultsDiv').style.display = 'none';
+      controlState.inMenu=false;
+      if (currentIngredient) { prepText.value = formatName(currentIngredient); }
+    }
+    showSearchResults = () => {document.getElementById('searchResultsDiv').style.display = 'block'; ; controlState.inMenu=true}
     prepText.addEventListener('focus', function(e) {
       if (document.getElementById('searchResults').innerHTML) { showSearchResults(); }
       this.value = "";
@@ -590,21 +714,50 @@ This HTML and its contents are property of R74n.com.
     });
     document.body.addEventListener('click', hideSearchResults);
     window.addEventListener('keydown', function(e) {
-      if (e.keyCode == 16) { shiftDown = true; }
+      if (e.keyCode == 16) { controlState.shift = true; }
     });
     window.addEventListener('keyup', function(e) {
-      if (e.keyCode == 16) { shiftDown = false; }
+      if (e.keyCode == 16) { controlState.shift = false; }
     });
     window.addEventListener('blur', function(e) {
-      shiftDown = false;
+      controlState.shift = false;
+      controlState.mouse = false;
     });
-    window.addEventListener('mousemove', function(e) {
+    function updateMouse(e) {
       // get mouse position on canvas
       var rect = gameCanvas.getBoundingClientRect();
       mousePos = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+        x: Math.round(e.clientX - rect.left),
+        y: Math.round(e.clientY - rect.top)
       }
+    }
+    window.addEventListener('mousemove', function(e) {
+      // get mouse position on canvas
+      updateMouse(e);
+      // if (controlState.mouse === 0) {
+      //   if (currentIngredient) {
+      //     placeIngredient(currentIngredient, mousePos.x, mousePos.y);
+      //   }
+      // }
+    });
+    gameCanvas.addEventListener('mousedown', function(e) {
+      updateMouse(e);
+      if (controlState.inMenu) { return; }
+      controlState.mouse = e.button;
+      if (e.button === 0) {
+        if (currentIngredient) {
+          placeIngredient(currentIngredient, mousePos.x, mousePos.y);
+        }
+      }
+      if (controlState.shift) {
+        console.log(mousePos.x/canvas.width,mousePos.y/canvas.height);
+      }
+    });
+    gameCanvas.addEventListener('mouseup', function(e) {
+      controlState.mouse = false;
+    });
+    window.addEventListener('mouseup', function(e) {
+      controlState.mouse = false;
     });
 
     // Initialization

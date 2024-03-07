@@ -7,6 +7,7 @@ shape: R74n Shapes file name, without .png
 behavior: 0=default, 1=liquid, 2=powder
 adj: adjective to describe ingredient in dish
 hidden: true=hidden from ingredient list
+color, r, g, b, h, s, l, rgb, hsl
 */
 
 ingredients = {
@@ -46,6 +47,7 @@ sugar: {
 flour: {
     type:"powder",
     group:"carb",
+    shape:"powder_rough",
     color:"#f4efe5",
 },
 cheese: {
@@ -54,8 +56,8 @@ cheese: {
     shape:"circle_porous",
     adj:"cheesy"
 },
-apple: {
-    color:"#dd1533",
+red_apple: {
+    color:"#ff1f40",
     group:"fruit",
     shape:"fruit_bipod_stem"
 },
