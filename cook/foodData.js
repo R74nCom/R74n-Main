@@ -23,11 +23,15 @@ powder: {
 },
 water: {
     type:"liquid",
-    color:"#5abcd8",
+    color:"#bfd8df",
+},
+ketchup: {
+    type:"liquid",
+    color:"#ff2b2b",
 },
 oil: {
     type:"liquid",
-    color:"#DBCF5C",
+    color:"#e7df97",
 },
 egg: {
     shape:"ovoid",
@@ -51,9 +55,9 @@ flour: {
     color:"#f4efe5",
 },
 cheese: {
-    color:"#ffdd33",
+    color:"#fec118",
     group:"dairy",
-    shape:"circle_porous",
+    shape:"wedge",
     adj:"cheesy"
 },
 red_apple: {
