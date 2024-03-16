@@ -374,6 +374,7 @@ This HTML and its contents are property of R74n.com.
       if (!img.loadpilled) {
         img.addEventListener('load', function() {
           colorizeImage(src,h,s,l).src;
+          this.loaded = true;
         });
         img.loadpilled = true;
       }
@@ -398,6 +399,11 @@ This HTML and its contents are property of R74n.com.
     imageCache[name] = new Image();
     imageCache[name].src = canvas.toDataURL();
     imageCache[name].id = name;
+    imageCache[name].addEventListener('load', function() {
+      this.loaded = true;
+    });
+    imageCache[name].loadpilled = true;
+    imageCache[name].loaded = false;
     return imageCache[name];
   }
   function colorizeStandard(src,h,s,l) {
@@ -455,13 +461,13 @@ This HTML and its contents are property of R74n.com.
     var behavior = ingredientAttr(placed.id, "behavior");
     if (behavior > 0) {
       placed.done2 = true;
-      if (behavior === 1 && viewInfo[currentView].holdsLiquid) {
+      if ((behavior === 1 && viewInfo[currentView].holdsLiquid) || (behavior === 2 && viewData[currentView].liquid)) {
         viewData[currentView].liquid++;
         var rgb = hslToRgb(info.h/360, info.s/100, info.l/100);
         viewData[currentView].liquidR += rgb[0];
         viewData[currentView].liquidG += rgb[1];
         viewData[currentView].liquidB += rgb[2];
-        deleteIngredient(placed);
+        if (behavior === 1) { deleteIngredient(placed); }
       }
     }
     else {
@@ -536,6 +542,8 @@ This HTML and its contents are property of R74n.com.
     }
     return false;
   }
+  lastLiquidColor = null;
+  lastLiquidImg2 = null;
   viewRenderer = {
     "bowl": function() {
       // draw from file table.png to fit the whole canvas
@@ -551,9 +559,17 @@ This HTML and its contents are property of R74n.com.
       if (viewData.bowl.liquid) {
         var liquidColor = [viewData.bowl.liquidR/viewData.bowl.liquid, viewData.bowl.liquidG/viewData.bowl.liquid, viewData.bowl.liquidB/viewData.bowl.liquid]
         var hsl = rgbToHsl(liquidColor[0], liquidColor[1], liquidColor[2]);
-        liquidColor = [hsl[0]*360, hsl[1]*100, hsl[2]*100];
-        // var liquidImg = colorizeStandard('bowl_liquid.png', 180, 27, 35);
+        liquidColor = [Math.round(hsl[0]*360), Math.round(hsl[1]*100), Math.round(hsl[2]*100)];
         var liquidImg = colorizeStandard('bowl_liquid.png', liquidColor[0], liquidColor[1], liquidColor[2]);
+        if (liquidImg.loaded === false) {
+          if (lastLiquidColor) {
+            liquidColor = lastLiquidColor;
+            liquidImg = colorizeStandard('bowl_liquid.png', lastLiquidColor[0], lastLiquidColor[1], lastLiquidColor[2]);
+          }
+        }
+        else {
+          lastLiquidColor = liquidColor;
+        }
         ctx.drawImage(liquidImg, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
       }
       drawPlaced();
@@ -567,7 +583,17 @@ This HTML and its contents are property of R74n.com.
       if (viewData.bowl.liquid) {
         ctx.globalAlpha = 0.75;
         var liquidImg2 = colorizeStandard('bowl_liquid_front.png', liquidColor[0], liquidColor[1], liquidColor[2]);
-        ctx.drawImage(liquidImg2, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
+        if (liquidImg2.loaded === false) {
+          console.log(3)
+          if (lastLiquidImg2) {
+            var liquidImg2 = lastLiquidImg2;
+            liquidColor = lastLiquidColor;
+          }
+        }
+        else {
+          lastLiquidImg2 = liquidImg2;
+        }
+        ctx.drawImage(liquidImg2, canvas.width/2 - liquidImg2.width/2*5, canvas.height/2 - liquidImg2.height/2*5+75, liquidImg2.width*5, liquidImg2.height*5);
         ctx.globalAlpha = 1;
       }
       var bowlImg2 = loadImage('bowl_front.png');
