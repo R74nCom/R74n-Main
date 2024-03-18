@@ -80,8 +80,12 @@ https://r74n.com/halacae/
 https://r74n.com/halacae/view
 https://r74n.com/pixelflags/guess
 https://r74n.com/multiplane/
+https://r74n.com/multiplane/?search
+https://r74n.com/multiplane/?planes
+https://r74n.com/multiplane/?unions
 https://r74n.com/sequence/
 https://r74n.com/ants/
+https://r74n.com/ants/?funerals
 https://r74n.com/id/
 https://r74n.com/id/table
 https://r74n.com/id/alpha
@@ -90,7 +94,10 @@ https://r74n.com/id/urn
 https://r74n.com/id/uuid
 https://r74n.com/id/aid
 https://r74n.com/id/ark
+https://r74n.com/id/why
+https://r74n.com/schema/
 https://r74n.com/meta/
 https://r74n.com/collab/
 https://r74n.com/outlinks/
 https://r74n.com/eod/
+https://r74n.com/supporters/
