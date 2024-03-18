@@ -83,6 +83,7 @@ https://r74n.com/multiplane/
 https://r74n.com/sequence/
 https://r74n.com/ants/
 https://r74n.com/id/
+https://r74n.com/id/table
 https://r74n.com/id/alpha
 https://r74n.com/id/oid
 https://r74n.com/id/urn
