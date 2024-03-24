@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-  <ShortName>Explore with Rue (R74n)</ShortName>
+  <ShortName>R74n</ShortName>
   <Description>Use Explore with Rue to search or go to R74n projects.</Description>
   <Tags>R74n rue r R74n.com</Tags>
   <Contact>contact@R74n.com</Contact>
-  <Url type="text/html" method="get" template="https://r74n.com/?rue={searchTerms}"/>
+  <Url type="text/html" template="https://r74n.com/?rue={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml"
+     rel="self"
+     template="https://r74n.com/rue/open-search.xml" />
+  <LongName>Explore with Rue (R74n)</LongName>
   <Developer>R74n</Developer>
   <Query role="example" searchTerms="sandboxels fb" />
+  <Query role="example" searchTerms="tiktok" />
   <Attribution>All Rights Reserved. R74n</Attribution>
   <Image width="48" height="48" type="image/x-icon">https://r74n.com/icons/favicon.ico</Image>
+  <Image width="32" height="32" type="image/x-icon">https://r74n.com/icons/favicon_2.ico</Image>
+  <Image height="16" width="16" type="image/png">https://r74n.com/icons/favicon-16x16.png</Image>
+  <Image height="32" width="32" type="image/png">https://r74n.com/icons/favicon-32x32.png</Image>
   <moz:SearchForm>https://r74n.com/?rue=true</moz:SearchForm>
+  <Attribution>Search data Copyright 2024, R74n, All Rights Reserved</Attribution>
+  <SyndicationRight>open</SyndicationRight>
+  <AdultContent>false</AdultContent>
+  <Language>en-us</Language>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <InputEncoding>UTF-8</InputEncoding>
 </OpenSearchDescription>
