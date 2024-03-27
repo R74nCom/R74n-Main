@@ -56,25 +56,54 @@ This HTML and its contents are property of R74n.com.
 
 <p>Shape count: <span id="shapeCount">...</span></p>
 
+<!-- <div id="previewBox">
+</div> -->
+<style>
+    #previewBox {
+        background-color: white;
+        padding: 50px;
+    }
+    #previewBox img {
+        width: 96px;
+        height: 96px;
+        margin: 6px;
+    }
+</style>
+
 <table id="shapeTable">
 <tr><td><img src="png/acute_angle.png" class="pixelart"></td><td>acute_angle.png</td></tr>
 <tr><td><img src="png/angle_left.png" class="pixelart"></td><td>angle_left</td></tr>
 <tr><td><img src="png/angle_right.png" class="pixelart"></td><td>angle_right</td></tr>
 <tr><td><img src="png/arbelos.png" class="pixelart"></td><td>arbelos.png</td></tr>
+<tr><td><img src="png/arrow_diagonal_backward.png" class="pixelart"></td><td>arrow_diagonal_backward</td></tr>
+<tr><td><img src="png/arrow_diagonal_forward.png" class="pixelart"></td><td>arrow_diagonal_forward</td></tr>
 <tr><td><img src="png/arrow_down_left.png" class="pixelart"></td><td>arrow_down_left.png</td></tr>
 <tr><td><img src="png/arrow_down_right.png" class="pixelart"></td><td>arrow_down_right.png</td></tr>
+<tr><td><img src="png/arrow_down_to_left.png" class="pixelart"></td><td>arrow_down_to_left</td></tr>
+<tr><td><img src="png/arrow_down_to_right.png" class="pixelart"></td><td>arrow_down_to_right</td></tr>
 <tr><td><img src="png/arrow_down.png" class="pixelart"></td><td>arrow_down.png</td></tr>
+<tr><td><img src="png/arrow_horizontal.png" class="pixelart"></td><td>arrow_horizontal</td></tr>
+<tr><td><img src="png/arrow_left_to_down.png" class="pixelart"></td><td>arrow_left_to_down</td></tr>
+<tr><td><img src="png/arrow_left_to_up.png" class="pixelart"></td><td>arrow_left_to_up</td></tr>
 <tr><td><img src="png/arrow_left.png" class="pixelart"></td><td>arrow_left.png</td></tr>
+<tr><td><img src="png/arrow_right_to_down.png" class="pixelart"></td><td>arrow_right_to_down</td></tr>
+<tr><td><img src="png/arrow_right_to_up.png" class="pixelart"></td><td>arrow_right_to_up</td></tr>
 <tr><td><img src="png/arrow_right.png" class="pixelart"></td><td>arrow_right.png</td></tr>
 <tr><td><img src="png/arrow_up_left.png" class="pixelart"></td><td>arrow_up_left.png</td></tr>
 <tr><td><img src="png/arrow_up_right.png" class="pixelart"></td><td>arrow_up_right.png</td></tr>
+<tr><td><img src="png/arrow_up_to_left.png" class="pixelart"></td><td>arrow_up_to_left</td></tr>
+<tr><td><img src="png/arrow_up_to_right.png" class="pixelart"></td><td>arrow_up_to_right</td></tr>
 <tr><td><img src="png/arrow_up.png" class="pixelart"></td><td>arrow_up.png</td></tr>
+<tr><td><img src="png/arrow_vertical.png" class="pixelart"></td><td>arrow_vertical</td></tr>
 <tr><td><img src="png/astroid.png" class="pixelart"></td><td>astroid.png</td></tr>
 <tr><td><img src="png/bar_diagonal_backward.png" class="pixelart"></td><td>bar_diagonal_backward</td></tr>
 <tr><td><img src="png/bar_diagonal_forward.png" class="pixelart"></td><td>bar_diagonal_forward.png</td></tr>
 <tr><td><img src="png/bar_horizontal_bi.png" class="pixelart"></td><td>bar_horizontal_bi</td></tr>
+<tr><td><img src="png/bar_horizontal_circle.png" class="pixelart"></td><td>bar_horizontal_circle</td></tr>
 <tr><td><img src="png/bar_horizontal.png" class="pixelart"></td><td>bar_horizontal.png</td></tr>
 <tr><td><img src="png/bar_vertical.png" class="pixelart"></td><td>bar_vertical.png</td></tr>
+<tr><td><img src="png/barrier_circle.png" class="pixelart"></td><td>barrier_circle</td></tr>
+<tr><td><img src="png/barrier_square.png" class="pixelart"></td><td>barrier_square</td></tr>
 <tr><td><img src="png/bean_l.png" class="pixelart"></td><td>bean_l</td></tr>
 <tr><td><img src="png/bean_tiny.png" class="pixelart"></td><td>bean_tiny</td></tr>
 <tr><td><img src="png/bean.png" class="pixelart"></td><td>bean</td></tr>
@@ -85,6 +114,7 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/cephalopod.png" class="pixelart"></td><td>cephalopod</td></tr>
 <tr><td><img src="png/check.png" class="pixelart"></td><td>check</td></tr>
 <tr><td><img src="png/circle_arc.png" class="pixelart"></td><td>circle_arc</td></tr>
+<tr><td><img src="png/circle_chord.png" class="pixelart"></td><td>circle_chord</td></tr>
 <tr><td><img src="png/circle_lattice.png" class="pixelart"></td><td>circle_lattice</td></tr>
 <tr><td><img src="png/circle_m.png" class="pixelart"></td><td>circle_m</td></tr>
 <tr><td><img src="png/circle_ml.png" class="pixelart"></td><td>circle_ml</td></tr>
@@ -99,10 +129,13 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/clumps.png" class="pixelart"></td><td>clumps</td></tr>
 <tr><td><img src="png/coil.png" class="pixelart"></td><td>coil</td></tr>
 <tr><td><img src="png/cone.png" class="pixelart"></td><td>cone</td></tr>
+<tr><td><img src="png/connector.png" class="pixelart"></td><td>connector</td></tr>
 <tr><td><img src="png/corner_top_left.png" class="pixelart"></td><td>corner_top_left</td></tr>
+<tr><td><img src="png/crate.png" class="pixelart"></td><td>crate</td></tr>
 <tr><td><img src="png/crescent.png" class="pixelart"></td><td>crescent</td></tr>
 <tr><td><img src="png/crossed.png" class="pixelart"></td><td>crossed</td></tr>
 <tr><td><img src="png/crustacean.png" class="pixelart"></td><td>crustacean</td></tr>
+<tr><td><img src="png/cube_wireframe.png" class="pixelart"></td><td>cube_wireframe</td></tr>
 <tr><td><img src="png/cube.png" class="pixelart"></td><td>cube</td></tr>
 <tr><td><img src="png/cuboid.png" class="pixelart"></td><td>cuboid</td></tr>
 <tr><td><img src="png/cursor_full.png" class="pixelart"></td><td>cursor_full.png</td></tr>
@@ -115,12 +148,15 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/cyclic_star.png" class="pixelart"></td><td>cyclic_star.png</td></tr>
 <tr><td><img src="png/cyclic_triangle.png" class="pixelart"></td><td>cyclic_triangle.png</td></tr>
 <tr><td><img src="png/cylinder.png" class="pixelart"></td><td>cylinder</td></tr>
+<tr><td><img src="png/diagonal_stripe.png" class="pixelart"></td><td>diagonal_stripe</td></tr>
 <tr><td><img src="png/dither.png" class="pixelart"></td><td>dither.png</td></tr>
 <tr><td><img src="png/division.png" class="pixelart"></td><td>division</td></tr>
 <tr><td><img src="png/dot_pyramid.png" class="pixelart"></td><td>dot_pyramid</td></tr>
 <tr><td><img src="png/dot.png" class="pixelart"></td><td>dot</td></tr>
 <tr><td><img src="png/dots_some.png" class="pixelart"></td><td>dots_some</td></tr>
 <tr><td><img src="png/dots.png" class="pixelart"></td><td>dots</td></tr>
+<tr><td><img src="png/elbow_connector.png" class="pixelart"></td><td>elbow_connector</td></tr>
+<tr><td><img src="png/elbow.png" class="pixelart"></td><td>elbow</td></tr>
 <tr><td><img src="png/exclamation.png" class="pixelart"></td><td>exclamation</td></tr>
 <tr><td><img src="png/face_frown.png" class="pixelart"></td><td>face_frown</td></tr>
 <tr><td><img src="png/face_smile.png" class="pixelart"></td><td>face_smile</td></tr>
@@ -143,6 +179,7 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/fruit_stem.png" class="pixelart"></td><td>fruit_stem</td></tr>
 <tr><td><img src="png/fruit.png" class="pixelart"></td><td>fruit</td></tr>
 <tr><td><img src="png/fungus.png" class="pixelart"></td><td>fungus</td></tr>
+<tr><td><img src="png/gas_thin.png" class="pixelart"></td><td>gas_thin</td></tr>
 <tr><td><img src="png/gas.png" class="pixelart"></td><td>gas</td></tr>
 <tr><td><img src="png/grass.png" class="pixelart"></td><td>grass</td></tr>
 <tr><td><img src="png/grate_horizontal.png" class="pixelart"></td><td>grate_horizontal.png</td></tr>
@@ -157,10 +194,12 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/hexagram_triangle.png" class="pixelart"></td><td>hexagram_triangle</td></tr>
 <tr><td><img src="png/hexagram.png" class="pixelart"></td><td>hexagram.png</td></tr>
 <tr><td><img src="png/hook_stem.png" class="pixelart"></td><td>hook_stem</td></tr>
+<tr><td><img src="png/hourglass.png" class="pixelart"></td><td>hourglass</td></tr>
 <tr><td><img src="png/house.png" class="pixelart"></td><td>house.png</td></tr>
 <tr><td><img src="png/icosahedron.png" class="pixelart"></td><td>icosahedron</td></tr>
 <tr><td><img src="png/intersection_left.png" class="pixelart"></td><td>intersection_left</td></tr>
 <tr><td><img src="png/kite.png" class="pixelart"></td><td>kite</td></tr>
+<tr><td><img src="png/l_thick.png" class="pixelart"></td><td>l_thick</td></tr>
 <tr><td><img src="png/leaf_vegetable.png" class="pixelart"></td><td>leaf_vegetable</td></tr>
 <tr><td><img src="png/leaf.png" class="pixelart"></td><td>leaf</td></tr>
 <tr><td><img src="png/lens.png" class="pixelart"></td><td>lens</td></tr>
@@ -183,6 +222,8 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/peg.png" class="pixelart"></td><td>peg.png</td></tr>
 <tr><td><img src="png/pentagon.png" class="pixelart"></td><td>pentagon</td></tr>
 <tr><td><img src="png/percent.png" class="pixelart"></td><td>percent</td></tr>
+<tr><td><img src="png/plus_circle.png" class="pixelart"></td><td>plus_circle</td></tr>
+<tr><td><img src="png/plus_curved.png" class="pixelart"></td><td>plus_curved</td></tr>
 <tr><td><img src="png/plus.png" class="pixelart"></td><td>plus</td></tr>
 <tr><td><img src="png/pointer_down.png" class="pixelart"></td><td>pointer_down</td></tr>
 <tr><td><img src="png/pointer_up.png" class="pixelart"></td><td>pointer_up.png</td></tr>
@@ -210,6 +251,7 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/rod_wavy.png" class="pixelart"></td><td>rod_wavy</td></tr>
 <tr><td><img src="png/rod.png" class="pixelart"></td><td>rod</td></tr>
 <tr><td><img src="png/root.png" class="pixelart"></td><td>root</td></tr>
+<tr><td><img src="png/sail.png" class="pixelart"></td><td>sail</td></tr>
 <tr><td><img src="png/scoop.png" class="pixelart"></td><td>scoop</td></tr>
 <tr><td><img src="png/semicircle_bottom.png" class="pixelart"></td><td>semicircle_bottom</td></tr>
 <tr><td><img src="png/semicircle_diagonal.png" class="pixelart"></td><td>semicircle_diagonal</td></tr>
@@ -218,20 +260,35 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/semiheart.png" class="pixelart"></td><td>semiheart</td></tr>
 <tr><td><img src="png/semirhombus.png" class="pixelart"></td><td>semirhombus</td></tr>
 <tr><td><img src="png/semistar.png" class="pixelart"></td><td>semistar</td></tr>
+<tr><td><img src="png/semitorus_thick_left.png" class="pixelart"></td><td>semitorus_thick_left</td></tr>
 <tr><td><img src="png/semitorus_thin_left.png" class="pixelart"></td><td>semitorus_thin_left</td></tr>
 <tr><td><img src="png/semitriangle.png" class="pixelart"></td><td>semitriangle</td></tr>
 <tr><td><img src="png/shogi.png" class="pixelart"></td><td>shogi.png</td></tr>
 <tr><td><img src="png/shrimp.png" class="pixelart"></td><td>shrimp</td></tr>
 <tr><td><img src="png/sine.png" class="pixelart"></td><td>sine</td></tr>
+<tr><td><img src="png/speech_balloon.png" class="pixelart"></td><td>speech_balloon</td></tr>
+<tr><td><img src="png/speech_rectangle.png" class="pixelart"></td><td>speech_rectangle</td></tr>
 <tr><td><img src="png/spiral.png" class="pixelart"></td><td>spiral</td></tr>
 <tr><td><img src="png/splat_yolk.png" class="pixelart"></td><td>splat_yolk</td></tr>
 <tr><td><img src="png/splat.png" class="pixelart"></td><td>splat</td></tr>
+<tr><td><img src="png/square_bevel.png" class="pixelart"></td><td>square_bevel</td></tr>
+<tr><td><img src="png/square_fold_bottom_right.png" class="pixelart"></td><td>square_fold_bottom_right</td></tr>
+<tr><td><img src="png/square_hollow_half.png" class="pixelart"></td><td>square_hollow_half</td></tr>
 <tr><td><img src="png/square_hollow.png" class="pixelart"></td><td>square_hollow</td></tr>
 <tr><td><img src="png/square_m.png" class="pixelart"></td><td>square_m.png</td></tr>
 <tr><td><img src="png/square_ms.png" class="pixelart"></td><td>square_ms.png</td></tr>
+<tr><td><img src="png/square_ridged.png" class="pixelart"></td><td>square_ridged</td></tr>
+<tr><td><img src="png/square_round_diagonal.png" class="pixelart"></td><td>square_round_diagonal</td></tr>
 <tr><td><img src="png/square_round_hollow.png" class="pixelart"></td><td>square_round_hollow</td></tr>
+<tr><td><img src="png/square_round_top_both_bottom_left.png" class="pixelart"></td><td>square_round_top_both_bottom_left</td></tr>
+<tr><td><img src="png/square_round_top_both.png" class="pixelart"></td><td>square_round_top_both</td></tr>
+<tr><td><img src="png/square_round_top_right.png" class="pixelart"></td><td>square_round_top_right</td></tr>
 <tr><td><img src="png/square_round.png" class="pixelart"></td><td>square_round</td></tr>
 <tr><td><img src="png/square_s.png" class="pixelart"></td><td>square_s.png</td></tr>
+<tr><td><img src="png/square_snip_diagonal.png" class="pixelart"></td><td>square_snip_diagonal</td></tr>
+<tr><td><img src="png/square_snip_top_both_bottom_left.png" class="pixelart"></td><td>square_snip_top_both_bottom_left</td></tr>
+<tr><td><img src="png/square_snip_top_both.png" class="pixelart"></td><td>square_snip_top_both</td></tr>
+<tr><td><img src="png/square_snip_top_right.png" class="pixelart"></td><td>square_snip_top_right</td></tr>
 <tr><td><img src="png/square_u_down.png" class="pixelart"></td><td>square_u_down</td></tr>
 <tr><td><img src="png/square_u_left.png" class="pixelart"></td><td>square_u_left</td></tr>
 <tr><td><img src="png/square_u_right.png" class="pixelart"></td><td>square_u_right</td></tr>
@@ -241,9 +298,11 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/star_four_point.png" class="pixelart"></td><td>star_four_point.png</td></tr>
 <tr><td><img src="png/star.png" class="pixelart"></td><td>star</td></tr>
 <tr><td><img src="png/stellated_octahedron.png" class="pixelart"></td><td>stellated_octahedron</td></tr>
+<tr><td><img src="png/sun.png" class="pixelart"></td><td>sun</td></tr>
 <tr><td><img src="png/sus.png" class="pixelart"></td><td>sus</td></tr>
 <tr><td><img src="png/t.png" class="pixelart"></td><td>t.png</td></tr>
 <tr><td><img src="png/taijitu.png" class="pixelart"></td><td>taijitu</td></tr>
+<tr><td><img src="png/thought_balloon.png" class="pixelart"></td><td>thought_balloon</td></tr>
 <tr><td><img src="png/torus_thick.png" class="pixelart"></td><td>torus_thick</td></tr>
 <tr><td><img src="png/torus_thin.png" class="pixelart"></td><td>torus_thin</td></tr>
 <tr><td><img src="png/torus.png" class="pixelart"></td><td>torus</td></tr>
@@ -258,11 +317,16 @@ This HTML and its contents are property of R74n.com.
 <tr><td><img src="png/triangle_s.png" class="pixelart"></td><td>triangle_s.png</td></tr>
 <tr><td><img src="png/triangle.png" class="pixelart"></td><td>triangle</td></tr>
 <tr><td><img src="png/u.png" class="pixelart"></td><td>u</td></tr>
+<tr><td><img src="png/unequal.png" class="pixelart"></td><td>unequal</td></tr>
 <tr><td><img src="png/unknown.png" class="pixelart"></td><td>unknown</td></tr>
+<tr><td><img src="png/wavy_sheet.png" class="pixelart"></td><td>wavy_sheet</td></tr>
 <tr><td><img src="png/wedge.png" class="pixelart"></td><td>wedge</td></tr>
 <tr><td><img src="png/wheel.png" class="pixelart"></td><td>wheel</td></tr>
 <tr><td><img src="png/window.png" class="pixelart"></td><td>window.png</td></tr>
+<tr><td><img src="png/x_circle.png" class="pixelart"></td><td>x_circle</td></tr>
 <tr><td><img src="png/x.png" class="pixelart"></td><td>x</td></tr>
+<tr><td><img src="png/y.png" class="pixelart"></td><td>y</td></tr>
+<tr><td><img src="png/zap.png" class="pixelart"></td><td>zap</td></tr>
 </table>
 
 <script>
