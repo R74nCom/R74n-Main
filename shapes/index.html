@@ -50,14 +50,26 @@ This HTML and its contents are property of R74n.com.
 <h1 class="pagetitle">Shapes</h1>
 <div class="content">
 
-<p>This page will be improved eventually.</p>
+<p><dfn>R74n Shapes</dfn> is a set of <span id="shapeCount">...</span> generic shapes and icons, created at first for Infinite Chef.</p>
+
+<details>
+    <summary>They are drawn with a <a href="red.gpl" download>standard color palette</a>, designed to be shifted in hue, saturation, and lightness.</summary>
+    <p>
+        <span style="background-color: #430000;">#430000</span> - hsl(0°, 100%, 13%)<br>
+        <span style="background-color: #700000;">#700000</span> - hsl(0°, 100%, 22%)<br>
+        <span style="background-color: #B61800;">#B61800</span> - hsl(8°, 100%, 36%)<br>
+        <span style="background-color: #F03030;">#F03030</span> - hsl(0°, 86%, 56%) [Base]<br>
+        <span style="background-color: #FF5E5E;">#FF5E5E</span> - hsl(0°, 100%, 68%)<br>
+        <span style="background-color: #FF8383;">#FF8383</span> - hsl(0°, 100%, 76%)
+    </p>
+</details>
+
 
 <p>If you'd like to use Shapes in your project, please <a href="mailto:contact@R74n.com">ask</a> for permission!</p>
 
-<p>Shape count: <span id="shapeCount">...</span></p>
-
 <!-- <div id="previewBox">
 </div> -->
+
 <style>
     #previewBox {
         background-color: white;
@@ -68,7 +80,67 @@ This HTML and its contents are property of R74n.com.
         height: 96px;
         margin: 6px;
     }
+    #searchResultsDiv {
+        width: 100%;
+        left: 0px;
+        box-sizing: border-box;
+        box-shadow: 0px 3px 4px rgba(0,0,0,0.25);
+        background-color: rgb(45, 45, 45);
+        overflow-y: scroll;
+        z-index: 6;
+    }
+    /* inside #searchResults, have up to 5 searchResult divs side by side */
+    #searchResults {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+    .searchResult {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 5px;
+        box-shadow: 0px 3px 4px rgba(0,0,0,0.25);
+        border: solid 1px #979797;
+        flex-grow: 1;
+    }
+    .searchResult:hover {
+        background-color: white;
+        color: black
+    }
+    .searchResult img {
+        width: 3em;
+        height: 3em;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+        -webkit-filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.25));
+        filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.25));
+    }
+    .searchResult span {
+        font-size: 20px;
+    }
 </style>
+<style id="shapeFilterStyle"></style>
+
+<p>Hover over a shape in the grid below to see it on a light background, or <a href="#shapeTable">skip to table</a>.</p>
+<p>
+    <form>
+    <label for="shapeHue" id="hueLabel">Hue</label>
+    <input type="range" id="shapeHue" min="0" max="360" value="0" step="1" oninput="updateShapeFilter()">
+    <label for="shapeSaturation" id="saturationLabel">Saturation</label>
+    <input type="range" id="shapeSaturation" min="0" max="100" value="86" step="1" oninput="updateShapeFilter()">
+    <label for="shapeLightness" id="lightnessLabel">Lightness</label>
+    <input type="range" id="shapeLightness" min="-50" max="300" value="56" step="1" oninput="updateShapeFilter()">
+    <input type="reset" value="Reset" onclick="setTimeout(updateShapeFilter,50)">
+    </form>
+</p>
+<div id="searchResultsDiv">
+    <div id="searchResults">
+    </div>
+</div>
+<br>
 
 <table id="shapeTable">
 <tr><td><img src="png/acute_angle.png" class="pixelart"></td><td>acute_angle.png</td></tr>
@@ -331,6 +403,24 @@ This HTML and its contents are property of R74n.com.
 
 <script>
     document.getElementById("shapeCount").innerHTML = document.querySelectorAll("#shapeTable img").length;
+    var images = document.querySelectorAll("#shapeTable img");
+    var searchResults = document.getElementById("searchResults");
+    var resultsText = "";
+    for (var i = 0; i < images.length; i++) {
+        var img = images[i];
+        var src = img.src;
+        var name = img.src.split("/").pop().split(".")[0];
+        img.id = name;
+        // <div class="searchResult"><img src="png/liquid.png"><span>Water</span></div>
+        resultsText += "<div class='searchResult'><a href='#"+name+"'><img src='" + src + "'></a><span>" + name + "</span></div>";
+    }
+    searchResults.innerHTML = resultsText;
+    function updateShapeFilter() {
+        var hue = document.getElementById("shapeHue").value;
+        var saturation = document.getElementById("shapeSaturation").value;
+        var lightness = document.getElementById("shapeLightness").value;
+        document.getElementById("shapeFilterStyle").innerHTML = ".searchResult img { filter: hue-rotate(" + hue + "deg) saturate(" + saturation + "%) brightness(" + (parseInt(lightness)+44) + "%); }";
+    }
 </script>
 
 
