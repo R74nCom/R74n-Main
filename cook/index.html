@@ -194,7 +194,10 @@ This HTML and its contents are property of R74n.com.
         flex-grow: 1;
       }
       .searchResult:hover {
-        background-color: rgb(183, 130, 25);
+        background-color: #b78219;
+      }
+      .searchResult:active {
+        background-color: #705019;
       }
       .searchResult img {
         width: 2em;
@@ -202,8 +205,8 @@ This HTML and its contents are property of R74n.com.
         image-rendering: pixelated;
         image-rendering: -moz-crisp-edges;
         image-rendering: crisp-edges;
-        -webkit-filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.25));
-        filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.25));
+        -webkit-filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
+        filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
       }
       .searchResult span {
         font-size: 20px;
@@ -492,7 +495,7 @@ This HTML and its contents are property of R74n.com.
       if (placed.vy === undefined) { placed.vy = 0; }
       else if (placed.vy) { placed.y += placed.vy; }
       placed.vy += 0.5;
-      if (Math.random() < 0.25) {
+      if (Math.random() < 0.5) {
         // check collision with other placed
         for (var j = 0; j < viewData[currentView].total.length; j++) {
           if (i === j) { continue; }
