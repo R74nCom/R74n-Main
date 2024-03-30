@@ -433,6 +433,7 @@ This HTML and its contents are property of R74n.com.
     // loop through viewData[currentView].total and draw each at their x and y
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
+      if (placed.hide) { continue }
       if (ingredientAttr(placed.id, "behavior") > 0) {
         var shape = "dots_some";
       }
@@ -473,7 +474,7 @@ This HTML and its contents are property of R74n.com.
         viewData[currentView].liquidR += rgb[0];
         viewData[currentView].liquidG += rgb[1];
         viewData[currentView].liquidB += rgb[2];
-        if (behavior === 1) { deleteIngredient(placed); }
+        if (behavior === 1) { placed.hide = true; }
       }
     }
     else {
@@ -489,7 +490,7 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
       var behavior = ingredientAttr(placed.id, "behavior");
-      if (placed.done || placed.done2) { continue; }
+      if (placed.done || placed.done2 || placed.hide) { continue; }
       if (placed.vx === undefined) { placed.vx = 0; }
       else if (placed.vx) { placed.x += placed.vx; }
       if (placed.vy === undefined) { placed.vy = 0; }
@@ -500,6 +501,7 @@ This HTML and its contents are property of R74n.com.
         for (var j = 0; j < viewData[currentView].total.length; j++) {
           if (i === j) { continue; }
           var other = viewData[currentView].total[j];
+          if (other.hide) { continue; }
           if (placed.x < other.x + other.w/1.5 &&
             placed.x + placed.w/1.5 > other.x &&
             placed.y < other.y + other.h/1.5 &&
@@ -590,7 +592,6 @@ This HTML and its contents are property of R74n.com.
         ctx.globalAlpha = 0.75;
         var liquidImg2 = colorizeStandard('bowl_liquid_front.png', liquidColor[0], liquidColor[1], liquidColor[2]);
         if (liquidImg2.loaded === false) {
-          console.log(3)
           if (lastLiquidImg2) {
             var liquidImg2 = lastLiquidImg2;
             liquidColor = lastLiquidColor;
@@ -660,6 +661,7 @@ This HTML and its contents are property of R74n.com.
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       }
     )
+    ingredient = ingredient.replace(" And ", " and ");
     return ingredient;
   }
   function searchIngredients(query) {
@@ -743,9 +745,9 @@ This HTML and its contents are property of R74n.com.
       info.s = hsl[1] * 100;
       info.l = hsl[2] * 100;
     }
-    if (!info.h) { info.h=0 }
-    if (!info.s) { info.s=0 }
-    if (!info.l) { info.l=50 }
+    if (!info.h) { info.h = ingredientAttr(ingredient, "h") || 0 }
+    if (!info.s) { info.s = ingredientAttr(ingredient, "s") || 0 }
+    if (!info.l) { info.l = ingredientAttr(ingredient, "l") || 50 }
     if (!info.shape) {
       info.shape = ingredientAttr(ingredient, "shape") || "rhombus";
     }
@@ -768,6 +770,103 @@ This HTML and its contents are property of R74n.com.
       return ingredients[ingredient][attr];
     }
     return undefined;
+  }
+  function ingredientIsType(ingredient, type) {
+    if (ingredient === type) { return true }
+    if (ingredients[ingredient] === undefined) { return false }
+    if (ingredients[ingredient].type === type) { return true }
+    return ingredientIsType(ingredients[ingredient].type, type);
+  }
+
+  function generateDishName(ingredients) {
+    if (!ingredients) {
+      // copy the current view's ingredients
+      ingredients = viewData[currentView].total.slice();
+    }
+    var used = {};
+    var nameMap = {};
+    for (var i = 0; i < ingredients.length; i++) {
+      used[ingredients[i].id] = false;
+      if (!nameMap[ingredients[i].id]) { nameMap[ingredients[i].id] = [] }
+      nameMap[ingredients[i].id].push(ingredients[i]);
+    }
+    var success = true;
+    var tries = 0;
+    while (success && tries < 20) {
+      success = false;
+      for (var recipeKey in recipeMap) {
+        var recipe = recipeMap[recipeKey];
+        var result = dishRecipes[recipeKey];
+        var requiredCount = recipe.length;
+        var count = 0;
+        var toUse = {};
+        for (var i = 0; i < recipe.length; i++) {
+          var needed = recipe[i];
+          var ingredientFound = false;
+          // console.log(needed,nameMap[needed].length,(toUse[needed]||0))
+          if (nameMap[needed] && nameMap[needed].length >= (toUse[needed]||0)) {
+            ingredientFound = true
+          }
+          else {
+            for (var j = 0; j < ingredients.length; j++) {
+              if (ingredientIsType(ingredients[j].id, needed) && !used[ingredients[j].id]) {
+                needed = ingredients[j].id;
+                if (nameMap[needed] && nameMap[needed].length >= (toUse[needed]||0)) {
+                  ingredientFound = true
+                }
+              }
+            }
+          }
+          if (ingredientFound && nameMap[needed].length) {
+            // console.log("used[needed]: "+used[needed])
+            // console.log("ingredientFound: "+ingredientFound)
+            toUse[needed] = (toUse[needed]||0) + 1;
+            count++;
+          }
+          else {
+            break;
+          }
+        }
+        if (count >= requiredCount) {
+          // console.log("toUse: "+JSON.stringify(toUse))
+          for (var key in toUse) {
+            used[key] = true;
+            // remove the amount of ingredients used
+            for (var i = 0; i < toUse[key]; i++) {
+              ingredients.splice(ingredients.indexOf(nameMap[key][0]), 1);
+              nameMap[key].splice(0, 1);
+            }
+            // console.log("ingredients: "+JSON.stringify(ingredients))
+            // console.log("nameMap: "+JSON.stringify(nameMap))
+          }
+          ingredients.push({id:result});
+          if (!nameMap[result]) { nameMap[result] = [] }
+          nameMap[result].push(ingredients[ingredients.length-1]);
+          success = true;
+        }
+      }
+      tries++;
+    }
+    // console.log(ingredients);
+    // console.log(used);
+    // console.log(nameMap);
+
+    var name = "";
+    for (var i = 0; i < ingredients.length; i++) {
+      var ingredient = ingredients[i];
+      if (used[ingredient.id]) { continue }
+      var skip = false;
+      for (var usedIngredient in used) {
+        if (used[usedIngredient] && ingredientIsType(ingredient.id, usedIngredient)) {
+          skip = true;
+        }
+      }
+      if (skip) { continue }
+      name += formatName(ingredient.id) + " ";
+    }
+    name = name.trim();
+
+    return name;
   }
 
   window.addEventListener('load', function(){
@@ -856,6 +955,14 @@ This HTML and its contents are property of R74n.com.
     // Initialization
     for (var key in ingredients) {
       finalizeIngredient(key);
+    }
+    recipeMap = {};
+    // sort dishRecipes by amount of "+" in key
+    var sortedKeys = Object.keys(dishRecipes).sort(function(a, b) {
+      return a.split("+").length - b.split("+").length;
+    });
+    for (var i = 0; i < sortedKeys.length; i++) {
+      recipeMap[sortedKeys[i]] = sortedKeys[i].split("+");
     }
     refreshCanvas();
     gameLoop = setInterval(tick, 1000 / fps);

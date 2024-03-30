@@ -105,10 +105,19 @@ herb: {
 },
 
 
-noodles: {
+pasta: {
     color:"#d2cdad",
     group:"carb",
+    shape:"semitorus_thick_left"
+},
+noodles: {
+    type:"pasta",
     shape:"noodles"
+},
+macaroni: {
+    color:"#d2cdad",
+    type:"pasta",
+    shape:"semitorus_thick_left"
 },
 bread: {
     color:"#ddc69c",
@@ -142,4 +151,12 @@ cephalopod: {
     type:"meat",
     shape:"cephalopod"
 },
+}
+
+
+dishRecipes = {
+
+"pasta+cheese": "mac and cheese",
+"mac and cheese+bread": "breaded mac",
+
 }
