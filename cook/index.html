@@ -62,6 +62,17 @@ This HTML and its contents are property of R74n.com.
         box-sizing: border-box;
         background-color: #614202;
         text-shadow: 0px 3px 4px rgba(0,0,0,0.25);
+        position: relative;
+        cursor: url("cursor_full.png"), auto;
+      }
+      #gameDiv button {
+        cursor: url("cursor_full.png"), auto;
+      }
+      #gameDiv input[type="text"] {
+        cursor: url("cursor_text.png"), auto;
+      }
+      #gameCanvasDiv {
+        position: relative;
       }
       #gameCanvas {
         background-color: #e3d5ba;
@@ -120,6 +131,7 @@ This HTML and its contents are property of R74n.com.
         /* shadow */
         filter: drop-shadow(0px 2px 1px rgba(0,0,0,0.25));
         width: 2.5em;
+        max-width: unset;
       }
       #controlsBar button[selected] {
         background-color: #fff782;
@@ -149,19 +161,26 @@ This HTML and its contents are property of R74n.com.
         color: #614202;
         text-shadow: none;
       }
+      ::selection {
+        background: #fffab7; /* WebKit/Blink Browsers */
+      }
+      ::-moz-selection {
+        background: #fffab7; /* Gecko Browsers */
+      }
       #prepText {
         width: 100%;
         height: 100%;
         padding: 0;
         background-color: rgba(0, 0, 0, 0);
         border: none;
-        color: white;
+        color: #edebe6;
         text-align: left;
         border-radius: 0;
         font-size: 30px;
         text-shadow: 0px 3px 4px rgba(0,0,0,0.25);
       }
       #searchResultsDiv {
+        color: #edebe6;
         position: absolute;
         display: none;
         top: 48px;
@@ -189,9 +208,13 @@ This HTML and its contents are property of R74n.com.
         padding: 5px;
         box-shadow: 0px 3px 4px rgba(0,0,0,0.25);
         border: solid 1px #775104;
-        cursor: pointer;
+        cursor: url("cursor_full.png"), auto;
         background-color: #9b6723;
         flex-grow: 1;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
       }
       .searchResult:hover {
         background-color: #b78219;
@@ -207,9 +230,136 @@ This HTML and its contents are property of R74n.com.
         image-rendering: crisp-edges;
         -webkit-filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
         filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
+        user-drag: none;
+        -webkit-user-drag: none;
       }
       .searchResult span {
-        font-size: 20px;
+        font-size: 22px;
+      }
+
+
+      .dialogBox {
+        display: none;
+        position: absolute;
+        top: 49%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #9b6723;
+        padding: 10px;
+        padding-top: 25px;
+        border: solid 3px #614202;
+        box-shadow: 0px 5px 20px rgba(0,0,0,0.75);
+        z-index: 9;
+        min-height: 85%;
+        width: 75%;
+        font-size: 1.4em
+      }
+      .dialogBox:after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 55px 55px 0;
+        border-color: transparent #614202 transparent transparent;
+        right: -2px;
+        top: -2px;
+        position: absolute;
+      }
+      .dialogX {
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        width: 48px;
+        height: 48px;
+        z-index: 100;
+        filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
+      }
+      .dialogX:hover {
+        filter: brightness(1.25);
+      }
+      #dishImage {
+        height: 225px;
+        display: block;
+        margin: auto;
+        z-index: 25;
+        transform: rotate(-3deg);
+        border: #edebe6 dashed 3px;
+        filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
+      }
+      #dishNameDiv {
+        background-color: #f9ecd8;
+        width:75%;
+        min-height: 1.5em;
+        min-width:80%;
+        text-align: center;
+        z-index: 30;
+        margin: auto;
+        display:table;
+        color: #434343;
+        text-shadow: none;
+        transform: rotate(3deg) translate(0, -15px);
+      }
+      #dishName {
+        /*vertically align text*/
+        display:table-cell;
+        vertical-align:middle;
+      }
+      #serveUnder {
+        text-align: left;
+        margin-left: 10px;
+      }
+      #shareBlurb {
+        padding-bottom: 10px;
+        display: inline-block;
+        color: #edebe6;
+      }
+      #shareIconDiv {
+        vertical-align: middle;
+      }
+      #shareIconDiv img {
+        margin-right: 3px;
+        height: 1.7em;
+        filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
+        vertical-align: middle;
+      }
+      #shareIconDiv img:hover {
+        filter: brightness(1.25);
+      }
+      #serveClearButton {
+        float:right;
+        margin-right: 10px;
+        margin-top: 0;
+        margin-bottom: 0;
+        background-color: #9b6723;
+        color: #edebe6;
+        font-size: 1em;
+        vertical-align: middle;
+        height: auto;
+        /* center text */
+        max-height: unset;
+        padding: 10px;
+        box-shadow:unset;
+        border-radius: 0;
+        border: outset 3px #c48405;
+        filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
+      }
+      
+      /*
+      <div id="boxContainer">
+        <div class="box">Testing</div>
+      </div>
+      */
+      #dishNameDiv {
+        width:300px;
+        --mask: 
+    conic-gradient(from 45deg at left,#0000,#000 1deg 89deg,#0000 90deg) left/51% 20px repeat-y,
+    conic-gradient(from -135deg at right,#0000,#000 1deg 89deg,#0000 90deg) right/51% 20px repeat-y;
+  -webkit-mask: var(--mask);
+          mask: var(--mask);
+          /* adjust: https://css-generators.com/custom-borders/ */
+      }
+      #boxContainer {
+        background: linear-gradient(90deg,#ddd,#fff);
       }
 
 
@@ -218,6 +368,9 @@ This HTML and its contents are property of R74n.com.
         #gameDiv {
           width: 100%;
           height: 100%;
+        }
+        #serveClearButton {
+          display: none
         }
       }
       /* desktop */
@@ -242,14 +395,38 @@ This HTML and its contents are property of R74n.com.
         <div id="searchResults"></div>
       </div>
     </div>
-    <canvas id="gameCanvas"></canvas>
+    <div id="gameCanvasDiv">
+      <canvas id="gameCanvas"></canvas>
+      <div id="dialogBox" class="dialogBox">
+        <img src="dialog_x.png" class="pixelart dialogX" onclick="hideDialog()">
+        <div id="dialogContent">
+          Text
+        </div>
+      </div>
+      <div id="serveBox" class="dialogBox">
+        <img src="dialog_x.png" class="pixelart dialogX" onclick="hideDialog()">
+        <div id="serveContent">
+          <img id="dishImage" src="">
+          <div id="dishNameDiv"><span id="dishName">Ketchup Mac and Cheese</span></div>
+          <div id="serveUnder">
+            <span id="shareBlurb">Share with the world.</span>
+            <div id="shareIconDiv">
+              <img src="../shapes/png/square_round.png" class="pixelart"><img src="../shapes/png/square_round.png" class="pixelart"><img src="../shapes/png/square_round.png" class="pixelart"><img src="../shapes/png/square_round.png" class="pixelart">
+              <button onclick="clearView()" id="serveClearButton">Start Over</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div id="rightDiv" style="display: none;">
     <div id="controlsBar">
       <button selected id="button-bowl" onclick="changeView('bowl')"><img src="../shapes/png/semicircle_bottom.png" class="pixelart"></button>
-      <button id="button-stack" onclick="changeView('stack')"><img src="../shapes/png/stack.png" class="pixelart"></button>
+      <!-- <button id="button-stack" onclick="changeView('stack')"><img src="../shapes/png/stack.png" class="pixelart"></button>
       <button id="button-stove" onclick="changeView('stove')"><img src="../shapes/png/flame.png" class="pixelart"></button>
-      <button id="button-blend" onclick="changeView('blend')"><img src="../shapes/png/liquid.png" class="pixelart"></button>
+      <button id="button-blend" onclick="changeView('blend')"><img src="../shapes/png/liquid.png" class="pixelart"></button> -->
+      <button id="button-clear" onclick="clearView()"><img src="../shapes/png/x.png" class="pixelart"></button>
+      <button id="button-done" onclick="serveDish()"><img src="green_check.png" class="pixelart"></button>
     </div>
   </div>
   <div id="loadingScreen">
@@ -508,14 +685,14 @@ This HTML and its contents are property of R74n.com.
             placed.y + placed.h/1.5 > other.y) {
             // collision
             // bounce in opposite direction
-            if (other.done && placed.y > canvas.height/2 && placed.y < other.y && placed.x > leftBound && placed.x < rightBound) {
+            if (other.done && placed.y > canvas.height/2 && placed.y < other.y && placed.x > leftBound-placed.w/2 && placed.x < rightBound+placed.w/2) {
               containIngredient(placed);
             }
             else if (placed.x < other.x) {
-              placed.vx = -(Math.random()*4+1);
+              placed.vx = -(Math.random()+1);
             }
             else {
-              placed.vx = (Math.random()*4+1);
+              placed.vx = (Math.random()+1);
             }
           }
         }
@@ -621,6 +798,7 @@ This HTML and its contents are property of R74n.com.
   rightBound = 0;
   hitLine = 0;
   function changeView(view) {
+    hideDialog();
     currentView = view;
     document.getElementById('controlsBar').querySelectorAll('button[selected]').forEach(function(button) {
       button.removeAttribute('selected');
@@ -636,9 +814,16 @@ This HTML and its contents are property of R74n.com.
       }
     }
   }
-  changeView('bowl');
-  refreshCanvas();
-  // window.addEventListener('resize', refreshCanvas);
+  function clearView() {
+    viewData[currentView].total = [];
+    viewData[currentView].contained = [];
+    if (viewData[currentView].liquid) {
+      viewData[currentView].liquid = 0;
+      viewData[currentView].liquidR = 0;
+      viewData[currentView].liquidG = 0;
+      viewData[currentView].liquidB = 0;
+    }
+  }
 
   function selectIngredient(ingredient,drop) {
     currentIngredient = ingredient;
@@ -662,6 +847,8 @@ This HTML and its contents are property of R74n.com.
       }
     )
     ingredient = ingredient.replace(" And ", " and ");
+    ingredient = ingredient.replace(" Or ", " or ");
+    ingredient = ingredient.replace(" 'N ", " 'n ");
     return ingredient;
   }
   function searchIngredients(query) {
@@ -759,9 +946,10 @@ This HTML and its contents are property of R74n.com.
     }
     if (info.group === "generic") { info.hidden = true }
   }
+  uninheritedAttributes = ["name","short"]
   function ingredientAttr(ingredient, attr) {
     if (ingredients[ingredient] === undefined) { return undefined; }
-    if (ingredients[ingredient][attr] === undefined) {
+    if (ingredients[ingredient][attr] === undefined && uninheritedAttributes.indexOf(attr) === -1){
       if (ingredients[ingredient].type) {
         return ingredientAttr(ingredients[ingredient].type, attr);
       }
@@ -783,6 +971,9 @@ This HTML and its contents are property of R74n.com.
       // copy the current view's ingredients
       ingredients = viewData[currentView].total.slice();
     }
+    if (ingredients.length === 0) {
+      return "Absolutely Nothing";
+    }
     var used = {};
     var nameMap = {};
     for (var i = 0; i < ingredients.length; i++) {
@@ -795,6 +986,7 @@ This HTML and its contents are property of R74n.com.
     while (success && tries < 20) {
       success = false;
       for (var recipeKey in recipeMap) {
+        console.log("["+recipeKey+"]")
         var recipe = recipeMap[recipeKey];
         var result = dishRecipes[recipeKey];
         var requiredCount = recipe.length;
@@ -804,23 +996,26 @@ This HTML and its contents are property of R74n.com.
           var needed = recipe[i];
           var ingredientFound = false;
           // console.log(needed,nameMap[needed].length,(toUse[needed]||0))
-          if (nameMap[needed] && nameMap[needed].length >= (toUse[needed]||0)) {
+          if (nameMap[needed] && nameMap[needed].length > (toUse[needed]||0)) {
             ingredientFound = true
           }
           else {
             for (var j = 0; j < ingredients.length; j++) {
               if (ingredientIsType(ingredients[j].id, needed) && !used[ingredients[j].id]) {
-                needed = ingredients[j].id;
-                if (nameMap[needed] && nameMap[needed].length >= (toUse[needed]||0)) {
+                if (nameMap[ingredients[j].id] && nameMap[ingredients[j].id].length > (toUse[ingredients[j].id]||0)) {
+                  needed = ingredients[j].id;
+                  console.log("nameMap[needed] ("+needed+"): "+nameMap[needed])
                   ingredientFound = true
+                  break;
                 }
               }
             }
           }
+          console.log("used[needed] ("+needed+"): "+used[needed])
+          console.log("ingredientFound: "+ingredientFound)
           if (ingredientFound && nameMap[needed].length) {
-            // console.log("used[needed]: "+used[needed])
-            // console.log("ingredientFound: "+ingredientFound)
             toUse[needed] = (toUse[needed]||0) + 1;
+            console.log(toUse[needed])
             count++;
           }
           else {
@@ -848,10 +1043,11 @@ This HTML and its contents are property of R74n.com.
       tries++;
     }
     // console.log(ingredients);
-    // console.log(used);
+    console.log(used);
     // console.log(nameMap);
 
-    var name = "";
+    var name = " ";
+    var nameParts = []; //array of arrays with [string, weight]
     for (var i = 0; i < ingredients.length; i++) {
       var ingredient = ingredients[i];
       if (used[ingredient.id]) { continue }
@@ -859,15 +1055,124 @@ This HTML and its contents are property of R74n.com.
       for (var usedIngredient in used) {
         if (used[usedIngredient] && ingredientIsType(ingredient.id, usedIngredient)) {
           skip = true;
+          break;
         }
       }
       if (skip) { continue }
-      name += formatName(ingredient.id) + " ";
+      var ingName = ingredient.id;
+      var weight = 0;
+      var adj = ingredientAttr(ingredient.id, "adj");
+      var nameOverride = ingredientAttr(ingredient.id, "name")
+      if (adj) {
+        ingName = adj;
+        weight -= 100;
+      }
+      else if (nameOverride) {
+        ingName = nameOverride;
+      }
+      nameParts.push([ingName, weight]);
+      used[ingredient.id] = 2;
+    }
+    var nameSorted = nameParts.sort(function(b, a) {
+      return b[1] - a[1];
+    });
+    for (var i = 0; i < nameSorted.length; i++) {
+      if (nameParts.length >= 3 && window.ingredients[nameSorted[i][0]] && window.ingredients[nameSorted[i][0]].short) {
+        nameSorted[i][0] = window.ingredients[nameSorted[i][0]].short;
+      }
+      name += nameSorted[i][0] + " ";
+    }
+    for (var ingredient in used) {
+      if (!used[ingredient] || used[ingredient] === 2) { continue }
+      // used.blue_cheese = true
+      // name = "mac and cheese"
+      var words = ingredient.split(/[ _]+/);
+      // for each amount of last x words, check regex for /^(cheese) | (cheese)$| (cheese) / and replace the group
+      for (var i = 0; i < words.length; i++) {
+        var oldName = name;
+        var last_words = words.slice(-i).join(" ");
+        // mac and cheese -> mac and blue cheese
+        var regex = new RegExp("^(?:"+last_words+") | (?:"+last_words+")$| (?:"+last_words+") ", "g");
+        name = name.replace(regex, " "+ingredient+" ");
+        // cheeseburger -> blue cheeseburger
+        var regex = new RegExp(" (?:"+last_words+")|^(?:"+last_words+")", "g");
+        name = name.replace(regex, " "+ingredient);
+        if (oldName !== name) {
+          used[ingredient] = 2;
+          break;
+        }
+      }
     }
     name = name.trim();
+    var nameSplit = name.split(" ");
+    for (var i = 0; i < nameSplit.length; i++) {
+      var word = nameSplit[i];
+      if (window.ingredients[word]) {
+        for (var ingredient in used) {
+          if (!used[ingredient] || used[ingredient] === 2) { continue }
+          if (ingredientIsType(ingredient, word)) {
+            nameSplit[i] = ingredient;
+            break;
+          }
+        }
+      }
+    }
+    name = nameSplit.join(" ");
+    name = formatName(name);
 
     return name;
   }
+
+  currentDialog = null;
+  function showDialog(text) {
+    var dialogBox = document.getElementById('dialogBox');
+    var dialogContent = document.getElementById('dialogContent');
+    dialogContent.innerHTML = text;
+    dialogBox.style.display = 'block';
+    currentDialog = 'dialogBox';
+  }
+  function hideDialog() {
+    if (!currentDialog) { return }
+    var dialogBox = document.getElementById(currentDialog);
+    dialogBox.style.display = 'none';
+    currentDialog = null;
+  }
+  imageGenCanvas = document.createElement('canvas');
+  imageGenCanvas.width = 290;
+  imageGenCanvas.height = 225;
+  function serveDish() {
+    var dialogBox = document.getElementById('serveBox');
+    var dialogContent = document.getElementById('serveContent');
+    var ctx = imageGenCanvas.getContext('2d');
+    ctx.clearRect(0, 0, imageGenCanvas.width, imageGenCanvas.height);
+    // copy gameCanvas image, centered and cropped
+    var gameCanvas = document.getElementById('gameCanvas');
+    imageGenCanvas.width = gameCanvas.width;
+    imageGenCanvas.height = gameCanvas.height;
+    var ctx = imageGenCanvas.getContext('2d');
+    // set to pixelated rendering
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.mozImageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = false;
+    // load background.png
+    var bg = loadImage('background.png');
+
+    var dishName = generateDishName();
+    document.getElementById("dishName").innerText = dishName;
+
+    // draw background.png
+    var maxDimension = Math.max(imageGenCanvas.width, imageGenCanvas.height);
+    ctx.drawImage(bg, 0, 0, maxDimension, maxDimension);
+    ctx.drawImage(gameCanvas, 0, 0, gameCanvas.width, gameCanvas.height);
+    var img = imageGenCanvas.toDataURL();
+    document.getElementById("dishImage").src = img;
+    dialogBox.style.display = 'block';
+    currentDialog = 'serveBox';
+  }
+
+  changeView('bowl');
+  refreshCanvas();
+  // window.addEventListener('resize', refreshCanvas);
 
   window.addEventListener('load', function(){
     document.getElementById('loadingScreen').style.display = 'none';
@@ -878,6 +1183,8 @@ This HTML and its contents are property of R74n.com.
     var prepBar = document.getElementById('prepBar');
     var prepText = document.getElementById('prepText');
     var searchResults = document.getElementById('searchResultsDiv');
+    var dialogBox = document.getElementById('dialogBox');
+    var serveBox = document.getElementById('serveBox');
 
     // Event Listeners
     hideSearchResults = () => {
@@ -903,8 +1210,11 @@ This HTML and its contents are property of R74n.com.
     });
     prepBar.addEventListener('click', function(e) {
       e.stopPropagation();
+      hideDialog();
     });
-    document.body.addEventListener('click', hideSearchResults);
+    document.body.addEventListener('click', function(e){
+      hideSearchResults();
+    });
     window.addEventListener('keydown', function(e) {
       if (e.keyCode == 16) { controlState.shift = true; }
     });
@@ -933,6 +1243,7 @@ This HTML and its contents are property of R74n.com.
       // }
     });
     gameCanvas.addEventListener('mousedown', function(e) {
+      hideDialog();
       updateMouse(e);
       if (controlState.inMenu) { return; }
       controlState.mouse = e.button;

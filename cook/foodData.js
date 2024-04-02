@@ -2,7 +2,7 @@
 [Ingredient Properties]
 name: override default name
 type: inherits properties from specified ingredient
-group: other(default), generic(hidden), dairy, mineral, carb, fruit, vegetable, meat
+group: other(default), generic(hidden), dairy, mineral, carb, fruit, vegetable, meat, egg
 shape: R74n Shapes file name, without .png
 behavior: 0=default, 1=liquid, 2=powder
 adj: adjective to describe ingredient in dish
@@ -26,10 +26,18 @@ powder: {
 water: {
     type:"liquid",
     color:"#bfd8df",
+    adj:"soggy"
 },
 ketchup: {
     type:"liquid",
     color:"#ff2b2b",
+    group:"vegetable"
+},
+mayonnaise: {
+    type:"liquid",
+    color:"#f9f5e5",
+    group:"egg",
+    short:"mayo"
 },
 oil: {
     type:"liquid",
@@ -55,6 +63,11 @@ butter: {
     shape: "scoop",
     color:"#ffff80",
 },
+ice_cream: {
+    group: "dairy",
+    shape: "scoop",
+    color:"#fffdf4",
+},
 
 
 salt: {
@@ -79,12 +92,21 @@ flour: {
 egg: {
     shape:"ovoid",
     color:"#F0EAD6",
+    group:"egg"
 },
 cheese: {
     color:"#fec118",
     group:"dairy",
     shape:"wedge",
     adj:"cheesy"
+},
+blue_cheese: {
+    color:"#dbdca9",
+    type: "cheese"
+},
+provolone: {
+    color:"#ffe291",
+    type: "cheese"
 },
 
 
@@ -117,12 +139,25 @@ noodles: {
 macaroni: {
     color:"#d2cdad",
     type:"pasta",
-    shape:"semitorus_thick_left"
+    shape:"semitorus_thick_left",
+    short:"mac"
 },
 bread: {
     color:"#ddc69c",
     group:"carb",
     shape:"loaf"
+},
+bun: {
+    type:"bread",
+    shape:"rectangle_round"
+},
+bottom_bun: {
+    type:"bun",
+    shape:"rectangle_thin_round"
+},
+top_bun: {
+    type:"bun",
+    shape:"semicircle_top"
 },
 
 
@@ -130,6 +165,14 @@ meat: {
     color:"#ff6e78",
     group:"meat",
     shape:"cutlet"
+},
+beef: {
+    color:"#ff4d58",
+    type:"meat"
+},
+beef_patty: {
+    type:"beef",
+    shape:"rectangle_thinner_round"
 },
 poultry: {
     color:"#ffdddf",
@@ -158,5 +201,7 @@ dishRecipes = {
 
 "pasta+cheese": "mac and cheese",
 "mac and cheese+bread": "breaded mac",
+"bun+beef+bun": "hamburger",
+"hamburger+cheese": "cheeseburger",
 
 }

@@ -1,2 +1,71 @@
+[Pre-release 0.10 - March ??, 2024]
+    + Provolone and Blue Cheese
+    + Buns, Beef, and Beef Patty
+        ~ Known issue: Hitbox is too large
+        ~ Stack Mode will come in the future
+    + Mayonnaise
+    + Hamburger and Cheeseburger recipes
+    + Ingredients can provide adjectives for the start of a dish's name (i.e. Soggy for Water)
+    + Ingredients with parts of a dish's name can be inserted within it
+        ~ For Example:
+        ~ Mac and Cheese -> Mac and Blue Cheese
+        ~ Cheeseburger -> Blue Cheeseburger
+    + Ingredient subtypes can also be inserted into dish names
+        ~ Mac and Cheese -> Mac and Provolone
+    + 'short' ingredient attribute used in long dish names
+        ~ Mayonnaise -> Mayo
+    + 'name' ingredient attribute overrides ID
+    + New custom cursors
+    + Serve and Clear buttons
+    + Serve menu
+    ~ Ingredients don't fall through bowl edges as much
+    ~ Ingredients bounce off each other less
+    ~ Search result content can no longer be dragged or highlighted
+
+[Pre-release 0.9 - March 30, 2024]
+    + Pasta and Macaroni
+    + Beginning of food name generator
+    + Dish recipe support
+        + Test dishes: Mac and Cheese, Breaded Mac
+    + Ingredients inherit type's color
+    + Ingredient subtype checking support
+    ~ Dropped liquids are now hidden instead of deleted
+
+[Pre-release 0.8 - March 28, 2024]
+    ~ Search results darken when clicked on
+    ~ Tweaked search result image shadow
+    ~ Tweaked ingredient collision rate
+
+[Pre-release 0.7 - March 27, 2024]
+    ~ Tweaked colorization
+
+[Pre-release 0.6 - March 16, 2024]
+    + Powders can affect existing liquid color
+
+[Pre-release 0.5 - March 10, 2024]
+    ~ Improved ingredient physics
+
+[Pre-release 0.4 - March 7, 2024]
+    + Ingredient placing and physics
+    + Liquids can fill bowl with dynamic colorization
+
+[Pre-release 0.3 - March 5, 2024]
+    + Some basic ingredients
+    + Established ingredient attributes and groups
+    + Ingredient data loading and inheritance
+    + Transparent liquid
+    + View changing ability
+
+[Pre-release 0.2 - March 4, 2024]
+    + Ingredient search
+    + Placeholder ingredients
+    ~ Improved art
+    ~ Improved GUI
+    + Multiple view rendering support
+
+[Pre-release 0.1 - March 1, 2024]
+    + Dyanmic colorization
+    + Placeholder GUI
+
 [February 29, 2024]
-    Began development.
+    ~ Began development.
