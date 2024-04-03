@@ -288,7 +288,7 @@ This HTML and its contents are property of R74n.com.
       }
       #dishNameDiv {
         background-color: #f9ecd8;
-        width:75%;
+        width:80%;
         min-height: 1.5em;
         min-width:80%;
         text-align: center;
@@ -350,7 +350,6 @@ This HTML and its contents are property of R74n.com.
       </div>
       */
       #dishNameDiv {
-        width:300px;
         --mask: 
     conic-gradient(from 45deg at left,#0000,#000 1deg 89deg,#0000 90deg) left/51% 20px repeat-y,
     conic-gradient(from -135deg at right,#0000,#000 1deg 89deg,#0000 90deg) right/51% 20px repeat-y;
@@ -371,6 +370,11 @@ This HTML and its contents are property of R74n.com.
         }
         #serveClearButton {
           display: none
+        }
+      }
+      @media (max-width: 450px) {
+        .dialogBox {
+          width: 90%;
         }
       }
       /* desktop */
@@ -421,10 +425,10 @@ This HTML and its contents are property of R74n.com.
   </div>
   <div id="rightDiv" style="display: none;">
     <div id="controlsBar">
-      <button selected id="button-bowl" onclick="changeView('bowl')"><img src="../shapes/png/semicircle_bottom.png" class="pixelart"></button>
-      <!-- <button id="button-stack" onclick="changeView('stack')"><img src="../shapes/png/stack.png" class="pixelart"></button>
-      <button id="button-stove" onclick="changeView('stove')"><img src="../shapes/png/flame.png" class="pixelart"></button>
-      <button id="button-blend" onclick="changeView('blend')"><img src="../shapes/png/liquid.png" class="pixelart"></button> -->
+      <button selected id="button-bowl" onclick="changeView('bowl')" title="Bowl Mode"><img src="../shapes/png/semicircle_bottom.png" class="pixelart" alt="bowl"></button>
+      <!-- <button id="button-stack" onclick="changeView('stack')" title="Stack Mode"><img src="../shapes/png/stack.png" class="pixelart" alt="stack"></button>
+      <button id="button-stove" onclick="changeView('stove')" title="Stove Mode"><img src="../shapes/png/flame.png" class="pixelart" alt="stove"></button>
+      <button id="button-blend" onclick="changeView('blend')" title="Blend Mode"><img src="../shapes/png/liquid.png" class="pixelart" alt="blend"></button> -->
       <button id="button-clear" onclick="clearView()"><img src="../shapes/png/x.png" class="pixelart"></button>
       <button id="button-done" onclick="serveDish()"><img src="green_check.png" class="pixelart"></button>
     </div>
@@ -590,6 +594,11 @@ This HTML and its contents are property of R74n.com.
     return imageCache[name];
   }
   function colorizeStandard(src,h,s,l) {
+    if (Array.isArray(h)) {
+      h = h[0];
+      s = s[0];
+      l = l[0];
+    }
     return colorizeImage(src, (h/360), (s/100-0.87), (l/100-0.56))
   }
   var imgPath = "https://r74n.com/cook/";
@@ -612,12 +621,17 @@ This HTML and its contents are property of R74n.com.
       var placed = viewData[currentView].total[i];
       if (placed.hide) { continue }
       if (ingredientAttr(placed.id, "behavior") > 0) {
-        var shape = "dots_some";
+        if (ingredientAttr(placed.id, "behavior") === 1) {
+          var shape = "droplets_some";
+        }
+        else {
+          var shape = "squares_some";
+        }
       }
       else {
         var shape = ingredients[placed.id].shape;
       }
-      var ingredientImg = colorizeStandard("../shapes/png/"+shape+".png", ingredients[placed.id].h, ingredients[placed.id].s, ingredients[placed.id].l);
+      var ingredientImg = colorizeStandard("../shapes/png/"+shape+".png", placed.h??ingredients[placed.id].h, placed.s??ingredients[placed.id].s, placed.l??ingredients[placed.id].l);
       if (ingredientImg.loaded === false) { continue; }
       ctx.drawImage(ingredientImg, placed.x - ingredientImg.width/2*foodScale, placed.y - ingredientImg.height/2*foodScale, ingredientImg.width*foodScale, ingredientImg.height*foodScale);
     }
@@ -630,7 +644,12 @@ This HTML and its contents are property of R74n.com.
     else {
       var size = 32*foodScale;
     }
-    viewData[currentView].total.push({id:ingredient, x:x, y:y, h:size, w:size});
+    var h = info.h; var s = info.s; var l = info.l;
+    if (Array.isArray(info.h)) { // select random color
+      var index = Math.floor(Math.random()*info.h.length);
+      h = info.h[index]; s = info.s[index]; l = info.l[index];
+    }
+    viewData[currentView].total.push({id:ingredient, x:x, y:y, r:0, height:size*(info.height||1), width:size, h:h, s:s, l:l});
   }
   function deleteIngredient(placed) {
     for (var i = 0; i < viewData[currentView].total.length; i++) {
@@ -673,59 +692,46 @@ This HTML and its contents are property of R74n.com.
       if (placed.vy === undefined) { placed.vy = 0; }
       else if (placed.vy) { placed.y += placed.vy; }
       placed.vy += 0.5;
-      if (Math.random() < 0.5) {
-        // check collision with other placed
-        for (var j = 0; j < viewData[currentView].total.length; j++) {
-          if (i === j) { continue; }
-          var other = viewData[currentView].total[j];
-          if (other.hide) { continue; }
-          if (placed.x < other.x + other.w/1.5 &&
-            placed.x + placed.w/1.5 > other.x &&
-            placed.y < other.y + other.h/1.5 &&
-            placed.y + placed.h/1.5 > other.y) {
-            // collision
-            // bounce in opposite direction
-            if (other.done && placed.y > canvas.height/2 && placed.y < other.y && placed.x > leftBound-placed.w/2 && placed.x < rightBound+placed.w/2) {
-              containIngredient(placed);
-            }
-            else if (placed.x < other.x) {
-              placed.vx = -(Math.random()+1);
-            }
-            else {
-              placed.vx = (Math.random()+1);
-            }
+      // check collision with other placed
+      for (var j = 0; j < viewData[currentView].total.length; j++) {
+        if (i === j) { continue; }
+        var other = viewData[currentView].total[j];
+        if (other.hide) { continue; }
+        if (placed.x < other.x + other.width/1.5 &&
+          placed.x + placed.width/1.5 > other.x &&
+          placed.y < other.y + other.height/1.5 &&
+          placed.y + placed.height/1.5 > other.y) {
+          // collision
+          // stop ingredient if applicable
+          if (other.done && placed.y > canvas.height/2 && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
+            containIngredient(placed);
+          }
+          // bounce in opposite direction
+          else if (placed.x < other.x) {
+            // random between -5 and 0
+            placed.vx = -Math.random()*5;
+          }
+          else {
+            // random between 0 and 5
+            placed.vx = Math.random()*5;
           }
         }
-        // if its outside the canvas, remove it
-        if (placed.x < 0 || placed.x > canvas.width || placed.y > canvas.height) {
-          viewData[currentView].total.splice(i, 1);
-          i--;
-        }
+      }
+      // if its outside the canvas, remove it
+      if (placed.x < 0 || placed.x > canvas.width || placed.y > canvas.height) {
+        viewData[currentView].total.splice(i, 1);
+        i--;
       }
       // check collision with the bowl
       // equations: ctx.fillRect(bowlImg.width*hitbox[0] + canvas.width/2 - bowlImg.width/2*5, bowlImg.height*hitbox[1] + canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*hitbox[2], bowlImg.height*hitbox[4]);
       // if inside hitbox, set done to true
       if (hitLine) {
         // if the bottom of the placed is below the hitline, set done true
-        if (placed.y + placed.h/2 >= hitLine && placed.y + placed.h/2 < hitLine+20 && placed.x > leftBound && placed.x < rightBound) {
+        if (placed.y + placed.height/2 >= hitLine && placed.y + placed.height/2 < hitLine+20 && placed.x > leftBound && placed.x < rightBound) {
           containIngredient(placed);
         }
       }
     }
-  }
-  function checkCollision(placed,i) {
-    for (var j = 0; j < viewData[currentView].total.length; j++) {
-      if (i === j) { continue; }
-      var other = viewData[currentView].total[j];
-      if (placed.x < other.x + other.w &&
-        placed.x + placed.w > other.x &&
-        placed.y < other.y + other.h &&
-        placed.y + placed.h > other.y) {
-        // collision
-        return true;
-      }
-    }
-    return false;
   }
   lastLiquidColor = null;
   lastLiquidImg2 = null;
@@ -759,7 +765,7 @@ This HTML and its contents are property of R74n.com.
       }
       drawPlaced();
       // draw transparent ingredient at mousePos
-      if (currentIngredient) {
+      if (currentIngredient && !controlState.mobile) {
         ctx.globalAlpha = 0.5;
         var ingredientImg = colorizeStandard("../shapes/png/"+ingredients[currentIngredient].shape+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
         ctx.drawImage(ingredientImg, mousePos.x - ingredientImg.width/2*foodScale, mousePos.y - ingredientImg.height/2*foodScale, ingredientImg.width*foodScale, ingredientImg.height*foodScale);
@@ -823,6 +829,7 @@ This HTML and its contents are property of R74n.com.
       viewData[currentView].liquidG = 0;
       viewData[currentView].liquidB = 0;
     }
+    hideDialog();
   }
 
   function selectIngredient(ingredient,drop) {
@@ -853,37 +860,58 @@ This HTML and its contents are property of R74n.com.
   }
   function searchIngredients(query) {
     var searchResults = document.getElementById('searchResults');
-    selectIngredient("");
     searchResults.innerHTML = "";
-    if (!query) { hideSearchResults(); return; }
     var queryO = query;
-    query = query.toLowerCase().replace(/ /g, "_");
+    query = query.toLowerCase().replace(/[ _]+/g, "");
+    if (!query) { hideSearchResults(); return; }
     if (query === "*test") { query = "" }
     var redo = false;
     var count = 0;
+    var bestResults = [];
+    var otherResults = [];
+    var poorResults = [];
     for (var key in ingredients) {
       if (count > 10 && query.length) { break; }
-      if (key.indexOf(query) != -1) {
-        var info = ingredients[key];
-        if (info.hidden) { continue; }
-        var canvas = colorizeStandard("../shapes/png/"+info.shape+".png", info.h, info.s, info.l);
-        var div = document.createElement('div');
-        div.className = 'searchResult';
-        div.innerHTML = "<img src='"+canvas.src+"'><span>"+formatName(key)+"</span>";
-        div.setAttribute('data-ingredient', key);
-        div.onclick = function() {
-          selectIngredient(this.getAttribute('data-ingredient'));
-          document.getElementById('prepText').value = formatName(currentIngredient);
-          document.getElementById('searchResultsDiv').style.display = 'none';
-          controlState.inMenu = false;
-        }
-        if (canvas.loaded === false) {
-          redo = true;
-        }
-        else {
-          searchResults.appendChild(div);
-        }
+      var strippedKey = key.replace(/_/g, "");
+      var index = strippedKey.indexOf(query);
+      if (index === 0) {
+        bestResults.push(key);
         count++;
+      }
+      else if (index !== -1) {
+        otherResults.push(key);
+        count++;
+      }
+      else if (ingredients[key].keywords && ingredients[key].keywords.indexOf(query) !== -1) {
+        poorResults.push(key);
+        count++;
+      }
+    }
+    // sort bestResults by length, shortest first
+    bestResults.sort(function(a, b) {
+      return a.length - b.length;
+    });
+    var results = bestResults.concat(otherResults, poorResults);
+    for (var i = 0; i < results.length; i++) {
+      var key = results[i];
+      var info = ingredients[key];
+      if (info.hidden) { continue; }
+      var canvas = colorizeStandard("../shapes/png/"+info.shape+".png", info.h, info.s, info.l);
+      var div = document.createElement('div');
+      div.className = 'searchResult';
+      div.innerHTML = "<img src='"+canvas.src+"'><span>"+formatName(key)+"</span>";
+      div.setAttribute('data-ingredient', key);
+      div.onclick = function() {
+        selectIngredient(this.getAttribute('data-ingredient'));
+        document.getElementById('prepText').value = formatName(currentIngredient);
+        document.getElementById('searchResultsDiv').style.display = 'none';
+        controlState.inMenu = false;
+      }
+      if (canvas.loaded === false) {
+        redo = true;
+      }
+      else {
+        searchResults.appendChild(div);
       }
     }
     if (redo) {
@@ -896,6 +924,11 @@ This HTML and its contents are property of R74n.com.
       searchResults.innerHTML = "<span>No ingredients found... :(</span>";
     }
     showSearchResults();
+  }
+  function addIngredient(name, data) {
+    name = name.toLowerCase().replace(/ /g, "_");
+    ingredients[name] = data;
+    finalizeIngredient(name);
   }
   function finalizeIngredient(ingredient) {
     var info = ingredients[ingredient];
@@ -920,23 +953,40 @@ This HTML and its contents are property of R74n.com.
       info.l = hsl[2];
     }
     if (info.color) {
-      var color = info.color;
-      if (color.charCodeAt(0) == 35) {
-        color = color.substring(1);
+      var colors = [];
+      if (!Array.isArray(info.color)) info.color = [info.color];
+      for (var i = 0; i < info.color.length; i++) {
+        var color = info.color[i];
+        if (color.charCodeAt(0) == 35) {
+          color = color.substring(1);
+        }
+        var r = parseInt(color.substring(0, 2), 16);
+        var g = parseInt(color.substring(2, 4), 16);
+        var b = parseInt(color.substring(4, 6), 16);
+        var hsl = rgbToHsl(r, g, b);
+        colors.push([hsl[0] * 360, hsl[1] * 100, hsl[2] * 100]);
       }
-      var r = parseInt(color.substring(0, 2), 16);
-      var g = parseInt(color.substring(2, 4), 16);
-      var b = parseInt(color.substring(4, 6), 16);
-      var hsl = rgbToHsl(r, g, b);
-      info.h = hsl[0] * 360;
-      info.s = hsl[1] * 100;
-      info.l = hsl[2] * 100;
+      if (colors.length === 1) {
+        info.h = colors[0][0];
+        info.s = colors[0][1];
+        info.l = colors[0][2];
+      }
+      else {
+        info.h = colors.map(function(a) { return a[0] });
+        info.s = colors.map(function(a) { return a[1] });
+        info.l = colors.map(function(a) { return a[2] });
+      }
     }
     if (!info.h) { info.h = ingredientAttr(ingredient, "h") || 0 }
     if (!info.s) { info.s = ingredientAttr(ingredient, "s") || 0 }
     if (!info.l) { info.l = ingredientAttr(ingredient, "l") || 50 }
     if (!info.shape) {
       info.shape = ingredientAttr(ingredient, "shape") || "rhombus";
+    }
+    else {
+      if (shapeMeta.short.indexOf(info.shape) !== -1) {
+        info.height = 0.5;
+      }
     }
     if (!info.group) {
       var parentGroup = ingredientAttr(ingredient, "group");
@@ -945,6 +995,10 @@ This HTML and its contents are property of R74n.com.
       }
     }
     if (info.group === "generic") { info.hidden = true }
+    if (info.keywords) {
+      if (Array.isArray(info.keywords)) info.keywords = info.keywords.join("");
+      info.keywords = info.keywords.replace(/[_ ]+/g, "").toLowerCase();
+    }
   }
   uninheritedAttributes = ["name","short"]
   function ingredientAttr(ingredient, attr) {
@@ -1061,26 +1115,36 @@ This HTML and its contents are property of R74n.com.
       if (skip) { continue }
       var ingName = ingredient.id;
       var weight = 0;
+      var type = null;
+      var fallback = null;
       var adj = ingredientAttr(ingredient.id, "adj");
       var nameOverride = ingredientAttr(ingredient.id, "name")
       if (adj) {
+        fallback = ingName;
         ingName = adj;
         weight -= 100;
+        type = "adj";
       }
       else if (nameOverride) {
         ingName = nameOverride;
       }
-      nameParts.push([ingName, weight]);
+      nameParts.push([ingName, weight, type, fallback]);
       used[ingredient.id] = 2;
     }
     var nameSorted = nameParts.sort(function(b, a) {
       return b[1] - a[1];
     });
     for (var i = 0; i < nameSorted.length; i++) {
+      var type = nameSorted[i][2];
+      var fallback = nameSorted[i][3];
+      var ingName = nameSorted[i][0];
+      if (type === "adj" && i === nameSorted.length-1) {
+        ingName = fallback;
+      }
       if (nameParts.length >= 3 && window.ingredients[nameSorted[i][0]] && window.ingredients[nameSorted[i][0]].short) {
         nameSorted[i][0] = window.ingredients[nameSorted[i][0]].short;
       }
-      name += nameSorted[i][0] + " ";
+      name += ingName + " ";
     }
     for (var ingredient in used) {
       if (!used[ingredient] || used[ingredient] === 2) { continue }
@@ -1130,12 +1194,14 @@ This HTML and its contents are property of R74n.com.
     dialogContent.innerHTML = text;
     dialogBox.style.display = 'block';
     currentDialog = 'dialogBox';
+    controlState.inMenu = true;
   }
   function hideDialog() {
     if (!currentDialog) { return }
     var dialogBox = document.getElementById(currentDialog);
     dialogBox.style.display = 'none';
     currentDialog = null;
+    controlState.inMenu = false;
   }
   imageGenCanvas = document.createElement('canvas');
   imageGenCanvas.width = 290;
@@ -1168,6 +1234,7 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("dishImage").src = img;
     dialogBox.style.display = 'block';
     currentDialog = 'serveBox';
+    controlState.inMenu = true;
   }
 
   changeView('bowl');
@@ -1199,7 +1266,7 @@ This HTML and its contents are property of R74n.com.
       // searchIngredients(this.value)
     });
     prepText.addEventListener('input', function(e) {
-      if (this.value.length === 0) { hideSearchResults(); selectIngredient(null); return }
+      if (this.value.length === 0) { return }
       document.getElementById('searchResults').innerHTML = "Searching... :)";
       showSearchResults();
       // timeout to prevent spamming
@@ -1208,15 +1275,86 @@ This HTML and its contents are property of R74n.com.
         searchIngredients(prepText.value);
       }, 250);
     });
+    prepText.addEventListener('keyup', function(e) {
+      if (this.value.length === 0) {
+        selectIngredient(null);
+        hideSearchResults();
+      }
+      // enter key
+      else if (e.keyCode == 13) {
+        var searchResults = document.getElementById('searchResults');
+        if (searchResults.innerHTML.length) {
+          if (searchResults.children[0]) {
+            searchResults.children[0].click();
+            prepText.blur();
+            gameCanvas.focus();
+          }
+        }
+      }
+    });
     prepBar.addEventListener('click', function(e) {
       e.stopPropagation();
       hideDialog();
     });
     document.body.addEventListener('click', function(e){
       hideSearchResults();
+      if (currentDialog) {
+        controlState.inMenu = true;
+      }
     });
     window.addEventListener('keydown', function(e) {
       if (e.keyCode == 16) { controlState.shift = true; }
+      // escape
+      else if (e.keyCode == 27) {
+        if (controlState.inMenu) {
+          hideDialog();
+          hideSearchResults();
+          prepText.blur();
+          gameCanvas.focus();
+        }
+        else {
+          selectIngredient(null);
+        }
+      }
+      // left arrow key
+      else if (e.keyCode == 37) {
+        var viewButton = document.getElementById("button-"+currentView);
+        if (viewButton) {
+          var prevButton = viewButton.previousElementSibling;
+          if (prevButton) {
+            var view = prevButton.id.split("-")[1];
+            if (viewData[view] || viewInfo[view]) {
+              changeView(view);
+            }
+          }
+        }
+      }
+      // right arrow key
+      else if (e.keyCode == 39) {
+        var viewButton = document.getElementById("button-"+currentView);
+        if (viewButton) {
+          var nextButton = viewButton.nextElementSibling;
+          if (nextButton) {
+            var view = nextButton.id.split("-")[1];
+            if (viewData[view] || viewInfo[view]) {
+              changeView(view);
+            }
+          }
+        }
+      }
+      // enter
+      else if (e.keyCode == 13) {
+        if (!controlState.inMenu) {
+          serveDish();
+        }
+        else if (currentDialog === 'serveBox') {
+          hideDialog();
+        }
+      }
+      // if key is between a-z, 0-9, or space, backspace, focus on prepText
+      if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == 32 || e.keyCode == 8) {
+        prepText.focus();
+      }
     });
     window.addEventListener('keyup', function(e) {
       if (e.keyCode == 16) { controlState.shift = false; }
@@ -1242,12 +1380,12 @@ This HTML and its contents are property of R74n.com.
       //   }
       // }
     });
-    gameCanvas.addEventListener('mousedown', function(e) {
-      hideDialog();
-      updateMouse(e);
-      if (controlState.inMenu) { return; }
-      controlState.mouse = e.button;
-      if (e.button === 0) {
+    function mouseDown(e) {
+      if (controlState.inMenu) {
+        hideDialog();
+        return;
+      }
+      if (controlState.mouse === 0) {
         if (currentIngredient) {
           placeIngredient(currentIngredient, mousePos.x, mousePos.y);
         }
@@ -1255,12 +1393,30 @@ This HTML and its contents are property of R74n.com.
       if (controlState.shift) {
         console.log(mousePos.x/canvas.width,mousePos.y/canvas.height);
       }
+    }
+    gameCanvas.addEventListener('mousedown', function(e) {
+      updateMouse(e);
+      controlState.mouse = e.button;
+      mouseDown(e);
     });
     gameCanvas.addEventListener('mouseup', function(e) {
       controlState.mouse = false;
     });
     window.addEventListener('mouseup', function(e) {
       controlState.mouse = false;
+    });
+    window.addEventListener('touchend', function(e) {
+      controlState.mouse = false;
+      controlState.mobile = true;
+    });
+    gameCanvas.addEventListener('touchstart', function(e) {
+      controlState.mobile = true;
+      if (e.pageX > 10 && e.pageX < window.innerWidth - 10) return;
+      e.preventDefault();
+      controlState.mouse = 0;
+      console.log(e.touches[0])
+      if (e.touches[0]) updateMouse(e.touches[0]);
+      mouseDown(e)
     });
 
     // Initialization

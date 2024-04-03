@@ -10,6 +10,10 @@ hidden: true=hidden from ingredient list
 color, r, g, b, h, s, l, rgb, hsl
 */
 
+shapeMeta = {
+    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom"]
+}
+
 ingredients = {
 liquid: {
     group:"generic",
@@ -31,7 +35,8 @@ water: {
 ketchup: {
     type:"liquid",
     color:"#ff2b2b",
-    group:"vegetable"
+    group:"vegetable",
+    keywords: "catsup"
 },
 mayonnaise: {
     type:"liquid",
@@ -94,6 +99,11 @@ egg: {
     color:"#F0EAD6",
     group:"egg"
 },
+easter_egg: {
+    shape:"ovoid",
+    color:["#ffaaaa","#ffddaa","#aaffaa","#aaffff","#aaaaff","#ffaaff"],
+    group:"egg"
+},
 cheese: {
     color:"#fec118",
     group:"dairy",
@@ -111,7 +121,7 @@ provolone: {
 
 
 apple: {
-    color:"#ff1f40",
+    color:["#ff1f40","#ffd20c","#5ad700"],
     group:"fruit",
     shape:"fruit_bipod_stem"
 },
@@ -157,7 +167,8 @@ bottom_bun: {
 },
 top_bun: {
     type:"bun",
-    shape:"semicircle_top"
+    shape:"semicircle_top",
+    height:0.75
 },
 
 

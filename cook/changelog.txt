@@ -1,4 +1,30 @@
-[Pre-release 0.10 - March ??, 2024]
+[Pre-release 0.11 - April 2, 2024]
+    + Liquids use unique droplet particles
+    + Powders use squares for particles
+    + Ingredients can have randomized colors (i.e. Apple)
+    ~ Improved mobile behavior
+    ~ Improved search behavior
+    + Search will now autofocus when letters and numbers are typed
+    + Search results that start with query are prioritized
+        + These best results will be sorted by length
+    + Ingredients can have keywords (i.e. search aliases)
+    ~ Spaces are now ignored in search queries
+    ~ Searching no longer deselects ingredient
+    + Enter key selects first search result
+    + Enter key serves dish
+    + Escape key can close search or dialog and deselect ingredient
+    + Start Over button closes dialog
+    + Left/Right arrow keys to change views (Unused)
+    ~ Ingredient no longer placed when clicking out of dialog
+    ~ Ingredient collision is more predictable
+        + Short ingredients (i.e. Beef Patty) have a shorter hitbox
+    ~ Tweaked ingredient bouncing
+    ~ Fixed: Dish name can exceed dialog width
+    ~ Fixed: Single-ingredient dishes named only an adjective
+    + Easter Egg
+    + Technical: addIngredient(name, data) function
+
+[Pre-release 0.10 - April 1, 2024]
     + Provolone and Blue Cheese
     + Buns, Beef, and Beef Patty
         ~ Known issue: Hitbox is too large
