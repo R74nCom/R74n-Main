@@ -84,6 +84,7 @@ This HTML and its contents are property of R74n.com.
         image-rendering: -moz-crisp-edges;
         image-rendering: crisp-edges;
         user-select: none;
+        touch-action: none;
       }
       #loadingScreen {
         background-color: #e3d5ba;
@@ -620,21 +621,38 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
       if (placed.hide) { continue }
-      if (ingredientAttr(placed.id, "behavior") > 0) {
-        if (ingredientAttr(placed.id, "behavior") === 1) {
-          var shape = "droplets_some";
-        }
-        else {
-          var shape = "squares_some";
-        }
-      }
-      else {
-        var shape = ingredients[placed.id].shape;
-      }
+      var shape = ingredientAttr(placed.id, "placedShape") || ingredients[placed.id].shape;
       var ingredientImg = colorizeStandard("../shapes/png/"+shape+".png", placed.h??ingredients[placed.id].h, placed.s??ingredients[placed.id].s, placed.l??ingredients[placed.id].l);
       if (ingredientImg.loaded === false) { continue; }
+      if (placed.a < 1) {
+        ctx.globalAlpha = placed.a;
+      }
       ctx.drawImage(ingredientImg, placed.x - ingredientImg.width/2*foodScale, placed.y - ingredientImg.height/2*foodScale, ingredientImg.width*foodScale, ingredientImg.height*foodScale);
+      if (placed.a < 1) {
+        ctx.globalAlpha = 1
+      }
     }
+  }
+  function colorIngredient(ingredient, h, s, l) {
+    var info = ingredients[ingredient.id];
+    if (h === undefined) {
+      h = info.h;
+      s = info.s;
+      l = info.l;
+    }
+    if (Array.isArray(h)) { // select random color
+      var index = Math.floor(Math.random()*h.length);
+      h = h[index]; s = s[index]; l = l[index];
+    }
+    ingredient.h = h;
+    ingredient.s = s;
+    ingredient.l = l;
+  }
+  function changeIngredient(ingredient, newIngredient) {
+    // if (!ingredients[newIngredient]) { return; }
+    ingredient.id = newIngredient;
+    colorIngredient(ingredient);
+    containIngredient(ingredient);
   }
   function placeIngredient(ingredient, x, y) {
     var info = ingredients[ingredient];
@@ -649,7 +667,7 @@ This HTML and its contents are property of R74n.com.
       var index = Math.floor(Math.random()*info.h.length);
       h = info.h[index]; s = info.s[index]; l = info.l[index];
     }
-    viewData[currentView].total.push({id:ingredient, x:x, y:y, r:0, height:size*(info.height||1), width:size, h:h, s:s, l:l});
+    viewData[currentView].total.push({id:ingredient, x:x, y:y, r:0, height:size*(info.height||1), width:size, h:h, s:s, l:l, a:info.a??1});
   }
   function deleteIngredient(placed) {
     for (var i = 0; i < viewData[currentView].total.length; i++) {
@@ -659,22 +677,71 @@ This HTML and its contents are property of R74n.com.
       }
     }
   }
+  function stainIngredient(placed, h, s, l) {
+    var rgb1 = hslToRgb(placed.h/360, placed.s/100, placed.l/100);
+    var rgb2 = hslToRgb(h/360, s/100, l/100);
+    var rgb = [(rgb1[0] + rgb2[0])/2, (rgb1[1] + rgb2[1])/2, (rgb1[2] + rgb2[2])/2];
+    var hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
+    placed.h = Math.round(hsl[0]*360);
+    placed.s = Math.round(hsl[1]*100);
+    placed.l = Math.round(hsl[2]*100);
+  }
+  function choose(array) {
+    if (Array.isArray(array)) {
+      return array[Math.floor(Math.random()*array.length)];
+    }
+    return array;
+  }
+  function reactIngredients(placed1, placed2, params) {
+    if (params.set1) {
+      if (params.set1 === null) deleteIngredient(placed1);
+      else changeIngredient(placed1, choose(params.set1));
+    }
+    if (params.set2) {
+      if (params.set2 === null) deleteIngredient(placed2);
+      else changeIngredient(placed2, choose(params.set2));
+    }
+  }
   function containIngredient(placed) {
     var info = ingredients[placed.id];
     var behavior = ingredientAttr(placed.id, "behavior");
     if (behavior > 0) {
       placed.done2 = true;
-      if ((behavior === 1 && viewInfo[currentView].holdsLiquid) || (behavior === 2 && viewData[currentView].liquid)) {
-        viewData[currentView].liquid++;
-        var rgb = hslToRgb(info.h/360, info.s/100, info.l/100);
-        viewData[currentView].liquidR += rgb[0];
-        viewData[currentView].liquidG += rgb[1];
-        viewData[currentView].liquidB += rgb[2];
-        if (behavior === 1) { placed.hide = true; }
-      }
     }
     else {
       placed.done = true;
+    }
+    if ((behavior === 1 && viewInfo[currentView].holdsLiquid) || ((behavior === 2 || ingredientAttr(placed.id,"stain")) && viewData[currentView].liquid)) {
+      viewData[currentView].liquid++;
+      var rgb = hslToRgb(info.h/360, info.s/100, info.l/100);
+      viewData[currentView].liquidR += rgb[0];
+      viewData[currentView].liquidG += rgb[1];
+      viewData[currentView].liquidB += rgb[2];
+      if (behavior === 1) { placed.hide = true; }
+    }
+    if (ingredientAttr(placed.id,"delete") || (ingredientAttr(placed.id,"dissolve") && viewData[currentView].liquid)) {
+      placed.hide = true;
+    }
+    // Do Reactions
+    var reactions1 = ingredientAttr(placed.id, "reactions");
+    for (var i = 0; i < viewData[currentView].total.length; i++) {
+      var other = viewData[currentView].total[i];
+      if (placed.id === other.id) { continue; }
+      if (reactions1) {
+        for (var key in reactions1) {
+          if (ingredientIsType(other.id, key)) {
+            reactIngredients(placed, other, reactions1[key]);
+          }
+        }
+      }
+      var reactions2 = ingredientAttr(other.id, "reactions");
+      if (reactions2) {
+        for (var key in reactions2) {
+          if (ingredientIsType(placed.id, key)) {
+            reactIngredients(other, placed, reactions2[key]);
+          }
+        }
+      }
     }
   }
   function tickPlaced() {
@@ -705,6 +772,9 @@ This HTML and its contents are property of R74n.com.
           // stop ingredient if applicable
           if (other.done && placed.y > canvas.height/2 && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
             containIngredient(placed);
+            if (ingredientAttr(placed.id,"stain")) {
+              stainIngredient(other, placed.h, placed.s, placed.l);
+            }
           }
           // bounce in opposite direction
           else if (placed.x < other.x) {
@@ -861,8 +931,8 @@ This HTML and its contents are property of R74n.com.
   function searchIngredients(query) {
     var searchResults = document.getElementById('searchResults');
     searchResults.innerHTML = "";
-    var queryO = query;
-    query = query.toLowerCase().replace(/[ _]+/g, "");
+    var queryO = query.toLowerCase();
+    query = queryO.replace(/[ _]+/g, "");
     if (!query) { hideSearchResults(); return; }
     if (query === "*test") { query = "" }
     var redo = false;
@@ -870,10 +940,16 @@ This HTML and its contents are property of R74n.com.
     var bestResults = [];
     var otherResults = [];
     var poorResults = [];
+    var queryO_ = queryO.replace(/ /g, "_");
+    if (ingredients[queryO_] && ingredients[queryO_].hidden) {
+      bestResults.push(queryO_);
+      count++;
+    }
     for (var key in ingredients) {
       if (count > 10 && query.length) { break; }
       var strippedKey = key.replace(/_/g, "");
       var index = strippedKey.indexOf(query);
+      if (ingredients[key].hidden) { continue }
       if (index === 0) {
         bestResults.push(key);
         count++;
@@ -895,11 +971,10 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < results.length; i++) {
       var key = results[i];
       var info = ingredients[key];
-      if (info.hidden) { continue; }
       var canvas = colorizeStandard("../shapes/png/"+info.shape+".png", info.h, info.s, info.l);
       var div = document.createElement('div');
       div.className = 'searchResult';
-      div.innerHTML = "<img src='"+canvas.src+"'><span>"+formatName(key)+"</span>";
+      div.innerHTML = `<img src='${canvas.src}' style='opacity:${ingredientAttr(key,"a") ?? 1}'><span>${formatName(key)}</span>`;
       div.setAttribute('data-ingredient', key);
       div.onclick = function() {
         selectIngredient(this.getAttribute('data-ingredient'));
@@ -995,6 +1070,12 @@ This HTML and its contents are property of R74n.com.
       }
     }
     if (info.group === "generic") { info.hidden = true }
+    if (info.name) {
+      info.keywords = (info.keywords||"") + info.name;
+    }
+    if (info.dishName) {
+      info.keywords = (info.keywords||"") + info.dishName;
+    }
     if (info.keywords) {
       if (Array.isArray(info.keywords)) info.keywords = info.keywords.join("");
       info.keywords = info.keywords.replace(/[_ ]+/g, "").toLowerCase();
@@ -1116,11 +1197,19 @@ This HTML and its contents are property of R74n.com.
       var ingName = ingredient.id;
       var weight = 0;
       var type = null;
-      var fallback = null;
+      var fallback = ingredient.id;
       var adj = ingredientAttr(ingredient.id, "adj");
-      var nameOverride = ingredientAttr(ingredient.id, "name")
-      if (adj) {
-        fallback = ingName;
+      var nameOverride = ingredientAttr(ingredient.id, "name");
+      var dishNameOverride = ingredientAttr(ingredient.id, "dishName");
+      var weightOverride = ingredientAttr(ingredient.id, "dishWeight");
+      if (weightOverride) {
+        weight += weightOverride;
+      }
+      if (dishNameOverride) {
+        ingName = dishNameOverride;
+        weight += 100;
+      }
+      else if (adj) {
         ingName = adj;
         weight -= 100;
         type = "adj";
@@ -1303,6 +1392,7 @@ This HTML and its contents are property of R74n.com.
       }
     });
     window.addEventListener('keydown', function(e) {
+      if (e.metaKey || e.ctrlKey) { return; }
       if (e.keyCode == 16) { controlState.shift = true; }
       // escape
       else if (e.keyCode == 27) {
@@ -1418,6 +1508,9 @@ This HTML and its contents are property of R74n.com.
       if (e.touches[0]) updateMouse(e.touches[0]);
       mouseDown(e)
     });
+    gameCanvas.addEventListener('touchmove', function(e) { e.preventDefault(); });
+    gameCanvas.addEventListener('touchend', function(e) { e.preventDefault(); });
+    gameCanvas.addEventListener('touchcancel', function(e) { e.preventDefault(); });
 
     // Initialization
     for (var key in ingredients) {

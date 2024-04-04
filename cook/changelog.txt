@@ -1,3 +1,23 @@
+[Pre-release 0.12 - April 3, 2024]
+    + Red Dye
+    + Ice Cube
+    + Broth
+    + Crab and Squid
+    ~ Hid Meat, Crustacean, and Cephalopod
+    + Basic Soup recipe
+    + Live ingredient reactions (Try Water + any Meat)
+    + Some ingredients can stain liquid in bowl or other ingredients
+    + Ingredients can have translucency
+    + Some ingredients will dissolve in liquid (i.e. Salt)
+    + Some ingredients can be named differently when served (i.e. Broth)
+    + Some ingredients can have custom weights for dish name generation
+    + Alternative names will be checked when searching
+    + Hidden ingredients can be searched if typed completely
+    + Some ingredients can have a custom Shape when placed
+        ~ Liquids and powders now use this behind the scenes
+    ~ Ketchup and Mayonnaise no longer fill up bowl
+    ~ Keyboard controls no longer activate when Cmd/Ctrl is held
+
 [Pre-release 0.11 - April 2, 2024]
     + Liquids use unique droplet particles
     + Powders use squares for particles
