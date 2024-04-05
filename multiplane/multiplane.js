@@ -446,6 +446,7 @@ multiplaneEntities = {
 "30000":"Test Individual//https://r74n.com/test",
 "30001":"Test Organization//https://r74n.com/test",
 "30002":"Serioustar",
+"30003":"Post::Text//https://posttext.pl",
 
 // Published Files //
 "40000":"Sandboxels Census 2023 Report//https://docs.google.com/document/u/1/d/e/2PACX-1vRgvT542zEWrL5NQcAXUpu1JokW_vNfjgxQANCmnr8J7LKcDSTdwGcTovkno_EYNPP_A4uJpyrrEUG7/pub",

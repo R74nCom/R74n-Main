@@ -28,3 +28,4 @@ Miscellaneous ARKs, not including implicit ones, are listed below.
 ark:/49595/rq1   -   Test Individual
 ark:/49595/rq2   -   Test Organization
 ark:/49595/rq4   -   Serioustar
+ark:/49595/rq5   -   Post::Text

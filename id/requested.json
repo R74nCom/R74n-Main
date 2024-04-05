@@ -65,5 +65,20 @@
     "steyero": {
         "name": "steyerofoam",
         "oid": "1.3.6.1.4.1.61117.9000.11"
+    },
+    "ssdc": {
+        "name": "Sandboxels Standardized Design Authority",
+        "oid": "1.3.6.1.4.1.61117.9000.12"
+    },
+    "posttext": {
+        "name": "swagg boi",
+        "oid": "1.3.6.1.4.1.61117.9000.13",
+        "url": "https://posttext.pl",
+        "email": "swaggboi@gangstalking.agency",
+        "multiplane": "R30003",
+        "ark":"ark:/49595/rq5",
+        "qid":"Q2776",
+        "uuid":"70517f27-01d2-5cdf-95c1-8feae12d994f",
+        "aid":"D276000186F1176FFFEE04"
     }
 }

@@ -226,6 +226,8 @@ The following list contains OIDs with definitions, as opposed to being inherent.
 61117.9000.9        -   Serioustar
 61117.9000.10       -   Doc
 61117.9000.11       -   steyero
+61117.9000.12       -   Sandboxels Standardized Design Authority
+61117.9000.13       -   Post::Text
 61117.9000.123      -   Requested Example
 61117.9998          -   Experimental, for testing only
 61117.9999          -   Example, for explanation only
