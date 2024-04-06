@@ -667,7 +667,7 @@ This HTML and its contents are property of R74n.com.
       var index = Math.floor(Math.random()*info.h.length);
       h = info.h[index]; s = info.s[index]; l = info.l[index];
     }
-    viewData[currentView].total.push({id:ingredient, x:x, y:y, r:0, height:size*(info.height||1), width:size, h:h, s:s, l:l, a:info.a??1});
+    viewData[currentView].total.push({id:ingredient, x:x, y:y, r:0, height:size*(info.height||1), width:size*0.75, h:h, s:s, l:l, a:info.a??1});
   }
   function deleteIngredient(placed) {
     for (var i = 0; i < viewData[currentView].total.length; i++) {
@@ -764,13 +764,18 @@ This HTML and its contents are property of R74n.com.
         if (i === j) { continue; }
         var other = viewData[currentView].total[j];
         if (other.hide) { continue; }
-        if (placed.x < other.x + other.width/1.5 &&
-          placed.x + placed.width/1.5 > other.x &&
-          placed.y < other.y + other.height/1.5 &&
-          placed.y + placed.height/1.5 > other.y) {
+        if (placed.x < other.x + other.width/2.5 &&
+            placed.x + placed.width/2.5 > other.x &&
+            placed.y < (other.y + other.height/2)+5 && 
+            placed.y > (other.y - other.height/2)
+        ) {
+        // if (placed.x < other.x + other.width/1.5 &&
+        //   placed.x + placed.width/1.5 > other.x &&
+        //   placed.y < other.y + other.height/1.5 &&
+        //   placed.y + placed.height/1.5 > other.y) {
           // collision
           // stop ingredient if applicable
-          if (other.done && placed.y > canvas.height/2 && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
+          if (other.done && placed.y > canvas.height/2.5 && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
             containIngredient(placed);
             if (ingredientAttr(placed.id,"stain")) {
               stainIngredient(other, placed.h, placed.s, placed.l);
@@ -1205,14 +1210,14 @@ This HTML and its contents are property of R74n.com.
       if (weightOverride) {
         weight += weightOverride;
       }
-      if (dishNameOverride) {
-        ingName = dishNameOverride;
-        weight += 100;
-      }
       else if (adj) {
         ingName = adj;
         weight -= 100;
         type = "adj";
+      }
+      else if (dishNameOverride) {
+        ingName = dishNameOverride;
+        weight += 100;
       }
       else if (nameOverride) {
         ingName = nameOverride;

@@ -59,7 +59,8 @@ ice_cube: {
     color:"#b4efff",
     a:0.75,
     shape:"cube",
-    adj:"iced"
+    adj:"iced",
+    dishName:"ice"
 },
 ketchup: {
     type:"thick_liquid",
