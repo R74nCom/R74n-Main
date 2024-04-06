@@ -2885,6 +2885,8 @@ rueData.responses = {
     "quick brown fox": "=qbf",
 
     "pitspower": "hello &nbsp;hope all is well", // partner
+    "serioustar": ":3", // patron
+    ":3": ":3333333\n\nSee also: {{link:https://en.pronouns.page/@Serioustar|Serioustar}}", // patron
 } // responses
 rueData.regex = {
     "do": "do|does|dost",
