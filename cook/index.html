@@ -89,6 +89,13 @@ This HTML and its contents are property of R74n.com.
         image-rendering: crisp-edges;
         user-select: none;
         touch-action: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        outline: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
       }
       #loadingScreen {
         background-color: #e3d5ba;
@@ -119,6 +126,11 @@ This HTML and its contents are property of R74n.com.
         box-shadow: -3px 0px 4px rgba(0,0,0,0.25);
         z-index: 7;
         user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
       }
       #controlsBar button {
         flex-grow: 1;
@@ -154,6 +166,7 @@ This HTML and its contents are property of R74n.com.
         box-shadow: 0px 3px 4px rgba(0,0,0,0.25);
         z-index: 5;
         position: relative;
+        caret-color: #fffab7;
         /* background-image: url('wood.png');
         background-size: 100px 100px; */
       }
@@ -1514,7 +1527,7 @@ This HTML and its contents are property of R74n.com.
     });
     gameCanvas.addEventListener('touchstart', function(e) {
       controlState.mobile = true;
-      if (e.pageX > 10 && e.pageX < window.innerWidth - 10) return;
+      if (e.pageX < 10 || e.pageX > window.innerWidth - 10) return;
       e.preventDefault();
       controlState.mouse = 0;
       console.log(e.touches[0])
