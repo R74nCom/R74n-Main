@@ -1146,7 +1146,7 @@ This HTML and its contents are property of R74n.com.
     while (success && tries < 20) {
       success = false;
       for (var recipeKey in recipeMap) {
-        console.log("["+recipeKey+"]")
+        // console.log("["+recipeKey+"]")
         var recipe = recipeMap[recipeKey];
         var result = dishRecipes[recipeKey];
         var requiredCount = recipe.length;
@@ -1164,18 +1164,18 @@ This HTML and its contents are property of R74n.com.
               if (ingredientIsType(ingredients[j].id, needed) && !used[ingredients[j].id]) {
                 if (nameMap[ingredients[j].id] && nameMap[ingredients[j].id].length > (toUse[ingredients[j].id]||0)) {
                   needed = ingredients[j].id;
-                  console.log("nameMap[needed] ("+needed+"): "+nameMap[needed])
+                  // console.log("nameMap[needed] ("+needed+"): "+nameMap[needed])
                   ingredientFound = true
                   break;
                 }
               }
             }
           }
-          console.log("used[needed] ("+needed+"): "+used[needed])
-          console.log("ingredientFound: "+ingredientFound)
+          // console.log("used[needed] ("+needed+"): "+used[needed])
+          // console.log("ingredientFound: "+ingredientFound)
           if (ingredientFound && nameMap[needed].length) {
             toUse[needed] = (toUse[needed]||0) + 1;
-            console.log(toUse[needed])
+            // console.log(toUse[needed])
             count++;
           }
           else {
@@ -1203,7 +1203,7 @@ This HTML and its contents are property of R74n.com.
       tries++;
     }
     // console.log(ingredients);
-    console.log(used);
+    // console.log(used);
     // console.log(nameMap);
 
     var name = " ";
@@ -1530,7 +1530,6 @@ This HTML and its contents are property of R74n.com.
       if (e.pageX < 10 || e.pageX > window.innerWidth - 10) return;
       e.preventDefault();
       controlState.mouse = 0;
-      console.log(e.touches[0])
       if (e.touches[0]) updateMouse(e.touches[0]);
       mouseDown(e)
     }, {passive: false});
@@ -1560,7 +1559,15 @@ This HTML and its contents are property of R74n.com.
 
 <div id="textualContent">
   <h2>About Infinite Chef</h2>
-  <p>Test</p>
+  <p><dfn>Infinite Chef</dfn> is a cooking simulator that can be played in your browser. With a sophisticated <strong>dish name generator</strong> that can accept any of <strong>hundreds of ingredients</strong>, Infinite Chef is the <strong>ultimate virtual kitchen</strong>.</p>
+
+  <p>Select an ingredient by using the search bar located above your workstation! Type in a query, and press one of the results. Then, simply tap in the kitchen to drop it in!</p>
+
+  <p>Missing something? Send it to our <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXx1NWgGz_VJ-796FsmawOzHF1MzAZevCVXFHXtQymWj3ysA/viewform" target="_blank">Feedback Form</a> or email us at <a href="mailto:contact@R74n.com" target="_blank">contact@R74n.com</a>! You can also join the culinary community on <a href="https://discord.gg/ejUc6YPQuS" target="_blank">Discord</a>.</p>
+
+  <p>Infinite Chef is made by <a href="https://R74n.com/">R74n</a>, the developers of <a href="https://sandboxels.R74n.com/">Sandboxels</a>.</p>
+
+  <p style="text-align:center"><a href="https://R74n.com/"><img src="https://R74n.com/icons/favicon.svg" style="height:1em;vertical-align:top;"></a> • <a href="../license.txt">License</a> • <a href="../privacy">Privacy</a></p>
 </div>
 
 

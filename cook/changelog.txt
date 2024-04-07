@@ -1,4 +1,5 @@
 [Pre-release 0.14 - April 6, 2024]
+    + Mobile support
     + Carrot
     + Chocolate
     + Many hidden 'structural' ingredients (i.e. Fruit, Nut, Plant)
