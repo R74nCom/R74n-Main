@@ -2,7 +2,7 @@
 [Ingredient Properties]
 name: override default name
 type: inherits properties from specified ingredient
-group: other(default), generic(hidden), dairy, mineral, carb, fruit, vegetable, meat, egg
+group: other(default), generic(hidden), dairy, mineral, carb, fruit, vegetable, meat, protein_other, protein_plant
 shape: R74n Shapes file name, without .png
 placedShape: Shape used instead when placed
 behavior: 0=default, 1=liquid, 2=powder
@@ -18,11 +18,18 @@ a: opacity from 0-1
 h, s, l, r, g, b, rgb, hsl
 */
 
+// opinion, size, age, shape, colour, origin, material, purpose
+// sweet salty spicy red cheesy chocolate ranch apple lettuce peanut beef soup
+//  -80   -75   -70  -60   -55     -52     -50   -40    -30    -20   -10  +100
+// sugar salt  spice dye dairy  chocolate drsng fruit vegetbl nt/leg meat dish
+
 shapeMeta = {
-    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom"]
+    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean"]
 }
 
+
 ingredients = {
+
 liquid: {
     group:"generic",
     shape:"liquid",
@@ -62,16 +69,28 @@ ice_cube: {
     adj:"iced",
     dishName:"ice"
 },
-ketchup: {
+sauce: {
     type:"thick_liquid",
+    color:"#8b1b1b",
+    hidden:true,
+    dishWeight:-50
+},
+dressing: {
+    type:"thick_liquid",
+    color:"#8b4f1b",
+    hidden:true,
+    dishWeight:-50
+},
+ketchup: {
+    type:"sauce",
     color:"#ff2b2b",
     group:"vegetable",
     keywords: "catsup"
 },
 mayonnaise: {
-    type:"thick_liquid",
+    type:"sauce",
     color:"#f9f5e5",
-    group:"egg",
+    group:"protein_other",
     short:"mayo"
 },
 oil: {
@@ -83,12 +102,14 @@ milk: {
     type:"liquid",
     group: "dairy",
     color:"#f3f3ec",
-    keywords:"dairy"
+    keywords:"dairy",
+    dishWeight:-55
 },
 yogurt: {
     group: "dairy",
     shape: "clumps",
     color:"#f3f3ec",
+    dishWeight:-55
 },
 fat: {
     group: "meat",
@@ -99,12 +120,15 @@ butter: {
     group: "dairy",
     shape: "scoop",
     color:"#ffff80",
+    adj:"buttered",
+    dishWeight:-55
 },
 ice_cream: {
     group: "dairy",
     shape: "scoop",
     color:"#fffdf4",
-    keywords:"sundae"
+    keywords:"sundae",
+    dishWeight:90
 },
 
 
@@ -114,14 +138,31 @@ salt: {
     shape:"powder_rough",
     color:"#e3e3e3",
     dissolve:true,
-    adj:"salted"
+    adj:"salted",
+    dishWeight:-75
 },
 sugar: {
     type:"powder",
     group:"carb",
     color:"#f2f2f2",
     dissolve:true,
-    adj:"sweet"
+    adj:"sweet",
+    dishWeight:-80
+},
+spice: {
+    type:"powder",
+    group:"protein_plant",
+    color:"#923323",
+    dissolve:true,
+    adj:"spiced",
+    shape:"powder_rough",
+    hidden:true,
+    dishWeight:-70
+},
+chocolate: {
+    color:"#924b00",
+    shape:"rectangle",
+    dishWeight:-52
 },
 flour: {
     type:"powder",
@@ -134,18 +175,18 @@ flour: {
 egg: {
     shape:"ovoid",
     color:"#F0EAD6",
-    group:"egg"
+    group:"protein_other"
 },
 easter_egg: {
-    shape:"ovoid",
+    type:"egg",
     color:["#ffaaaa","#ffddaa","#aaffaa","#aaffff","#aaaaff","#ffaaff"],
-    group:"egg"
 },
 cheese: {
     color:"#fec118",
     group:"dairy",
     shape:"wedge",
-    adj:"cheesy"
+    adj:"cheesy",
+    dishWeight:-55
 },
 blue_cheese: {
     color:"#dbdca9",
@@ -157,21 +198,94 @@ provolone: {
 },
 
 
+plant: {
+    color:"#30e230",
+    group:"fruit",
+    shape:"sprout",
+    hidden:true,
+    dishWeight:-35
+},
+fruit: {
+    color:"#d3a637",
+    type:"plant",
+    group:"fruit",
+    shape:"fruit",
+    hidden:true,
+    dishWeight:-40
+},
+vegetable: {
+    color:"#41d841",
+    type:"plant",
+    group:"vegetable",
+    shape:"leaf_vegetable",
+    hidden:true,
+    dishWeight:-30
+},
+seed: {
+    color:"#bcff82",
+    type:"vegetable",
+    group:"protein_plant",
+    shape:"beans_some",
+    behavior:2,
+    hidden:true
+},
+bean: {
+    color:"#944e29",
+    type:"seed",
+    shape:"bean",
+    behavior:0,
+    hidden:true
+},
+legume: {
+    color:"#d3ce71",
+    type:"vegetable",
+    shape:"bean",
+    group:"protein_plant",
+    hidden:true,
+    dishWeight:-20
+},
+nut: {
+    color:"#a0220e",
+    type:"fruit",
+    shape:"fruit_nub",
+    group:"protein_plant",
+    hidden:true,
+    dishWeight:-20
+},
+cereal_plant: {
+    color:"#e7bb42",
+    type:"plant",
+    group:"grain",
+    hidden:true
+},
 apple: {
     color:["#ff1f40","#ffd20c","#5ad700"],
-    group:"fruit",
+    type:"fruit",
     shape:"fruit_bipod_stem"
 },
 leaf_vegetable: {
     color:"#41d841",
-    group:"vegetable",
-    shape:"leaf_vegetable"
+    type:"vegetable",
+    shape:"leaf_vegetable",
+    hidden:true
+},
+root_vegetable: {
+    color:"#CC8D57",
+    type:"vegetable",
+    shape:"rod_rough",
+    hidden:true
+},
+carrot: {
+    color:"#ED9121",
+    type:"root_vegetable",
+    shape:"needle"
 },
 herb: {
     color:"#35b135",
-    group:"vegetable",
+    type:"vegetable",
     shape:"leaf",
-    adj:"herbal"
+    adj:"herbal",
+    hidden:true
 },
 
 
@@ -220,6 +334,7 @@ meat: {
     reactions: {
         water: { "set2":"broth" }
     },
+    dishWeight:-10
 },
 beef: {
     color:"#ff4d58",
@@ -271,7 +386,7 @@ dye: {
     stain:true,
     adj:"dyed",
     shape:"powder_rough",
-    dishWeight:-1000,
+    dishWeight:-60,
     delete:true
 },
 red_dye: {

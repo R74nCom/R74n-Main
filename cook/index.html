@@ -48,6 +48,10 @@ This HTML and its contents are property of R74n.com.
       .content {
         margin: 0;
       }
+      #textualContent {
+        margin: 10px;
+        margin-top: 20px;
+      }
       @font-face {
         font-family: 'VT323';
         src: url('fonts/VT323-Regular.ttf') format('truetype');
@@ -411,7 +415,7 @@ This HTML and its contents are property of R74n.com.
       <div id="serveBox" class="dialogBox">
         <img src="dialog_x.png" class="pixelart dialogX" onclick="hideDialog()">
         <div id="serveContent">
-          <img id="dishImage" src="">
+          <img id="dishImage" src="background.png">
           <div id="dishNameDiv"><span id="dishName">Ketchup Mac and Cheese</span></div>
           <div id="serveUnder">
             <span id="shareBlurb">Share with the world.</span>
@@ -438,6 +442,7 @@ This HTML and its contents are property of R74n.com.
     Preparing Kitchen...
   </div>
 </div>
+
 <script>
   function refreshCanvas() {
     canvas.width = gameDiv.clientWidth - document.getElementById('controlsBar').clientWidth;
@@ -939,7 +944,9 @@ This HTML and its contents are property of R74n.com.
     var queryO = query.toLowerCase();
     query = queryO.replace(/[ _]+/g, "");
     if (!query) { hideSearchResults(); return; }
+    var showHidden = false;
     if (query === "*test") { query = "" }
+    else if (query === "*hidden") { query = ""; showHidden = true }
     var redo = false;
     var count = 0;
     var bestResults = [];
@@ -954,7 +961,7 @@ This HTML and its contents are property of R74n.com.
       if (count > 10 && query.length) { break; }
       var strippedKey = key.replace(/_/g, "");
       var index = strippedKey.indexOf(query);
-      if (ingredients[key].hidden) { continue }
+      if ((ingredients[key].hidden && !showHidden) || (!ingredients[key].hidden && showHidden)) { continue }
       if (index === 0) {
         bestResults.push(key);
         count++;
@@ -1210,7 +1217,7 @@ This HTML and its contents are property of R74n.com.
       if (weightOverride) {
         weight += weightOverride;
       }
-      else if (adj) {
+      if (adj) {
         ingName = adj;
         weight -= 100;
         type = "adj";
@@ -1476,11 +1483,12 @@ This HTML and its contents are property of R74n.com.
       // }
     });
     function mouseDown(e) {
+      e.preventDefault()
       if (controlState.inMenu) {
         hideDialog();
         return;
       }
-      if (controlState.mouse === 0) {
+      if (controlState.mouse === 0 || e.touches) {
         if (currentIngredient) {
           placeIngredient(currentIngredient, mousePos.x, mousePos.y);
         }
@@ -1503,6 +1511,7 @@ This HTML and its contents are property of R74n.com.
     window.addEventListener('touchend', function(e) {
       controlState.mouse = false;
       controlState.mobile = true;
+      e.preventDefault();
     });
     gameCanvas.addEventListener('touchstart', function(e) {
       controlState.mobile = true;
@@ -1514,8 +1523,10 @@ This HTML and its contents are property of R74n.com.
       mouseDown(e)
     });
     gameCanvas.addEventListener('touchmove', function(e) { e.preventDefault(); });
-    gameCanvas.addEventListener('touchend', function(e) { e.preventDefault(); });
-    gameCanvas.addEventListener('touchcancel', function(e) { e.preventDefault(); });
+    gameCanvas.addEventListener('touchcancel', function(e) {
+      controlState.mouse = false;
+      e.preventDefault();
+    });
 
     // Initialization
     for (var key in ingredients) {
@@ -1533,6 +1544,11 @@ This HTML and its contents are property of R74n.com.
     gameLoop = setInterval(tick, 1000 / fps);
   });
 </script>
+
+<div id="textualContent">
+  <h2>Infinite Chef Intro</h2>
+  <p>Test</p>
+</div>
 
 
 

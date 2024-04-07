@@ -101,7 +101,10 @@ This HTML and its contents are property of R74n.com.
           if (UUIDs[alphaM]) { var uuid = UUIDs[alphaM]; }
           else { var uuid = ""; }
         }
-        else { var alphaM = ""; }
+        else {
+          var alphaM = "";
+          var uuid = "";
+        }
         var oid = "1.3.6.1.4.1.61117.1."+decimal;
         if (multiplaneToWikibase[planecode]) { var qid = multiplaneToWikibase[planecode]; }
         else { var qid = ""; }
