@@ -1520,8 +1520,8 @@ This HTML and its contents are property of R74n.com.
       console.log(e.touches[0])
       if (e.touches[0]) updateMouse(e.touches[0]);
       mouseDown(e)
-    });
-    gameCanvas.addEventListener('touchmove', function(e) { e.preventDefault(); });
+    }, {passive: false});
+    gameCanvas.addEventListener('touchmove', function(e) { e.preventDefault(); }, {passive: false});
     gameCanvas.addEventListener('touchend', function(e) { e.preventDefault(); });
     gameCanvas.addEventListener('touchcancel', function(e) {
       controlState.mouse = false;
