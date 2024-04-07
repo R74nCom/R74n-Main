@@ -1511,7 +1511,6 @@ This HTML and its contents are property of R74n.com.
     window.addEventListener('touchend', function(e) {
       controlState.mouse = false;
       controlState.mobile = true;
-      e.preventDefault();
     });
     gameCanvas.addEventListener('touchstart', function(e) {
       controlState.mobile = true;
@@ -1523,6 +1522,7 @@ This HTML and its contents are property of R74n.com.
       mouseDown(e)
     });
     gameCanvas.addEventListener('touchmove', function(e) { e.preventDefault(); });
+    gameCanvas.addEventListener('touchend', function(e) { e.preventDefault(); });
     gameCanvas.addEventListener('touchcancel', function(e) {
       controlState.mouse = false;
       e.preventDefault();
@@ -1546,7 +1546,7 @@ This HTML and its contents are property of R74n.com.
 </script>
 
 <div id="textualContent">
-  <h2>Infinite Chef Intro</h2>
+  <h2>About Infinite Chef</h2>
   <p>Test</p>
 </div>
 

@@ -8,6 +8,7 @@
         ~ This makes dish names sound more natural
     ~ Fixed: Ingredients with name weights ignore their dish name
     ~ Fixed: Easter Eggs aren't considered Eggs
+    + Textual content underneath
 
 [Pre-release 0.13 - April 5, 2024]
     ~ Improved collision, reduced stacking
