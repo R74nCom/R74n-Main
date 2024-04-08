@@ -13,6 +13,9 @@ short: short name for ingredient
 dissolve: true=hides in liquid
 delete: true=hides when dropped
 height: hitbox height multiplier (e.g. 0.5 will halve it)
+scale: overall size multiplier
+dropInto: ingredient to change into when fallen
+dropIntoV: vertical velocity required to change into dropInto
 color: #hex or array of #hex
 a: opacity from 0-1
 h, s, l, r, g, b, rgb, hsl
@@ -24,7 +27,7 @@ h, s, l, r, g, b, rgb, hsl
 // sugar salt  spice dye dairy  chocolate drsng fruit vegetbl nt/leg meat dish
 
 shapeMeta = {
-    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean"]
+    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short"]
 }
 
 
@@ -85,7 +88,12 @@ ketchup: {
     type:"sauce",
     color:"#ff2b2b",
     group:"vegetable",
-    keywords: "catsup"
+    keywords:"catsup"
+},
+mustard: {
+    type:"sauce",
+    color:"#FFDB58",
+    group:"vegetable"
 },
 mayonnaise: {
     type:"sauce",
@@ -100,32 +108,40 @@ oil: {
 },
 milk: {
     type:"liquid",
-    group: "dairy",
+    group:"dairy",
     color:"#f3f3ec",
     keywords:"dairy",
-    dishWeight:-55
+    dishWeight:-55,
+    reactions: {
+        chocolate: { set1:"chocolate_milk", set2:null }
+    }
+},
+chocolate_milk: {
+    type:"milk",
+    color:"#946132",
 },
 yogurt: {
-    group: "dairy",
-    shape: "clumps",
+    group:"dairy",
+    shape:"clumps",
     color:"#f3f3ec",
     dishWeight:-55
 },
 fat: {
-    group: "meat",
-    shape: "scoop",
+    group:"meat",
+    shape:"scoop",
     color:"#f3f3ec",
 },
 butter: {
-    group: "dairy",
-    shape: "scoop",
+    type:"fat",
+    group:"dairy",
+    shape:"scoop",
     color:"#ffff80",
     adj:"buttered",
     dishWeight:-55
 },
 ice_cream: {
-    group: "dairy",
-    shape: "scoop",
+    group:"dairy",
+    shape:"scoop",
     color:"#fffdf4",
     keywords:"sundae",
     dishWeight:90
@@ -159,6 +175,12 @@ spice: {
     hidden:true,
     dishWeight:-70
 },
+black_pepper: {
+    type:"spice",
+    color:"#231e1d",
+    keywords:"peppercorn",
+    dishName:"pepper"
+},
 chocolate: {
     color:"#924b00",
     shape:"rectangle",
@@ -166,6 +188,10 @@ chocolate: {
 },
 flour: {
     type:"powder",
+    reactions: {
+        yolk: { set1:"batter", set2:null },
+        water: { set1:"dough", set2:null },
+    },
     group:"carb",
     shape:"powder_rough",
     color:"#f4efe5",
@@ -175,7 +201,31 @@ flour: {
 egg: {
     shape:"ovoid",
     color:"#F0EAD6",
-    group:"protein_other"
+    group:"protein_other",
+    dropInto:"yolk",
+    dropIntoV:10,
+},
+yolk: {
+    name:"egg yolk",
+    shape:"splat_yolk",
+    placedShape:"splat_yolk",
+    type:"thick_liquid",
+    color:"#ffd95b",
+    group:"protein_other",
+    dishName:"egg",
+    short:"yolk",
+    dissolve:true
+},
+batter: {
+    color:"#ead295",
+    type:"liquid",
+    group:"carb",
+},
+dough: {
+    color:"#f4e8d7",
+    type:"liquid",
+    group:"carb",
+    shape:"blob_short"
 },
 easter_egg: {
     type:"egg",
@@ -190,11 +240,11 @@ cheese: {
 },
 blue_cheese: {
     color:"#dbdca9",
-    type: "cheese"
+    type:"cheese"
 },
 provolone: {
     color:"#ffe291",
-    type: "cheese"
+    type:"cheese"
 },
 
 
@@ -234,7 +284,8 @@ bean: {
     type:"seed",
     shape:"bean",
     behavior:0,
-    hidden:true
+    hidden:true,
+    scale:0.75
 },
 legume: {
     color:"#d3ce71",
@@ -243,6 +294,11 @@ legume: {
     group:"protein_plant",
     hidden:true,
     dishWeight:-20
+},
+peanut: {
+    color:"#dcac7c",
+    type:"legume",
+    shape:"peanut",
 },
 nut: {
     color:"#a0220e",
@@ -258,10 +314,23 @@ cereal_plant: {
     group:"grain",
     hidden:true
 },
+wheat: {
+    type:"cereal_plant",
+    dropInto:"flour",
+    keywords:"grain cereal plant grass"
+},
 apple: {
     color:["#ff1f40","#ffd20c","#5ad700"],
     type:"fruit",
     shape:"fruit_bipod_stem"
+},
+watermelon: {
+    color:["#38b91c","#1c5c0e"],
+    innerColor:"#ff6666",
+    scale:1.5,
+    type:"fruit",
+    shape:"oval_thick",
+    short:"melon"
 },
 leaf_vegetable: {
     color:"#41d841",
@@ -280,6 +349,15 @@ carrot: {
     type:"root_vegetable",
     shape:"needle"
 },
+garlic: {
+    color:"#f2e9d2",
+    type:"root_vegetable",
+    shape:"fruit_extrude"
+},
+garlic_powder: {
+    color:"#f2e9d2",
+    type:"spice"
+},
 herb: {
     color:"#35b135",
     type:"vegetable",
@@ -293,6 +371,12 @@ pasta: {
     color:"#d2cdad",
     group:"carb",
     shape:"semitorus_thick_left"
+},
+rice: {
+    color:"#d2cdad",
+    group:"carb",
+    shape:"beans_some",
+    type:"powder"
 },
 noodles: {
     type:"pasta",
@@ -403,10 +487,18 @@ red_dye: {
 
 dishRecipes = {
 
-"pasta+cheese": "mac and cheese",
-"mac and cheese+bread": "breaded mac",
-"bun+beef+bun": "hamburger",
-"hamburger+cheese": "cheeseburger",
-"meat+water": "broth",
+"pasta+cheese":"mac and cheese",
+"mac and cheese+bread":"breaded mac",
+"bun+beef+bun":"hamburger",
+"hamburger+cheese":"cheeseburger",
+"flour+yolk+sugar":"cake",
+"flour+water+yeast?":"bread",
+"flour+flour+flour+fat+fat+water":"pie",
+"flour+flour+liquid+liquid+yolk+fat":"bread",
+"flour+liquid+yolk+fat":"bread",
+"flour+butter+sugar+yolk":"pound cake",
+"flour+flour+flour+liquid+liquid+fat":"biscuit",
+"flour+liquid+fat":"biscuit",
+"flour+flour+liquid+yolk+fat":"muffin",
 
 }

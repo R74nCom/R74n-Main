@@ -20,7 +20,7 @@
 ⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
 This HTML and its contents are property of R74n.com.
 -->
-    <meta name="description" content="R74n">
+    <meta name="description" content="Cooking simulator playable in your browser with hundreds of ingredients and a smart dish name generator.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,6 +56,9 @@ This HTML and its contents are property of R74n.com.
         font-family: 'VT323';
         src: url('fonts/VT323-Regular.ttf') format('truetype');
       }
+      #textualContent, .pagetitle {
+        font-family: 'VT323';
+      }
       #gameDiv {
         font-family: 'VT323';
         text-align: center;
@@ -69,7 +72,7 @@ This HTML and its contents are property of R74n.com.
         position: relative;
         cursor: url("cursor_full.png"), auto;
       }
-      #gameDiv button {
+      #gameDiv button, #gameDiv a {
         cursor: url("cursor_full.png"), auto;
       }
       #gameDiv input[type="text"] {
@@ -306,7 +309,7 @@ This HTML and its contents are property of R74n.com.
       }
       #dishNameDiv {
         background-color: #f9ecd8;
-        width:80%;
+        width:85%;
         min-height: 1.5em;
         min-width:80%;
         text-align: center;
@@ -315,6 +318,8 @@ This HTML and its contents are property of R74n.com.
         display:table;
         color: #434343;
         text-shadow: none;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
         transform: rotate(3deg) translate(0, -15px);
       }
       #dishName {
@@ -340,7 +345,7 @@ This HTML and its contents are property of R74n.com.
         filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));
         vertical-align: middle;
       }
-      #shareIconDiv img:hover {
+      #shareIconDiv img:hover, #serveClearButton:hover {
         filter: brightness(1.25);
       }
       #serveClearButton {
@@ -431,9 +436,9 @@ This HTML and its contents are property of R74n.com.
           <img id="dishImage" src="background.png">
           <div id="dishNameDiv"><span id="dishName">Ketchup Mac and Cheese</span></div>
           <div id="serveUnder">
-            <span id="shareBlurb">Share with the world.</span>
+            <span id="shareBlurb">Share with the world. Screenshot!</span>
             <div id="shareIconDiv">
-              <img src="../shapes/png/square_round.png" class="pixelart"><img src="../shapes/png/square_round.png" class="pixelart"><img src="../shapes/png/square_round.png" class="pixelart"><img src="../shapes/png/square_round.png" class="pixelart">
+              <a href="https://twitter.com/" title="Share to Twitter / X" id="shareTwitter" target="_blank"><img src="../shapes/png/share-buttons/twitter.png" class="pixelart"></a><a href="https://reddit.com/" title="Share to Reddit" id="shareReddit" target="_blank"><img src="../shapes/png/share-buttons/reddit.png" class="pixelart"></a><a href="mailto:contact@R74n.com" title="Send via Email" id="shareEmail" target="_blank"><img src="../shapes/png/share-buttons/email.png" class="pixelart"></a><a href="#" id="shareClipboard" title="Copy to Clipboard" target="_blank"><img src="../shapes/png/share-buttons/clipboard-copy.png" class="pixelart"></a>
               <button onclick="clearView()" id="serveClearButton">Start Over</button>
             </div>
           </div>
@@ -645,7 +650,8 @@ This HTML and its contents are property of R74n.com.
       if (placed.a < 1) {
         ctx.globalAlpha = placed.a;
       }
-      ctx.drawImage(ingredientImg, placed.x - ingredientImg.width/2*foodScale, placed.y - ingredientImg.height/2*foodScale, ingredientImg.width*foodScale, ingredientImg.height*foodScale);
+      var scale = foodScale*(ingredientAttr(placed.id, "scale")||1);
+      ctx.drawImage(ingredientImg, placed.x - ingredientImg.width/2*scale, placed.y - ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
       if (placed.a < 1) {
         ctx.globalAlpha = 1
       }
@@ -668,6 +674,12 @@ This HTML and its contents are property of R74n.com.
   }
   function changeIngredient(ingredient, newIngredient) {
     // if (!ingredients[newIngredient]) { return; }
+    newIngredient = choose(newIngredient);
+    if (newIngredient === null) {
+      deleteIngredient(ingredient);
+      return;
+    }
+    if (ingredient.id === newIngredient) { return; }
     ingredient.id = newIngredient;
     colorIngredient(ingredient);
     containIngredient(ingredient);
@@ -680,6 +692,7 @@ This HTML and its contents are property of R74n.com.
     else {
       var size = 32*foodScale;
     }
+    size *= (ingredientAttr(ingredient, "scale")||1);
     var h = info.h; var s = info.s; var l = info.l;
     if (Array.isArray(info.h)) { // select random color
       var index = Math.floor(Math.random()*info.h.length);
@@ -693,6 +706,14 @@ This HTML and its contents are property of R74n.com.
         viewData[currentView].total.splice(i, 1);
         break;
       }
+    }
+    var behavior = ingredientAttr(placed.id, "behavior");
+    if ((behavior > 0 && viewData[currentView].liquid !== 1) || behavior === 1) {
+      viewData[currentView].liquid--;
+      var rgb = hslToRgb(placed.h/360, placed.s/100, placed.l/100);
+      viewData[currentView].liquidR -= rgb[0];
+      viewData[currentView].liquidG -= rgb[1];
+      viewData[currentView].liquidB -= rgb[2];
     }
   }
   function stainIngredient(placed, h, s, l) {
@@ -711,14 +732,24 @@ This HTML and its contents are property of R74n.com.
     return array;
   }
   function reactIngredients(placed1, placed2, params) {
-    if (params.set1) {
+    var reacted = false;
+    if (params.set1 !== undefined) {
       if (params.set1 === null) deleteIngredient(placed1);
-      else changeIngredient(placed1, choose(params.set1));
+      else {
+        placed1.original = [placed1.id, placed2.id];
+        changeIngredient(placed1, choose(params.set1));
+      }
+      reacted = true;
     }
-    if (params.set2) {
+    if (params.set2 !== undefined) {
       if (params.set2 === null) deleteIngredient(placed2);
-      else changeIngredient(placed2, choose(params.set2));
+      else {
+        placed2.original = [placed2.id, placed1.id];
+        changeIngredient(placed2, choose(params.set2));
+      }
+      reacted = true;
     }
+    return reacted;
   }
   function containIngredient(placed) {
     var info = ingredients[placed.id];
@@ -737,18 +768,27 @@ This HTML and its contents are property of R74n.com.
       viewData[currentView].liquidB += rgb[2];
       if (behavior === 1) { placed.hide = true; }
     }
+    // else {
+    //   placed.hide = false;
+    // }
     if (ingredientAttr(placed.id,"delete") || (ingredientAttr(placed.id,"dissolve") && viewData[currentView].liquid)) {
       placed.hide = true;
+    }
+    var dropInto = ingredientAttr(placed.id, "dropInto");
+    var dropIntoV = ingredientAttr(placed.id, "dropIntoV") || 0;
+    if (dropInto && placed.vy >= dropIntoV) {
+      changeIngredient(placed, dropInto);
     }
     // Do Reactions
     var reactions1 = ingredientAttr(placed.id, "reactions");
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var other = viewData[currentView].total[i];
       if (placed.id === other.id) { continue; }
+      var reacted = false;
       if (reactions1) {
         for (var key in reactions1) {
           if (ingredientIsType(other.id, key)) {
-            reactIngredients(placed, other, reactions1[key]);
+            reacted = reactIngredients(placed, other, reactions1[key]);
           }
         }
       }
@@ -756,10 +796,11 @@ This HTML and its contents are property of R74n.com.
       if (reactions2) {
         for (var key in reactions2) {
           if (ingredientIsType(placed.id, key)) {
-            reactIngredients(other, placed, reactions2[key]);
+            reacted = reactIngredients(other, placed, reactions2[key]);
           }
         }
       }
+      if (reacted) { break; }
     }
   }
   function tickPlaced() {
@@ -776,7 +817,9 @@ This HTML and its contents are property of R74n.com.
       else if (placed.vx) { placed.x += placed.vx; }
       if (placed.vy === undefined) { placed.vy = 0; }
       else if (placed.vy) { placed.y += placed.vy; }
+      // gravity
       placed.vy += 0.5;
+      placed.vy = Math.min(placed.vy, 13);
       // check collision with other placed
       for (var j = 0; j < viewData[currentView].total.length; j++) {
         if (i === j) { continue; }
@@ -861,7 +904,8 @@ This HTML and its contents are property of R74n.com.
       if (currentIngredient && !controlState.mobile) {
         ctx.globalAlpha = 0.5;
         var ingredientImg = colorizeStandard("../shapes/png/"+ingredients[currentIngredient].shape+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
-        ctx.drawImage(ingredientImg, mousePos.x - ingredientImg.width/2*foodScale, mousePos.y - ingredientImg.height/2*foodScale, ingredientImg.width*foodScale, ingredientImg.height*foodScale);
+        var scale = foodScale*(ingredientAttr(currentIngredient, "scale")||1);
+        ctx.drawImage(ingredientImg, mousePos.x - ingredientImg.width/2*scale, mousePos.y - ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
         ctx.globalAlpha = 1;
       }
       if (viewData.bowl.liquid) {
@@ -1105,6 +1149,29 @@ This HTML and its contents are property of R74n.com.
       if (Array.isArray(info.keywords)) info.keywords = info.keywords.join("");
       info.keywords = info.keywords.replace(/[_ ]+/g, "").toLowerCase();
     }
+    if (info.reactions) {
+      for (var key in info.reactions) {
+        var r = info.reactions[key];
+        if (r.set1 && ingredients[r.set1]) {
+          if (!ingredients[r.set1].parts) ingredients[r.set1].parts = [];
+          if (ingredients[r.set1].parts.indexOf(ingredient) === -1) {
+            ingredients[r.set1].parts.push(ingredient);
+          }
+          if (ingredients[r.set1].parts.indexOf(key) === -1) {
+            ingredients[r.set1].parts.push(key);
+          }
+        }
+        if (r.set2 && ingredients[r.set2]) {
+          if (!ingredients[r.set2].parts) ingredients[r.set2].parts = [];
+          if (ingredients[r.set2].parts.indexOf(ingredient) === -1) {
+            ingredients[r.set2].parts.push(ingredient);
+          }
+          if (ingredients[r.set2].parts.indexOf(key) === -1) {
+            ingredients[r.set2].parts.push(key);
+          }
+        }
+      }
+    }
   }
   uninheritedAttributes = ["name","short"]
   function ingredientAttr(ingredient, attr) {
@@ -1137,6 +1204,16 @@ This HTML and its contents are property of R74n.com.
     var used = {};
     var nameMap = {};
     for (var i = 0; i < ingredients.length; i++) {
+      if (ingredients[i].original) {
+        // concat with ingredients
+        ingredients = ingredients.concat(ingredients[i].original.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i]} }));
+        ingredients[i].split = true;
+      }
+      if (window.ingredients[ingredients[i].id].parts) {
+        // concat with ingredients
+        ingredients = ingredients.concat(window.ingredients[ingredients[i].id].parts.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i]} }));
+        ingredients[i].split = true;
+      }
       used[ingredients[i].id] = false;
       if (!nameMap[ingredients[i].id]) { nameMap[ingredients[i].id] = [] }
       nameMap[ingredients[i].id].push(ingredients[i]);
@@ -1154,6 +1231,11 @@ This HTML and its contents are property of R74n.com.
         var toUse = {};
         for (var i = 0; i < recipe.length; i++) {
           var needed = recipe[i];
+          if (needed.charAt(needed.length-1) === "?") {
+            var optional = true;
+            needed = needed.substring(0, needed.length-1);
+          }
+          else var optional = false;
           var ingredientFound = false;
           // console.log(needed,nameMap[needed].length,(toUse[needed]||0))
           if (nameMap[needed] && nameMap[needed].length > (toUse[needed]||0)) {
@@ -1178,6 +1260,9 @@ This HTML and its contents are property of R74n.com.
             // console.log(toUse[needed])
             count++;
           }
+          else if (optional) {
+            count++;
+          }
           else {
             break;
           }
@@ -1188,6 +1273,9 @@ This HTML and its contents are property of R74n.com.
             used[key] = true;
             // remove the amount of ingredients used
             for (var i = 0; i < toUse[key]; i++) {
+              if (nameMap[key][0].derivedFrom) {
+                nameMap[key][0].derivedFrom.noName = true;
+              }
               ingredients.splice(ingredients.indexOf(nameMap[key][0]), 1);
               nameMap[key].splice(0, 1);
             }
@@ -1210,6 +1298,7 @@ This HTML and its contents are property of R74n.com.
     var nameParts = []; //array of arrays with [string, weight]
     for (var i = 0; i < ingredients.length; i++) {
       var ingredient = ingredients[i];
+      if (ingredient.noName) { continue }
       if (used[ingredient.id]) { continue }
       var skip = false;
       for (var usedIngredient in used) {
@@ -1234,6 +1323,7 @@ This HTML and its contents are property of R74n.com.
         ingName = adj;
         weight -= 100;
         type = "adj";
+        if (dishNameOverride) fallback = dishNameOverride;
       }
       else if (dishNameOverride) {
         ingName = dishNameOverride;
@@ -1255,8 +1345,8 @@ This HTML and its contents are property of R74n.com.
       if (type === "adj" && i === nameSorted.length-1) {
         ingName = fallback;
       }
-      if (nameParts.length >= 3 && window.ingredients[nameSorted[i][0]] && window.ingredients[nameSorted[i][0]].short) {
-        nameSorted[i][0] = window.ingredients[nameSorted[i][0]].short;
+      if (nameParts.length >= 3 && window.ingredients[fallback] && window.ingredients[fallback].short) {
+        ingName = window.ingredients[fallback].short;
       }
       name += ingName + " ";
     }
@@ -1320,6 +1410,9 @@ This HTML and its contents are property of R74n.com.
   imageGenCanvas = document.createElement('canvas');
   imageGenCanvas.width = 290;
   imageGenCanvas.height = 225;
+  var shareMessages = [
+    "I made DISHNAME in Infinite Chef!"
+  ];
   function serveDish() {
     var dialogBox = document.getElementById('serveBox');
     var dialogContent = document.getElementById('serveContent');
@@ -1339,6 +1432,25 @@ This HTML and its contents are property of R74n.com.
 
     var dishName = generateDishName();
     document.getElementById("dishName").innerText = dishName;
+    var url = "https://R74n.com/cook/?utm=social";
+    var hashtag = "#InfiniteChef";
+    var shareMessage = choose(shareMessages).replaceAll("DISHNAME", dishName);
+    document.getElementById("shareTwitter").removeAttribute('href');
+    document.getElementById("shareReddit").removeAttribute('href');
+    document.getElementById("shareEmail").removeAttribute('href');
+    document.getElementById("shareClipboard").removeAttribute('href');
+    // document.getElementById("shareTwitter").href = "https://twitter.com/intent/tweet?original_referer=https://r74n.com/cook/&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&related=R74nCom&text="+encodeURIComponent(shareMessage.replaceAll("Infinite Chef", hashtag))+"&url="+encodeURIComponent(url);
+    // document.getElementById("shareReddit").href = "https://reddit.com/r/74n/submit?url="+encodeURIComponent(url)+"&title="+encodeURIComponent(shareMessage);
+    // document.getElementById("shareEmail").href = "mailto:enter address here?subject=Check%20out%20my%20dish%20in%20Infinite%20Chef!&body="+encodeURIComponent(shareMessage)+"%0A%0ACreate%20your%20own%20dish%20here%20with%20hundreds%20of%20ingredients%3A%20"+encodeURIComponent(url);
+    // document.getElementById("shareClipboard").href = "#";
+    // document.getElementById("shareClipboard").onclick = function() {
+    //   navigator.clipboard.writeText(shareMessage.replaceAll("Infinite Chef", hashtag)+"  \n\n"+url);
+    //   this.children[0].src = "../shapes/png/share-buttons/success.png";
+    //   setTimeout(function() {
+    //     document.getElementById("shareClipboard").children[0].src = "../shapes/png/share-buttons/clipboard-copy.png";
+    //   }, 3000);
+    //   return false;
+    // }
 
     // draw background.png
     var maxDimension = Math.max(imageGenCanvas.width, imageGenCanvas.height);
@@ -1545,9 +1657,9 @@ This HTML and its contents are property of R74n.com.
       finalizeIngredient(key);
     }
     recipeMap = {};
-    // sort dishRecipes by amount of "+" in key
+    // sort dishRecipes by amount of "+" in key, with the most first
     var sortedKeys = Object.keys(dishRecipes).sort(function(a, b) {
-      return a.split("+").length - b.split("+").length;
+      return b.split("+").length - a.split("+").length;
     });
     for (var i = 0; i < sortedKeys.length; i++) {
       recipeMap[sortedKeys[i]] = sortedKeys[i].split("+");

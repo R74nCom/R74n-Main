@@ -1,3 +1,36 @@
+[Pre-release 0.15 - April 7, 2024]
+    + Watermelon
+    + Egg Yolk
+        ~ Both of these ingredients will receive better sprites
+        + Eggs will break into Yolks when dropped from high enough
+    + Batter
+        + Many basic Batter recipes
+    + Dough
+        + Basic Bread recipe
+    + Wheat
+    + Chocolate Milk
+    + Mustard
+    + Black Pepper
+    + Rice
+    + Garlic
+    + Garlic Powder
+    + Peanut
+    + Share buttons on serve screen
+        ~ These are currently disabled until release
+    + Some ingredients can be scaled up or down
+    + Some ingredients can break into another on impact
+    + Recipes can have optional ingredients
+    ~ Start Over button now glows when hovered
+    ~ Improved dish name label
+    ~ Page title and textual content use pixel font
+    ~ Bowl liquid now updates when ingredients are removed
+    ~ Ingredients now have a terminal velocity
+    ~ Indescribable dish name generation changes
+    ~ Ingredients no longer react more than once
+    + Text for shared embeds
+    ~ Fixed: Short forms of ingredient names aren't used
+    ~ Fixed: Canceled-out adjectives don't fall back to custom dish name
+
 [Pre-release 0.14 - April 6, 2024]
     + Mobile support
     + Carrot
