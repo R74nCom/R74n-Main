@@ -16,6 +16,7 @@ height: hitbox height multiplier (e.g. 0.5 will halve it)
 scale: overall size multiplier
 dropInto: ingredient to change into when fallen
 dropIntoV: vertical velocity required to change into dropInto
+pin: when true, show when search is empty
 color: #hex or array of #hex
 a: opacity from 0-1
 h, s, l, r, g, b, rgb, hsl
@@ -57,7 +58,8 @@ powder: {
 water: {
     type:"liquid",
     color:"#bfd8df",
-    adj:"soggy"
+    adj:"soggy",
+    pin:true
 },
 broth: {
     type:"liquid",
@@ -104,7 +106,7 @@ mayonnaise: {
 oil: {
     type:"liquid",
     color:"#e7df97",
-    a: 0.66
+    pin:true
 },
 milk: {
     type:"liquid",
@@ -155,7 +157,8 @@ salt: {
     color:"#e3e3e3",
     dissolve:true,
     adj:"salted",
-    dishWeight:-75
+    dishWeight:-75,
+    pin:true
 },
 sugar: {
     type:"powder",
@@ -163,7 +166,8 @@ sugar: {
     color:"#f2f2f2",
     dissolve:true,
     adj:"sweet",
-    dishWeight:-80
+    dishWeight:-80,
+    pin:true
 },
 spice: {
     type:"powder",
@@ -179,7 +183,8 @@ black_pepper: {
     type:"spice",
     color:"#231e1d",
     keywords:"peppercorn",
-    dishName:"pepper"
+    dishName:"pepper",
+    pin:true
 },
 chocolate: {
     color:"#924b00",
@@ -195,6 +200,7 @@ flour: {
     group:"carb",
     shape:"powder_rough",
     color:"#f4efe5",
+    pin:true
 },
 
 
@@ -204,6 +210,7 @@ egg: {
     group:"protein_other",
     dropInto:"yolk",
     dropIntoV:10,
+    pin:true
 },
 yolk: {
     name:"egg yolk",
@@ -376,7 +383,8 @@ rice: {
     color:"#d2cdad",
     group:"carb",
     shape:"beans_some",
-    type:"powder"
+    type:"powder",
+    pin:true
 },
 noodles: {
     type:"pasta",
@@ -423,7 +431,8 @@ meat: {
 beef: {
     color:"#ff4d58",
     type:"meat",
-    keywords:"meat steak"
+    keywords:"meat steak",
+    pin:true
 },
 beef_patty: {
     type:"beef",

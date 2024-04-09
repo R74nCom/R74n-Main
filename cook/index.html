@@ -125,8 +125,10 @@ This HTML and its contents are property of R74n.com.
         align-items: stretch;
         flex-direction: column;
         flex-grow: 1;
-        height: 100%;
         box-shadow: -3px 0px 4px rgba(0,0,0,0.25);
+        height: 100%;
+      }
+      #controlsBar, #prepControls {
         z-index: 7;
         user-select: none;
         -webkit-touch-callout: none;
@@ -137,10 +139,12 @@ This HTML and its contents are property of R74n.com.
       }
       #controlsBar button {
         flex-grow: 1;
+        border-bottom: 3px solid gray;
+      }
+      #controlsBar button, #prepControls button {
         border-radius: 0;
         margin: 0;
         box-shadow: none;
-        border-bottom: 3px solid gray;
         background-color: #edebe6;
         color: black;
         box-sizing: border-box;
@@ -204,7 +208,7 @@ This HTML and its contents are property of R74n.com.
         color: #edebe6;
         position: absolute;
         display: none;
-        top: 48px;
+        top: 0px;
         width: 100%;
         left: 0px;
         background-color: #9b6723;
@@ -258,6 +262,30 @@ This HTML and its contents are property of R74n.com.
         font-size: 22px;
       }
 
+      #prepControls {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        box-shadow: 0px 3px 4px rgba(0,0,0,0.25);
+        border-bottom: solid 3px #614202;
+        border-right: solid 3px #614202;
+      }
+      #prepControls button {
+        padding: 5px;
+        background-color: #9b6723;
+        border-left: solid 3px #614202;
+      }
+      #prepControls button:first-child {
+        border-left: unset;
+      }
+      #prepControls button[on="true"] {
+        background-color: #754e1b;
+      }
+      #prepControls button img {
+        width: 1.8em;
+        max-width: unset;
+      }
 
       .dialogBox {
         display: none;
@@ -418,12 +446,16 @@ This HTML and its contents are property of R74n.com.
   <div id="mainDiv" style="display: none;">
     <div id="prepBar">
       <input type="text" id="prepText" placeholder="Search ingredients..." autocomplete="off">
-      <div id="searchResultsDiv">
-        <div id="searchResults"></div>
-      </div>
     </div>
     <div id="gameCanvasDiv">
       <canvas id="gameCanvas"></canvas>
+      <div id="searchResultsDiv">
+        <div id="searchResults"></div>
+      </div>
+      <div id="prepControls"><!--
+        --><button id="tempIncrease"><img src="temp_increase.png" class="pixelart"></button><!--
+        --><button id="tempDecrease"><img src="temp_decrease.png" class="pixelart"></button><!--
+      --></div>
       <div id="dialogBox" class="dialogBox">
         <img src="dialog_x.png" class="pixelart dialogX" onclick="hideDialog()">
         <div id="dialogContent">
@@ -995,51 +1027,59 @@ This HTML and its contents are property of R74n.com.
     ingredient = ingredient.replace(" 'N ", " 'n ");
     return ingredient;
   }
+  defaultSearchResults = [];
   function searchIngredients(query) {
     var searchResults = document.getElementById('searchResults');
     searchResults.innerHTML = "";
+    query = query ?? document.getElementById('prepText').value;
     var queryO = query.toLowerCase();
     query = queryO.replace(/[ _]+/g, "");
-    if (!query) { hideSearchResults(); return; }
-    var showHidden = false;
-    if (query === "*test") { query = "" }
-    else if (query === "*hidden") { query = ""; showHidden = true }
-    var redo = false;
-    var count = 0;
-    var bestResults = [];
-    var otherResults = [];
-    var poorResults = [];
-    var queryO_ = queryO.replace(/ /g, "_");
-    if (ingredients[queryO_] && ingredients[queryO_].hidden) {
-      bestResults.push(queryO_);
-      count++;
+    if (!query) {
+      // hideSearchResults(); return;
+      var results = defaultSearchResults;
     }
-    for (var key in ingredients) {
-      if (count > 10 && query.length) { break; }
-      var strippedKey = key.replace(/_/g, "");
-      var index = strippedKey.indexOf(query);
-      if ((ingredients[key].hidden && !showHidden) || (!ingredients[key].hidden && showHidden)) { continue }
-      if (index === 0) {
-        bestResults.push(key);
+    else {
+      var showHidden = false;
+      if (query === "*test") { query = "" }
+      else if (query === "*hidden") { query = ""; showHidden = true }
+      var redo = false;
+      var count = 0;
+      var bestResults = [];
+      var otherResults = [];
+      var poorResults = [];
+      var queryO_ = queryO.replace(/ /g, "_");
+      if (ingredients[queryO_] && ingredients[queryO_].hidden) {
+        bestResults.push(queryO_);
         count++;
       }
-      else if (index !== -1) {
-        otherResults.push(key);
-        count++;
+      for (var key in ingredients) {
+        if (count > 10 && query.length) { break; }
+        var strippedKey = key.replace(/_/g, "");
+        var index = strippedKey.indexOf(query);
+        if ((ingredients[key].hidden && !showHidden) || (!ingredients[key].hidden && showHidden)) { continue }
+        if (index === 0) {
+          bestResults.push(key);
+          count++;
+        }
+        else if (index !== -1) {
+          otherResults.push(key);
+          count++;
+        }
+        else if (ingredients[key].keywords && ingredients[key].keywords.indexOf(query) !== -1) {
+          poorResults.push(key);
+          count++;
+        }
       }
-      else if (ingredients[key].keywords && ingredients[key].keywords.indexOf(query) !== -1) {
-        poorResults.push(key);
-        count++;
-      }
+      // sort bestResults by length, shortest first
+      bestResults.sort(function(a, b) {
+        return a.length - b.length;
+      });
+      var results = bestResults.concat(otherResults, poorResults);
     }
-    // sort bestResults by length, shortest first
-    bestResults.sort(function(a, b) {
-      return a.length - b.length;
-    });
-    var results = bestResults.concat(otherResults, poorResults);
     for (var i = 0; i < results.length; i++) {
       var key = results[i];
       var info = ingredients[key];
+      if (!info) continue;
       var canvas = colorizeStandard("../shapes/png/"+info.shape+".png", info.h, info.s, info.l);
       var div = document.createElement('div');
       div.className = 'searchResult';
@@ -1064,7 +1104,7 @@ This HTML and its contents are property of R74n.com.
       }, 100);
       return;
     }
-    if (searchResults.innerHTML.length == 0) {
+    if (results.length == 0) {
       searchResults.innerHTML = "<span>No ingredients found... :(</span>";
     }
     showSearchResults();
@@ -1171,6 +1211,9 @@ This HTML and its contents are property of R74n.com.
           }
         }
       }
+    }
+    if (info.pin) {
+      defaultSearchResults.push(ingredient);
     }
   }
   uninheritedAttributes = ["name","short"]
@@ -1486,10 +1529,10 @@ This HTML and its contents are property of R74n.com.
       if (currentIngredient) { prepText.value = formatName(currentIngredient); }
     }
     showSearchResults = () => {document.getElementById('searchResultsDiv').style.display = 'block'; ; controlState.inMenu=true}
-    prepText.addEventListener('focus', function(e) {
+    prepText.addEventListener('mousedown', function(e) {
       if (document.getElementById('searchResults').innerHTML) { showSearchResults(); }
       this.value = "";
-      // searchIngredients(this.value)
+      searchIngredients(this.value);
     });
     prepText.addEventListener('input', function(e) {
       if (this.value.length === 0) { return }
@@ -1504,7 +1547,7 @@ This HTML and its contents are property of R74n.com.
     prepText.addEventListener('keyup', function(e) {
       if (this.value.length === 0) {
         selectIngredient(null);
-        hideSearchResults();
+        searchIngredients("");
       }
       // enter key
       else if (e.keyCode == 13) {
@@ -1611,6 +1654,7 @@ This HTML and its contents are property of R74n.com.
       e.preventDefault()
       if (controlState.inMenu) {
         hideDialog();
+        prepText.blur();
         return;
       }
       if (controlState.mouse === 0 || e.touches) {
@@ -1679,7 +1723,7 @@ This HTML and its contents are property of R74n.com.
 
   <p>Infinite Chef is made by <a href="https://R74n.com/">R74n</a>, the developers of <a href="https://sandboxels.R74n.com/">Sandboxels</a>.</p>
 
-  <p style="text-align:center"><a href="https://R74n.com/"><img src="https://R74n.com/icons/favicon.svg" style="height:1em;vertical-align:top;"></a> • <a href="../license.txt">License</a> • <a href="../privacy">Privacy</a></p>
+  <p style="text-align:center"><a href="https://R74n.com/"><img src="https://R74n.com/icons/favicon.svg" style="height:1em;vertical-align:top;"></a> • <a href="changelog.txt">Changelog</a> • <a href="../license.txt">License</a> • <a href="../privacy">Privacy</a></p>
 </div>
 
 

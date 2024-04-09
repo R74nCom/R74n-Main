@@ -1,5 +1,10 @@
 [Pre-release 0.16 - April 8, 2024]
+    + Important ingredients are shown when search is empty
+    + Top control bar (Not yet functional)
+    ~ Oil is no longer translucent
+    ~ Slightly tweaked liquid icon shape
     ~ Fixed: Issue with spots on ingredients in Brave and Firefox
+    ~ Fixed: Search bar not deselected when placing ingredients
 
 [Pre-release 0.15 - April 7, 2024]
     + Watermelon
