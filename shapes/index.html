@@ -124,381 +124,480 @@ This HTML and its contents are property of R74n.com.
     #shapeTable td:nth-child(1) {
         background-color: white;
     }
+    #categoryTable th {
+        background-color: rgb(154, 154, 154);
+        text-align: left;
+    }
+    #categoryTable img {
+        width: 2em;
+        height: 2em;
+        padding: 5px;
+    }
+    #categoryTable img:hover {
+        background-color: white;
+    }
+    #categoryTable {
+        background-color: rgb(45, 45, 45);
+    }
 </style>
 <style id="shapeFilterStyle"></style>
 
 <p>Hover over a Shape in the grid below to see it on a light background, or <a href="#shapeTable">skip to table</a>.</p>
-<p>
-    <form>
-    <label for="shapeHue" id="hueLabel">Hue</label>
-    <input type="range" id="shapeHue" min="0" max="360" value="0" step="1" oninput="updateShapeFilter()">
-    <label for="shapeSaturation" id="saturationLabel">Saturation</label>
-    <input type="range" id="shapeSaturation" min="0" max="100" value="86" step="1" oninput="updateShapeFilter()">
-    <label for="shapeLightness" id="lightnessLabel">Lightness</label>
-    <input type="range" id="shapeLightness" min="-50" max="300" value="56" step="1" oninput="updateShapeFilter()">
-    <input type="reset" value="Reset" onclick="setTimeout(updateShapeFilter,50)">
-    </form>
-</p>
-<div id="searchResultsDiv">
-    <div id="searchResults">
+
+<details>
+    <summary>Show Shape Preview Grid</summary>
+    
+    <p>
+        <form>
+        <label for="shapeHue" id="hueLabel">Hue</label>
+        <input type="range" id="shapeHue" min="0" max="360" value="0" step="1" oninput="updateShapeFilter()">
+        <label for="shapeSaturation" id="saturationLabel">Saturation</label>
+        <input type="range" id="shapeSaturation" min="0" max="100" value="86" step="1" oninput="updateShapeFilter()">
+        <label for="shapeLightness" id="lightnessLabel">Lightness</label>
+        <input type="range" id="shapeLightness" min="-50" max="300" value="56" step="1" oninput="updateShapeFilter()">
+        <label for="shapeScale" id="scaleLabel">Scale</label>
+        <input type="range" id="shapeScale" min="0.25" max="2" value="1" step="0.01" oninput="updateShapeFilter()">
+        <input type="reset" value="Reset" onclick="setTimeout(updateShapeFilter,50)">
+        </form>
+    </p>
+    <div id="searchResultsDiv">
+        <div id="searchResults">
+        </div>
     </div>
-</div>
+</details>
+
+<br>
+
+
+<table id="categoryTable">
+<!-------><tr><th>Quadrilaterals</th></tr><tr><td>
+    <img src="png/barrier_square.png">
+    <img src="png/dither.png">
+    <img src="png/grate_horizontal.png">
+    <img src="png/grate_vertical.png">
+    <img src="png/grate.png">
+    <img src="png/kite.png">
+    <img src="png/lattice_straight.png">
+    <img src="png/rectangle_fold_top_right.png">
+    <img src="png/rectangle_long.png">
+    <img src="png/rectangle_round.png">
+    <img src="png/rectangle_thin_round.png">
+    <img src="png/rectangle_thin.png">
+    <img src="png/rectangle_thinner_round.png">
+    <img src="png/rectangle_thinner.png">
+    <img src="png/rectangle_vertical.png">
+    <img src="png/rectangle.png">
+    <img src="png/rhomboid.png">
+    <img src="png/rhombus_thin.png">
+    <img src="png/rhombus.png">
+    <img src="png/speech_rectangle.png">
+    <img src="png/square_bevel.png">
+    <img src="png/square_fold_bottom_right.png">
+    <img src="png/square_hollow_half.png">
+    <img src="png/square_hollow.png">
+    <img src="png/square_knob.png">
+    <img src="png/square_m.png">
+    <img src="png/square_ms.png">
+    <img src="png/square_pile.png">
+    <img src="png/square_ridged.png">
+    <img src="png/square_round_diagonal.png">
+    <img src="png/square_round_hollow.png">
+    <img src="png/square_round_top_both_bottom_left.png">
+    <img src="png/square_round_top_both.png">
+    <img src="png/square_round_top_right.png">
+    <img src="png/square_round.png">
+    <img src="png/square_s.png">
+    <img src="png/square_snip_diagonal.png">
+    <img src="png/square_snip_top_both_bottom_left.png">
+    <img src="png/square_snip_top_both.png">
+    <img src="png/square_snip_top_right.png">
+    <img src="png/square_tiny.png">
+    <img src="png/square_u_down.png">
+    <img src="png/square_u_left.png">
+    <img src="png/square_u_right.png">
+    <img src="png/square_u_up.png">
+    <img src="png/square.png">
+    <img src="png/squares_some.png">
+    <img src="png/stripes_diagonal.png">
+    <img src="png/trapezoid_l.png">
+    <img src="png/trapezoid.png">
+    <img src="png/venn_complement_absolute.png">
+    <img src="png/window.png">
+</td></tr><tr><th>Circles & Ovals</th></tr><tr><td>
+    <img src="png/arbelos.png">
+    <img src="png/barrier_circle.png">
+    <img src="png/circle_arc.png">
+    <img src="png/circle_bi_stem.png">
+    <img src="png/circle_bi.png">
+    <img src="png/circle_chord.png">
+    <img src="png/circle_dot.png">
+    <img src="png/circle_lattice.png">
+    <img src="png/circle_m.png">
+    <img src="png/circle_ml.png">
+    <img src="png/circle_ms.png">
+    <img src="png/circle_porous.png">
+    <img src="png/circle_quadrant_full.png">
+    <img src="png/circle_quadrant.png">
+    <img src="png/circle_ridged.png">
+    <img src="png/circle_s.png">
+    <img src="png/circle_seared.png">
+    <img src="png/circle_sector.png">
+    <img src="png/circle_three_dots.png">
+    <img src="png/circle_three_fourths.png">
+    <img src="png/circle_two_dots.png">
+    <img src="png/circle.png">
+    <img src="png/crescent.png">
+    <img src="png/cyclic_rectangle.png">
+    <img src="png/cyclic_square.png">
+    <img src="png/cyclic_star.png">
+    <img src="png/cyclic_triangle.png">
+    <img src="png/dot_pyramid.png">
+    <img src="png/dot.png">
+    <img src="png/dots_some.png">
+    <img src="png/dots.png">
+    <img src="png/fisheye.png">
+    <img src="png/oval_bi.png">
+    <img src="png/oval_thick.png">
+    <img src="png/oval_thinner.png">
+    <img src="png/oval.png">
+    <img src="png/ovoid.png">
+    <img src="png/plus_circle.png">
+    <img src="png/semicircle_bottom.png">
+    <img src="png/semicircle_diagonal.png">
+    <img src="png/semicircle_left.png">
+    <img src="png/semicircle_top.png">
+    <img src="png/spheroid_prolate.png">
+    <img src="png/venn_complement_relative.png">
+    <img src="png/venn_difference.png">
+    <img src="png/venn_intersection.png">
+    <img src="png/venn_tri.png">
+    <img src="png/venn_union.png">
+    <img src="png/x_circle.png">
+</td></tr><tr><th>Triangles</th></tr><tr><td>
+    <img src="png/dot_pyramid.png">
+    <img src="png/semirhombus.png">
+    <img src="png/semitriangle.png">
+    <img src="png/triangle_curved.png">
+    <img src="png/triangle_facing_right.png">
+    <img src="png/triangle_hollow.png">
+    <img src="png/triangle_m.png">
+    <img src="png/triangle_right_bi.png">
+    <img src="png/triangle_right_hollow.png">
+    <img src="png/triangle_right.png">
+    <img src="png/triangle_round_ml.png">
+    <img src="png/triangle_round.png">
+    <img src="png/triangle_s.png">
+    <img src="png/triangle_tiny.png">
+    <img src="png/triangle_warning.png">
+    <img src="png/triangle.png">
+    <img src="png/triangles_some.png">
+    <img src="png/triforce.png">
+</td></tr><tr><th>Stars</th></tr><tr><td>
+    <img src="png/asterisk_stacked.png">
+    <img src="png/asterisk.png">
+    <img src="png/astroid.png">
+    <img src="png/hexagram_triangle.png">
+    <img src="png/hexagram.png">
+    <img src="png/octagram_square.png">
+    <img src="png/octagram.png">
+    <img src="png/semistar.png">
+    <img src="png/star_four_point.png">
+    <img src="png/star.png">
+    <img src="png/sun.png">
+</td></tr><tr><th>Misc 2D Shapes</th></tr><tr><td>
+    <img src="png/blob_pile.png">
+    <img src="png/blob_short.png">
+    <img src="png/blob.png">
+    <img src="png/bouba.png">
+    <img src="png/decagon.png">
+    <img src="png/flat_bottom.png">
+    <img src="png/heart_broken.png">
+    <img src="png/heart.png">
+    <img src="png/heptagon.png">
+    <img src="png/hexagon.png">
+    <img src="png/hourglass.png">
+    <img src="png/house.png">
+    <img src="png/kiki.png">
+    <img src="png/lens.png">
+    <img src="png/nonagon.png">
+    <img src="png/octagon.png">
+    <img src="png/pentagon.png">
+    <img src="png/polygon_irregular.png">
+    <img src="png/quatrefoil.png">
+    <img src="png/semiheart.png">
+    <img src="png/shogi.png">
+    <img src="png/splat.png">
+    <img src="png/trefoil.png">
+    <img src="png/wavy_sheet_flat.png">
+</td></tr><tr><th>3D Shapes</th></tr><tr><td>
+    <img src="png/cone.png">
+    <img src="png/cube_topless.png">
+    <img src="png/cube_wireframe.png">
+    <img src="png/cube.png">
+    <img src="png/cuboid_topless.png">
+    <img src="png/cuboid.png">
+    <img src="png/cylinder_hole.png">
+    <img src="png/cylinder_short_hole.png">
+    <img src="png/cylinder_short.png">
+    <img src="png/cylinder_topless.png">
+    <img src="png/cylinder.png">
+    <img src="png/dodecahedron.png">
+    <img src="png/hemisphere_topless.png">
+    <img src="png/hemisphere.png">
+    <img src="png/icosahedron.png">
+    <img src="png/pyramid.png">
+    <img src="png/semitorus_thick_left.png">
+    <img src="png/semitorus_thin_left.png">
+    <img src="png/spheroid_prolate.png">
+    <img src="png/stellated_octahedron.png">
+    <img src="png/torus_thick.png">
+    <img src="png/torus_thin.png">
+    <img src="png/torus.png">
+    <img src="png/wavy_sheet.png">
+    <img src="png/wedge.png">
+</td></tr><tr><th>Symbols</th></tr><tr><td>
+    <img src="png/check.png">
+    <img src="png/division.png">
+    <img src="png/exclamation.png">
+    <img src="png/figure_eight.png">
+    <img src="png/i_thin.png">
+    <img src="png/note_eighth_bi.png">
+    <img src="png/obelus.png">
+    <img src="png/peace.png">
+    <img src="png/percent.png">
+    <img src="png/plus.png">
+    <img src="png/R74n.png">
+    <img src="png/sine.png">
+    <img src="png/speech_balloon.png">
+    <img src="png/speech_rectangle.png">
+    <img src="png/stack.png">
+    <img src="png/t.png">
+    <img src="png/taijitu.png">
+    <img src="png/thought_balloon.png">
+    <img src="png/unequal.png">
+    <img src="png/unknown.png">
+    <img src="png/x.png">
+    <img src="png/zap.png">
+</td></tr><tr><th>Lines & Angles</th></tr><tr><td>
+    <img src="png/acute_angle.png">
+    <img src="png/angle_left.png">
+    <img src="png/angle_right.png">
+    <img src="png/bar_diagonal_backward.png">
+    <img src="png/bar_diagonal_forward.png">
+    <img src="png/bar_horizontal_bi.png">
+    <img src="png/bar_horizontal_circle.png">
+    <img src="png/bar_horizontal.png">
+    <img src="png/bar_over.png">
+    <img src="png/bar_under.png">
+    <img src="png/bar_vertical_circle.png">
+    <img src="png/bar_vertical.png">
+    <img src="png/connector.png">
+    <img src="png/corner_top_left.png">
+    <img src="png/crossed.png">
+    <img src="png/diagonal_stripe.png">
+    <img src="png/elbow_connector.png">
+    <img src="png/elbow.png">
+    <img src="png/h_doublestruck.png">
+    <img src="png/h.png">
+    <img src="png/helix_strand.png">
+    <img src="png/curve_thick.png">
+    <img src="png/curve.png">
+    <img src="png/i_thin.png">
+    <img src="png/i.png">
+    <img src="png/intersection_left.png">
+    <img src="png/l_thick.png">
+    <img src="png/obtuse_angle.png">
+    <img src="png/plus_curved.png">
+    <img src="png/plus_thick.png">
+    <img src="png/plus.png">
+    <img src="png/right_angle.png">
+    <img src="png/rod_thin.png">
+    <img src="png/rod.png">
+    <img src="png/sine.png">
+    <img src="png/spiral_s.png">
+    <img src="png/spiral.png">
+    <img src="png/stripes_diagonal.png">
+    <img src="png/u.png">
+    <img src="png/x.png">
+    <img src="png/y.png">
+    <img src="png/z.png">
+</td></tr><tr><th>Arrows</th></tr><tr><td>
+    <img src="png/angle_left.png">
+    <img src="png/angle_right.png">
+    <img src="png/arrow_diagonal_backward.png">
+    <img src="png/arrow_diagonal_forward.png">
+    <img src="png/arrow_down_left.png">
+    <img src="png/arrow_down_right.png">
+    <img src="png/arrow_down_to_left.png">
+    <img src="png/arrow_down_to_right.png">
+    <img src="png/arrow_down.png">
+    <img src="png/arrow_horizontal.png">
+    <img src="png/arrow_left_to_down.png">
+    <img src="png/arrow_left_to_up.png">
+    <img src="png/arrow_left.png">
+    <img src="png/arrow_loop.png">
+    <img src="png/arrow_right_to_down.png">
+    <img src="png/arrow_right_to_up.png">
+    <img src="png/arrow_right.png">
+    <img src="png/arrow_up_left.png">
+    <img src="png/arrow_up_right.png">
+    <img src="png/arrow_up_to_left.png">
+    <img src="png/arrow_up_to_right.png">
+    <img src="png/arrow_up.png">
+    <img src="png/arrow_vertical.png">
+    <img src="png/cursor_full.png">
+    <img src="png/pointer_down.png">
+    <img src="png/pointer_up.png">
+</td></tr><tr><th>Objects</th></tr><tr><td>
+    <img src="png/anchor.png">
+    <img src="png/aperture.png">
+    <img src="png/bell.png">
+    <img src="png/bone.png">
+    <img src="png/boomerang.png">
+    <img src="png/bottle.png">
+    <img src="png/bullet.png">
+    <img src="png/cap.png">
+    <img src="png/coil.png">
+    <img src="png/crate.png">
+    <img src="png/crystal.png">
+    <img src="png/cup_wrapper.png">
+    <img src="png/droplets_some.png">
+    <img src="png/flame.png">
+    <img src="png/gas_thin.png">
+    <img src="png/gas.png">
+    <img src="png/hat.png">
+    <img src="png/hook.png">
+    <img src="png/hourglass.png">
+    <img src="png/knife.png">
+    <img src="png/liquid.png">
+    <img src="png/medal.png">
+    <img src="png/needle.png">
+    <img src="png/obelus.png">
+    <img src="png/pants_short.png">
+    <img src="png/pants.png">
+    <img src="png/peg.png">
+    <img src="png/piano_keyboard.png">
+    <img src="png/pickaxe.png">
+    <img src="png/powder_rough.png">
+    <img src="png/powder_wavy.png">
+    <img src="png/powder.png">
+    <img src="png/rectangle_fold_top_right.png">
+    <img src="png/rock.png">
+    <img src="png/rod_bulbous.png">
+    <img src="png/sail.png">
+    <img src="png/shogi.png">
+    <img src="png/square_knob.png">
+    <img src="png/sword.png">
+    <img src="png/top.png">
+    <img src="png/wavy_sheet_flat.png">
+    <img src="png/wavy_sheet.png">
+    <img src="png/wedge.png">
+    <img src="png/wheel.png">
+    <img src="png/window.png">
+</td></tr><tr><th>Organic</th></tr><tr><td>
+    <img src="png/algae.png">
+    <img src="png/bean_l.png">
+    <img src="png/bean_tiny.png">
+    <img src="png/bean.png">
+    <img src="png/beans_some.png">
+    <img src="png/bone.png">
+    <img src="png/bug.png">
+    <img src="png/bunch.png">
+    <img src="png/bundt.png">
+    <img src="png/cephalopod.png">
+    <img src="png/clumps.png">
+    <img src="png/crustacean.png">
+    <img src="png/curve_plump.png">
+    <img src="png/curve_thick.png">
+    <img src="png/curve.png">
+    <img src="png/cutlet.png">
+    <img src="png/double_helix.png">
+    <img src="png/eye.png">
+    <img src="png/face_frown.png">
+    <img src="png/face_smile.png">
+    <img src="png/face.png">
+    <img src="png/figure_dress.png">
+    <img src="png/figure.png">
+    <img src="png/fish.png">
+    <img src="png/flower.png">
+    <img src="png/fluffy.png">
+    <img src="png/fruit_bi.png">
+    <img src="png/fruit_bipod_stem.png">
+    <img src="png/fruit_bipod.png">
+    <img src="png/fruit_extrude.png">
+    <img src="png/fruit_nub_thick.png">
+    <img src="png/fruit_nub.png">
+    <img src="png/fruit_nubs.png">
+    <img src="png/fruit_stem.png">
+    <img src="png/fruit.png">
+    <img src="png/fungus.png">
+    <img src="png/grass.png">
+    <img src="png/helix_strand.png">
+    <img src="png/hook.png">
+    <img src="png/hook_stem.png">
+    <img src="png/leaf_vegetable.png">
+    <img src="png/leaf.png">
+    <img src="png/lens.png">
+    <img src="png/loaf.png">
+    <img src="png/lotus.png">
+    <img src="png/needle.png">
+    <img src="png/noodles.png">
+    <img src="png/oval_bi.png">
+    <img src="png/ovoid.png">
+    <img src="png/peanut.png">
+    <img src="png/poultry.png">
+    <img src="png/pretzel.png">
+    <img src="png/rod_bumpy.png">
+    <img src="png/rod_rough_thin.png">
+    <img src="png/rod_rough.png">
+    <img src="png/rod_wavy.png">
+    <img src="png/root.png">
+    <img src="png/scoop.png">
+    <img src="png/shrimp.png">
+    <img src="png/snail.png">
+    <img src="png/splat_yolk.png">
+    <img src="png/splat.png">
+    <img src="png/sprout.png">
+    <img src="png/sus.png">
+    <img src="png/swirl_pile.png">
+    <img src="png/wedge.png">
+</td></tr><tr><th>Uncategorized</th></tr><tr><td>
+    ...
+</td></tr>
+</table>
+
 <br>
 
 <table id="shapeTable">
-<tr><td><img src="png/acute_angle.png" class="pixelart"></td><td>acute_angle</td></tr>
-<tr><td><img src="png/algae.png" class="pixelart"></td><td>algae</td></tr>
-<tr><td><img src="png/anchor.png" class="pixelart"></td><td>anchor</td></tr>
-<tr><td><img src="png/angle_left.png" class="pixelart"></td><td>angle_left</td></tr>
-<tr><td><img src="png/angle_right.png" class="pixelart"></td><td>angle_right</td></tr>
-<tr><td><img src="png/aperture.png" class="pixelart"></td><td>aperture</td></tr>
-<tr><td><img src="png/arbelos.png" class="pixelart"></td><td>arbelos</td></tr>
-<tr><td><img src="png/arrow_diagonal_backward.png" class="pixelart"></td><td>arrow_diagonal_backward</td></tr>
-<tr><td><img src="png/arrow_diagonal_forward.png" class="pixelart"></td><td>arrow_diagonal_forward</td></tr>
-<tr><td><img src="png/arrow_down_left.png" class="pixelart"></td><td>arrow_down_left</td></tr>
-<tr><td><img src="png/arrow_down_right.png" class="pixelart"></td><td>arrow_down_right</td></tr>
-<tr><td><img src="png/arrow_down_to_left.png" class="pixelart"></td><td>arrow_down_to_left</td></tr>
-<tr><td><img src="png/arrow_down_to_right.png" class="pixelart"></td><td>arrow_down_to_right</td></tr>
-<tr><td><img src="png/arrow_down.png" class="pixelart"></td><td>arrow_down</td></tr>
-<tr><td><img src="png/arrow_horizontal.png" class="pixelart"></td><td>arrow_horizontal</td></tr>
-<tr><td><img src="png/arrow_left_to_down.png" class="pixelart"></td><td>arrow_left_to_down</td></tr>
-<tr><td><img src="png/arrow_left_to_up.png" class="pixelart"></td><td>arrow_left_to_up</td></tr>
-<tr><td><img src="png/arrow_left.png" class="pixelart"></td><td>arrow_left</td></tr>
-<tr><td><img src="png/arrow_loop.png" class="pixelart"></td><td>arrow_loop</td></tr>
-<tr><td><img src="png/arrow_right_to_down.png" class="pixelart"></td><td>arrow_right_to_down</td></tr>
-<tr><td><img src="png/arrow_right_to_up.png" class="pixelart"></td><td>arrow_right_to_up</td></tr>
-<tr><td><img src="png/arrow_right.png" class="pixelart"></td><td>arrow_right</td></tr>
-<tr><td><img src="png/arrow_up_left.png" class="pixelart"></td><td>arrow_up_left</td></tr>
-<tr><td><img src="png/arrow_up_right.png" class="pixelart"></td><td>arrow_up_right</td></tr>
-<tr><td><img src="png/arrow_up_to_left.png" class="pixelart"></td><td>arrow_up_to_left</td></tr>
-<tr><td><img src="png/arrow_up_to_right.png" class="pixelart"></td><td>arrow_up_to_right</td></tr>
-<tr><td><img src="png/arrow_up.png" class="pixelart"></td><td>arrow_up</td></tr>
-<tr><td><img src="png/arrow_vertical.png" class="pixelart"></td><td>arrow_vertical</td></tr>
-<tr><td><img src="png/asterisk_stacked.png" class="pixelart"></td><td>asterisk_stacked</td></tr>
-<tr><td><img src="png/asterisk.png" class="pixelart"></td><td>asterisk</td></tr>
-<tr><td><img src="png/astroid.png" class="pixelart"></td><td>astroid</td></tr>
-<tr><td><img src="png/bar_diagonal_backward.png" class="pixelart"></td><td>bar_diagonal_backward</td></tr>
-<tr><td><img src="png/bar_diagonal_forward.png" class="pixelart"></td><td>bar_diagonal_forward</td></tr>
-<tr><td><img src="png/bar_horizontal_bi.png" class="pixelart"></td><td>bar_horizontal_bi</td></tr>
-<tr><td><img src="png/bar_horizontal_circle.png" class="pixelart"></td><td>bar_horizontal_circle</td></tr>
-<tr><td><img src="png/bar_horizontal.png" class="pixelart"></td><td>bar_horizontal</td></tr>
-<tr><td><img src="png/bar_over.png" class="pixelart"></td><td>bar_over</td></tr>
-<tr><td><img src="png/bar_under.png" class="pixelart"></td><td>bar_under</td></tr>
-<tr><td><img src="png/bar_vertical_circle.png" class="pixelart"></td><td>bar_vertical_circle</td></tr>
-<tr><td><img src="png/bar_vertical.png" class="pixelart"></td><td>bar_vertical</td></tr>
-<tr><td><img src="png/barrier_circle.png" class="pixelart"></td><td>barrier_circle</td></tr>
-<tr><td><img src="png/barrier_square.png" class="pixelart"></td><td>barrier_square</td></tr>
-<tr><td><img src="png/bean_l.png" class="pixelart"></td><td>bean_l</td></tr>
-<tr><td><img src="png/bean_tiny.png" class="pixelart"></td><td>bean_tiny</td></tr>
-<tr><td><img src="png/bean.png" class="pixelart"></td><td>bean</td></tr>
-<tr><td><img src="png/beans_some.png" class="pixelart"></td><td>beans_some</td></tr>
-<tr><td><img src="png/bell.png" class="pixelart"></td><td>bell</td></tr>
-<tr><td><img src="png/blob_pile.png" class="pixelart"></td><td>blob_pile</td></tr>
-<tr><td><img src="png/blob_short.png" class="pixelart"></td><td>blob_short</td></tr>
-<tr><td><img src="png/blob.png" class="pixelart"></td><td>blob</td></tr>
-<tr><td><img src="png/bone.png" class="pixelart"></td><td>bone</td></tr>
-<tr><td><img src="png/boomerang.png" class="pixelart"></td><td>boomerang</td></tr>
-<tr><td><img src="png/bottle.png" class="pixelart"></td><td>bottle</td></tr>
-<tr><td><img src="png/bouba.png" class="pixelart"></td><td>bouba</td></tr>
-<tr><td><img src="png/bug.png" class="pixelart"></td><td>bug</td></tr>
-<tr><td><img src="png/bullet.png" class="pixelart"></td><td>bullet</td></tr>
-<tr><td><img src="png/bunch.png" class="pixelart"></td><td>bunch</td></tr>
-<tr><td><img src="png/bundt.png" class="pixelart"></td><td>bundt</td></tr>
-<tr><td><img src="png/cap.png" class="pixelart"></td><td>cap</td></tr>
-<tr><td><img src="png/cephalopod.png" class="pixelart"></td><td>cephalopod</td></tr>
-<tr><td><img src="png/check.png" class="pixelart"></td><td>check</td></tr>
-<tr><td><img src="png/circle_arc.png" class="pixelart"></td><td>circle_arc</td></tr>
-<tr><td><img src="png/circle_bi_stem.png" class="pixelart"></td><td>circle_bi_stem</td></tr>
-<tr><td><img src="png/circle_bi.png" class="pixelart"></td><td>circle_bi</td></tr>
-<tr><td><img src="png/circle_chord.png" class="pixelart"></td><td>circle_chord</td></tr>
-<tr><td><img src="png/circle_dot.png" class="pixelart"></td><td>circle_dot</td></tr>
-<tr><td><img src="png/circle_lattice.png" class="pixelart"></td><td>circle_lattice</td></tr>
-<tr><td><img src="png/circle_m.png" class="pixelart"></td><td>circle_m</td></tr>
-<tr><td><img src="png/circle_ml.png" class="pixelart"></td><td>circle_ml</td></tr>
-<tr><td><img src="png/circle_ms.png" class="pixelart"></td><td>circle_ms</td></tr>
-<tr><td><img src="png/circle_porous.png" class="pixelart"></td><td>circle_porous</td></tr>
-<tr><td><img src="png/circle_quadrant_full.png" class="pixelart"></td><td>circle_quadrant_full</td></tr>
-<tr><td><img src="png/circle_quadrant.png" class="pixelart"></td><td>circle_quadrant</td></tr>
-<tr><td><img src="png/circle_ridged.png" class="pixelart"></td><td>circle_ridged</td></tr>
-<tr><td><img src="png/circle_s.png" class="pixelart"></td><td>circle_s</td></tr>
-<tr><td><img src="png/circle_seared.png" class="pixelart"></td><td>circle_seared</td></tr>
-<tr><td><img src="png/circle_sector.png" class="pixelart"></td><td>circle_sector</td></tr>
-<tr><td><img src="png/circle_three_dots.png" class="pixelart"></td><td>circle_three_dots</td></tr>
-<tr><td><img src="png/circle_three_fourths.png" class="pixelart"></td><td>circle_three_fourths</td></tr>
-<tr><td><img src="png/circle_two_dots.png" class="pixelart"></td><td>circle_two_dots</td></tr>
-<tr><td><img src="png/circle.png" class="pixelart"></td><td>circle</td></tr>
-<tr><td><img src="png/clumps.png" class="pixelart"></td><td>clumps</td></tr>
-<tr><td><img src="png/coil.png" class="pixelart"></td><td>coil</td></tr>
-<tr><td><img src="png/cone.png" class="pixelart"></td><td>cone</td></tr>
-<tr><td><img src="png/connector.png" class="pixelart"></td><td>connector</td></tr>
-<tr><td><img src="png/corner_top_left.png" class="pixelart"></td><td>corner_top_left</td></tr>
-<tr><td><img src="png/crate.png" class="pixelart"></td><td>crate</td></tr>
-<tr><td><img src="png/crescent.png" class="pixelart"></td><td>crescent</td></tr>
-<tr><td><img src="png/crossed.png" class="pixelart"></td><td>crossed</td></tr>
-<tr><td><img src="png/crustacean.png" class="pixelart"></td><td>crustacean</td></tr>
-<tr><td><img src="png/crystal.png" class="pixelart"></td><td>crystal</td></tr>
-<tr><td><img src="png/cube_topless.png" class="pixelart"></td><td>cube_topless</td></tr>
-<tr><td><img src="png/cube_wireframe.png" class="pixelart"></td><td>cube_wireframe</td></tr>
-<tr><td><img src="png/cube.png" class="pixelart"></td><td>cube</td></tr>
-<tr><td><img src="png/cuboid_topless.png" class="pixelart"></td><td>cuboid_topless</td></tr>
-<tr><td><img src="png/cuboid.png" class="pixelart"></td><td>cuboid</td></tr>
-<tr><td><img src="png/cup_wrapper.png" class="pixelart"></td><td>cup_wrapper</td></tr>
-<tr><td><img src="png/cursor_full.png" class="pixelart"></td><td>cursor_full</td></tr>
-<tr><td><img src="png/curve_plump.png" class="pixelart"></td><td>curve_plump</td></tr>
-<tr><td><img src="png/curve_thick.png" class="pixelart"></td><td>curve_thick</td></tr>
-<tr><td><img src="png/curve.png" class="pixelart"></td><td>curve</td></tr>
-<tr><td><img src="png/cutlet.png" class="pixelart"></td><td>cutlet</td></tr>
-<tr><td><img src="png/cyclic_rectangle.png" class="pixelart"></td><td>cyclic_rectangle</td></tr>
-<tr><td><img src="png/cyclic_square.png" class="pixelart"></td><td>cyclic_square</td></tr>
-<tr><td><img src="png/cyclic_star.png" class="pixelart"></td><td>cyclic_star</td></tr>
-<tr><td><img src="png/cyclic_triangle.png" class="pixelart"></td><td>cyclic_triangle</td></tr>
-<tr><td><img src="png/cylinder_hole.png" class="pixelart"></td><td>cylinder_hole</td></tr>
-<tr><td><img src="png/cylinder_short_hole.png" class="pixelart"></td><td>cylinder_short_hole</td></tr>
-<tr><td><img src="png/cylinder_short.png" class="pixelart"></td><td>cylinder_short</td></tr>
-<tr><td><img src="png/cylinder_topless.png" class="pixelart"></td><td>cylinder_topless</td></tr>
-<tr><td><img src="png/cylinder.png" class="pixelart"></td><td>cylinder</td></tr>
-<tr><td><img src="png/decagon.png" class="pixelart"></td><td>decagon</td></tr>
-<tr><td><img src="png/diagonal_stripe.png" class="pixelart"></td><td>diagonal_stripe</td></tr>
-<tr><td><img src="png/dither.png" class="pixelart"></td><td>dither</td></tr>
-<tr><td><img src="png/division.png" class="pixelart"></td><td>division</td></tr>
-<tr><td><img src="png/dodecahedron.png" class="pixelart"></td><td>dodecahedron</td></tr>
-<tr><td><img src="png/dot_pyramid.png" class="pixelart"></td><td>dot_pyramid</td></tr>
-<tr><td><img src="png/dot.png" class="pixelart"></td><td>dot</td></tr>
-<tr><td><img src="png/dots_some.png" class="pixelart"></td><td>dots_some</td></tr>
-<tr><td><img src="png/dots.png" class="pixelart"></td><td>dots</td></tr>
-<tr><td><img src="png/double_helix.png" class="pixelart"></td><td>double_helix</td></tr>
-<tr><td><img src="png/droplets_some.png" class="pixelart"></td><td>droplets_some</td></tr>
-<tr><td><img src="png/elbow_connector.png" class="pixelart"></td><td>elbow_connector</td></tr>
-<tr><td><img src="png/elbow.png" class="pixelart"></td><td>elbow</td></tr>
-<tr><td><img src="png/exclamation.png" class="pixelart"></td><td>exclamation</td></tr>
-<tr><td><img src="png/eye.png" class="pixelart"></td><td>eye</td></tr>
-<tr><td><img src="png/face_frown.png" class="pixelart"></td><td>face_frown</td></tr>
-<tr><td><img src="png/face_smile.png" class="pixelart"></td><td>face_smile</td></tr>
-<tr><td><img src="png/face.png" class="pixelart"></td><td>face</td></tr>
-<tr><td><img src="png/figure_dress.png" class="pixelart"></td><td>figure_dress</td></tr>
-<tr><td><img src="png/figure_eight.png" class="pixelart"></td><td>figure_eight</td></tr>
-<tr><td><img src="png/figure.png" class="pixelart"></td><td>figure</td></tr>
-<tr><td><img src="png/fish.png" class="pixelart"></td><td>fish</td></tr>
-<tr><td><img src="png/fisheye.png" class="pixelart"></td><td>fisheye</td></tr>
-<tr><td><img src="png/flame.png" class="pixelart"></td><td>flame</td></tr>
-<tr><td><img src="png/flat_bottom.png" class="pixelart"></td><td>flat_bottom</td></tr>
-<tr><td><img src="png/flower.png" class="pixelart"></td><td>flower</td></tr>
-<tr><td><img src="png/fluffy.png" class="pixelart"></td><td>fluffy</td></tr>
-<tr><td><img src="png/fruit_bi.png" class="pixelart"></td><td>fruit_bi</td></tr>
-<tr><td><img src="png/fruit_bipod_stem.png" class="pixelart"></td><td>fruit_bipod_stem</td></tr>
-<tr><td><img src="png/fruit_bipod.png" class="pixelart"></td><td>fruit_bipod</td></tr>
-<tr><td><img src="png/fruit_extrude.png" class="pixelart"></td><td>fruit_extrude</td></tr>
-<tr><td><img src="png/fruit_nub_thick.png" class="pixelart"></td><td>fruit_nub_thick</td></tr>
-<tr><td><img src="png/fruit_nub.png" class="pixelart"></td><td>fruit_nub</td></tr>
-<tr><td><img src="png/fruit_nubs.png" class="pixelart"></td><td>fruit_nubs</td></tr>
-<tr><td><img src="png/fruit_stem.png" class="pixelart"></td><td>fruit_stem</td></tr>
-<tr><td><img src="png/fruit.png" class="pixelart"></td><td>fruit</td></tr>
-<tr><td><img src="png/fungus.png" class="pixelart"></td><td>fungus</td></tr>
-<tr><td><img src="png/gas_thin.png" class="pixelart"></td><td>gas_thin</td></tr>
-<tr><td><img src="png/gas.png" class="pixelart"></td><td>gas</td></tr>
-<tr><td><img src="png/grass.png" class="pixelart"></td><td>grass</td></tr>
-<tr><td><img src="png/grate_horizontal.png" class="pixelart"></td><td>grate_horizontal</td></tr>
-<tr><td><img src="png/grate_vertical.png" class="pixelart"></td><td>grate_vertical</td></tr>
-<tr><td><img src="png/grate.png" class="pixelart"></td><td>grate</td></tr>
-<tr><td><img src="png/h_doublestruck.png" class="pixelart"></td><td>h_doublestruck</td></tr>
-<tr><td><img src="png/h.png" class="pixelart"></td><td>h</td></tr>
-<tr><td><img src="png/hat.png" class="pixelart"></td><td>hat</td></tr>
-<tr><td><img src="png/heart_broken.png" class="pixelart"></td><td>heart_broken</td></tr>
-<tr><td><img src="png/heart.png" class="pixelart"></td><td>heart</td></tr>
-<tr><td><img src="png/helix_strand.png" class="pixelart"></td><td>helix_strand</td></tr>
-<tr><td><img src="png/hemisphere_topless.png" class="pixelart"></td><td>hemisphere_topless</td></tr>
-<tr><td><img src="png/hemisphere.png" class="pixelart"></td><td>hemisphere</td></tr>
-<tr><td><img src="png/heptagon.png" class="pixelart"></td><td>heptagon</td></tr>
-<tr><td><img src="png/hexagon.png" class="pixelart"></td><td>hexagon</td></tr>
-<tr><td><img src="png/hexagram_triangle.png" class="pixelart"></td><td>hexagram_triangle</td></tr>
-<tr><td><img src="png/hexagram.png" class="pixelart"></td><td>hexagram</td></tr>
-<tr><td><img src="png/hook_stem.png" class="pixelart"></td><td>hook_stem</td></tr>
-<tr><td><img src="png/hook.png" class="pixelart"></td><td>hook</td></tr>
-<tr><td><img src="png/hourglass.png" class="pixelart"></td><td>hourglass</td></tr>
-<tr><td><img src="png/house.png" class="pixelart"></td><td>house</td></tr>
-<tr><td><img src="png/i_thin.png" class="pixelart"></td><td>i_thin</td></tr>
-<tr><td><img src="png/i.png" class="pixelart"></td><td>i</td></tr>
-<tr><td><img src="png/icosahedron.png" class="pixelart"></td><td>icosahedron</td></tr>
-<tr><td><img src="png/intersection_left.png" class="pixelart"></td><td>intersection_left</td></tr>
-<tr><td><img src="png/kiki.png" class="pixelart"></td><td>kiki</td></tr>
-<tr><td><img src="png/kite.png" class="pixelart"></td><td>kite</td></tr>
-<tr><td><img src="png/knife.png" class="pixelart"></td><td>knife</td></tr>
-<tr><td><img src="png/l_thick.png" class="pixelart"></td><td>l_thick</td></tr>
-<tr><td><img src="png/lattice_straight.png" class="pixelart"></td><td>lattice_straight</td></tr>
-<tr><td><img src="png/leaf_vegetable.png" class="pixelart"></td><td>leaf_vegetable</td></tr>
-<tr><td><img src="png/leaf.png" class="pixelart"></td><td>leaf</td></tr>
-<tr><td><img src="png/lens.png" class="pixelart"></td><td>lens</td></tr>
-<tr><td><img src="png/liquid.png" class="pixelart"></td><td>liquid</td></tr>
-<tr><td><img src="png/loaf.png" class="pixelart"></td><td>loaf</td></tr>
-<tr><td><img src="png/lotus.png" class="pixelart"></td><td>lotus</td></tr>
-<tr><td><img src="png/medal.png" class="pixelart"></td><td>medal</td></tr>
-<tr><td><img src="png/needle.png" class="pixelart"></td><td>needle</td></tr>
-<tr><td><img src="png/nonagon.png" class="pixelart"></td><td>nonagon</td></tr>
-<tr><td><img src="png/noodles.png" class="pixelart"></td><td>noodles</td></tr>
-<tr><td><img src="png/note_eighth_bi.png" class="pixelart"></td><td>note_eighth_bi</td></tr>
-<tr><td><img src="png/obelus.png" class="pixelart"></td><td>obelus</td></tr>
-<tr><td><img src="png/obtuse_angle.png" class="pixelart"></td><td>obtuse_angle</td></tr>
-<tr><td><img src="png/octagon.png" class="pixelart"></td><td>octagon</td></tr>
-<tr><td><img src="png/octagram_square.png" class="pixelart"></td><td>octagram_square</td></tr>
-<tr><td><img src="png/octagram.png" class="pixelart"></td><td>octagram</td></tr>
-<tr><td><img src="png/oval_bi.png" class="pixelart"></td><td>oval_bi</td></tr>
-<tr><td><img src="png/oval_thick.png" class="pixelart"></td><td>oval_thick</td></tr>
-<tr><td><img src="png/oval_thinner.png" class="pixelart"></td><td>oval_thinner</td></tr>
-<tr><td><img src="png/oval.png" class="pixelart"></td><td>oval</td></tr>
-<tr><td><img src="png/ovoid.png" class="pixelart"></td><td>ovoid</td></tr>
-<tr><td><img src="png/pants_short.png" class="pixelart"></td><td>pants_short</td></tr>
-<tr><td><img src="png/pants.png" class="pixelart"></td><td>pants</td></tr>
-<tr><td><img src="png/peace.png" class="pixelart"></td><td>peace</td></tr>
-<tr><td><img src="png/peanut.png" class="pixelart"></td><td>peanut</td></tr>
-<tr><td><img src="png/peg.png" class="pixelart"></td><td>peg</td></tr>
-<tr><td><img src="png/pentagon.png" class="pixelart"></td><td>pentagon</td></tr>
-<tr><td><img src="png/percent.png" class="pixelart"></td><td>percent</td></tr>
-<tr><td><img src="png/piano_keyboard.png" class="pixelart"></td><td>piano_keyboard</td></tr>
-<tr><td><img src="png/pickaxe.png" class="pixelart"></td><td>pickaxe</td></tr>
-<tr><td><img src="png/plus_circle.png" class="pixelart"></td><td>plus_circle</td></tr>
-<tr><td><img src="png/plus_curved.png" class="pixelart"></td><td>plus_curved</td></tr>
-<tr><td><img src="png/plus_thick.png" class="pixelart"></td><td>plus_thick</td></tr>
-<tr><td><img src="png/plus.png" class="pixelart"></td><td>plus</td></tr>
-<tr><td><img src="png/pointer_down.png" class="pixelart"></td><td>pointer_down</td></tr>
-<tr><td><img src="png/pointer_up.png" class="pixelart"></td><td>pointer_up</td></tr>
-<tr><td><img src="png/polygon_irregular.png" class="pixelart"></td><td>polygon_irregular</td></tr>
-<tr><td><img src="png/poultry.png" class="pixelart"></td><td>poultry</td></tr>
-<tr><td><img src="png/powder_rough.png" class="pixelart"></td><td>powder_rough</td></tr>
-<tr><td><img src="png/powder_wavy.png" class="pixelart"></td><td>powder_wavy</td></tr>
-<tr><td><img src="png/powder.png" class="pixelart"></td><td>powder</td></tr>
-<tr><td><img src="png/pretzel.png" class="pixelart"></td><td>pretzel</td></tr>
-<tr><td><img src="png/pyramid.png" class="pixelart"></td><td>pyramid</td></tr>
-<tr><td><img src="png/quatrefoil.png" class="pixelart"></td><td>quatrefoil</td></tr>
-<tr><td><img src="png/R74n.png" class="pixelart"></td><td>R74n</td></tr>
-<tr><td><img src="png/rectangle_fold_top_right.png" class="pixelart"></td><td>rectangle_fold_top_right</td></tr>
-<tr><td><img src="png/rectangle_long.png" class="pixelart"></td><td>rectangle_long</td></tr>
-<tr><td><img src="png/rectangle_round.png" class="pixelart"></td><td>rectangle_round</td></tr>
-<tr><td><img src="png/rectangle_thin_round.png" class="pixelart"></td><td>rectangle_thin_round</td></tr>
-<tr><td><img src="png/rectangle_thin.png" class="pixelart"></td><td>rectangle_thin</td></tr>
-<tr><td><img src="png/rectangle_thinner_round.png" class="pixelart"></td><td>rectangle_thinner_round</td></tr>
-<tr><td><img src="png/rectangle_thinner.png" class="pixelart"></td><td>rectangle_thinner</td></tr>
-<tr><td><img src="png/rectangle_vertical.png" class="pixelart"></td><td>rectangle_vertical</td></tr>
-<tr><td><img src="png/rectangle.png" class="pixelart"></td><td>rectangle</td></tr>
-<tr><td><img src="png/rhomboid.png" class="pixelart"></td><td>rhomboid</td></tr>
-<tr><td><img src="png/rhombus_thin.png" class="pixelart"></td><td>rhombus_thin</td></tr>
-<tr><td><img src="png/rhombus.png" class="pixelart"></td><td>rhombus</td></tr>
-<tr><td><img src="png/right_angle.png" class="pixelart"></td><td>right_angle</td></tr>
-<tr><td><img src="png/rock.png" class="pixelart"></td><td>rock</td></tr>
-<tr><td><img src="png/rod_bulbous.png" class="pixelart"></td><td>rod_bulbous</td></tr>
-<tr><td><img src="png/rod_bumpy.png" class="pixelart"></td><td>rod_bumpy</td></tr>
-<tr><td><img src="png/rod_rough_thin.png" class="pixelart"></td><td>rod_rough_thin</td></tr>
-<tr><td><img src="png/rod_rough.png" class="pixelart"></td><td>rod_rough</td></tr>
-<tr><td><img src="png/rod_thin.png" class="pixelart"></td><td>rod_thin</td></tr>
-<tr><td><img src="png/rod_wavy.png" class="pixelart"></td><td>rod_wavy</td></tr>
-<tr><td><img src="png/rod.png" class="pixelart"></td><td>rod</td></tr>
-<tr><td><img src="png/root.png" class="pixelart"></td><td>root</td></tr>
-<tr><td><img src="png/sail.png" class="pixelart"></td><td>sail</td></tr>
-<tr><td><img src="png/scoop.png" class="pixelart"></td><td>scoop</td></tr>
-<tr><td><img src="png/semicircle_bottom.png" class="pixelart"></td><td>semicircle_bottom</td></tr>
-<tr><td><img src="png/semicircle_diagonal.png" class="pixelart"></td><td>semicircle_diagonal</td></tr>
-<tr><td><img src="png/semicircle_left.png" class="pixelart"></td><td>semicircle_left</td></tr>
-<tr><td><img src="png/semicircle_top.png" class="pixelart"></td><td>semicircle_top</td></tr>
-<tr><td><img src="png/semiheart.png" class="pixelart"></td><td>semiheart</td></tr>
-<tr><td><img src="png/semirhombus.png" class="pixelart"></td><td>semirhombus</td></tr>
-<tr><td><img src="png/semistar.png" class="pixelart"></td><td>semistar</td></tr>
-<tr><td><img src="png/semitorus_thick_left.png" class="pixelart"></td><td>semitorus_thick_left</td></tr>
-<tr><td><img src="png/semitorus_thin_left.png" class="pixelart"></td><td>semitorus_thin_left</td></tr>
-<tr><td><img src="png/semitriangle.png" class="pixelart"></td><td>semitriangle</td></tr>
-<tr><td><img src="png/shogi.png" class="pixelart"></td><td>shogi</td></tr>
-<tr><td><img src="png/shrimp.png" class="pixelart"></td><td>shrimp</td></tr>
-<tr><td><img src="png/sine.png" class="pixelart"></td><td>sine</td></tr>
-<tr><td><img src="png/snail.png" class="pixelart"></td><td>snail</td></tr>
-<tr><td><img src="png/speech_balloon.png" class="pixelart"></td><td>speech_balloon</td></tr>
-<tr><td><img src="png/speech_rectangle.png" class="pixelart"></td><td>speech_rectangle</td></tr>
-<tr><td><img src="png/spheroid_prolate.png" class="pixelart"></td><td>spheroid_prolate</td></tr>
-<tr><td><img src="png/spiral_s.png" class="pixelart"></td><td>spiral_s</td></tr>
-<tr><td><img src="png/spiral.png" class="pixelart"></td><td>spiral</td></tr>
-<tr><td><img src="png/splat_yolk.png" class="pixelart"></td><td>splat_yolk</td></tr>
-<tr><td><img src="png/splat.png" class="pixelart"></td><td>splat</td></tr>
-<tr><td><img src="png/sprout.png" class="pixelart"></td><td>sprout</td></tr>
-<tr><td><img src="png/square_bevel.png" class="pixelart"></td><td>square_bevel</td></tr>
-<tr><td><img src="png/square_fold_bottom_right.png" class="pixelart"></td><td>square_fold_bottom_right</td></tr>
-<tr><td><img src="png/square_hollow_half.png" class="pixelart"></td><td>square_hollow_half</td></tr>
-<tr><td><img src="png/square_hollow.png" class="pixelart"></td><td>square_hollow</td></tr>
-<tr><td><img src="png/square_knob.png" class="pixelart"></td><td>square_knob</td></tr>
-<tr><td><img src="png/square_m.png" class="pixelart"></td><td>square_m</td></tr>
-<tr><td><img src="png/square_ms.png" class="pixelart"></td><td>square_ms</td></tr>
-<tr><td><img src="png/square_pile.png" class="pixelart"></td><td>square_pile</td></tr>
-<tr><td><img src="png/square_ridged.png" class="pixelart"></td><td>square_ridged</td></tr>
-<tr><td><img src="png/square_round_diagonal.png" class="pixelart"></td><td>square_round_diagonal</td></tr>
-<tr><td><img src="png/square_round_hollow.png" class="pixelart"></td><td>square_round_hollow</td></tr>
-<tr><td><img src="png/square_round_top_both_bottom_left.png" class="pixelart"></td><td>square_round_top_both_bottom_left</td></tr>
-<tr><td><img src="png/square_round_top_both.png" class="pixelart"></td><td>square_round_top_both</td></tr>
-<tr><td><img src="png/square_round_top_right.png" class="pixelart"></td><td>square_round_top_right</td></tr>
-<tr><td><img src="png/square_round.png" class="pixelart"></td><td>square_round</td></tr>
-<tr><td><img src="png/square_s.png" class="pixelart"></td><td>square_s</td></tr>
-<tr><td><img src="png/square_snip_diagonal.png" class="pixelart"></td><td>square_snip_diagonal</td></tr>
-<tr><td><img src="png/square_snip_top_both_bottom_left.png" class="pixelart"></td><td>square_snip_top_both_bottom_left</td></tr>
-<tr><td><img src="png/square_snip_top_both.png" class="pixelart"></td><td>square_snip_top_both</td></tr>
-<tr><td><img src="png/square_snip_top_right.png" class="pixelart"></td><td>square_snip_top_right</td></tr>
-<tr><td><img src="png/square_tiny.png" class="pixelart"></td><td>square_tiny</td></tr>
-<tr><td><img src="png/square_u_down.png" class="pixelart"></td><td>square_u_down</td></tr>
-<tr><td><img src="png/square_u_left.png" class="pixelart"></td><td>square_u_left</td></tr>
-<tr><td><img src="png/square_u_right.png" class="pixelart"></td><td>square_u_right</td></tr>
-<tr><td><img src="png/square_u_up.png" class="pixelart"></td><td>square_u_up</td></tr>
-<tr><td><img src="png/square.png" class="pixelart"></td><td>square</td></tr>
-<tr><td><img src="png/squares_some.png" class="pixelart"></td><td>squares_some</td></tr>
-<tr><td><img src="png/stack.png" class="pixelart"></td><td>stack</td></tr>
-<tr><td><img src="png/star_four_point.png" class="pixelart"></td><td>star_four_point</td></tr>
-<tr><td><img src="png/star.png" class="pixelart"></td><td>star</td></tr>
-<tr><td><img src="png/stellated_octahedron.png" class="pixelart"></td><td>stellated_octahedron</td></tr>
-<tr><td><img src="png/stripes_diagonal.png" class="pixelart"></td><td>stripes_diagonal</td></tr>
-<tr><td><img src="png/sun.png" class="pixelart"></td><td>sun</td></tr>
-<tr><td><img src="png/sus.png" class="pixelart"></td><td>sus</td></tr>
-<tr><td><img src="png/swirl_pile.png" class="pixelart"></td><td>swirl_pile</td></tr>
-<tr><td><img src="png/sword.png" class="pixelart"></td><td>sword</td></tr>
-<tr><td><img src="png/t.png" class="pixelart"></td><td>t</td></tr>
-<tr><td><img src="png/taijitu.png" class="pixelart"></td><td>taijitu</td></tr>
-<tr><td><img src="png/thought_balloon.png" class="pixelart"></td><td>thought_balloon</td></tr>
-<tr><td><img src="png/top.png" class="pixelart"></td><td>top</td></tr>
-<tr><td><img src="png/torus_thick.png" class="pixelart"></td><td>torus_thick</td></tr>
-<tr><td><img src="png/torus_thin.png" class="pixelart"></td><td>torus_thin</td></tr>
-<tr><td><img src="png/torus.png" class="pixelart"></td><td>torus</td></tr>
-<tr><td><img src="png/trapezoid_l.png" class="pixelart"></td><td>trapezoid_l</td></tr>
-<tr><td><img src="png/trapezoid.png" class="pixelart"></td><td>trapezoid</td></tr>
-<tr><td><img src="png/trefoil.png" class="pixelart"></td><td>trefoil</td></tr>
-<tr><td><img src="png/triangle_curved.png" class="pixelart"></td><td>triangle_curved</td></tr>
-<tr><td><img src="png/triangle_facing_right.png" class="pixelart"></td><td>triangle_facing_right</td></tr>
-<tr><td><img src="png/triangle_hollow.png" class="pixelart"></td><td>triangle_hollow</td></tr>
-<tr><td><img src="png/triangle_m.png" class="pixelart"></td><td>triangle_m</td></tr>
-<tr><td><img src="png/triangle_right_bi.png" class="pixelart"></td><td>triangle_right_bi</td></tr>
-<tr><td><img src="png/triangle_right_hollow.png" class="pixelart"></td><td>triangle_right_hollow</td></tr>
-<tr><td><img src="png/triangle_right.png" class="pixelart"></td><td>triangle_right</td></tr>
-<tr><td><img src="png/triangle_round_ml.png" class="pixelart"></td><td>triangle_round_ml</td></tr>
-<tr><td><img src="png/triangle_round.png" class="pixelart"></td><td>triangle_round</td></tr>
-<tr><td><img src="png/triangle_s.png" class="pixelart"></td><td>triangle_s</td></tr>
-<tr><td><img src="png/triangle_tiny.png" class="pixelart"></td><td>triangle_tiny</td></tr>
-<tr><td><img src="png/triangle_warning.png" class="pixelart"></td><td>triangle_warning</td></tr>
-<tr><td><img src="png/triangle.png" class="pixelart"></td><td>triangle</td></tr>
-<tr><td><img src="png/triangles_some.png" class="pixelart"></td><td>triangles_some</td></tr>
-<tr><td><img src="png/triforce.png" class="pixelart"></td><td>triforce</td></tr>
-<tr><td><img src="png/u.png" class="pixelart"></td><td>u</td></tr>
-<tr><td><img src="png/unequal.png" class="pixelart"></td><td>unequal</td></tr>
-<tr><td><img src="png/unknown.png" class="pixelart"></td><td>unknown</td></tr>
-<tr><td><img src="png/venn_complement_absolute.png" class="pixelart"></td><td>venn_complement_absolute</td></tr>
-<tr><td><img src="png/venn_complement_relative.png" class="pixelart"></td><td>venn_complement_relative</td></tr>
-<tr><td><img src="png/venn_difference.png" class="pixelart"></td><td>venn_difference</td></tr>
-<tr><td><img src="png/venn_intersection.png" class="pixelart"></td><td>venn_intersection</td></tr>
-<tr><td><img src="png/venn_tri.png" class="pixelart"></td><td>venn_tri</td></tr>
-<tr><td><img src="png/venn_union.png" class="pixelart"></td><td>venn_union</td></tr>
-<tr><td><img src="png/wavy_sheet_flat.png" class="pixelart"></td><td>wavy_sheet_flat</td></tr>
-<tr><td><img src="png/wavy_sheet.png" class="pixelart"></td><td>wavy_sheet</td></tr>
-<tr><td><img src="png/wedge.png" class="pixelart"></td><td>wedge</td></tr>
-<tr><td><img src="png/wheel.png" class="pixelart"></td><td>wheel</td></tr>
-<tr><td><img src="png/window.png" class="pixelart"></td><td>window</td></tr>
-<tr><td><img src="png/x_circle.png" class="pixelart"></td><td>x_circle</td></tr>
-<tr><td><img src="png/x.png" class="pixelart"></td><td>x</td></tr>
-<tr><td><img src="png/y.png" class="pixelart"></td><td>y</td></tr>
-<tr><td><img src="png/z.png" class="pixelart"></td><td>z</td></tr>
-<tr><td><img src="png/zap.png" class="pixelart"></td><td>zap</td></tr>
+<!--<tr><td><img src="png/acute_angle.png" class="pixelart"></td><td>acute_angle</td></tr>-->
+
 </table>
 
 <script>
+    var categoryTable = document.getElementById("categoryTable");
+    var shapeTable = document.getElementById("shapeTable");
+    var images = document.querySelectorAll("#categoryTable img");
+    // sort images by src
+    images = Array.prototype.slice.call(images).sort(function(a,b) {
+        return a.src.localeCompare(b.src);
+    });
+    var tableText = "";
+    var done = {};
+    for (var i = 0; i < images.length; i++) {
+        var img = images[i];
+        var src = img.src;
+        var name = img.src.split("/").pop().split(".")[0];
+        if (done[name]) continue;
+        done[name] = true;
+        tableText += "<tr><td><img src='" + src + "' class='pixelart' id='" + name + "'></td><td>" + name + "</td></tr>";
+        // wrap the original image in an anchor tag
+        var a = document.createElement("a");
+        a.href = "#" + name;
+        img.parentNode.insertBefore(a, img);
+        a.appendChild(img);
+    }
+    shapeTable.innerHTML = tableText;
+
     document.getElementById("shapeCount").innerHTML = document.querySelectorAll("#shapeTable img").length;
     var images = document.querySelectorAll("#shapeTable img");
     var searchResults = document.getElementById("searchResults");
@@ -516,7 +615,8 @@ This HTML and its contents are property of R74n.com.
         var hue = document.getElementById("shapeHue").value;
         var saturation = document.getElementById("shapeSaturation").value;
         var lightness = document.getElementById("shapeLightness").value;
-        document.getElementById("shapeFilterStyle").innerHTML = ".searchResult img { filter: hue-rotate(" + hue + "deg) saturate(" + saturation + "%) brightness(" + (parseInt(lightness)+44) + "%); }";
+        var scale = document.getElementById("shapeScale").value;
+        document.getElementById("shapeFilterStyle").innerHTML = ".searchResult img { filter: hue-rotate(" + hue + "deg) saturate(" + saturation + "%) brightness(" + (parseInt(lightness)+44) + "%); height:calc(3em * " + scale + "); width:calc(3em * " + scale + "); }";
     }
 </script>
 
