@@ -12,3 +12,4 @@ Release:
 - HackerNews
 - GameFAQs (for Metacritic)
 - Update R74n main page and UFBS page
+- Add Rue command

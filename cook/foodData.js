@@ -5,8 +5,9 @@ type: inherits properties from specified ingredient
 group: other(default), generic(hidden), dairy, mineral, carb, fruit, vegetable, meat, protein_other, protein_plant
 shape: R74n Shapes file name, without .png
 placedShape: Shape used instead when placed
-behavior: 0=default, 1=liquid, 2=powder
+behavior: 0=default, 1=liquid, 2=powder, 3=gas
 adj: adjective to describe ingredient in dish
+dishName: name used in dish name (null=skip)
 hidden: true=hidden from ingredient list
 keywords: extra text to check when searching
 short: short name for ingredient
@@ -16,10 +17,20 @@ height: hitbox height multiplier (e.g. 0.5 will halve it)
 scale: overall size multiplier
 dropInto: ingredient to change into when fallen
 dropIntoV: vertical velocity required to change into dropInto
+broken: ingredient to change into when broken (unused)
+boilPoint: temperature to boil at, in celsius
+boilInto: ingredient to change into when boiled (default 'gas')
+meltPoint: temperature to melt at, in celsius
+meltInto: ingredient to change into when melted (optional)
+freezePoint: temperature to freeze at, in celsius
+freezeInto: ingredient to change into when frozen (required)
 pin: when true, show when search is empty
 color: #hex or array of #hex
 a: opacity from 0-1
 h, s, l, r, g, b, rgb, hsl
+r: initial rotation when placed, in degrees
+cookColor: color of maximum cookedness (#hex), cannot be cooked otherwise
+glow: color to glow when placed
 */
 
 // opinion, size, age, shape, colour, origin, material, purpose
@@ -53,13 +64,29 @@ powder: {
     placedShape:"squares_some",
     behavior:2
 },
+gas: {
+    group:"generic",
+    shape:"gas",
+    a: 0.25,
+    behavior:3,
+    dishName:null
+},
 
 
+steam: {
+    type:"gas",
+    color:"#bfd8df"
+},
 water: {
     type:"liquid",
     color:"#bfd8df",
     adj:"soggy",
-    pin:true
+    pin:true,
+    boilPoint:100,
+    boilInto:"steam",
+    freezePoint:0,
+    freezeInto:"ice_cube",
+    keywords:"liquid wet h2o h20"
 },
 broth: {
     type:"liquid",
@@ -72,7 +99,9 @@ ice_cube: {
     a:0.75,
     shape:"cube",
     adj:"iced",
-    dishName:"ice"
+    dishName:"ice",
+    meltPoint:30,
+    meltInto:"water",
 },
 sauce: {
     type:"thick_liquid",
@@ -132,6 +161,7 @@ fat: {
     group:"meat",
     shape:"scoop",
     color:"#f3f3ec",
+    meltPoint:40
 },
 butter: {
     type:"fat",
@@ -139,14 +169,16 @@ butter: {
     shape:"scoop",
     color:"#ffff80",
     adj:"buttered",
-    dishWeight:-55
+    dishWeight:-55,
+    meltPoint:35
 },
 ice_cream: {
     group:"dairy",
     shape:"scoop",
     color:"#fffdf4",
     keywords:"sundae",
-    dishWeight:90
+    dishWeight:90,
+    meltPoint:30,
 },
 
 
@@ -167,7 +199,17 @@ sugar: {
     dissolve:true,
     adj:"sweet",
     dishWeight:-80,
-    pin:true
+    pin:true,
+    meltPoint:186,
+    meltInto:"syrup"
+},
+syrup: {
+    type:"thick_liquid",
+    group:"carb",
+    color:"#ffc973",
+    dissolve:true,
+    adj:"sweet",
+    dishWeight:-80,
 },
 spice: {
     type:"powder",
@@ -184,12 +226,14 @@ black_pepper: {
     color:"#231e1d",
     keywords:"peppercorn",
     dishName:"pepper",
+    adj:"pepper",
     pin:true
 },
 chocolate: {
     color:"#924b00",
     shape:"rectangle",
-    dishWeight:-52
+    dishWeight:-52,
+    meltPoint:45
 },
 flour: {
     type:"powder",
@@ -210,6 +254,7 @@ egg: {
     group:"protein_other",
     dropInto:"yolk",
     dropIntoV:10,
+    broken:"egg",
     pin:true
 },
 yolk: {
@@ -218,6 +263,7 @@ yolk: {
     placedShape:"splat_yolk",
     type:"thick_liquid",
     color:"#ffd95b",
+    cookColor:"#fff6d9",
     group:"protein_other",
     dishName:"egg",
     short:"yolk",
@@ -243,7 +289,14 @@ cheese: {
     group:"dairy",
     shape:"wedge",
     adj:"cheesy",
-    dishWeight:-55
+    dishWeight:-55,
+    broken:"cheese_powder",
+    meltPoint:60,
+},
+cheese_powder: {
+    type:"cheese",
+    behavior:2,
+    shape:"powder_rough",
 },
 blue_cheese: {
     color:"#dbdca9",
@@ -257,6 +310,7 @@ provolone: {
 
 plant: {
     color:"#30e230",
+    cookColor:"#d5a010",
     group:"fruit",
     shape:"sprout",
     hidden:true,
@@ -264,6 +318,7 @@ plant: {
 },
 fruit: {
     color:"#d3a637",
+    cookColor:"#c24f08",
     type:"plant",
     group:"fruit",
     shape:"fruit",
@@ -277,6 +332,11 @@ vegetable: {
     shape:"leaf_vegetable",
     hidden:true,
     dishWeight:-30
+},
+mushroom: {
+    color:"#d8b377",
+    type:"vegetable",
+    shape:"fungus",
 },
 seed: {
     color:"#bcff82",
@@ -359,11 +419,14 @@ carrot: {
 garlic: {
     color:"#f2e9d2",
     type:"root_vegetable",
-    shape:"fruit_extrude"
+    shape:"fruit_extrude",
+    broken:"garlic_powder"
 },
 garlic_powder: {
     color:"#f2e9d2",
-    type:"spice"
+    type:"spice",
+    adj:"garlic",
+    parts:["garlic"],
 },
 herb: {
     color:"#35b135",
@@ -398,6 +461,7 @@ macaroni: {
 },
 bread: {
     color:"#ddc69c",
+    cookColor:"#a5700d",
     group:"carb",
     shape:"loaf"
 },
@@ -420,13 +484,20 @@ top_bun: {
 
 meat: {
     color:"#ff6e78",
+    cookColor:"#5b2a20",
     group:"meat",
     shape:"cutlet",
     hidden:true,
     reactions: {
         water: { "set2":"broth" }
     },
-    dishWeight:-10
+    dishWeight:-10,
+    broken:"ground_meat"
+},
+ground_meat: {
+    type:"meat",
+    shape:"powder_rough",
+    behavior:2,
 },
 beef: {
     color:"#ff4d58",
@@ -440,18 +511,24 @@ beef_patty: {
 },
 poultry: {
     color:"#ffdddf",
+    cookColor:"#df9e6d",
     type:"meat",
     shape:"poultry",
     keywords:"bird"
 },
+chicken: {
+    type:"poultry",
+},
 fish: {
     color:"#4edeff",
+    cookColor:"#d0891f",
     type:"meat",
     shape:"fish",
     keywords:"seafood pescetarian"
 },
 crustacean: {
     color:"#f13851",
+    cookColor:"#ff6523",
     type:"meat",
     shape:"crustacean",
     hidden:true
@@ -462,6 +539,7 @@ crab: {
 },
 cephalopod: {
     color:"#ffadd1",
+    cookColor:"#ffe2ce",
     type:"meat",
     shape:"cephalopod",
     hidden:true
@@ -487,6 +565,14 @@ red_dye: {
     type:"dye",
     stain:true,
     adj:"red"
+},
+
+
+boulder: {
+    shape:"dodecahedron",
+    scale:3,
+    adj:"crunchy",
+    hidden:true
 },
 
 

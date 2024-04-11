@@ -1,3 +1,29 @@
+[Pre-release 0.17 - April 10, 2024 - Infinite Cooking]
+    + Functional temperature controls
+    + Red or blue glow depending on bowl temperature
+    + Some ingredients can be cooked
+    + Ingredients can melt, boil, and freeze
+        + Ingredients melt into liquid that fills bowl (i.e. Cheese)
+        + Ingredients boil into gas that floats away (i.e. Water)
+        ~ Liquids that freeze currently don't have a visual effect
+    + Ingredient angular velocity (rotation)
+    + Ingredient glow effect (unused)
+    + Chicken
+    + Mushroom
+    + Cheese Powder
+    + Ground Meat
+    + Syrup
+    + Rising Gas behavior
+    + Right click to deselect ingredient
+    ~ Improved search behavior
+        + Typing whole ingredient name will show subtypes (i.e Meat)
+    ~ Words can no longer appear twice in dish names
+    ~ Unsettled ingredients are no longer used in dish names
+    ~ Ingredients no longer disappear immediately after edge of screen
+    ~ Fixed: Flicker when dyeing ingredients
+    ~ Fixed: Liquids turn black when mixed with Dye
+    ~ Fixed: Ingredients don't inherit translucency
+
 [Pre-release 0.16 - April 8, 2024]
     + Important ingredients are shown when search is empty
     + Top control bar (Not yet functional)

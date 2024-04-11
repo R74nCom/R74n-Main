@@ -286,6 +286,12 @@ This HTML and its contents are property of R74n.com.
         width: 1.8em;
         max-width: unset;
       }
+      #statBar {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        z-index: 5;
+      }
 
       .dialogBox {
         display: none;
@@ -453,9 +459,10 @@ This HTML and its contents are property of R74n.com.
         <div id="searchResults"></div>
       </div>
       <div id="prepControls"><!--
-        --><button id="tempIncrease"><img src="temp_increase.png" class="pixelart"></button><!--
-        --><button id="tempDecrease"><img src="temp_decrease.png" class="pixelart"></button><!--
+        --><button id="button-tempIncrease" onclick="toggle('tempIncrease')"><img src="temp_increase.png" class="pixelart"></button><!--
+        --><button id="button-tempDecrease" onclick="toggle('tempDecrease')"><img src="temp_decrease.png" class="pixelart"></button><!--
       --></div>
+      <div id="statBar"></div>
       <div id="dialogBox" class="dialogBox">
         <img src="dialog_x.png" class="pixelart dialogX" onclick="hideDialog()">
         <div id="dialogContent">
@@ -536,6 +543,8 @@ This HTML and its contents are property of R74n.com.
       }
     }
     drawCanvas();
+    tickPlaced();
+    updateStats();
     ticks++;
   }
   imageCache = {};
@@ -601,6 +610,12 @@ This HTML and its contents are property of R74n.com.
     }
     return [r * 255, g * 255, b * 255];
   }
+  function mixHsl(hsl1, hsl2, ratio) {
+    var h = hsl1[0] + (hsl2[0] - hsl1[0]) * ratio;
+    var s = hsl1[1] + (hsl2[1] - hsl1[1]) * ratio;
+    var l = hsl1[2] + (hsl2[2] - hsl1[2]) * ratio;
+    return [h, s, l];
+  }
   function colorizeImage(src,h,s,l) {
     var name = src+h+","+s+","+l;
     if (imageCache[name]) { return imageCache[name]; }
@@ -658,10 +673,10 @@ This HTML and its contents are property of R74n.com.
     return colorizeImage(src, (h/360), (s/100-0.87), (l/100-0.56))
   }
   var imgPath = "https://r74n.com/cook/";
-  function drawCanvas() {
+  function drawCanvas(calledback) {
+    // if (calledback && lastCallbackImage.skipCallback) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (viewRenderer[currentView] !== undefined) { viewRenderer[currentView]() }
-    tickPlaced();
     // draw a blue rectangle at the bottom of the bowl for its hitbox
     // if (viewInfo[currentView] !== undefined && viewInfo[currentView].hitbox) {
     //   var bowlImg = loadImage(viewInfo[currentView].image);
@@ -671,19 +686,45 @@ This HTML and its contents are property of R74n.com.
     //   ctx.fillRect(bowlImg.width*hitbox[0] + canvas.width/2 - bowlImg.width/2*5, bowlImg.height*hitbox[1] + canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*hitbox[2], bowlImg.height*hitbox[4]);
     // }
   }
+  lastCallback = null;
   function drawPlaced() {
     // loop through viewData[currentView].total and draw each at their x and y
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
-      if (placed.hide) { continue }
+      if (placed.hide) continue;
       var shape = ingredientAttr(placed.id, "placedShape") || ingredients[placed.id].shape;
       var ingredientImg = colorizeStandard("../shapes/png/"+shape+".png", placed.h??ingredients[placed.id].h, placed.s??ingredients[placed.id].s, placed.l??ingredients[placed.id].l);
-      if (ingredientImg.loaded === false) { continue; }
+      if (ingredientImg.loaded === false) {
+        if (lastCallback) {
+          lastCallback.skipCallback = true;
+        }
+        var thisCallback = {img:ingredientImg};
+        ingredientImg.addEventListener('load', function() {
+          if (thisCallback.skipCallback) return;
+          drawCanvas(true);
+          this.onload = null;
+        });
+        lastCallback = thisCallback;
+        ingredientImg = imageCache[placed.lastImg];
+        if (!ingredientImg) continue;
+      }
+      placed.lastImg = ingredientImg.id;
       if (placed.a < 1) {
         ctx.globalAlpha = placed.a;
       }
       var scale = foodScale*(ingredientAttr(placed.id, "scale")||1);
-      ctx.drawImage(ingredientImg, placed.x - ingredientImg.width/2*scale, placed.y - ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
+      var glow = ingredientAttr(placed.id, "glow");
+      var angleInRadians = (placed.r) * Math.PI / 180;
+      // ctx.drawImage(ingredientImg, placed.x - ingredientImg.width/2*scale, placed.y - ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
+
+      ctx.translate(placed.x, placed.y);
+      if (angleInRadians !== 0) ctx.rotate(angleInRadians);
+      if (glow) { ctx.shadowColor = glow; ctx.shadowBlur = 10; ctx.shadowOffsetY = 0; }
+      ctx.drawImage(ingredientImg, -ingredientImg.width/2*scale, -ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
+      if (glow) { ctx.shadowColor = "transparent"; }
+      if (angleInRadians !== 0) ctx.rotate(-angleInRadians);
+      ctx.translate(-placed.x, -placed.y);
+
       if (placed.a < 1) {
         ctx.globalAlpha = 1
       }
@@ -730,7 +771,11 @@ This HTML and its contents are property of R74n.com.
       var index = Math.floor(Math.random()*info.h.length);
       h = info.h[index]; s = info.s[index]; l = info.l[index];
     }
-    viewData[currentView].total.push({id:ingredient, x:x, y:y, r:0, height:size*(info.height||1), width:size*0.75, h:h, s:s, l:l, a:info.a??1});
+    var a = ingredientAttr(ingredient, "a") || 1;
+    var r = ingredientAttr(ingredient, "r") || 1;
+    var placed = {id:ingredient, x:x, y:y, r:r, height:size*(info.height||1), width:size*0.75, h:h, s:s, l:l, a:a};
+    viewData[currentView].total.push(placed);
+    return placed;
   }
   function deleteIngredient(placed) {
     for (var i = 0; i < viewData[currentView].total.length; i++) {
@@ -783,6 +828,13 @@ This HTML and its contents are property of R74n.com.
     }
     return reacted;
   }
+  function addLiquid(h, s, l) {
+    viewData[currentView].liquid++;
+    var rgb = hslToRgb(h/360, s/100, l/100);
+    viewData[currentView].liquidR += rgb[0];
+    viewData[currentView].liquidG += rgb[1];
+    viewData[currentView].liquidB += rgb[2];
+  }
   function containIngredient(placed) {
     var info = ingredients[placed.id];
     var behavior = ingredientAttr(placed.id, "behavior");
@@ -793,11 +845,7 @@ This HTML and its contents are property of R74n.com.
       placed.done = true;
     }
     if ((behavior === 1 && viewInfo[currentView].holdsLiquid) || ((behavior === 2 || ingredientAttr(placed.id,"stain")) && viewData[currentView].liquid)) {
-      viewData[currentView].liquid++;
-      var rgb = hslToRgb(info.h/360, info.s/100, info.l/100);
-      viewData[currentView].liquidR += rgb[0];
-      viewData[currentView].liquidG += rgb[1];
-      viewData[currentView].liquidB += rgb[2];
+      addLiquid(placed.h, placed.s, placed.l);
       if (behavior === 1) { placed.hide = true; }
     }
     // else {
@@ -841,17 +889,40 @@ This HTML and its contents are property of R74n.com.
       var hitbox = viewInfo[currentView].hitbox;
     }
     else {var hitbox = null}
+
+    // Temperature
+    if (viewData[currentView].temp === undefined) viewData[currentView].temp = 20;
+    if (viewData[currentView].tempIncrease) {
+      viewData[currentView].temp += 0.1;
+    }
+    else if (viewData[currentView].tempDecrease) {
+      viewData[currentView].temp -= 0.1;
+    }
+    else if (viewData[currentView].temp !== 20) {
+      viewData[currentView].temp = Math.round(20 + (viewData[currentView].temp-20)*0.95);
+    }
+    tempCheck();
+
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
-      var behavior = ingredientAttr(placed.id, "behavior");
+      var behavior = ingredientAttr(placed.id, "behavior") || 1;
       if (placed.done || placed.done2 || placed.hide) { continue; }
       if (placed.vx === undefined) { placed.vx = 0; }
       else if (placed.vx) { placed.x += placed.vx; }
       if (placed.vy === undefined) { placed.vy = 0; }
       else if (placed.vy) { placed.y += placed.vy; }
+      if (placed.vr === undefined) { placed.vr = 0; }
+      else if (placed.vr) { placed.r += placed.vr; placed.r = placed.r % 360; }
       // gravity
-      placed.vy += 0.5;
-      placed.vy = Math.min(placed.vy, 13);
+      if (behavior === 3) { // gas physics
+        placed.vy = -0.5;
+        placed.vx = Math.max(Math.min(placed.vx, 0.5), -0.5);
+        placed.vx -= Math.sign(placed.vx)*0.1
+      }
+      else {
+        placed.vy += 0.5;
+        placed.vy = Math.min(placed.vy, 13);
+      }
       // check collision with other placed
       for (var j = 0; j < viewData[currentView].total.length; j++) {
         if (i === j) { continue; }
@@ -868,7 +939,7 @@ This HTML and its contents are property of R74n.com.
         //   placed.y + placed.height/1.5 > other.y) {
           // collision
           // stop ingredient if applicable
-          if (other.done && placed.y > canvas.height/2.5 && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
+          if (behavior < 3 && other.done && placed.y > canvas.height/2.5 && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
             containIngredient(placed);
             if (ingredientAttr(placed.id,"stain")) {
               stainIngredient(other, placed.h, placed.s, placed.l);
@@ -878,22 +949,24 @@ This HTML and its contents are property of R74n.com.
           else if (placed.x < other.x) {
             // random between -5 and 0
             placed.vx = -Math.random()*5;
+            placed.vr = -Math.random()*5;
           }
           else {
             // random between 0 and 5
             placed.vx = Math.random()*5;
+            placed.vr = Math.random()*5;
           }
         }
       }
       // if its outside the canvas, remove it
-      if (placed.x < 0 || placed.x > canvas.width || placed.y > canvas.height) {
+      if (placed.x < -50 || placed.x > canvas.width+50 || placed.y > canvas.height+50 || placed.y < -50) {
         viewData[currentView].total.splice(i, 1);
         i--;
       }
       // check collision with the bowl
       // equations: ctx.fillRect(bowlImg.width*hitbox[0] + canvas.width/2 - bowlImg.width/2*5, bowlImg.height*hitbox[1] + canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*hitbox[2], bowlImg.height*hitbox[4]);
       // if inside hitbox, set done to true
-      if (hitLine) {
+      if (behavior < 3 && hitLine) {
         // if the bottom of the placed is below the hitline, set done true
         if (placed.y + placed.height/2 >= hitLine && placed.y + placed.height/2 < hitLine+20 && placed.x > leftBound && placed.x < rightBound) {
           containIngredient(placed);
@@ -910,7 +983,16 @@ This HTML and its contents are property of R74n.com.
       // put in the middle on the table
       // drawImageSized("bowl.png", [0.25, 0.4], [0.75, 0.75]);
       ctx.shadowOffsetY = 7;
-      ctx.shadowColor = "black";
+      // Heat glow
+      if (viewData[currentView].temp >= 20) {
+        var heatIndex = Math.min(255, Math.round((viewData[currentView].temp-20)*10));
+        ctx.shadowColor = "rgb("+heatIndex+",0,0)"
+      }
+      else {
+        // -30 to 19
+        var heatIndex = Math.min(255, Math.round((20-viewData[currentView].temp)*10));
+        ctx.shadowColor = "rgb(0,0,"+heatIndex+")"
+      }
       ctx.shadowBlur = 20;
       var bowlImg = loadImage('bowl.png');
       ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
@@ -998,6 +1080,9 @@ This HTML and its contents are property of R74n.com.
       viewData[currentView].liquidG = 0;
       viewData[currentView].liquidB = 0;
     }
+    turnOff("tempIncrease");
+    turnOff("tempDecrease");
+    viewData[currentView].temp = 20;
     hideDialog();
   }
 
@@ -1044,6 +1129,7 @@ This HTML and its contents are property of R74n.com.
       else if (query === "*hidden") { query = ""; showHidden = true }
       var redo = false;
       var count = 0;
+      var done = {};
       var bestResults = [];
       var otherResults = [];
       var poorResults = [];
@@ -1060,12 +1146,24 @@ This HTML and its contents are property of R74n.com.
         if (index === 0) {
           bestResults.push(key);
           count++;
+          done[key] = true;
         }
-        else if (index !== -1) {
+      }
+      for (var key in ingredients) {
+        if (done[key]) { continue }
+        if (count > 10 && query.length) { break; }
+        var strippedKey = key.replace(/_/g, "");
+        var index = strippedKey.indexOf(query);
+        if ((ingredients[key].hidden && !showHidden) || (!ingredients[key].hidden && showHidden)) { continue }
+        if (index !== -1) {
           otherResults.push(key);
           count++;
         }
         else if (ingredients[key].keywords && ingredients[key].keywords.indexOf(query) !== -1) {
+          poorResults.push(key);
+          count++;
+        }
+        else if (ingredientIsType(key, queryO_)) {
           poorResults.push(key);
           count++;
         }
@@ -1161,6 +1259,18 @@ This HTML and its contents are property of R74n.com.
         info.l = colors.map(function(a) { return a[2] });
       }
     }
+    if (info.cookColor) {
+      // always is hex code
+      var color = info.cookColor;
+      if (color.charCodeAt(0) == 35) {
+        color = color.substring(1);
+      }
+      var r = parseInt(color.substring(0, 2), 16);
+      var g = parseInt(color.substring(2, 4), 16);
+      var b = parseInt(color.substring(4, 6), 16);
+      var hsl = rgbToHsl(r, g, b);
+      info.cookColor = [hsl[0] * 360, hsl[1] * 100, hsl[2] * 100];
+    }
     if (!info.h) { info.h = ingredientAttr(ingredient, "h") || 0 }
     if (!info.s) { info.s = ingredientAttr(ingredient, "s") || 0 }
     if (!info.l) { info.l = ingredientAttr(ingredient, "l") || 50 }
@@ -1184,6 +1294,9 @@ This HTML and its contents are property of R74n.com.
     }
     if (info.dishName) {
       info.keywords = (info.keywords||"") + info.dishName;
+    }
+    if (info.adj) {
+      info.keywords = (info.keywords||"") + info.adj;
     }
     if (info.keywords) {
       if (Array.isArray(info.keywords)) info.keywords = info.keywords.join("");
@@ -1215,6 +1328,8 @@ This HTML and its contents are property of R74n.com.
     if (info.pin) {
       defaultSearchResults.push(ingredient);
     }
+    if (info.behavior == 1 && !info.placedShape) info.placedShape = "droplets_some";
+    if (info.behavior == 2 && !info.placedShape) info.placedShape = "squares_some";
   }
   uninheritedAttributes = ["name","short"]
   function ingredientAttr(ingredient, attr) {
@@ -1241,12 +1356,15 @@ This HTML and its contents are property of R74n.com.
       // copy the current view's ingredients
       ingredients = viewData[currentView].total.slice();
     }
-    if (ingredients.length === 0) {
-      return "Absolutely Nothing";
-    }
     var used = {};
     var nameMap = {};
     for (var i = 0; i < ingredients.length; i++) {
+      if (!ingredients[i].done && !ingredients[i].done2) {
+        // remove
+        ingredients.splice(i, 1);
+        i--;
+        continue;
+      }
       if (ingredients[i].original) {
         // concat with ingredients
         ingredients = ingredients.concat(ingredients[i].original.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i]} }));
@@ -1260,6 +1378,9 @@ This HTML and its contents are property of R74n.com.
       used[ingredients[i].id] = false;
       if (!nameMap[ingredients[i].id]) { nameMap[ingredients[i].id] = [] }
       nameMap[ingredients[i].id].push(ingredients[i]);
+    }
+    if (ingredients.length === 0) {
+      return "Absolutely Nothing";
     }
     var success = true;
     var tries = 0;
@@ -1358,6 +1479,7 @@ This HTML and its contents are property of R74n.com.
       var adj = ingredientAttr(ingredient.id, "adj");
       var nameOverride = ingredientAttr(ingredient.id, "name");
       var dishNameOverride = ingredientAttr(ingredient.id, "dishName");
+      if (dishNameOverride === null) { continue }
       var weightOverride = ingredientAttr(ingredient.id, "dishWeight");
       if (weightOverride) {
         weight += weightOverride;
@@ -1428,6 +1550,10 @@ This HTML and its contents are property of R74n.com.
         }
       }
     }
+    // remove duplicate words
+    nameSplit = nameSplit.filter(function(item, pos) {
+      return nameSplit.indexOf(item) == pos;
+    });
     name = nameSplit.join(" ");
     name = formatName(name);
 
@@ -1506,6 +1632,95 @@ This HTML and its contents are property of R74n.com.
     controlState.inMenu = true;
   }
 
+  function turnOn(option) {
+    var button = document.getElementById("button-"+option);
+    if (button) button.setAttribute("on", "true");
+    viewData[currentView][option] = true;
+    if (option === "tempIncrease") turnOff("tempDecrease");
+    if (option === "tempDecrease") turnOff("tempIncrease");
+  }
+  function turnOff(option) {
+    var button = document.getElementById("button-"+option);
+    if (button) button.removeAttribute("on");
+    viewData[currentView][option] = false;
+  }
+  function toggle(option) {
+    var button = document.getElementById("button-"+option);
+    if (button.getAttribute("on") === "true") turnOff(option);
+    else turnOn(option);
+  }
+  function updateStats() {
+    var statText = "";
+    var statBar = document.getElementById("statBar");
+    var view = viewData[currentView];
+    if (view.tempIncrease || view.tempDecrease) {
+      statText += Math.round(view.temp)+"°C";
+    }
+    statBar.innerText = statText;
+  }
+
+  function tempCheck() {
+    var view = viewData[currentView];
+    view.temp = Math.min(300, Math.max(-30, view.temp));
+    // loop through view.total
+    if (view.temp > 50 && view.tempIncrease) { // Cooking
+      for (var i = 0; i < view.total.length; i++) {
+        var ingredient = view.total[i];
+        if ((!ingredient.done && !ingredient.done2) || ingredient.cook >= 1) continue;
+        var cookColor = ingredientAttr(ingredient.id, "cookColor");
+        if (cookColor && ticks % 5 === 0) {
+          var rgb1 = hslToRgb(ingredient.h/360, ingredient.s/100, ingredient.l/100);
+          var rgb2 = hslToRgb(cookColor[0]/360, cookColor[1]/100, cookColor[2]/100);
+          // get 1% closer to cookColor
+          var r = rgb1[0] + (rgb2[0] - rgb1[0]) * 0.01;
+          var g = rgb1[1] + (rgb2[1] - rgb1[1]) * 0.01;
+          var b = rgb1[2] + (rgb2[2] - rgb1[2]) * 0.01;
+          var hsl = rgbToHsl(r, g, b);
+          ingredient.h = hsl[0] * 360;
+          ingredient.s = hsl[1] * 100;
+          ingredient.l = hsl[2] * 100;
+          ingredient.cook = (ingredient.cook ?? 0) + 0.005;
+        }
+      }
+    }
+    for (var i = 0; i < view.total.length; i++) { // State Changes
+      var ingredient = view.total[i];
+      if ((!ingredient.done && !ingredient.done2) || ingredient.pseudo || Math.random() > 0.1) continue;
+      var meltPoint = ingredientAttr(ingredient.id, "meltPoint");
+      if (view.temp >= meltPoint) {
+        var meltInto = ingredientAttr(ingredient.id, "meltInto");
+        if (meltInto) changeIngredient(ingredient, meltInto);
+        else {
+          addLiquid(ingredient.h, ingredient.s, ingredient.l);
+          ingredient.pseudo = true;
+          ingredient.hide = true;
+        }
+        continue;
+      }
+      var boilPoint = ingredientAttr(ingredient.id, "boilPoint");
+      if (boilPoint !== undefined) {
+        var boilInto = ingredientAttr(ingredient.id, "boilInto") || "gas";
+        if (view.temp >= boilPoint) {
+          deleteIngredient(ingredient);
+        }
+        if (view.temp >= boilPoint-30 && (view.temp >= boilPoint || Math.random() < 0.25)) {
+          // x = random number between leftBound and rightBound
+          var x = Math.random() * (rightBound - leftBound) + leftBound;
+          placeIngredient(boilInto, x, hitLine-50);
+          continue;
+        }
+      }
+      var freezePoint = ingredientAttr(ingredient.id, "freezePoint");
+      if (view.temp <= freezePoint) {
+        var freezeInto = ingredientAttr(ingredient.id, "freezeInto");
+        if (freezeInto) {
+          changeIngredient(ingredient, freezeInto);
+          continue;
+        }
+      }
+    }
+  }
+
   changeView('bowl');
   refreshCanvas();
   // window.addEventListener('resize', refreshCanvas);
@@ -1529,10 +1744,12 @@ This HTML and its contents are property of R74n.com.
       if (currentIngredient) { prepText.value = formatName(currentIngredient); }
     }
     showSearchResults = () => {document.getElementById('searchResultsDiv').style.display = 'block'; ; controlState.inMenu=true}
-    prepText.addEventListener('mousedown', function(e) {
+    prepText.addEventListener('focus', function(e) {
       if (document.getElementById('searchResults').innerHTML) { showSearchResults(); }
       this.value = "";
-      searchIngredients(this.value);
+    });
+    prepText.addEventListener('mousedown', function(e) {
+      if (this.value === "") searchIngredients(this.value);
     });
     prepText.addEventListener('input', function(e) {
       if (this.value.length === 0) { return }
@@ -1662,6 +1879,9 @@ This HTML and its contents are property of R74n.com.
           placeIngredient(currentIngredient, mousePos.x, mousePos.y);
         }
       }
+      else if (controlState.mouse) {
+        selectIngredient(null);
+      }
       if (controlState.shift) {
         console.log(mousePos.x/canvas.width,mousePos.y/canvas.height);
       }
@@ -1695,6 +1915,7 @@ This HTML and its contents are property of R74n.com.
       controlState.mouse = false;
       e.preventDefault();
     });
+    gameCanvas.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); }
 
     // Initialization
     for (var key in ingredients) {
