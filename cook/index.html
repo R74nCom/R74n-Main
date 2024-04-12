@@ -565,6 +565,10 @@ This HTML and its contents are property of R74n.com.
       imageCache[src].onload = function() {
         this.loaded = true;
       }
+      // set to unknown.png on error
+      imageCache[src].onerror = function() {
+        this.src = "../shapes/png/unknown.png";
+      }
       imageCache[src].src = src;
     }
     return imageCache[src];

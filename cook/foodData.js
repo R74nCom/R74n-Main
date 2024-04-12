@@ -609,7 +609,7 @@ mulberry: {
 cranberry: {
     color:"#9F000F",
     type:"berry",
-    shape:"oval_thicka",
+    shape:"oval_thick",
     scale:0.75
 },
 strawberry: {
