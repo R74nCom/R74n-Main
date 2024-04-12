@@ -1,3 +1,22 @@
+[Pre-release 0.18 - April 11, 2024 - Infinite Fruit]
+    + Many fruits
+    + Tomato (Vegetable)
+        ~ Infinite Chef will use culinary definitions as a cooking game
+    + Tomato Sauce
+        + Ketchup recipe
+    + Lemon, Lemon Juice, Lemon Water, Lemonade
+    + Raisin
+    + Prune
+    ~ Updated sprites of Watermelon, Egg Yolk, and Garlic
+    ~ Tweaked Watermelon color
+    ~ Hid Poultry
+    + Forward slash (/) to focus on search bar
+    ~ Ingredients of same length are sorted alphabetically
+    ~ Fixed: Ground Meat and Cheese Powder don't bounce
+    ~ Fixed: All ingredients spawn at 1° rotation
+    ~ Fixed: Bowl doesn't cool to complete room temperature
+    ~ Fixed: Top controls unclear when enabled and hovered over
+
 [Pre-release 0.17 - April 10, 2024 - Infinite Cooking]
     + Functional temperature controls
     + Red or blue glow depending on bowl temperature

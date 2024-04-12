@@ -257,7 +257,6 @@ This HTML and its contents are property of R74n.com.
     <img src="png/fisheye.png">
     <img src="png/oval_bi.png">
     <img src="png/oval_horizontal.png">
-    <img src="png/oval_leafy.png">
     <img src="png/oval_thick_horizontal.png">
     <img src="png/oval_thick.png">
     <img src="png/oval_thinner.png">
@@ -506,6 +505,7 @@ This HTML and its contents are property of R74n.com.
     <img src="png/pants.png">
     <img src="png/peg.png">
     <img src="png/piano_keyboard.png">
+    <img src="png/pick.png">
     <img src="png/pickaxe.png">
     <img src="png/powder_rough.png">
     <img src="png/powder_wavy.png">
@@ -546,6 +546,7 @@ This HTML and its contents are property of R74n.com.
     <img src="png/cephalopod.png">
     <img src="png/circle_bi_stem.png">
     <img src="png/circle_bi.png">
+    <img src="png/circle_chord.png">
     <img src="png/circle_lattice.png">
     <img src="png/circle_porous.png">
     <img src="png/circle_seared.png">
@@ -571,9 +572,12 @@ This HTML and its contents are property of R74n.com.
     <img src="png/fruit_bipod_stem.png">
     <img src="png/fruit_bipod.png">
     <img src="png/fruit_extrude.png">
+    <img src="png/fruit_long_stem.png">
+    <img src="png/fruit_long.png">
     <img src="png/fruit_nub_thick.png">
     <img src="png/fruit_nub.png">
     <img src="png/fruit_nubs.png">
+    <img src="png/fruit_pick_stem.png">
     <img src="png/fruit_stem.png">
     <img src="png/fruit_wide_stem.png">
     <img src="png/fruit_wide.png">
@@ -592,8 +596,10 @@ This HTML and its contents are property of R74n.com.
     <img src="png/noodles.png">
     <img src="png/nut_cap.png">
     <img src="png/oval_bi.png">
+    <img src="png/oval_leafy.png">
     <img src="png/ovoid.png">
     <img src="png/peanut.png">
+    <img src="png/pick.png">
     <img src="png/poultry.png">
     <img src="png/pretzel.png">
     <img src="png/rod_bumpy.png">
@@ -602,6 +608,7 @@ This HTML and its contents are property of R74n.com.
     <img src="png/rod_wavy.png">
     <img src="png/root.png">
     <img src="png/scoop.png">
+    <img src="png/semicircle_diagonal.png">
     <img src="png/shrimp.png">
     <img src="png/silhouette.png">
     <img src="png/snail.png">
@@ -637,6 +644,7 @@ This HTML and its contents are property of R74n.com.
         var img = images[i];
         var src = img.src;
         var name = img.src.split("/").pop().split(".")[0];
+        img.classList.add("pixelart");
         // wrap the original image in an anchor tag
         var a = document.createElement("a");
         a.href = "#" + name;

@@ -282,6 +282,9 @@ This HTML and its contents are property of R74n.com.
       #prepControls button[on="true"] {
         background-color: #754e1b;
       }
+      #prepControls button[on="true"]:hover {
+        filter: brightness(0.75)
+      }
       #prepControls button img {
         width: 1.8em;
         max-width: unset;
@@ -759,12 +762,7 @@ This HTML and its contents are property of R74n.com.
   }
   function placeIngredient(ingredient, x, y) {
     var info = ingredients[ingredient];
-    if (info.behavior > 0) {
-      var size = 5;
-    }
-    else {
       var size = 32*foodScale;
-    }
     size *= (ingredientAttr(ingredient, "scale")||1);
     var h = info.h; var s = info.s; var l = info.l;
     if (Array.isArray(info.h)) { // select random color
@@ -772,8 +770,10 @@ This HTML and its contents are property of R74n.com.
       h = info.h[index]; s = info.s[index]; l = info.l[index];
     }
     var a = ingredientAttr(ingredient, "a") || 1;
-    var r = ingredientAttr(ingredient, "r") || 1;
-    var placed = {id:ingredient, x:x, y:y, r:r, height:size*(info.height||1), width:size*0.75, h:h, s:s, l:l, a:a};
+    var r = ingredientAttr(ingredient, "r") || 0;
+    var height = ingredientAttr(ingredient, "height") || 1;
+    var width = ingredientAttr(ingredient, "width") || 0.75;
+    var placed = {id:ingredient, x:x, y:y, r:r, height:size*height, width:size*width, h:h, s:s, l:l, a:a};
     viewData[currentView].total.push(placed);
     return placed;
   }
@@ -785,7 +785,7 @@ This HTML and its contents are property of R74n.com.
       }
     }
     var behavior = ingredientAttr(placed.id, "behavior");
-    if ((behavior > 0 && viewData[currentView].liquid !== 1) || behavior === 1) {
+    if ((behavior > 0 && viewData[currentView].liquid) || behavior === 1) {
       viewData[currentView].liquid--;
       var rgb = hslToRgb(placed.h/360, placed.s/100, placed.l/100);
       viewData[currentView].liquidR -= rgb[0];
@@ -898,8 +898,8 @@ This HTML and its contents are property of R74n.com.
     else if (viewData[currentView].tempDecrease) {
       viewData[currentView].temp -= 0.1;
     }
-    else if (viewData[currentView].temp !== 20) {
-      viewData[currentView].temp = Math.round(20 + (viewData[currentView].temp-20)*0.95);
+    else if (Math.round(viewData[currentView].temp) !== 20) {
+      viewData[currentView].temp = 20 + (viewData[currentView].temp-20)*0.95;
     }
     tempCheck();
 
@@ -1163,7 +1163,7 @@ This HTML and its contents are property of R74n.com.
           poorResults.push(key);
           count++;
         }
-        else if (ingredientIsType(key, queryO_)) {
+        else if (ingredients[queryO_] && ingredientIsType(key, queryO_)) {
           poorResults.push(key);
           count++;
         }
@@ -1322,6 +1322,14 @@ This HTML and its contents are property of R74n.com.
           if (ingredients[r.set2].parts.indexOf(key) === -1) {
             ingredients[r.set2].parts.push(key);
           }
+        }
+      }
+    }
+    if (info.broken) {
+      if (ingredients[info.broken]) {
+        if (!ingredients[info.broken].parts) ingredients[info.broken].parts = [];
+        if (ingredients[info.broken].parts.indexOf(ingredient) === -1) {
+          ingredients[info.broken].parts.push(ingredient);
         }
       }
     }
@@ -1752,6 +1760,7 @@ This HTML and its contents are property of R74n.com.
       if (this.value === "") searchIngredients(this.value);
     });
     prepText.addEventListener('input', function(e) {
+      if (this.value === "/") { this.value = "" }
       if (this.value.length === 0) { return }
       document.getElementById('searchResults').innerHTML = "Searching... :)";
       showSearchResults();
@@ -1789,7 +1798,7 @@ This HTML and its contents are property of R74n.com.
       }
     });
     window.addEventListener('keydown', function(e) {
-      if (e.metaKey || e.ctrlKey) { return; }
+      if ((e.metaKey || e.ctrlKey) && e.keyCode !== 8) { return; }
       if (e.keyCode == 16) { controlState.shift = true; }
       // escape
       else if (e.keyCode == 27) {
@@ -1840,6 +1849,10 @@ This HTML and its contents are property of R74n.com.
       }
       // if key is between a-z, 0-9, or space, backspace, focus on prepText
       if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == 32 || e.keyCode == 8) {
+        prepText.focus();
+      }
+      // / = focus on prepText
+      if (e.keyCode == 191) {
         prepText.focus();
       }
     });
@@ -1929,6 +1942,15 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < sortedKeys.length; i++) {
       recipeMap[sortedKeys[i]] = sortedKeys[i].split("+");
     }
+    // sort ingredients alphabetically
+    var sortedIngredients = Object.keys(ingredients).sort(function(a, b) {
+      return a.localeCompare(b);
+    });
+    var newIngredients = {};
+    for (var i = 0; i < sortedIngredients.length; i++) {
+      newIngredients[sortedIngredients[i]] = ingredients[sortedIngredients[i]];
+    }
+    ingredients = newIngredients;
     refreshCanvas();
     gameLoop = setInterval(tick, 1000 / fps);
   });

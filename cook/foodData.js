@@ -14,6 +14,7 @@ short: short name for ingredient
 dissolve: true=hides in liquid
 delete: true=hides when dropped
 height: hitbox height multiplier (e.g. 0.5 will halve it)
+width: hitbox width multiplier (e.g. 0.5 will halve it)
 scale: overall size multiplier
 dropInto: ingredient to change into when fallen
 dropIntoV: vertical velocity required to change into dropInto
@@ -30,6 +31,7 @@ a: opacity from 0-1
 h, s, l, r, g, b, rgb, hsl
 r: initial rotation when placed, in degrees
 cookColor: color of maximum cookedness (#hex), cannot be cooked otherwise
+innerColor: color of the inside of the ingredient (unused)
 glow: color to glow when placed
 */
 
@@ -39,7 +41,7 @@ glow: color to glow when placed
 // sugar salt  spice dye dairy  chocolate drsng fruit vegetbl nt/leg meat dish
 
 shapeMeta = {
-    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short"]
+    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short","oval_horizontal","circle_ms"]
 }
 
 
@@ -109,11 +111,24 @@ sauce: {
     hidden:true,
     dishWeight:-50
 },
+tomato_sauce: {
+    type:"sauce",
+    color:"#8b1b1b",
+    reactions: {
+        "sugar": { set1:"ketchup", set2:null },
+        "vinegar": { set1:"ketchup", set2:null },
+    }
+},
 dressing: {
     type:"thick_liquid",
     color:"#8b4f1b",
     hidden:true,
     dishWeight:-50
+},
+juice: {
+    type:"liquid",
+    color:"#ddd784",
+    hidden:true
 },
 ketchup: {
     type:"sauce",
@@ -259,8 +274,8 @@ egg: {
 },
 yolk: {
     name:"egg yolk",
-    shape:"splat_yolk",
-    placedShape:"splat_yolk",
+    shape:"egg_yolk",
+    placedShape:"egg_yolk",
     type:"thick_liquid",
     color:"#ffd95b",
     cookColor:"#fff6d9",
@@ -325,6 +340,21 @@ fruit: {
     hidden:true,
     dishWeight:-40
 },
+berry: {
+    // culinary berry
+    color:"#bd310a",
+    type:"fruit",
+    shape:"circle_ms",
+    hidden:true,
+    width:0.5
+},
+citrus: {
+    // culinary berry
+    color:"#dddd2e",
+    type:"fruit",
+    shape:"fruit_nubs",
+    hidden:true,
+},
 vegetable: {
     color:"#41d841",
     type:"plant",
@@ -388,16 +418,328 @@ wheat: {
 },
 apple: {
     color:["#ff1f40","#ffd20c","#5ad700"],
+    innerColor:"#ffeda4",
     type:"fruit",
     shape:"fruit_bipod_stem"
 },
-watermelon: {
-    color:["#38b91c","#1c5c0e"],
-    innerColor:"#ff6666",
+banana: {
+    color:"#ffe135",
+    innerColor:"#fffbc9",
+    type:"fruit",
+    shape:"curve_thick"
+},
+plantain: {
+    color:"#97c628",
+    innerColor:"#ebffc9",
+    type:"fruit",
+    shape:"curve_thick"
+},
+melon: {
+    color:"#FDBCB4",
+    innerColor:"#FDBCB4",
     scale:1.5,
     type:"fruit",
-    shape:"oval_thick",
+    shape:"oval_thick_horizontal",
     short:"melon"
+},
+cantaloupe: {
+    color:"#D9C58A",
+    innerColor:"#fdb57c",
+    type:"melon",
+    keywords:"muskmelon"
+},
+honeydew: {
+    color:"#CFBF88",
+    innerColor:"#B8C868",
+    type:"melon",
+    keywords:"honey melon green melon"
+},
+watermelon: {
+    color:["#38b91c","#247612"],
+    innerColor:"#ff6666",
+    type:"melon",
+    short:"melon"
+},
+grapefruit: {
+    color:"#F1C234",
+    innerColor:"#F73D3E",
+    scale:1.5,
+    type:"citrus",
+    shape:"circle",
+},
+pomelo: {
+    color:"#F2E176",
+    innerColor:"#EF8F7B",
+    scale:1.5,
+    type:"citrus",
+    shape:"circle",
+},
+watermelon_slice: {
+    color:"#ff6666",
+    shape:"circle_chord",
+    name:"watermelon"
+},
+orange: {
+    color:"#FFA500",
+    type:"citrus",
+    shape:"circle",
+},
+orange_slice: {
+    type:"orange",
+    shape:"circle_chord",
+    name:"orange"
+},
+pineapple: {
+    color:"#e6ae25",
+    type:"fruit",
+    shape:"oval_leafy",
+},
+mango: {
+    color:["#F4BB44","#FF8040"],
+    type:"fruit",
+    shape:"oval_thick_horizontal",
+},
+avocado: {
+    color:"#568203",
+    innerColor:"#B2C248",
+    type:"fruit",
+    shape:"fruit_extrude"
+},
+pear: {
+    color:"#C9CC3F",
+    innerColor:"#faf691",
+    type:"fruit",
+    shape:"fruit_extrude"
+},
+guava: {
+    color:"#57c432",
+    innerColor:"#ff6057",
+    type:"fruit",
+    shape:"fruit_extrude"
+},
+papaya: {
+    color:"#F98E1D",
+    type:"fruit",
+    shape:"fruit_extrude"
+},
+kiwi: {
+    color:"#91631D",
+    innerColor:"#90C825",
+    type:"fruit",
+    shape:"oval_thick_horizontal",
+    keywords:"kiwifruit kiwi fruit"
+},
+kumquat: {
+    color:"#FFB75A",
+    type:"fruit",
+    shape:"ovoid",
+    keywords:"cumquat"
+},
+lychee: {
+    color:"#E84C5A",
+    type:"fruit",
+    shape:"pick",
+    keywords:"cumquat"
+},
+blueberry: {
+    color:["#4f86f7","#312581","#492581"],
+    type:"berry",
+},
+currant: {
+    color:["#202034","#B6012E","#D9C4A6"],
+    type:"berry",
+},
+acai: {
+    color:"#604654",
+    type:"berry",
+    name:"açaí"
+},
+elderberry: {
+    color:"#3F3C66",
+    type:"berry",
+},
+gooseberry: {
+    color:"#8DA415",
+    type:"berry",
+},
+grape: {
+    color:"#6f2da8",
+    type:"berry",
+    meltPoint:80,
+    meltInto:"raisin"
+},
+raisin: {
+    color:"#462119",
+    type:"grape",
+},
+cherry: {
+    color:["#B62625","#790604"],
+    type:"berry"
+},
+cherries: {
+    color:["#B62625","#790604"],
+    type:"cherry",
+    shape:"circle_bi_stem",
+    dishName:"cherry"
+},
+blackberry: {
+    color:"#2b0521",
+    type:"berry",
+    shape:"bunch",
+    scale:0.75
+},
+raspberry: {
+    color:"#E30B5D",
+    type:"berry",
+    shape:"bunch",
+    scale:0.75
+},
+boysenberry: {
+    color:"#7c182c",
+    type:"berry",
+    shape:"bunch",
+    scale:0.75
+},
+mulberry: {
+    color:"#770737",
+    type:"berry",
+    shape:"bunch",
+    scale:0.75
+},
+cranberry: {
+    color:"#9F000F",
+    type:"berry",
+    shape:"oval_thicka",
+    scale:0.75
+},
+strawberry: {
+    color:"#F81F3C",
+    type:"berry",
+    shape:"pick",
+    scale:0.75
+},
+date: {
+    color:"#BE3A0E",
+    type:"berry",
+    shape:"fruit_long",
+    scale:0.75
+},
+peach: {
+    color:["#ffb07c","#ff885d"],
+    type:"fruit",
+    shape:"fruit_bi",
+    keywords:"nectarine"
+},
+plum: {
+    color:"#673147",
+    type:"fruit",
+    shape:"fruit_bi",
+    meltPoint:80,
+    meltInto:"prune"
+},
+prune: {
+    color:"#2b0f0f",
+    type:"plum",
+},
+apricot: {
+    color:"#ffb16d",
+    type:"fruit",
+    shape:"fruit_bi"
+},
+fig: {
+    color:"#605B6F",
+    innerColor:"#A94227",
+    type:"fruit",
+    shape:"bulb"
+},
+pomegranate: {
+    color:"#C0392B",
+    type:"fruit",
+    shape:"bulb"
+},
+starfruit: {
+    color:"#d2ce6c",
+    type:"fruit",
+    shape:"star",
+    keywords:"carambola"
+},
+tomato: {
+    color:"#FF6347",
+    type:"vegetable",
+    shape:"fruit_wide",
+    broken:"tomato_sauce"
+},
+persimmon: {
+    color:"#E65F1D",
+    type:"fruit",
+    shape:"fruit_wide"
+},
+lemon: {
+    color:"#fff700",
+    type:"citrus",
+    shape:"fruit_nubs",
+    broken:"lemon_juice",
+    reactions: {
+        water: { set2:"lemon_water" }
+    }
+},
+lemon_juice: {
+    type:"juice",
+    color:"#fbf9c2",
+    reactions: {
+        water: { set1:null, set2:"lemon_water" }
+    }
+},
+lemon_water: {
+    type:"lemon_juice",
+    color:"#c2f8e6",
+    reactions: {
+        sugar: { set1:"lemonade", set2:null }
+    }
+},
+lemonade: {
+    type:"lemon_juice",
+    color:"#fffa8b"
+},
+lime: {
+    color:"#32CD32",
+    type:"citrus",
+    shape:"fruit_nubs",
+},
+prickly_pear: {
+    color:"#E44367",
+    type:"fruit",
+    shape:"fruit_long",
+    keywords:"cactus pear"
+},
+dragonfruit: {
+    color:"#f35d8b",
+    innerColor:"#F3E4E9",
+    type:"fruit",
+    shape:"fruit_long",
+    keywords:"pitaya fruit pitahaya fruit dragon fruit"
+},
+coconut: {
+    color:"#965A3E",
+    innerColor:"#e9edf6",
+    type:"fruit",
+    shape:"circle_rough",
+    scale:1.25,
+},
+durian: {
+    color:"#A87C45",
+    innerColor:"#e1bd27",
+    type:"fruit",
+    shape:"circle_rough",
+    scale:1.25,
+},
+passionfruit: {
+    color:"#5A4223",
+    innerColor:"#E29B2B",
+    type:"fruit",
+    shape:"circle_rough",
+    scale:1.25,
+    keywords:"passion fruit"
 },
 leaf_vegetable: {
     color:"#41d841",
@@ -419,7 +761,7 @@ carrot: {
 garlic: {
     color:"#f2e9d2",
     type:"root_vegetable",
-    shape:"fruit_extrude",
+    shape:"bulb",
     broken:"garlic_powder"
 },
 garlic_powder: {
@@ -489,7 +831,7 @@ meat: {
     shape:"cutlet",
     hidden:true,
     reactions: {
-        water: { "set2":"broth" }
+        water: { set2:"broth" }
     },
     dishWeight:-10,
     broken:"ground_meat"
@@ -514,10 +856,12 @@ poultry: {
     cookColor:"#df9e6d",
     type:"meat",
     shape:"poultry",
-    keywords:"bird"
+    keywords:"bird",
+    hidden:true
 },
 chicken: {
     type:"poultry",
+    keywords:"poultry bird"
 },
 fish: {
     color:"#4edeff",
@@ -569,7 +913,7 @@ red_dye: {
 
 
 boulder: {
-    shape:"dodecahedron",
+    shape:"rock_ball",
     scale:3,
     adj:"crunchy",
     hidden:true
