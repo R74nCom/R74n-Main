@@ -1,0 +1,48 @@
+{
+    "short_name": "Infinite Chef",
+    "name": "Infinite Chef",
+    "icons": [
+      {
+        "src": "../icons/192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "../icons/512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      },
+      {
+        "src": "../icons/avatar.png",
+        "type": "image/png",
+        "sizes": "305x305"
+      }
+    ],
+    "start_url": "/cook/?source=pwa",
+    "background_color": "#000000",
+    "display": "standalone",
+    "scope": "/cook/",
+    "theme_color": "#000000",
+    "shortcuts": [
+      {
+        "name": "Start Cooking",
+        "short_name": "Cook",
+        "description": "Begin a new dish in Infinite Chef",
+        "url": "/cook/?source=pwa",
+        "icons": [{ "src": "../icons/avatar.png", "sizes": "305x305" }]
+      }
+    ],
+    "description": "Cooking simulator playable in your browser with hundreds of ingredients and a smart dish name generator.",
+    "screenshots": [
+      {
+        "src": "/screenshot.png",
+        "type": "image/png",
+        "sizes": "2406x1154"
+      },
+      {
+        "src": "/icons/thumbnail.png",
+        "type": "image/png",
+        "sizes": "651x367"
+      }
+    ]
+  }

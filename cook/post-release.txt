@@ -1,10 +1,12 @@
 Pre-release when finalized
 - Logo
+    - Update logo in manifest.json
 - Promotional screenshots
 
 Release:
-- Video crosspost
 - Text crosspost
+- Video crosspost
+- Newsletter article
 - itch.io
 - r/InternetIsBeautiful
 - r/WebGames

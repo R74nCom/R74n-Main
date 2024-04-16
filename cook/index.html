@@ -33,7 +33,7 @@ This HTML and its contents are property of R74n.com.
     <link rel="apple-touch-icon" sizes="180x180" href="https://R74n.com/icons/apple-touch-icon.png?v=R74n-2">
     <link rel="icon" type="image/png" sizes="32x32" href="https://R74n.com/icons/favicon-32x3.png?v=R74n-2">
     <link rel="icon" type="image/png" sizes="16x16" href="https://R74n.com/icons/favicon-16x16.png?v=R74n-2">
-    <link rel="manifest" href="https://R74n.com/manifest.json">
+    <link rel="manifest" href="manifest.json">
     <link rel="mask-icon" href="https://R74n.com/icons/safari-pinned-tab.svg?v=R74n-2" color="#1cd2d2">
     <link rel="shortcut icon" href="https://R74n.com/icons/favicon.ico?v=R74n-2">
     <meta name="msapplication-TileColor" content="#00ffff">
@@ -699,7 +699,7 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
       if (placed.hide) continue;
-      var shape = ingredientAttr(placed.id, "placedShape") || ingredients[placed.id].shape;
+      var shape = placed.shape || ingredients[placed.id].shape;
       var ingredientImg = colorizeStandard("../shapes/png/"+shape+".png", placed.h??ingredients[placed.id].h, placed.s??ingredients[placed.id].s, placed.l??ingredients[placed.id].l);
       if (ingredientImg.loaded === false) {
         if (lastCallback) {
@@ -773,11 +773,12 @@ This HTML and its contents are property of R74n.com.
       var index = Math.floor(Math.random()*info.h.length);
       h = info.h[index]; s = info.s[index]; l = info.l[index];
     }
+    var shape = ingredientAttr(ingredient, "placedShape");
     var a = ingredientAttr(ingredient, "a") || 1;
     var r = ingredientAttr(ingredient, "r") || 0;
     var height = ingredientAttr(ingredient, "height") || 1;
     var width = ingredientAttr(ingredient, "width") || 0.75;
-    var placed = {id:ingredient, x:x, y:y, r:r, height:size*height, width:size*width, h:h, s:s, l:l, a:a};
+    var placed = {id:ingredient, x:x, y:y, r:r, shape:shape, height:size*height, width:size*width, h:h, s:s, l:l, a:a};
     viewData[currentView].total.push(placed);
     return placed;
   }
@@ -860,14 +861,21 @@ This HTML and its contents are property of R74n.com.
     }
     var dropInto = ingredientAttr(placed.id, "dropInto");
     var dropIntoV = ingredientAttr(placed.id, "dropIntoV") || 0;
+    var landedShape = ingredientAttr(placed.id, "landedShape");
     if (dropInto && placed.vy >= dropIntoV) {
       changeIngredient(placed, dropInto);
+    }
+    else if (landedShape) {
+      placed.shape = landedShape;
     }
     // Do Reactions
     var reactions1 = ingredientAttr(placed.id, "reactions");
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var other = viewData[currentView].total[i];
       if (placed.id === other.id) { continue; }
+      if (behavior === 1 && ingredientAttr(other.id, "dissolve")) {
+        other.hide = true;
+      }
       var reacted = false;
       if (reactions1) {
         for (var key in reactions1) {
@@ -909,18 +917,20 @@ This HTML and its contents are property of R74n.com.
 
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
-      var behavior = ingredientAttr(placed.id, "behavior") || 1;
+      var behavior = ingredientAttr(placed.id, "behavior") || 0;
       if (placed.done || placed.done2 || placed.hide) { continue; }
       if (placed.vx === undefined) { placed.vx = 0; }
       else if (placed.vx) { placed.x += placed.vx; }
       if (placed.vy === undefined) { placed.vy = 0; }
       else if (placed.vy) { placed.y += placed.vy; }
-      if (placed.vr === undefined) { placed.vr = 0; }
-      else if (placed.vr) { placed.r += placed.vr; placed.r = placed.r % 360; }
+      if (!behavior) {
+        if (placed.vr === undefined) { placed.vr = 0; }
+        else if (placed.vr) { placed.r += placed.vr; placed.r = placed.r % 360; }
+      }
       // gravity
       if (behavior === 3) { // gas physics
         placed.vy = -0.5;
-        placed.vx = Math.max(Math.min(placed.vx, 0.5), -0.5);
+        placed.vx = Math.max(Math.min(placed.vx, 0.1), -0.1);
         placed.vx -= Math.sign(placed.vx)*0.1
       }
       else {
@@ -1021,7 +1031,7 @@ This HTML and its contents are property of R74n.com.
       // draw transparent ingredient at mousePos
       if (currentIngredient && !controlState.mobile) {
         ctx.globalAlpha = 0.5;
-        var ingredientImg = colorizeStandard("../shapes/png/"+ingredients[currentIngredient].shape+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
+        var ingredientImg = colorizeStandard("../shapes/png/"+(ingredientAttr(currentIngredient, "placedShape") || ingredients[currentIngredient].shape)+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
         var scale = foodScale*(ingredientAttr(currentIngredient, "scale")||1);
         ctx.drawImage(ingredientImg, mousePos.x - ingredientImg.width/2*scale, mousePos.y - ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
         ctx.globalAlpha = 1;
@@ -1370,6 +1380,7 @@ This HTML and its contents are property of R74n.com.
     }
     var used = {};
     var nameMap = {};
+    var toIgnoreNames = [];
     for (var i = 0; i < ingredients.length; i++) {
       if (!ingredients[i].done && !ingredients[i].done2) {
         // remove
@@ -1381,6 +1392,11 @@ This HTML and its contents are property of R74n.com.
         // concat with ingredients
         ingredients = ingredients.concat(ingredients[i].original.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i]} }));
         ingredients[i].split = true;
+        toIgnoreNames = toIgnoreNames.concat(ingredients[i].original);
+      }
+      var parts = ingredientAttr(ingredients[i].id, "parts");
+      if (parts) {
+        toIgnoreNames = toIgnoreNames.concat(parts);
       }
       if (window.ingredients[ingredients[i].id].parts) {
         // concat with ingredients
@@ -1475,6 +1491,7 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < ingredients.length; i++) {
       var ingredient = ingredients[i];
       if (ingredient.noName) { continue }
+      if (toIgnoreNames.indexOf(ingredient.id) !== -1) { continue }
       if (used[ingredient.id]) { continue }
       var skip = false;
       for (var usedIngredient in used) {
@@ -1549,7 +1566,7 @@ This HTML and its contents are property of R74n.com.
       }
     }
     name = name.trim();
-    var nameSplit = name.split(" ");
+    var nameSplit = name.toLowerCase().split(/[ _]+/);
     for (var i = 0; i < nameSplit.length; i++) {
       var word = nameSplit[i];
       if (window.ingredients[word]) {
@@ -1592,7 +1609,30 @@ This HTML and its contents are property of R74n.com.
   imageGenCanvas.width = 290;
   imageGenCanvas.height = 225;
   var shareMessages = [
-    "I made DISHNAME in Infinite Chef!"
+    "I made DISHNAME in Infinite Chef!",
+    "I just served DISHNAME in Infinite Chef!",
+    "They let me cook and I made DISHNAME (Infinite Chef)",
+    "It's giving... DISHNAME (Infinite Chef)",
+    "97 year old diner still serves DISHNAME the old-fashioned way (Infinite Chef)",
+    "Dinner is served, and it's DISHNAME (Infinite Chef)",
+    "Thanksgiving leftovers go crazy - DISHNAME (Infinite Chef)",
+    "Every morning I wake up and eat DISHNAME (Infinite Chef)",
+    "Don't have DISHNAME at 3 AM (Infinite Chef)",
+    "Oops! All DISHNAME (Infinite Chef)",
+    "One DISHNAME, coming right up! (Infinite Chef)",
+    "Hi hungry, I'm DISHNAME (Infinite Chef)",
+    "Therapist: DISHNAME is not real. Infinite Chef:",
+    "Who else's mom made DISHNAME as a kid? (Infinite Chef)",
+    "We're not friends if you didn't have DISHNAME growing up (Infinite Chef)",
+    "Never let me cook DISHNAME again... (Infinite Chef)",
+    "All I want for Christmas is DISHNAME (Infinite Chef)",
+    "I physically cannot stop making DISHNAME in Infinite Chef",
+    "I'm literally overflowing with DISHNAME on Infinite Chef",
+    "I skipped all my classes to make DISHNAME in Infinite Chef",
+    "Call me Walter White the way I've been cooking DISHNAME in Infinite Chef",
+    "Gordon Ramsay approves of my DISHNAME (Infinite Chef)",
+    "Her: You better not be making DISHNAME when I get home\nMe in Infinite Chef:",
+    "DISHNAME, just like grandma used to make (Infinite Chef)",
   ];
   function serveDish() {
     var dialogBox = document.getElementById('serveBox');
@@ -1620,7 +1660,7 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("shareReddit").removeAttribute('href');
     document.getElementById("shareEmail").removeAttribute('href');
     document.getElementById("shareClipboard").removeAttribute('href');
-    // document.getElementById("shareTwitter").href = "https://twitter.com/intent/tweet?original_referer=https://r74n.com/cook/&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&related=R74nCom&text="+encodeURIComponent(shareMessage.replaceAll("Infinite Chef", hashtag))+"&url="+encodeURIComponent(url);
+    // document.getElementById("shareTwitter").href = "https://twitter.com/intent/tweet?original_referer=https://r74n.com/cook/&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&related=R74nCom&text="+encodeURIComponent(shareMessage.toLowerCase().replace(/\(?infinite chef\)?/g, hashtag))+"&url="+encodeURIComponent(url);
     // document.getElementById("shareReddit").href = "https://reddit.com/r/74n/submit?url="+encodeURIComponent(url)+"&title="+encodeURIComponent(shareMessage);
     // document.getElementById("shareEmail").href = "mailto:enter address here?subject=Check%20out%20my%20dish%20in%20Infinite%20Chef!&body="+encodeURIComponent(shareMessage)+"%0A%0ACreate%20your%20own%20dish%20here%20with%20hundreds%20of%20ingredients%3A%20"+encodeURIComponent(url);
     // document.getElementById("shareClipboard").href = "#";
@@ -1671,6 +1711,7 @@ This HTML and its contents are property of R74n.com.
     statBar.innerText = statText;
   }
 
+  var lastPlacedGas = 0;
   function tempCheck() {
     var view = viewData[currentView];
     view.temp = Math.min(300, Math.max(-30, view.temp));
@@ -1715,10 +1756,11 @@ This HTML and its contents are property of R74n.com.
         if (view.temp >= boilPoint) {
           deleteIngredient(ingredient);
         }
-        if (view.temp >= boilPoint-30 && (view.temp >= boilPoint || Math.random() < 0.25)) {
+        if (ticks-lastPlacedGas >= 10 && view.temp >= boilPoint-30 && (view.temp >= boilPoint || Math.random() < 0.25)) {
           // x = random number between leftBound and rightBound
           var x = Math.random() * (rightBound - leftBound) + leftBound;
           placeIngredient(boilInto, x, hitLine-50);
+          lastPlacedGas = ticks;
           continue;
         }
       }
@@ -1889,6 +1931,7 @@ This HTML and its contents are property of R74n.com.
       if (controlState.inMenu) {
         hideDialog();
         prepText.blur();
+        hideSearchResults();
         return;
       }
       if (controlState.mouse === 0 || e.touches) {

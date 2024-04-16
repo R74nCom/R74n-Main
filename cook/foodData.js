@@ -41,7 +41,7 @@ glow: color to glow when placed
 // sugar salt  spice dye dairy  chocolate drsng fruit vegetbl nt/leg meat dish
 
 shapeMeta = {
-    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short","oval_horizontal","circle_ms"]
+    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short","oval_horizontal","circle_ms","circle_s","helix_strand","rod_rough_thin","rod_thin","rod_thin_splits","rod_flared","needle"]
 }
 
 
@@ -58,6 +58,7 @@ thick_liquid: {
     group:"generic",
     shape:"liquid",
     placedShape:"droplets_some",
+    landedShape:"liquid_splat",
     behavior:2
 },
 powder: {
@@ -71,6 +72,11 @@ gas: {
     shape:"gas",
     a: 0.25,
     behavior:3,
+    dishName:null
+},
+utensil: {
+    group:"generic",
+    shape:"fork",
     dishName:null
 },
 
@@ -88,7 +94,7 @@ water: {
     boilInto:"steam",
     freezePoint:0,
     freezeInto:"ice_cube",
-    keywords:"liquid wet h2o h20"
+    keywords:"liquid,wet,h2o,h20"
 },
 broth: {
     type:"liquid",
@@ -113,7 +119,8 @@ sauce: {
 },
 tomato_sauce: {
     type:"sauce",
-    color:"#8b1b1b",
+    behavior:1,
+    color:"#a42626",
     reactions: {
         "sugar": { set1:"ketchup", set2:null },
         "vinegar": { set1:"ketchup", set2:null },
@@ -129,6 +136,10 @@ juice: {
     type:"liquid",
     color:"#ddd784",
     hidden:true
+},
+vinegar: {
+    type:"liquid",
+    color:"#dad7b0"
 },
 ketchup: {
     type:"sauce",
@@ -159,12 +170,24 @@ milk: {
     keywords:"dairy",
     dishWeight:-55,
     reactions: {
-        chocolate: { set1:"chocolate_milk", set2:null }
+        chocolate: { set1:"chocolate_milk", set2:null },
+        fat: { set1:"cream" },
     }
 },
 chocolate_milk: {
     type:"milk",
     color:"#946132",
+},
+cream: {
+    type:"liquid",
+    group:"dairy",
+    color:"#f3f3ec",
+    adj:"creamy",
+    keywords:"dairy creme kreme creamer",
+    dishWeight:-55,
+    reactions: {
+        chocolate: { set1:"chocolate_milk", set2:null }
+    }
 },
 yogurt: {
     group:"dairy",
@@ -176,7 +199,16 @@ fat: {
     group:"meat",
     shape:"scoop",
     color:"#f3f3ec",
-    meltPoint:40
+    meltPoint:40,
+    meltInto:"grease"
+},
+grease: {
+    type:"liquid",
+    group:"meat",
+    adj:"greasy",
+    color:"#cbac72",
+    freezePoint:40,
+    freezeInto:"fat"
 },
 butter: {
     type:"fat",
@@ -194,6 +226,7 @@ ice_cream: {
     keywords:"sundae",
     dishWeight:90,
     meltPoint:30,
+    meltInto:"cream"
 },
 
 
@@ -281,7 +314,6 @@ yolk: {
     cookColor:"#fff6d9",
     group:"protein_other",
     dishName:"egg",
-    short:"yolk",
     dissolve:true
 },
 batter: {
@@ -315,7 +347,8 @@ cheese_powder: {
 },
 blue_cheese: {
     color:"#dbdca9",
-    type:"cheese"
+    type:"cheese",
+    keywords:"bleu cheese"
 },
 provolone: {
     color:"#ffe291",
@@ -382,7 +415,8 @@ bean: {
     shape:"bean",
     behavior:0,
     hidden:true,
-    scale:0.75
+    scale:0.75,
+    placedShape:"beans_some"
 },
 legume: {
     color:"#d3ce71",
@@ -396,6 +430,7 @@ peanut: {
     color:"#dcac7c",
     type:"legume",
     shape:"peanut",
+    scale:0.75
 },
 nut: {
     color:"#a0220e",
@@ -403,7 +438,8 @@ nut: {
     shape:"fruit_nub",
     group:"protein_plant",
     hidden:true,
-    dishWeight:-20
+    dishWeight:-20,
+    scale:0.75
 },
 cereal_plant: {
     color:"#e7bb42",
@@ -414,7 +450,7 @@ cereal_plant: {
 wheat: {
     type:"cereal_plant",
     dropInto:"flour",
-    keywords:"grain cereal plant grass"
+    keywords:"grain,cereal,plant,grass"
 },
 apple: {
     color:["#ff1f40","#ffd20c","#5ad700"],
@@ -452,7 +488,7 @@ honeydew: {
     color:"#CFBF88",
     innerColor:"#B8C868",
     type:"melon",
-    keywords:"honey melon green melon"
+    keywords:"honey melon,green melon"
 },
 watermelon: {
     color:["#38b91c","#247612"],
@@ -493,6 +529,7 @@ pineapple: {
     color:"#e6ae25",
     type:"fruit",
     shape:"oval_leafy",
+    adj:"hawaiian",
 },
 mango: {
     color:["#F4BB44","#FF8040"],
@@ -527,7 +564,7 @@ kiwi: {
     innerColor:"#90C825",
     type:"fruit",
     shape:"oval_thick_horizontal",
-    keywords:"kiwifruit kiwi fruit"
+    keywords:"kiwifruit,kiwi fruit"
 },
 kumquat: {
     color:"#FFB75A",
@@ -538,8 +575,7 @@ kumquat: {
 lychee: {
     color:"#E84C5A",
     type:"fruit",
-    shape:"pick",
-    keywords:"cumquat"
+    shape:"pick"
 },
 blueberry: {
     color:["#4f86f7","#312581","#492581"],
@@ -573,11 +609,10 @@ raisin: {
     type:"grape",
 },
 cherry: {
-    color:["#B62625","#790604"],
+    color:["#ce2020","#9c0805"],
     type:"berry"
 },
 cherries: {
-    color:["#B62625","#790604"],
     type:"cherry",
     shape:"circle_bi_stem",
     dishName:"cherry"
@@ -664,7 +699,7 @@ starfruit: {
     keywords:"carambola"
 },
 tomato: {
-    color:"#FF6347",
+    color:"#ff573a",
     type:"vegetable",
     shape:"fruit_wide",
     broken:"tomato_sauce"
@@ -699,7 +734,8 @@ lemon_water: {
 },
 lemonade: {
     type:"lemon_juice",
-    color:"#fffa8b"
+    color:"#fffa8b",
+    parts:["lemon"]
 },
 lime: {
     color:"#32CD32",
@@ -716,8 +752,8 @@ dragonfruit: {
     color:"#f35d8b",
     innerColor:"#F3E4E9",
     type:"fruit",
-    shape:"fruit_long",
-    keywords:"pitaya fruit pitahaya fruit dragon fruit"
+    shape:"fruit_long_thorny",
+    keywords:"pitaya fruit,pitahaya fruit,dragon fruit"
 },
 coconut: {
     color:"#965A3E",
@@ -727,10 +763,10 @@ coconut: {
     scale:1.25,
 },
 durian: {
-    color:"#A87C45",
+    color:"#a88c45",
     innerColor:"#e1bd27",
     type:"fruit",
-    shape:"circle_rough",
+    shape:"circle_thorny_ml",
     scale:1.25,
 },
 passionfruit: {
@@ -750,13 +786,385 @@ leaf_vegetable: {
 root_vegetable: {
     color:"#CC8D57",
     type:"vegetable",
-    shape:"rod_rough",
+    shape:"root",
     hidden:true
 },
 carrot: {
     color:"#ED9121",
     type:"root_vegetable",
     shape:"needle"
+},
+artichoke: {
+    color:"#53e770",
+    type:"vegetable",
+    shape:"ovoid_scaly"
+},
+eggplant: {
+    color:"#9b0cb0",
+    type:"vegetable",
+    shape:"curve_plump",
+    keywords:"aubergine"
+},
+asparagus: {
+    color:"#83b020",
+    type:"vegetable",
+    shape:"rod_flared_leafy",
+},
+celery: {
+    color:"#b9de6f",
+    type:"vegetable",
+    shape:"rod_flared_leafy",
+},
+broccoli: {
+    color:"#5b9c3f",
+    type:"vegetable",
+    shape:"leaf_vegetable",
+},
+cabbage: {
+    color:"#7f9f3f",
+    type:"leaf_vegetable",
+    shape:"circle_leafed",
+},
+lettuce: {
+    color:"#a7e42d",
+    type:"leaf_vegetable",
+    shape:"circle_leafed",
+},
+endive: {
+    color:"#8bbf24",
+    type:"leaf_vegetable",
+    shape:"circle_leafed",
+    keywords:"frisee"
+},
+fiddlehead: {
+    color:"#638e0b",
+    type:"vegetable",
+    shape:"spiral_s",
+},
+red_cabbage: {
+    color:"#7f3f7f",
+    type:"cabbage",
+    keywords:"purple cabbage"
+},
+brussels_sprout: {
+    color:"#7ca52a",
+    type:"cabbage",
+    keywords:"brussel sprouts,brussels sprouts"
+},
+cauliflower: {
+    color:"#ebe6b3",
+    type:"cabbage",
+    shape:"leaf_vegetable"
+},
+bok_choy: {
+    color:"#7f9f3f",
+    innerColor:"#ebe6b3",
+    type:"cabbage",
+    keywords:"pak choi,boc choy,pok choi"
+},
+chicory_root: {
+    color:"#d2a45a",
+    type:"root_vegetable",
+},
+cilantro: {
+    type:"herb",
+    keywords:"coriander Chinese,parsley dhania"
+},
+fennel_seed: {
+    color:"#b08e60",
+    type:"spice"
+},
+mustard_greens: {
+    color:"#849612",
+    type:"leaf_vegetable",
+    shape:"leaf_rough",
+    keywords:"Indian mustard,Chinese mustard,Kai Choi,leaf mustard"
+},
+mustard_seed: {
+    color:"#cf9d40",
+    type:"spice"
+},
+beetroot: {
+    color:"#7a1f3d",
+    innerColor:"#cf2d71",
+    type:"root_vegetable",
+    shape:"bulb_down"
+},
+spinach: {
+    color:"#4b8e3f",
+    type:"leaf_vegetable",
+    shape:"leaf_rough"
+},
+chard: {
+    color:"#448439",
+    type:"leaf_vegetable",
+    shape:"leaf_rough",
+    keywords:"silverbeet,perpetual spinach,mangold"
+},
+collards: {
+    color:"#4da53d",
+    type:"leaf_vegetable",
+    shape:"leaf_rough",
+    keywords:"collard greens"
+},
+kale: {
+    color:"#3f8e54",
+    type:"leaf_vegetable",
+    shape:"leaf_rough"
+},
+alfalfa_sprout: {
+    color:"#d3f4dc",
+    type:"vegetable",
+    shape:"helix_strand"
+},
+bean_sprout: {
+    color:"#f0f4d3",
+    type:"vegetable",
+    shape:"helix_strand",
+    keywords:"beansprout"
+},
+azuki_bean: {
+    color:"#942929",
+    type:"bean"
+},
+black_bean: {
+    color:"#2c1f1f",
+    type:"bean",
+    keywords:"black turtle bean"
+},
+black_eyed_pea: {
+    name:"black-eyed pea",
+    color:"#d5bf67",
+    type:"bean",
+    shape:"bean_eyed",
+    keywords:"black-eyed bean,cowpea"
+},
+fava_bean: {
+    color:"#85cf80",
+    type:"bean",
+    keywords:"broad bean,faba bean,tick bean,horse bean"
+},
+chickpea: {
+    color:"#d9b856",
+    type:"bean",
+    keywords:"garbanzo bean,ceci bean"
+},
+lima_bean: {
+    color:"#d9c59c",
+    type:"bean",
+    keywords:"butter bean"
+},
+mung_bean: {
+    color:"#858f31",
+    type:"bean",
+    keywords:"mungo bean"
+},
+pinto_bean: {
+    color:["#d7b587","#815a35"],
+    type:"bean"
+},
+kidney_bean: {
+    color:["#812121","#721515"],
+    type:"bean"
+},
+lentil: {
+    color:["#DA7837","#9FA442","#333B0C"],
+    type:"bean",
+    keywords:"daal,pulse"
+},
+green_bean: {
+    color:"#4f8e3f",
+    type:"vegetable",
+    shape:"curve",
+},
+pea: {
+    color:"#6f9f3f",
+    type:"vegetable",
+    shape:"circle_s",
+},
+soybean: {
+    color:"#d3ce71",
+    type:"bean",
+    shape:"bean_eyed",
+    keywords:"soya bean,soy bean"
+},
+okra: {
+    color:"#7f9f3f",
+    type:"vegetable",
+    shape:"curve_thick"
+},
+chive: {
+    color:"#7f9f3f",
+    type:"herb",
+    shape:"rod_rough_thin"
+},
+leek: {
+    color:"#abcd69",
+    type:"root_vegetable",
+    shape:"rod_thin_splits"
+},
+scallion: {
+    color:"#86b723",
+    type:"vegetable",
+    shape:"rod_thin_splits",
+    keywords:"spring onion,green onion"
+},
+onion: {
+    color:"#f6bf81",
+    type:"root_vegetable",
+    shape:"bulb"
+},
+shallot: {
+    color:"#7e5172",
+    type:"onion",
+},
+pepper: {
+    color:["#d01414","#d0a714","#309900"],
+    type:"vegetable",
+    shape:"fruit_bipod_thin_stem",
+    hidden:true
+},
+bell_pepper: {
+    type:"pepper",
+    keywords:"capsicum,sweet pepper",
+    broken:"paprika"
+},
+paprika: {
+    type:"spice",
+    color:"#d01414",
+    adj:"spicy"
+},
+hot_sauce: {
+    type:"sauce",
+    color:"#d01414",
+    adj:"spicy"
+},
+chili_pepper: {
+    type:"pepper",
+    adj:"spicy",
+    shape:"hook_stem",
+    keywords:"chilli pepper,chile pepper",
+    broken:"hot_sauce"
+},
+jalapeno: {
+    color:"#309900",
+    type:"chili_pepper",
+    name:"jalapeño",
+    keywords:"jalapeno chili pepper"
+},
+habanero: {
+    color:"#d01414",
+    type:"chili_pepper",
+    shape:"fruit_pick_stem",
+    keywords:"habanero chili pepper"
+},
+tabasco: {
+    color:"#d01414",
+    type:"chili_pepper",
+    shape:"fruit_pick_stem",
+    keywords:"tabasco chili pepper"
+},
+cayenne: {
+    color:"#ff1717",
+    type:"chili_pepper",
+    keywords:"cayenne chili pepper"
+},
+rhubarb: {
+    color:"#ea415d",
+    innerColor:"#bde1c0",
+    type:"vegetable",
+    shape:"rod_flared"
+},
+water_chestnut: {
+    color:"#754737",
+    innerColor:"#eadfd3",
+    type:"vegetable",
+    shape:"bulb_down",
+    scale:0.5,
+    keywords:"Chinese water chestnut"
+},
+parsnip: {
+    color:"#edcf99",
+    type:"root_vegetable",
+    shape:"fruit_long"
+},
+rutabaga: {
+    color:"#b66e81",
+    type:"root_vegetable",
+    shape:"bulb_down",
+    keywords:"swede"
+},
+radish: {
+    color:"#aa2370",
+    type:"root_vegetable",
+    shape:"bulb_down"
+},
+turnip: {
+    color:"#df58bd",
+    type:"root_vegetable",
+    shape:"bulb_down"
+},
+daikon: {
+    color:"#dcc19f",
+    type:"radish"
+},
+horseradish: {
+    color:"#cea26b",
+    type:"root_vegetable"
+},
+wasabi_root: {
+    color:"#556e31",
+    type:"root_vegetable",
+    broken:"wasabi"
+},
+wasabi: {
+    color:"#6aa01f",
+    type:"spice"
+},
+tuber: {
+    color:"#af8b3c",
+    type:"root_vegetable",
+    shape:"bean_l"
+},
+potato: {
+    color:"#b79268",
+    type:"tuber"
+},
+sweet_potato: {
+    color:"#c47e2e",
+    type:"tuber"
+},
+yam: {
+    color:"#876e52",
+    innerColor:"#f1d9a4",
+    type:"tuber"
+},
+jicama: {
+    name:"jícama",
+    color:"#af8b3c",
+    type:"tuber",
+    shape:"bulb_down",
+    keywords:"Mexican yam bean,Mexican turnip"
+},
+ginger_root: {
+    color:"#bca67c",
+    innerColor:"#f1e7a4",
+    type:"root_vegetable"
+},
+corn: {
+    color:"#e8d525",
+    type:"vegetable",
+    group:"carb",
+    shape:"rod_bumpy",
+    keywords:"maize",
+    meltPoint:180,
+    meltInto:"popcorn"
+},
+popcorn: {
+    color:"#f2e9d2",
+    group:"carb",
+    shape:"fluffy",
+    keywords:"popped corn pop corn"
 },
 garlic: {
     color:"#f2e9d2",
@@ -770,12 +1178,98 @@ garlic_powder: {
     adj:"garlic",
     parts:["garlic"],
 },
+squash: {
+    color:"#efb410",
+    type:"vegetable",
+    shape:"fruit_extrude"
+},
+pumpkin: {
+    color:"#f2a71d",
+    innerColor:"#ffdd9d",
+    type:"squash",
+    shape:"fruit_wide_stem",
+    scale:1.5,
+    keywords:"jack-o'-lantern,jack o'lantern,jackolantern,jack-o-lantern"
+},
+zucchini: {
+    color:"#3f7930",
+    innerColor:"#6fb75b",
+    type:"squash",
+    shape:"rod_bumpy",
+    keywords:"courgette"
+},
+cucumber: {
+    color:"#509240",
+    innerColor:"#abd3a0",
+    type:"squash",
+    shape:"rod_bumpy",
+    keywords:"cuke"
+},
+acorn_squash: {
+    color:"#293027",
+    innerColor:"#f3b711",
+    type:"squash",
+    shape:"fruit_bipod",
+    keywords:"pepper squash,Des Moines squash"
+},
+butternut_squash: {
+    color:"#e9bf70",
+    innerColor:"#f3b711",
+    type:"squash",
+    shape:"fruit_bipod",
+    keywords:"butternut pumpkin,gramma"
+},
+watercress: {
+    color:"#07700c",
+    type:"leaf_vegetable",
+    shape:"leaf_rough",
+},
+
 herb: {
     color:"#35b135",
     type:"vegetable",
-    shape:"leaf",
+    shape:"leaf_rough",
     adj:"herbal",
     hidden:true
+},
+
+acorn: {
+    color:"#915111",
+    type:"nut",
+    shape:"nut_cap",
+},
+chestnut: {
+    color:"#962800",
+    type:"nut",
+    shape:"bulb",
+},
+hazelnut: {
+    color:"#a06e28",
+    type:"nut",
+},
+walnut: {
+    color:"#b7833a",
+    type:"nut",
+    shape:"circle_rough",
+},
+cashew_nut: {
+    name:"cashew",
+    color:"#cdb816",
+    type:"nut",
+    shape:"semitorus_thick_left",
+},
+pistachio: {
+    color:"#d7b56c",
+    innerColor:"#b2c535",
+    type:"nut"
+},
+brazil_nut: {
+    color:"#b83d00",
+    type:"nut"
+},
+macadamia: {
+    color:"#b15614",
+    type:"nut"
 },
 
 
@@ -844,12 +1338,13 @@ ground_meat: {
 beef: {
     color:"#ff4d58",
     type:"meat",
-    keywords:"meat steak",
+    keywords:"meat,steak",
     pin:true
 },
 beef_patty: {
     type:"beef",
-    shape:"rectangle_thinner_round"
+    shape:"rectangle_thinner_round",
+    keywords:"hamburger"
 },
 poultry: {
     color:"#ffdddf",
@@ -861,14 +1356,14 @@ poultry: {
 },
 chicken: {
     type:"poultry",
-    keywords:"poultry bird"
+    keywords:"poultry,bird"
 },
 fish: {
     color:"#4edeff",
     cookColor:"#d0891f",
     type:"meat",
     shape:"fish",
-    keywords:"seafood pescetarian"
+    keywords:"seafood,pescetarian"
 },
 crustacean: {
     color:"#f13851",
@@ -879,7 +1374,7 @@ crustacean: {
 },
 crab: {
     type:"crustacean",
-    keywords:"crustacean seafood"
+    keywords:"crustacean,seafood"
 },
 cephalopod: {
     color:"#ffadd1",
@@ -890,7 +1385,7 @@ cephalopod: {
 },
 squid: {
     type:"cephalopod",
-    keywords:"cephalopod seafood"
+    keywords:"cephalopod,seafood"
 },
 
 
@@ -930,6 +1425,8 @@ dishRecipes = {
 "mac and cheese+bread":"breaded mac",
 "bun+beef+bun":"hamburger",
 "hamburger+cheese":"cheeseburger",
+"leaf_vegetable+vegetable":"vegetable salad",
+"fruit+fruit+vegetable?":"fruit salad",
 "flour+yolk+sugar":"cake",
 "flour+water+yeast?":"bread",
 "flour+flour+flour+fat+fat+water":"pie",

@@ -1,3 +1,33 @@
+[Pre-release 0.19 - April 16, 2024 - Infinite Veggies]
+    + Many vegetables
+    + Many beans
+    + Many nuts
+    + Vinegar
+    + Hot Sauce
+    + Wasabi
+    + Paprika
+    + Cream
+    + Grease
+    + Popcorn
+        + Corn will pop at over 180°C
+    + Salad and Fruit Salad recipes
+    + Blue Cheese can be searched as "Bleu Cheese"
+    ~ Updated sprites for Durian, Dragonfruit, Root Vegetable, and Herb
+    ~ Placed thick liquids (i.e. Ketchup) have a special shape when landed
+    ~ Cursor ingredient preview now shows placed shape
+    ~ Reduced spawn rate of gas when boiling
+    ~ Reduced bounciness of gases
+    + Dissolvables (i.e. Salt) will dissolve if liquid is placed after
+    ~ Tomato Sauce now fills the bowl
+    ~ Liquids and Gases no longer rotate
+    ~ Ice Cream melts into Cream
+    ~ Fat melts into Grease
+    ~ Tweaked Carrot hitbox
+    ~ Dish name generator improvements
+    ~ Shared messages are randomized (Still locked)
+    ~ Placed ingredients can change shape (i.e. when they land)
+    ~ Fixed: Tapping on canvas doesn't close search on mobile
+
 [Pre-release 0.18 - April 11, 2024 - Infinite Fruit]
     + Many fruits
     + Tomato (Vegetable)
