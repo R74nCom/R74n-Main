@@ -74,6 +74,18 @@ gas: {
     behavior:3,
     dishName:null
 },
+energy: {
+    color:"#ffff80",
+    group:"generic",
+    shape:"gas",
+    placedShape:"gas",
+    a: 0.75,
+    adj:"imbued",
+    dishName:"essence",
+    behavior:2,
+    delete:true,
+    dissolve:true,
+},
 utensil: {
     group:"generic",
     shape:"fork",
@@ -83,7 +95,14 @@ utensil: {
 
 steam: {
     type:"gas",
-    color:"#bfd8df"
+    color:"#bfd8df",
+    keywords:"water vapor,water vapour"
+},
+carbon_dioxide: {
+    type:"gas",
+    color:"#575757",
+    keywords:"co2",
+    hidden:true
 },
 water: {
     type:"liquid",
@@ -95,6 +114,18 @@ water: {
     freezePoint:0,
     freezeInto:"ice_cube",
     keywords:"liquid,wet,h2o,h20"
+},
+seltzer: {
+    type:"water",
+    color:"#cbe2e9",
+    reactions: {
+        sugar: { set1:"soda", set2:null },
+        vinegar: { set1:"soda", set2:null },
+    },
+    adj:"fizzy",
+    boilPoint:100,
+    boilInto:["steam","carbon_dioxide"],
+    keywords:"carbonated water,soda water"
 },
 broth: {
     type:"liquid",
@@ -135,7 +166,23 @@ dressing: {
 juice: {
     type:"liquid",
     color:"#ddd784",
-    hidden:true
+    hidden:true,
+    boilPoint:100,
+    boilInto:["steam","sugar"]
+},
+alcohol: {
+    type:"liquid",
+    color:"#d0cead",
+    boilPoint:78.37,
+    keywords:"ethanol",
+    group:"carb",
+},
+soda: {
+    type:"liquid",
+    color:"#501c00",
+    boilPoint:100,
+    boilInto:["steam","carbon_dioxide","sugar"],
+    keywords:"cola,pop,soda pop,soft drink,coke"
 },
 vinegar: {
     type:"liquid",
@@ -161,7 +208,8 @@ mayonnaise: {
 oil: {
     type:"liquid",
     color:"#e7df97",
-    pin:true
+    pin:true,
+    dishName:null
 },
 milk: {
     type:"liquid",
@@ -172,7 +220,8 @@ milk: {
     reactions: {
         chocolate: { set1:"chocolate_milk", set2:null },
         fat: { set1:"cream" },
-    }
+    },
+    pin:true
 },
 chocolate_milk: {
     type:"milk",
@@ -217,7 +266,8 @@ butter: {
     color:"#ffff80",
     adj:"buttered",
     dishWeight:-55,
-    meltPoint:35
+    meltPoint:35,
+    pin:true
 },
 ice_cream: {
     group:"dairy",
@@ -238,7 +288,14 @@ salt: {
     dissolve:true,
     adj:"salted",
     dishWeight:-75,
-    pin:true
+    pin:true,
+    keywords:"table salt,nacl,sodium chloride"
+},
+baking_soda: {
+    type:"salt",
+    dissolve:true,
+    dishName:null,
+    keywords:"sodium bicarbonate,bicarbonate of soda"
 },
 sugar: {
     type:"powder",
@@ -249,7 +306,20 @@ sugar: {
     dishWeight:-80,
     pin:true,
     meltPoint:186,
-    meltInto:"syrup"
+    meltInto:"syrup",
+    keywords:"carbohydrate,glucose,fructose,sucrose"
+},
+brown_sugar: {
+    type:"sugar",
+    color:"#d2b48c",
+},
+molasses: {
+    type:"thick_liquid",
+    group:"carb",
+    color:"#5a2b0d",
+    reactions: {
+        sugar: { set1:null, set2:"brown_sugar" }
+    },   
 },
 syrup: {
     type:"thick_liquid",
@@ -277,6 +347,11 @@ black_pepper: {
     adj:"pepper",
     pin:true
 },
+allspice: {
+    type:"spice",
+    color:"#46231f",
+    keywords:"pimento,pimenta,Jamaica pepper,myrtle pepper",
+},
 chocolate: {
     color:"#924b00",
     shape:"rectangle",
@@ -302,7 +377,7 @@ egg: {
     group:"protein_other",
     dropInto:"yolk",
     dropIntoV:10,
-    broken:"egg",
+    broken:"yolk",
     pin:true
 },
 yolk: {
@@ -629,6 +704,10 @@ raspberry: {
     shape:"bunch",
     scale:0.75
 },
+blue_raspberry: {
+    color:"#0b19e3",
+    type:"raspberry"
+},
 boysenberry: {
     color:"#7c182c",
     type:"berry",
@@ -890,6 +969,18 @@ beetroot: {
     type:"root_vegetable",
     shape:"bulb_down"
 },
+sugar_beet: {
+    color:"#e0d895",
+    innerColor:"#e6e2c3",
+    type:"beetroot",
+    broken:"brown_sugar"
+},
+sugar_cane: {
+    color:"#b1cf5d",
+    type:"plant",
+    shape:"rod_flared_leafy",
+    broken:"brown_sugar"
+},
 spinach: {
     color:"#4b8e3f",
     type:"leaf_vegetable",
@@ -998,6 +1089,59 @@ chive: {
     type:"herb",
     shape:"rod_rough_thin"
 },
+basil: {
+    color:"#19aa40",
+    type:"herb"
+},
+cress: {
+    color:"#6cbe4c",
+    type:"herb",
+    keywords:"garden cress"
+},
+bay_leaf: {
+    color:"#9a851e",
+    type:"herb"
+},
+curry_leaf: {
+    color:"#297920",
+    type:"herb"
+},
+dill: {
+    color:"#0b903e",
+    type:"herb"
+},
+lavender: {
+    color:"#be5cb7",
+    type:"herb"
+},
+mint: {
+    color:"#1a9e16",
+    type:"herb"
+},
+oregano: {
+    color:"#5d9a0e",
+    type:"herb"
+},
+parsley: {
+    color:"#00ca47",
+    type:"herb"
+},
+rosemary: {
+    color:"#1d9000",
+    type:"herb"
+},
+rue: {
+    color:"#84a819",
+    type:"herb"
+},
+sage: {
+    color:"#38934a",
+    type:"herb"
+},
+thyme: {
+    color:"#6eb867",
+    type:"herb"
+},
 leek: {
     color:"#abcd69",
     type:"root_vegetable",
@@ -1012,7 +1156,14 @@ scallion: {
 onion: {
     color:"#f6bf81",
     type:"root_vegetable",
-    shape:"bulb"
+    shape:"bulb",
+    broken:"onion_powder"
+},
+onion_powder: {
+    color:"#f3dabe",
+    type:"spice",
+    adj:"onion",
+    parts:["onion"],
 },
 shallot: {
     color:"#7e5172",
@@ -1034,6 +1185,14 @@ paprika: {
     color:"#d01414",
     adj:"spicy"
 },
+chili_powder: {
+    type:"spice",
+    reactions: {
+        "water": { set1:null, set2:"hot_sauce" }
+    },
+    color:"#d04314",
+    adj:"spicy"
+},
 hot_sauce: {
     type:"sauce",
     color:"#d01414",
@@ -1044,7 +1203,7 @@ chili_pepper: {
     adj:"spicy",
     shape:"hook_stem",
     keywords:"chilli pepper,chile pepper",
-    broken:"hot_sauce"
+    broken:"chili_powder"
 },
 jalapeno: {
     color:"#309900",
@@ -1202,8 +1361,16 @@ cucumber: {
     color:"#509240",
     innerColor:"#abd3a0",
     type:"squash",
+    reactions: {
+        "vinegar": { set1:"pickle" },
+    },
     shape:"rod_bumpy",
     keywords:"cuke"
+},
+pickle: {
+    color:"#7ba00d",
+    type:"cucumber",
+    keywords:"pickled cucumber"
 },
 acorn_squash: {
     color:"#293027",
@@ -1223,6 +1390,103 @@ watercress: {
     color:"#07700c",
     type:"leaf_vegetable",
     shape:"leaf_rough",
+},
+anise: {
+    type:"spice",
+    color:"#b38e45",
+    keywords:"aniseed,anix",
+},
+star_anise: {
+    type:"spice",
+    color:"#b1662f",
+    placedShape:"stars_some",
+    keywords:"star aniseed,star of anise,badian",
+},
+cardamom: {
+    type:"spice",
+    color:"#DCB593",
+    keywords:"cardamon,cardamum",
+},
+cinnamon_strip: {
+    type:"plant",
+    color:"#E49961",
+    shape:"rod_flared",
+    broken:"cinnamon"
+},
+cinnamon: {
+    type:"spice",
+    color:"#E49961"
+},
+licorice_root: {
+    type:"root_vegetable",
+    color:"#b59983",
+    broken:"licorice",
+    keywords:"liquorice root"
+},
+licorice: {
+    type:"spice",
+    color:"#64442C",
+    keywords:"liquorice"
+},
+cinnamon: {
+    type:"spice",
+    color:"#E49961"
+},
+clove: {
+    type:"spice",
+    color:"#6d4035",
+    placedShape:"rods_some"
+},
+cumin: {
+    type:"spice",
+    color:"#CA7B42"
+},
+nutmeg: {
+    type:"spice",
+    color:"#826A41"
+},
+poppy_seed: {
+    type:"spice",
+    color:"#393A45",
+    keywords:"poppyseed",
+    adj:"poppyseed"
+},
+saffron: {
+    type:"spice",
+    color:"#DD5549"
+},
+sesame: {
+    type:"spice",
+    color:"#DFE1A4",
+    keywords:"sesame seeds,benne,gingelly"
+},
+szechuan_pepper: {
+    type:"spice",
+    color:"#753234",
+    keywords:"Sichuan pepper,Szechwan pepper,scecuan,scezuan"
+},
+sumac: {
+    type:"spice",
+    color:"#622128"
+},
+tamarind: {
+    type:"spice",
+    color:"#9F7C66"
+},
+turmeric: {
+    type:"spice",
+    color:"#F89717",
+    keywords:"tumeric"
+},
+vanilla_bean: {
+    type:"bean",
+    color:"#442921",
+    shape:"curve",
+    broken:"vanilla"
+},
+vanilla: {
+    type:"spice",
+    color:"#442921"
 },
 
 herb: {
@@ -1252,6 +1516,12 @@ walnut: {
     type:"nut",
     shape:"circle_rough",
 },
+almond: {
+    color:"#aa6c3b",
+    innerColor:"#efdecd",
+    type:"nut",
+    shape:"spheroid_prolate",
+},
 cashew_nut: {
     name:"cashew",
     color:"#cdb816",
@@ -1271,6 +1541,7 @@ macadamia: {
     color:"#b15614",
     type:"nut"
 },
+
 
 
 pasta: {
@@ -1335,16 +1606,82 @@ ground_meat: {
     shape:"powder_rough",
     behavior:2,
 },
+sausage: {
+    type:"meat",
+    shape:"rectangle_thinner_round",
+    scale:1.25,
+    keywords:"hotdog"
+},
 beef: {
     color:"#ff4d58",
     type:"meat",
-    keywords:"meat,steak",
+    keywords:"meat,steak,cow,cattle,bull,buffalo",
     pin:true
 },
 beef_patty: {
     type:"beef",
     shape:"rectangle_thinner_round",
-    keywords:"hamburger"
+    keywords:"hamburger,borger"
+},
+veal: {
+    color:"#c37c81",
+    type:"beef",
+    keywords:"calf,baby cow,beef",
+},
+mutton: {
+    color:"#d83a44",
+    type:"meat",
+    keywords:"sheep,ewe,ram",
+},
+lamb: {
+    color:"#eb666f",
+    type:"mutton",
+    keywords:"baby sheep,mutton",
+},
+pork: {
+    color:"#f79ea4",
+    type:"meat",
+    keywords:"pig,swine,boar,hog,sow,porkchop",
+},
+venison: {
+    color:"#782d32",
+    type:"meat",
+    keywords:"deer,doe,buck,elk",
+},
+rabbit: {
+    color:"#cba3a5",
+    type:"meat",
+    keywords:"bunny",
+},
+goat: {
+    color:"#df7e85",
+    type:"meat",
+    keywords:"sheep,ewe,ram",
+},
+kangaroo: {
+    color:"#8e2444",
+    type:"meat",
+    keywords:"deer,doe,buck,elk",
+},
+clam: {
+    color:"#857f66",
+    type:"meat",
+    shape:"clam"
+},
+mussel: {
+    color:"#686876",
+    type:"meat",
+    shape:"clam"
+},
+oyster: {
+    color:"#886c4b",
+    type:"meat",
+    shape:"clam"
+},
+scallop: {
+    color:"#9b5b5b",
+    type:"meat",
+    shape:"clam"
 },
 poultry: {
     color:"#ffdddf",
@@ -1358,12 +1695,36 @@ chicken: {
     type:"poultry",
     keywords:"poultry,bird"
 },
+turkey: {
+    color:"#ffd3d6",
+    type:"poultry"
+},
+duck: {
+    color:"#f5a8ad",
+    type:"poultry"
+},
 fish: {
     color:"#4edeff",
     cookColor:"#d0891f",
     type:"meat",
     shape:"fish",
     keywords:"seafood,pescetarian"
+},
+tuna: {
+    color:"#005982",
+    type:"fish"
+},
+mackerel: {
+    color:"#2177a0",
+    type:"fish"
+},
+salmon: {
+    color:"#c74949",
+    type:"fish"
+},
+cod: {
+    color:"#d1bf7f",
+    type:"fish"
 },
 crustacean: {
     color:"#f13851",
@@ -1373,8 +1734,27 @@ crustacean: {
     hidden:true
 },
 crab: {
+    color:"#f14d38",
     type:"crustacean",
     keywords:"crustacean,seafood"
+},
+lobster: {
+    color:"#e41732",
+    type:"crustacean",
+    keywords:"crustacean,seafood"
+},
+prawn: {
+    color:"#e99073",
+    type:"crustacean",
+    keywords:"crustacean,seafood",
+    shape:"shrimp"
+},
+shrimp: {
+    color:"#e99073",
+    type:"crustacean",
+    keywords:"crustacean,seafood",
+    shape:"shrimp",
+    scale:0.75
 },
 cephalopod: {
     color:"#ffadd1",
@@ -1407,6 +1787,13 @@ red_dye: {
 },
 
 
+uranium: {
+    shape:"rock",
+    color:"#526752",
+    glow:"#00ff00",
+    adj:"glowy",
+    hidden:true
+},
 boulder: {
     shape:"rock_ball",
     scale:3,
@@ -1436,5 +1823,7 @@ dishRecipes = {
 "flour+flour+flour+liquid+liquid+fat":"biscuit",
 "flour+liquid+fat":"biscuit",
 "flour+flour+liquid+yolk+fat":"muffin",
+
+"milk+soda":"pilk",
 
 }

@@ -1,3 +1,30 @@
+[Pre-release 0.20 - April 18, 2024 - Infinite Meat]
+    + Many meats
+    + Many herbs
+    + Many spices
+    + Almond
+    + Blue Raspberry
+    + Seltzer
+    + Soda
+    + Alcohol
+    + Pickle
+    + Brown Sugar
+    + Molasses
+    + Sugar Beet
+    + Sugar Cane
+    + Pilk recipe
+    ~ Improved temperature controls
+        ~ Dish returns to room temperature much slower
+        ~ Temperature shows always if far from room temperature
+        ~ Temperature moves rapidly if opposite control is on
+    ~ Oil no longer appears in dish names
+    ~ Pinned Milk and Butter
+    ~ Ingredients can now melt, boil, and freeze into randomized states
+    ~ Dish name generator improvements
+    ~ Fixed: For example, Dragonfruit + Durian makes Dragonfruit Salad, ignoring Durian
+    ~ Fixed: Uncracked Eggs don't appear in dish names
+    ~ Fixed: Lemon Water and Juice don't boil
+
 [Pre-release 0.19 - April 16, 2024 - Infinite Veggies]
     + Many vegetables
     + Many beans

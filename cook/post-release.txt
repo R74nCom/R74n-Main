@@ -1,6 +1,7 @@
 Pre-release when finalized
 - Logo
     - Update logo in manifest.json
+    - Page favicon
 - Promotional screenshots
 
 Release:

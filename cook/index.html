@@ -815,18 +815,20 @@ This HTML and its contents are property of R74n.com.
   }
   function reactIngredients(placed1, placed2, params) {
     var reacted = false;
+    var placed1original = placed1.id;
+    var placed2original = placed2.id;
     if (params.set1 !== undefined) {
       if (params.set1 === null) deleteIngredient(placed1);
-      else {
-        placed1.original = [placed1.id, placed2.id];
+      else if (placed1.id !== params.set1) {
+        placed1.original = [placed1original, placed2original];
         changeIngredient(placed1, choose(params.set1));
       }
       reacted = true;
     }
     if (params.set2 !== undefined) {
       if (params.set2 === null) deleteIngredient(placed2);
-      else {
-        placed2.original = [placed2.id, placed1.id];
+      else if (placed2.id !== params.set2) {
+        placed2.original = [placed2original, placed1original];
         changeIngredient(placed2, choose(params.set2));
       }
       reacted = true;
@@ -895,28 +897,32 @@ This HTML and its contents are property of R74n.com.
       if (reacted) { break; }
     }
   }
+  roomTemp = 20;
   function tickPlaced() {
     if (viewInfo[currentView] !== undefined && viewInfo[currentView].hitbox) {
       var bowlImg = loadImage(viewInfo[currentView].image);
       var hitbox = viewInfo[currentView].hitbox;
     }
     else {var hitbox = null}
+    var view = viewData[currentView];
 
     // Temperature
-    if (viewData[currentView].temp === undefined) viewData[currentView].temp = 20;
-    if (viewData[currentView].tempIncrease) {
-      viewData[currentView].temp += 0.1;
+    if (view.temp === undefined) view.temp = 20;
+    if (view.tempIncrease) {
+      if (view.temp < roomTemp) view.temp += 0.3;
+      else view.temp += 0.1;
     }
-    else if (viewData[currentView].tempDecrease) {
-      viewData[currentView].temp -= 0.1;
+    else if (view.tempDecrease) {
+      if (view.temp > roomTemp) view.temp -= 0.3;
+      else view.temp -= 0.1;
     }
-    else if (Math.round(viewData[currentView].temp) !== 20) {
-      viewData[currentView].temp = 20 + (viewData[currentView].temp-20)*0.95;
+    else if (Math.round(view.temp) !== roomTemp) {
+      view.temp -= Math.sign(view.temp-roomTemp)*0.01;
     }
     tempCheck();
 
-    for (var i = 0; i < viewData[currentView].total.length; i++) {
-      var placed = viewData[currentView].total[i];
+    for (var i = 0; i < view.total.length; i++) {
+      var placed = view.total[i];
       var behavior = ingredientAttr(placed.id, "behavior") || 0;
       if (placed.done || placed.done2 || placed.hide) { continue; }
       if (placed.vx === undefined) { placed.vx = 0; }
@@ -938,9 +944,9 @@ This HTML and its contents are property of R74n.com.
         placed.vy = Math.min(placed.vy, 13);
       }
       // check collision with other placed
-      for (var j = 0; j < viewData[currentView].total.length; j++) {
+      for (var j = 0; j < view.total.length; j++) {
         if (i === j) { continue; }
-        var other = viewData[currentView].total[j];
+        var other = view.total[j];
         if (other.hide) { continue; }
         if (placed.x < other.x + other.width/2.5 &&
             placed.x + placed.width/2.5 > other.x &&
@@ -974,7 +980,7 @@ This HTML and its contents are property of R74n.com.
       }
       // if its outside the canvas, remove it
       if (placed.x < -50 || placed.x > canvas.width+50 || placed.y > canvas.height+50 || placed.y < -50) {
-        viewData[currentView].total.splice(i, 1);
+        view.total.splice(i, 1);
         i--;
       }
       // check collision with the bowl
@@ -1026,6 +1032,10 @@ This HTML and its contents are property of R74n.com.
           lastLiquidColor = liquidColor;
         }
         ctx.drawImage(liquidImg, canvas.width/2 - liquidImg.width/2*5, canvas.height/2 - liquidImg.height/2*5+75, liquidImg.width*5, liquidImg.height*5);
+      }
+      else if (lastLiquidColor) {
+        lastLiquidColor = null;
+        lastLiquidImg2 = null;
       }
       drawPlaced();
       // draw transparent ingredient at mousePos
@@ -1508,12 +1518,16 @@ This HTML and its contents are property of R74n.com.
       var adj = ingredientAttr(ingredient.id, "adj");
       var nameOverride = ingredientAttr(ingredient.id, "name");
       var dishNameOverride = ingredientAttr(ingredient.id, "dishName");
-      if (dishNameOverride === null) { continue }
       var weightOverride = ingredientAttr(ingredient.id, "dishWeight");
       if (weightOverride) {
         weight += weightOverride;
       }
-      if (adj) {
+      if (dishNameOverride === null) {
+        fallback = ingName;
+        ingName = "";
+        type = "blank";
+      }
+      else if (adj) {
         ingName = adj;
         weight -= 100;
         type = "adj";
@@ -1537,6 +1551,9 @@ This HTML and its contents are property of R74n.com.
       var fallback = nameSorted[i][3];
       var ingName = nameSorted[i][0];
       if (type === "adj" && i === nameSorted.length-1) {
+        ingName = fallback;
+      }
+      else if (type === "blank" && nameSorted.length === 1) {
         ingName = fallback;
       }
       if (nameParts.length >= 3 && window.ingredients[fallback] && window.ingredients[fallback].short) {
@@ -1570,12 +1587,15 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < nameSplit.length; i++) {
       var word = nameSplit[i];
       if (window.ingredients[word]) {
+        var subtypes = [];
         for (var ingredient in used) {
           if (!used[ingredient] || used[ingredient] === 2) { continue }
           if (ingredientIsType(ingredient, word)) {
-            nameSplit[i] = ingredient;
-            break;
+            subtypes.push(window.ingredients[ingredient]?.name || ingredient);
           }
+        }
+        if (subtypes.length) {
+          nameSplit[i] = subtypes.join(" ");
         }
       }
     }
@@ -1705,7 +1725,7 @@ This HTML and its contents are property of R74n.com.
     var statText = "";
     var statBar = document.getElementById("statBar");
     var view = viewData[currentView];
-    if (view.tempIncrease || view.tempDecrease) {
+    if (view.tempIncrease || view.tempDecrease || Math.abs(view.temp-20) > 10) {
       statText += Math.round(view.temp)+"°C";
     }
     statBar.innerText = statText;
@@ -1741,7 +1761,7 @@ This HTML and its contents are property of R74n.com.
       if ((!ingredient.done && !ingredient.done2) || ingredient.pseudo || Math.random() > 0.1) continue;
       var meltPoint = ingredientAttr(ingredient.id, "meltPoint");
       if (view.temp >= meltPoint) {
-        var meltInto = ingredientAttr(ingredient.id, "meltInto");
+        var meltInto = choose(ingredientAttr(ingredient.id, "meltInto"));
         if (meltInto) changeIngredient(ingredient, meltInto);
         else {
           addLiquid(ingredient.h, ingredient.s, ingredient.l);
@@ -1752,11 +1772,12 @@ This HTML and its contents are property of R74n.com.
       }
       var boilPoint = ingredientAttr(ingredient.id, "boilPoint");
       if (boilPoint !== undefined) {
-        var boilInto = ingredientAttr(ingredient.id, "boilInto") || "gas";
+        var boilInto = choose(ingredientAttr(ingredient.id, "boilInto")) || "gas";
         if (view.temp >= boilPoint) {
           deleteIngredient(ingredient);
         }
-        if (ticks-lastPlacedGas >= 10 && view.temp >= boilPoint-30 && (view.temp >= boilPoint || Math.random() < 0.25)) {
+        var boiledBehavior = ingredientAttr(boilInto, "behavior");
+        if (ticks-lastPlacedGas >= 10 && view.temp >= boilPoint-30 && (view.temp >= boilPoint || (Math.random() < 0.25 && boiledBehavior === 3))) {
           // x = random number between leftBound and rightBound
           var x = Math.random() * (rightBound - leftBound) + leftBound;
           placeIngredient(boilInto, x, hitLine-50);
@@ -1766,7 +1787,7 @@ This HTML and its contents are property of R74n.com.
       }
       var freezePoint = ingredientAttr(ingredient.id, "freezePoint");
       if (view.temp <= freezePoint) {
-        var freezeInto = ingredientAttr(ingredient.id, "freezeInto");
+        var freezeInto = choose(ingredientAttr(ingredient.id, "freezeInto"));
         if (freezeInto) {
           changeIngredient(ingredient, freezeInto);
           continue;
@@ -2011,7 +2032,7 @@ This HTML and its contents are property of R74n.com.
 
   <p>Missing something? Send it to our <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXx1NWgGz_VJ-796FsmawOzHF1MzAZevCVXFHXtQymWj3ysA/viewform" target="_blank">Feedback Form</a> or email us at <a href="mailto:contact@R74n.com" target="_blank">contact@R74n.com</a>! You can also join the culinary community on <a href="https://discord.gg/ejUc6YPQuS" target="_blank">Discord</a>.</p>
 
-  <p>Infinite Chef is made by <a href="https://R74n.com/">R74n</a>, the developers of <a href="https://sandboxels.R74n.com/">Sandboxels</a>.</p>
+  <p>Infinite Chef is made by <a href="https://R74n.com/">R74n</a>, the developer of <a href="https://sandboxels.R74n.com/">Sandboxels</a>.</p>
 
   <p style="text-align:center"><a href="https://R74n.com/"><img src="https://R74n.com/icons/favicon.svg" style="height:1em;vertical-align:top;"></a> • <a href="changelog.txt">Changelog</a> • <a href="../license.txt">License</a> • <a href="../privacy">Privacy</a></p>
 </div>
