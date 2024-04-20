@@ -377,6 +377,7 @@ egg: {
     group:"protein_other",
     dropInto:"yolk",
     dropIntoV:10,
+    dishWeight:-50,
     broken:"yolk",
     pin:true
 },
@@ -389,7 +390,8 @@ yolk: {
     cookColor:"#fff6d9",
     group:"protein_other",
     dishName:"egg",
-    dissolve:true
+    dissolve:true,
+    dishWeight:-50,
 },
 batter: {
     color:"#ead295",
@@ -446,7 +448,8 @@ fruit: {
     group:"fruit",
     shape:"fruit",
     hidden:true,
-    dishWeight:-40
+    dishWeight:-40,
+    broken:"juice"
 },
 berry: {
     // culinary berry
@@ -509,7 +512,7 @@ peanut: {
 },
 nut: {
     color:"#a0220e",
-    type:"fruit",
+    type:"plant",
     shape:"fruit_nub",
     group:"protein_plant",
     hidden:true,

@@ -1,3 +1,8 @@
+[Pre-release 0.21 - April 19, 2024 - Infinite Blend]
+    + Blend tool
+    ~ Redesigned bowl, now a pot
+    ~ Fixed: Ingredients don't simmer if heat is off
+
 [Pre-release 0.20 - April 18, 2024 - Infinite Meat]
     + Many meats
     + Many herbs
@@ -6,6 +11,7 @@
     + Blue Raspberry
     + Seltzer
     + Soda
+    + Baking Soda
     + Alcohol
     + Pickle
     + Brown Sugar
