@@ -492,9 +492,7 @@ This HTML and its contents are property of R74n.com.
   <div id="rightDiv" style="display: none;">
     <div id="controlsBar">
       <button selected id="button-bowl" onclick="changeView('bowl')" title="Bowl Mode"><img src="../shapes/png/semicircle_bottom.png" class="pixelart" alt="bowl"></button>
-      <!-- <button id="button-stack" onclick="changeView('stack')" title="Stack Mode"><img src="../shapes/png/stack.png" class="pixelart" alt="stack"></button>
-      <button id="button-stove" onclick="changeView('stove')" title="Stove Mode"><img src="../shapes/png/flame.png" class="pixelart" alt="stove"></button>
-      <button id="button-blend" onclick="changeView('blend')" title="Blend Mode"><img src="../shapes/png/liquid.png" class="pixelart" alt="blend"></button> -->
+      <button id="button-stack" onclick="changeView('stack')" title="Stack Mode"><img src="../shapes/png/stack.png" class="pixelart" alt="stack"></button>
       <button id="button-clear" onclick="clearView()"><img src="../shapes/png/x.png" class="pixelart"></button>
       <button id="button-done" onclick="serveDish()"><img src="green_check.png" class="pixelart"></button>
     </div>
@@ -543,7 +541,7 @@ This HTML and its contents are property of R74n.com.
         var placed = ingredientsAt(mousePos.x, mousePos.y);
         if (placed.length) placed.forEach(toolData[currentTool].func);
       }
-      if (toolData[currentTool].spin) currentToolR += 20 % 360;
+      if (toolData[currentTool].spin) currentToolR = (currentToolR+18) % 360;
     }
 
     if (!leftBound) {
@@ -754,6 +752,27 @@ This HTML and its contents are property of R74n.com.
       }
     }
   }
+  function drawCursor() {
+    if ((currentIngredient||currentTool) && !controlState.mobile) {
+      if (currentTool) {
+        ctx.globalAlpha = 1;
+        var ingredientImg = loadImage(toolData[currentTool].img);
+        var scale = foodScale;
+      }
+      else {
+        ctx.globalAlpha = 0.5;
+        var ingredientImg = colorizeStandard("../shapes/png/"+(ingredientAttr(currentIngredient, "placedShape") || ingredients[currentIngredient].shape)+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
+        var scale = foodScale*(ingredientAttr(currentIngredient, "scale")||1);
+      }
+      var angleInRadians = (currentToolR) * Math.PI / 180;
+      ctx.translate(mousePos.x, mousePos.y);
+      if (angleInRadians !== 0) ctx.rotate(angleInRadians);
+      ctx.drawImage(ingredientImg, -ingredientImg.width/2*scale, -ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
+      if (angleInRadians !== 0) ctx.rotate(-angleInRadians);
+      ctx.translate(-mousePos.x, -mousePos.y);
+      ctx.globalAlpha = 1;
+    }
+  }
   function colorIngredient(ingredient, h, s, l) {
     var info = ingredients[ingredient.id];
     if (h === undefined) {
@@ -777,16 +796,22 @@ This HTML and its contents are property of R74n.com.
       return;
     }
     if (ingredient.id === newIngredient) { return; }
+    if (ingredientAttr(ingredient.id,"behavior") === 1) {
+      removeLiquid(ingredient.h, ingredient.s, ingredient.l);
+    }
     ingredient.original = [ingredient.id];
     ingredient.id = newIngredient;
     colorIngredient(ingredient);
+    if (ingredientAttr(ingredient.id,"behavior") === 1) {
+      addLiquid(ingredient.h, ingredient.s, ingredient.l);
+    }
     if (!skipContain) containIngredient(ingredient);
     ingredient.shape = ingredientAttr(newIngredient, "placedShape") || ingredient.shape;
     if (ingredient.done) ingredient.shape = ingredientAttr(newIngredient, "landedShape") || ingredient.shape;
   }
   function placeIngredient(ingredient, x, y) {
     var info = ingredients[ingredient];
-      var size = 32*foodScale;
+    var size = 32*foodScale;
     size *= (ingredientAttr(ingredient, "scale")||1);
     var h = info.h; var s = info.s; var l = info.l;
     if (Array.isArray(info.h)) { // select random color
@@ -810,7 +835,7 @@ This HTML and its contents are property of R74n.com.
       }
     }
     var behavior = ingredientAttr(placed.id, "behavior");
-    if ((behavior > 0 && viewData[currentView].liquid) || behavior === 1) {
+    if (behavior === 1) {
       viewData[currentView].liquid--;
       var rgb = hslToRgb(placed.h/360, placed.s/100, placed.l/100);
       viewData[currentView].liquidR -= rgb[0];
@@ -832,6 +857,14 @@ This HTML and its contents are property of R74n.com.
       return array[Math.floor(Math.random()*array.length)];
     }
     return array;
+  }
+  function chooseColor(ingredient) {
+    var info = ingredients[ingredient];
+    if (Array.isArray(info.h)) {
+      var index = Math.floor(Math.random()*info.h.length);
+      return [info.h[index], info.s[index], info.l[index]];
+    }
+    return [info.h, info.s, info.l];
   }
   function reactIngredients(placed1, placed2, params) {
     var reacted = false;
@@ -862,8 +895,14 @@ This HTML and its contents are property of R74n.com.
     viewData[currentView].liquidG += rgb[1];
     viewData[currentView].liquidB += rgb[2];
   }
+  function removeLiquid(h, s, l) {
+    viewData[currentView].liquid--;
+    var rgb = hslToRgb(h/360, s/100, l/100);
+    viewData[currentView].liquidR -= rgb[0];
+    viewData[currentView].liquidG -= rgb[1];
+    viewData[currentView].liquidB -= rgb[2];
+  }
   function containIngredient(placed) {
-    var info = ingredients[placed.id];
     var behavior = ingredientAttr(placed.id, "behavior");
     if (behavior > 0) {
       placed.done2 = true;
@@ -960,7 +999,7 @@ This HTML and its contents are property of R74n.com.
       else if (placed.vx) { placed.x += placed.vx; }
       if (placed.vy === undefined) { placed.vy = 0; }
       else if (placed.vy) { placed.y += placed.vy; }
-      if (!behavior) {
+      if (!behavior && viewInfo[currentView].doRotation !== false) {
         if (placed.vr === undefined) { placed.vr = 0; }
         else if (placed.vr) { placed.r += placed.vr; placed.r = placed.r % 360; }
       }
@@ -981,16 +1020,12 @@ This HTML and its contents are property of R74n.com.
         if (other.hide) { continue; }
         if (placed.x < other.x + other.width/2.5 &&
             placed.x + placed.width/2.5 > other.x &&
-            placed.y < (other.y + other.height/2)+5 && 
-            placed.y > (other.y - other.height/2)
+            placed.y < (other.y + other.height*(viewInfo[currentView].placedHeightMul||0.5))+5 && 
+            placed.y > (other.y - other.height*(viewInfo[currentView].placedHeightMul||0.5))
         ) {
-        // if (placed.x < other.x + other.width/1.5 &&
-        //   placed.x + placed.width/1.5 > other.x &&
-        //   placed.y < other.y + other.height/1.5 &&
-        //   placed.y + placed.height/1.5 > other.y) {
           // collision
           // stop ingredient if applicable
-          if (behavior < 3 && placed.vy >= 0 && other.done && placed.y > canvas.height/2.5 && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
+          if (behavior < 3 && placed.vy >= 0 && (other.done||other.done2) && placed.y > canvas.height*(viewInfo[currentView].maxHeight||0) && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
             containIngredient(placed);
             if (ingredientAttr(placed.id,"stain")) {
               stainIngredient(other, placed.h, placed.s, placed.l);
@@ -1046,8 +1081,6 @@ This HTML and its contents are property of R74n.com.
     "bowl": function() {
       // draw from file table.png to fit the whole canvas
       ctx.drawImage(loadImage('table.png'), 0, 0, canvas.width, canvas.height);
-      // put in the middle on the table
-      // drawImageSized("bowl.png", [0.25, 0.4], [0.75, 0.75]);
       ctx.shadowOffsetY = 7;
       // Heat glow
       if (viewData[currentView].temp >= 20) {
@@ -1061,6 +1094,7 @@ This HTML and its contents are property of R74n.com.
       }
       ctx.shadowBlur = 20;
       var bowlImg = loadImage('bowl.png');
+      // put in the middle on the table
       ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
       ctx.shadowColor = "transparent";
       if (viewData.bowl.liquid) {
@@ -1085,25 +1119,7 @@ This HTML and its contents are property of R74n.com.
       }
       drawPlaced();
       // draw transparent ingredient at mousePos
-      if ((currentIngredient||currentTool) && !controlState.mobile) {
-        if (currentTool) {
-          ctx.globalAlpha = 1;
-          var ingredientImg = loadImage(toolData[currentTool].img);
-          var scale = foodScale;
-        }
-        else {
-          ctx.globalAlpha = 0.5;
-          var ingredientImg = colorizeStandard("../shapes/png/"+(ingredientAttr(currentIngredient, "placedShape") || ingredients[currentIngredient].shape)+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
-          var scale = foodScale*(ingredientAttr(currentIngredient, "scale")||1);
-        }
-        var angleInRadians = (currentToolR) * Math.PI / 180;
-        ctx.translate(mousePos.x, mousePos.y);
-        if (angleInRadians !== 0) ctx.rotate(angleInRadians);
-        ctx.drawImage(ingredientImg, -ingredientImg.width/2*scale, -ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
-        if (angleInRadians !== 0) ctx.rotate(-angleInRadians);
-        ctx.translate(-mousePos.x, -mousePos.y);
-        ctx.globalAlpha = 1;
-      }
+      drawCursor();
       if (viewData.bowl.liquid) {
         ctx.globalAlpha = 0.75;
         var liquidImg2 = colorizeStandard('bowl_liquid_front.png', liquidColor[0], liquidColor[1], liquidColor[2]);
@@ -1124,13 +1140,51 @@ This HTML and its contents are property of R74n.com.
       // draw line in yellow
       // ctx.fillStyle = "rgba(255,255,0)";
       // ctx.fillRect(leftBound, hitLine, rightBound - leftBound, 5);
+    },
+    "stack": function() {
+      // draw from file table.png to fit the whole canvas
+      ctx.drawImage(loadImage('table.png'), 0, 0, canvas.width, canvas.height);
+      ctx.shadowOffsetY = 7;
+      // Heat glow
+      if (viewData[currentView].temp >= 20) {
+        var heatIndex = Math.min(255, Math.round((viewData[currentView].temp-20)*10));
+        ctx.shadowColor = "rgb("+heatIndex+",0,0)"
+      }
+      else {
+        // -30 to 19
+        var heatIndex = Math.min(255, Math.round((20-viewData[currentView].temp)*10));
+        ctx.shadowColor = "rgb(0,0,"+heatIndex+")"
+      }
+      ctx.shadowBlur = 20;
+      var bowlImg = loadImage('plate.png');
+      // put in the middle on the table
+      ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
+      ctx.shadowColor = "transparent";
+      drawPlaced();
+      // draw transparent ingredient at mousePos
+      drawCursor();
+      // draw line in yellow
+      ctx.fillStyle = "rgba(255,255,0)";
+      ctx.fillRect(leftBound, hitLine, rightBound - leftBound, 5);
     }
   }
   viewInfo = {
     "bowl": {
       "image": "bowl.png",
       "hitbox": [0.5,3,4,1,0.5],
-      "holdsLiquid": true
+      "holdsLiquid": true,
+      "doRotation": true,
+      "maxHeight": 0.45,
+      "placedHeightMul": 0.5
+    },
+    "stack": {
+      "image": "plate.png",
+      "hitbox": [0.5,3,4,1,0.5],
+      "holdsLiquid": false,
+      "doRotation": false,
+      "maxHeight": 0.1,
+      "placedHeightMul": 0.8,
+      "foodScale": 2.75
     }
   }
   leftBound = 0;
@@ -1145,11 +1199,20 @@ This HTML and its contents are property of R74n.com.
     document.getElementById('controlsBar').querySelector('#button-'+view).setAttribute('selected', '');
     if (!viewData[view]) {
       viewData[view] = {"total":[],"contained":[]};
-      if (viewInfo[view] !== undefined && viewInfo[view].holdsLiquid) {
-        viewData[view].liquid = 0;
-        viewData[view].liquidR = 0;
-        viewData[view].liquidG = 0;
-        viewData[view].liquidB = 0;
+      var info = viewInfo[view];
+      if (info) {
+        if (viewInfo[view].holdsLiquid) {
+          viewData[view].liquid = 0;
+          viewData[view].liquidR = 0;
+          viewData[view].liquidG = 0;
+          viewData[view].liquidB = 0;
+        }
+        if (info.foodScale) {
+          foodScale = info.foodScale;
+        }
+        else {
+          foodScale = 2.25
+        }
       }
     }
   }
@@ -1360,7 +1423,7 @@ This HTML and its contents are property of R74n.com.
       info.shape = ingredientAttr(ingredient, "shape") || "rhombus";
     }
     else {
-      if (shapeMeta.short.indexOf(info.shape) !== -1) {
+      if (shapeMeta.short.indexOf(info.shape) !== -1 && !info.height) {
         info.height = 0.5;
       }
     }
@@ -1798,14 +1861,19 @@ This HTML and its contents are property of R74n.com.
     blend: {
       func: (placed) => {
         var done = placed.done;
+        var origColor = [placed.h,placed.s,placed.l];
+        var orig = placed.id;
         var broken = ingredientAttr(placed.id, "broken");
         if (broken) {
           changeIngredient(placed,broken,true);
         }
-        var innerColor = ingredientAttr(placed.id, "innerColor");
+        var innerColor = ingredientAttr(orig, "innerColor");
         if (innerColor) {
           var hsl = hexToHsl(choose(innerColor));
-          colorIngredient(placed,hsl[0],hsl[1],hsl[2]);
+          colorIngredient(placed,hsl[0]*360,hsl[1]*100,hsl[2]*100);
+        }
+        else if (!ingredients[orig].broken) {
+          colorIngredient(placed,origColor[0],origColor[1],origColor[2]);
         }
         uncontainAll();
         if (done) placed.vy = -3;
@@ -2053,9 +2121,10 @@ This HTML and its contents are property of R74n.com.
           placeIngredient(currentIngredient, mousePos.x, mousePos.y);
         }
       }
-      // right click = delete first in ingredientsAt
+      // right click = delete last in ingredientsAt
       else if (controlState.mouse === 2 && !currentIngredient) {
-        var ingredient = ingredientsAt(mousePos.x, mousePos.y)[0];
+        var found = ingredientsAt(mousePos.x, mousePos.y);
+        var ingredient = found[found.length-1];
         if (ingredient) {
           deleteIngredient(ingredient);
           uncontainAll();

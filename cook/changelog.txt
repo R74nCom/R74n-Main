@@ -1,5 +1,20 @@
+[Pre-release 0.22 - April 21, 2024 - Infinite Stack]
+    + Stack mode (Work in progress)
+    + Coffee, Coffee Ground, and Coffee Bean
+    + Tea and Tea Leaf
+    + Cassava
+    + Sorghum
+    + Recipes for Eggnog and Milkshake
+    ~ Powders and thick liquids (sauces) can stack up
+    ~ Deleting now prioritizes ingredients in front
+    ~ Broth can now boil away
+    ~ Improved reaction colors (i.e. Lemonade, Soup)
+    ~ Fixed: Some ingredients turn black when blended
+    ~ Fixed: Ingredients don't use their outer color when blended into liquid
+
 [Pre-release 0.21 - April 19, 2024 - Infinite Blend]
-    + Blend tool
+    + Blend tool (Work in progress)
+    + Right click to remove ingredients
     ~ Redesigned bowl, now a pot
     ~ Fixed: Ingredients don't simmer if heat is off
 

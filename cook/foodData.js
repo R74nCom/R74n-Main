@@ -51,7 +51,9 @@ liquid: {
     group:"generic",
     shape:"liquid",
     placedShape:"droplets_some",
-    behavior:1
+    behavior:1,
+    height:0.2,
+    landedShape:"liquid_splat",
 },
 thick_liquid: {
     type:"liquid",
@@ -59,13 +61,15 @@ thick_liquid: {
     shape:"liquid",
     placedShape:"droplets_some",
     landedShape:"liquid_splat",
-    behavior:2
+    behavior:2,
+    height:0.5
 },
 powder: {
     group:"generic",
     shape:"powder",
     placedShape:"squares_some",
-    behavior:2
+    behavior:2,
+    height:0.5
 },
 gas: {
     group:"generic",
@@ -131,7 +135,9 @@ broth: {
     type:"liquid",
     color:"#dbcda6",
     dishName:"soup",
-    dishWeight:1000
+    dishWeight:1000,
+    boilPoint:100,
+    boilInto:"steam",
 },
 ice_cube: {
     color:"#b4efff",
@@ -183,6 +189,19 @@ soda: {
     boilPoint:100,
     boilInto:["steam","carbon_dioxide","sugar"],
     keywords:"cola,pop,soda pop,soft drink,coke"
+},
+coffee: {
+    type:"liquid",
+    color:"#7f402b",
+    boilPoint:100,
+    boilInto:"steam",
+    keywords:"caffeine"
+},
+tea: {
+    type:"liquid",
+    color:"#5f592b",
+    boilPoint:100,
+    boilInto:"steam"
 },
 vinegar: {
     type:"liquid",
@@ -529,6 +548,11 @@ wheat: {
     type:"cereal_plant",
     dropInto:"flour",
     keywords:"grain,cereal,plant,grass"
+},
+sorghum: {
+    type:"cereal_plant",
+    dropInto:"flour",
+    keywords:"broomcorn"
 },
 apple: {
     color:["#ff1f40","#ffd20c","#5ad700"],
@@ -1082,6 +1106,24 @@ soybean: {
     shape:"bean_eyed",
     keywords:"soya bean,soy bean"
 },
+coffee_bean: {
+    color:"#7f402b",
+    type:"bean",
+    broken:"coffee_ground",
+    reactions: {
+        water: { set2:"coffee" }
+    }
+},
+coffee_ground: {
+    color:"#7f402b",
+    type:"powder",
+    shape:"powder_rough",
+    adj:"coffee",
+    reactions: {
+        water: { set1:null, set2:"coffee" }
+    },
+    dissolve:true
+},
 okra: {
     color:"#7f9f3f",
     type:"vegetable",
@@ -1144,6 +1186,15 @@ sage: {
 thyme: {
     color:"#6eb867",
     type:"herb"
+},
+tea_leaf: {
+    color:"#63B343",
+    type:"herb",
+    shape:"leaf",
+    keywords:"tea leaves,tea plant",
+    reactions: {
+        water: { set2:"tea" }
+    }
 },
 leek: {
     color:"#abcd69",
@@ -1300,6 +1351,12 @@ yam: {
     color:"#876e52",
     innerColor:"#f1d9a4",
     type:"tuber"
+},
+cassava: {
+    color:"#6E3924",
+    innerColor:"#E9EAED",
+    type:"tuber",
+    keywords:"manioc,yuca,tapioca"
 },
 jicama: {
     name:"jícama",
@@ -1582,13 +1639,16 @@ bun: {
 bottom_bun: {
     type:"bun",
     shape:"rectangle_thin_round",
-    dishName:"bun"
+    dishName:"bun",
+    height:0.5,
+    keywords:"hamburger bun"
 },
 top_bun: {
     type:"bun",
     shape:"semicircle_top",
-    height:0.75,
-    dishName:"bun"
+    height:0.6,
+    dishName:"bun",
+    keywords:"hamburger bun"
 },
 
 
@@ -1624,7 +1684,8 @@ beef: {
 beef_patty: {
     type:"beef",
     shape:"rectangle_thinner_round",
-    keywords:"hamburger,borger"
+    keywords:"hamburger,borger",
+    height:0.4
 },
 veal: {
     color:"#c37c81",
@@ -1828,5 +1889,9 @@ dishRecipes = {
 "flour+flour+liquid+yolk+fat":"muffin",
 
 "milk+soda":"pilk",
+"milk+cream?+sugar+yolk":"eggnog",
+"soda+eggnog":"pilknog",
+"milk+ice_cream+sugar?":"milkshake",
+"soda+milkshake":"pilkshake",
 
 }
