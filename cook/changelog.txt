@@ -1,3 +1,21 @@
+[Pre-release 0.23 - April 22, 2024 - Infinite Stack II]
+    + Breadcrumbs
+    + Bacon
+    + Snail
+    + Octopus
+    + Crayfish
+    + Shellfish type
+    ~ Many improvements with Stack Mode
+    ~ Some ingredients (i.e. Cheese, Powders) now have a special shape in Stack Mode
+    ~ Dish name generator improvements
+    ~ Mobile improvements for Blend tool
+    + Right click to deselect tool
+    + Middle click to select placed ingredient
+    ~ Fixed: Ingredient cursor is shown when serving dish
+    ~ Fixed: Cheese Powder hitbox is too large
+    ~ Fixed: Some ingredients disappear when melting in Stack Mode
+    ~ Fixed: Ingredients stay mid-air when others melt below
+
 [Pre-release 0.22 - April 21, 2024 - Infinite Stack]
     + Stack mode (Work in progress)
     + Coffee, Coffee Ground, and Coffee Bean

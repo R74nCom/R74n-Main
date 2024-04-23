@@ -1,4 +1,5 @@
 Pre-release when finalized
+- Enable share buttons
 - Logo
     - Update logo in manifest.json
     - Page favicon

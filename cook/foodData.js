@@ -5,6 +5,7 @@ type: inherits properties from specified ingredient
 group: other(default), generic(hidden), dairy, mineral, carb, fruit, vegetable, meat, protein_other, protein_plant
 shape: R74n Shapes file name, without .png
 placedShape: Shape used instead when placed
+stackShape: Shape used instead only in Stack Mode
 behavior: 0=default, 1=liquid, 2=powder, 3=gas
 adj: adjective to describe ingredient in dish
 dishName: name used in dish name (null=skip)
@@ -41,7 +42,7 @@ glow: color to glow when placed
 // sugar salt  spice dye dairy  chocolate drsng fruit vegetbl nt/leg meat dish
 
 shapeMeta = {
-    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short","oval_horizontal","circle_ms","circle_s","helix_strand","rod_rough_thin","rod_thin","rod_thin_splits","rod_flared","needle"]
+    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short","oval_horizontal","circle_ms","circle_s","helix_strand","rod_rough_thin","rod_thin","rod_thin_splits","rod_flared","needle","liquid_splat","foliage_bar","rectangle_thinner_tablet","rectangle_thinner_ring","squares_some_flat"]
 }
 
 
@@ -62,12 +63,13 @@ thick_liquid: {
     placedShape:"droplets_some",
     landedShape:"liquid_splat",
     behavior:2,
-    height:0.5
+    height:0.3
 },
 powder: {
     group:"generic",
     shape:"powder",
     placedShape:"squares_some",
+    stackShape:"squares_some_flat",
     behavior:2,
     height:0.5
 },
@@ -435,11 +437,15 @@ cheese: {
     dishWeight:-55,
     broken:"cheese_powder",
     meltPoint:60,
+    stackShape:"rectangle_thinner"
 },
 cheese_powder: {
-    type:"cheese",
-    behavior:2,
+    color:"#fec118",
+    type:"powder",
     shape:"powder_rough",
+    parts:["cheese"],
+    meltPoint:60,
+    meltInto:"cheese"
 },
 blue_cheese: {
     color:"#dbdca9",
@@ -808,6 +814,7 @@ tomato: {
     color:"#ff573a",
     type:"vegetable",
     shape:"fruit_wide",
+    stackShape:"rectangle_thinner_tablet",
     broken:"tomato_sauce"
 },
 persimmon: {
@@ -930,11 +937,13 @@ cabbage: {
     color:"#7f9f3f",
     type:"leaf_vegetable",
     shape:"circle_leafed",
+    stackShape:"foliage_bar"
 },
 lettuce: {
     color:"#a7e42d",
     type:"leaf_vegetable",
     shape:"circle_leafed",
+    stackShape:"foliage_bar"
 },
 endive: {
     color:"#8bbf24",
@@ -1211,6 +1220,7 @@ onion: {
     color:"#f6bf81",
     type:"root_vegetable",
     shape:"bulb",
+    stackShape:"rectangle_thinner_ring",
     broken:"onion_powder"
 },
 onion_powder: {
@@ -1425,12 +1435,13 @@ cucumber: {
         "vinegar": { set1:"pickle" },
     },
     shape:"rod_bumpy",
+    stackShape:"rectangle_thinner_tablet",
     keywords:"cuke"
 },
 pickle: {
     color:"#7ba00d",
     type:"cucumber",
-    keywords:"pickled cucumber"
+    keywords:"pickled cucumber,gherkin"
 },
 acorn_squash: {
     color:"#293027",
@@ -1630,7 +1641,16 @@ bread: {
     color:"#ddc69c",
     cookColor:"#a5700d",
     group:"carb",
-    shape:"loaf"
+    shape:"loaf",
+    broken:"breadcrumbs"
+},
+breadcrumbs: {
+    color:"#ddc69c",
+    type:"powder",
+    shape:"powder_rough",
+    keywords:"bread crumbs",
+    adj:"breaded",
+    parts:["bread"],
 },
 bun: {
     type:"bread",
@@ -1664,6 +1684,9 @@ meat: {
     dishWeight:-10,
     broken:"ground_meat"
 },
+shellfish: {
+    type:"meat"
+},
 ground_meat: {
     type:"meat",
     shape:"powder_rough",
@@ -1685,7 +1708,7 @@ beef_patty: {
     type:"beef",
     shape:"rectangle_thinner_round",
     keywords:"hamburger,borger",
-    height:0.4
+    height:0.5
 },
 veal: {
     color:"#c37c81",
@@ -1706,6 +1729,12 @@ pork: {
     color:"#f79ea4",
     type:"meat",
     keywords:"pig,swine,boar,hog,sow,porkchop",
+},
+bacon: {
+    color:"#c67f75",
+    type:"pork",
+    shape:"rod_rough_thin",
+    stackShape:"rectangle_thinner"
 },
 venison: {
     color:"#782d32",
@@ -1729,23 +1758,28 @@ kangaroo: {
 },
 clam: {
     color:"#857f66",
-    type:"meat",
+    type:"shellfish",
     shape:"clam"
 },
 mussel: {
     color:"#686876",
-    type:"meat",
+    type:"shellfish",
     shape:"clam"
 },
 oyster: {
     color:"#886c4b",
-    type:"meat",
+    type:"shellfish",
     shape:"clam"
 },
 scallop: {
     color:"#9b5b5b",
-    type:"meat",
+    type:"shellfish",
     shape:"clam"
+},
+snail: {
+    color:"#6e3124",
+    type:"shellfish",
+    shape:"snail"
 },
 poultry: {
     color:"#ffdddf",
@@ -1790,10 +1824,13 @@ cod: {
     color:"#d1bf7f",
     type:"fish"
 },
+shellfish: {
+    type:"meat"
+},
 crustacean: {
     color:"#f13851",
     cookColor:"#ff6523",
-    type:"meat",
+    type:"shellfish",
     shape:"crustacean",
     hidden:true
 },
@@ -1806,6 +1843,12 @@ lobster: {
     color:"#e41732",
     type:"crustacean",
     keywords:"crustacean,seafood"
+},
+crayfish: {
+    color:"#c1653e",
+    type:"crustacean",
+    keywords:"crustacean,seafood",
+    keywords:"crawfish,crawdads"
 },
 prawn: {
     color:"#e99073",
@@ -1823,11 +1866,16 @@ shrimp: {
 cephalopod: {
     color:"#ffadd1",
     cookColor:"#ffe2ce",
-    type:"meat",
+    type:"shellfish",
     shape:"cephalopod",
     hidden:true
 },
 squid: {
+    type:"cephalopod",
+    keywords:"cephalopod,seafood"
+},
+octopus: {
+    color:"#cd3b7a",
     type:"cephalopod",
     keywords:"cephalopod,seafood"
 },
@@ -1862,6 +1910,13 @@ boulder: {
     shape:"rock_ball",
     scale:3,
     adj:"crunchy",
+    hidden:true
+},
+ryan: {
+    color:"#00ffff",
+    shape:"figure",
+    adj:"developer",
+    dishName:"developer salad",
     hidden:true
 },
 
