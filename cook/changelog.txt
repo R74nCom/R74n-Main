@@ -1,3 +1,24 @@
+[Pre-release 0.24 - April 23, 2024 - Infinite Blend II]
+    + Many ground/blended versions of ingredients
+    + Peanut Butter
+    + Cookie and Cookie Butter
+    + Shaved Ice
+    + Pumpkin Seed and Mash
+    + Guacamole
+    + Mashed Potato
+    + Kohlrabi
+    + Bamboo Shoot
+    + Blue Corn
+    + Purple Potato
+    + Himalayan Salt
+    + Cream Cheese
+    + Honey
+    + Goose Meat
+    + Pork Liver
+    ~ Herbs will all place as powders in Stack Mode
+    ~ Dish name generator improvements
+    ~ Fixed: Liquids disappear when frozen
+
 [Pre-release 0.23 - April 22, 2024 - Infinite Stack II]
     + Breadcrumbs
     + Bacon

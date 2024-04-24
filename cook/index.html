@@ -802,19 +802,25 @@ This HTML and its contents are property of R74n.com.
       return;
     }
     if (ingredient.id === newIngredient) { return; }
-    if (ingredientAttr(ingredient.id,"behavior") === 1) {
+    var wasLiquid = ingredientAttr(ingredient.id,"behavior") === 1;
+    if (wasLiquid) {
       removeLiquid(ingredient.h, ingredient.s, ingredient.l);
     }
-    ingredient.original = [ingredient.id];
+    if (!ingredient.original) ingredient.original = [];
+    else if (ingredient.original.indexOf(newIngredient) !== -1) {
+      // remove
+      ingredient.original.splice(ingredient.original.indexOf(newIngredient), 1);
+    }
+    ingredient.original.push(ingredient.id);
     ingredient.id = newIngredient;
     colorIngredient(ingredient);
-    if (ingredientAttr(ingredient.id,"behavior") === 1) {
+    if (wasLiquid || (ingredient.done2 && ingredientAttr(ingredient.id,"behavior") === 1)) {
       addLiquid(ingredient.h, ingredient.s, ingredient.l);
     }
     if (!skipContain) containIngredient(ingredient);
     ingredient.shape = chooseShape(ingredient.id) || ingredient.shape;
     updateSize(ingredient);
-    if (ingredient.done) ingredient.shape = ingredientAttr(newIngredient, "landedShape") || ingredient.shape;
+    if (ingredient.done || ingredient.done2) ingredient.shape = ingredientAttr(ingredient.id, "landedShape") || ingredient.shape;
     uncontainAll();
   }
   function chooseShape(ingredient) {
@@ -917,6 +923,7 @@ This HTML and its contents are property of R74n.com.
     viewData[currentView].liquidB += rgb[2];
   }
   function removeLiquid(h, s, l) {
+    if (!viewInfo[currentView].holdsLiquid) return;
     viewData[currentView].liquid--;
     var rgb = hslToRgb(h/360, s/100, l/100);
     viewData[currentView].liquidR -= rgb[0];
@@ -1492,10 +1499,15 @@ This HTML and its contents are property of R74n.com.
       }
     }
     if (info.broken) {
-      if (ingredients[info.broken]) {
-        if (!ingredients[info.broken].parts) ingredients[info.broken].parts = [];
-        if (ingredients[info.broken].parts.indexOf(ingredient) === -1) {
-          ingredients[info.broken].parts.push(ingredient);
+      if (!Array.isArray(info.broken)) var l = [info.broken];
+      else var l = info.broken;
+      for (var i = 0; i < l.length; i++) {
+        var broken = l[i];
+        if (ingredients[broken]) {
+          if (!ingredients[broken].parts) ingredients[broken].parts = [];
+          if (ingredients[broken].parts.indexOf(ingredient) === -1) {
+            ingredients[broken].parts.push(ingredient);
+          }
         }
       }
     }
@@ -1542,7 +1554,7 @@ This HTML and its contents are property of R74n.com.
       }
       if (ingredients[i].original) {
         // concat with ingredients
-        ingredients = ingredients.concat(ingredients[i].original.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i]} }));
+        ingredients = ingredients.concat(ingredients[i].original.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i], done:true} }));
         ingredients[i].split = true;
         toIgnoreNames = toIgnoreNames.concat(ingredients[i].original);
       }
@@ -1550,11 +1562,12 @@ This HTML and its contents are property of R74n.com.
       if (parts) {
         toIgnoreNames = toIgnoreNames.concat(parts);
       }
-      if (window.ingredients[ingredients[i].id].parts) {
+      if (parts) {
         // concat with ingredients
-        ingredients = ingredients.concat(window.ingredients[ingredients[i].id].parts.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i]} }));
+        ingredients = ingredients.concat(parts.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i], done:true} }));
         ingredients[i].split = true;
       }
+      console.log(ingredients)
       used[ingredients[i].id] = false;
       if (!nameMap[ingredients[i].id]) { nameMap[ingredients[i].id] = [] }
       nameMap[ingredients[i].id].push(ingredients[i]);
@@ -1573,6 +1586,7 @@ This HTML and its contents are property of R74n.com.
         var requiredCount = recipe.length;
         var count = 0;
         var toUse = {};
+        var noNameCount = 0;
         for (var i = 0; i < recipe.length; i++) {
           var needed = recipe[i];
           if (needed.charAt(needed.length-1) === "?") {
@@ -1588,8 +1602,13 @@ This HTML and its contents are property of R74n.com.
           else {
             for (var j = 0; j < ingredients.length; j++) {
               if (ingredientIsType(ingredients[j].id, needed) && !used[ingredients[j].id]) {
-                if (nameMap[ingredients[j].id] && nameMap[ingredients[j].id].length > (toUse[ingredients[j].id]||0)) {
-                  needed = ingredients[j].id;
+                if (ingredients[j].derivedFrom) {
+                  var id = ingredients[j].derivedFrom.id;
+                }
+                else var id = ingredients[j].id;
+                if (nameMap[id] && nameMap[id].length > (toUse[id]||0)) {
+                  needed = id;
+                  if (ingredients[j].noName) noNameCount++;
                   // console.log("nameMap[needed] ("+needed+"): "+nameMap[needed])
                   ingredientFound = true
                   break;
@@ -1611,7 +1630,7 @@ This HTML and its contents are property of R74n.com.
             break;
           }
         }
-        if (count >= requiredCount) {
+        if (count >= requiredCount && !noNameCount) {
           // console.log("toUse: "+JSON.stringify(toUse))
           for (var key in toUse) {
             used[key] = true;
@@ -1732,6 +1751,15 @@ This HTML and its contents are property of R74n.com.
         var subtypes = [];
         for (var ingredient in used) {
           if (!used[ingredient] || used[ingredient] === 2) { continue }
+          if (ingredient === word) { continue }
+          if (ingredientIsType(ingredient, word)) {
+            subtypes.push(window.ingredients[ingredient]?.name || ingredient);
+          }
+        }
+        // do the same for toIgnoreNames array
+        for (var j = 0; j < toIgnoreNames.length; j++) {
+          var ingredient = toIgnoreNames[j];
+          if (ingredient === word) { continue }
           if (ingredientIsType(ingredient, word)) {
             subtypes.push(window.ingredients[ingredient]?.name || ingredient);
           }
@@ -1741,6 +1769,7 @@ This HTML and its contents are property of R74n.com.
         }
       }
     }
+    nameSplit = nameSplit.join(" ").split(/[ _]+/);
     // remove duplicate words
     nameSplit = nameSplit.filter(function(item, pos) {
       return nameSplit.indexOf(item) == pos;
@@ -1886,8 +1915,13 @@ This HTML and its contents are property of R74n.com.
         var origColor = [placed.h,placed.s,placed.l];
         var orig = placed.id;
         var broken = ingredientAttr(placed.id, "broken");
+        var brokenShape = ingredientAttr(placed.id, "brokenShape");
         if (broken) {
-          changeIngredient(placed,broken,true);
+          changeIngredient(placed,choose(broken),true);
+        }
+        else if (brokenShape) {
+          placed.shape = choose(brokenShape);
+          updateSize(placed)
         }
         var innerColor = ingredientAttr(orig, "innerColor");
         if (innerColor) {
