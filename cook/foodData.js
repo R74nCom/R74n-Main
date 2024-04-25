@@ -97,6 +97,19 @@ utensil: {
     shape:"fork",
     dishName:null
 },
+decor: {
+    group:"generic",
+    shape:"astroid",
+    dishName:null
+},
+random: {
+    shape:"assorted",
+    onSelect: function() {
+        var choices = Object.keys(ingredients);
+        selectIngredient(choices[Math.floor(Math.random()*choices.length)])
+    },
+    color:"#00ffff"
+},
 
 
 steam: {
@@ -234,6 +247,7 @@ alcohol: {
     type:"liquid",
     color:"#d0cead",
     boilPoint:78.37,
+    dishWeight:-55,
     keywords:"ethanol",
     group:"carb",
 },
@@ -278,11 +292,25 @@ mayonnaise: {
     group:"protein_other",
     short:"mayo"
 },
+soy_sauce: {
+    type:"sauce",
+    color:"#750F02",
+    group:"protein_other",
+    short:"soy",
+    adj:"soy",
+    keywords:"soya sauce"
+},
 oil: {
     type:"liquid",
     color:"#e7df97",
     pin:true,
     dishName:null
+},
+vegetable_oil: {
+    type:"oil"
+},
+olive_oil: {
+    type:"vegetable_oil"
 },
 milk: {
     type:"liquid",
@@ -589,6 +617,21 @@ mushroom: {
     type:"vegetable",
     shape:"fungus",
 },
+shiitake: {
+    color:"#c39142",
+    type:"mushroom",
+    keywords:"shitake"
+},
+portabella: {
+    color:"#a6895b",
+    type:"mushroom",
+    keywords:"portobello,portabello,portobella"
+},
+white_button: {
+    color:"#ded2bf",
+    type:"mushroom",
+    keywords:"white button mushroom"
+},
 seed: {
     color:"#bcff82",
     type:"vegetable",
@@ -881,6 +924,13 @@ strawberry: {
     type:"berry",
     shape:"pick",
     scale:0.75
+},
+olive: {
+    color:"#808000",
+    type:"berry",
+    shape:"oval_thick_hole",
+    scale:0.75,
+    broken:"olive_oil"
 },
 date: {
     color:"#BE3A0E",
@@ -1248,7 +1298,8 @@ soybean: {
     color:"#d3ce71",
     type:"bean",
     shape:"bean_eyed",
-    keywords:"soya bean,soy bean"
+    keywords:"soya bean,soy bean",
+    broken:"soy_sauce"
 },
 coffee_bean: {
     color:"#7f402b",
@@ -1302,6 +1353,13 @@ dill: {
 lavender: {
     color:"#be5cb7",
     type:"herb"
+},
+sakura: {
+    color:["#ffbadc","#ff90c8","#ff71b8"],
+    type:"decor",
+    shape:"spheroid_prolate",
+    scale:0.5,
+    keywords:"cherry blossom,petal"
 },
 mint: {
     color:"#1a9e16",
@@ -1414,6 +1472,12 @@ habanero: {
     type:"chili_pepper",
     shape:"fruit_pick_stem",
     keywords:"habanero chili pepper"
+},
+ghost_pepper: {
+    color:"#e31515",
+    type:"chili_pepper",
+    shape:"fruit_pick_stem",
+    adj:"ultra spicy"
 },
 tabasco: {
     color:"#d01414",
@@ -1905,6 +1969,19 @@ pork: {
     type:"meat",
     keywords:"pig,swine,boar,hog,sow,porkchop",
 },
+salami: {
+    color:"#e47883",
+    type:"pork",
+    shape:"circle_rough",
+    stackShape:"rectangle_thinner_round"
+},
+pepperoni: {
+    color:"#de4252",
+    type:"pork",
+    shape:"circle_rough",
+    stackShape:"rectangle_thinner_tablet",
+    scale:0.75
+},
 pork_liver: {
     color:"#b76e5b",
     type:"pork",
@@ -1960,7 +2037,8 @@ scallop: {
 snail: {
     color:"#6e3124",
     type:"shellfish",
-    shape:"snail"
+    shape:"snail",
+    keywords:"escargot"
 },
 poultry: {
     color:"#ffdddf",
@@ -2007,6 +2085,10 @@ salmon: {
 },
 cod: {
     color:"#d1bf7f",
+    type:"fish"
+},
+herring: {
+    color:"#8fa4b9",
     type:"fish"
 },
 shellfish: {
@@ -2107,9 +2189,15 @@ doll: {
     keywords:"human,person,guy",
     hidden:true
 },
+baby_doll: {
+    type:"doll",
+    scale:0.5,
+    hidden:true
+},
 ryan: {
     color:"#00ffff",
     type:"doll",
+    shape:"figure",
     adj:"developer",
     dishName:"developer salad",
     cookColor:"#ff0000",
@@ -2126,9 +2214,11 @@ dishRecipes = {
 "pasta+cheese":"mac and cheese",
 "mac and cheese+bread":"breaded mac",
 "bun+beef+bun":"hamburger",
+"=top_bun+bottom_bun":"nothing burger",
 "hamburger+cheese":"cheeseburger",
-"leaf_vegetable+vegetable":"vegetable salad",
-"fruit+fruit+vegetable?":"fruit salad",
+"bun+meat+bun":"meat burger",
+"&bowl:leaf_vegetable+vegetable":"vegetable salad",
+"&bowl:fruit+fruit+vegetable?":"fruit salad",
 "batter+sugar":"cake",
 "flour+water+yeast?":"dough",
 "flour+flour+flour+fat+fat+water":"pie",
@@ -2136,6 +2226,7 @@ dishRecipes = {
 "dough+fruit":"fruit pie",
 "dough+meat":"meat pot pie",
 "dough+sauce+cheese":"pizza",
+"dough+sauce+cheese+meat":"meat pizza",
 "flour+flour+liquid+liquid+yolk+fat":"bread",
 "flour+liquid+yolk+fat":"bread",
 "flour+butter+sugar+yolk":"pound cake",

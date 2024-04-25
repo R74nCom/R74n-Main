@@ -1,3 +1,23 @@
+[Pre-release 0.25 - April 24, 2024 - Infinite Variety]
+    + Soy Sauce
+    + Olive and Olive Oil
+    + Salami
+    + Pepperoni
+    + Portabella, Shiitake, and White Button Mushrooms
+    + Herring
+    + Ghost Pepper
+    + Sakura (Decor)
+    + "Random" ingredient
+    + Nothing Burger recipe
+    + Any meat can be used in a burger
+    ~ Serve popup now takes up more space on mobile
+    ~ Dish name generator improvements
+    ~ Salads can only be made in Bowl Mode
+    ~ Alcohol has lower dish name priority
+    ~ Ingredients support randomized shapes
+    ~ Hidden ingredients appear in search if you search their parent type
+    ~ Fixed: Salad can be made from Juices
+
 [Pre-release 0.24 - April 23, 2024 - Infinite Blend II]
     + Many ground/blended versions of ingredients
     + Peanut Butter

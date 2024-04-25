@@ -299,9 +299,9 @@ This HTML and its contents are property of R74n.com.
       .dialogBox {
         display: none;
         position: absolute;
-        top: 49%;
+        top: -20px;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, 0);
         background-color: #9b6723;
         padding: 10px;
         padding-top: 25px;
@@ -310,7 +310,8 @@ This HTML and its contents are property of R74n.com.
         z-index: 9;
         min-height: 85%;
         width: 75%;
-        font-size: 1.4em
+        font-size: 1.4em;
+        vertical-align: top;
       }
       .dialogBox:after {
         content: '';
@@ -434,7 +435,9 @@ This HTML and its contents are property of R74n.com.
       }
       @media (max-width: 450px) {
         .dialogBox {
-          width: 90%;
+          width: 91vw;
+          left:0px;
+          transform:unset;
         }
       }
       /* desktop */
@@ -767,7 +770,7 @@ This HTML and its contents are property of R74n.com.
       }
       else {
         ctx.globalAlpha = 0.5;
-        var ingredientImg = colorizeStandard("../shapes/png/"+(chooseShape(currentIngredient) || ingredients[currentIngredient].shape)+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
+        var ingredientImg = colorizeStandard("../shapes/png/"+(chooseShape(currentIngredient, true) || ingredients[currentIngredient].shape)+".png", ingredients[currentIngredient].h, ingredients[currentIngredient].s, ingredients[currentIngredient].l);
         var scale = foodScale*(ingredientAttr(currentIngredient, "scale")||1);
       }
       var angleInRadians = (currentToolR) * Math.PI / 180;
@@ -823,11 +826,16 @@ This HTML and its contents are property of R74n.com.
     if (ingredient.done || ingredient.done2) ingredient.shape = ingredientAttr(ingredient.id, "landedShape") || ingredient.shape;
     uncontainAll();
   }
-  function chooseShape(ingredient) {
+  function chooseShape(ingredient, single) {
     var viewShape = ingredientAttr(ingredient, currentView+"Shape");
-    if (viewShape) return viewShape;
+    if (viewShape) return choose(viewShape);
     var placedShape = ingredientAttr(ingredient, "placedShape");
-    return placedShape;
+    if (placedShape) return choose(placedShape);
+    var defaultShape = ingredientAttr(ingredient, "shape");
+    if (Array.isArray(defaultShape)) {
+      if (single) return defaultShape[0];
+      return choose(defaultShape)
+    }
   }
   function updateSize(placed) {
     var size = 32*foodScale;
@@ -1259,15 +1267,14 @@ This HTML and its contents are property of R74n.com.
     hideDialog();
   }
 
-  function selectIngredient(ingredient,drop) {
+  function selectIngredient(ingredient) {
     selectTool(null);
     currentIngredient = ingredient;
     if (!ingredient || !ingredients[ingredient]) { return; }
     document.getElementById('prepText').value = formatName(ingredient);
-    if (drop) {
-      // random number from leftBound to rightBound
-      var x = Math.random() * (rightBound - leftBound) + leftBound;
-      placeIngredient(ingredient, x, 0);
+    var onSelect = ingredientAttr(ingredient, "onSelect");
+    if (onSelect) {
+      onSelect(ingredient);
     }
   }
   function formatName(ingredient) {
@@ -1328,16 +1335,17 @@ This HTML and its contents are property of R74n.com.
         if (count > 10 && query.length) { break; }
         var strippedKey = key.replace(/_/g, "");
         var index = strippedKey.indexOf(query);
+        if (ingredients[queryO_] && ingredients[queryO_].hidden && ingredientIsType(key, queryO_) && key !== queryO_) {
+          poorResults.push(key);
+          count++;
+          continue;
+        }
         if ((ingredients[key].hidden && !showHidden) || (!ingredients[key].hidden && showHidden)) { continue }
         if (index !== -1) {
           otherResults.push(key);
           count++;
         }
         else if (ingredients[key].keywords && ingredients[key].keywords.indexOf(query) !== -1) {
-          poorResults.push(key);
-          count++;
-        }
-        else if (ingredients[queryO_] && ingredientIsType(key, queryO_)) {
           poorResults.push(key);
           count++;
         }
@@ -1352,7 +1360,7 @@ This HTML and its contents are property of R74n.com.
       var key = results[i];
       var info = ingredients[key];
       if (!info) continue;
-      var canvas = colorizeStandard("../shapes/png/"+info.shape+".png", info.h, info.s, info.l);
+      var canvas = colorizeStandard("../shapes/png/"+choose(info.shape)+".png", info.h, info.s, info.l);
       var div = document.createElement('div');
       div.className = 'searchResult';
       div.innerHTML = `<img src='${canvas.src}' style='opacity:${ingredientAttr(key,"a") ?? 1}'><span>${formatName(key)}</span>`;
@@ -1479,6 +1487,7 @@ This HTML and its contents are property of R74n.com.
       for (var key in info.reactions) {
         var r = info.reactions[key];
         if (r.set1 && ingredients[r.set1]) {
+          if (ingredients[r.set1].parts === null) continue;
           if (!ingredients[r.set1].parts) ingredients[r.set1].parts = [];
           if (ingredients[r.set1].parts.indexOf(ingredient) === -1) {
             ingredients[r.set1].parts.push(ingredient);
@@ -1488,6 +1497,7 @@ This HTML and its contents are property of R74n.com.
           }
         }
         if (r.set2 && ingredients[r.set2]) {
+          if (ingredients[r.set2].parts === null) continue;
           if (!ingredients[r.set2].parts) ingredients[r.set2].parts = [];
           if (ingredients[r.set2].parts.indexOf(ingredient) === -1) {
             ingredients[r.set2].parts.push(ingredient);
@@ -1504,6 +1514,8 @@ This HTML and its contents are property of R74n.com.
       for (var i = 0; i < l.length; i++) {
         var broken = l[i];
         if (ingredients[broken]) {
+          if (ingredients[broken].parts === null) continue;
+          if (ingredientAttr(broken, "behavior") === 1) continue;
           if (!ingredients[broken].parts) ingredients[broken].parts = [];
           if (ingredients[broken].parts.indexOf(ingredient) === -1) {
             ingredients[broken].parts.push(ingredient);
@@ -1552,7 +1564,7 @@ This HTML and its contents are property of R74n.com.
         i--;
         continue;
       }
-      if (ingredients[i].original) {
+      if (ingredients[i].original && ingredientAttr(ingredients[i].id, "behavior") !== 1) {
         // concat with ingredients
         ingredients = ingredients.concat(ingredients[i].original.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i], done:true} }));
         ingredients[i].split = true;
@@ -1561,13 +1573,10 @@ This HTML and its contents are property of R74n.com.
       var parts = ingredientAttr(ingredients[i].id, "parts");
       if (parts) {
         toIgnoreNames = toIgnoreNames.concat(parts);
-      }
-      if (parts) {
         // concat with ingredients
         ingredients = ingredients.concat(parts.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i], done:true} }));
         ingredients[i].split = true;
       }
-      console.log(ingredients)
       used[ingredients[i].id] = false;
       if (!nameMap[ingredients[i].id]) { nameMap[ingredients[i].id] = [] }
       nameMap[ingredients[i].id].push(ingredients[i]);
@@ -1575,6 +1584,7 @@ This HTML and its contents are property of R74n.com.
     if (ingredients.length === 0) {
       return "Absolutely Nothing";
     }
+    // console.log(JSON.stringify(ingredients))
     var success = true;
     var tries = 0;
     while (success && tries < 20) {
@@ -1582,6 +1592,16 @@ This HTML and its contents are property of R74n.com.
       for (var recipeKey in recipeMap) {
         // console.log("["+recipeKey+"]")
         var recipe = recipeMap[recipeKey];
+        // & = required view
+        if (recipeKey.charCodeAt(0) === 38) {
+          var split = recipeKey.split(":");
+          var requiredView = split[0].substring(1);
+          if (currentView !== requiredView) continue;
+        }
+        // = = exact match
+        else if (recipeKey.charCodeAt(0) === 61) {
+          if (ingredients.length !== recipe.length) continue;
+        }
         var result = dishRecipes[recipeKey];
         var requiredCount = recipe.length;
         var count = 0;
@@ -1603,6 +1623,7 @@ This HTML and its contents are property of R74n.com.
             for (var j = 0; j < ingredients.length; j++) {
               if (ingredientIsType(ingredients[j].id, needed) && !used[ingredients[j].id]) {
                 if (ingredients[j].derivedFrom) {
+                  if (ingredients[j].derivedFrom.used) continue;
                   var id = ingredients[j].derivedFrom.id;
                 }
                 else var id = ingredients[j].id;
@@ -1639,6 +1660,7 @@ This HTML and its contents are property of R74n.com.
               if (nameMap[key][0].derivedFrom) {
                 nameMap[key][0].derivedFrom.noName = true;
               }
+              nameMap[key][0].used = true;
               ingredients.splice(ingredients.indexOf(nameMap[key][0]), 1);
               nameMap[key].splice(0, 1);
             }
@@ -2249,10 +2271,24 @@ This HTML and its contents are property of R74n.com.
     recipeMap = {};
     // sort dishRecipes by amount of "+" in key, with the most first
     var sortedKeys = Object.keys(dishRecipes).sort(function(a, b) {
-      return b.split("+").length - a.split("+").length;
+      // if theyre the same length, sort by total length
+      var al = a.split("+").length; var bl = b.split("+").length;
+      if (al === bl) {
+        return b.length - a.length;
+      }
+      return bl - al;
     });
     for (var i = 0; i < sortedKeys.length; i++) {
       recipeMap[sortedKeys[i]] = sortedKeys[i].split("+");
+      // if the first element starts with "&", split by ":"
+      if (recipeMap[sortedKeys[i]][0].charCodeAt(0) === 38) {
+        var split = recipeMap[sortedKeys[i]][0].split(":");
+        recipeMap[sortedKeys[i]][0] = split[1];
+      }
+      // if the first element starts with "=", remove the "="
+      if (recipeMap[sortedKeys[i]][0].charCodeAt(0) === 61) {
+        recipeMap[sortedKeys[i]][0] = recipeMap[sortedKeys[i]][0].substring(1);
+      }
     }
     // sort ingredients alphabetically
     var sortedIngredients = Object.keys(ingredients).sort(function(a, b) {
