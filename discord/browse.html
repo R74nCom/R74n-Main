@@ -20,13 +20,13 @@
 ⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
 This HTML and its contents are property of R74n.com.
 -->
-    <meta name="description" content="Official server for Sandboxels, the in-browser falling-sand science simulator and other R74n projects.">
+    <meta name="description" content="View the official server for Sandboxels, the in-browser falling-sand science simulator and other R74n projects.">
     <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/icons/avatar.png">
-    <title>R74n Discord Server</title>
+    <title>R74n Discord Server - Browse</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
@@ -69,21 +69,37 @@ This HTML and its contents are property of R74n.com.
 <body>
 
 
-<a href="https://R74n.com" class="backbutton">⦉</a>
+<a href="." class="backbutton">⦉</a>
 <h1 class="pagetitle">Discord</h1>
 <div class="content">
 
-<div id="content1">
-<p>We have an official <a href="https://link.r74n.com/discord" target="_blank">Discord server</a>. Other platforms can be found on our <a href="/social/">Socials</a> page.</p>
+<widgetbot
+  server="939255181474955331"
+  channel="939345813837066320"
+  width="100%"
+  height="625"
+></widgetbot>
 
-<p>Official invite: <a href="https://discord.gg/ejUc6YPQuS" target="_blank">discord.gg/ejUc6YPQuS</a></p>
-<p>ID: 939255181474955331</p>
-<p>Permalink: <a href="https://discord.com/servers/939255181474955331" target="_blank">discord.com/servers/939255181474955331</a></p>
-<p>You can also <a href="browse">view it directly</a> right from R74n!</p>
-</div>
+<p><a href="https://e.widgetbot.io/channels/939255181474955331/939345813837066320">Direct Link</a> • <a href="https://discord.gg/ejUc6YPQuS">Invite</a>
+  • <a href="?channel=939345813837066320">#announcements</a>
+  • <a href="?channel=1193973670314516490">#top-posts</a>
+  • <a href="?channel=939255181474955334">#general</a>
+  • <a href="?channel=939348194880524338">#sandboxels</a>
+  • <a href="?channel=939352388635066429">#sandboxels-feedback</a>
+  • <a href="?channel=939352271500738560">#sandboxels-modding</a>
+  • <a href="?channel=1019686599975505930">#R74um</a>
+</p>
 
-<iframe class="discord-embed" src="https://discord.com/widget?id=939255181474955331&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-
+<script>
+  var searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.has("channel")) {
+    document.querySelector("widgetbot").setAttribute("channel", searchParams.get("channel"));
+  }
+  // add script to body
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/html-embed";
+  document.body.appendChild(script);
+</script>
 
 
 
