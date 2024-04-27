@@ -35,11 +35,11 @@ We're releasing a NEW GAME... Infinite Chef! 🍳🎉
 \n
 [newsletter]
 
-- Update R74n main page and UFBS page (move UniSearch to More section)
-- Add Rue command (cook)
-- Link on Sandboxels
+/- Update R74n main page and UFBS page (move UniSearch to More section)
+/- Add Rue command (cook)
+/- Link on Sandboxels
 - Video crosspost
-- itch.io
+/- itch.io [https://r74n.itch.io/infinite-chef]
 - r/InternetIsBeautiful
 - r/WebGames
 - r/74n
@@ -47,3 +47,4 @@ We're releasing a NEW GAME... Infinite Chef! 🍳🎉
 - HackerNews
 - GameFAQs (for Metacritic)
 - PointlessSites.com
+- https://www.gamedev.net/

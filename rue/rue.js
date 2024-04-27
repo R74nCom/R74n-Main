@@ -3802,6 +3802,16 @@ rueData.links = {
 "every ant on earth": "=ants",
 "eaoe": "=ants",
 "ant browser": "=ants",
+"cook": "https://R74n.com/cook/",
+"infinitechef": "=cook",
+"infinite chef": "=cook",
+"infinite-chef": "=cook",
+"ic": "=cook",
+"chef": "=cook",
+"infinite cook": "=cook",
+"shapes": "https://R74n.com/shapes/",
+"r74n shapes": "=shapes",
+
 "turbowarp": "https://turbowarp.org/editor",
 "tw": "=turbowarp",
 
