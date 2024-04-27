@@ -1,3 +1,70 @@
+[Pre-release 0.26 - April 26, 2024 - Infinite Prep]
+    + Seaweed
+    + Flatbread
+    + Swiss, Parmesan, and Cheddar Cheese
+    + Chili Sauce
+    + Salsa
+    + Pesto
+    + Meat Sauce
+    + Roux
+    + Gravy
+    + Miso
+    + Squid Ink
+    + Ranch Dressing
+    + Jam
+    + Maple Syrup
+    + Icing / Frosting
+    + Chocolate Icing
+    + Buttercream
+    + Caramel
+    + Sprinkles
+    + Sour Cream
+    + Wine
+    + Saké
+    + Beer
+    + Pine Nut
+    + Ginseng
+    + Frozen Yogurt
+    + Orange Juice
+    + Coconut Milk
+    + Matcha Powder
+    + Barley
+    + Sunflower Seed
+    + Baguette
+    + Ham
+    + Ostrich Egg
+    + Quail Egg
+    + Blue Crab
+    + White Chocolate
+    + Bone and Gelatin
+    + Marshmallow and Fluff
+    + Corn Flake
+    + Cracker
+    + Taco Shell
+    + Chocolate Wafer
+    + Waffle Cone
+    + Recipes for Sushi, Stew, Chili, Curry, Chowder, Sandwich, Cheesesteak, Grilled Cheese, Hotdog, Omelette, Ganache, Sundae, Custard, Coleslaw, and more
+    + Tea can now be brewed with any Herb and heat
+    + Broth can be made from boiling Vegetables in Water or Wine
+    + Tomato Sauce can be searched as "Marinara"
+    + Chocolate Milk can be searched as "Choccy Milk"
+    + Yogurt can be searched as spelling variants
+    + Corn can be blended into Flour
+    ~ Wheat no longer turns to Flour when dropped
+    ~ Rice now places as correct shape
+    ~ Rice can be blended into Flour
+    ~ Honey now dissolves in liquid
+    ~ Some Eggs spawn brown
+    ~ Updated Cookie and Bread shape in Stack Mode
+    ~ Share Buttons have been enabled
+    ~ Pinned Fish
+    ~ Dish name generator improvements
+    ~ Fixed: Blended powders can sometimes stay mid-air
+    ~ Fixed: Searching parent types doesn't show unhidden subtypes
+    ~ Fixed: Lemon Juice isn't classed as Fruit Juice
+    ~ Fixed: Game sometimes freezes when serving
+    ~ Fixed: Ingredients keep translucency when changing
+
 [Pre-release 0.25 - April 24, 2024 - Infinite Variety]
     + Soy Sauce
     + Olive and Olive Oil

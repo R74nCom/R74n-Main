@@ -30,14 +30,14 @@ This HTML and its contents are property of R74n.com.
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://R74n.com/icons/apple-touch-icon.png?v=R74n-2">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://R74n.com/icons/favicon-32x3.png?v=R74n-2">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://R74n.com/icons/favicon-16x16.png?v=R74n-2">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
     <link rel="mask-icon" href="https://R74n.com/icons/safari-pinned-tab.svg?v=R74n-2" color="#1cd2d2">
-    <link rel="shortcut icon" href="https://R74n.com/icons/favicon.ico?v=R74n-2">
-    <meta name="msapplication-TileColor" content="#00ffff">
-    <meta name="theme-color" content="#00ffff">
+    <link rel="shortcut icon" href="icons/favicon-32x32.png">
     <meta name="msapplication-config" content="https://R74n.com/icons/browserconfig.xml?v=R74n-2">
 
     <script src="https://R74n.com/load.js"></script>
@@ -817,6 +817,7 @@ This HTML and its contents are property of R74n.com.
     ingredient.original.push(ingredient.id);
     ingredient.id = newIngredient;
     colorIngredient(ingredient);
+    ingredient.a = ingredientAttr(ingredient.id,"a") || 1;
     if (wasLiquid || (ingredient.done2 && ingredientAttr(ingredient.id,"behavior") === 1)) {
       addLiquid(ingredient.h, ingredient.s, ingredient.l);
     }
@@ -845,7 +846,7 @@ This HTML and its contents are property of R74n.com.
       height = 0.5;
     }
     placed.height = size*(ingredientAttr(placed.id, "height")||height);
-    placed.width = size*(ingredientAttr(placed.id, "width")||0.75);
+    placed.width = size*(ingredientAttr(placed.id, "width")||0.5);
   }
   function placeIngredient(ingredient, x, y) {
     var info = ingredients[ingredient];
@@ -856,7 +857,7 @@ This HTML and its contents are property of R74n.com.
     }
     var shape = chooseShape(ingredient);
     var a = ingredientAttr(ingredient, "a") || 1;
-    var r = ingredientAttr(ingredient, "r") || 0;
+    var r = choose(ingredientAttr(ingredient, "r")) || 0;
     var placed = {id:ingredient, x:x, y:y, r:r, shape:shape, h:h, s:s, l:l, a:a};
     updateSize(placed);
     viewData[currentView].total.push(placed);
@@ -901,10 +902,45 @@ This HTML and its contents are property of R74n.com.
     }
     return [info.h, info.s, info.l];
   }
+  function checkReactions(placed) {
+    var reactions1 = ingredientAttr(placed.id, "reactions");
+    var behavior = ingredientAttr(placed.id, "behavior");
+    var reacted = false;
+    for (var i = 0; i < viewData[currentView].total.length; i++) {
+      var other = viewData[currentView].total[i];
+      if (placed.id === other.id) continue;
+      if (!other.done && !other.done2) continue;
+      if (behavior === 1 && viewInfo[currentView].holdsLiquid && ingredientAttr(other.id, "dissolve")) {
+        other.hide = true;
+        other.done = true;
+      }
+      reacted = false;
+      if (reactions1) {
+        for (var key in reactions1) {
+          if (ingredientIsType(other.id, key)) {
+            reacted = reactIngredients(placed, other, reactions1[key]);
+            if (reacted) break;
+          }
+        }
+      }
+      var reactions2 = ingredientAttr(other.id, "reactions");
+      if (reactions2) {
+        for (var key in reactions2) {
+          if (ingredientIsType(placed.id, key)) {
+            reacted = reactIngredients(other, placed, reactions2[key]);
+            if (reacted) break;
+          }
+        }
+      }
+      if (reacted) break;
+    }
+    return reacted;
+  }
   function reactIngredients(placed1, placed2, params) {
     var reacted = false;
     var placed1original = placed1.id;
     var placed2original = placed2.id;
+    if (params.tempMin && viewData[currentView].temp < params.tempMin) return false;
     if (params.set1 !== undefined) {
       if (params.set1 === null) deleteIngredient(placed1);
       else if (placed1.id !== params.set1) {
@@ -955,51 +991,30 @@ This HTML and its contents are property of R74n.com.
     // }
     if (ingredientAttr(placed.id,"delete") || (ingredientAttr(placed.id,"dissolve") && viewData[currentView].liquid)) {
       placed.hide = true;
+      placed.done = true;
     }
     var dropInto = ingredientAttr(placed.id, "dropInto");
     var dropIntoV = ingredientAttr(placed.id, "dropIntoV") || 0;
     var landedShape = ingredientAttr(placed.id, "landedShape");
     if (dropInto && placed.vy >= dropIntoV) {
       changeIngredient(placed, dropInto);
+      placed.done = true;
     }
     else if (landedShape) {
       placed.shape = landedShape;
     }
     // Do Reactions
-    var reactions1 = ingredientAttr(placed.id, "reactions");
-    for (var i = 0; i < viewData[currentView].total.length; i++) {
-      var other = viewData[currentView].total[i];
-      if (placed.id === other.id) { continue; }
-      if (behavior === 1 && ingredientAttr(other.id, "dissolve")) {
-        other.hide = true;
-      }
-      var reacted = false;
-      if (reactions1) {
-        for (var key in reactions1) {
-          if (ingredientIsType(other.id, key)) {
-            reacted = reactIngredients(placed, other, reactions1[key]);
-          }
-        }
-      }
-      var reactions2 = ingredientAttr(other.id, "reactions");
-      if (reactions2) {
-        for (var key in reactions2) {
-          if (ingredientIsType(placed.id, key)) {
-            reacted = reactIngredients(other, placed, reactions2[key]);
-          }
-        }
-      }
-      if (reacted) { break; }
-    }
+    checkReactions(placed);
   }
   function uncontainAll() {
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
-      if (placed.done) {
+      if (placed.done || placed.done2) {
         placed.vx = 0;
         placed.vy = 0;
         placed.vr = 0;
       }
+      if (placed.done2 && ingredientAttr(placed.id,"behavior") == 2) placed.done2 = false;
       placed.done = false;
     }
   }
@@ -1054,8 +1069,8 @@ This HTML and its contents are property of R74n.com.
         if (i === j) { continue; }
         var other = view.total[j];
         if (other.hide) { continue; }
-        if (placed.x < other.x + other.width/2.5 &&
-            placed.x + placed.width/2.5 > other.x &&
+        if (placed.x - placed.width/2.5 < other.x + other.width/2.5 &&
+            placed.x + placed.width/2.5 > other.x - other.width/2.5 &&
             placed.y < (other.y + other.height*(viewInfo[currentView].placedHeightMul||0.5))+5 && 
             placed.y > (other.y - other.height*(viewInfo[currentView].placedHeightMul||0.5))
         ) {
@@ -1335,11 +1350,6 @@ This HTML and its contents are property of R74n.com.
         if (count > 10 && query.length) { break; }
         var strippedKey = key.replace(/_/g, "");
         var index = strippedKey.indexOf(query);
-        if (ingredients[queryO_] && ingredients[queryO_].hidden && ingredientIsType(key, queryO_) && key !== queryO_) {
-          poorResults.push(key);
-          count++;
-          continue;
-        }
         if ((ingredients[key].hidden && !showHidden) || (!ingredients[key].hidden && showHidden)) { continue }
         if (index !== -1) {
           otherResults.push(key);
@@ -1348,6 +1358,11 @@ This HTML and its contents are property of R74n.com.
         else if (ingredients[key].keywords && ingredients[key].keywords.indexOf(query) !== -1) {
           poorResults.push(key);
           count++;
+        }
+        else if (ingredients[queryO_] && ingredientIsType(key, queryO_) && key !== queryO_) {
+          poorResults.push(key);
+          count++;
+          continue;
         }
       }
       // sort bestResults by length, shortest first
@@ -1486,6 +1501,7 @@ This HTML and its contents are property of R74n.com.
     if (info.reactions) {
       for (var key in info.reactions) {
         var r = info.reactions[key];
+        if (r.tempMin) { info.tempReact = true; }
         if (r.set1 && ingredients[r.set1]) {
           if (ingredients[r.set1].parts === null) continue;
           if (!ingredients[r.set1].parts) ingredients[r.set1].parts = [];
@@ -1558,20 +1574,28 @@ This HTML and its contents are property of R74n.com.
     var nameMap = {};
     var toIgnoreNames = [];
     for (var i = 0; i < ingredients.length; i++) {
-      if (!ingredients[i].done && !ingredients[i].done2) {
+      if (ingredients[i].derivedFrom && used[ingredients[i].id] !== undefined) {
+        // remove from ingredients
+        ingredients.splice(i, 1);
+        i--;
+        continue;
+      }
+      if (!ingredients[i].done && !ingredients[i].done2 && !ingredients[i].hide && !ingredients[i].original) {
         // remove
         ingredients.splice(i, 1);
         i--;
         continue;
       }
-      if (ingredients[i].original && ingredientAttr(ingredients[i].id, "behavior") !== 1) {
+      var parts = ingredientAttr(ingredients[i].id, "parts");
+      if (ingredients[i].original) {
         // concat with ingredients
+        // if (true || ingredientAttr(ingredients[i].id, "behavior") !== 1) {
         ingredients = ingredients.concat(ingredients[i].original.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i], done:true} }));
         ingredients[i].split = true;
+        // }
         toIgnoreNames = toIgnoreNames.concat(ingredients[i].original);
       }
-      var parts = ingredientAttr(ingredients[i].id, "parts");
-      if (parts) {
+      else if (parts && !ingredients[i].derivedFrom) {
         toIgnoreNames = toIgnoreNames.concat(parts);
         // concat with ingredients
         ingredients = ingredients.concat(parts.map(function(a) { return {id:a, noName:true, derivedFrom:ingredients[i], done:true} }));
@@ -1615,8 +1639,12 @@ This HTML and its contents are property of R74n.com.
           }
           else var optional = false;
           var ingredientFound = false;
-          // console.log(needed,nameMap[needed].length,(toUse[needed]||0))
+          // console.log(needed,nameMap[needed]?.length,(toUse[needed]||0))
           if (nameMap[needed] && nameMap[needed].length > (toUse[needed]||0)) {
+            if (nameMap[needed][0].derivedFrom) {
+              needed = nameMap[needed][0].derivedFrom.id;
+              // if (!nameMap[needed]) { nameMap[needed] = [ nameMap[needed][0].derivedFrom ] }
+            }
             ingredientFound = true
           }
           else {
@@ -1657,8 +1685,16 @@ This HTML and its contents are property of R74n.com.
             used[key] = true;
             // remove the amount of ingredients used
             for (var i = 0; i < toUse[key]; i++) {
+              if (!nameMap[key][0]) continue;
               if (nameMap[key][0].derivedFrom) {
                 nameMap[key][0].derivedFrom.noName = true;
+                ingredients.splice(ingredients.indexOf(nameMap[key][0].derivedFrom), 1);
+                nameMap[key][0].derivedFrom.used = true;
+                // get the index of the derivedFrom ingredient and splice
+                var id = nameMap[key][0].derivedFrom.id;
+                nameMap[id].splice(nameMap[id].indexOf(nameMap[id][0].derivedFrom), 1);
+                // key = id;
+                // used[key] = true;
               }
               nameMap[key][0].used = true;
               ingredients.splice(ingredients.indexOf(nameMap[key][0]), 1);
@@ -1870,22 +1906,18 @@ This HTML and its contents are property of R74n.com.
     var url = "https://R74n.com/cook/?utm=social";
     var hashtag = "#InfiniteChef";
     var shareMessage = choose(shareMessages).replaceAll("DISHNAME", dishName);
-    document.getElementById("shareTwitter").removeAttribute('href');
-    document.getElementById("shareReddit").removeAttribute('href');
-    document.getElementById("shareEmail").removeAttribute('href');
-    document.getElementById("shareClipboard").removeAttribute('href');
-    // document.getElementById("shareTwitter").href = "https://twitter.com/intent/tweet?original_referer=https://r74n.com/cook/&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&related=R74nCom&text="+encodeURIComponent(shareMessage.toLowerCase().replace(/\(?infinite chef\)?/g, hashtag))+"&url="+encodeURIComponent(url);
-    // document.getElementById("shareReddit").href = "https://reddit.com/r/74n/submit?url="+encodeURIComponent(url)+"&title="+encodeURIComponent(shareMessage);
-    // document.getElementById("shareEmail").href = "mailto:enter address here?subject=Check%20out%20my%20dish%20in%20Infinite%20Chef!&body="+encodeURIComponent(shareMessage)+"%0A%0ACreate%20your%20own%20dish%20here%20with%20hundreds%20of%20ingredients%3A%20"+encodeURIComponent(url);
-    // document.getElementById("shareClipboard").href = "#";
-    // document.getElementById("shareClipboard").onclick = function() {
-    //   navigator.clipboard.writeText(shareMessage.replaceAll("Infinite Chef", hashtag)+"  \n\n"+url);
-    //   this.children[0].src = "../shapes/png/share-buttons/success.png";
-    //   setTimeout(function() {
-    //     document.getElementById("shareClipboard").children[0].src = "../shapes/png/share-buttons/clipboard-copy.png";
-    //   }, 3000);
-    //   return false;
-    // }
+    document.getElementById("shareTwitter").href = "https://twitter.com/intent/tweet?original_referer=https://r74n.com/cook/&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&related=R74nCom&text="+encodeURIComponent(shareMessage.toLowerCase().replace(/\(?infinite chef\)?/g, hashtag))+"&url="+encodeURIComponent(url);
+    document.getElementById("shareReddit").href = "https://reddit.com/r/74n/submit?url="+encodeURIComponent(url)+"&title="+encodeURIComponent(shareMessage);
+    document.getElementById("shareEmail").href = "mailto:enter address here?subject=Check%20out%20my%20dish%20in%20Infinite%20Chef!&body="+encodeURIComponent(shareMessage)+"%0A%0ACreate%20your%20own%20dish%20here%20with%20hundreds%20of%20ingredients%3A%20"+encodeURIComponent(url);
+    document.getElementById("shareClipboard").href = "#";
+    document.getElementById("shareClipboard").onclick = function() {
+      navigator.clipboard.writeText(shareMessage.replaceAll("Infinite Chef", hashtag)+"  \n\n"+url);
+      this.children[0].src = "../shapes/png/share-buttons/success.png";
+      setTimeout(function() {
+        document.getElementById("shareClipboard").children[0].src = "../shapes/png/share-buttons/clipboard-copy.png";
+      }, 3000);
+      return false;
+    }
 
     // draw background.png
     var maxDimension = Math.max(imageGenCanvas.width, imageGenCanvas.height);
@@ -1992,6 +2024,9 @@ This HTML and its contents are property of R74n.com.
           ingredient.s = hsl[1] * 100;
           ingredient.l = hsl[2] * 100;
           ingredient.cook = (ingredient.cook ?? 0) + 0.005;
+        }
+        if (ingredientAttr(ingredient.id, "tempReact")) {
+          checkReactions(ingredient);
         }
       }
     }
@@ -2307,6 +2342,33 @@ This HTML and its contents are property of R74n.com.
 <div id="textualContent">
   <h2>About Infinite Chef</h2>
   <p><dfn>Infinite Chef</dfn> is a cooking simulator that can be played in your browser. With a sophisticated <strong>dish name generator</strong> that can accept any of <strong>hundreds of ingredients</strong>, Infinite Chef is the <strong>ultimate virtual kitchen</strong>.</p>
+
+  <div id="imageGallery">
+    <img src="screenshots/critter-soup.webp" alt="Many critters in a pot of soup.">
+    <img src="screenshots/flooded-burger.webp" alt="Hamburger with way too much sauce.">
+    <img src="screenshots/fruit-blending.webp" alt="Using the Blend tool on a bunch of fruits.">
+  </div>
+  <style>
+    /* flex box where the images are the same width and can change depending on screen size */
+    #imageGallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #imageGallery img {
+      width: 100%;
+      max-width: 300px;
+      margin: 0.5em;
+    }
+    /* make it horizontally scrollable instead on mobile */
+    @media (max-width: 800px) {
+      #imageGallery {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        justify-content: left;
+      }
+    }
+  </style>
 
   <p>Select an ingredient by using the search bar located above your workstation! Type in a query, and press one of the results. Then, simply tap in the kitchen to drop it in!</p>
 

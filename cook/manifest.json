@@ -1,21 +1,16 @@
 {
     "short_name": "Infinite Chef",
-    "name": "Infinite Chef",
+    "name": "Infinite Chef - R74n",
     "icons": [
       {
-        "src": "../icons/192x192.png",
-        "type": "image/png",
-        "sizes": "192x192"
+        "src": "icons/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
       },
       {
-        "src": "../icons/512x512.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      },
-      {
-        "src": "../icons/avatar.png",
-        "type": "image/png",
-        "sizes": "305x305"
+        "src": "icons/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
       }
     ],
     "start_url": "/cook/?source=pwa",
@@ -29,20 +24,21 @@
         "short_name": "Cook",
         "description": "Begin a new dish in Infinite Chef",
         "url": "/cook/?source=pwa",
-        "icons": [{ "src": "../icons/avatar.png", "sizes": "305x305" }]
+        "icons": [{ "src": "icons/apple-touch-icon.png", "sizes": "180x180" }]
       }
     ],
     "description": "Cooking simulator playable in your browser with hundreds of ingredients and a smart dish name generator.",
     "screenshots": [
       {
-        "src": "/screenshot.png",
+        "src": "icons/icon_zoomout.png",
         "type": "image/png",
-        "sizes": "2406x1154"
+        "sizes": "778x778"
       },
       {
-        "src": "/icons/thumbnail.png",
+        "src": "icons/screenshot.png",
         "type": "image/png",
-        "sizes": "651x367"
+        "sizes": "1228x778",
+        "form_factor": "wide"
       }
     ]
   }

@@ -1,19 +1,24 @@
 Pre-release when finalized
-- Enable share buttons
-- Logo
-    - Update logo in manifest.json
-    - Page favicon
-- Promotional screenshots
+/- Enable share buttons
+/- Logo
+    /- Update logo in manifest.json
+    /- Page favicon
+/- Promotional screenshots
+    /- on page
 
 Release:
+- Discord announcement and channel
 - Text crosspost
 - Video crosspost
 - Newsletter article
 - itch.io
 - r/InternetIsBeautiful
 - r/WebGames
+- r/74n
 - ProduntHunt
 - HackerNews
 - GameFAQs (for Metacritic)
-- Update R74n main page and UFBS page
+- PointlessSites.com
+- Update R74n main page and UFBS page (move UniSearch to More section)
 - Add Rue command
+- Link on Sandboxels
