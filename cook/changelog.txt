@@ -1,3 +1,12 @@
+[Version 1.0 - April 27, 2024 - Official Release]
+    + Azuki Bean can be searched as "Adzuki" and "Red Bean"
+    ~ Squid Ink no longer deletes on landing
+    ~ Sandwiches can only be made in Stack Mode
+    ~ Fixed: Tacos can't be made with Cheese
+    ~ Fixed: Sweetened Water boils into Caramel
+    ~ Fixed: Ground Fish is blue
+    ~ Fixed: Corn hitbox is too big
+
 [Pre-release 0.26 - April 26, 2024 - Infinite Prep]
     + Seaweed
     + Flatbread

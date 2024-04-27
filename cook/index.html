@@ -941,6 +941,7 @@ This HTML and its contents are property of R74n.com.
     var placed1original = placed1.id;
     var placed2original = placed2.id;
     if (params.tempMin && viewData[currentView].temp < params.tempMin) return false;
+    if (params.noHidden && (placed1.hide || placed2.hide)) return false;
     if (params.set1 !== undefined) {
       if (params.set1 === null) deleteIngredient(placed1);
       else if (placed1.id !== params.set1) {
@@ -989,6 +990,8 @@ This HTML and its contents are property of R74n.com.
     // else {
     //   placed.hide = false;
     // }
+    // Do Reactions
+    checkReactions(placed);
     if (ingredientAttr(placed.id,"delete") || (ingredientAttr(placed.id,"dissolve") && viewData[currentView].liquid)) {
       placed.hide = true;
       placed.done = true;
@@ -1003,8 +1006,6 @@ This HTML and its contents are property of R74n.com.
     else if (landedShape) {
       placed.shape = landedShape;
     }
-    // Do Reactions
-    checkReactions(placed);
   }
   function uncontainAll() {
     for (var i = 0; i < viewData[currentView].total.length; i++) {
@@ -2032,6 +2033,7 @@ This HTML and its contents are property of R74n.com.
     }
     for (var i = 0; i < view.total.length; i++) { // State Changes
       var ingredient = view.total[i];
+      if (ingredient.hide) continue;
       if ((!ingredient.done && !ingredient.done2) || ingredient.pseudo || Math.random() > 0.1) continue;
       var meltPoint = ingredientAttr(ingredient.id, "meltPoint");
       if (view.temp >= meltPoint) {

@@ -42,7 +42,7 @@ glow: color to glow when placed
 // sugar salt  spice dye dairy  chocolate drsng fruit vegetbl nt/leg meat dish
 
 shapeMeta = {
-    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short","oval_horizontal","circle_ms","circle_s","helix_strand","rod_rough_thin","rod_thin","rod_thin_splits","rod_flared","needle","liquid_splat","foliage_bar","rectangle_thinner_tablet","rectangle_thinner_ring","squares_some_flat","squares_some","beans_some","rectangle_thinner_ridged","rectangle_thinner_round_porous","rod"]
+    short: ["cylinder_short","pants_short","rectangle_thin_round","rectangle_thin","rectangle_thinner_round","rectangle_thinner","semicircle_top","semicircle_bottom","bean","blob_short","oval_horizontal","circle_ms","circle_s","helix_strand","rod_rough_thin","rod_thin","rod_thin_splits","rod_flared","needle","liquid_splat","foliage_bar","rectangle_thinner_tablet","rectangle_thinner_ring","squares_some_flat","squares_some","beans_some","rectangle_thinner_ridged","rectangle_thinner_round_porous","rod","rod_bumpy"]
 }
 
 
@@ -322,7 +322,8 @@ wine: {
     color:"#8b1b1b",
     reactions: {
         vegetable: { set1:"broth", tempMin:60 },
-    }
+    },
+    parts:null
 },
 beer: {
     type:"alcohol",
@@ -555,9 +556,9 @@ sugar: {
     keywords:"carbohydrate,glucose,fructose,sucrose,powdered sugar",
     broken:"icing",
     reactions: {
-        water: { set1:"icing" },
-        milk: { set1:"icing" },
-        fat: { set1:"buttercream", set2:null }
+        water: { set1:"icing", noHidden:true },
+        milk: { set1:"icing", noHidden:true },
+        fat: { set1:"buttercream", set2:null, noHidden:true }
     }
 },
 caramel: {
@@ -767,7 +768,8 @@ cheese_powder: {
     shape:"powder_rough",
     meltPoint:60,
     meltInto:"cheese",
-    keywords:"shredded cheese,pizza cheese,cut cheese"
+    keywords:"shredded cheese,pizza cheese,cut cheese",
+    adj:"cheesy"
 },
 blue_cheese: {
     color:"#dbdca9",
@@ -1491,7 +1493,8 @@ bean_sprout: {
 },
 azuki_bean: {
     color:"#942929",
-    type:"bean"
+    type:"bean",
+    keywords:"adzuki bean,red bean"
 },
 black_bean: {
     color:"#2c1f1f",
@@ -2409,6 +2412,7 @@ goose: {
 },
 fish: {
     color:"#4edeff",
+    innerColor:"#daafaf",
     cookColor:"#d0891f",
     type:"meat",
     shape:"fish",
@@ -2530,7 +2534,9 @@ squid_ink: {
     color:"#292929",
     type:"dye",
     stain:true,
-    adj:"inky"
+    adj:"inky",
+    landedShape:"liquid_splat",
+    delete:false
 },
 
 
@@ -2589,6 +2595,7 @@ dishRecipes = {
 "pasta+cheese":"mac and cheese",
 "mac and cheese+bread":"breaded mac",
 "sausage+flour":"corndog",
+"taco_shell":"taco",
 "bread+sausage+bread?":"hotdog",
 "hotdog+cheese":"cheesedog",
 "bun+beef+bread":"hamburger",
@@ -2611,17 +2618,18 @@ dishRecipes = {
 "chocolate_wafer+ice_cream":"ice cream sandwich",
 "bread+peanut_butter+fluff":"fluffernutter",
 "chocolate_wafer+icing":"oreo",
+"chocolate_wafer+cream":"oreo",
 "chocolate_wafer+marshmallow":"s'more",
 "cracker+marshmallow":"s'more",
 "cracker+cheese+cracker":"cheese and crackers",
 "cracker+cheese":"cheese and cracker",
-"peanut_butter+jam+bread+bread":"peanut butter jam sandwich",
-"bread+bread":"sandwich",
+"&stack:peanut_butter+jam+bread+bread":"peanut butter jam sandwich",
+"&stack:bread+bread":"sandwich",
 "sandwich+beef+cheese":"cheesesteak",
 "sandwich+ground_meat":"sloppy joe",
 "sandwich+meat_sauce":"sloppy joe",
 "sandwich+ham+cheese":"ham and cheese",
-"bread+cheese":"grilled cheese",
+"bread+cheese+butter":"grilled cheese",
 "&stack:yolk":"omelette",
 "flour+flour+liquid+liquid+yolk+fat":"bread",
 "flour+liquid+yolk+fat":"bread",
@@ -2637,7 +2645,7 @@ dishRecipes = {
 "milkoid+yolk+sugar+vanilla?":"custard",
 "custard+chocolate":"chocolate pudding",
 "cabbage+vinegar+oil?+salt?":"coleslaw",
-"gelatin+sugar":"jello",
+"gelatin+sugar+water":"jello",
 "chicken+hot_sauce":"buffalo wing",
 
 "milk+soda":"pilk",
