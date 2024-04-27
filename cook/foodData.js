@@ -1017,7 +1017,8 @@ pomelo: {
 watermelon_slice: {
     color:"#ff6666",
     shape:"circle_chord",
-    name:"watermelon"
+    name:"watermelon",
+    type:"watermelon"
 },
 orange: {
     color:"#FFA500",
