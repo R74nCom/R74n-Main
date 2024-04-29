@@ -1,3 +1,13 @@
+function imageGen(id,h,s,l) {
+    if (h === undefined) { h = ingredients[id].h; s = ingredients[id].s; l = ingredients[id].l; }
+    var img = colorizeStandard("../shapes/png/"+ingredientAttr(id,"shape")+".png",h,s,l);
+    document.body.appendChild(img);
+    return img;
+}
+
+
+
+
 Pre-release when finalized
 /- Enable share buttons
 /- Logo
@@ -40,11 +50,11 @@ We're releasing a NEW GAME... Infinite Chef! 🍳🎉
 /- Link on Sandboxels
 - Video crosspost
 /- itch.io [https://r74n.itch.io/infinite-chef]
-- r/InternetIsBeautiful
-- r/WebGames
+/- r/InternetIsBeautiful
+/- r/WebGames
 - r/74n
-- ProduntHunt
-- HackerNews
-- GameFAQs (for Metacritic)
-- PointlessSites.com
+/- ProduntHunt
+/- HackerNews
+/- GameFAQs (for Metacritic)
+/- PointlessSites.com
 - https://www.gamedev.net/

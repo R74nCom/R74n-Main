@@ -484,7 +484,7 @@ This HTML and its contents are property of R74n.com.
           <div id="serveUnder">
             <span id="shareBlurb">Share with the world. Screenshot!</span>
             <div id="shareIconDiv">
-              <a href="https://twitter.com/" title="Share to Twitter / X" id="shareTwitter" target="_blank"><img src="../shapes/png/share-buttons/twitter.png" class="pixelart"></a><a href="https://reddit.com/" title="Share to Reddit" id="shareReddit" target="_blank"><img src="../shapes/png/share-buttons/reddit.png" class="pixelart"></a><a href="mailto:contact@R74n.com" title="Send via Email" id="shareEmail" target="_blank"><img src="../shapes/png/share-buttons/email.png" class="pixelart"></a><a href="#" id="shareClipboard" title="Copy to Clipboard" target="_blank"><img src="../shapes/png/share-buttons/clipboard-copy.png" class="pixelart"></a>
+              <a href="https://twitter.com/" title="Share to Twitter / X" id="shareTwitter" target="_blank"><img src="../shapes/png/share-buttons/twitter.png" class="pixelart"></a><a href="https://reddit.com/" title="Share to Reddit" id="shareReddit" target="_blank"><img src="../shapes/png/share-buttons/reddit.png" class="pixelart"></a><a href="mailto:contact@R74n.com?subject=%5BInfiniteChef%5D" title="Send via Email" id="shareEmail" target="_blank"><img src="../shapes/png/share-buttons/email.png" class="pixelart"></a><a href="#" id="shareClipboard" title="Copy to Clipboard" target="_blank"><img src="../shapes/png/share-buttons/clipboard-copy.png" class="pixelart"></a>
               <button onclick="clearView()" id="serveClearButton">Start Over</button>
             </div>
           </div>
@@ -1408,6 +1408,13 @@ This HTML and its contents are property of R74n.com.
   function addIngredient(name, data) {
     name = name.toLowerCase().replace(/ /g, "_");
     ingredients[name] = data;
+    finalizeIngredient(name);
+  }
+  function editIngredient(name, data) {
+    var info = ingredients[name];
+    for (var key in data) {
+      info[key] = data[key];
+    }
     finalizeIngredient(name);
   }
   function finalizeIngredient(ingredient) {

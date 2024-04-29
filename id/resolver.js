@@ -304,6 +304,17 @@ urnResolvers = {
         return "https://www.reddit.com/user/"+args[1];
     }
 },
+
+"shapes": (args) => {
+    if (args[0]) {
+        if (args[0].match(/\.png$/)) { return "https://R74n.com/shapes/png/"+args[0]; }
+        if (args[0]) { return "https://R74n.com/shapes#"+args[0]; }
+    }
+    return "https://R74n.com/shapes/";
+},
+"cook": (args) => {
+    return "https://R74n.com/cook/"+args.join("/");
+},
 }
 function resolveURN(urn) {
     var parts = urn.split(":");
