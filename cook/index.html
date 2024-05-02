@@ -845,6 +845,7 @@ This HTML and its contents are property of R74n.com.
     }
     ingredient.original.push(ingredient.id);
     ingredient.id = newIngredient;
+    console.log(ingredient)
     colorIngredient(ingredient);
     ingredient.a = ingredientAttr(ingredient.id,"a") || 1;
     var newBehavior = ingredientAttr(ingredient.id,"behavior");
@@ -852,7 +853,7 @@ This HTML and its contents are property of R74n.com.
     else if (wasLiquid || (ingredient.done2 && newBehavior === 1)) {
       addLiquid(ingredient.h, ingredient.s, ingredient.l);
     }
-    if (wasLiquid && newBehavior !== 1) {
+    if (wasLiquid && newBehavior !== 1 && newBehavior !== 2) {
       viewData[currentView].liquidSolid = true;
     }
     if (!skipContain && newBehavior !== 3) containIngredient(ingredient);

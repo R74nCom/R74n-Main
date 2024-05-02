@@ -1101,7 +1101,7 @@ orange_juice: {
     type:"fruit_juice",
     color:"#FFD700",
     adj:"orange",
-    short:"OJ"
+    short:"=OJ="
 },
 pineapple: {
     color:"#e6ae25",
@@ -1791,7 +1791,7 @@ paprika: {
 chili_powder: {
     type:"spice",
     reactions: {
-        "water": { set1:null, set2:"chili" },
+        "water": { set1:null, set2:"chili_sauce" },
         "vinegar": { set1:null, set2:"hot_sauce" },
         "tomato_sauce": { set1:null, set2:"salsa" }
     },
