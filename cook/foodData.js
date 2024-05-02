@@ -2653,7 +2653,8 @@ pandan_extract: {
     stain:true,
     adj:"green",
     keywords:"green dye,pandan juice",
-    delete:true
+    delete:true,
+    dishWeight:-60,
 },
 
 

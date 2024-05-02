@@ -274,7 +274,9 @@ This HTML and its contents are property of R74n.com.
         white-space: nowrap;
         overflow: scroll;
         max-width: 100%;
+        scrollbar-width: none;
       }
+      #prepControls::-webkit-scrollbar { display: none; }
       #prepControls button {
         padding: 5px;
         background-color: #9b6723;
@@ -1554,7 +1556,7 @@ This HTML and its contents are property of R74n.com.
         info.group = "other";
       }
     }
-    if (info.group === "generic") { info.hidden = true }
+    if (info.group === "generic" && info.hidden !== false) { info.hidden = true }
     if (info.name) {
       info.keywords = (info.keywords||"") + info.name;
     }
