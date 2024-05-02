@@ -1,3 +1,43 @@
+[Version 1.1 - May 1, 2024 - Infinite Possibility]
+    + Mod support
+        + More info: https://R74ncom.github.io/InfiniteChef-Mods/
+    + Chicken Patty
+    + Blue Lobster
+    ~ Updated Lobster sprite
+    + Pepper X
+    + Cake ingredient
+    + Candy
+    + Hard-Boiled Egg
+    + Brown and Black Rice
+    + Rambutan
+    + Pandan Extract
+    + Citric Acid
+    + Quince
+    + Bouillon Cube
+    + Solidified liquids become opaque in the pot
+    + Oil can be searched as "Cooking Oil"
+    ~ Default Utensil now points downwards
+    ~ Reactions now require contact in Stack Mode
+    ~ Eggplants blend into proper color
+    ~ Improved "Juice" dish naming
+    + Settings menu, only used for mods right now
+   [Recipes]
+    + Le Fishe Au Chocolate
+    + Many joke recipes and improvements
+   [Bug Fixes]
+    ~ Fixed: Liquids can't freeze in the pot
+    ~ Fixed: Blending can cause floating Juice in Stack Mode
+    ~ Fixed: PB (Peanut Butter) isn't capitalized
+   [Technical]
+    + Example mod: https://R74n.com/cook/example_mod.js
+    + Many new modding abilities:
+    + onDeselect, onPlace, and onMouseDown ingredient events
+    + 'desc' ingredient property
+    + addRecipe(recipe, result) function
+    + addTool(name, data) function
+    + onSelect, whileOn, onDeselect, and onClick tool events
+    + Names can retain capitalization like =THIS=
+
 [Version 1.0 - April 27, 2024 - Official Release]
     + Azuki Bean can be searched as "Adzuki" and "Red Bean"
     ~ Squid Ink no longer deletes on landing

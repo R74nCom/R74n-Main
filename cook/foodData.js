@@ -34,6 +34,10 @@ r: initial rotation when placed, in degrees
 cookColor: color of maximum cookedness (#hex), cannot be cooked otherwise
 innerColor: color of the inside of the ingredient (unused)
 glow: color to glow when placed
+onSelect: run function(id) when ingredient is selected
+onDeselect: run function(id) when ingredient is deselected
+onPlace: run function(placed) after ingredient is placed
+onMouseDown: run function(id) before ingredient is placed
 */
 
 // opinion, size, age, shape, colour, origin, material, purpose
@@ -94,7 +98,7 @@ energy: {
 },
 utensil: {
     group:"generic",
-    shape:"fork",
+    shape:"fork_down",
     dishName:null
 },
 decor: {
@@ -123,6 +127,11 @@ carbon_dioxide: {
     keywords:"co2",
     hidden:true
 },
+smoke: {
+    type:"gas",
+    color:"#575757",
+    hidden:true
+},
 water: {
     type:"liquid",
     color:"#bfd8df",
@@ -130,6 +139,7 @@ water: {
         meat: { set1:"broth" },
         vegetable: { set1:"broth", tempMin:60 },
         bone: { set1:"broth", tempMin:60 },
+        bouillon_cube: { set1:"broth", set2:null },
     },
     adj:"soggy",
     pin:true,
@@ -159,6 +169,13 @@ broth: {
     boilPoint:100,
     boilInto:"steam",
     parts:null
+},
+bouillon_cube: {
+    color:"#dbcda6",
+    shape:"cube",
+    parts:["broth"],
+    keywords:"stock cube",
+    dishName:null
 },
 ice_cube: {
     color:"#b4efff",
@@ -224,6 +241,7 @@ peanut_butter: {
     color:"#B4885B",
     parts:["peanut"],
     dishWeight:-51,
+    short:"=PB="
 },
 jam: {
     type:"paste",
@@ -291,12 +309,14 @@ fruit_juice: {
         "icing": { set1:"jam", set2:null, tempMin:100 },
         "sugar": { set1:"jam", set2:null, tempMin:100 }
     },
-    group:"fruit"
+    group:"fruit",
+    adj:"fruit"
 },
 vegetable_juice: {
     type:"juice",
     hidden:true,
-    group:"vegetable"
+    group:"vegetable",
+    adj:"vegetable"
 },
 alcohol: {
     type:"liquid",
@@ -391,10 +411,12 @@ oil: {
     type:"liquid",
     color:"#e7df97",
     pin:true,
-    dishName:null
+    dishName:null,
+    keywords:"cooking oil"
 },
 vegetable_oil: {
-    type:"oil"
+    type:"oil",
+    keywords:"cooking oil"
 },
 olive_oil: {
     type:"vegetable_oil"
@@ -530,7 +552,7 @@ salt: {
     adj:"salted",
     dishWeight:-75,
     pin:true,
-    keywords:"table salt,nacl,sodium chloride"
+    keywords:"table salt,nacl,sodium chloride,salty"
 },
 himalayan_salt: {
     color:"#EB907F",
@@ -539,9 +561,19 @@ himalayan_salt: {
 },
 baking_soda: {
     type:"salt",
-    dissolve:true,
     dishName:null,
     keywords:"sodium bicarbonate,bicarbonate of soda"
+},
+msg: {
+    type:"salt",
+    keywords:"sodium glutamate,monosodium glutamate",
+    name:"=MSG=",
+    adj:"savory"
+},
+citric_acid: {
+    type:"salt",
+    keywords:"citrate",
+    adj:"sour"
 },
 sugar: {
     type:"powder",
@@ -564,9 +596,19 @@ sugar: {
 caramel: {
     type:"thick_liquid",
     color:"#E05F01",
-    adj:"caramel",
-    freezePoint:30,
-    freezeInto:"sugar"
+    adj:"candied",
+    freezePoint:5,
+    freezeInto:"candy",
+    group:"carb"
+},
+candy: {
+    color:"#e1a478",
+    shape:"circle_scored",
+    adj:"candy",
+    meltPoint:170,
+    meltInto:"caramel",
+    group:"carb",
+    parts:["sugar"]
 },
 sprinkles: {
     type:"sugar",
@@ -660,7 +702,8 @@ chocolate: {
     shape:"rectangle",
     dishWeight:-52,
     meltPoint:45,
-    broken:"chocolate_powder"
+    broken:"chocolate_powder",
+    keywords:"cocoa"
 },
 white_chocolate: {
     type:"chocolate",
@@ -692,6 +735,9 @@ flour: {
 egg: {
     shape:"ovoid",
     color:["#F0EAD6","#be8b31"],
+    reactions: {
+        water: { set1:"boiled_egg", tempMin:80 }
+    },
     group:"protein_other",
     dropInto:"yolk",
     dropIntoV:10,
@@ -708,6 +754,16 @@ quail_egg: {
     type:"egg",
     color:"#9c9f71",
     scale:0.75
+},
+boiled_egg: {
+    type:"egg",
+    color:"#F0EAD6",
+    innerColor:"#eac335",
+    dropInto:null,
+    broken:null,
+    brokenShape:"circle_ms",
+    name:"Hard-Boiled Egg",
+    keywords:"hard boiled egg"
 },
 yolk: {
     name:"egg yolk",
@@ -726,7 +782,16 @@ batter: {
     color:"#ead295",
     type:"liquid",
     group:"carb",
-    dishName:"cake"
+    dishName:"cake",
+    meltPoint:100,
+    meltInto:"cake"
+},
+cake: {
+    group:"carb",
+    shape:"wedge",
+    color:"#ede4b2",
+    stackShape:"cylinder_short",
+    scale:1.5
 },
 dough: {
     color:"#f4e8d7",
@@ -1073,6 +1138,11 @@ papaya: {
     type:"fruit",
     shape:"fruit_extrude"
 },
+quince: {
+    color:"#C0B91B",
+    type:"fruit",
+    shape:"fruit_extrude"
+},
 kiwi: {
     color:"#91631D",
     innerColor:"#90C825",
@@ -1283,6 +1353,12 @@ dragonfruit: {
     shape:"fruit_long_thorny",
     keywords:"pitaya fruit,pitahaya fruit,dragon fruit"
 },
+rambutan: {
+    color:"#AD2523",
+    innerColor:"#C2B49A",
+    type:"fruit",
+    shape:"fruit_long_thorny"
+},
 coconut: {
     color:"#965A3E",
     innerColor:"#e9edf6",
@@ -1347,6 +1423,7 @@ artichoke: {
 },
 eggplant: {
     color:"#9b0cb0",
+    innerColor:"#EFDEA9",
     type:"vegetable",
     shape:"curve_plump",
     keywords:"aubergine"
@@ -1762,6 +1839,12 @@ ghost_pepper: {
     shape:"fruit_pick_stem",
     adj:"ultra spicy"
 },
+pepper_x: {
+    color:"#C6C52F",
+    type:"chili_pepper",
+    shape:"fruit_pick_stem",
+    adj:"ultra spicy"
+},
 tabasco: {
     color:"#d01414",
     type:"chili_pepper",
@@ -2153,7 +2236,16 @@ rice: {
     placedShape:"beans_some",
     type:"powder",
     pin:true,
-    broken:"flour"
+    broken:"flour",
+    keywords:"white rice"
+},
+brown_rice: {
+    type:"rice",
+    color:"#c89a65"
+},
+black_rice: {
+    type:"rice",
+    color:"#37252f"
 },
 noodles: {
     type:"pasta",
@@ -2361,6 +2453,11 @@ kangaroo: {
     type:"meat",
     keywords:"deer,doe,buck,elk"
 },
+horse: {
+    color:"#C05966",
+    type:"meat",
+    keywords:"horse meat"
+},
 clam: {
     color:"#857f66",
     type:"shellfish",
@@ -2398,6 +2495,12 @@ poultry: {
 chicken: {
     type:"poultry",
     keywords:"poultry,bird"
+},
+chicken_patty: {
+    type:"chicken",
+    shape:"rectangle_thinner_round",
+    keywords:"chicken burger",
+    height:0.5
 },
 turkey: {
     color:"#ffd3d6",
@@ -2462,7 +2565,12 @@ blue_crab: {
 lobster: {
     color:"#e41732",
     type:"crustacean",
-    keywords:"crustacean,seafood"
+    keywords:"crustacean,seafood",
+    shape:"lobster"
+},
+blue_lobster: {
+    color:"#584491",
+    type:"lobster"
 },
 crayfish: {
     color:"#c1653e",
@@ -2539,6 +2647,14 @@ squid_ink: {
     landedShape:"liquid_splat",
     delete:false
 },
+pandan_extract: {
+    color:"#75e169",
+    type:"juice",
+    stain:true,
+    adj:"green",
+    keywords:"green dye,pandan juice",
+    delete:true
+},
 
 
 uranium: {
@@ -2600,6 +2716,8 @@ dishRecipes = {
 "bread+sausage+bread?":"hotdog",
 "hotdog+cheese":"cheesedog",
 "bun+beef+bread":"hamburger",
+"bread+beef_patty+bread":"hamburger",
+"bread+chicken_patty+bread":"chicken burger",
 "bread+lobster":"lobster roll",
 "=top_bun+bottom_bun":"nothing burger",
 "hamburger+cheese":"cheeseburger",
@@ -2613,6 +2731,7 @@ dishRecipes = {
 "dough+meat":"meat pot pie",
 "dough+sauce+cheese":"pizza",
 "flatbread+sauce+cheese":"pizza",
+"&stack:bread+sauce+cheese":"pizza",
 "rice+fish+seaweed?":"sushi",
 "=bread+bread":"nothing sandwich",
 "=taco_shell":"nothing taco",
@@ -2654,6 +2773,11 @@ dishRecipes = {
 "soda+eggnog":"pilknog",
 "milk+ice_cream+sugar?":"milkshake",
 "soda+milkshake":"pilkshake",
+
+"fish+chocolate":"le fishe au chocolat",
+"eggplant+peach":"sussy",
+"doll+doll+doll+doll":"friends",
+"sandwich+doll":"idiot sandwich",
 
 "tomato_sauce+chili_sauce+spice+salt?":"salsa",
 "oil+garlic+basil+salt?+cheese?+seed?":"pesto",

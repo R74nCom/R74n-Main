@@ -270,3 +270,21 @@ kbd {background-color:rgb(59, 59, 59);color:white;border-radius:5px;padding:2px;
 .textButton {
     cursor: pointer;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
 }
+
+.artgallery {
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction: row;
+    /* center whole gallery on page */
+    justify-content: center;
+    border:solid white;
+}
+.artgallery div {
+    text-align: center;
+    padding: 10px;
+    flex-grow: 1;
+    border:solid white;
+}
+.artgallery div img, .artgallery div video {
+    height: 198px;
+}
