@@ -288,3 +288,6 @@ kbd {background-color:rgb(59, 59, 59);color:white;border-radius:5px;padding:2px;
 .artgallery div img, .artgallery div video {
     height: 198px;
 }
+.artgallery div audio {
+    height: 125px;
+}
