@@ -761,6 +761,7 @@ boiled_egg: {
     innerColor:"#eac335",
     dropInto:null,
     broken:null,
+    parts:null,
     brokenShape:"circle_ms",
     name:"Hard-Boiled Egg",
     keywords:"hard boiled egg"
