@@ -1528,7 +1528,7 @@ This HTML and its contents are property of R74n.com.
         info.l = colors.map(function(a) { return a[2] });
       }
     }
-    if (info.cookColor) {
+    if (info.cookColor && info.cookColor.length > 4) {
       var color = info.cookColor;
       if (color.charCodeAt(0) == 35) {
         color = color.substring(1);
