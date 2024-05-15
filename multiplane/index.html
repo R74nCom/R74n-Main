@@ -187,7 +187,7 @@ This HTML and its contents are property of R74n.com.
 
 <div class="tabContent" id="tab-table" style="display:block">
   <p>Jump To: <select id="planeSelect"><option selected disabled>Loading...</option></select></p>
-  <p>Dimension: <select id="dimensionSelect"><option selected disabled>Loading...</option></select></p>
+  <p id="dimensionControls">Dimension: <select id="dimensionSelect"><option selected disabled>Loading...</option></select></p>
   <table id="compactTable"></table>
   <table id="planeTable"></table>
 </div>
@@ -227,6 +227,7 @@ This HTML and its contents are property of R74n.com.
     cell1.id = left;
     cell1.innerHTML = left;
     cell2.innerHTML = mid;
+    cell2.id = mid.substring(1);
     cell3.innerHTML = right;
     if (span) {
       cell1.colSpan = 3;
@@ -384,7 +385,7 @@ This HTML and its contents are property of R74n.com.
       if (!right) {
         addCell("#",prefix+left,"",false);
       } else {
-        addCell("#",prefix+left+" "+right,"#"+prefix+left,false);
+        addCell((right.length === 1 ? right : "#"),prefix+left+" "+right,"#"+prefix+left,false);
       }
       currentNum++;
     }
@@ -425,7 +426,7 @@ This HTML and its contents are property of R74n.com.
         lastMin = plane.min;
         lastMax = plane.max;
       }
-      listDiv.innerHTML += "&nbsp; &nbsp; ".repeat(indent) + "<a href=\"javascript:openTab('table');initTable("+plane.min+")\">"+plane.range+"</a> "+plane.name+"<br>";
+      listDiv.innerHTML += "&nbsp; &nbsp; ".repeat(indent) + "<a href=\"?plane="+plane.range+"\" onclick=\"goto('plane="+plane.range+"'); return false\">"+plane.range+"</a> "+plane.name+"<br>";
     }
   }
 

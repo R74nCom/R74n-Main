@@ -503,6 +503,9 @@ multiplanePlanes = {
     "R0A300-R0A3FF": "",
     "R0A400-R0A4FF": "",
     "R0A500-R0A5FF": "",
+    "R0A600-R0A6FF": "",
+    "R0B000-R0BFFF": "R74n Vault",
+      "R0B100-R0B1FF": "Formicode Subspace",
   "R10000-R1FFFF": "Descriptors",
     "R10000-R10FFF": "Countries & Regions",
     "R11000-R12FFF": "Days Since R74n Epoch",
@@ -527,6 +530,7 @@ multiplanePlanes = {
   "RF0000-RFFFFF": "Private Use Plane",
 }
 
+multiplaneTemp = {}
 multiplaneProcedural = {
   "R11000-R12FFF": function(decimal,dimension) {
     var date = new Date(2017, 4, 2);
@@ -553,6 +557,19 @@ multiplaneProcedural = {
   "RE0000-REFFFF": function(decimal,dimension) {
     if (dimension === "" && decimal > 917504) {
       return "Class #" + (decimal-917504);
+    }
+    return "";
+  },
+  "R0B100-R0B1FF": function(decimal,dimension) {
+    if (dimension === "") {
+      var offsetX = multiplaneTemp.formi_offsetX || 0;
+      var offsetY = multiplaneTemp.formi_offsetY || 0;
+      var offsetZ = multiplaneTemp.formi_offsetZ || 0;
+      var charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_-";
+      var index = decimal-45312;
+      index += (offsetX * 1) + (offsetY * 16) + (offsetZ * 16 * 16);
+      var char = charset[index % charset.length];
+      return char;
     }
     return "";
   },
