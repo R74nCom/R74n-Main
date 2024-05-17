@@ -80,5 +80,10 @@
         "qid":"Q2776",
         "uuid":"70517f27-01d2-5cdf-95c1-8feae12d994f",
         "aid":"D276000186F1176FFFEE04"
+    },
+    "solarsmash": {
+        "name": "Solar Smash",
+        "oid": "1.3.6.1.4.1.61117.9000.14",
+        "url": "https://now.gg/apps/paradyme-games/2629/solar-smash.html"
     }
 }
