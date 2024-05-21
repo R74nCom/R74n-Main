@@ -21,7 +21,7 @@
 This HTML and its contents are property of R74n.com.
 -->
     <meta name="description" content="Table of standard identifiers for R74n projects.">
-    <meta name="keywords" content="R74n, ryan, RyanUwU, 4755">
+    <meta name="keywords" content="R74n, R47n">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="twitter:image:alt" content="R74n">
@@ -60,6 +60,11 @@ This HTML and its contents are property of R74n.com.
 
 <p>Below is a table containing important IDs for concepts assigned to <a href="alpha">Alpha Namespaces</a>. It does not show every ID in existence.</p>
 <p>It also supports <a href="?col=name,multiplane,decimal,alphamul,alphatwo,oid,qid,ark,aid,uuid">custom</a> and <a href="?col=name,multiplane,!qid">required</a> columns</p>
+<ul>
+  <li><a href="?col=!qid,multiplane,alphamul,alphatwo,oid,ark,aid,uuid">Wikibase Table</a></li>
+  <li><a href="?col=ark,name">ARK Table</a></li>
+  <li><a href="?col=purl,name">PURL Table</a></li>
+</ul>
 
 <table id="idTable" class="fullTable">
   <thead id="idTableHead">
@@ -109,6 +114,7 @@ This HTML and its contents are property of R74n.com.
         if (multiplaneToWikibase[planecode]) { var qid = multiplaneToWikibase[planecode]; }
         else { var qid = ""; }
         var ark = "ark:/49595/mp"+planecode;
+        var purl = "r74n/id/"+planecode;
 
         var rowData = {
           "multiplane": planecode,
@@ -120,6 +126,7 @@ This HTML and its contents are property of R74n.com.
           "qid": qid,
           "ark": ark,
           "aid": aid,
+          "purl": purl,
           "uuid": uuid,
         };
         rows[planecode] = rowData;
@@ -138,6 +145,7 @@ This HTML and its contents are property of R74n.com.
         "qid": "QID",
         "aid": "AID",
         "ark": "ARK",
+        "purl": "PURL",
         "uuid": "UUID",
       }
       var colLinks = {
@@ -146,8 +154,9 @@ This HTML and its contents are property of R74n.com.
         "oid": "http://www.oid-info.com/cgi-bin/display?action=display&oid=$id",
         "qid": "https://data.r74n.com/entity/$id",
         "aid": "https://r74n.com/id/?$id",
-        "uuid": "https://r74n.com/id/?$id",
         "ark": "https://n2t.net/$id",
+        "purl": "https://purl.org/$id",
+        "uuid": "https://r74n.com/id/?$id",
       }
       var requiredCols = [];
       for (var i = 0; i < cols.length; i++) {

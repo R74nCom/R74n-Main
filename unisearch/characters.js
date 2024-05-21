@@ -538,7 +538,7 @@ characters = {
 "💓":["heart","love","<3","♡","❤️","beat","heartbeat","doki doki","ddlc","doki"],
 "💔":["heart","love","<3","♡","❤️","</3","broken heart","heartbroken","heart broken","heart-broken","heartbreak","heart break","heart-break","breaking heart","break-up","breakup","break up","insult","sad","upset","unhappy","crack","cracked","cracking","breaking","break","broken","broke","heartbreaker","heart breaker","heart-breaker","heartbreaking","heart breaking","heart-breaking","dump","dumping","dumped","let go"],
 "💕":["heart","love","<3","♡","❤️","hearts","snapchat","bf","best friend","bff","#1 best friend","#1 bf"],
-"💖":["heart","love","<3","♡","❤️","sparkle","star","antisocialweeb","@antisocialweeb","ryan"],
+"💖":["heart","love","<3","♡","❤️","sparkle","star","ryan"],
 "💗":["heart","love","<3","♡","❤️","beat","heartbeat"],
 "💙":["heart","love","<3","♡","❤️","blue","sans","undertale","holi"],
 "💚":["heart","love","<3","♡","❤️","green","lime","jealous","holi"],
