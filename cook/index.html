@@ -45,6 +45,11 @@ This HTML and its contents are property of R74n.com.
 
     <script src="foodData.js"></script>
 
+    <script>
+      // Load Settings
+      settings = JSON.parse(localStorage.getItem('settings')) || {};
+    </script>
+
     <style>
       .content {
         margin: 0;
@@ -73,6 +78,9 @@ This HTML and its contents are property of R74n.com.
         position: relative;
         cursor: url("cursor_full.png"), auto;
       }
+      #gameDiv button img {
+        pointer-events: none;
+      }
       #gameDiv button, #gameDiv a {
         cursor: url("cursor_full.png"), auto;
       }
@@ -100,6 +108,10 @@ This HTML and its contents are property of R74n.com.
         -ms-user-select: none;
         outline: none;
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+      }
+      #gameCanvas img {
+        -webkit-user-select:none;
+        -webkit-touch-callout:none;
       }
       #loadingScreen {
         background-color: #e3d5ba;
@@ -166,7 +178,7 @@ This HTML and its contents are property of R74n.com.
       #controlsBar button:last-child {
         border-bottom: none;
       }
-      #prepBar, .dialogBox input {
+      #prepBar, .dialogBox input, .dialogBox button {
         background-color: #9b6723;
         padding: 7.5px;
         border-bottom: solid 3px #614202;
@@ -319,6 +331,14 @@ This HTML and its contents are property of R74n.com.
         font-size: 1.4em;
         vertical-align: top;
       }
+      .dialogBox p {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .dialogScroll {
+        overflow-y: scroll;
+        max-height: 80%;
+      }
       .dialogBox:after {
         content: '';
         width: 0;
@@ -342,8 +362,13 @@ This HTML and its contents are property of R74n.com.
       .dialogX:hover {
         filter: brightness(1.25);
       }
-      .dialogBox input[type="text"] {
-        background-color: #693b00
+      .dialogBox input[type="text"], .dialogBox button {
+        background-color: #693b00;
+        border-bottom: solid 3px #502d00;
+        border-radius: 0;
+        font-size: 1em;
+        vertical-align: middle;
+        line-height: 0.6;
       }
       .dialogBox p {
         margin-top: 5px;
@@ -420,6 +445,9 @@ This HTML and its contents are property of R74n.com.
       #gameDiv a {
         color: #fffab7;
       }
+      #gameDiv hr {
+        border: 1px dashed #614202;
+      }
       
       /*
       <div id="boxContainer">
@@ -447,6 +475,10 @@ This HTML and its contents are property of R74n.com.
         }
         #serveClearButton {
           display: none
+        }
+        .dialogBox p {
+          padding-left: 5px;
+          padding-right: 5px;
         }
       }
       @media (max-width: 450px) {
@@ -478,13 +510,12 @@ This HTML and its contents are property of R74n.com.
     <div id="gameCanvasDiv">
       <canvas id="gameCanvas"></canvas>
       <div id="searchResultsDiv">
-        <div id="searchResults"></div>
+        <div id="searchResults" oncontextmenu="return false;";></div>
       </div>
-      <div id="prepControls"><!--
+      <div id="prepControls" oncontextmenu="return false;";><!--
         --><button id="button-settings" onclick="showSettings();" title="Settings and Mods"><img src="gear.png" class="pixelart"></button><!--
         --><button id="button-tempIncrease" onclick="toggle('tempIncrease')" title="Heat"><img src="temp_increase.png" class="pixelart"></button><!--
         --><button id="button-tempDecrease" onclick="toggle('tempDecrease')" title="Cool"><img src="temp_decrease.png" class="pixelart"></button><!--
-        --><button id="button-blend" onclick="selectTool('blend')" title="Blend"><img src="blend.png" class="pixelart"></button><!--
       --></div>
       <div id="statBar"></div>
       <div id="dialogBox" class="dialogBox">
@@ -507,9 +538,23 @@ This HTML and its contents are property of R74n.com.
           </div>
         </div>
       </div>
-      <div id="settingsBox" class="dialogBox">
+      <div id="settingsBox" class="dialogBox dialogScroll">
         <img src="dialog_x.png" class="pixelart dialogX" onclick="hideDialog()">
         <div id="dialogContent">
+          <p>Settings</p>
+          <p>
+            Temperature shows in <button setting="units" onclick="cycleButton(this)" values="metric,imperial" value="metric">metric</button>.
+          </p>
+          <script>
+            var buttons = document.querySelectorAll("button[setting]");
+            buttons.forEach(function(e) {
+              if (settings[e.getAttribute("setting")]) {
+                e.setAttribute("value", settings[e.getAttribute("setting")]);
+                e.innerHTML = settings[e.getAttribute("setting")]
+              };
+            });
+          </script>
+          <hr>
           <p>Mods (<a href="https://github.com/R74nCom/InfiniteChef-Mods" target="_blank">List</a>)</p>
           <input type="text" id="addModText" placeholder="Add Mod (.js)"> <img src="../shapes/png/plus_thick.png" onclick="addMod(document.getElementById('addModText').value)">
           <p id="modList"></p>
@@ -518,7 +563,7 @@ This HTML and its contents are property of R74n.com.
     </div>
   </div>
   <div id="rightDiv" style="display: none;">
-    <div id="controlsBar">
+    <div id="controlsBar" oncontextmenu="return false;";>
       <button selected id="button-bowl" onclick="changeView('bowl')" title="Bowl Mode"><img src="../shapes/png/semicircle_bottom.png" class="pixelart" alt="bowl"></button>
       <button id="button-stack" onclick="changeView('stack')" title="Stack Mode"><img src="../shapes/png/stack.png" class="pixelart" alt="stack"></button>
       <button id="button-clear" onclick="clearView()" title="Start Over"><img src="../shapes/png/x.png" class="pixelart" alt="x"></button>
@@ -531,6 +576,27 @@ This HTML and its contents are property of R74n.com.
 </div>
 
 <script>
+  function saveSettings() {
+    localStorage.setItem('settings', JSON.stringify(settings));
+  }
+  function setSetting(setting, value) {
+    settings[setting] = value;
+    saveSettings();
+  }
+  function cycleButton(e) {
+    var values = e.getAttribute('values').split(',');
+    var value = e.getAttribute('value');
+    var index = values.indexOf(value);
+    index = (index + 1) % values.length;
+    e.setAttribute('value', values[index]);
+    e.innerHTML = values[index];
+    var setting = e.getAttribute('setting');
+    if (setting) {
+      setSetting(setting, values[index]);
+    }
+    return values[index];
+  }
+
   function refreshCanvas() {
     canvas.width = gameDiv.clientWidth - document.getElementById('controlsBar').clientWidth;
     canvas.height = gameDiv.clientHeight - document.getElementById('prepBar').clientHeight - 2;
@@ -539,7 +605,7 @@ This HTML and its contents are property of R74n.com.
     ctx.imageSmoothingEnabled = false;
     drawCanvas();
   }
-  var canvas = document.getElementById('gameCanvas');
+  canvas = document.getElementById('gameCanvas');
   var gameDiv = document.getElementById('gameDiv');
   var mainDiv = document.getElementById('mainDiv');
   var rightDiv = document.getElementById('rightDiv');
@@ -566,9 +632,18 @@ This HTML and its contents are property of R74n.com.
   function useTool() {
     if (toolData[currentTool].func) {
       var placed = ingredientsAt(mousePos.x, mousePos.y);
-      if (placed.length) placed.forEach(toolData[currentTool].func);
+      if (placed.length) {
+        if (toolData[currentTool].target === "many") {
+          toolData[currentTool].func(placed);
+        }
+        else {
+          placed.forEach(toolData[currentTool].func);
+        }
+      }
     }
     if (toolData[currentTool].spin) currentToolR = (currentToolR+18) % 360;
+    // sine
+    else if (toolData[currentTool].sway) currentToolR = Math.sin(ticks/5)*15;
   }
   function tick() {
     if (currentTool) {
@@ -585,7 +660,7 @@ This HTML and its contents are property of R74n.com.
         var bowlImg = loadImage(viewInfo[currentView].image);
         leftBound = Math.round(canvas.width/2 - bowlImg.width/2*5) + 50;
         rightBound = Math.round(canvas.width/2 + bowlImg.width/2*5) - 50;
-        hitLine = Math.round(bowlImg.height*3 + canvas.height/2 - bowlImg.height/2*5+75);
+        hitLine = Math.round(bowlImg.height*3 + canvas.height/2 - bowlImg.height/2*5+80);
       }
     }
     drawCanvas();
@@ -601,7 +676,7 @@ This HTML and its contents are property of R74n.com.
   currentView = "bowl";
   viewData = {};
   controlState = {};
-  mousePos = {x: 0, y: 0};
+  mousePos = {x: 0, y: 0, speedX:0, speedY:0};
   foodScale = 2.25;
   function loadImage(src) {
     if (imageCache[src] == undefined) {
@@ -792,11 +867,16 @@ This HTML and its contents are property of R74n.com.
     }
   }
   function drawCursor() {
+    var offsetX = 0;
+    var offsetY = 0;
     if ((currentIngredient||currentTool) && (!controlState.mobile || (currentTool && controlState.mouse === 0))) {
       if (currentTool && toolData[currentTool].func) {
         ctx.globalAlpha = 1;
-        var ingredientImg = loadImage(toolData[currentTool].img);
+        if (toolData[currentTool].h) var ingredientImg = colorizeStandard(toolData[currentTool].img, toolData[currentTool].h, toolData[currentTool].s, toolData[currentTool].l);
+        else var ingredientImg = loadImage(toolData[currentTool].img);
         var scale = foodScale;
+        offsetX = ingredientImg.width*(toolData[currentTool].offsetX||0);
+        offsetY = ingredientImg.height*(toolData[currentTool].offsetY||0);
       }
       else if (currentIngredient) {
         ctx.globalAlpha = 0.5;
@@ -807,7 +887,7 @@ This HTML and its contents are property of R74n.com.
       var angleInRadians = (currentToolR) * Math.PI / 180;
       ctx.translate(mousePos.x, mousePos.y);
       if (angleInRadians !== 0) ctx.rotate(angleInRadians);
-      ctx.drawImage(ingredientImg, -ingredientImg.width/2*scale, -ingredientImg.height/2*scale, ingredientImg.width*scale, ingredientImg.height*scale);
+      ctx.drawImage(ingredientImg, -ingredientImg.width/2*scale+offsetX, -ingredientImg.height/2*scale+offsetY, ingredientImg.width*scale, ingredientImg.height*scale);
       if (angleInRadians !== 0) ctx.rotate(-angleInRadians);
       ctx.translate(-mousePos.x, -mousePos.y);
       ctx.globalAlpha = 1;
@@ -837,7 +917,7 @@ This HTML and its contents are property of R74n.com.
     }
     if (ingredient.id === newIngredient) { return; }
     var wasLiquid = ingredientAttr(ingredient.id,"behavior") === 1;
-    if (wasLiquid) {
+    if (wasLiquid && ingredient.done2) {
       removeLiquid(ingredient.h, ingredient.s, ingredient.l);
     }
     if (!ingredient.original) ingredient.original = [];
@@ -845,9 +925,8 @@ This HTML and its contents are property of R74n.com.
       // remove
       ingredient.original.splice(ingredient.original.indexOf(newIngredient), 1);
     }
-    ingredient.original.push(ingredient.id);
+    if (ingredient.original.indexOf(ingredient.id) === -1) { ingredient.original.push(ingredient.id); }
     ingredient.id = newIngredient;
-    console.log(ingredient)
     colorIngredient(ingredient);
     ingredient.a = ingredientAttr(ingredient.id,"a") || 1;
     var newBehavior = ingredientAttr(ingredient.id,"behavior");
@@ -858,11 +937,13 @@ This HTML and its contents are property of R74n.com.
     if (wasLiquid && newBehavior !== 1 && newBehavior !== 2) {
       viewData[currentView].liquidSolid = true;
     }
-    if (!skipContain && newBehavior !== 3) containIngredient(ingredient);
-    if (newBehavior === 3) {
-      ingredient.shape = chooseShape(ingredient.id);
+    if (!skipContain && newBehavior !== 3 && !ingredient.done2) containIngredient(ingredient);
+    if (!wasLiquid || newBehavior === 3) {
+      if (newBehavior === 3) {
+        ingredient.shape = chooseShape(ingredient.id);
+      }
+      else ingredient.shape = chooseShape(ingredient.id) || ingredient.shape;
     }
-    else ingredient.shape = chooseShape(ingredient.id) || ingredient.shape;
     updateSize(ingredient);
     if (ingredient.done || ingredient.done2) ingredient.shape = ingredientAttr(ingredient.id, "landedShape") || ingredient.shape;
     uncontainAll();
@@ -885,8 +966,13 @@ This HTML and its contents are property of R74n.com.
     if ((placed.shape && shapeMeta.short.indexOf(placed.shape) !== -1) || shapeMeta.short.indexOf(ingredients[placed.id].shape) !== -1) {
       height = 0.5;
     }
+    var oldHeight = placed.height;
     placed.height = size*(ingredientAttr(placed.id, "height")||height);
     placed.width = size*(ingredientAttr(placed.id, "width")||0.5);
+    // adjust y based on height so bottom is the same
+    if (oldHeight && oldHeight !== placed.height) {
+      placed.y += (oldHeight - placed.height)/2;
+    }
   }
   function placeIngredient(ingredient, x, y) {
     var info = ingredients[ingredient];
@@ -914,11 +1000,12 @@ This HTML and its contents are property of R74n.com.
     }
     var behavior = ingredientAttr(placed.id, "behavior");
     if (behavior === 1) {
-      viewData[currentView].liquid--;
-      var rgb = hslToRgb(placed.h/360, placed.s/100, placed.l/100);
-      viewData[currentView].liquidR -= rgb[0];
-      viewData[currentView].liquidG -= rgb[1];
-      viewData[currentView].liquidB -= rgb[2];
+      // viewData[currentView].liquid--;
+      // var rgb = hslToRgb(placed.h/360, placed.s/100, placed.l/100);
+      // viewData[currentView].liquidR -= rgb[0];
+      // viewData[currentView].liquidG -= rgb[1];
+      // viewData[currentView].liquidB -= rgb[2];
+      removeLiquid(placed.h, placed.s, placed.l);
     }
   }
   function stainIngredient(placed, h, s, l) {
@@ -956,6 +1043,7 @@ This HTML and its contents are property of R74n.com.
       if (behavior === 1 && viewInfo[currentView].holdsLiquid && ingredientAttr(other.id, "dissolve")) {
         other.hide = true;
         other.done = true;
+        addLiquid(other.h, other.s, other.l);
       }
       reacted = false;
       if (reactions1) {
@@ -980,7 +1068,6 @@ This HTML and its contents are property of R74n.com.
     return reacted;
   }
   function reactIngredients(placed1, placed2, params) {
-    var reacted = false;
     var placed1original = placed1.id;
     var placed2original = placed2.id;
     if (params.tempMin && viewData[currentView].temp < params.tempMin) return false;
@@ -991,7 +1078,6 @@ This HTML and its contents are property of R74n.com.
         placed1.original = [placed1original, placed2original];
         changeIngredient(placed1, choose(params.set1));
       }
-      reacted = true;
     }
     if (params.set2 !== undefined) {
       if (params.set2 === null) deleteIngredient(placed2);
@@ -999,9 +1085,24 @@ This HTML and its contents are property of R74n.com.
         placed2.original = [placed2original, placed1original];
         changeIngredient(placed2, choose(params.set2));
       }
-      reacted = true;
     }
-    return reacted;
+    if (params.shape1) {
+      placed1.shape = choose(params.shape1);
+      updateSize(placed1);
+    }
+    if (params.shape2) {
+      placed2.shape = choose(params.shape2);
+      updateSize(placed2);
+    }
+    if (params.color1) {
+      var hsl = hexToHsl(choose(params.color1));
+      colorIngredient(placed1, hsl[0]*360, hsl[1]*100, hsl[2]*100);
+    }
+    if (params.color2) {
+      var hsl = hexToHsl(choose(params.color2));
+      colorIngredient(placed2, hsl[0]*360, hsl[1]*100, hsl[2]*100);
+    }
+    return true;
   }
   function addLiquid(h, s, l) {
     viewData[currentView].liquid++;
@@ -1029,8 +1130,6 @@ This HTML and its contents are property of R74n.com.
     // else {
     //   placed.hide = false;
     // }
-    // Do Reactions
-    if (!viewInfo[currentView].reactionContact) checkReactions(placed);
     var delete_ = ingredientAttr(placed.id,"delete");
     if (delete_ || (ingredientAttr(placed.id,"dissolve") && viewData[currentView].liquid)) {
       placed.hide = true;
@@ -1045,11 +1144,22 @@ This HTML and its contents are property of R74n.com.
     var landedShape = ingredientAttr(placed.id, "landedShape");
     if (dropInto && placed.vy >= dropIntoV) {
       changeIngredient(placed, dropInto);
-      placed.done = true;
     }
     else if (landedShape) {
       placed.shape = landedShape;
     }
+    var onLand = ingredientAttr(placed.id, "onLand");
+    if (onLand) onLand(placed);
+    if (!placed.tempAdded) {
+      var addTemp = ingredientAttr(placed.id, "temp");
+      if (addTemp) {
+        viewData[currentView].temp += addTemp;
+        tempCheck();
+        placed.tempAdded = true;
+      }
+    }
+    // Do Reactions
+    if (!viewInfo[currentView].reactionContact) checkReactions(placed);
   }
   function uncontainAll() {
     for (var i = 0; i < viewData[currentView].total.length; i++) {
@@ -1076,12 +1186,12 @@ This HTML and its contents are property of R74n.com.
     // Temperature
     if (view.temp === undefined) view.temp = 20;
     if (view.tempIncrease) {
-      if (view.temp < roomTemp) view.temp += 0.3;
-      else view.temp += 0.1;
+      view.temp += Math.min(view.temp/200,100);
+      if (view.temp < roomTemp) view.temp += 0.6;
     }
     else if (view.tempDecrease) {
-      if (view.temp > roomTemp) view.temp -= 0.3;
-      else view.temp -= 0.1;
+      view.temp -= (view.temp+roomTemp)/100;
+      if (view.temp > roomTemp) view.temp -= 0.6;
     }
     else if (Math.round(view.temp) !== roomTemp) {
       view.temp -= Math.sign(view.temp-roomTemp)*0.01;
@@ -1092,6 +1202,8 @@ This HTML and its contents are property of R74n.com.
       var placed = view.total[i];
       var behavior = ingredientAttr(placed.id, "behavior") || 0;
       if (placed.done || placed.done2 || placed.hide) { continue; }
+      var movable = ingredientAttr(placed.id, "movable");
+      if (movable === false) { placed.done = true; placed.done2 = true; continue; }
       if (placed.vx === undefined) { placed.vx = 0; }
       else if (placed.vx) { placed.x += placed.vx; }
       if (placed.vy === undefined) { placed.vy = 0; }
@@ -1145,7 +1257,7 @@ This HTML and its contents are property of R74n.com.
         }
       }
       // if its outside the canvas, remove it
-      if (placed.x < -50 || placed.x > canvas.width+50 || placed.y > canvas.height+50 || placed.y < -50) {
+      if (!placed.noDelete && (placed.x < -50 || placed.x > canvas.width+50 || placed.y > canvas.height+50 || (placed.y < -50 && behavior === 3))) {
         view.total.splice(i, 1);
         i--;
       }
@@ -1156,6 +1268,7 @@ This HTML and its contents are property of R74n.com.
         // if the bottom of the placed is below the hitline, set done true
         if (placed.y + placed.height/2 >= hitLine && placed.y + placed.height/2 < hitLine+20 && placed.x > leftBound && placed.x < rightBound) {
           containIngredient(placed);
+          placed.y = hitLine - placed.height/2;
         }
       }
     }
@@ -1163,15 +1276,24 @@ This HTML and its contents are property of R74n.com.
   function ingredientsAt(x,y) {
     // return all ingredients that collide with x and y
     var ingredients = [];
+    var liquid = null;
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
-      if (placed.hide) { continue; }
+      if (placed.hide) {
+        if (viewInfo[currentView].holdsLiquid && (ingredientAttr(placed.id, "behavior") === 1 || ingredientAttr(placed.id, "dissolve"))) {
+          liquid = placed;
+        }
+        continue;
+      }
       if (x < placed.x + placed.width/2 &&
           x > placed.x - placed.width/2 &&
           y < placed.y + placed.height/2 &&
           y > placed.y - placed.height/2) {
         ingredients.push(placed);
       }
+    }
+    if (ingredients.length === 0 && liquid && mousePos.y > canvas.height*(viewInfo[currentView].maxHeight||0) && mousePos.x > leftBound && mousePos.x < rightBound && mousePos.y < hitLine) {
+      ingredients.push(liquid);
     }
     return ingredients;
   }
@@ -1298,9 +1420,9 @@ This HTML and its contents are property of R74n.com.
       button.removeAttribute('selected');
     });
     document.getElementById('controlsBar').querySelector('#button-'+view).setAttribute('selected', '');
+    var info = viewInfo[view];
     if (!viewData[view]) {
       viewData[view] = {"total":[],"contained":[]};
-      var info = viewInfo[view];
       if (info) {
         if (viewInfo[view].holdsLiquid) {
           viewData[view].liquid = 0;
@@ -1308,12 +1430,14 @@ This HTML and its contents are property of R74n.com.
           viewData[view].liquidG = 0;
           viewData[view].liquidB = 0;
         }
-        if (info.foodScale) {
-          foodScale = info.foodScale;
-        }
-        else {
-          foodScale = 2.25
-        }
+      }
+    }
+    if (info) {
+      if (info.foodScale) {
+        foodScale = info.foodScale;
+      }
+      else {
+        foodScale = 2.25
       }
     }
   }
@@ -1325,6 +1449,7 @@ This HTML and its contents are property of R74n.com.
       viewData[currentView].liquidR = 0;
       viewData[currentView].liquidG = 0;
       viewData[currentView].liquidB = 0;
+      viewData[currentView].liquidSolid = false;
     }
     turnOff("tempIncrease");
     turnOff("tempDecrease");
@@ -1361,6 +1486,8 @@ This HTML and its contents are property of R74n.com.
     )
     ingredient = ingredient.replace(" And ", " and ");
     ingredient = ingredient.replace(" Or ", " or ");
+    ingredient = ingredient.replace(" On ", " on ");
+    ingredient = ingredient.replace(" With ", " with ");
     ingredient = ingredient.replace(" 'N ", " 'n ");
     if (matches) {
       for (var i = 0; i < matches.length; i++) {
@@ -1371,6 +1498,15 @@ This HTML and its contents are property of R74n.com.
       }
     }
     return ingredient;
+  }
+  function formatTemp(n) {
+    var units = settings.units || "metric";
+    if (units === "metric") {
+      return Math.round(n) + "°C";
+    }
+    else if (units === "imperial") {
+      return Math.round(n*9/5+32) + "°F";
+    }
   }
   defaultSearchResults = [];
   function searchIngredients(query) {
@@ -1418,12 +1554,18 @@ This HTML and its contents are property of R74n.com.
         if (index !== -1) {
           otherResults.push(key);
           count++;
+          done[key] = true;
         }
         else if (ingredients[key].keywords && ingredients[key].keywords.indexOf(query) !== -1) {
           poorResults.push(key);
           count++;
+          done[key] = true;
         }
-        else if (ingredients[queryO_] && ingredientIsType(key, queryO_) && key !== queryO_) {
+      }
+      for (var key in ingredients) {
+        if (done[key]) { continue }
+        if (count > 10 && query.length) { break; }
+        if (ingredients[queryO_] && ingredientIsType(key, queryO_) && key !== queryO_) {
           poorResults.push(key);
           count++;
           continue;
@@ -1617,7 +1759,7 @@ This HTML and its contents are property of R74n.com.
     if (info.behavior == 1 && !info.placedShape) info.placedShape = "droplets_some";
     if (info.behavior == 2 && !info.placedShape) info.placedShape = "squares_some";
   }
-  uninheritedAttributes = ["name","short"]
+  uninheritedAttributes = ["name","short","cookName"]
   function ingredientAttr(ingredient, attr) {
     if (ingredients[ingredient] === undefined) { return undefined; }
     if (ingredients[ingredient][attr] === undefined && uninheritedAttributes.indexOf(attr) === -1){
@@ -1639,6 +1781,16 @@ This HTML and its contents are property of R74n.com.
 
   function addRecipe(recipe,result) {
     dishRecipes[recipe] = result;
+    recipeMap[recipe] = recipe.split("+");
+    // if the first element starts with "&", split by ":"
+    if (recipeMap[recipe][0].charCodeAt(0) === 38) {
+      var split = recipeMap[recipe][0].split(":");
+      recipeMap[recipe][0] = split[1];
+    }
+    // if the first element starts with "=", remove the "="
+    if (recipeMap[recipe][0].charCodeAt(0) === 61) {
+      recipeMap[recipe][0] = recipeMap[recipe][0].substring(1);
+    }
   }
 
   function generateDishName(ingredients) {
@@ -1756,6 +1908,7 @@ This HTML and its contents are property of R74n.com.
           }
         }
         if (count >= requiredCount && !noNameCount) {
+          var dishWeight = 0;
           // console.log("toUse: "+JSON.stringify(toUse))
           for (var key in toUse) {
             used[key] = true;
@@ -1775,11 +1928,15 @@ This HTML and its contents are property of R74n.com.
               nameMap[key][0].used = true;
               ingredients.splice(ingredients.indexOf(nameMap[key][0]), 1);
               nameMap[key].splice(0, 1);
+              if (!dishWeight) {
+                var tempWeight = ingredientAttr(key, "dishWeight");
+                if (tempWeight) dishWeight = tempWeight;
+              }
             }
             // console.log("ingredients: "+JSON.stringify(ingredients))
             // console.log("nameMap: "+JSON.stringify(nameMap))
           }
-          ingredients.push({id:result});
+          ingredients.push({id:result,dishWeight:dishWeight});
           if (!nameMap[result]) { nameMap[result] = [] }
           nameMap[result].push(ingredients[ingredients.length-1]);
           success = true;
@@ -1809,24 +1966,27 @@ This HTML and its contents are property of R74n.com.
       var ingName = ingredient.id;
       var weight = 0;
       var type = null;
-      var fallback = ingredient.id;
       var adj = ingredientAttr(ingredient.id, "adj");
       var nameOverride = ingredientAttr(ingredient.id, "name");
       var dishNameOverride = ingredientAttr(ingredient.id, "dishName");
-      var weightOverride = ingredientAttr(ingredient.id, "dishWeight");
+      if (ingredient.cook > 0.1) {
+        var cookName = ingredientAttr(ingredient.id, "cookName");
+        if (cookName) {dishNameOverride = cookName}
+      }
+      var weightOverride = ingredient.dishWeight || ingredientAttr(ingredient.id, "dishWeight");
+      var fallback = dishNameOverride || nameOverride || ingName;
       if (weightOverride) {
         weight += weightOverride;
       }
-      if (dishNameOverride === null) {
-        fallback = ingName;
-        ingName = "";
-        type = "blank";
-      }
-      else if (adj) {
+      if (adj) {
         ingName = adj;
         weight -= 100;
         type = "adj";
-        if (dishNameOverride) fallback = dishNameOverride;
+      }
+      else if (dishNameOverride === null) {
+        ingName = "";
+        weight -= 1000;
+        type = "blank";
       }
       else if (dishNameOverride) {
         ingName = dishNameOverride;
@@ -1848,11 +2008,14 @@ This HTML and its contents are property of R74n.com.
       if (type === "adj" && i === nameSorted.length-1) {
         ingName = fallback;
       }
-      else if (type === "blank" && nameSorted.length === 1) {
+      else if (type === "blank" && (nameSorted.length === 1 || i === nameSorted.length-1)) {
         ingName = fallback;
       }
-      if (nameParts.length >= 3 && window.ingredients[fallback] && window.ingredients[fallback].short) {
-        ingName = window.ingredients[fallback].short;
+      if (nameParts.length >= 3) {
+        if (window.ingredients[fallback] && window.ingredients[fallback].short) {
+          ingName = window.ingredients[fallback].short;
+        }
+        ingName = ingName.replace(/ and /g, " & ");
       }
       name += ingName + " ";
     }
@@ -1887,7 +2050,7 @@ This HTML and its contents are property of R74n.com.
           if (!used[ingredient] || used[ingredient] === 2) { continue }
           if (ingredient === word) { continue }
           if (ingredientIsType(ingredient, word)) {
-            subtypes.push(window.ingredients[ingredient]?.name || ingredient);
+            subtypes.push(window.ingredients[ingredient]?.name || window.ingredients[ingredient]?.dishName || ingredient);
           }
         }
         // do the same for toIgnoreNames array
@@ -1895,7 +2058,7 @@ This HTML and its contents are property of R74n.com.
           var ingredient = toIgnoreNames[j];
           if (ingredient === word) { continue }
           if (ingredientIsType(ingredient, word)) {
-            subtypes.push(window.ingredients[ingredient]?.name || ingredient);
+            subtypes.push(window.ingredients[ingredient]?.name || window.ingredients[ingredient]?.dishName || ingredient);
           }
         }
         if (subtypes.length) {
@@ -1904,12 +2067,15 @@ This HTML and its contents are property of R74n.com.
       }
     }
     nameSplit = nameSplit.join(" ").split(/[ _]+/);
-    // remove duplicate words
+    // remove duplicate words, keeping the last instance
     nameSplit = nameSplit.filter(function(item, pos) {
-      return nameSplit.indexOf(item) == pos;
+      return nameSplit.lastIndexOf(item) === pos;
     });
     name = nameSplit.join(" ");
     name = formatName(name);
+    if (name.trim().length === 0) {
+      name = "Mostly Nothing";
+    }
 
     return name;
   }
@@ -1953,7 +2119,7 @@ This HTML and its contents are property of R74n.com.
     "Never let me cook DISHNAME again... (Infinite Chef)",
     "All I want for Christmas is DISHNAME (Infinite Chef)",
     "I physically cannot stop making DISHNAME in Infinite Chef",
-    "I'm literally overflowing with DISHNAME on Infinite Chef",
+    "I'm literally overflowing with DISHNAME in Infinite Chef",
     "I skipped all my classes to make DISHNAME in Infinite Chef",
     "Call me Walter White the way I've been cooking DISHNAME in Infinite Chef",
     "Gordon Ramsay approves of my DISHNAME (Infinite Chef)",
@@ -2096,7 +2262,9 @@ This HTML and its contents are property of R74n.com.
         currentTool = null;
         return;
       }
-      if (tool !== null) selectIngredient(null);
+      if (tool !== null) {
+        selectIngredient(null);
+      }
       var button = document.getElementById("button-"+tool);
       if (button) button.setAttribute("on", "true");
       currentTool = tool;
@@ -2131,8 +2299,112 @@ This HTML and its contents are property of R74n.com.
       },
       img: "blend.png",
       spin: true
+    },
+    tongs: {
+      func: (placed) => {
+        if (!dragging) {
+          dragging = placed;
+          // move each in placed array to top of viewData[currentView].total
+          placed.forEach((a) => {
+            viewData[currentView].total.splice(viewData[currentView].total.indexOf(a),1);
+            viewData[currentView].total.push(a);
+          });
+          uncontainAll();
+        }
+      },
+      whileOn: () => {
+        if (dragging) {
+          dragging.forEach((placed) => {
+            placed.done = false;
+            placed.done2 = false;
+            placed.vx = 0;
+            placed.vy = 0;
+            placed.x = mousePos.x;
+            placed.y = mousePos.y;
+            placed.noDelete = true;
+            if (viewInfo[currentView].holdsLiquid && placed.hide && (ingredientAttr(placed.id, "behavior") === 1 || ingredientAttr(placed.id, "dissolve"))) {
+              removeLiquid(placed.h, placed.s, placed.l);
+              placed.hide = false;
+            }
+          })
+          if (mousePos.x > canvas.width) { // move to another view
+            var elements = document.querySelectorAll('#controlsBar button');
+            for (var i = 0; i < elements.length; i++) {
+              var element = elements[i];
+              if (element.matches(':hover')) {
+                  var view = element.id.split("-")[1];
+                  if (viewInfo[view] && currentView !== view) {
+                    var oldView = currentView;
+                    changeView(view);
+                    dragging.forEach((placed) => {
+                      viewData[oldView].total.splice(viewData[oldView].total.indexOf(placed),1);
+                      viewData[view].total.push(placed);
+                    })
+                  }
+              }
+            }
+          }
+        }
+      },
+      onClick: () => {
+        currentToolR = 10;
+      },
+      onMouseUp: () => {
+        if (dragging) {
+          dragging.forEach((placed) => {
+            placed.vx = mousePos.speedX;
+            placed.vy = mousePos.speedY;
+            placed.noDelete = false;
+          })
+        }
+        currentToolR = 0;
+        dragging = null;
+      },
+      onDeselect: () => {
+        dragging = null;
+      },
+      img: "tongs.png",
+      target: "many",
+      offsetX: 0.5,
+      offsetY: -0.5
+    },
+    whisk: {
+      func: (placed) => {
+        var toMix = placed.slice();
+        uncontainAll();
+        placed.forEach((a) => {
+          if (Math.abs(a.x - mousePos.x) < 5) a.vx = 0;
+          else if (a.x+40 > rightBound) a.vx = -3;
+          else if (a.x-40 < leftBound) a.vx = 3;
+          else if (a.x > mousePos.x) a.vx = 3;
+          else if (a.x < mousePos.x) a.vx = -3;
+          a.vy = -3;
+          var whipped = ingredientAttr(a.id, "whipped");
+          if (whipped) changeIngredient(a,choose(whipped));
+        });
+        while (toMix.length > 1) {
+          var a = choose(toMix);
+          var b = choose(toMix);
+          if (Math.random() < 0.33) {
+            var temp = a.x;
+            a.x = b.x;
+            b.x = temp;
+            temp = a.y;
+            a.y = b.y;
+            b.y = temp;
+          }
+          toMix.splice(toMix.indexOf(a), 1);
+          toMix.splice(toMix.indexOf(b), 1);
+        }
+      },
+      img: "whisk.png",
+      target: "many",
+      sway: true,
+      offsetX: 0.5,
+      offsetY: -0.5
     }
   }
+  dragging = null;
   function addTool(name,data) {
     var oldButton = document.getElementById("button-"+name);
     if (oldButton) oldButton.remove();
@@ -2141,18 +2413,35 @@ This HTML and its contents are property of R74n.com.
     }
     if (data.shape) {
       data.img = "../shapes/png/"+data.shape+".png";
+      if (data.color) {
+        var hsl = hexToHsl(data.color);
+        data.h = hsl[0]*360; data.s = hsl[1]*100; data.l = hsl[2]*100;
+        var image = colorizeStandard(data.img, data.h, data.s, data.l);
+        if (image.loaded) {
+          data.img = image.src;
+        }
+        else {
+          image.addEventListener("load", function() {
+            document.getElementById("toolImg-"+name).src = colorizeStandard(data.img, data.h, data.s, data.l).src;
+          })
+        }
+      }
     }
     toolData[name] = data;
-    var prepControls = document.getElementById("prepControls");
-    // <button id="button-blend" onclick="selectTool('blend')"><img src="blend.png" class="pixelart"></button>
-    prepControls.insertAdjacentHTML('beforeend', "<button id=\"button-"+name+"\" onclick=\"selectTool('"+name+"')\" title=\""+formatName(name)+"\"><img src=\""+data.img+"\" class=\"pixelart\"></button>");
+    if (!data.hidden) {
+      var prepControls = document.getElementById("prepControls");
+      prepControls.insertAdjacentHTML('beforeend', "<button id=\"button-"+name+"\" onclick=\"selectTool('"+name+"')\" title=\""+formatName(name)+"\"><img src=\""+data.img+"\" class=\"pixelart\" id=\"toolImg-"+name+"\"></button>");
+    }
+  }
+  for (var key in toolData) {
+    addTool(key,toolData[key]);
   }
   function updateStats() {
     var statText = "";
     var statBar = document.getElementById("statBar");
     var view = viewData[currentView];
     if (view.tempIncrease || view.tempDecrease || Math.abs(view.temp-20) > 10) {
-      statText += Math.round(view.temp)+"°C";
+      statText += formatTemp(view.temp);
     }
     statBar.innerText = statText;
   }
@@ -2192,7 +2481,14 @@ This HTML and its contents are property of R74n.com.
       var meltPoint = ingredientAttr(ingredient.id, "meltPoint");
       if (view.temp >= meltPoint) {
         var meltInto = choose(ingredientAttr(ingredient.id, "meltInto"));
-        if (meltInto) changeIngredient(ingredient, meltInto);
+        viewData[currentView].liquidSolid = false;
+        if (meltInto) {
+          var oldColor = [ingredient.h, ingredient.s, ingredient.l];
+          changeIngredient(ingredient, meltInto);
+          ingredient.h = oldColor[0];
+          ingredient.s = oldColor[1];
+          ingredient.l = oldColor[2];
+        }
         else if (viewInfo[currentView].holdsLiquid) {
           addLiquid(ingredient.h, ingredient.s, ingredient.l);
           ingredient.pseudo = true;
@@ -2372,7 +2668,9 @@ This HTML and its contents are property of R74n.com.
       var rect = gameCanvas.getBoundingClientRect();
       mousePos = {
         x: Math.round(e.clientX - rect.left),
-        y: Math.round(e.clientY - rect.top)
+        y: Math.round(e.clientY - rect.top),
+        speedX: -Math.round(mousePos.x - (e.clientX - rect.left)),
+        speedY: -Math.round(mousePos.y - (e.clientY - rect.top))
       }
     }
     window.addEventListener('mousemove', function(e) {
@@ -2434,9 +2732,15 @@ This HTML and its contents are property of R74n.com.
       controlState.mouse = false;
     });
     window.addEventListener('mouseup', function(e) {
+      if (currentTool && toolData[currentTool].onMouseUp) {
+        toolData[currentTool].onMouseUp();
+      }
       controlState.mouse = false;
     });
     window.addEventListener('touchend', function(e) {
+      if (currentTool && toolData[currentTool].onMouseUp) {
+        toolData[currentTool].onMouseUp();
+      }
       controlState.mouse = false;
       controlState.mobile = true;
     });
@@ -2457,7 +2761,7 @@ This HTML and its contents are property of R74n.com.
       controlState.mouse = false;
       e.preventDefault();
     });
-    gameCanvas.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); }
+    gameCanvas.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); return false }
 
     // Initialization
     for (var key in ingredients) {
@@ -2485,9 +2789,12 @@ This HTML and its contents are property of R74n.com.
         recipeMap[sortedKeys[i]][0] = recipeMap[sortedKeys[i]][0].substring(1);
       }
     }
-    // sort ingredients alphabetically
+    // sort ingredients by length, then alphabetically
     var sortedIngredients = Object.keys(ingredients).sort(function(a, b) {
-      return a.localeCompare(b);
+      if (a.length === b.length) {
+        return a.localeCompare(b);
+      }
+      return a.length - b.length;
     });
     var newIngredients = {};
     for (var i = 0; i < sortedIngredients.length; i++) {

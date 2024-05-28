@@ -50,12 +50,14 @@ addTool("red_dyer", {
 })
 
 // Add a tool with more properties
-addTool("red_dyer", {
-    func: function(placed) { placed.h = 0; },
-    onSelect: function() { alert("Use on an ingredient to dye it red!"); },
+addTool("green_dyer", {
+    func: function(placed) { placed.h = 44; },
+    onSelect: function() { alert("Use on an ingredient to dye it green!"); },
     whileOn: function() { console.log("Dyer selected."); },
     onDeselect: function() { alert("Goodbye!"); },
+    onMouseUp: function() { console.log("Stopped dragging."); },
     onClick: function(x,y) { console.log(x,y) },
     shape:"liquid",
+    color:"#00b900", //green
     spin: true
 })

@@ -1,3 +1,135 @@
+[Version 1.2 - May 28, 2024 - Infinite Tongs]
+    + Tongs tool
+        + Grab food, even throw it!
+        + Move ingredients between views by dragging over buttons
+        + Pick up liquids from pot
+    + Whisk tool
+        + Mix ingredients around
+        + Whip Cream and Butter
+    + So many ingredient requests!
+    + Liquids in pot can be removed or picked
+    + Temperature unit setting
+    ~ Temperature controls are exponential
+   [Ingredients]
+    + Anchovy
+    + Bacteria
+    + Bagel
+    + Balut
+    + Brownie
+    + Buddha's Hand
+    + Butterscotch
+    + Calf Brain
+    + Cheese Sauce
+    + Cheeseball
+    + Chicken Foot
+    + Chocolate Chip
+    + Chocolate Cup
+    + Citron
+    + Cocoa Bean
+    + Donut
+    + Enoki
+    + Googly Eye
+    + Graham Cracker
+    + Hoisin Sauce
+    + Huckleberry
+    + Hummus
+    + Insect
+    + Jelly
+    + Jelly Bean
+    + Lime Juice
+    + Mandarin Orange
+    + Margarine
+    + Marmalade
+    + Oat
+    + Oat Seed
+    + Pancake
+    + Peppermint
+    + Root Beer
+    + Rye
+    + Sardine
+    + Soy Milk
+    + Spam
+    + Spider
+    + Sweet and Sour
+    + Tangerine
+    + Tofu
+    + Top Hat
+    + Ube
+    + Vodka
+    + Waffle
+    + Whipped Butter
+    + Whipped Cream
+    + Worm
+    + Yoyleberry
+    + Many secret ingredients
+   [Recipes]
+    + Cheese from Milk
+    + Ice Cream from freezing Cream
+    + Angel Milk
+    + California Roll
+    + Cheese Platter
+    + Cheesecake
+    + Fairy Bread
+    + Fondue
+    + Mushroom Stew
+    + Oatmeal
+    + Shepherd's Pie
+    + Snow Cone
+    + Many more unique recipes
+    + Many fun/joke recipes
+   [Changes]
+    + Beef is named Steak when cooked
+    + Bread is named Toast when cooked
+    + Butter and Fat can be spread with Blend tool
+    + Cake can break into crumbs
+    + Corn Flakes are randomly rotated
+    + Pineapples are bigger
+    + Vinegar and Baking Soda reaction
+    ~ All Thick Liquids now dissolve
+    ~ Beans, Rice, Chocolate, Pork, Poultry have flatter shape in Stack Mode
+    ~ Black Pepper now gives "Peppered" adjective
+    ~ Butter is now a rectangle
+    ~ Candy is smaller
+    ~ Dissolvables change color when placed prior to liquid
+    ~ Improved Artichoke shape
+    ~ Liquids no longer change shape when changing in Stack Mode
+    ~ Shellfish is hidden
+    ~ Tweaked search slightly
+    ~ Updated Crayfish shape
+    ~ Renamed Red Dye to Red 40
+   [Bug Fixes]
+    ~ Fixed: Blank ingredients (Oil) cause adjective-only dishes (i.e. Soggy)
+    ~ Fixed: Some ingredients (i.e. Utensil) create a blank dish name when alone
+    ~ Fixed: Yolk from Ostrich Egg floats mid-air when broken from dropping
+    ~ Fixed: Egg variants blend into colored Yolk
+    ~ Fixed: Changing back to Bowl Mode doesn't reset food scale
+    ~ Fixed: Heating certain ingredients cause them to fall through plate
+    ~ Fixed: Bowl liquid is still solid after re-melting
+    ~ Fixed: Wet Chili Powder turns Water black
+    ~ Fixed: "Milk Cereal"
+    ~ Fixed: "Cherries Juice"
+    ~ Fixed: "Black Rice Brown" (Last words are now prioritized)
+    ~ Fixed: Bun hitbox too big in Stack Mode
+    ~ Fixed: Asparagus, Celery, and Sugar Cane hitboxes too big
+    ~ Fixed: Ground Meat doesn't use flatter shape in Stack Mode
+    ~ Fixed: Cheese Powder doesn't retain color when melting
+    ~ Fixed: Modded recipes don't work if added with console
+    ~ Fixed: Eggnog can't be made
+   [Technical]
+    + Ingredient 'onLand' property
+    + Ingredient 'cookName' property
+    + Ingredient 'whipped' property for Whisk tool
+    + Ingredient 'movable' property (default true)
+    + Ingredient 'temp' property to add heat when landed
+    + Tools support 'color' property (hex)
+    + Tool functions can target liquids in pot
+    + Tool 'onMouseUp' event
+    + Tool 'sway' property (true/false)
+    + Tool 'offsetX' and 'offsetY' properties (0-1)
+    + Tool 'hidden' property (true/false)
+    + Reaction 'shape1' and 'shape2' properties
+    + Reaction 'color1' and 'color2' properties (hex)
+
 [Version 1.1 - May 1, 2024 - Infinite Possibility]
     + Mod support
         + More info: https://R74ncom.github.io/InfiniteChef-Mods/
