@@ -4456,7 +4456,7 @@ Rue = {
             }
             document.addEventListener("click", Rue.brain.closeMessageEvent);
         }
-        if (typeof rueOnSay !== undefined) {
+        if (typeof rueOnSay !== "undefined") {
             rueOnSay(rueMessageBox);
         }
     },
