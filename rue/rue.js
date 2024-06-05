@@ -3981,8 +3981,8 @@ function sendMessage(e,message) { // send message
     else {
         var text = rueInput.value.trim().replace(/ {2,}/g, " ");;
     }
-    if (typeof rueOnSend !== undefined) {
-        rueOnSend(text);
+    if (typeof rueOnSend !== "undefined") {
+        text = rueOnSend(text) || text;
     }
     // multiple commands per message (separated by ;;)
     var textSplit = text.split(/(?: +)?;;(?: +)?/);
