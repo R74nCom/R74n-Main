@@ -3981,6 +3981,9 @@ function sendMessage(e,message) { // send message
     else {
         var text = rueInput.value.trim().replace(/ {2,}/g, " ");;
     }
+    if (typeof rueOnSend !== undefined) {
+        rueOnSend(text);
+    }
     // multiple commands per message (separated by ;;)
     var textSplit = text.split(/(?: +)?;;(?: +)?/);
     if (textSplit.length > 1) {
@@ -4452,6 +4455,9 @@ Rue = {
                 }
             }
             document.addEventListener("click", Rue.brain.closeMessageEvent);
+        }
+        if (typeof rueOnSay !== undefined) {
+            rueOnSay(rueMessageBox);
         }
     },
     hush: function() {
