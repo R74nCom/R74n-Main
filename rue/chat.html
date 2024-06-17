@@ -84,6 +84,7 @@ This HTML and its contents are property of R74n.com.
         createChatMessage(rueMessageBox.innerHTML);
       }
       lastMessage = "";
+      lastConfirm = null;
       function rueOnSend(message) {
         createChatMessage(message||lastMessage||"...",true);
         document.querySelector("#rueInput").value = "";

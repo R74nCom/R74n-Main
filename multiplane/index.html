@@ -393,21 +393,26 @@ This HTML and its contents are property of R74n.com.
 
   function initUnions() {
     var table = document.getElementById("unionTable");
-    table.innerHTML = "<thead><tr><th>Union</th><th>Composite Entity</th><th>Union (Names)</th></tr></thead>";
+    table.innerHTML = "<thead><tr><th>Union</th><th>Union#</th><th>Composite Entity</th><th>Union (Names)</th></tr></thead>";
     for (var union in multiplaneUnions) {
       var row = table.insertRow(-1);
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);
       var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
       cell1.innerHTML = union;
       cell1.id = union;
-      cell2.innerHTML = multiplaneUnions[union];
+      cell3.innerHTML = multiplaneUnions[union];
       var entities = union.split("+");
       var entityNames = [];
+      var entityDecimals = [];
       for (var i = 0; i < entities.length; i++) {
-        entityNames.push(getEntityAt(parsePlanecode(entities[i]).decimal,parsePlanecode(entities[i]).dimension) || "[???]");
+        var parsed = parsePlanecode(entities[i]);
+        entityNames.push(getEntityAt(parsed.decimal,parsed.dimension) || "[???]");
+        entityDecimals.push("#"+parsed.decimal);
       }
-      cell3.innerHTML = entityNames.join(" + ");
+      cell2.innerHTML = entityDecimals.join("+");
+      cell4.innerHTML = entityNames.join(" + ");
     }
   }
 
@@ -426,7 +431,7 @@ This HTML and its contents are property of R74n.com.
         lastMin = plane.min;
         lastMax = plane.max;
       }
-      listDiv.innerHTML += "&nbsp; &nbsp; ".repeat(indent) + "<a href=\"?plane="+plane.range+"\" onclick=\"goto('plane="+plane.range+"'); return false\">"+plane.range+"</a> "+plane.name+"<br>";
+      listDiv.innerHTML += "&nbsp; &nbsp; ".repeat(indent) + "<a href=\"?plane="+plane.range+"\" onclick=\"goto('plane="+plane.range+"'); return false\">"+plane.range+"</a>&nbsp; "+plane.name+" &nbsp; <small><em>(#"+plane.min+"-#"+plane.max+")</em></small><br>";
     }
   }
 

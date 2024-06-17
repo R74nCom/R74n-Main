@@ -740,10 +740,11 @@ jelly_bean: {
     type:"candy",
 },
 sprinkles: {
-    type:"sugar",
+    type:"powder",
     shape:"squares_some",
     color: shapeMeta.colorsNeon,
-    adj:"sprinkled"
+    adj:"sprinkled",
+    parts:["sugar"],
 },
 icing: {
     type:"sauce",

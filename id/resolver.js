@@ -180,7 +180,7 @@ urnResolvers = {
 "translate": (args) => {return "https://R74n.com/translate/"+args.join("/");},
 "unisearch": (args) => {return "https://R74n.com/unisearch/?"+(args[0]||"");},
 "words": (args) => {return "https://R74n.com/words/"+args.join("/");},
-"capitalize": (args) => {return "https://R74n.com/lore/#Capitalize";},
+"capitalize": (args) => {return "https://R74n.com/lore/old#Capitalize";},
 "pogchamps": (args) => {return "https://R74n.com/PogChamp/"+args.join("/");},
 "id": (args) => {
     if (args[0] === "request") { return "R0A230"; }
