@@ -101,13 +101,16 @@ multiplaneEntities = {
 "146": "R74n Newsletter//https://news.r74n.com/",
 "150": "R74n Search//urn:search",
 "151": "R74n Translation Hub//urn:translate",
-"152": "R74n Lore//urn:lore",
+"152": "R74n Lore (Old)//urn:lore",
 "153": "R74n Capitalization Standard//urn:capitalize",
 "154": "R74n Socials Page//urn:social",
 "155": "R74n Icons//urn:icons",
 "156": "R74n Supporters Page//urn:supporters",
 "157": "News Flash//https://r74n.com/news-flash/",
 "158": "Link Dump//https://r74n.com/link-dump/",
+"159": "R74n Lore Page//urn:lore:new",
+"15A": "R74n Meta Page//urn:meta",
+"15B": "Community Projects//urn:community",
 "160": "Types of Octopi//urn:octopi",
 "161": "Social-Media-Lists//urn:sml",
 "162": "Sequence//urn:sequence",
@@ -134,6 +137,7 @@ multiplaneEntities = {
 "1F7": "R74n Schemas//urn:schema",
 "1F8": "R74n Archival Resource Keys//urn:ark",
 "1F9": "R74n ID Resolver//urn:id:resolver",
+"1FA": "R74n AID Registration Authority//urn:aid",
 
 "2C0": "R74n Discord server//urn:discord:main",
 "2C1": "Copy Paste Dump Discord server//urn:discord:cpd",
@@ -192,6 +196,7 @@ multiplaneEntities = {
 "547": "follow",
 "548": "screenshot",
 "549": "search",
+"54A": "dislike",
 "560": "conversion",
 
 // Individuals //
@@ -258,6 +263,14 @@ multiplaneEntities = {
 "1005": "Text Converters//urn:converters",
 "1008": "Copy Paste Dump Search//urn:csearch",
 
+// Sandboxels //
+"2000": "Sandboxels Main Page//urn:sandboxels:index.html",
+"2001": "Sandboxels Controls (TXT)//urn:sandboxels:controls.txt",
+"2002": "Sandboxels Changelog (TXT)//urn:sandboxels:changelog.txt",
+"2003": "Sandboxels Controls (HTML)//urn:sandboxels:controls",
+"2004": "Sandboxels Changelog (HTML)//urn:sandboxels:changelog",
+
+// Languages //
 "3000": "English",
 "3001": "Halacae//urn:halacae",
 "3002": "Python",
@@ -266,6 +279,7 @@ multiplaneEntities = {
 "3005": "JavaScript",
 
 "6000": "PixelFlag, individual",
+"6010": "Guess The Pixel Flag//https://r74n.com/pixelflags/guess",
 
 // Social Media Accounts //
 "7011": "emoji artist//https://twitter.com/CopyPasteDump",
@@ -315,6 +329,7 @@ multiplaneEntities = {
 "A119": "R74n Commons Whiteboard//https://jamboard.google.com/d/1nL0lNWQMkdh8RKc8Tmzr3vBHB_EvDK5ziSI1uxxj0Tk/edit?usp=sharing",
 "A11A": "R74moji Suggestions/Requests Doc",
 "A11B": "PixelFlags Requests Doc",
+"A11C": "R74n Lore Map//urn:lore:map",
 "A130": "R74n Microsoft Form//https://forms.office.com/r/uvUZzNXtJM",
 "A131": "R74n Microsoft To Do List//https://to-do.microsoft.com/tasks/sharing?InvitationToken=WOup1zn_TzP5uTIX-DUngQe2iwEHi8htYn7Xe6Yrj4i1LgkCR_Uy0jMCa1WdmY9qY",
 "A132": "R74n Microsoft List//https://lists.live.com/:l:/g/personal/dc19101fcc1d9097/FOpKZGNxtb5BjESKMBwMOW4Bb0awIV1A4OD9XkIS46bF3Q?e=eNM7D9",
@@ -454,6 +469,11 @@ multiplaneEntities = {
 
 // Published Files //
 "40000":"Sandboxels Census 2023 Report//https://docs.google.com/document/u/1/d/e/2PACX-1vRgvT542zEWrL5NQcAXUpu1JokW_vNfjgxQANCmnr8J7LKcDSTdwGcTovkno_EYNPP_A4uJpyrrEUG7/pub",
+"40010":"R74n Privacy Policy//urn:main:privacy",
+"40011":"R74n Content License//urn:main:license",
+"40100":"R74n Content License Version 1.0//https://web.archive.org/web/20231223194422/https://r74n.com/license.txt",
+"40101":"R74n Content License Version 1.1//https://web.archive.org/web/20240208113646/https://r74n.com/license.txt",
+"40120":"R74n Privacy Policy - September 7, 2023//https://web.archive.org/web/20230907183354/https://r74n.com/privacy",
 
 "(-)0": "something",
 "(∞)1": "everything",
@@ -508,6 +528,7 @@ multiplanePlanes = {
     "R0A600-R0A6FF": "",
     "R0B000-R0BFFF": "R74n Vault",
       "R0B100-R0B1FF": "Formicode Subspace",
+    "R0C000-R0CFFF": "Infinite Chef",
   "R10000-R1FFFF": "Descriptors",
     "R10000-R10FFF": "Countries & Regions",
     "R11000-R12FFF": "Days Since R74n Epoch",
@@ -524,7 +545,11 @@ multiplanePlanes = {
   "R32000-R32FFF": "",
   "R40000-R4FFFF": "Published Files",
     "R40000-R43FFF": "Published Texts",
+      "R40100-R401FF": "R74n Policy Versions",
     "R44000-R47FFF": "Published Media",
+    "R48000-R49FFF": "Published Crossposts",
+    "R4A000-R4BFFF": "Published Individual Posts",
+    "R4C000-R4FFFF": "Published Miscellaneous Files",
   "R50000-R00FFF": "",
   "R74000-R74FFF": "[reserved]",
   "RD0000-RDFFFF": "Wikibase Item Compatibility",

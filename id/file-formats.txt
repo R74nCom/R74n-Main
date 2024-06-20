@@ -1,4 +1,6 @@
 .SBXLS
+https://www.nationalarchives.gov.uk/PRONOM/Format/proFormatSearch.aspx?status=detailReport&id=2821&strPageToDisplay=summary
 https://fileinfo.com/extension/sbxls
-UPCOMING: https://filext.com/file-extension/SBXLS
 https://www.abbreviations.com/term/2687937/sandboxels-saved-game
+http://www.wikidata.org/entity/Q125914662
+https://amazingalgorithms.com/file-extensions/sbxls/

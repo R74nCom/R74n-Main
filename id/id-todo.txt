@@ -1,0 +1,34 @@
+This file lists concepts and ideas to be implemented in the R74n identifier ecosystem. Identifiers listed here may not be valid or implemented yet. Please refer to other documentation for correct information. (https://R74n.com/id/)
+
+Multiple Identifiers:
+    R74n Content License versions on:
+        Multiplane
+            Connected to Wikibase
+        OSF
+        Scribd
+
+ID Resolver:
+    ...
+
+URNs:
+    ...
+
+Multiplane:
+    Lore multiverse universes
+
+Wikibase:
+    See https://data.R74n.com/wiki/Tasks
+
+    Wikibase Tools
+        getJSON("https://data.r74n.com/wiki/Special:EntityData/Q23.json")
+        Query Service - Open query and select Code
+        Explore with Rue integration
+            queryname <text> - returns first entity with label or alias
+              ^ use that for rest of commands
+            query "owned by" <value>
+            query "owned by" !<value>
+            query "owned by" null
+
+OIDs:
+    R74n Adoption Agency
+    https://oid.r74n.com/plugins/viathinksoft/publicPages/100_whois/whois/webwhois.php?query=oid%3A1.3.6.1.4.1.61117.1$format=json

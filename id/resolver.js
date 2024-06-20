@@ -30,6 +30,7 @@ urnResolvers = {
 "sandboxels": (args) => {
     if (args[0] === "mod") { return "https://sandboxels.R74n.com/mods/"+args[1]; }
     if (args[0] === "mods") { return "https://sandboxels.R74n.com/mod-list"; }
+    if (args[0] === "v") { return "https://sandboxels.R74n.com/changelog#"+args[1]; }
     if (args[0] === "element" && args[1]) {
         return "https://data.r74n.com/query/embed.html#PREFIX%20p%3A%20%3Chttps%3A%2F%2Fdata.r74n.com%2Fprop%2F%3E%0APREFIX%20ps%3A%20%3Chttps%3A%2F%2Fdata.r74n.com%2Fprop%2Fstatement%2F%3E%0APREFIX%20wd%3A%20%3Chttps%3A%2F%2Fdata.r74n.com%2Fentity%2F%3E%0Aprefix%20wdt%3A%20%3Chttps%3A%2F%2Fdata.r74n.com%2Fprop%2Fdirect%2F%3E%0ASELECT%20%3Fitem%20%3FitemLabel%20WHERE%20%7B%0A%20%20%20%20%3Fitem%20p%3AP1%20%3Fstatement0.%0A%20%20%20%20%3Fstatement0%20%28ps%3AP1%2F%28wdt%3AP2%2a%29%29%20wd%3AQ59.%0A%20%20%20%20%3Fitem%20wdt%3AP26%20%27"+args[1]+"%27.%0A%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22.%20%7D%0A%7D%0ALIMIT%201";
     }
@@ -135,7 +136,8 @@ urnResolvers = {
     return "https://R74n.com/rue/"+args.join("/");
 },
 "textviewer": (args) => {
-    return "https://R74n.com/textviewer/?"+(args[1]||"");
+    if (args[0] === "docs") { return "https://R74n.com/textviewer/docs"; }
+    return "https://R74n.com/textviewer/?"+(args.join(":")||"");
 },
 "convert": (args) => {
     //https://r74n.com/convert/?length/5/inch/centimeter
@@ -158,7 +160,18 @@ urnResolvers = {
 },
 "hello": (args) => {return "https://R74n.com/hello/"+args.join("/");},
 "icons": (args) => {return "https://R74n.com/icons/"+args.join("/");},
-"lore": (args) => {return "https://R74n.com/lore/"+args.join("/");},
+"lore": (args) => {
+    if (args[0] === "old") { return "https://R74n.com/lore/old"; }
+    if (args[0] === "new") { return "https://R74n.com/lore/"; }
+    if (args[0]) { return "https://R74n.com/lore/"+args.join("/"); }
+    return "https://R74n.com/lore/old";
+},
+"meta": (args) => {
+    return "https://R74n.com/meta/"+args.join("/");
+},
+"community": (args) => {
+    return "https://R74n.com/community/"+args.join("/");
+},
 "mc": (args) => {return "https://R74n.com/mc/"+args.join("/");},
 "mix": (args) => {return "https://R74n.com/mix/"+args.join("/");},
 "octopi": (args) => {return "https://R74n.com/octopi";},
@@ -216,6 +229,11 @@ urnResolvers = {
     if (args[0]) { return resolveARK("ark:"+decodeURIComponent(args.join("/"))); }
     return "https://R74n.com/id/ark";
 },
+"aid": (args) => {
+    if (args[0] === "txt") { return "https://R74n.com/id/aid.txt"; }
+    if (args[0]) { return resolveAID(args.join("")); }
+    return "https://R74n.com/id/aid";
+},
 "oidplus": (args) => {
     return "https://oid.R74n.com/?goto="+args.join(":");
 },
@@ -242,7 +260,10 @@ urnResolvers = {
 },
 "discord": (args) => {
     var id = args[0];
-    if (args[0] === "main") { id = "939255181474955331" }
+    if (args[0] === "main") {
+        if (args[1] === "browse") { return "https://R74n.com/discord/browse"; }
+        id = "939255181474955331"
+    }
     else if (args[0] === "eod") { id = "705084182673621033" }
     else if (args[0] === "cpd") { id = "726709356984401920" }
     else if (args[0] === "mc") { id = "762484868898488321" }
@@ -286,8 +307,17 @@ urnResolvers = {
     var user = args[0];
     if (args.length === 1) { return "https://github.com/"+user; }
     if (args[1] === "o") {
-        if (args[3] === "pr") { return "https://github.com/"+user+"/"+args[2]+"/pull/"+args[4]; }
-        return "https://github.com/"+user+"/"+args[2];
+        if (!args[2]) { return "https://github.com/orgs/"+user+"/repositories"; }
+        var repo = "https://github.com/"+user+"/"+args[2];
+        if (args[3] === "pr") { return repo+"/pull/"+(args[4]||""); }
+        if (args[3] === "issue") { return repo+"/issues"+(args[4]||""); }
+        if (args[3] === "wiki") { return repo+"/wiki/"+args.slice(4).join("/"); }
+        if (args[3] === "commit") { return repo+"/commit/"+args.slice(4).join("/"); }
+        var raw = args[args.length-1] === "raw";
+        if (raw) {
+            args.pop();
+        }
+        return repo+"/"+(raw ? "raw" : "tree")+"/main/"+args.slice(3).join("/");
     }
 },
 "email": (args) => {
@@ -308,11 +338,13 @@ urnResolvers = {
 "shapes": (args) => {
     if (args[0]) {
         if (args[0].match(/\.png$/)) { return "https://R74n.com/shapes/png/"+args[0]; }
+        if (args[0] === "category") { return "https://R74n.com/shapes/#"+args[1]; }
         if (args[0]) { return "https://R74n.com/shapes#"+args[0]; }
     }
     return "https://R74n.com/shapes/";
 },
 "cook": (args) => {
+    if (args[0] === "changelog") { return "https://R74n.com/cook/changelog.txt"; }
     return "https://R74n.com/cook/"+args.join("/");
 },
 }
@@ -393,6 +425,21 @@ function resolveARK(ark) {
         return findRequested("ark",ark);
     }
 }
+function resolveAID(aid) {
+    var r = null;
+    aid = aid.replace(/ /g,"").split("D276000186F117")[1];
+    // split every 2 chars
+    aid = aid.match(/.{1,2}/g);
+    if (!aid[2]) { r = "https://R74n.com/" }
+    else if (aid[2] === "00") {
+        if (!aid[3] || !aid[4]) { r = "urn:alphatwo" }
+        else { r = String.fromCharCode(parseInt(aid[3],16)) + String.fromCharCode(parseInt(aid[4],16)); }
+    }
+    else if (aid[2] === "EE") { // Requested
+        r = findRequested("aid","D276000186F1176FFFEE"+aid[3]);
+    }
+    return r;
+}
 let requestedIDs = null;
 function requested() {
     if (requestedIDs === null) {
@@ -437,6 +484,21 @@ function detectID(id,auto) {
     parts.pop(); // remove check digit
     var oid = "1.3.6.1.4.1."+parts.join(".");
     r = resolveOID(oid);
+  }
+  else if (id.match(/^guid:+/i)) { // OIDplus GUID
+    var guid = id.split(":")[1];
+    r = "https://oid.r74n.com/?goto=guid%3A"+guid.toLowerCase();
+  }
+  else if (id.match(/^fourcc:+/i)) { // OIDplus FourCC
+    var fourcc = id.split(":")[1];
+    r = "https://oid.r74n.com/?goto=fourcc%3A"+fourcc;
+  }
+  else if (id.match(/^domain:+/i)) { // OIDplus Domain
+    var domain = id.split(":")[1];
+    r = "https://oid.r74n.com/?goto=domain%3A"+domain;
+  }
+  else if (id.match(/^10\..+\//i)) { // DOI
+    r = "https://doi.org/"+id;
   }
   else if (id.match(/^\/?ISO\/Identified-Organization\/.+/i)) { // WEID
     // /ISO/Identified-Organization/
@@ -493,21 +555,11 @@ function detectID(id,auto) {
   else if (id.startsWith("{") && id.endsWith("}")) { // ASN.1 Notation
     r = resolveOID(id.match(/\(\d+\)|(?: |^)\d+|\d+(?: |$)/g).join(".").replace(/[\(\) ]/g,""))
   }
-  else if (id.match(/^([a-z0-9\.]+)?(R74n\.com|purl\.org\/r74n)(\/.+)?$/i)) { // URL without scheme
-    r = "https://"+id;
+  else if (id.match(/^\.?([a-z0-9\.]+)?(R74n\.com|purl\.org\/r74n)(\/.+)?\.?$/i)) { // URL without scheme
+    r = "https://"+id.replace(/^\.|\.$/g,"");
   }
   else if (id.match(/^D2 ?76 ?00 ?01 ?86 ?F1 ?17 ?6F([ 0-9a-f]+)?$/i)) { // AID
-    var aid = id.replace(/ /g,"").split("D276000186F117")[1];
-    // split every 2 chars
-    var aid = aid.match(/.{1,2}/g);
-    if (!aid[2]) { r = "https://R74n.com/" }
-    else if (aid[2] === "00") {
-        if (!aid[3] || !aid[4]) { r = "urn:alphatwo" }
-        else { r = String.fromCharCode(parseInt(aid[3],16)) + String.fromCharCode(parseInt(aid[4],16)); }
-    }
-    else if (aid[2] === "EE") { // Requested
-        r = findRequested("aid","D276000186F1176FFFEE"+aid[3]);
-    }
+    r = resolveAID(id);
   }
   else if (id.match(/(\/)?(\w+=\w+)(\/)?/i) && id.indexOf("=us") !== -1) { // X.500DN
     // split by / and = into a dictionary
@@ -521,6 +573,10 @@ function detectID(id,auto) {
         if (!dn.OU) { r = "https://R74n.com/" }
         else { r = dn.OU.toLowerCase() }
     }
+  }
+  else if (id.match(/^'?\\\d+/i)) { // Domain Wire
+    var domain = id.replace(/'/g,"").replace(/\\\d+/g,".");
+    r = domain;
   }
   else if (id.match(/^[a-z]{2}$/i)) { // Alpha-2
     id = id.toLowerCase();

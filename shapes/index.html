@@ -1091,6 +1091,7 @@ This HTML and its contents are property of R74n.com.
     var categoryTable = document.getElementById("categoryTable");
     var shapeTable = document.getElementById("shapeTable");
     var images = document.querySelectorAll("#categoryTable img");
+    var categoryHeaders = document.querySelectorAll("#categoryTable th");
     // sort images by src
     images = Array.prototype.slice.call(images).sort(function(a,b) {
         return a.src.localeCompare(b.src);
@@ -1110,6 +1111,10 @@ This HTML and its contents are property of R74n.com.
         if (done[name]) continue;
         done[name] = true;
         tableText += "<tr><td><img src='" + src + "' class='pixelart' id='" + name + "'></td><td>" + name + "</td></tr>";
+    }
+    for (var i = 0; i < categoryHeaders.length; i++) {
+        var th = categoryHeaders[i];
+        th.id = th.innerHTML.split(" ")[0];
     }
     shapeTable.innerHTML = tableText;
 
