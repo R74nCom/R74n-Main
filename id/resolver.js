@@ -363,7 +363,7 @@ function resolveURN(urn) {
     if (parts.length <= 2) { return "https://R74n.com/" }
     var mainPart = parts[2];
     var args = parts.slice(3);
-    console.log(mainPart+"("+args.join(",")+")");
+    // console.log(mainPart+"("+args.join(",")+")");
     if (urnResolvers[mainPart]) {
         try {
             var r = urnResolvers[mainPart](args);
