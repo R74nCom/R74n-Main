@@ -1936,7 +1936,7 @@ This HTML and its contents are property of R74n.com.
             // console.log("ingredients: "+JSON.stringify(ingredients))
             // console.log("nameMap: "+JSON.stringify(nameMap))
           }
-          ingredients.push({id:result,dishWeight:dishWeight});
+          ingredients.push({id:result,dishWeight:200+dishWeight});
           if (!nameMap[result]) { nameMap[result] = [] }
           nameMap[result].push(ingredients[ingredients.length-1]);
           success = true;

@@ -62,6 +62,7 @@ ARC         -   PURPOSE
 61117.10    -   Multiplane Ranges
 61117.11    -   R74n Wikibase property
 61117.12    -   R74n Wikibase lexeme
+61117.13    -   R74n Wikibase entity schema
 61117.100   -   Confidential, subrepository hidden for privacy
 61117.9000  -   Requested, see section 1
 61117.9998  -   Experimental, for testing only
@@ -89,6 +90,7 @@ x-union(9)
 x-range(10)
 x-property(11)
 x-lexeme(12)
+x-entityschema(13)
 x-private(100)
 x-requested(9000)
 experiment(9998)
@@ -139,6 +141,7 @@ ARC.<child>                          -   PURPOSE
 61117.10.<min>.<max>                 -   Multiplane Range (e.g. 256.767)
 61117.11.<PID>                       -   R74n Wikibase property [https://data.R74n.com/wiki/Property:P$1]
 61117.12.<LID>                       -   R74n Wikibase lexeme [https://data.R74n.com/wiki/Lexeme:L$1]
+61117.13.<EID>                       -   R74n Wikibase entity schema [https://data.r74n.com/wiki/EntitySchema:E$1]
 
 For example, 61117.1.273 is automatically allocated to Sandboxels, R00111 (#273) in the Multiplane.
 
@@ -214,6 +217,7 @@ The following list contains OIDs with definitions, as opposed to being inherent.
 61117.10            -   Multiplane Ranges
 61117.11            -   R74n Wikibase property
 61117.12            -   R74n Wikibase lexeme
+61117.13            -   R74n Wikibase entity schema
 61117.100           -   Confidential, subrepository hidden for privacy
 61117.9000          -   Requested, see section 1
 61117.9000.1        -   infernostars [https://www.infernity.dev/oid-schema.txt]

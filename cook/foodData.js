@@ -3215,6 +3215,8 @@ dishRecipes = {
 "bread+lobster":"lobster roll",
 "=top_bun+bottom_bun":"nothing burger",
 "hamburger+cheese":"cheeseburger",
+"hamburger+pizza":"cheeseburger",
+"bun+meat+pizza":"sauce cheeseburger",
 "bun+meat+bun":"meat burger",
 "&bowl:leaf_vegetable+vegetable":"vegetable salad",
 "&bowl:fruit+fruit+vegetable?":"fruit salad",

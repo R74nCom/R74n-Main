@@ -59,7 +59,7 @@ This HTML and its contents are property of R74n.com.
 <div class="content">
 
 <p>Below is a table containing important IDs for concepts assigned to <a href="alpha">Alpha Namespaces</a>. It does not show every ID in existence.</p>
-<p>It also supports <a href="?col=name,multiplane,decimal,alphamul,alphatwo,oid,qid,ark,aid,uuid">custom</a> and <a href="?col=name,multiplane,!qid">required</a> columns</p>
+<p>It also supports <a href="?col=name,multiplane,decimal,alphamul,alphatwo,oid,qid,ark,aid,uuid,x500dn">custom</a> and <a href="?col=name,multiplane,!qid">required</a> columns</p>
 <ul>
   <li><a href="?col=!qid,multiplane,alphamul,alphatwo,oid,ark,aid,uuid">Wikibase Table</a></li>
   <li><a href="?col=ark,name">ARK Table</a></li>
@@ -115,6 +115,8 @@ This HTML and its contents are property of R74n.com.
         else { var qid = ""; }
         var ark = "ark:/49595/mp"+planecode;
         var purl = "r74n/id/"+planecode;
+        if (alphaM) { var x500dn = "/C=us/O=R74n/OU="+alphaM; }
+        else { var x500dn = ""; }
 
         var rowData = {
           "multiplane": planecode,
@@ -128,6 +130,7 @@ This HTML and its contents are property of R74n.com.
           "aid": aid,
           "purl": purl,
           "uuid": uuid,
+          "x500dn": x500dn,
         };
         rows[planecode] = rowData;
       }
@@ -147,6 +150,7 @@ This HTML and its contents are property of R74n.com.
         "ark": "ARK",
         "purl": "PURL",
         "uuid": "UUID",
+        "x500dn": "X.500 DN",
       }
       var colLinks = {
         "multiplane": "https://r74n.com/multiplane/?code=$id",
