@@ -43,6 +43,9 @@ addRecipe("=bread+bread","nothing sandwich");
 // Add a recipe with an optional ingredient
 addRecipe("cake+sprinkles?+chocolate","chocolate cake");
 
+// Sort after adding recipes for improved name generation
+sortRecipes();
+
 // Add a simple tool to interact with ingredients
 addTool("red_dyer", {
     func: function(placed) { placed.h = 0; },

@@ -38,7 +38,7 @@ urnResolvers = {
 },
 "multiplane": (args) => {
     if (args[0]) {
-        var arg = args[0];
+        var arg = decodeURIComponent(args[0]);
         if (arg.match(/^(\(.+\))?R[0-9a-f]+$/i)) { return "https://R74n.com/multiplane/?code="+arg; }
         if (arg.match(/\+R/i)) { return "https://R74n.com/multiplane/?union="+arg; }
         if (arg.match(/-R/i)) { return "https://R74n.com/multiplane/?plane="+arg; }
@@ -401,6 +401,27 @@ function resolveOID(oid) {
         if (parts[2] === undefined) { return "https://data.R74n.com/" }
         return "https://data.R74n.com/entity/Q"+parts[2];
     }
+    if (parts[1] === 9) { // Multiplane unions
+        if (parts[2] === undefined) { return "https://R74n.com/multiplane/?unions" }
+        return "#"+parts.slice(2).join("+#")
+    }
+    if (parts[1] === 10) { // Multiplane ranges
+        if (parts[2] === undefined) { return "https://R74n.com/multiplane/?planes" }
+        if (parts[3] === undefined) { parts.push(parts[2]) }
+        return "#"+parts.slice(2).join("-#")
+    }
+    if (parts[1] === 11) { // Wikibase properties
+        if (parts[2] === undefined) { return "https://data.R74n.com/wiki/Special:ListProperties" }
+        return "https://data.R74n.com/entity/P"+parts[2];
+    }
+    if (parts[1] === 12) { // Wikibase lexemes
+        if (parts[2] === undefined) { return "https://data.R74n.com/wiki/Special:AllPages/Lexeme:" }
+        return "https://data.R74n.com/entity/L"+parts[2];
+    }
+    if (parts[1] === 13) { // Wikibase entity schemas
+        if (parts[2] === undefined) { return "https://data.R74n.com/wiki/Special:AllPages/EntitySchema:" }
+        return "https://data.R74n.com/wiki/EntitySchema:E"+parts[2];
+    }
     if (parts[1] === 9000) { // Requested
         return findRequested("oid",oid)
     }
@@ -528,6 +549,31 @@ function detectID(id,auto) {
   else if (id.match(/^#\d{1,7}$/i)) { // Multiplane decimal planecode
     r = resolvePlanecode(parseInt(id.substring(1)));
   }
+  else if (id.match(/^R[0-9a-f]{1,5}(\+R[0-9a-f]{1,5})+$/i)) { // Multiplane hex union
+    var split = id.split("+");
+    var first = split[0];
+    var base = first.substring(0,4)+"00";
+    var end = first.substring(0,4)+"FF";
+    var range = base+"-"+end;
+    if (multiplaneUnionResolution[range]) {
+        var decimals = split.map( function(hex) {return parseInt(hex.substring(1),16)} );
+        r = multiplaneUnionResolution[range](decimals);
+    }
+    else {
+        r = "urn:X-R74n:multiplane:"+id;
+    }
+  }
+  else if (id.match(/^#\d{1,7}(\+#\d{1,7})+$/i)) { // Multiplane decimal union
+    var split = id.split("+");
+    r = split.map( function(hex) {return "R"+parseInt(hex.substring(1)).toString(16).padStart(5,0).toUpperCase()} ).join("+");
+  }
+  else if (id.match(/^R[0-9a-f]{1,5}-R[0-9a-f]{1,5}$/i)) { // Multiplane hex range
+    r = "urn:X-R74n:multiplane:"+id;
+  }
+  else if (id.match(/^#\d{1,7}-#\d{1,7}$/i)) { // Multiplane decimal range
+    var split = id.split("-");
+    r = split.map( function(hex) {return "R"+parseInt(hex.substring(1)).toString(16).padStart(5,0).toUpperCase()} ).join("-");
+  }
   else if (id.match(/^[QPL]\d+$/i)) { // Wikibase entity ID
     r = "https://data.R74n.com/entity/"+id.toUpperCase();
   }
@@ -563,13 +609,13 @@ function detectID(id,auto) {
   }
   else if (id.match(/(\/)?(\w+=\w+)(\/)?/i) && id.indexOf("=us") !== -1) { // X.500DN
     // split by / and = into a dictionary
-    var dn = id.split("/");
+    var dn = id.split(/[\/.,]/g);
     dn = dn.filter((x) => x);
     dn = dn.map((x) => x.split("="));
     var dnObj = {};
     dn.forEach((x) => { dnObj[x[0].toUpperCase()] = x[1] });
     dn = dnObj;
-    if (dn.C.toLowerCase() === "us" && dn.O === "R74n") {
+    if (dn.C.toLowerCase() === "us" && (dn.O === "R74n" || dn.EEMAIL.toLowerCase() === "contact@r74n.com" || dn.DC.toLowerCase() === "r74n")) {
         if (!dn.OU) { r = "https://R74n.com/" }
         else { r = dn.OU.toLowerCase() }
     }

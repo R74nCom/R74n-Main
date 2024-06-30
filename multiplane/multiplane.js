@@ -552,6 +552,8 @@ multiplanePlanes = {
     "R4C000-R4FFFF": "Published Miscellaneous Files",
   "R50000-R00FFF": "",
   "R74000-R74FFF": "[reserved]",
+  "RC0000-RCFFFF": "External Compatibility",
+    "RC0000-RC00FF": "Unicode Union Compatibility",
   "RD0000-RDFFFF": "Wikibase Item Compatibility",
   "RE0000-REFFFF": "Ontomata Class Compatibility",
   "RF0000-RFFFFF": "Private Use Plane",
@@ -572,6 +574,12 @@ multiplaneProcedural = {
     }
     if (dimension === "-" && decimal > 110592) {
       return "number -" + (decimal-110592);
+    }
+    return "";
+  },
+  "RC0000-RC00FF": function(decimal,dimension) {
+    if (dimension === "" && decimal < 786448) {
+      return "Unicode Partial Codepoint " + (decimal-786432).toString(16).toUpperCase();
     }
     return "";
   },
@@ -619,6 +627,18 @@ multiplaneUnions = {
   "R0A01D+R0A010": "Halacae 'sa'",
   "R0A01E+R0A010": "Halacae 'ya'",
   "R0A01F+R0A010": "Halacae '-a'",
+}
+multiplaneUnionResolution = {
+  "RC0000-RC00FF": function(decimals) {
+    var codepoint = "";
+    for (var i = 0; i < decimals.length; i++) {
+      var decimal = decimals[i]-786432;
+      codepoint += decimal.toString(16);
+    }
+    codepoint = parseInt(codepoint,16);
+    var char = String.fromCodePoint(codepoint);
+    return "https://r74n.com/textviewer/?text="+encodeURIComponent(char)
+  }
 }
 
 

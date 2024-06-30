@@ -96,7 +96,7 @@ This HTML and its contents are property of R74n.com.
           openTab("table");
         }
         if (params.has("code")) {
-          var code = params.get("code").split("-")[0];
+          var code = params.get("code").replace("(-)","(NEGATIVE)").split("-")[0].replace("(NEGATIVE)","(-)");
           if (code === "" && location.hash && !isNaN(location.hash.substring(1))) { // Decimal Planecodes
             code = decimalToPlanecode(parseInt(location.hash.substring(1)));
           }
@@ -112,7 +112,7 @@ This HTML and its contents are property of R74n.com.
           highlight(document.getElementById(code));
         }
         else if (params.has("plane")) {
-          var code = params.get("plane").split("-")[0];
+          var code = params.get("plane").replace("(-)","(NEGATIVE)").split("-")[0].replace("(NEGATIVE)","(-)");
           var codeData = parsePlanecode(code);
           if (codeData.dimension && multiplaneDimensions[codeData.dimension]) {
             currentState.dimension = codeData.dimension;

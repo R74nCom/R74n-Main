@@ -1,3 +1,96 @@
+[Version 1.3 - June 30, 2024]
+    + Served dish name can be edited by double clicking
+    + Ingredient rotation keybinds (; and ')
+   [Ingredients]
+    + Skewer
+    + Almond Milk
+    + Apple Juice
+    + Baking Powder
+    + Beef Tongue
+    + Broccolini
+    + Bubblegum
+    + Buttermilk
+    + Cloudberry
+    + Corn Chip
+    + Cornstarch
+    + Crouton
+    + Dark Chocolate
+    + Eel
+    + Feta
+    + Fish Roe
+    + French Fry
+    + Granola
+    + Ground Almond
+    + Gumball
+    + Gumdrop
+    + Gummy Worm
+    + Mangosteen
+    + Plant Patty
+    + Potato Chip
+    + Pretzel
+    + Rice Flour
+    + Rice Noodles
+    + Rose Apple
+    + Tapioca Pearl
+    + Truffle
+    + Vanilla Extract
+    + Worcestershire Sauce
+    + Yeast
+    + Bug Juice, from blending bugs
+   [Recipes]
+    + Boba / Milk Tea
+    + Borscht
+    + Caviar
+    + Fettuccine Alfredo
+    + Fish and Chips
+    + Fried Fish
+    + Kebab, Lollipop, Cake Pop, and Popsicle
+    + Laksa
+    + Latte
+    + Mud Pie
+    + Nachos
+    + Pho
+    + Ramen
+    + Root Beer Float
+    + Slushie
+    + Many fun Easter egg recipes
+   [Changes]
+    + Bacteria can boil away
+    + Bacteria can ferment Juice
+    + Ice Cube will lower the temperature of the bowl
+    + Knife ingredient blends anything it touches
+    + Many search aliases
+    + Marshmallow changes color when roasted
+    + Sakura Petal is randomly rotated
+    ~ Adjusted Flatbread hitbox
+    ~ Baguette is larger
+    ~ Brussels Sprout is smaller
+    ~ Dashes are ignored when searching
+    ~ Googly Eye has larger hitbox
+    ~ Marshmallow has a flatter shape in Stack Mode
+    ~ Random places a different ingredient each time
+    ~ Updated Cream Cheese shape
+   [Bug Fixes]
+    ~ Fixed: Apostrophe variants can't be used to search
+    ~ Fixed: Blended ingredients airborne by Tongs appear in dish name
+    ~ Fixed: Cheese and Cabbage makes Sauerkraut
+    ~ Fixed: Cheeseburger with Sauce considered Pizza
+    ~ Fixed: Darkening Melted Butter when thrown out with Tongs
+    ~ Fixed: Donuts can make Sandwiches
+    ~ Fixed: Ghost liquid when mixing powders and liquids
+    ~ Fixed: Juice can make Salad
+    ~ Fixed: Recipe modifiers (=) don't work when view is required
+    ~ Fixed: Some melted liquids couldn't be grabbed by Tongs
+    ~ Fixed: View changes when pressing arrow keys while searching
+    ~ Fixed: Whipped Butter doesn't place with correct shape
+    ~ Fixed: "Pizza Pepproni" and similar misordered names
+    ~ Fixed: "Pizza Sandwich"
+    ~ Fixed: "Snow Waffle Cone"
+   [Technical]
+    + Ingredient 'onCollide' event
+    + Ingredient 'props' property
+    + currentIngredientProps object, applied on placement
+
 [Version 1.2 - May 28, 2024 - Infinite Tongs]
     + Tongs tool
         + Grab food, even throw it!
