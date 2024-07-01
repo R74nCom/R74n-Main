@@ -528,7 +528,7 @@ This HTML and its contents are property of R74n.com.
         <img src="dialog_x.png" class="pixelart dialogX" onclick="hideDialog()">
         <div id="serveContent">
           <img id="dishImage" src="background.png">
-          <div id="dishNameDiv"><span id="dishName" ondblclick="this.contentEditable='plaintext-only';this.focus()" onblur="this.contentEditable='false';">Ketchup Mac and Cheese</span></div>
+          <div id="dishNameDiv"><span id="dishName" ondblclick="this.contentEditable='true';this.focus();event.preventDefault();return false;" onblur="this.contentEditable='false';">Ketchup Mac and Cheese</span></div>
           <div id="serveUnder">
             <span id="shareBlurb">Share with the world. Screenshot!</span>
             <div id="shareIconDiv">
@@ -2661,6 +2661,7 @@ This HTML and its contents are property of R74n.com.
       }
     });
     window.addEventListener('keydown', function(e) {
+      console.log(e.keyCode)
       if ((e.metaKey || e.ctrlKey) && e.keyCode !== 8) { return; }
       if (e.keyCode === 16) { controlState.shift = true; }
       // escape
@@ -2718,13 +2719,16 @@ This HTML and its contents are property of R74n.com.
       // / = focus on prepText
       else if (e.keyCode === 191) {
         prepText.focus();
+        e.preventDefault();
       }
       // ; and ' = rotate ingredient
-      else if (e.keyCode === 186) {
+      else if (e.keyCode === 186 || e.keyCode === 59) {
         currentIngredientProps.r = (currentIngredientProps.r||0) - (controlState.shift ? 1 : 45);
+        e.preventDefault();
       }
       else if (e.keyCode === 222) {
         currentIngredientProps.r = (currentIngredientProps.r||0) + (controlState.shift ? 1 : 45);
+        e.preventDefault();
       }
     });
     window.addEventListener('keyup', function(e) {
