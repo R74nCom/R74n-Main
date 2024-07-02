@@ -1932,7 +1932,7 @@ This HTML and its contents are property of R74n.com.
             for (var j = 0; j < ingredients.length; j++) {
               if (ingredientIsType(ingredients[j].id, needed) && (!used[ingredients[j].id] || modifiers.inverse)) {
                 if (modifiers.inverse) {
-                  console.log(1)
+                  // console.log(1)
                   count = 0;
                   break;
                 }
@@ -2661,7 +2661,7 @@ This HTML and its contents are property of R74n.com.
       }
     });
     window.addEventListener('keydown', function(e) {
-      console.log(e.keyCode)
+      // console.log(e.keyCode)
       if ((e.metaKey || e.ctrlKey) && e.keyCode !== 8) { return; }
       if (e.keyCode === 16) { controlState.shift = true; }
       // escape
