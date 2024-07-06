@@ -758,6 +758,13 @@ unitpers = {
 
 // 16.67 m/s * amount
 
+extraAliases = {
+  "m":"meter",
+  "b":"byte",
+  "sec":"second",
+  "cents":"cent",
+  "feet":"foot"
+}
 
 abbrs = {
   "bit":"b","byte":"B","nibble":"nybble","kilobyte":"kB","kibibyte":"KiB","megabyte":"MB","mebibyte":"MiB","gigabyte":"GB","gibibyte":"GiB","terabyte":"TB","tebibyte":"TiB","petabyte":"PB","pebibyte":"PiB","exabyte":"EB","exbibyte":"EiB","zettabyte":"ZB","zebibyte":"ZiB","yottabyte":"YB","yobibyte":"YiB","kilobit":"kbit","kibibit":"Kibit","megabit":"Mbit","mebibit":"Mibit","gigabit":"Gbit","gibibit":"Gibit","terabit":"Tbit","tebibit":"Tibit","petabit":"Pbit","pebibit":"Pibit","exabit":"Ebit","exbibit":"Eibit","zettabit":"Zbit","zebibit":"Zibit","yottabit":"Ybit","yobibit":"Yibit","inch":"in","foot":"ft","yard":"yd","mile":"mi","yoctometer":"ym","zeptometer":"zm","attometer":"am","femtometer":"fm","picometer":"pm","nanometer":"nm","micrometer":"µm","millimeter":"mm","centimeter":"cm","decimeter":"dm","meter":"m","decameter":"dam","hectometer":"hm","kilometer":"km","megameter":"Mm","gigameter":"Gm","terameter":"Tm","petameter":"Pm","exameter":"Em","zettameter":"Zm","yottameter":"Ym","ångström":"Å","x unit":"xu","R74meter":"R74m","nautical mile":"M","earth radius":"R⊕","lunar distance":"LD","astronomical unit":"au","light year":"ly","parsec":"pc","gigaparsec":"Gpc","planck length":"𝓁P",

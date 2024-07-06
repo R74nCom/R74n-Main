@@ -220,7 +220,101 @@ This HTML and its contents are property of R74n.com.
         if (request.status === 200) {
           return JSON.parse(request.responseText)
         }
+      }
 
+      function editDistance(s1, s2) { // https://stackoverflow.com/a/36566052
+        s1 = s1.toLowerCase();
+        s2 = s2.toLowerCase();
+
+        var costs = new Array();
+        for (var i = 0; i <= s1.length; i++) {
+          var lastValue = i;
+          for (var j = 0; j <= s2.length; j++) {
+            if (i == 0)
+              costs[j] = j;
+            else {
+              if (j > 0) {
+                var newValue = costs[j - 1];
+                if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                  newValue = Math.min(Math.min(newValue, lastValue),
+                    costs[j]) + 1;
+                costs[j - 1] = lastValue;
+                lastValue = newValue;
+              }
+            }
+          }
+          if (i > 0)
+            costs[s2.length] = lastValue;
+        }
+        return costs[s2.length];
+      }
+      function similarity(s1, s2) { // https://stackoverflow.com/a/36566052
+        var longer = s1;
+        var shorter = s2;
+        if (s1.length < s2.length) {
+          longer = s2;
+          shorter = s1;
+        }
+        var longerLength = longer.length;
+        if (longerLength == 0) {
+          return 1.0;
+        }
+        return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+      }
+
+      function autoDetectUnitType(unit,looped) {
+        for (var unittype in unitdata) {
+          if (unitdata[unittype][unit]) {
+            return unittype
+          }
+        }
+        var corrected = autocorrectUnit(unit);
+        if (corrected && !looped) {
+          return autoDetectUnitType(corrected,true);
+        }
+        return null;
+      }
+      abbrMap = {};
+      for (var fullname in abbrs) {
+        abbrMap[abbrs[fullname]] = fullname;
+      }
+      for (var fullname in abbrs) {
+        var lower = abbrs[fullname].toLowerCase();
+        if (!abbrMap[lower]) { abbrMap[lower] = fullname }
+      }
+      function autocorrectUnit(unit,forceType) {
+        unit = unit.toLowerCase();
+        if (extraAliases[unit]) {
+          return extraAliases[unit];
+        }
+        if (abbrMap[unit]) {
+          return abbrMap[unit];
+        }
+        if (unit.charAt(unit.length-1) === "s") {
+          var noS = unit.slice(0,unit.length-1);
+          if (abbrMap[noS]) {
+            return abbrMap[noS];
+          }
+        }
+        var mostSimilar = ["", 0];
+        for (var unittype in unitdata) {
+          if (forceType && forceType !== unittype) { continue }
+          for (var unitname in unitdata[unittype]) {
+            var sim = similarity(unit,unitname);
+            if (sim > mostSimilar[1]) {
+              mostSimilar = [unitname,sim];
+            }
+          }
+        }
+        for (var unitname in extraAliases) {
+          var sim = similarity(unit,unitname);
+          if (sim > mostSimilar[1]) {
+            mostSimilar = [extraAliases[unitname],sim];
+          }
+        }
+        if (mostSimilar[0]) {
+          return mostSimilar[0];
+        }
       }
       
       window.addEventListener("load", function(){
@@ -237,9 +331,31 @@ This HTML and its contents are property of R74n.com.
           var ValueBox2 = document.getElementById("ValueBox2");
           var UnitSelect2 = document.getElementById("UnitSelect2");
           if (!(query[0]==undefined)) {
+            if (!query[0] || query[0] === "-") {
+              query[0] = autoDetectUnitType(query[2])
+            }
             TypeSelect.value = query[0]
+            if (query[2]) {
+              if (!unitdata[query[0]][query[2]]) {
+                query[2] = autocorrectUnit(query[2],query[0])
+              }
+              if (!unitdata[query[0]][query[2]]) {
+                query[2] = ""
+              }
+            }
+            else { query[2] = "" }
+            if (query[3]) {
+              if (!unitdata[query[0]][query[3]]) {
+                query[3] = autocorrectUnit(query[3],query[0])
+              }
+              if (!unitdata[query[0]][query[3]]) {
+                query[3] = ""
+              }
+            }
+            else { query[3] = "" }
             console.log(query)
-            selectType(TypeSelect)}
+            selectType(TypeSelect)
+          }
           if (!(query[1]==undefined || query[1]=="")) {ValueBox1.value = query[1]}
           if (!(query[2]==undefined || query[2]=="")) {UnitSelect1.value = query[2]+"-1"; unit1=query[2]}
           if (!(query[3]==undefined || query[3]=="")) {UnitSelect2.value = query[3]+"-2"; unit2=query[3]}
@@ -263,7 +379,13 @@ This HTML and its contents are property of R74n.com.
             canonicalTag.rel = "canonical";
             document.head.appendChild(canonicalTag);
           }
-          canonicalTag.href = "https://R74n.com/convert/?"+URLSearch.replace(/\/[\d\.e]+\//,"//");
+          // canonicalTag.href = "https://R74n.com/convert/?"+URLSearch.replace(/\/[\d\.e]+\//,"//");
+          canonicalTag.href = "https://R74n.com/convert/?"+query[0]+"/-/"+query[2]+"/"+query[3];
+          if (history.pushState) {
+              var newurl = "?"+query[0]+"/"+query[1]+"/"+query[2]+"/"+query[3];
+              window.history.pushState({path:newurl},'',newurl);
+          }
+          ValueBox1.focus();
           update()
         }
       document.getElementById("MoreBox").style.display = "block"
