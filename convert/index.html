@@ -383,7 +383,7 @@ This HTML and its contents are property of R74n.com.
           canonicalTag.href = "https://R74n.com/convert/?"+query[0]+"/-/"+query[2]+"/"+query[3];
           if (history.pushState) {
               var newurl = "?"+query[0]+"/"+query[1]+"/"+query[2]+"/"+query[3];
-              window.history.pushState({path:newurl},'',newurl);
+              window.history.replaceState({path:newurl},'',newurl);
           }
           ValueBox1.focus();
           update()
