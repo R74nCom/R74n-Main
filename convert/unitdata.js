@@ -727,7 +727,7 @@ unitdata = {
 "beauty": {
   "helen":1,
   "millihelen":1e-3,
-  "launched ship":1000,
+  "launched ship":0.001,
 },
 
 "luminous-flux": { // INCOMPLETE
