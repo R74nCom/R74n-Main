@@ -364,6 +364,7 @@ unitdata = {
   "truti":3.0e-7,
   "divine year":11360493360,
   "yuga cycle":136325920320000n,
+  "microfortnight":1.2096,
 },
 
 "musical-interval":{
@@ -381,7 +382,6 @@ unitdata = {
   "jot":0.0398631,
   "demi-heptameride":1.993157,
   "musical decade":3986.313714,
-  "microfortnight":1.2096,
 
   
 },
