@@ -58,7 +58,8 @@ This HTML and its contents are property of R74n.com.
       function convert(type,x,xunit,yunit) {
         var x = parseFloat(x);
         var xcon = unitdata[type][xunit];
-        if (!(xcon["api"]==undefined)) {
+        var derive = unitdata[type]["#derive"];
+        if (xcon && !(xcon["api"]==undefined)) {
           if (unitcache[xunit]==undefined) {
             var jsondata = getJSON(xcon["api"]);
             var base = eval(xcon["eval"]);
@@ -70,11 +71,17 @@ This HTML and its contents are property of R74n.com.
         }
         else if (Array.isArray(xcon)) {
           var base = eval(xcon[0].replace("X",x))
+        }
+        else if (!xcon && xunit.includes(" per ") && derive){
+          var xsplit = xunit.split(" per "); //["kilometer","hour"]
+          var base1 = Number(unitdata[derive[0]][xsplit[0]]);
+          var base2 = Number(unitdata[derive[1]][xsplit[1]]);
+          var base = x*(base1/base2);
         } else {
           var base = x*Number(xcon);
         }
         var ycon = unitdata[type][yunit];
-        if (!(ycon["api"]==undefined)) {
+        if (ycon && !(ycon["api"]==undefined)) {
           if (unitcache[xunit]==undefined) {
             var jsondata = getJSON(ycon["api"]);
             var goal = eval(ycon["eval"]);
@@ -86,6 +93,13 @@ This HTML and its contents are property of R74n.com.
         else if (Array.isArray(ycon)) {
           var goal = ycon[1];
           var final = eval(goal.replace("X",base));
+        }
+        else if (!ycon && yunit.includes(" per ") && derive){
+          var ysplit = yunit.split(" per "); //["mile","minute"]
+          var goal1 = Number(unitdata[derive[0]][ysplit[0]]);
+          var goal2 = Number(unitdata[derive[1]][ysplit[1]]);
+          var goal = goal1/goal2;
+          var final = base/goal;
         } else {
           var goal = Number(ycon);
           var final = base/goal;
@@ -112,14 +126,22 @@ This HTML and its contents are property of R74n.com.
           ValueBox2.value = "";
           currenttype = e.options[e.options.selectedIndex].getAttribute("value");
         }
+        var derive = unitdata[currenttype]["#derive"];
 
         var unsorted = Object.keys(unitdata[currenttype]);
         if (sorting=="name") {var keys = unsorted.sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());});}
         else if (sorting=="value") {var keys = unsorted.sort(function (a, b) {return Number(unitdata[currenttype][a])-Number(unitdata[currenttype][b])});}
         else if (sorting=="symbol") {var keys = unsorted.sort(function (a, b) {return getSymbol(a).toLowerCase().localeCompare(getSymbol(b).toLowerCase());});}
-        else if (sorting=="nosort") {var keys = unsorted}
-        for (var n in keys) {
+        else {var keys = unsorted} //"nosort"
+        if (derive) {
+          var derivedKeys = Object.keys(unitdata[derive[0]]);
+          derivedKeys = derivedKeys.sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());});
+          keys = keys.concat(derivedKeys);
+        }
+        for (let n = 0; n < keys.length; n++) {
           var key = keys[n];
+          if (key.charAt(0) === "#") { continue }
+
           var option = document.createElement("option");
           option.text = key;
           if (!(aliases[key]==undefined)) {option.text += " / "+aliases[key]}
@@ -127,6 +149,7 @@ This HTML and its contents are property of R74n.com.
           option.setAttribute("unit",key);
           option.setAttribute("value",key+"-1");
           UnitSelect1.add(option)
+
           var option = document.createElement("option");
           option.text = key;
           if (!(aliases[key]==undefined)) {option.text += " / "+aliases[key]}
@@ -134,6 +157,31 @@ This HTML and its contents are property of R74n.com.
           option.setAttribute("unit",key);
           option.setAttribute("value",key+"-2");
           UnitSelect2.add(option)
+        }
+        if (derive) {
+          var derivedKeys = Object.keys(unitdata[derive[1]]);
+          derivedKeys = derivedKeys.sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());});
+          keys = derivedKeys;
+          for (let n = 0; n < keys.length; n++) {
+            var key = keys[n];
+            if (key.charAt(0) === "#") { continue }
+
+            var option = document.createElement("option");
+            option.text = key;
+            if (!(aliases[key]==undefined)) {option.text += " / "+aliases[key]}
+            if (!(abbrs[key]==undefined)) {option.text += " ("+abbrs[key]+")"}
+            option.setAttribute("unit",key);
+            option.setAttribute("value",key+"-1");
+            UnitSelect1Per.add(option)
+
+            var option = document.createElement("option");
+            option.text = key;
+            if (!(aliases[key]==undefined)) {option.text += " / "+aliases[key]}
+            if (!(abbrs[key]==undefined)) {option.text += " ("+abbrs[key]+")"}
+            option.setAttribute("unit",key);
+            option.setAttribute("value",key+"-2");
+            UnitSelect2Per.add(option)
+        }
         }
         UnitSelect2.options[1].setAttribute("selected","selected")
         if (justUpdate) {
@@ -146,6 +194,24 @@ This HTML and its contents are property of R74n.com.
         }
 
         document.getElementById("Box").style.display = "inline-block";
+        if (unitdata[currenttype]["#derive"]) {
+          UnitSelect1.classList.add("deriveBox");
+          UnitSelect2.classList.add("deriveBox");
+          document.getElementById("PerSpan1").style.display = "inline-block";
+          document.getElementById("PerSpan2").style.display = "inline-block";
+          splitPer(UnitSelect1);
+          splitPer(UnitSelect2);
+        }
+        else {
+          UnitSelect1.classList.remove("deriveBox");
+          UnitSelect2.classList.remove("deriveBox");
+          document.getElementById("PerSpan1").style.display = "none";
+          document.getElementById("PerSpan1").value = "";
+          document.getElementById("PerSpan2").style.display = "none";
+          document.getElementById("PerSpan2").value = "";
+          unit1per = null;
+          unit2per = null;
+        }
         updateMore(0);
       }
 
@@ -158,31 +224,46 @@ This HTML and its contents are property of R74n.com.
         var MoreRight = document.getElementById("MoreRight");
         MoreLeftHTML = "";
         MoreRightHTML = "";
+        var tempunit1 = unit1;
+        var tempunit2 = unit2;
+        if (unit1per) { tempunit1 += " per "+unit1per; }
+        if (unit2per) { tempunit2 += " per "+unit2per; }
         var etype = encodeURI(currenttype);
-        var eunit1 = encodeURI(unit1);
-        var eunit2 = encodeURI(unit2);
-        MoreLeftHTML += '(⇄) <a class="morelink" href="?'+etype+'/'+x+'/'+eunit2+'/'+eunit1+'">'+x+' '+unit2+' to '+unit1+'</a><br>'
+        var eunit1 = encodeURI(tempunit1);
+        var eunit2 = encodeURI(tempunit2);
+        MoreLeftHTML += '(⇄) <a class="morelink" href="?'+etype+'/'+x+'/'+eunit2+'/'+eunit1+'">'+x+' '+tempunit2+' to '+tempunit1+'</a><br>'
         for (var n in changes) {
           n = changes[n];
           var newx = x+n;
-          MoreLeftHTML += '('+((n > 0) ? '+':'-')+''+Math.abs(n)+') <a class="morelink" href="?'+etype+'/'+(newx)+'/'+eunit1+'/'+eunit2+'">'+(newx)+' '+unit1+' to '+unit2+'</a><br>'
+          MoreLeftHTML += '('+((n > 0) ? '+':'-')+''+Math.abs(n)+') <a class="morelink" href="?'+etype+'/'+(newx)+'/'+eunit1+'/'+eunit2+'">'+(newx)+' '+tempunit1+' to '+tempunit2+'</a><br>'
         }
-        MoreLeftHTML += '(½) <a class="morelink" href="?'+etype+'/'+(x/2)+'/'+eunit1+'/'+eunit2+'">'+(x/2)+' '+unit1+' to '+unit2+'</a><br>'
+        MoreLeftHTML += '(½) <a class="morelink" href="?'+etype+'/'+(x/2)+'/'+eunit1+'/'+eunit2+'">'+(x/2)+' '+tempunit1+' to '+tempunit2+'</a><br>'
         for (var n in multiples) {
           n = multiples[n];
           var newx = x*n;
-          MoreLeftHTML += '(×'+n+') <a class="morelink" href="?'+etype+'/'+(newx)+'/'+eunit1+'/'+eunit2+'">'+(newx)+' '+unit1+' to '+unit2+'</a><br>'
+          MoreLeftHTML += '(×'+n+') <a class="morelink" href="?'+etype+'/'+(newx)+'/'+eunit1+'/'+eunit2+'">'+(newx)+' '+tempunit1+' to '+tempunit2+'</a><br>'
         }
         for (var key in unitdata[currenttype]) {
-          MoreRightHTML += '<a class="morelink" href="?'+etype+'/'+x+'/'+eunit1+'/'+encodeURI(key)+'">'+x+' '+unit1+' to '+key+'</a><br>'
+          if (key.charAt(0) === "#") continue;
+          MoreRightHTML += '<a class="morelink" href="?'+etype+'/'+x+'/'+eunit1+'/'+encodeURI(key)+'">'+x+' '+tempunit1+' to '+key+'</a><br>'
         }
         MoreLeft.innerHTML = MoreLeftHTML;
         MoreRight.innerHTML = MoreRightHTML;
       }
 
+      unit1 = null;
+      unit2 = null;
+      unit1per = null;
+      unit2per = null;
       function update() {
         var x = parseFloat(document.getElementById("ValueBox1").value);
-        var y = convert(currenttype,x,unit1,unit2);
+        var tempunit1 = unit1;
+        var tempunit2 = unit2;
+        if (unitdata[currenttype]["#derive"]) {
+          if (unit1per && tempunit1.indexOf(" per ") === -1) { tempunit1 += " per "+unit1per }
+          if (unit2per && tempunit2.indexOf(" per ") === -1) { tempunit2 += " per "+unit2per }
+        }
+        var y = convert(currenttype,x,tempunit1,tempunit2);
         if (isNaN(y)) {
           document.getElementById("ValueBox2").value = "";
         }
@@ -193,7 +274,13 @@ This HTML and its contents are property of R74n.com.
       }
       function updateReverse() {
         var y = parseFloat(document.getElementById("ValueBox2").value);
-        var x = convert(currenttype,y,unit2,unit1);
+        var tempunit1 = unit1;
+        var tempunit2 = unit2;
+        if (unitdata[currenttype]["#derive"]) {
+          if (unit1per && tempunit1.indexOf(" per ") === -1) { tempunit1 += " per "+unit1per }
+          if (unit2per && tempunit2.indexOf(" per ") === -1) { tempunit2 += " per "+unit2per }
+        }
+        var x = convert(currenttype,y,tempunit2,tempunit1);
         if (isNaN(x)) {
           document.getElementById("ValueBox1").value = "";
         }
@@ -201,6 +288,32 @@ This HTML and its contents are property of R74n.com.
           document.getElementById("ValueBox1").value = x;
         }
         updateMore(y)
+      }
+      function splitPer(e) {
+        if (!unitdata[currenttype]["#derive"]) { return }
+        var value = e.value;
+        var number = value.slice(-1);
+        value = value.slice(0,value.length-2);
+        var UnitSelect = document.getElementById("UnitSelect"+number);
+        var UnitSelectPer = document.getElementById("UnitSelect"+number+"Per");
+        if (value.indexOf(" per ") !== -1) {
+          var split = value.split(" per ");
+          UnitSelect.value = split[0]+"-"+number;
+          UnitSelectPer.value = split[1]+"-"+number;
+          UnitSelectPer.disabled = false;
+          UnitSelect.onchange();
+          UnitSelectPer.onchange();
+        }
+        else if (!unitdata[unitdata[currenttype]["#derive"][0]][value]){
+          UnitSelectPer.value = "";
+          UnitSelectPer.onchange();
+          UnitSelectPer.disabled = true;
+        }
+        else {
+          UnitSelectPer.disabled = false;
+          if (UnitSelectPer.value === "") { UnitSelectPer.selectedIndex = 0; }
+          UnitSelectPer.onchange();
+        }
       }
 
       function toTitleCase(str) {
@@ -282,6 +395,9 @@ This HTML and its contents are property of R74n.com.
         var lower = abbrs[fullname].toLowerCase();
         if (!abbrMap[lower]) { abbrMap[lower] = fullname }
       }
+      for (var fullname in aliases) {
+        extraAliases[aliases[fullname]] = fullname
+      }
       function autocorrectUnit(unit,forceType) {
         unit = unit.toLowerCase();
         if (extraAliases[unit]) {
@@ -353,14 +469,14 @@ This HTML and its contents are property of R74n.com.
               }
             }
             else { query[3] = "" }
-            console.log(query)
+            // console.log(query)
             selectType(TypeSelect)
           }
           if (!(query[1]==undefined || query[1]=="")) {ValueBox1.value = query[1]}
           if (!(query[2]==undefined || query[2]=="")) {UnitSelect1.value = query[2]+"-1"; unit1=query[2]}
           if (!(query[3]==undefined || query[3]=="")) {UnitSelect2.value = query[3]+"-2"; unit2=query[3]}
           var TitleTag = document.getElementById("TitleTag")
-          if (query.length==1) {
+          if (query.length==1 || !query[1]) {
             TitleTag.innerHTML = "Convert "+TypeSelect.options[TypeSelect.options.selectedIndex].text+" Online - R74n"
           }
           else if (query.length==2) {
@@ -382,8 +498,12 @@ This HTML and its contents are property of R74n.com.
           // canonicalTag.href = "https://R74n.com/convert/?"+URLSearch.replace(/\/[\d\.e]+\//,"//");
           canonicalTag.href = "https://R74n.com/convert/?"+query[0]+"/-/"+query[2]+"/"+query[3];
           if (history.pushState) {
-              var newurl = "?"+query[0]+"/"+query[1]+"/"+query[2]+"/"+query[3];
+              var newurl = ("?"+query[0]+"/"+query[1]+"/"+query[2]+"/"+query[3]).split(/\/?undefined/)[0];
               window.history.replaceState({path:newurl},'',newurl);
+          }
+          if (unitdata[currenttype]["#derive"]) {
+            splitPer(UnitSelect1);
+            splitPer(UnitSelect2);
           }
           ValueBox1.focus();
           update()
@@ -402,6 +522,9 @@ This HTML and its contents are property of R74n.com.
         var temp = unit1;
         unit1 = unit2;
         unit2 = temp;
+        var temp = unit1per;
+        unit1per = unit2per;
+        unit2per = temp;
         // swap the values of the 2 inputs
         var temp = document.getElementById("ValueBox1").value;
         document.getElementById("ValueBox1").value = document.getElementById("ValueBox2").value;
@@ -409,8 +532,15 @@ This HTML and its contents are property of R74n.com.
         // swap the values of the 2 selects
         var tempunit1 = document.getElementById("UnitSelect1").value;
         var tempunit2 = document.getElementById("UnitSelect2").value;
+        var tempunit1per = document.getElementById("UnitSelect1Per").value;
+        var tempunit2per = document.getElementById("UnitSelect2Per").value;
         document.getElementById("UnitSelect1").value = tempunit2.substring(0,tempunit2.length-1) + "1";
         document.getElementById("UnitSelect2").value = tempunit1.substring(0,tempunit1.length-1) + "2";
+        document.getElementById("UnitSelect1Per").value = tempunit2per.substring(0,tempunit2per.length-1) + "1";
+        document.getElementById("UnitSelect2Per").value = tempunit1per.substring(0,tempunit1per.length-1) + "2";
+        var tempdisabled = document.getElementById("UnitSelect1Per").disabled;
+        document.getElementById("UnitSelect1Per").disabled = document.getElementById("UnitSelect2Per").disabled
+        document.getElementById("UnitSelect2Per").disabled = tempdisabled;
       }
     </script>
     <script src="https://R74n.com/load.js"></script>
@@ -444,6 +574,7 @@ This HTML and its contents are property of R74n.com.
         input[type="radio"] {display:block}
       }
       input[type="radio"] {width:20px;height:20px;vertical-align:middle;}
+      .deriveBox, #UnitSelect1Box select.deriveBox, #UnitSelect2Box select.deriveBox {width:200px}
     </style>
 
 </head>
@@ -473,6 +604,7 @@ todo:
   <option value="length">Length (Meters, Inches)</option>
   <option value="volume">Volume (Cubic Meters, Liters)</option>
   <option value="weight">Weight (Grams, Pounds)</option>
+  <option value="speed">Speed (Meters/Second, Miles/Hour)</option>
   <option value="pressure">Pressure (Pascals, Bars)</option>
   <option value="money">Money (Robux, Minecoins)</option>
   <option value="data">Digital Storage (Bytes, Bits)</option>
@@ -480,7 +612,9 @@ todo:
   <option value="angle">Angle (Degrees, Radians)</option>
   <option value="power">Power (Watts, Horsepower)</option>
   <option value="force">Force (Newtons)</option>
+  <option value="density">Density (Kilograms/Cubic Meter)</option>
   <option value="voltage">Voltage (Volts)</option>
+  <option value="frequency">Frequency (Hertz, RPM)</option>
   <option value="number">Quantity / Numbers (Dozens, Hundreds)</option>
   <option value="paper-quantity">Paper Quantity (Sheets, Reams)</option>
   <option value="solid-angle">Solid Angle (Square Degrees, Steradians)</option>
@@ -497,16 +631,18 @@ todo:
 <div id="BoxLeft">
 <input id="ValueBox1" type="number" placeholder="Enter Number" oninput="update()">
 <div id="UnitSelect2Box">
-  <select id="UnitSelect1" onchange="unit1=this.options[this.options.selectedIndex].getAttribute('unit');update()"></select>
-  <select id="UnitSelect1Per" onchange="unit1per=this.options[this.options.selectedIndex].getAttribute('unit');update()" style="display:none"></select>
+  <select id="UnitSelect1" onchange="unit1=this.options[this.options.selectedIndex].getAttribute('unit');splitPer(this);update()"></select><span id="PerSpan1" class="deriveBox" style="display:none">
+    <select id="UnitSelect1Per" onchange="unit1per=this.options[this.options.selectedIndex]?.getAttribute('unit')||null;update()"></select>
+  </span>
 </div>
 </div>
 <div id="Arrow"></div>
 <div id="BoxRight">
 <input id="ValueBox2" type="number" placeholder="Enter Number" oninput="updateReverse()">
 <div id="UnitSelect2Box">
-  <select id="UnitSelect2" onchange="unit2=this.options[this.options.selectedIndex].getAttribute('unit');update()"></select>
-  <select id="UnitSelect2Per" onchange="unit2per=this.options[this.options.selectedIndex].getAttribute('unit');update()" style="display:none"></select>
+  <select id="UnitSelect2" onchange="unit2=this.options[this.options.selectedIndex].getAttribute('unit');splitPer(this);update()"></select><span id="PerSpan2" class="deriveBox" style="display:none">
+    <select id="UnitSelect2Per" onchange="unit2per=this.options[this.options.selectedIndex]?.getAttribute('unit')||null;update()"></select>
+  </span>
 </div>
 </div>
 <br>
@@ -527,6 +663,7 @@ todo:
     <a class="morelink" href="?length">Length Conversion</a><br>
     <a class="morelink" href="?volume">Volume Conversion</a><br>
     <a class="morelink" href="?weight">Weight Conversion</a><br>
+    <a class="morelink" href="?speed">Speed Conversion</a><br>
     <a class="morelink" href="?pressure">Pressure Conversion</a><br>
     <a class="morelink" href="?money">Money Conversion</a><br>
     <a class="morelink" href="?data">Digital Storage Conversion</a><br>
@@ -534,7 +671,9 @@ todo:
     <a class="morelink" href="?angle">Angle Conversion</a><br>
     <a class="morelink" href="?power">Power Conversion</a><br>
     <a class="morelink" href="?force">Force Conversion</a><br>
+    <a class="morelink" href="?density">Density Conversion</a><br>
     <a class="morelink" href="?voltage">Voltage Conversion</a><br>
+    <a class="morelink" href="?frequency">Frequency Conversion</a><br>
     <a class="morelink" href="?number">Quantity Conversion</a><br>
     <a class="morelink" href="?paper-quantity">Paper Quantity Conversion</a><br>
     <a class="morelink" href="?solid-angle">Solid Angle Conversion</a><br>
@@ -559,9 +698,11 @@ todo:
     <a class="morelink" href="?time/1/year/day">Years to Days</a><br>
     <a class="morelink" href="?time/1/year/second">Years to Seconds</a><br>
     <a class="morelink" href="?time/2/year/dog%20year">Human Years to Dog Years</a><br>
+    <a class="morelink" href="?time/1/year/martian%20year">Earth Years to Martian Years</a><br>
+    <a class="morelink" href="?density/1/gram%20per%20cubic%20centimeter/kilogram%20per%20cubic%20meter">G/cm2 to KG/m3</a><br>
   </div>
   <div id="MoreBottom">
-    <p>Missing something? <a href="https://link.r74n.com/convert-feedback" target="_blank">Submit it here</a>!</p>
+    <p>Missing something? <a href="https://link.r74n.com/convert-feedback" target="_blank">Submit it here</a>! • <a href="changelog.txt" target="_blank">Recent Changes</a></p>
   </div>
 </div>
 

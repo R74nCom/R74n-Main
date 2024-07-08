@@ -1,0 +1,14 @@
+[July 2024]
+    + Support for derived units
+        + Speed
+        + Density
+    + Frequency
+    + Length:  furlong, roblox stud, lego 1x1, lego stud, basketball court, bald eagle wingspan, light second/minute/hour, sandboxels pixel
+    + Time:  weekend, microfortnight, cat year, martian year, sothic cycle, truti, divine year, yuga cycle, minecraft redstone tick, sandboxels tick
+    + Arbitrary Metric:  ronna, quetta, ronto, quecto, hebdo, micri
+    + Quantity:  billion, trillion, quadrillion
+    + Weight:  tower pound, tower ounce, mercantile pound
+    + Money:  brawl stars gem, clash royale gem
+    + Deaths:  micromort, updated COVID-19
+    + URL parameter autocorrect and improvements
+    + Changelog

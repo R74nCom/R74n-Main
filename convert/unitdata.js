@@ -83,12 +83,15 @@ unitdata = {
   "lunar distance":384402000,
   "astronomical unit":149597870700,
   "light year":9460730472580800n,
+  "light second":299792458,
+  "light minute":17987547480n,
+  "light hour":1079252848800n,
   "parsec":3.08567758146719e+16,
   "gigaparsec":3.08567758146719e+25,
   "planck length":1.6e-35,
   "human hair thickness":8e-5,
   "football field":110,
-  "hubble length":136234518805163518552178688,
+  "hubble length":136234518805163518552178688n,
   "pixel":0.0002645833,
   "en":0.0001757299,
   "twip":0.0000176389,
@@ -143,6 +146,14 @@ unitdata = {
   "cicero":0.00451167,
   "half-marathon":21082.4064,
   "hammer unit":0.01905,
+  "furlong":201.168,
+  "sandboxels pixel":0.0015874998,
+  "roblox stud":0.28,
+  "lego 1x1 width":0.0079375,
+  "lego 1x1 height":0.009525,
+  "lego stud":0.0048,
+  "basketball court":15.24,
+  "bald eagle wingspan":2.05,
 
 
 },
@@ -182,10 +193,16 @@ unitdata = {
   "atto":10**-18,
   "zepto":10**-21,
   "yocto":10**-24,
+  "ronto":10**-27,
+  "quecto":10**-30,
   "peta":10**15,
   "exa":10**18,
   "zetta":10**21,
   "yotta":10**24,
+  "ronna":10**27,
+  "quetta":10**30,
+  "hebdo":10**7,
+  "micri":10**-14,
   "kibi":2**10,
   "mebi":2**20,
   "gibi":2**30,
@@ -217,6 +234,9 @@ unitdata = {
   "ten thousand":10000,
   "hundred thousand":100000,
   "million":1000000,
+  "billion":1000000000,
+  "trillion":1000000000000,
+  "quadrillion":1000000000000000,
   "mole":6.02214076e23,
   "kilomole":6.02214076e23*1000,
   "myrid":10000,
@@ -231,9 +251,11 @@ unitdata = {
   "megadeath":1000000,
   "gigadeath":1000000000,
   "bubonic plague":50000000,
-  "COVID-19":6982620,
+  "COVID-19":7010681,
   "spanish flu":50000000,
   "swine flu":284000,
+  "micromort":1.0e-6,
+  "thanos snap":1.0e-6,
   "US deaths per year":2840000,
   "global deaths per year":56000000,
 },
@@ -262,6 +284,7 @@ unitdata = {
   "year":31556926n,
   "common year":31540000n,
   "leap year":31450000n,
+  "weekend":172800,
   "28 day month":2.419e+6,
   "29 day month":2.506e+6,
   "30 day month":2.592e+6,
@@ -313,7 +336,9 @@ unitdata = {
   "yottasecond":1000000000000000000000000n,
   "business week":432000,
   "dog year":4508132.28,
+  "cat year":378683112,
   "minecraft tick":0.05,
+  "minecraft redstone tick":0.1,
   "minecraft day":1200,
   "universe age":4.35485578e17,
   "solar age":1.4525653e17,
@@ -323,6 +348,7 @@ unitdata = {
   "trimester":7889231.49,
   "megacycle":36000,
   "martian day":88620,
+  "martian year":59356800,
   "friedman":15778463,
   "jiffy":0.01,
   "microcentury":3155.7,
@@ -332,6 +358,12 @@ unitdata = {
   "megawarhol":900000000,
   "atomic unit of time":2.418884254e-17,
   "alternian sweep":68373339.6,
+  "sandboxels tick":0.0333333333,
+  "obeski eye":73527637.5,
+  "sothic cycle":46074096000,
+  "truti":3.0e-7,
+  "divine year":11360493360,
+  "yuga cycle":136325920320000n,
 },
 
 "musical-interval":{
@@ -349,6 +381,7 @@ unitdata = {
   "jot":0.0398631,
   "demi-heptameride":1.993157,
   "musical decade":3986.313714,
+  "microfortnight":1.2096,
 
   
 },
@@ -474,6 +507,7 @@ unitdata = {
   "dime":0.10,
   "half dollar":0.50,
   "half cent":0.025,
+  "grand":1000,
   "fifa point":0.00998666667,
   "twitch bit":0.01,
   "tier 3 sub":24.99,
@@ -488,6 +522,8 @@ unitdata = {
   "reddit coin":0.00398,
   "reddit gold":1.99,
   "reddit platinum":7.16400,
+  "brawl stars gem":0.0663333333,
+  "clash royale gem":0.012375,
   
 },
 "area":{
@@ -652,6 +688,9 @@ unitdata = {
   "tod":12700,
   "troy ounce":31.1034768,
   "troy pound":373.24172,
+  "tower pound":350,
+  "tower ounce":31.1035,
+  "mercantile pound":425.242847,
   "pennyweight":1.55517384,
   "mark":233,
   "scruple":1295.9782,
@@ -708,7 +747,6 @@ unitdata = {
   "gray":1,
   "rad":0.01,
 },
-"speed":{},//and velocity
 "voltage":{
   "volt":1,
   "statvolt":299.792458,
@@ -722,8 +760,69 @@ unitdata = {
 "electric-resistance":{},//ohms
 "electric-charge":{},//coulomb
 
-  
 
+
+"speed": { //and velocity
+  "#derive":["length","time"],
+  "meter per second": 1,
+  "kilometer per second": 1000,
+  "kilometer per hour": 0.277778,
+  "mile per hour": 0.44704,
+  "mile per second": 1609.34,
+  "foot per second": 0.3048,
+  "knot": 0.514444,
+  "centimeter per second": 0.01,
+  "inch per second": 0.0254,
+  "light speed": 299792458,
+  "snail speed": 0.001,
+  "cheetah speed": 33.3333333,
+  "sound speed": 343,
+  "usain bolt": 12.4222222,
+  "average running": 3.24,
+  "average walking": 1.45,
+  "horse speed": 13.4112,
+  "furlong per fortnight": 0.00016631,
+  "astronomical unit per day": 1731456.84,
+  "parsec per year": 977813106,
+  "sandboxels pixel per sandboxels tick": 0.047624994,
+  "bubnoff unit": 1/31540000000000,
+  // "test speed": 0.5,
+},
+
+"density": {
+  "#derive":["weight","volume"],
+  "gram per cubic meter": 1,
+  "kilogram per cubic meter": 1000,
+  "gram per cubic centimeter": 1000000,
+  "kilogram per liter": 1000000,
+  "kilogram per milliliter": 1000000,
+  "metric ton per cubic meter": 1000000,
+  "milligram per cubic meter": 0.001,
+},
+
+"frequency": {
+  "hertz": 1,
+  "kilohertz": 1000,
+  "megahertz": 1000000,
+  "gigahertz": 1e9,
+  "terahertz": 1e12,
+  "millihertz": 0.001,
+  "revolution per minute": 1/60,
+  "revolution per hour": 1/3600,
+  "radian per second": 0.1591549430919,
+  "radian per minute": 0.0026525823848649,
+  "radian per hour": 4.4209706414415e-5,
+},
+
+// m/s
+// 1/1
+
+// km/min
+// 1000 / 60
+
+// km/min = 1000 / 60 = 16.6666667 m/s
+
+// 16.67 m/s * amount
 
 
 };
@@ -743,11 +842,15 @@ aliases = {
   "kilocalorie":"Calorie",
   "lunar cycle":"moon phase",
   "revolution":"turn",
+  "liter":"litre",
+  "metric ton":"tonne",
+  "terahertz":"fresnel",
+  "sothic cycle":"canicular",
 }
 
-unitpers = {
-  "speed": ["length","time"],
-}
+// unitpers = {
+//   "speed": ["length","time"],
+// }
 // m/s
 // 1/1
 
@@ -763,7 +866,12 @@ extraAliases = {
   "b":"byte",
   "sec":"second",
   "cents":"cent",
-  "feet":"foot"
+  "feet":"foot",
+  "c":"celsius",
+  "k":"kelvin",
+  "f":"fahrenheit",
+  "human year":"year",
+  "lunar month":"lunar cycle",
 }
 
 abbrs = {
@@ -862,5 +970,6 @@ abbrs = {
   "megavolt":"MV",
   "gigavolt":"GV",
   "teravolt":"TV",
+  "pennyweight":"dwt",
 
 }
