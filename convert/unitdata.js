@@ -255,7 +255,6 @@ unitdata = {
   "spanish flu":50000000,
   "swine flu":284000,
   "micromort":1.0e-6,
-  "thanos snap":1.0e-6,
   "US deaths per year":2840000,
   "global deaths per year":56000000,
 },
@@ -524,6 +523,7 @@ unitdata = {
   "reddit platinum":7.16400,
   "brawl stars gem":0.0663333333,
   "clash royale gem":0.012375,
+  "apple pie":20.83,
   
 },
 "area":{
