@@ -1,6 +1,7 @@
 console.log("Rue by R74n is enabled on this page.")
 var loadedRue = false;
 var rueLoadFunctions = [];
+var rueStartedLoad = new Date();
 Rue = {
     onRueLoad: function(callback) {
         if (loadedRue) { callback(); }
@@ -114,9 +115,18 @@ var rueData = {}
 
 rueData.replacements = {
     "R74n": "R74n",
+    "R 7 4 n": "R 7 4 n",
+    "R 74 n": "R 74 n",
+    "R 74n": "R 74n",
+    "R74 n": "R74 n",
+    "R 7 4n": "R 7 4n",
+    "R7 4n": "R7 4n",
+    "R74 n": "R74 n",
     "R74moji": "R74moji",
     "UniSearch": "UniSearch",
     "Mix-Up!": "Mix-Up!",
+    "- \\[x\\]": "",
+    "- \\[ \\]": "",
 }
 rueData.commands = {
     "say": function(args) {
@@ -151,8 +161,19 @@ rueData.commands = {
         Rue.openLink("https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(search));
     },
     "gimages": "=google images",
+    "gimage": "=google images",
+    "google image": "=google images",
     "imagesearch": "=google images",
     "imgsearch": "=google images",
+    "gimg": "=google images",
+    "google web": function(args) {
+        var search = args.join(" ").replace(/^(search )?(for) /g, "");
+        Rue.openLink("https://www.google.com/search?udm=14&q=" + encodeURIComponent(search));
+    },
+    "googleweb": "=google web",
+    "gweb": "=google web",
+    "websearch": "=google web",
+    "udm14": "=google web",
     "google news": function(args) {
         Rue.openLink("https://news.google.com/search?q=" + encodeURIComponent(args.join(" ")));
     },
@@ -161,6 +182,19 @@ rueData.commands = {
         var search = args.join(" ");
         search = search.replace(/^(search )?(for) /g, "");
         Rue.openLink("https://www.bing.com/search?q=" + encodeURIComponent(search));
+    },
+    "bing images": function(args) {
+        var search = args.join(" ").replace(/^(search )?(for) /g, "");
+        Rue.openLink("https://www.bing.com/images/search?q=" + encodeURIComponent(search));
+    },
+    "bimages": "=bing images",
+    "bimage": "=bing images",
+    "bing image": "=bing images",
+    "bingimg": "=bing images",
+    "bimg": "=bing images",
+    "wikihow": function(args) {
+        var search = args.join(" ").replace(/^(to) /g, "");
+        Rue.openLink("https://www.wikihow.com/" + encodeURIComponent(search.replaceAll(" ","-")));
     },
     "csearch": function(args) {
         var search = args.join(" ");
@@ -179,7 +213,7 @@ rueData.commands = {
     },
     "/qr[ \\-]?(code)?/": function(args) {
         var data = args.join(" ");
-        Rue.showMedia("https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=" + encodeURIComponent(data||currentURL), "QR Code coming right up!");
+        Rue.showMedia("https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" + encodeURIComponent(data||currentURL), "QR Code coming right up!");
     },
     "save archive": function(args) {
         var data = args.join(" ");
@@ -234,6 +268,7 @@ rueData.commands = {
         }
         else { Rue.say("I didn't say anything!"); }
     },
+    "copy it": "=copy that",
     "save that": function() {
         if (Rue.brain.lastMessage) {
             Rue.say(Rue.brain.lastMessage);
@@ -243,7 +278,7 @@ rueData.commands = {
         else { Rue.say("I didn't say anything!"); }
     },
     "saved responses": function() {
-        if (Rue.getRue("savedResponses").length === 0) { Rue.say("You don't have any saved responses! Say 'save that' to save one!"); return }
+        if (Rue.getRue("savedResponses").length === 0) { Rue.say("You don't have any saved responses! Say '{{cmd|save that}}' to save one!"); return }
         Rue.paginate("Below are all the responses you've saved!\n\n" + Rue.getRue("savedResponses").join("\n\n"), 5);
     },
     "refresh": function() {
@@ -285,12 +320,27 @@ rueData.commands = {
         }
         else { Rue.say("I can't start a fax transmission, but I can provide a link to fax them if you specify a number!") }
     },
+    "email": function(args) {
+        var email = args[0];
+        var message = args.slice(1).join(" ");
+        Rue.say("Email this address with your {{link:mailto:"+email+"?body="+encodeURI(message)+"|default email service}}, or use one of the following:\n\n"+
+            "{{link:https://mail.google.com/mail/?fs=1&tf=cm&to="+email+"&body="+encodeURI(message)+"|Gmail}}\n"+
+            "{{link:https://outlook.live.com/owa/?path=/mail/action/compose&to="+email+"&body="+encodeURI(message)+"|Outlook}}\n"+
+            "{{link:https://mail.yahoo.com/d/compose/"+email+"?body="+encodeURI(message)+"|Yahoo Mail}}\n"+
+            "{{link:https://mail.protonmail.com/compose?to="+email+"&body="+encodeURI(message)+"|ProtonMail}}\n"+
+            "{{link:https://mail.zoho.com/zm/#mail/compose/"+email+"?body="+encodeURI(message)+"|Zoho Mail}}\n"+
+            "{{link:https://mail.yandex.com/compose?to="+email+"&body="+encodeURI(message)+"|Yandex Mail}}\n"+
+            "{{link:https://mail.aol.com/webmail-std/en-us/compose-message?to="+email+"&body="+encodeURI(message)+"|AOL Mail}}\n"
+        );
+    },
+    "email to": "=email",
     "define": function(args) {
         var word = args.join(" ");
         Rue.openLink("https://en.wiktionary.org/w/index.php?go=Go&search=" + encodeURIComponent(word));
     },
     "dictionary": "=define",
     "wiktionary": "=define",
+    "def": "=define",
     "urban dictionary": function(args) {
         if (!Rue.getUser("over18")) { Rue.error("{{r:[under18]}}"); return}
         Rue.openLink("https://www.urbandictionary.com/define.php?term=" + encodeURIComponent(args.join(" ")||"R74n"));
@@ -328,6 +378,16 @@ rueData.commands = {
         Rue.say(args.join(" ").toUpperCase());
     },
     "/capitali[sz]e/": "=/upper( ?case)?/",
+    "spread": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify what I should say!"); return }
+        var count = 1;
+        if (args[0].match(/^\d+$/)) {
+            count = parseInt(args[0]);
+            args.shift();
+        }
+        var arg = args.join(" ");
+        Rue.say([...arg].join("&nbsp;".repeat(count)));
+    },
     "/http[ \\.]?cat/": function(args) {
         if (args.length === 0) { Rue.error("You didn't specify a status code! (100-599)"); return }
         var code = args[0];
@@ -361,12 +421,32 @@ rueData.commands = {
     },
     "8-ball": "=8ball",
     "eightball": "=8ball",
-    "/(roll( ?a)? ?)?dic?es?( ?roll)?|roll/": function(args) {
-        var sides = parseInt(args[0] || 6);
-        if (isNaN(sides)) { Rue.error("That's not a number!"); return }
-        var roll = Math.floor(Math.random()*sides+1);
-        Rue.say("🎲 You rolled a " + roll + "!");
+    "dice": function(args) {
+        var sides = 6;
+        var rollCount = 1;
+        var cmd = args.join("d").replace(/[,]/g,"d")||"1d6";
+        if (cmd.match(/^\d+$/)) {
+            cmd = "1d"+cmd
+        }
+        if (cmd.match(/(\d+)?d(\d+)?/)) {
+            var split = cmd.split("d");
+            rollCount = parseInt(split[0]);
+            if (isNaN(rollCount)) rollCount = 1;
+            sides = parseInt(split[1]);
+            if (isNaN(sides)) sides = 6;
+        }
+        else {
+            Rue.error("That's not a number!"); return
+        }
+        var rolls = [];
+        var rollTotal = 0;
+        for (let r = 0; r < rollCount; r++) {
+            rollTotal += rolls[rolls.push(Math.floor(Math.random()*sides+1))-1];
+        }
+        if (rollCount === 1) { Rue.say("🎲 You rolled a " + rolls[0] + "!"); }
+        else { Rue.say("🎲 You rolled a " + rollTotal + "! ("+rolls.join("+")+")"); }
     },
+    "/(roll( ?a)? ?)?dic?es?( ?roll)?|roll/": "=dice",
     "deal card": function(args) {
         var amount = parseInt(args[0] || 1);
         if (isNaN(amount)) { Rue.error("That's not a number!"); return }
@@ -469,9 +549,35 @@ rueData.commands = {
         Rue.say("I choose " + chooseItem(args).replace(/,$/,"") + "!");
     },
     "sort": function(args) {
-        if (args.length === 0) { Rue.error("You didn't specify any options!"); return }
-        Rue.say("I sorted your options and got..\n\n" + args.sort().join(", ").replace(/,{2,}/g,","));
+        if (args.length === 0) { Rue.error("You didn't specify any values!"); return }
+        args = args.join(" ").replaceAll(","," ").split(" ");
+        var delim = ", ";
+        if (args.length === 1) { args = [...args[0]]; delim = "" }
+        Rue.say("I sorted your values and got..\n\n" + args.sort().join(delim).replace(/,{2,}/g,","));
     },
+    "shuffle": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify any values!"); return }
+        args = args.join(" ").replaceAll(","," ").split(" ");
+        var delim = ", ";
+        if (args.length === 1) { args = [...args[0]]; delim = "" }
+        Rue.say("I shuffled your values and got..\n\n" + args.sort( () => .5 - Math.random() ).join(delim).replace(/,{2,}/g,","));
+    },
+    "count": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify any values!"); return }
+        args = args.join(" ").replaceAll(","," ").split(" ");
+        Rue.say("This text has "+args.length+" word(s)!");
+    },
+    "count words": "=count",
+    "word count": "=count",
+    "wordcount": "=count",
+    "char count": function(args) {
+        var arg = args.join(" ");
+        Rue.say("This text has "+[...arg].length+" character(s)!");
+    },
+    "charcount": "=char count",
+    "character count": "=char count",
+    "len": "=char count",
+    "length": "=char count",
     "ping": function(args) {
         var url = (args[0] || currentURL) + "?ping=" + Math.random();
         var start = Date.now();
@@ -648,6 +754,7 @@ rueData.commands = {
     },
     "gtranslate": "=translate",
     "google translate": "=translate",
+    "tl": "=translate",
     "yatranslate": function(args) {
         var text = args.join(" ");
         if (text.match(/^https?:\/\//)) { rueData.commands["yatranslate page"](args); return }
@@ -1134,6 +1241,10 @@ rueData.commands = {
     "yell": "=shout",
     "scream": "=shout",
     "exclaim": "=shout",
+    "warn": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify what I should say"); return }
+        Rue.alert(args.join(" "));
+    },
     "deposit": function(args) {
         if (args.length === 0) { Rue.error("You didn't specify an amount!"); return }
         var amount = parseFloat(args[0]);
@@ -1326,6 +1437,221 @@ rueData.commands = {
     "cobalt.tools": "=download",
     "cobalt tools": "=download",
     "cobalttools": "=download",
+    "patent": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify a patent number!"); return }
+        Rue.openLink("https://patents.google.com/patent/US"+args[0])
+    },
+    "airport": function(args) {
+        Rue.openLink("https://www.flightradar24.com/airport/"+args[0])
+    },
+    "flight": function(args) {
+        Rue.openLink("https://www.flightradar24.com/flight/"+args[0])
+    },
+    "fcc": function(args) {
+        Rue.openLink("https://fcc.report/FCC-ID/"+args.join("-"))
+    },
+    "sitesearch": function(args) {
+        if (args.length === 0) {
+            var domain = location.host||location.hostname;
+            var query = "";
+        }
+        else if (args.length === 1) {
+            if (args[0].indexOf(".") !== -1) {
+                var domain = args[0];
+                var query = "";
+            }
+            else {
+                var domain = location.host||location.hostname;
+                var query = args[0];
+            }
+        }
+        else {
+            var domain = args[0];
+            var query = args.slice(1).join(" ");
+        }
+        Rue.openLink("https://www.google.com/search?q=site:"+domain+" "+query)
+    },
+    "search site": "=sitesearch",
+    "search this site": "=sitesearch",
+    "iplookup": function(args) {
+        if (args.length === 0 && Rue.checkStreamerMode("IP address, location")) { return }
+        Rue.openLink("https://ifconfig.co/?ip="+args.join("."))
+    },
+    "ipl": "=iplookup",
+    "ip lookup": "=iplookup",
+    "rdns": "=iplookup",
+    "geolocate": "=iplookup",
+    "$$$whats?,my,ip": "=iplookup",
+    "ip": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify an IP address!"); return }
+        var ip = args.join(".").toLowerCase().replaceAll("i",1);
+        Rue.say("You can {{link:http://"+ip+"|visit this IP}} or {{link:https://ifconfig.co/?ip="+ip+"|geolocate it}}!")
+    },
+    "internet protocol": "=ip",
+    "streamer mode": function() {
+        if (Rue.getUser("streamerMode")) {
+            Rue.setUser("streamerMode",false)
+            Rue.say("I've disabled Streamer Mode!");
+        }
+        else {
+            Rue.setUser("streamerMode",true)
+            Rue.say("I've enabled Streamer Mode!");
+        }
+    },
+    "clinical trial": function(args) {
+        Rue.openLink("https://clinicaltrials.gov/search?term="+args.join(" "))
+    },
+    "clinical trials": "=clinical trial",
+    "med trial": "=clinical trial",
+    "medical trial": "=clinical trial",
+    "dataset": function(args) {
+        Rue.openLink("https://catalog.data.gov/dataset?q="+args.join(" "))
+    },
+    "data set": "=dataset",
+    "datasets": "=dataset",
+    "data sets": "=dataset",
+    "us census": function(args) {
+        Rue.openLink("https://data.census.gov/all?q="+args.join(" "))
+    },
+    "webaim": function(args) {
+        Rue.openLink("https://wave.webaim.org/report#/"+(args.join(" ")||currentURL))
+    },
+    "tota11y": function() {
+        (function(){var tota11y=document.createElement('SCRIPT');tota11y.type='text/javascript';tota11y.src='https://tota11y.babylontech.co.uk/tota11y.min.js';document.getElementsByTagName('head')[0].appendChild(tota11y);})();
+    },
+    "xkcd": function(args) {
+        if (args.length === 0) { Rue.openLink("https://c.xkcd.com/random/comic/") }
+        else { Rue.openLink("https://xkcd.com/"+args[0]+"/") }
+    },
+    "karma decay": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify an image URL!") }
+        else { Rue.openLink("http://karmadecay.com/search?kdtoolver=m2&q="+args[0]) }
+    },
+    "karmadecay": "=karma decay",
+    "imgops": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify an image URL!") }
+        else { Rue.openLink("https://imgops.com/"+args[0]) }
+    },
+    "tineye": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify an image URL!") }
+        else { Rue.openLink("https://www.tineye.com/search?url="+args[0]) }
+    },
+    "char": function(args) {
+        if (args.length === 0) { Rue.error("You didn't specify a character!"); return }
+        if (args[0].match(/(U?[+\-])?[0-9A-F]{4,6}/gi)) {
+            var chars = [];
+            args.forEach( (u) => {
+                chars.push(String.fromCharCode(parseInt(u.match(/[0-9A-F]+/gi)[0],16)))
+            } )
+        }
+        else { var chars = [...args.join(" ")] }
+        var info = chars.join("");
+        if (chars.length > 1) { info += "\n\n" + chars.join(" ").replaceAll("​","[ZWS]").replaceAll("‍","[ZWJ]").replaceAll("️","[VS16]").replaceAll("︎","[VS15]"); }
+        info += "\n\n";
+        chars.forEach( (char) => {
+            var comp;
+            if (char.length === 1) { comp = char.charCodeAt(0); }
+            else { comp = ( (char.charCodeAt(0) - 0xD800) * 0x400 + (char.charCodeAt(1) - 0xDC00) + 0x10000 ); }
+            if (comp < 0) { comp = char.charCodeAt(0); }
+            info += "U+"+comp.toString(16).padStart(5,"0").toUpperCase()+" "
+        })
+        Rue.say(info)
+    },
+    "codepoint": "=char",
+    "character": "=char",
+    "unicode": "=char",
+    "chars": "=char",
+    "emoji kitchen": function(args) {
+        if (args.length < 2) { Rue.error("You didn't specify two emoji!"); return }
+        var chars = [];
+        args = args.sort();
+        args.reverse();
+        args.forEach( (char) => {
+            var comp;
+            if (char.length === 1) { comp = char.charCodeAt(0); }
+            else { comp = ( (char.charCodeAt(0) - 0xD800) * 0x400 + (char.charCodeAt(1) - 0xDC00) + 0x10000 ); }
+            if (comp < 0) { comp = char.charCodeAt(0); }
+            chars.push("u"+comp.toString(16).padStart(5,"0"))
+        })
+        Rue.openLink("https://www.gstatic.com/android/keyboard/emojikitchen/20230301/"+chars[0]+"/"+chars[0]+"_"+chars[1]+".png")
+    },
+    "weather": function(args) {
+        var search = args.join(" ").replace(/^(in|at|near|on|@) /g, "");
+        if (search === "me" || search === "here") {
+            search = "";
+        }
+        if (!search && Rue.checkStreamerMode("location")) return;
+        Rue.callAPI("https://wttr.in/"+search+"?format=j1", function(json) {
+            console.log(json)
+            if (json.nearest_area && json.current_condition && json.request[0].query !== "Ban Not, Vietnam") {
+                var area = json.nearest_area[0];
+                var stats = json.current_condition[0];
+                var coords = area.latitude+","+area.longitude;
+                Rue.say(
+`Weather in {{link:https://www.google.com/maps/place/${coords}|${area.areaName[0].value}}}:
+
+${stats.temp_F}°F / ${stats.temp_C}°C
+Feels like: ${stats.FeelsLikeF}°F / ${stats.FeelsLikeC}°C
+Humidity: ${stats.humidity}%
+Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16Point})
+`
+                )
+            }
+            else {
+                Rue.error("Your area couldn't be located! Please specify the name of the location.")
+            }
+        })
+    },
+    "$$$what,is,my": function(args) {
+        var key = trimPunctuation(args.join("_"));
+        var value = Rue.getUser(key);
+        if (value) {
+            Rue.say("Your "+key+" is "+value+"!")
+        }
+        else {
+            Rue.error("I'm not sure how to determine that..")
+        }
+    },
+    "$$$my,name,is": function(args) {
+        var newName = trimPunctuation(args[0]);
+        if (!newName) { Rue.error("I can't call you that!!"); return }
+        Rue.setUser("name",newName);
+        Rue.happy("Okay!! I'll call you "+newName+" from now on.")
+    },
+
+    // R74n Identifiers
+    "urn": function(args) {
+        if (args.length === 0) {
+            Rue.openLink("https://r74n.com/id/urn");
+            return;
+        }
+        Rue.openLink("https://r74n.com/id/?urn:"+args.join(""))
+    },
+    "oid": function(args) {
+        if (args.length === 0) {
+            Rue.openLink("https://r74n.com/id/oid");
+            return;
+        }
+        Rue.openLink("https://r74n.com/id/?"+args.join("."))
+    },
+    "planecode": function(args) {
+        Rue.openLink("https://r74n.com/multiplane?code="+args.join("+"))
+    },
+    "id": function(args) {
+        if (args.length === 0) {
+            Rue.openLink("https://r74n.com/id/");
+            return;
+        }
+        Rue.openLink("https://r74n.com/id/?"+args.join(""))
+    },
+    "identifier": "=id",
+    "resolve": "=id",
+    "resolve id": "=id",
+    "resolve identifier": "=id",
+    "color picker": function(args) {
+        var color = args[0] || "#00ffff";
+        Rue.say(`<span id="rueColorPickerText">${color}</span>\n\n<input type="color" oninput="document.getElementById('rueColorPickerText').innerText = this.value;" value="${color}">`)
+    },
 
     "downdetector": function(args) { //partner
         if (args.length === 0) {
@@ -1367,7 +1693,8 @@ rueData.commands = {
     "infinite craft": "=allchemy",
 } // commands
 rueData.favorites = {
-    "color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)"
+    "color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)",
+    "activity": "talkin' to R74n users",
 }
 rueData.totalities = {
     "/\\w+\\.r74n\\.com(.+)?/": function(text) {
@@ -1382,8 +1709,11 @@ rueData.totalities = {
     "/P\\d+(.+)?/": function(text) {
         Rue.openLink("https://data.R74n.com/wiki/Property:" + text);
     },
-    "/(wh?[au]t'?s? )?((yo)?u'?r'?e? )?fav(ou?rite)? ([\\w ]+)/": function(text) {
-        var match = text.match(/(?:wh?at'?s? )?(?:(?:yo)?ur )?fav(?:ou?rite)? ([\w ]+)/i);
+    "/:\\w+:/": function(text) { //R74moji
+        Rue.openLink("https://r74n.com/moji/view?"+text.replaceAll(":",""))
+    },
+    "/(wh?[au]t('?| i)s? )?((yo)?u'?r'?e? )?fav(ou?rite)? ([\\w ]+)/": function(text) {
+        var match = text.match(/(?:wh?[au]t(?:'?| i)s? )?(?:(?:yo)?ur )?fav(?:ou?rite)? ([\w ]+)/i);
         var key = match[1];
         Rue.say("My favorite " + key + " is " + (rueData.favorites[key] || "[???]") + "!");
     },
@@ -1396,16 +1726,15 @@ rueData.totalities = {
     "/[\\w\\.]+\\.(com?|org|net|co\\.uk|edu|gov|tv|io|gg)(\\/.+)?/": function(text) {
         Rue.openLink("http://" + text);
     },
-    "/leave|self[ \\-]?destruct|go away|hide|run away|exit|close|turn off|shut up|stfu|lock ?down|shut ?down|shut ?off|disconnect|dc/": function() {
+    "/leave|self[ \\-]?destruct|go away|hide|run away|exit|close|turn off|shut up|stfu|lock ?down|shut ?down|shut ?off|disconnect|dc|uninstall|scram|shoo|vanish|disappear|vacate/": function() {
         Rue.say("I'll leave right after ya' click somewhere else! See ya' {{c:soon|later}}, friend!");
         Rue.brain.afterClickOff = function() {
-            document.getElementById("rueBox").remove();
-            Rue = undefined;
-            if (document.getElementById("rueScript")) {
-                document.getElementById("rueScript").remove();
-            }
-            console.log("Rue has left the building.");
+            Rue.uninstall()
         }
+    },
+    "unfocus": function() {
+        rueInput.value = "";
+        rueInput.blur();
     },
     "/(submit|post|add|suggest|leave)? ?(feedback|fb|suggestion|suggest|report bug|bug report|report bug) (for|to|of|4|on) (.+)/": function(text) {
         var match = text.match(/(?:submit|post|add|suggest|leave)? ?(?:feedback|fb|suggestion|suggest|report bug|bug report|report bug) (?:for|to|of|4|on) (.+)/i);
@@ -1553,6 +1882,14 @@ rueData.totalities = {
     "sepia": function() {
         document.documentElement.style.filter = "sepia(100%)";
     },
+    "bad eyesight mode": function() {
+        document.body.style.filter = "blur(5px)";
+    },
+    "take off glasses": "=bad eyesight mode",
+    "blur page": "=bad eyesight mode",
+    "go blind": function() {
+        Rue.user.overlay("black",1)
+    },
     "event": function() {
         if (typeof currentEvent !== "undefined") {
             Rue.say("Current event: " + currentEvent);
@@ -1604,7 +1941,8 @@ rueData.totalities = {
         Rue.showMedia("https://placebeard.it/"+(500+Math.floor(Math.random()*50))+"/"+(500+Math.floor(Math.random()*50)), "Beard for you! 🧔", "Brought to you by placebeard.it");
     },
     "kitten": function() {
-        Rue.showMedia("https://placekitten.com/"+(500+Math.floor(Math.random()*50))+"/"+(500+Math.floor(Math.random()*50)), "Kitten for you! 🐱", "Brought to you by placekitten.com");
+        Rue.error("This service is currently down!");
+        // Rue.showMedia("https://placekitten.com/"+(500+Math.floor(Math.random()*50))+"/"+(500+Math.floor(Math.random()*50)), "Kitten for you! 🐱", "Brought to you by placekitten.com");
     },
     "dog": function() {
         Rue.callAPI("https://random.dog/woof.json", function(data) {
@@ -1771,6 +2109,9 @@ rueData.totalities = {
     "/(what('| i)?s? )?(the )?(current )?(year)( is it)?/": function() {
         Rue.say("It's currently " + new Date().getFullYear() + "!");
     },
+    "/(what('| i)?s? )?(the )?(current )?(decade)( is it)?/": function() {
+        Rue.say("It's currently decade " + Math.ceil(new Date().getFullYear() / 10) + ", also known as the "+Math.floor(new Date().getFullYear() / 10)+"0s!");
+    },
     "/(what('| i)?s? )?(the )?(current )?(century)( is it)?/": function() {
         Rue.say("It's currently century " + Math.ceil(new Date().getFullYear() / 100) + "!");
     },
@@ -1780,10 +2121,10 @@ rueData.totalities = {
     "/(what('| i)?s? )?(the )?(current )?(utc( ?time)?)( is it)?/": function() {
         Rue.say("In UTC, it's currently " + new Date().toUTCString() + "!");
     },
-    "/(what('| i)?s? )?(the )?(current )?(day of( the)? year)( is it)?/": function() {
+    "/(what('| i)?s? )?(the )?(current )?(day of( the)? year)( is it)?|doty/": function() {
         Rue.say("It's currently day " + new Date().getYearDay() + " of " + new Date().getFullYear() + "!");
     },
-    "/(what('| i)?s? )?(the )?(current )?(week ?day|day of( the)? week)( is it)?/": function() {
+    "/(what('| i)?s? )?(the )?(current )?(week ?day|day of( the)? week)( is it)?|dotw/": function() {
         Rue.say("It's currently " + new Date().getDayName() + "!");
     },
     "/(what('| i)?s? )?(the )?(current )?(ordinal date)( is it)?/": function() {
@@ -1804,11 +2145,11 @@ rueData.totalities = {
         Rue.say("You're currently in the " + Intl.DateTimeFormat().resolvedOptions().timeZone + " timezone, which is " + new Date().getTimezoneOffset()/60 + " hours away from UTC!");
     },
     "uptime": function() {
-        var time = Date.now() - 1687725300000;
+        var time = Date.now() - 1687438260000;
         var days = Math.floor(time / (1000 * 60 * 60 * 24));
         var hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-        Rue.say("I've been online for " + days + " days, " + hours + " hours, and " + minutes + " minutes!");
+        Rue.say("I've been online for " + days + " days, " + hours + " hour(s), and " + minutes + " minute(s)!");
     },
     "age": "=uptime",
     "accountage": function() {
@@ -1816,7 +2157,7 @@ rueData.totalities = {
         var days = Math.floor(time / (1000 * 60 * 60 * 24));
         var hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-        Rue.say("You've been using Rue for " + days + " days, " + hours + " hours, and " + minutes + " minutes!");
+        Rue.say("You've been using Rue for " + days + " day(s), " + hours + " hour(s), and " + minutes + " minute(s)!");
     },
     "userage": "=accountage",
     "user age": "=accountage",
@@ -1832,7 +2173,17 @@ rueData.totalities = {
     "protocol": function() {
         Rue.say("You are currently using the " + window.location.protocol.replace(":","").toUpperCase() +" protocol!");
     },
-    "/https?/": "=protocol",
+    "/https?/": function() {
+        if (window.location.protocol === "https:") {
+            Rue.say("Switching to HTTP..");
+            window.location.protocol = "http:";
+        }
+        else if (window.location.protocol === "http:") {
+            Rue.say("Switching to HTTPS..");
+            window.location.protocol = "https:";
+        }
+        else { rueData.totalities.protocol(); }
+    },
     "/(today'?s|daily)? ?fortune( cookie)?( of the day)?|fotd/": function() {
         Rue.say("{{act:crack}} Today's fortune...\n\n{{sc:{{today}}|Be a|Live for|Strive for|Conquer|Seek the|Ask the|Find the|Think of the|Imagine a}} {{sc:{{today}}|dog|Rue|website|server|paper|cat|rabbit|squirrel|coin|tree|diamond|pile of sand|greeting|unit of time|emoji|symbol|flag}}, {{sc:{{today}}|and|and then|then you|then, and only then, you|}} {{sc:{{today}}|become|find|learn}} {{sc:{{today}}|love|fortune|programming|the truth|your true self|real|God|the dream|life itself|family|health|strength|the Sun}}.")
     },
@@ -1865,6 +2216,7 @@ rueData.totalities = {
         Rue.say("You received {{ruecoin}}" + amount + "! (Ruecoins)");
     },
     "me": function() {
+        if (Rue.checkStreamerMode("age, name, medical history, addiction")) { return }
         // show all user data
         var message = "";
         var sorted = Object.keys(Rue.userData.user).sort();
@@ -1875,7 +2227,7 @@ rueData.totalities = {
             message += key + ": " + value + "\n";
         }
         message = message.slice(0,-1);
-        Rue.paginate("Here's all your user data! You can download it with 'export data'.\n\n" + message);
+        Rue.paginate("Here's all your Rue user data! You can download it with 'export data'.\n\n" + message);
     },
     "stats": "=me",
     "statistics": "=me",
@@ -1901,7 +2253,7 @@ rueData.totalities = {
         })
     },
     "mute": function() {
-        Rue.say("I'll be quiet until ya' say 'unmute'!");
+        Rue.say("I'll be quiet until ya' say '{{cmd|unmute}}'!");
         Rue.brain.mute = true;
     },
     "/time ?out/": "=mute",
@@ -1921,7 +2273,7 @@ rueData.totalities = {
     "unmute notifications": "=mute",
     "unmute alerts": "=mute",
     "deafen": function() {
-        Rue.say("I'll stop listening until ya' say 'undeafen'!");
+        Rue.say("I'll stop listening until ya' say '{{cmd|undeafen}}'!");
         Rue.brain.deaf = true;
     },
     "undeafen": function() {
@@ -1942,6 +2294,7 @@ rueData.totalities = {
     "rank": "=level",
     "cookies": function() {
         // all cookies that don't start with _
+        if (!document.cookie) { Rue.error("There are no cookies on this page!"); return }
         Rue.paginate("Here's all the cookies on this page:\n\n"+document.cookie.split("; ").filter(function(cookie) { return cookie[0] !== "_" }).join("\n"));
     },
     "metadata": function() {
@@ -1957,7 +2310,7 @@ rueData.totalities = {
         message = message.slice(0,-1);
         Rue.paginate("Here's all the metadata tags on this page:\n\n" + message);
     },
-    "/edit ?(this ?)?page/": function() {
+    "editpage": function() {
         if (document.body.contentEditable === 'true') {
             document.body.contentEditable = 'false';
             document.designMode='off';
@@ -1968,6 +2321,8 @@ rueData.totalities = {
         document.designMode='on';
         Rue.say("I've enabled editing on this page!");
     },
+    "/edit ?(this ?)?page/": "=editpage",
+    "/design ?mode/": "=editpage",
     "os": function() {
         Rue.say("You're using " + navigator.platform + "!");
     },
@@ -2026,7 +2381,7 @@ rueData.totalities = {
         Rue.say("Ding!")
     },
     "mute audio": function() {
-        Rue.say("I'll mute all audio until ya' say 'unmute audio'!");
+        Rue.say("I'll mute all audio until ya' say '{{cmd|unmute audio}}'!");
         Rue.setRue("muteAudio", true);
     },
     "unmute audio": function() {
@@ -2176,46 +2531,13 @@ rueData.totalities = {
             Rue.say("Your battery is currently at " + Math.round(battery.level*100) + "%!" + (battery.charging ? " (Charging)" : ""));
         });
     },
-    "/[\\w\\+\\-_\\.]+@([\\w\\+\\-_\\.]+)?\\.\\w+( .+)?/": function(text) {
-        var message = text.split(" ").slice(1).join(" ");
-        var email = text.split(" ")[0];
-        Rue.say("Email this address with your {{link:mailto:"+email+"?body="+encodeURI(message)+"|default email service}}, or use one of the following:\n\n"+
-            "{{link:https://mail.google.com/mail/?fs=1&tf=cm&to="+email+"&body="+encodeURI(message)+"|Gmail}}\n"+
-            "{{link:https://outlook.live.com/owa/?path=/mail/action/compose&to="+email+"&body="+encodeURI(message)+"|Outlook}}\n"+
-            "{{link:https://mail.yahoo.com/d/compose/"+email+"?body="+encodeURI(message)+"|Yahoo Mail}}\n"+
-            "{{link:https://mail.protonmail.com/compose?to="+email+"&body="+encodeURI(message)+"|ProtonMail}}\n"+
-            "{{link:https://mail.zoho.com/zm/#mail/compose/"+email+"?body="+encodeURI(message)+"|Zoho Mail}}\n"+
-            "{{link:https://mail.yandex.com/compose?to="+email+"&body="+encodeURI(message)+"|Yandex Mail}}\n"+
-            "{{link:https://mail.aol.com/webmail-std/en-us/compose-message?to="+email+"&body="+encodeURI(message)+"|AOL Mail}}\n"
-        );
-    },
-    "/(\\+\\d{1,2}[\\s]?)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}/": function(text) {
-        Rue.say("You can {{link:tel:"+text+"|call}} or {{link:sms:"+text+"|text}} this number, or use one of the following:\n\n{{link:facetime:"+text+"|FaceTime}}\n{{link:https://wa.me/"+text+"|WhatsApp}}\n{{link:https://t.me/"+text+"|Telegram}}");
-    },
-    "/[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)/": function(text) {
-        Rue.say("You can open these coordinates in your {{link:geo:"+text+"|default maps app}}, or use one of the following:\n\n{{link:https://www.google.com/maps/search/?api=1&query="+text+"|Google Maps}}\n{{link:https://www.openstreetmap.org/search?query="+text+"|OpenStreetMap}}\n{{link:https://www.bing.com/maps?cp="+text.replace(",","~").replace(" ","")+"&style=h&lvl=16|Bing Maps}}\n{{link:http://maps.apple.com/?sll="+text.replace(" ","")+"&z=10&t=s|Apple Maps}}");
-    },
-    "[address]": function(text) {
-        Rue.say("You can view this address with one of the following services:\n\n{{link:https://www.google.com/maps/search/?api=1&query="+text+"|Google Maps}}\n{{link:https://www.openstreetmap.org/search?query="+text+"|OpenStreetMap}}\n{{link:https://www.bing.com/maps?q="+text+"|Bing Maps}}\n{{link:http://maps.apple.com/?q="+text+"|Apple Maps}}");
-    },
-    "/\\b\\d{1,6} +.{2,25}\\b(avenue|ave|court|ct|street|st|drive|dr|lane|ln|road|rd|circle|cir|boulevard|blvd|plaza|parkway|pkwy|alley)[.,]?(.{0,25} +\\b\\d{5}\\b)?( .+)?/": "=[address]",
-    "/(\\b( +)?\\d{1,6} +(north|east|south|west|n|e|s|w)[,.]?){2}(.{0,25} +\\b\\d{5}\\b)?\\b( .+)?/": "=[address]",
-    "/(?:ISBN(?:-13)?:?\\ )?(?=[0-9]{13}$|(?=(?:[0-9]+[-\\ ]){4})[-\\ 0-9]{17}$)97[89][-\\ ]?[0-9]{1,5}[-\\ ]?[0-9]+[-\\ ]?[0-9]+[-\\ ]?[0-9]/": function(text) {
-        Rue.say("This looks like an ISBN number! You can {{link:https://www.amazon.com/s?i=stripbooks&k="+text+"|search it}} or {{link:https://www.worldcat.org/search?q="+text+"|find it in a library}}.");
-    },
-    "/[A-HJ-NPR-Za-hj-npr-z\\d]{8}[\\dX][A-HJ-NPR-Za-hj-npr-z\\d]{2}\\d{6}/": function(text) {
-        Rue.say("This looks like a vehicle identification number! You can {{link:https://www.vindecoderz.com/EN/check-lookup/"+text+"|check it online}}!");
-    },
-    "/[$][a-z][a-z0-9_&'-]{1,15}/": function(text) {
-        Rue.say("For stocks or crypto, view this on {{link:https://finance.yahoo.com/quote/"+text+"|Yahoo Finance}}!");
-    },
     "reboot": function() {
         Rue.say("Be right back!");
         Rue.wait(1, function() {
             Rue = undefined;
             // add the https://r74n.com/rue/rue.js script
             var e = document.body.appendChild(document.createElement("script"));
-            e.onload = function() { Rue.say("I've rebooted successfully!") };
+            e.onload = function() { Rue.say("I've rebooted successfully!"); Rue.focus() };
             e.src="https://r74n.com/rue/rue.js";
             rueBox.remove();
             if (document.getElementById("rueMessageBox")) { document.getElementById("rueMessageBox").remove() }
@@ -2224,6 +2546,7 @@ rueData.totalities = {
     "restart": "=reboot",
     "reload rue": "=reboot",
     "refresh rue": "=reboot",
+    "reset": "=reboot",
     "query string": function() {
         if (!location.search) { Rue.error("There's no query string here!"); return }
         Rue.say("The query string is:\n\n" + location.search);
@@ -2246,6 +2569,130 @@ rueData.totalities = {
     "back a page": "=previous page",
     "back button": "=previous page",
     "last page": "=previous page",
+    "$$$where,am,i;;where,are,we;;where,are,you": function() {
+        var domain = (location.host||location.hostname).replaceAll("r74","R74");
+        if (location.protocol === "file:") { domain = "a local file" }
+        else if (!domain) { domain = "a webpage" }
+        Rue.say("{{c:We|You and I}} are on "+domain+"!!")
+    },
+    "highlighted": function() {
+        if (!Rue.brain.selectedText) { Rue.error("You didn't have any text selected just now!!"); return }
+        Rue.say("You just had \""+Rue.brain.selectedText+"\" selected!!")
+    },
+    "stop blinking": function() {
+        Rue.stopBlinking();
+        Rue.say("You got it!!")
+    },
+    "staring contest": function() {
+        Rue.stopBlinking();
+        Rue.say("This'll be easy!!")
+    },
+    "english or spanish": function() {
+        Rue.stopBlinking();
+        Rue.say("anxious>>>...")
+    },
+    "spanish or english": "=english or spanish",
+
+    // R74n Identifiers
+    "/([0-2])((\\.0)|(\\.[1-9][0-9]*))*/": function(text) {
+        Rue.openLink("https://r74n.com/id/?"+text);
+    },
+    "/R[0-9A-F]{5}($|[+\\-]R.+)/": function(text) {
+        Rue.openLink("https://r74n.com/multiplane?code="+text.toUpperCase())
+    },
+
+    // unicode codepoints
+    "/((U[+\\-])[0-9A-F]{4,6} ?)+/": function(text) {
+        rueData.commands.char(text.split(" "));
+    },
+    "/(\\d+)?d\\d+/": function(text) {
+        rueData.commands.dice([text]);
+    },
+    "/[\\w\\+\\-_\\.]+@([\\w\\+\\-_\\.]+)?\\.\\w+( .+)?/": function(text) {
+        var message = text.split(" ").slice(1).join(" ");
+        var email = text.split(" ")[0];
+        rueData.commands.email([email,message])
+    },
+    "/(\\+\\d{1,2}[\\s]?)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}/": function(text) {
+        Rue.say("You can {{link:tel:"+text+"|call}} or {{link:sms:"+text+"|text}} this number, or use one of the following:\n\n{{link:facetime:"+text+"|FaceTime}}\n{{link:https://wa.me/"+text+"|WhatsApp}}\n{{link:https://t.me/"+text+"|Telegram}}");
+    },
+    "[coords]": function(text) {
+        text = text.replace(/^\.| \./g," 0.").trim();
+        Rue.say("You can open these coordinates in your {{link:geo:"+text+"|default maps app}}, or use one of the following:\n\n{{link:https://www.google.com/maps/search/?api=1&query="+text+"|Google Maps}}\n{{link:https://www.openstreetmap.org/search?query="+text+"|OpenStreetMap}}\n{{link:https://www.bing.com/maps?cp="+text.replace(",","~").replace(" ","")+"&style=h&lvl=16|Bing Maps}}\n{{link:http://maps.apple.com/?sll="+text.replace(" ","")+"&z=10&t=s|Apple Maps}}");
+    },
+    "/[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)/": "=[coords]",
+    "[address]": function(text) {
+        Rue.say("You can view this address with one of the following services:\n\n{{link:https://www.google.com/maps/search/?api=1&query="+text+"|Google Maps}}\n{{link:https://www.openstreetmap.org/search?query="+text+"|OpenStreetMap}}\n{{link:https://www.bing.com/maps?q="+text+"|Bing Maps}}\n{{link:http://maps.apple.com/?q="+text+"|Apple Maps}}");
+    },
+    "/(\\d+[°º][\\d\\.]+['‘’][\\d\\.]+[\"“”][NESW] ?){2}/": "=[coords]",
+    "/((\\d+\\.(\\d+)?|(\\d+)?\\.\\d+|\\d+)[NESW],? ?){2}/": "=[coords]",
+    "/\\b\\d{1,6} +.{2,25}\\b(avenue|ave|court|ct|street|st|drive|dr|lane|ln|road|rd|circle|cir|boulevard|blvd|plaza|parkway|pkwy|alley)[.,]?(.{0,25} +\\b\\d{5}\\b)?( .+)?/": "=[address]",
+    "/(\\b( +)?\\d{1,6} +(north|east|south|west|n|e|s|w)[,.]?){2}(.{0,25} +\\b\\d{5}\\b)?\\b( .+)?/": "=[address]",
+    "/(?:ISBN(?:-13)?:?\\ )?(?=[0-9]{13}$|(?=(?:[0-9]+[-\\ ]){4})[-\\ 0-9]{17}$)97[89][-\\ ]?[0-9]{1,5}[-\\ ]?[0-9]+[-\\ ]?[0-9]+[-\\ ]?[0-9]/": function(text) {
+        Rue.say("This looks like an ISBN number! You can {{link:https://www.amazon.com/s?i=stripbooks&k="+text+"|search it}} or {{link:https://www.worldcat.org/search?q="+text+"|find it in a library}}.");
+    },
+    "/[A-HJ-NPR-Za-hj-npr-z\\d]{8}[\\dX][A-HJ-NPR-Za-hj-npr-z\\d]{2}\\d{6}/": function(text) {
+        Rue.say("This looks like a vehicle identification number! You can {{link:https://www.vindecoderz.com/EN/check-lookup/"+text+"|check it online}}!");
+    },
+    "/[$][a-z][a-z0-9_&'-]{1,15}/": function(text) {
+        Rue.say("For stocks or crypto, view this on {{link:https://finance.yahoo.com/quote/"+text+"|Yahoo Finance}}!");
+    },
+    "/\\d[a-z]\\d{4}[a-z]\\d{11}/": function(text) {
+        Rue.openLink("https://www.ups.com/track?InquiryNumber1="+text)
+    },
+    "/^(?=.*0)[0-9]{12}$/": function(text) {
+        Rue.say("Is this a UPC number? If so, you can {{link:https://www.barcodelookup.com/"+text+"|view it online}}!")
+    },
+    "/\\d{12}/": function(text) {
+        Rue.say("Is this a FedEx tracking number? If so, you can {{link:https://www.fedex.com/fedextrack/?trknbr="+text+"|track this package}}!")
+    },
+    "/(\\d{4} ){5}\\d{2}/": function(text) {
+        Rue.say("Is this a USPS tracking number? If so, you can {{link:https://tools.usps.com/go/TrackConfirmAction_input?origTrackNum="+text+"|track this package}}!")
+    },
+    "/[A-Z]-[A-Z]{4}|[A-Z]{2}-[A-Z]{3}|N[0-9]{1,5}[A-Z]{0,2}/": function(text) {
+        Rue.say("You can {{link:https://www.flightradar24.com/data/aircraft/"+text+"|view this aircraft}}!")
+    },
+    "/([A-Z][\\d]|[\\d][A-Z]|[A-Z]{2})(\\d{1,})/": function(text) {
+        Rue.say("Is this a flight code? If so, you can {{link:https://www.flightradar24.com/flight/"+text+"|track this flight}}!")
+    },
+    "/([A-Za-z]{3}|[A-Za-z][0-9]|[0-9][A-Za-z])([0-9]+)/": function(text) {
+        Rue.say("Is this a callsign? If so, you can {{link:https://www.flightradar24.com/"+text+"|track this aircraft}}!")
+    },
+    "/((25[0-5]|(2[0-4]|1[\\di]|[1-9i]|)[\\di])\.?\\b){4}/": function(text) { //ip address v4
+        rueData.commands.ip([text]);
+    },
+    "/([a-f0-9:]+:+)+[a-f0-9]+/": function(text) { //ip address v6
+        Rue.openLink("http://["+text+"]")
+    },
+    "/#\\w+/": function(text) {
+        var id = text.slice(1);
+        if (document.getElementById(id)) {
+            location.hash = id
+        }
+        else {
+            Rue.openLink("https://hashtags-hub.toolforge.org/"+id)
+        }
+    },
+    "/\\.\\w+/": function(text) {
+        var elem = document.getElementsByClassName(text.slice(1))[0]
+        if (elem) {
+            elem.focus();
+            elem.scrollIntoView(true);
+        }
+        else { Rue.say("I wasn't able to find that element on this page!") }
+    },
+    // unit conversion
+    "/(convert )?([\\de\\.]+) ?.+ to .+/": function(text) {
+        text = text.replace(/convert /gi,"").replace(/ ?\/ ?/g," per ");
+        var parts = /([\de\.]+) ?(.+) to (.+)/.exec(text).slice(1);
+        // console.log("?-/"+parts.join("/"));
+        Rue.openLink("https://R74n.com/convert/?-/"+parts.join("/"));
+    },
+    "/convert .+ to .+/": function(text) {
+        text = text.replace(/convert /gi,"").replace(/ ?\/ ?/g," per ");
+        var parts = text.split(" to ");
+        Rue.openLink("https://R74n.com/convert/?-/-/"+parts.join("/"));
+    },
 
     "/is (.+) down/": function(text) { //partner
         var match = text.match(/is (.+) down/i);
@@ -2521,6 +2968,14 @@ rueData.subcommands = {
     act: {text:`"{{i:*"+args[0]+"*}}"`},
     ruecoin: {text:`"<span style='color:lime'>{{strike:{{code:R}}}}</span>"`},
     qbf: {text:`"The quick brown fox jumps over the lazy dog."`},
+    cmd: {text:`"<span style='cursor:pointer;font-weight:bold' onclick='Rue.setInput(&quot;"+args[0]+"&quot;);Rue.hush()'>"+(args[1]||args[0])+"</span>"`},
+    rueping: {text:`"{{cmd:@Rue|{{lime:@Rue}}}}"`},
+    date: {text:`(new Date()).toLocaleDateString()`},
+    year: {text:`(new Date()).getFullYear()`},
+    time: {text:`(new Date()).toLocaleTimeString()`},
+    br: {text:`"\\n"`},
+    arg: {text:`Rue.brain.tempArgs[parseInt(args[0]) < 0 ? Rue.brain.tempArgs.length-Math.abs(parseInt(args[0])) : parseInt(args[0]) || 0]`},
+    args: {text:`Rue.brain.tempArgs.join(args[0]||" ")`},
 } // subcommands
 rueData.responses = {
     "[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
@@ -2550,7 +3005,8 @@ rueData.responses = {
     "about": "=intro",
     "about rue": "=intro",
     "name": "Name's Rue!",
-    "pronouns": "I use she/they pronouns!",
+    "pronouns": "I use she/they pronouns, thanks for askin'!!",
+    "$$$what,are,your,pronouns": "=pronouns",
     "time zone": "I use whatever time zone you're in right now!",
     "timezone": "=time zone",
     "who": "{{r:name}} {{r:purpose}}\n\n{{r:[learnmore]}}",
@@ -2561,7 +3017,7 @@ rueData.responses = {
     "rue help": "Just type in a phrase or keyword and press my face or [Enter] to send it!\n\n{{r:[guide]}}!",
     "[helpbeta]": "Since I'm only in my {{c:open beta|testing}} stage, I haven't {{c:put together|written up}} a help page yet. Sorry!",
     "help": "{{r:rue help}}\n\nFor help with other projects, try leaving {{link:https://r74n.com/ufbs/|feedback}} or joining our {{link:https://link.r74n.com/discord|Discord}}!",
-    "help me": "=help",
+    "$$$help,me,please?": "=help",
     "guide": "=help",
     "readme": "=help",
     "docs": "=help",
@@ -2570,6 +3026,7 @@ rueData.responses = {
     "guide book": "=help",
     "handbook": "=help",
     "hand book": "=help",
+    "support": "=help",
     "tutorial": "=help",
     "rue tutorial": "=help",
     "rue tut": "=help",
@@ -2583,12 +3040,18 @@ rueData.responses = {
     "info": "=help",
     "information": "=help",
     "other": "=help",
+    "$$$how,do,you,work": "=help",
+    "$$$what,can,i,do,with,rue": "=help",
+    "$$$how,can,you,help,me?": "=help",
     "changelog": "To see the latest features added to Rue, see the {{link:https://r74n.com/rue/changelog|Explore with Rue Changelog}}!",
     "changes": "=changelog",
     "/what('?s| is) new/": "=changelog",
     "latest updates": "=changelog",
     "latest changes": "=changelog",
     "new update": "=changelog",
+    "updates": "=changelog",
+    "version": "=changelog",
+    "versions": "=changelog",
     "commands": "For a list of all commands, check out the {{link:https://r74n.com/rue/docs|Explore with Rue Guidebook}}!",
     "all commands": "=commands",
     "responses": "=commands",
@@ -2598,7 +3061,10 @@ rueData.responses = {
     "every command": "=commands",
     "skills": "=commands",
     "features": "=commands",
+    "$$$tell,me,what,you,can,do": "=commands",
+    "$$$tell,me,something,you,can,do": "=commands",
     "/explore( with (rue|you|u))?/": "Type in a place ya'd like to go, and I'll {{c:take|bring}} ya' there!",
+    "explore without rue":"sad>>>O-oh.. okay..",
     "privacy": "While talking to me, I don't store any data outside of your browser!\n\nSome of my commands use external services, and anything you do with them is subject to their own privacy policies!",
     "ai": "I make no (ZERO!) use of artificial intelligence, or machine learning!",
     "gpt": "=ai",
@@ -2680,20 +3146,24 @@ rueData.responses = {
     "videos": "=clips",
     "vids": "=clips",
 
-    "ryan": "My creator! Their Discord is @ryan.",
-    "ryan#4755": "This user is now known as @ryan on Discord.",
-    "@ryan": "This is a user on Discord, with the ID {{link:https://discord.com/users/101070932608561152|101070932608561152}}. Previously ryan#4755.",
+    "ryan": "My creator!",
     "test": "I think it's {{c:working|a success}}! There's also the R74n {{link:https://r74n.com/test/|Testing Zone}}.",
     "/test(ing?)?/": "=test",
     "/foo ?(ba[rz])?|fubar/": "Baz!",
     "baz": "Foo!",
     "<3": "love>>>O-oh..",
-    "/il[yu]|(i )?lo+ve+ (you+|u+|ya+)/": "=<3",
+    "/(il[yu]|(i )?lo+ve+ (you+|u+|ya+)) ?(sm|so much|too?|2)?/": "=<3",
     "sex": "flushed>>>O-oh..",
     "hole": "flushed>>>O-oh..",
     "date me": "flushed>>>O-oh.. I don't think we can do that..",
     "marry me": "=date me",
     "go out with me": "=date me",
+    "$$$will,you,marry|date|go out with,me": "=date me",
+    "$$$can,we,get married|marry|go out|date": "=date me",
+    "single": "anxious>>>U-um.. They're a chatbot on another website.. You wouldn't know them..",
+    "$$$are,you,single|dating|married|taken": "=single",
+    "$$$do,you,have,a,boyfriend|bf|girlfriend|gf|partner|wife|husband|spouse": "=single",
+    "$$$do,you,know,any?,other,chatbots": "Yes!! I'm friends with lots!",
     "why": "=purpose",
     "sandtiles": "Sandtiles is a top-down pixel art game that is on an indefinite hiatus.",
     "ontomata": "{{link:https://docs.google.com/document/d/1M8FExUFCsBLv9EeLke00VrdYpYQFPYN11uh9VFi_K10/edit?usp=sharing|Ontomata}} is an ontology and possibly a multiplayer video game slowly being developed.",
@@ -2745,8 +3215,10 @@ rueData.responses = {
     "founder": "=creator",
     "manager": "=creator",
     "maker": "=creator",
+    "boss": "=creator",
+    "$$$who,is,your,boss": "=creator",
     "nft": "R74n does not support or create NFTs!",
-    "emergency": "Having an emergency? Here are some numbers to call!\n\nUnited States: {{link:tel:911|911}}\nUnited Kingdom: {{link:tel:999|999}}\nAustralia: {{link:tel:112|112}}\n{{link:https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers|More Countries}}",
+    "emergency": "Having an emergency? Here are some numbers to call!\n\nUnited States: {{link:tel:911|911}}\nUnited Kingdom: {{link:tel:999|999}}\nAustralia: {{link:tel:000|000}}\n{{link:https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers|More Countries}}",
     "911": "=emergency",
     "999": "=emergency",
     "000": "=emergency",
@@ -2807,21 +3279,27 @@ rueData.responses = {
     "goodbye": "{{c:Come back soon|See ya' later}}, friend!",
     "/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r|soon|again|another time)?) ?(rue|friend)?/": "=goodbye",
     "/((goo+d|gud) ?(night+|nite+)|gn+|sweet dreams+|sleep tight+|sleep well+) ?(rue|friend)?/": "{{c:Have a good night|Goodnight}}, friend! {{c:Sleep tight|Sleep well|Rest well}}!",
+    "$$$talk,to,you,later": "=goodbye",
+    "ttyl": "=goodbye",
     "$$$who,are,you": "=who",
+    "$$$do,i,know,you": "=who",
+    "$$$are,you,rue": "Yes, that is me!! {{r:purpose}}",
     "$$$whats,your,name": "=name",
     "$$$yes,sir?": "{{c:Noted|Okay}}!",
     "$$$no": "No.. problem!",
     "/(oh+ )?(o?kk?([aeiy]+)?( ?dok(ie+|ey+))?|(i )?got (it|you|u)|alri(ght|te)y?) ?(then)?/": ":)",
     "/(f[uv*#]ck|screw) ?(you|u|off)/": "angry>>>..Not {{c:cool|nice}}.",
-    "/(how ?(are|r|is|'?s) ?(you|u|rue|it)|hr[uy])( [dg]oing)?/": "{{c:I'm|I am|Rue's}} {{c:doin' |feelin' |}}{{c:very good|great|perfect|awesome|wonderful}}{{c: right now| at the moment|}}!{{c: {{r:[whatsup]}}|}}",
-    "/(wh?[au]t('?| i)s? up+)/": "{{r:[whatsup]}}",
+    "/(how ?(are|r|is|'?s) ?(you|u|rue|it)|hr[uy])( [dg]oing| feeling?)?/": "{{c:I'm|I am|Rue's}} {{c:doin' |feelin' |}}{{c:very good|great|perfect|awesome|wonderful}}{{c: right now| at the moment|}}!{{c: {{r:[whatsup]}}|}}",
+    "/(wh?[au]t('?| i)s? up+)|sup+/": "{{r:[whatsup]}}",
+    "$$$what,are,you,doing": "{{r:[whatsup]}}",
     "/(th?(ank(s+)?|ks|x+) ?(you+|u+)?|ty+(sm+)?) ?(rue|friend)?/": "Of course! I'm always {{c:here|around}} to help{{c: ya'|}}, friend!",
     "/((you|u)? ?(are|r|'?re)? welcome|no(t a)? problemo?|np|yw|any ?time) ?(rue|friend)?/": "happy>>>{{c:Very|How|So}} {{c:kind|sweet}}!! :)",
     "/of ?course|ofc/": "happy>>>:)",
     "/(pretty )?(please+|plz+|pls+|pleek)/": "I'll try my best!",
-    "$$$who,(made|created|develop(ed|s)|started|invented|came up with),you": "=creator",
+    "$$$who,(made|makes|created|develop(ed|s)|started|invented|came up with),you": "=creator",
     "/how ?(to|do i|2)? ?(use|ask|talk to)? ?(you|rue|u|this|explore with rue)?/": "Glad ya' want my help! {{r:rue help}}",
-    "/(you|u|rue|that|this)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really|the)? ?(wrong|incorrect|stupid|dummy|dumbass|dumb|idiot|idiotic|lying|false|[md]isinfo(rmation)?|lie|liar|mistaken|bad|terrible|worse|worst|annoying)/": "sad>>>I'm not perfect.. Leave me some feedback {{link:https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Rue+/+Explore+with+Rue|here}}!",
+    "[feedback]": "sad>>>I'm not perfect.. Leave me some feedback {{link:https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Rue+/+Explore+with+Rue|here}}!",
+    "/(you|u|rue|that|this|those)? ?(is|are|r|'?re|'?s|was|were)? ?(a|so+|very|really|the)? ?(wrong|incorrect|stupid|dummy|dumbass|dumb|idiot|idiotic|lying|false|[md]isinfo(rmation)?|lie|liar|mistaken|bad|terrible|worse|worst|annoying|stinky?|sucky?|not good|not right|not correct|wrong answer|not true|not the right answer|not helpful|know nothing)/": "=[feedback]",
     "/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really|the)? ?(nice|amazing|awesome|cool|epic|helpful|good|great|best|better)/": "happy>>>Thanks, friend!! :)",
     "/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really|the)? ?(cute+|hot|attractive|pretty|handsome|beautiful)/": "love>>>O-oh.. Thank{{c:s| you}}..",
     "/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really|the)? ?(mean|rude|asshole|bad)/": "sad>>>I apologize if I hurt you.. I didn't mean it!",
@@ -2850,11 +3328,15 @@ rueData.responses = {
     "$$$good,job|work,rue?": "happy>>>Thank you!!",
     "$$$oh?,my?,god+|gosh+|goodness|jesus( christ)?|jeez|geez;;omf?g+": "What!!",
     "$$$y+i+pp+ee+|woo+(hoo+)?|y+a+y+": "happy>>>:)",
-    
+    "$$$where,are,you,from|based": "I'm from {{link:https://r74n.com/|R74n}}, friend!!",
+    "$$$are,you,busy;;can,you,help,me?": "Anything for you, friend!! What do you need?",
+    "$$$who,did,you,vote,for": "Chatbots actually don't have the right to vote..",
+    "$$$do,you,know,me": "Of course, you come here {{c:often|all the time}}!!",
+    "$$$do,you,sleep": "Yes!! Just say '{{cmd|sleep}}'.. But don't watch.",
+
     
     "/dirt ?[,+] ?water/": "You made Mud!",
     "/water ?[,+] ?dirt/": "You made Mud!",
-    "ryan is a": "Ryan is a C",
     "otter": "🦦",
     "😥": "What's wrong??",
     "amogus": "ꇺ Ꭿ ඞ ඩා 𐐘 𐑀 📮 {{link:https://c.r74n.com/among-us/|More on Copy Paste Dump}}",
@@ -2883,34 +3365,40 @@ rueData.responses = {
     "lorem ipsum":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     "qbf": "{{qbf}}",
     "quick brown fox": "=qbf",
+    ":3": ":3333333",
+    "/me+(o+)?w+|ny+a+(n+)?/":"Good kitty!",
+    "true": "tRue",
+    "$$$where,is,waldo": "Hmm.. He must be nearby..",
 
     "pitspower": "hello &nbsp;hope all is well", // partner
     "serioustar": ":3", // patron
-    ":3": ":3333333\n\nSee also: {{link:https://en.pronouns.page/@Serioustar|Serioustar}}", // patron
 } // responses
 rueData.regex = {
-    "do": "do|does|dost",
+    "do": "do|does|dost|can|will",
     "does": "=do",
     "you": "you|u|rue|ya'?|thou|this|friend",
     "rue": "=you",
     "your": "your|ur|rue'?s|thy",
     "youd": "(yo)?u'?d|(yo)?u (would|had)",
     "like": "like|enjoy|favou?r|love",
-    "is": "is|are|be|am|'?s|'?re",
+    "is": "is|are|be|am|'?s|'?re|r",
     "are": "=is",
     "am": "=is",
     "isnt": "isn'?t|ain'?t|aren'?t|don'?t|doesn'?t",
     "arent": "=isnt",
-    "do": "do|does|can",
     "can": "=do",
+    "will": "=do",
     "dont": "=isnt",
     "doesnt": "=isnt",
+    "doing": "doin[g']?",
+    "did": "did|'?d",
     "im": "i( am|'?m)",
     "i": "i|me|myself",
     "ill": "i'?ll|i will",
     "ive": "i'?ve|i have",
     "id": "i'?d|i (would|had)",
     "me": "=i",
+    "we": "we|us",
     "who": "who|what",
     "what": "wh?[au]t",
     "whats": "wh?[au]t( is|'?s| are|'?re)",
@@ -2940,6 +3428,10 @@ rueData.regex = {
     "so": "so|very|really|actually",
     "very": "=so",
     "really": "=so",
+    "please": "please|plo?[szx]+",
+    "thank": "tha?nks?|thx+|th?ks",
+    "see": "see|c",
+    "know": "know?",
 } // Ruegex
 // rueData.responses["$$$do,you,really?,like=,me"] = "Yes!!";
 // rueData.responses["$$$im,me"] = "You are you!!";
@@ -2947,12 +3439,16 @@ rueData.regex = {
 // rueData.responses["$$$howto,get,ruecoins?="] = "=help";
 rueData.keywords = {
     "language": "I can only speak and respond to English right now! I was written in pure JavaScript.",
+    "coded with":"I was written in pure JavaScript, along with most other R74n projects!",
     "birthday": "My (Rue's) birthday is on June 22nd. The R74n website's is on May 2nd. The owner's is a secret!",
+    "ur purpose": "{{r:purpose}}",
     "human": "I am not a real {{c:human|person}}! I'm a {{c:chatbot|robot}}!\n\nIf you'd like to speak to a real person, try joining our {{link:https://link.r74n.com/discord|Discord}}!",
     "robot": "I am a {{c:chatbot|robot}} designed to help you navigate R74n!",
     "chatbot": "I am a {{c:chatbot|robot}} designed to help you navigate R74n!",
+    "recognition": "I can recognize many forms of text! See the {{link:https://r74n.com/rue/docs#recognize|Rue Guidebook}} for a list!",
     "[swear]": "angry>>>..Not {{c:cool|nice}}.",
     "fuck":"=[swear]","shit":"=[swear]","bitch":"=[swear]","asshole":"=[swear]","dumbass":"=[swear]",
+    "sandboxels mod": "You can learn how to install mods for Sandboxels {{link:https://sandboxels.r74n.com/mod-list|here}}, or learn how to code your own {{link:https://sandboxels.wiki.gg/wiki/Modding_tutorial|here}}!",
     "script>": "Nice try.. not!",
     "alert(": "Nice try.. not!",
     "javascript:": "I can't run your JavaScript here.. Try your browser's console!!",
@@ -3082,6 +3578,8 @@ rueData.links = {
 "homepage": "=main",
 "home": "=main",
 "main website": "=main",
+"main site": "=main",
+"main page": "=main",
 "r74n.com": "=main",
 "r47n.com": "=main",
 "www.r74n.com": "=main",
@@ -3153,6 +3651,8 @@ rueData.links = {
 "sandboxels:pull": "=sandboxels:pr",
 "sb pr": "=sandboxels:pr",
 "sbpr": "=sandboxels:pr",
+"cook:pr": "https://github.com/R74nCom/InfiniteChef-Mods/tree/main",
+"icpr": "=sandboxels:pr",
 "cpd": "https://c.r74n.com/",
 "c": "=cpd",
 "copy": "=cpd",
@@ -3483,7 +3983,7 @@ rueData.links = {
 "giphy": "https://giphy.com/channel/R74n",
 "gifs": "=giphy",
 "picrew": "https://picrew.me/image_maker/1276358",
-"imgur": "https://imgur.com/user/R74ncom",
+"imgur": "https://imgur.com/upload",
 "on google": "https://www.google.com/search?kgmid=/g/11m0q5kt97",
 "sketchfab": "https://sketchfab.com/R74n",
 "ios shortcut": "https://www.icloud.com/shortcuts/f78a979d937841eba4a290f922c3acc4",
@@ -3562,13 +4062,6 @@ rueData.links = {
 "spacehey": "https://spacehey.com/r74n",
 "mastodon": "https://mastodon.gamedev.place/@R74n",
 "tumblr": "https://r74n.tumblr.com/",
-"box": "https://r74n.com/box",
-"ryanuwu": "=box",
-"shulker box": "=box",
-"shulker boxes": "=box",
-"shulkers": "=box",
-"boxes": "=box",
-"/give": "=box",
 "itemcult": "https://discord.gg/8TsNvEy",
 "item cult": "=itemcult",
 "minecraft item cult": "=itemcult",
@@ -3641,6 +4134,7 @@ rueData.links = {
 "responses:cook": "https://link.R74n.com/ufbs-cook",
 "feedback responses": "https://link.R74n.com/ufbs",
 "response sheet": "https://link.R74n.com/ufbs",
+"ufbs sheet": "=response sheet",
 "#play∞": "https://discord.com/channels/705084182673621033/837506072054333480",
 "#playπ": "https://discord.com/channels/705084182673621033/837506203974238239",
 "#playℵ0": "https://discord.com/channels/705084182673621033/837506186009641021",
@@ -3794,7 +4288,7 @@ rueData.links = {
 "flags guess": "=guess the flag",
 "guess flag": "=guess the flag",
 "guess flags": "=guess the flag",
-"multiplane": "https://r74n.com/multiplane/",
+"multiplane": "https://r74n.com/multiplane/?",
 "sequence": "https://r74n.com/sequence/",
 "sequencer": "=sequence",
 "patreon": "https://www.patreon.com/R74n",
@@ -3804,7 +4298,9 @@ rueData.links = {
 "every ant on earth": "=ants",
 "eaoe": "=ants",
 "ant browser": "=ants",
+"ant funeral": "https://R74n.com/ants/?funerals",
 "cook": "https://R74n.com/cook/",
+"infinite chef mods": "https://github.com/R74nCom/InfiniteChef-Mods/",
 "infinitechef": "=cook",
 "infinite chef": "=cook",
 "infinite-chef": "=cook",
@@ -3813,6 +4309,16 @@ rueData.links = {
 "infinite cook": "=cook",
 "shapes": "https://R74n.com/shapes/",
 "r74n shapes": "=shapes",
+"id": "https://R74n.com/id/",
+"ids": "=id",
+"identifier": "=id",
+"identifiers": "=id",
+"id request": "https://R74n.com/id/?id:request",
+"request id": "=id",
+"request ids": "=id",
+"community projects": "https://R74n.com/community/",
+"supporters": "https://R74n.com/supporters/",
+"collab": "https://R74n.com/collab/",
 
 "turbowarp": "https://turbowarp.org/editor",
 "tw": "=turbowarp",
@@ -3829,7 +4335,9 @@ rueData.links = {
 } // links
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
-const punctuationRegex = /[`~!¡¿‼‽⁇⁈⁉！@#$¢£€¥%\^&\*\(\)\-‐‑‒–—―_\+×÷=\[\]\{\}\|\\;:：；'‘’"“”„＂＇‚‛❛❜❟‟«»<>,\.…\/⁄\?¶⁋❡§†‡°]+/g;
+const punctuationRegexProto = "[`~!¡¿‼‽⁇⁈⁉！@#$¢£€¥%\\^&\*\\(\\)\\-‐‑‒–—―_\\+×÷=\\[\\]\\{\\}\\|\\\\;:：；'‘’\"“”„＂＇‚‛❛❜❟‟«»<>,\\.…\\/⁄\\?¶⁋❡§†‡°]+"
+const punctuationRegex = new RegExp(punctuationRegexProto,"g");
+const punctuationRegexEnd = new RegExp(punctuationRegexProto+"$","g");
 function normalize(text) {
     return text.toLowerCase().replace(whitespaceRegex, " ").trim();
 }
@@ -3839,9 +4347,12 @@ function normalizeL2(text) {
 function ultraNormalize(text) {
     return text.replace(/&|'?n'|'n?/g,"and").replace(punctuationRegex, "").toLowerCase().trim().replace(whitespaceRegex,"").replace(/[eiou]/g,"a").replace(/i?es|ys/g,"s");
 }
+function trimPunctuation(text) {
+    return text.replace(punctuationRegexEnd, "");
+}
 function encodeHTML(text) {
     if (Array.isArray(text)) { return text.map(encodeHTML); }
-    return text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/&/g, "&amp;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
+    return text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
 }
 function chooseValue(dict, key) {
     // if the first character of dict[key] is =, and dict[new key] exists, set key to new key
@@ -3915,11 +4426,6 @@ function finalizeData(dict) {
 finalizeData(rueData);
 
 
-loadedRue = true;
-// post-load functions
-for (var i = 0; i < rueLoadFunctions.length; i++) {
-    rueLoadFunctions[i]();
-}
 rueInput.addEventListener("input", function() {
     if (Rue.brain.afterClickOff) {
         Rue.brain.afterClickOff = undefined;
@@ -3980,6 +4486,9 @@ function sendMessage(e,message) { // send message
     if (message) { var text = message; }
     else {
         var text = rueInput.value.trim().replace(/ {2,}/g, " ");;
+    }
+    if (text.length === 0 && Rue.brain.source === "bookmarklet") {
+        Rue.uninstall();
     }
     if (typeof rueOnSend !== "undefined") {
         text = rueOnSend(text) || text;
@@ -4143,6 +4652,22 @@ function sendMessage(e,message) { // send message
             commandBase = split[0];
             argsArray.unshift(split[1]);
         }
+        else if (commandBase.indexOf("(") !== -1) {
+            var split = text.split(" ")[0].split(/\((.+)/);
+            commandBase = split[0];
+            argsArray.unshift(split[1]);
+            var lastArg = argsArray[argsArray.length-1];
+            if (lastArg.charAt(lastArg.length-1) === ")") {
+                argsArray[argsArray.length-1] = lastArg.slice(0,lastArg.length-1)
+            }
+            var joinedArgs = argsArray.join(" ");
+            if (joinedArgs.indexOf(",") !== -1) {
+                argsArray = joinedArgs.split(/, ?/);
+            }
+        }
+    }
+    if (argsArray.length === 1 && argsArray[0] === "this" && Rue.brain.selectedText) {
+        argsArray[0] = Rue.brain.selectedText;
     }
     // group together args surrounded by quotes, keeping all other args separate
     if (text.indexOf('"') !== -1) {
@@ -4178,6 +4703,7 @@ function sendMessage(e,message) { // send message
         argsArray = args;
     }
     }
+    Rue.brain.tempArgs = argsArray;
     if (!done) {
         done = tryVariants(commandBase, rueData.commands, function(func) {
             func(encodeHTML(argsArray));
@@ -4199,7 +4725,7 @@ function sendMessage(e,message) { // send message
         // try calculation
         var mathResult = Rue.calculate(text);
         if (mathResult !== null) {
-            Rue.say(mathResult);
+            Rue.say(mathResult.toString());
             done = true;
         }
     }
@@ -4318,6 +4844,23 @@ function sendMessage(e,message) { // send message
     return done;
 }
 rueButton.onclick = sendMessage;
+rueInput.oldFocus = rueInput.focus;
+function getSelectionText() {
+    var text = "";
+    if (window.getSelection) {
+        text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type !== "Control") {
+        text = document.selection.createRange().text;
+    }
+    return text;
+}
+rueInput.focus = function() {
+    Rue.brain.selectedText = getSelectionText();
+    rueInput.oldFocus();
+}
+rueInput.addEventListener("mousedown", function(e) {
+    Rue.brain.selectedText = getSelectionText();
+})
 rueInput.addEventListener("keydown", function(e) {
     if (e.keyCode === 13) { // enter = click rueButton
         rueButton.onclick(e);
@@ -4558,7 +5101,7 @@ Rue = {
     },
     // randomly add .rueBlink to rueButton at random intervals
     blink: function(loop) {
-        if (Rue.brain.sleeping) { return; }
+        if (Rue.brain.sleeping || Rue.brain.noBlink) { return; }
         // add .rueBlink
         var rueButton = document.getElementById("rueButton");
         rueButton.classList.add("rueBlink");
@@ -4568,6 +5111,9 @@ Rue = {
         }, 100);
         // call this function again after a random interval
         if (loop) { setTimeout(function(){Rue.blink(true)}, Math.random() * 3000); }
+    },
+    stopBlinking: function() {
+        Rue.brain.noBlink = true;
     },
     getRue: function(key) { return Rue.userData.rue[key]||0; },
     setRue: function(key, value) { Rue.userData.rue[key] = value; Rue.changedUserData(); return value },
@@ -4612,6 +5158,9 @@ Rue = {
         rue: {
             savedResponses: [],
             mods: [],
+            userSeed: 926310944,
+            userStart: 1687438260000,
+            x:0, y:0, z:2
         },
         user: {
             inv: {},
@@ -4620,6 +5169,7 @@ Rue = {
             customLinks: {},
             lists: {},
             counters: {},
+            x:0, y:0, z:0
         },
         env: {}
     },
@@ -4685,6 +5235,14 @@ Rue = {
     onRueLoad: function(callback) {
         if (loadedRue) { callback(); }
         else { rueLoadFunctions.push(callback); }
+    },
+    uninstall: function() {
+        document.getElementById("rueBox").remove();
+        document.getElementById("rueScript")?.remove();
+        document.getElementById("rueMessageBox")?.remove();
+        document.removeEventListener("click",Rue.brain.closeMessageEvent)
+        Rue = undefined;
+        console.log("Rue has left the building.");
     },
     sleep: function(n, nohush) {
         Rue.brain.sleeping = n||10;
@@ -4810,6 +5368,13 @@ Rue = {
     die: function() {
         Rue.sleep(7474747474);
         Rue.addRue("deaths");
+    },
+    checkStreamerMode: function(text) {
+        if (Rue.getUser("streamerMode")) {
+            Rue.say("This action cannot be performed in Streamer Mode because it may contain sensitive info!" + (text ? "\n\nSuch as: "+text : ""));
+            return true;
+        }
+        return false;
     },
     user: {
         overlay: function(color,opacity) {
@@ -4969,8 +5534,20 @@ function limitNum(number, max, min) {
     return Math.min(Math.max(number, min||0), max||10000);
 }
 
+loadedRue = true;
+if (!Rue.brain.source) {
+    if (document.getElementById("rueScript")) { Rue.brain.source = "bookmarklet" }
+    else { Rue.brain.source = null }
+}
+Rue.brain.loadStart = rueStartedLoad.getMilliseconds();
+Rue.brain.loadEnd = (new Date()).getMilliseconds();
+Rue.brain.loadTime = (Rue.brain.loadEnd - Rue.brain.loadStart)
+// post-load functions
+for (var i = 0; i < rueLoadFunctions.length; i++) {
+    rueLoadFunctions[i]();
+}
 
-console.log("Rue's ready to go!")
+console.log("Rue's ready to go! ("+Rue.brain.loadTime+"ms)")
 if (rueParam) { // handle URL parameter
     if (rueParam === "focus") {
         rueInput.focus();

@@ -90,7 +90,9 @@ This HTML and its contents are property of R74n.com.
   <li><a href="#toc">Table of Contents</a></li>
   <li><a href="#users">User Manual</a><ul>
     <li><a href="#shortcuts">Keyboard Shortcuts</a></li>
-    <li><a href="#commands">Commands</a></li>
+    <li><a href="#commands">Commands</a><ul>
+      <li><a href="#recognize">Auto Recognition</a></li>
+    </ul></li>
     <li><a href="#activities">Activities</a></li>
     <li><a href="#links">Links</a></li>
     <li><a href="#responses">Responses</a></li>
@@ -98,6 +100,7 @@ This HTML and its contents are property of R74n.com.
     <li><a href="#calculations">Calculations</a></li>
     <li><a href="#replacements">Auto-Capitalization</a></li>
     <li><a href="#url-parameters">URL Parameters</a></li>
+    <li><a href="#bookmarklet">Bookmarklet</a></li>
   </ul></li>
   <li><a href="#devs">Developer Manual</a><ul>
     <li><a href="#setup">Enabling Rue</a></li>
@@ -132,20 +135,13 @@ This HTML and its contents are property of R74n.com.
 <p>Example: <code>say Hello there!</code></p>
 <p>Arguments are separated by spaces, but can be grouped together with quotes, "like this". Some commands group them all together by default, like <code>say</code>.</p>
 <p>You can run multiple commands at once by separated them with two semicolons (;;).</p>
+<p>If your only argument is "this", it will be replaced with the last text you highlighted. (e.g. <code>translate this</code>)</p>
 <table class="monotable">
 <thead>
   <tr><th>Command</th><th>Description</th></tr>
 </thead>
 <tbody>
-  <tr><td>/<em>...</em><br>../<em class="opt">...</em></td><td>Go to a relative link</td></tr>
-  <tr><td>#<em>hex</em></td><td>See a preview of a hexadecimal color code</td></tr>
-  <tr><td><em class="opt">subdomain</em>.R74n.com/<em class="opt">...</em></td><td>Go to an R74n URL</td></tr>
-  <tr><td><em>address</em></td><td>Get links to a street address</td></tr>
-  <tr><td><em>date</em></td><td>Get basic information about a date</td></tr>
-  <tr><td><em>email address</em></td><td>Get links to message an email address</td></tr>
-  <tr><td><em>latitude</em>,<em>longitude</em></td><td>Get links to a coordinate pair</td></tr>
-  <tr><td><em>phone number</em></td><td>Get links to call or text a phone number</td></tr>
-  <tr><td><em>url</em></td><td>Go to a URL</td></tr>
+  <tr><td><em>number</em> <em>unit</em> to <em>unit</em><br><em>number</em><em>unit</em> to <em>unit</em><br>convert <em>number</em> <em>unit</em> to <em>unit</em><br>convert <em>unit</em> to <em>unit</em></td><td>Convert units with <a href="../convert/">Unit Converter</a></td></tr>
   <tr><td>8ball <em>question</em><br>8-ball <em>question</em><br>eightball <em>question</em></td><td>Ask a yes-or-no question</td></tr>
   <tr><td>12-hour time</td><td>Get the current time in 12-hour format</td></tr>
   <tr><td>24-hour time<br>military time</td><td>Get the current time in 24-hour format</td></tr>
@@ -156,6 +152,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>add list <em>name</em> <em>items</em><br>new list <em>name</em> <em>items</em><br>create list <em>name</em> <em>items</em></td><td>Add values to a list; Comma-separated</td></tr>
   <tr><td>add mod <em>url</em><br>enable mod <em>url</em><br>install mod <em>url</em></td><td>Run a JavaScript file every page load</td></tr>
   <tr><td>add tag <em>name</em> <em>response</em><br>new tag <em>name</em> <em>response</em><br>create tag <em>name</em> <em>response</em></td><td>Respond with parsed text when tag is entered</td></tr>
+  <tr><td>aiport <em>code</em></td><td>View an airport on Flightradar24</td></tr>
   <tr><td>alias <em>alias</em><br>check alias <em>alias</em></td><td>Get the contents of a command alias</td></tr>
   <tr><td>aliases<br>alias list<br>list aliases<br>every alias<br>custom commands</td><td>Show all custom command aliases you've made</td></tr>
   <tr><td>alignment <em class="opt">name</em></td><td>See someone or something's moral alignment</td></tr>
@@ -167,6 +164,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>archive.ph <em class="opt">url</em><br>archive.today <em class="opt">url</em></td><td>See archive.ph archives of a page; Defaults to current URL</td></tr>
   <tr><td>args <em>...</em></td><td>Repeat arguments separated by commas</td></tr>
   <tr><td>baconipsum</td><td>Get a random assortment of meat words</td></tr>
+  <tr><td>bad eyesight mode<br>take off glasses<br>blur page</td><td>Blur the current page</td></tr>
   <tr><td>balance<br>bal<br>money<br>cash<br>coins<br>ruecoins<br>ruecoin</td><td>See how many Ruecoins you currently have</td></tr>
   <tr><td>bank</td><td>See how many Ruecoins you've deposited</td></tr>
   <tr><td>battery</td><td>See your battery percentage and charging status</td></tr>
@@ -174,6 +172,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>beard</td><td>Get a random beard image</td></tr>
   <tr><td>bigcat<br>big cat</td><td>Get a random big cat image</td></tr>
   <tr><td>bing <em class="opt">query</em></td><td>Search Microsoft Bing</td></tr>
+  <tr><td>bing images <em class="opt">query</em></td><td>Search Bing Images</td></tr>
   <tr><td>bird<br>birb</td><td>Get a random bird image</td></tr>
   <tr><td>black and white<br>grayscale<br>black & white<br>b&w</td><td>Add a black and white effect to the page</td></tr>
   <tr><td>blink me</td><td>Make yourself blink (Epileptic)</td></tr>
@@ -188,6 +187,8 @@ This HTML and its contents are property of R74n.com.
   <tr><td>cat</td><td>Get a random cat image</td></tr>
   <tr><td>catgirl</td><td>Get a random anime catgirl image (18+ but SFW)</td></tr>
   <tr><td>century<br>what century is it<br>what's the century</td><td>Get the current century</td></tr>
+  <tr><td>char <em>text</em><br>codepoint <em>text</em><br>character <em>text</em><br>chars <em>text</em><br>unicode <em>text</em></td><td>View Unicode codepoints of text characters</td></tr>
+  <tr><td>char count <em>text</em><br>charcount <em>text</em><br>len <em>text</em><br>length <em>text</em></td><td>Simple character counter</td></tr>
   <tr><td>check link <em>name</em></td><td>Get the URL of a custom link</td></tr>
   <tr><td>check list <em>name</em><br>see list <em>name</em><br>open list <em>name</em><br>view list <em>name</em><br><em>listname</em></td><td>See the contents of a list</td></tr>
   <tr><td>choose between <em>options</em></td><td>Select a random item from a list; Comma-separated</td></tr>
@@ -196,9 +197,11 @@ This HTML and its contents are property of R74n.com.
   <tr><td>clear list <em>name</em><br>delete list <em>name</em><br>del list <em>name</em></td><td>Clear and delete a list</td></tr>
   <tr><td>clear mods</td><td>Remove all mods from Rue</td></tr>
   <tr><td>clicker</td><td>Click the clicker once</td></tr>
+  <tr><td>clinical trial <em class="opt">query</em><br>med trial <em class="opt">query</em></td><td>Search medical studies on ClinicalTrials.gov</td></tr>
   <tr><td>codeblock <em class="opt">text</em></td><td>See monospaced text</td></tr>
   <tr><td>coffee</td><td>Get a random coffee image</td></tr>
   <tr><td>coinflip<br>coin flip<br>flip a coin<br>heads or tails</td><td>Flip a coin</td></tr>
+  <tr><td>color picker</td><td>Get a very simple quick color picker</td></tr>
   <tr><td>compatibility <em>name</em> <em>name</em><br>compat <em>name</em> <em>name</em></td><td>See how compatible 2 people are</td></tr>
   <tr><td>cookie <em>name</em> <em class="opt">value</em></td><td>View or set a cookie on the current page</td></tr>
   <tr><td>cookies</td><td>View all cookies on the current page</td></tr>
@@ -206,6 +209,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>copy that</td><td>Copy the last response to clipboard</td></tr>
   <tr><td>copy url <em class="opt">linkname</em><br>copy link <em class="opt">linkname</em></td><td>Copy a link to clipboard; Defaults to current URL</td></tr>
   <tr><td>corgi</td><td>Get a random corgi image</td></tr>
+  <tr><td>count <em>text</em><br>count words <em>text</em><br>word count <em>text</em><br>wordcount <em>text</em></td><td>Simple word counter</td></tr>
   <tr><td>countdown <em class="opt">time</em></td><td>Visually count down from an amount of time</td></tr>
   <tr><td>counter <em>name</em><br>check counter <em>name</em></td><td>Get the current value of a counter</td></tr>
   <tr><td>counters<br>counter list<br>list counters</td><td>Show all custom counters you've started</td></tr>
@@ -215,68 +219,77 @@ This HTML and its contents are property of R74n.com.
   <tr><td>custom links</td><td>Show all custom links you've added</td></tr>
   <tr><td>daily picture<br>daily image<br>daily photo<br>dailypic<br>dailyimg</td><td>Get a random image each day</td></tr>
   <tr><td>daily<br>daily reward<br>daily coins<br>daily gift</td><td>Get a package of Ruecoins each day</td></tr>
+  <tr><td>dataset <em class="opt">query</em></td><td>Search datasets on Data.gov</td></tr>
   <tr><td>date in <em>timespan</em><br>day in <em>timespan</em><br>time in <em>timespan</em></td><td>See the date or time after a timespan (e.g. 10 hours)</td></tr>
   <tr><td>date<br>day<br>today<br>what day is it<br>what's today's date</td><td>Get the current date</td></tr>
-  <tr><td>day of the year<br>what day of the year is it<br>what's the day of the year</td><td>Get the current day number of the year</td></tr>
+  <tr><td>day of the year<br>what day of the year is it<br>what's the day of the year<br>doty</td><td>Get the current day number of the year</td></tr>
   <tr><td>deafen</td><td>Stop Rue from listening/reading</td></tr>
   <tr><td>deal card <em class="opt">amount</em><br>playing card <em class="opt">amount</em><br>pick a card <em class="opt">amount</em></td><td>Deal playing cards from a standard 52-card deck</td></tr>
-  <tr><td>define <em class="opt">text</em><br>wiktionary <em class="opt">text</em><br>dictionary <em class="opt">text</em></td><td>Search English Wiktionary</td></tr>
+  <tr><td>decade<br>what decade is it<br>what's the decade</td><td>Get the current decade</td></tr>
+  <tr><td>define <em class="opt">term</em><br>wiktionary <em class="opt">term</em><br>dictionary <em class="opt">term</em><br>def <em class="opt">term</em></td><td>Search English Wiktionary</td></tr>
   <tr><td>deposit <em>amount</em></td><td>Store Ruecoins in the bank</td></tr>
   <tr><td>dhl <em class="opt">code</em></td><td>Track a package from DHL</td></tr>
-  <tr><td>dice <em class="opt">sides</em><br>roll a die <em class="opt">sides</em><br>diceroll <em class="opt">sides</em><br>roll <em class="opt">sides</em></td><td>Roll an x-sided die</td></tr>
+  <tr><td>dice <em class="opt">sides</em><br>roll a die <em class="opt">sides</em><br>diceroll <em class="opt">sides</em><br>roll <em class="opt">sides</em><br>dice <em class="opt">rolls</em>d<em class="opt">sides</em><br>d<em class="opt">sides</em><br><em class="opt">rolls</em>d<em class="opt">sides</em><br>dice <em class="opt">rolls</em> <em class="opt">sides</em></td><td>Roll an x-sided die</td></tr>
   <tr><td>ding</td><td>Make a bell ding sound</td></tr>
   <tr><td>dog<br>doggy<br>doggo</td><td>Get a random dog image</td></tr>
   <tr><td>dogecoin</td><td>Get the current Dogecoin price from CoinGecko</td></tr>
   <tr><td>download <em>url</em><br>dl <em>url</em><br>cobalt <em>url</em></td><td>Use cobalt to download media from YouTube, TikTok, Twitter, and much more</td></tr>
   <tr><td>duck<br>ducky</td><td>Get a random duck image</td></tr>
   <tr><td>duplicate tab</td><td>Open the current website in another tab</td></tr>
-  <tr><td>edit page<br>edit this page<br>editpage</td><td>Toggle ability to manually edit the current page</td></tr>
+  <tr><td>edit page<br>edit this page<br>editpage<br>design mode</td><td>Toggle ability to manually edit the current page</td></tr>
+  <tr><td>email <em>address</em> <em class="opt">text</em><br>email to <em>address</em></td><td>Get links to email an address</td></tr>
   <tr><td>eth<br>ethereum</td><td>Get the current Ethereum price from CoinGecko</td></tr>
   <tr><td>event</td><td>Get the current R74n logo event; Only works on main page</td></tr>
   <tr><td>export data<br>backup data<br>data backup</td><td>Download any user data Rue has</td></tr>
   <tr><td>facetime <em class="opt">number</em></td><td>Get a link to FaceTime a phone number</td></tr>
   <tr><td>favicon.<em>extension</em></td><td>Go to an R74n icon format</td></tr>
   <tr><td>fax <em class="opt">number</em></td><td>Get a link to fax a number</td></tr>
+  <tr><td>fcc <em>equipment id</em></td><td>View an FCC report for a device</td></tr>
   <tr><td>fedex <em class="opt">code</em></td><td>Track a package from FedEx</td></tr>
   <tr><td>feedback for <em>project</em><br>fb for <em>project</em><br>submit suggestion for <em>project</em><br>report bug on <em>project</em><br><em>project</em> feedback<br><em>project</em> fb<br><em>project</em> suggestions</td><td>Open the feedback form for a project; Words are interchangeable</td></tr>
   <tr><td>feedback responses for <em>project</em><br><em>project</em> fb responses</td><td>Open the feedback response sheet for a project</td></tr>
   <tr><td>feeling lucky<br>i'm feeling lucky<br>random page<br>random link</td><td>Go to a random R74n link</td></tr>
   <tr><td>file size<br>filesize</td><td>See how large Rue's script is</td></tr>
+  <tr><td>flight <em>code</em></td><td>View a flight on Flightradar24</td></tr>
   <tr><td>fortune<br>fortune cookie<br>today's fortune<br>fortune of the day<br>daily fortune<br>fotd</td><td>Get a 100% real coordinated fortune each day</td></tr>
   <tr><td>fox</td><td>Get a random fox image</td></tr>
   <tr><td>foxgirl</td><td>Get a random anime foxgirl image (18+ but SFW)</td></tr>
   <tr><td>gamble <em>amount</em></td><td>50% chance to lose or double Ruecoins (18+)</td></tr>
   <tr><td>generate password <em class="opt">length</em><br>passgen <em class="opt">length</em></td><td>Generate a secure random password</td></tr>
   <tr><td>giphy <em class="opt">text</em></td><td>Search Giphy for GIFs</td></tr>
+  <tr><td>go blind</td><td>Make the current page black</td></tr>
   <tr><td>google <em class="opt">query</em></td><td>Search Google</td></tr>
-  <tr><td>google images <em class="opt">query</em><br>gimages <em class="opt">query</em><br>imagesearch <em class="opt">query</em><br>imgsearch <em class="opt">query</em></td><td>Search Google Images</td></tr>
+  <tr><td>google images <em class="opt">query</em><br>gimages <em class="opt">query</em><br>imagesearch <em class="opt">query</em><br>imgsearch <em class="opt">query</em><br>gimg <em class="opt">query</em></td><td>Search Google Images</td></tr>
   <tr><td>google lens <em>imageurl</em><br>glens <em>imageurl</em></td><td>Search with an image on Google Lens; Defaults to current URL</td></tr>
   <tr><td>google news <em class="opt">text</em><br>gnews <em class="opt">text</em></td><td>Search Google News</td></tr>
+  <tr><td>google web <em class="opt">query</em><br>googleweb <em class="opt">query</em><br>gweb <em class="opt">query</em><br>websearch <em class="opt">query</em><br>udm14 <em class="opt">query</em></td><td>Search Google without distractions</td></tr>
   <tr><td>goose</td><td>Get a random goose image</td></tr>
   <tr><td>goto <em>url</em><br>go to <em>url</em></td><td>Navigate to a URL</td></tr>
   <tr><td>highlighter <em class="opt">text</em></td><td>See text with a yellow highlight</td></tr>
-  <tr><td>hsl(<em>h</em>,<em>s</em>%,<em>l</em>%)<br>hsla(<em>h</em>,<em>s</em>%,<em>l</em>%,<em class="opt">a</em>)</td><td>See a preview of an HSL or HSLA color code</td></tr>
   <tr><td>httpcat <em>code</em></td><td>Get a cat for an HTTP status code</td></tr>
   <tr><td>httpdog <em>code</em></td><td>Get a dog for an HTTP status code</td></tr>
   <tr><td>httpgarden <em>code</em></td><td>Get a garden for an HTTP status code</td></tr>
-  <tr><td>https://<em>...</em><br>http://<em>...</em><br>www.<em>...</em><br><em>...</em>.com</td><td>Go to a webpage</td></tr>
+  <tr><td>https<br>http</td><td>Switch between HTTP and HTTPS on the current page</td></tr>
   <tr><td>husky</td><td>Get a random husky image</td></tr>
   <tr><td>i am over 16</td><td>Allow 16+ commands</td></tr>
   <tr><td>i am over 18</td><td>Allow 18+ commands</td></tr>
   <tr><td>i am over 21</td><td>Allow 21+ commands</td></tr>
   <tr><td>i don't have epilepsy</td><td>Allow commands that could trigger an epileptic seizure</td></tr>
+  <tr><td>imgops <em class="opt">url</em></td><td>View data about an image by URL on ImgOps</td></tr>
   <tr><td>import data</td><td>Import previously downloaded user data into Rue</td></tr>
   <tr><td>inv <em class="opt">item</em><br>inventory<br>bag<br>items</td><td>See all your items or a specific item</td></tr>
   <tr><td>invert colors</td><td>Invert the colors on the page</td></tr>
   <tr><td>invisible ink <em class="opt">text</em></td><td>See text without seeing it</td></tr>
+  <tr><td>iplookup <em class="opt">address</em><br>ipl <em class="opt">address</em><br>rdns <em class="opt">address</em><br>geolocate <em class="opt">address</em><br>what's my ip<br>ip <em>address</em></td><td>Find a location based on an IP address</td></tr>
   <tr><td>iq <em class="opt">name</em><br>iqscore <em class="opt">name</em><br>my iq</td><td>See a totally accurate IQ score prediction</td></tr>
   <tr><td>is <em>service</em> down?<br>downdetector <em class="optional">service</em><br>is <em>url</em> down?</td><td>Check Downdetector for service outages</td></tr>
   <tr><td>iso date<br>what iso date is it<br>what's the iso date</td><td>Get the current ISO 8601 date</td></tr>
   <tr><td>joke<br>tell me a joke<br>tell a joke<br>say a joke</td><td>Get a random joke from JokeAPI</td></tr>
   <tr><td>jquery</td><td>Enable JQuery on the current page</td></tr>
+  <tr><td>karma decay <em class="opt">url</em><br>karmadecay <em class="opt">url</em></td><td>Reverse image search a URL on Reddit</td></tr>
   <tr><td>kill me<br>murder me</td><td>Simulate death realistically with Rue (18+, Epileptic)</td></tr>
   <tr><td>kitten</td><td>Get a random kitten image</td></tr>
-  <tr><td>leave<br>self-destruct<br>go away<br>hide<br>run away<br>exit<br>close<br>turn off<br>lockdown<br>shut up<br>lockdown<br>shutdown<br>shut off<br>disconnect<br>dc</td><td>Remove Rue from the webpage</td></tr>
+  <tr><td>leave<br>self-destruct<br>go away<br>hide<br>run away<br>exit<br>close<br>turn off<br>lockdown<br>shut up<br>lockdown<br>shutdown<br>shut off<br>disconnect<br>dc<br>uninstall</td><td>Remove Rue from the webpage</td></tr>
   <tr><td>level<br>lvl<br>rank</td><td>View your current level</td></tr>
   <tr><td>links<br>urls<br>hrefs</td><td>Show all links on the current page</td></tr>
   <tr><td>lists<br>list list</td><td>See all lists you've made</td></tr>
@@ -289,7 +302,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>luck<br>daily luck<br>luck of the day<br>lotd</td><td>See how lucky you are today</td></tr>
   <tr><td>mcserver <em>ip</em></td><td>Check the status of a Minecraft: Java Edition server</td></tr>
   <tr><td>me <em>action</em></td><td>*plays out your action*</td></tr>
-  <tr><td>me<br>stats<br>statistics<br>my data<br>user data<br>my stats<br>user stats</td><td>See all of your user data</td></tr>
+  <tr><td>me<br>stats<br>statistics<br>my data<br>user data<br>my stats<br>user stats</td><td>See all of your Rue user data</td></tr>
   <tr><td>meat</td><td>Get a random meat image</td></tr>
   <tr><td>metadata</td><td>View all metadata on the current page</td></tr>
   <tr><td>millenium<br>what millenium is it<br>what's the millenium</td><td>Get the current millenium</td></tr>
@@ -299,29 +312,30 @@ This HTML and its contents are property of R74n.com.
   <tr><td>month<br>what month is it<br>what's the month</td><td>Get the current month</td></tr>
   <tr><td>mute audio</td><td>Stop Rue from playing any audio</td></tr>
   <tr><td>mute<br>timeout<br>sound off<br>mute rue</td><td>Stop Rue from talking</td></tr>
+  <tr><td>my name is <em>text</em></td><td>Set your first name</td></tr>
   <tr><td>myimage <em class="opt">seed</em><br>my image <em class="opt">seed</em></td><td>Get a unique image based on any text</td></tr>
   <tr><td>myrobot <em class="opt">seed</em><br>my robot <em class="opt">seed</em></td><td>Get a unique robot based on any text</td></tr>
   <tr><td>new tab</td><td>Open a blank tab</td></tr>
   <tr><td>no parameters<br>no params</td><td>Remove all URL parameters from the current page</td></tr>
   <tr><td>number <em class="opt">min</em> <em class="opt">max</em><br>number <em class="opt">max</em><br>number between <em class="opt">min</em> and <em class="opt">max</em><br>rng <em class="opt">min</em> <em class="opt">max</em><br>range <em class="opt">min</em> <em class="opt">max</em><br>number from <em class="opt">min</em>-<em class="opt">max</em></td><td>Generate a random number; Defaults 1-100</td></tr>
+  <tr><td>oid <em>oid</em></td><td>Resolve an <a href="../id/oid">R74n Object Identifier</a> (OID)</td></tr>
   <tr><td>ordinal date<br>what ordinal date is it<br>what's the ordinal date</td><td>Get the current ordinal date</td></tr>
   <tr><td>origin</td><td>Get the origin (protocol and domain) of the current page</td></tr>
   <tr><td>os<br>operating system<br>platform</td><td>Attempt to get your operating system</td></tr>
-  <tr><td>P<em>number</em></td><td>Go to an <a href="https://data.r74n.com">R74n Wikibase</a> property</td></tr>
   <tr><td>past life<br>my past life<br>pastlife</td><td>See what you were in a past life</td></tr>
   <tr><td>paste<br>clipboard</td><td>Paste text from your clipboard</td></tr>
+  <tr><td>patent <em>number</em></td><td>View a US patent on Google Patents</td></tr>
   <tr><td>pathname<br>path</td><td>Path of the current webpage</td></tr>
   <tr><td>permalink <em class="opt">message</em></td><td>Get a Rue link for the current page</td></tr>
   <tr><td>pin <em class="opt">url</em></td><td>Add a page to Pinterest; Defaults to current URL</td></tr>
   <tr><td>ping <em class="opt">url</em><br>pong <em class="opt">url</em><br>fetch <em class="opt">url</em></td><td>Ping a website; Defaults to current page</td></tr>
+  <tr><td>planecode <em>code</em></td><td>Jump to an entity in the <a href="../multiplane/">Multiplane</a></td></tr>
   <tr><td>previous page<br>back a page<br>last page<br>back button</td><td>Go to the previous webpage</td></tr>
   <tr><td>print</td><td>Open dialog to print the current page</td></tr>
-  <tr><td>protocol<br>https<br>http</td><td>Protocol of the current website</td></tr>
-  <tr><td>Q<em>number</em></td><td>Go to an <a href="https://data.r74n.com">R74n Wikibase</a> item</td></tr>
+  <tr><td>protocol</td><td>Protocol of the current website</td></tr>
   <tr><td>qrcode <em class="opt">link or text</em></td><td>Generate a QR Code; Defaults to current page URL</td></tr>
   <tr><td>query string<br>params<br>url params<br>url query</td><td>Get the URL parameters of the current page</td></tr>
   <tr><td>quieter</td><td>Turn any Rue audio volume down 10%</td></tr>
-  <tr><td>r/<em>subreddit</em></td><td>Go to a subreddit</td></tr>
   <tr><td>rainbow</td><td>Add an animated rainbow effect to the page</td></tr>
   <tr><td>random character <em class="opt">length</em><br>randchar <em class="opt">length</em></td><td>Generate random letters, digits, and punctuation</td></tr>
   <tr><td>random digit <em class="opt">length</em><br>randdigit <em class="opt">length</em></td><td>Generate random digits</td></tr>
@@ -331,7 +345,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>random uppercase <em class="opt">length</em></td><td>Generate random uppercase letters</td></tr>
   <tr><td>rate <em>thing</em></td><td>Get Rue's official rating out of 10</td></tr>
   <tr><td>rate me<br>rateme</td><td>Rue gives you an official rating out of 10</td></tr>
-  <tr><td>reboot<br>restart<br>reload rue<br>refresh rue</td><td>Have Rue load up again</td></tr>
+  <tr><td>reboot<br>restart<br>reload rue<br>refresh rue<br>reset</td><td>Have Rue load up again</td></tr>
   <tr><td>redtext <em class="opt">text</em><br>orangetext <em class="opt">text</em><br>yellowtext <em class="opt">text</em><br>greentext <em class="opt">text</em><br>limetext <em class="opt">text</em><br>cyantext <em class="opt">text</em><br>bluetext <em class="opt">text</em><br>purpletext <em class="opt">text</em><br>magentatext <em class="opt">text</em><br>pinktext <em class="opt">text</em><br>blacktext <em class="opt">text</em><br>whitetext <em class="opt">text</em><br>graytext <em class="opt">text</em><br>browntext <em class="opt">text</em></td><td>See colored text</td></tr>
   <tr><td>refresh<br>reload</td><td>Refresh the current page</td></tr>
   <tr><td>remaining deck<br>remaining cards<br>current deck</td><td>See the cards left in the deck for 'deal card'</td></tr>
@@ -349,7 +363,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>reset counter <em>name</em></td><td>Set the value of a counter to 0</td></tr>
   <tr><td>reset data<br>erase data</td><td>Erase any user data Rue has</td></tr>
   <tr><td>reset deck<br>reset cards</td><td>Reset the playing cards for 'deal card'</td></tr>
-  <tr><td>rgb(<em>r</em>,<em>g</em>,<em>b</em>)<br>rgba(<em>r</em>,<em>g</em>,<em>b</em>,<em class="opt">a</em>)</td><td>See a preview of an RGB or RGBA color code</td></tr>
+  <tr><td>resolve <em>identifier</em><br>id <em>identifier</em><br>identifier <em>identifier</em></td><td>Attempt to resolve an identifier, especially <a href="../id/">R74n IDs</a></td></tr>
   <tr><td>robots.txt</td><td>Go to robots.txt of the current website</td></tr>
   <tr><td>rue size <em class="opt">0.5-2</em></td><td>Change the size of the Rue input</td></tr>
   <tr><td>rue, <em>command</em></td><td>Run a command</td></tr>
@@ -374,6 +388,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>shout <em>text</em><br>yell <em>text</em><br>scream <em>text</em><br>exclaim <em>text</em></td><td>Repeat text in all caps with exclamation points</td></tr>
   <tr><td>shuffle deck<br>shuffle cards</td><td>Randomize the playing cards for 'deal card'</td></tr>
   <tr><td>similarweb <em class="opt">url</em></td><td>See similar websites on Similarweb; Defaults to current URL</td></tr>
+  <tr><td>sitesearch <em>domain</em> <em class="opt">query</em><br>sitesearch <em class="opt">query</em><br>search this site <em class="opt">query</em><br>search site <em class="opt">query</em></td><td>Search Google for a domain</td></tr>
   <tr><td>skull</td><td>Get a random skull icon</td></tr>
   <tr><td>sleep<br>go to sleep<br>bed time<br>time for bed</td><td>Put Rue to sleep; Press her 10 times to wake</td></tr>
   <tr><td>slots <em class="opt">amount</em><br>slot machine <em class="opt">amount</em></td><td>Chance to lose or get 9x Ruecoins (18+)</td></tr>
@@ -381,7 +396,12 @@ This HTML and its contents are property of R74n.com.
   <tr><td>sort <em>options</em></td><td>Sort options alphabetically</td></tr>
   <tr><td>speedtest <em class="opt">url</em><br>pagespeed <em class="opt">url</em></td><td>Test page speed with Google; Defaults to current URL</td></tr>
   <tr><td>spoiler <em class="opt">text</em></td><td>See text hidden by a spoiler button</td></tr>
+  <tr><td>spread <em>text</em><br>spread <em>amount</em> <em>text</em></td><td>Add spaces between characters</td></tr>
+  <tr><td>staring contest</td><td>Engage in a fierce competition with Rue</td></tr>
   <tr><td>sticky <em class="opt">text</em></td><td>Stop message box from disappearing</td></tr>
+  <tr><td>stop blinking</td><td>Make Rue stop blinking</td></tr>
+  <tr><td>streamer mode</td><td>Toggle Streamer Mode to prevent responses with personal information</td></tr>
+  <tr><td>suffle <em>options</em></td><td>Randomly arrange a list</td></tr>
   <tr><td>tag <em>name</em><br>check tag <em>name</em></td><td>Get the unparsed contents of a tag</td></tr>
   <tr><td>tags<br>tag list<br>list tags</td><td>Show all custom tags you've added</td></tr>
   <tr><td>tenor <em class="opt">text</em></td><td>Search Tenor for GIFs</td></tr>
@@ -397,12 +417,13 @@ This HTML and its contents are property of R74n.com.
   <tr><td>title<br>pagetitle<br>page title</td><td>Get the current page title</td></tr>
   <tr><td>tnt <em class="opt">code</em></td><td>Track a package from Track & Trace</td></tr>
   <tr><td>tomorrow</td><td>Get tomorrow's date</td></tr>
-  <tr><td>translate <em class="opt">text</em><br>google translate <em class="opt">text</em><br>gtranslate <em class="opt">text</em></td><td>Translate text into English with Google Translate</td></tr>
+  <tr><td>tota11y</td><td>Summon the tota11y webpage accessibility tester</td></tr>
+  <tr><td>translate <em class="opt">text</em><br>google translate <em class="opt">text</em><br>gtranslate <em class="opt">text</em><br>tl <em class="opt">text</em></td><td>Translate text into English with Google Translate</td></tr>
   <tr><td>translate page <em class="opt">url</em><br>proxy <em class="opt">url</em></td><td>Translate a page with Google Translate; Defaults to current URL</td></tr>
   <tr><td>tts <em>text</em><br>text to speech <em>text</em><br>texttospeech <em>text</em><br>t2s <em>text</em><br>pronounce <em>text</em><br>sound out <em>text</em></td><td>Read text aloud if your browser supports it</td></tr>
   <tr><td>turbowarp<br>tw</td><td>Opens TurboWarp Editor</td></tr>
-  <tr><td>u/<em>username</em></td><td>Go to a Reddit profile</td></tr>
   <tr><td>undeafen</td><td>Re-allow Rue to listen/read</td></tr>
+  <tr><td>unfocus</td><td>Stop typing to Rue</td></tr>
   <tr><td>unmute audio</td><td>Re-allow Rue to play audio</td></tr>
   <tr><td>unmute<br>untimeout<br>sound on<br>unmute rue</td><td>Re-allow Rue to talk</td></tr>
   <tr><td>unshorten <em>url</em></td><td>See where a shortened link redirects to; Defaults to current URL</td></tr>
@@ -412,22 +433,30 @@ This HTML and its contents are property of R74n.com.
   <tr><td>uptime<br>age<br>how old are you<br>what's your age</td><td>Time since Rue was first put on the Internet</td></tr>
   <tr><td>urban dictionary <em class="opt">word</em><br>udefine <em class="opt">word</em><br>uddefine <em class="opt">word</em><br>defineud <em class="opt">word</em><br>ud <em class="opt">word</em></td><td>Search Urban Dictionary (18+)</td></tr>
   <tr><td>url<br>link<br>currenturl<br>href</td><td>Get the current page URL</td></tr>
+  <tr><td>urn:<em>urn</em></td><td>Resolve an <a href="../id/urn">R74n Uniform Resource Name</a> (URN)</td></tr>
+  <tr><td>us census <em class="opt">query</em></td><td>Search United States Census data</td></tr>
   <tr><td>useragent</td><td>Show your browser information</td></tr>
   <tr><td>usps <em class="opt">code</em></td><td>Track a package from the US Postal Service</td></tr>
   <tr><td>utc time<br>what utc time is it<br>what's the utc time</td><td>Get the current time in Coordinated Universal Time</td></tr>
   <tr><td>volume <em class="opt">percent</em><br>volume <em class="opt">percent</em></td><td>Change the volume of any Rue audio</td></tr>
   <tr><td>waifu</td><td>Get a random anime girl image (18+ but SFW)</td></tr>
+  <tr><td>warn <em>text</em></td><td>Repeat text in a red alert box</td></tr>
   <tr><td>wbsearch <em class="opt">query</em></td><td>Search the <a href="https://data.r74n.com">R74n Wikibase</a></td></tr>
+  <tr><td>weather<br>weather in <em>location</em><br>weather near me</td><td>View basic weather information, defaults to your area</td></tr>
+  <tr><td>webaim <em>url</em></td><td>Test webpage accessibility with WebAIM</td></tr>
   <tr><td>website <em class="opt">url</em><br>hostname <em class="opt">url</em><br>host <em class="opt">url</em><br>domain <em class="opt">url</em><br>site <em class="opt">url</em></td><td>Extract the domain of a page; Defaults to current URL</td></tr>
   <tr><td>website<br>hostname<br>host<br>domain<br>host name<br>site</td><td>Get the current website</td></tr>
   <tr><td>week<br>what week is it<br>what's the week</td><td>Get the current week of the year</td></tr>
-  <tr><td>weekday<br>day of the week<br>what weekday is it<br>what's the weekday</td><td>Get the current day of the week</td></tr>
+  <tr><td>weekday<br>day of the week<br>what weekday is it<br>what's the weekday<br>dotw</td><td>Get the current day of the week</td></tr>
+  <tr><td>what's my <em>key</em></td><td>Get the value of a Rue user data point</td></tr>
   <tr><td>whois <em class="opt">url</em></td><td>See web host information on DomainTools; Defaults to current URL</td></tr>
+  <tr><td>wikihow to <em class="opt">action</em></td><td>Search wikiHow for tutorials</td></tr>
   <tr><td>wikipedia <em class="opt">text</em><br>wp <em class="opt">text</em><br>wikipedia.org <em class="opt">text</em></td><td>Search English Wikipedia</td></tr>
   <tr><td>win rate<br>winrate<br>win%</td><td>See how often you win Rue games</td></tr>
   <tr><td>window size<br>page size</td><td>Get the size of the current window</td></tr>
   <tr><td>withdraw <em>amount</em></td><td>Collect deposited Ruecoins from the bank</td></tr>
   <tr><td>wolfram <em class="opt">text</em><br>wolframalpha <em class="opt">text</em></td><td>Search WolframAlpha</td></tr>
+  <tr><td>xkcd <em class="opt">number</em></td><td>View an XKCD comic</td></tr>
   <tr><td>xp<br>exp<br>experience<br>points</td><td>View your XP</td></tr>
   <tr><td>yatranslate <em class="opt">text</em></td><td>Translate text with Yandex Translate</td></tr>
   <tr><td>yatranslate page <em class="opt">url</em><br>yaproxy <em class="opt">url</em></td><td>Translate a page with Yandex Translate; Defaults to current URL</td></tr>
@@ -438,6 +467,59 @@ This HTML and its contents are property of R74n.com.
   <!--
   <tr><td>COMMAND</td><td>DESCR</td></tr>
   -->
+</tbody>
+</table>
+
+<p>If you wish, commands can also be run in function format, like so: <code>sort(b,c,g,b,e,a,f)</code> or <code>length(testing</code>.</p>
+
+<h4 id="recognize">Auto Recognition</h4>
+
+<p>Rue can also recognize many forms of text to provide relevant information, such as identifiers or addresses.</p>
+
+<table class="monotable">
+<thead>
+  <tr><th>Format</th><th>Description</th></tr>
+</thead>
+<tbody>
+  <tr><td>https://<em>...</em><br>http://<em>...</em><br>www.<em>...</em><br><em>...</em>.com</td><td>Webpage</td></tr>
+  <tr><td>/<em>...</em><br>../<em class="opt">...</em></td><td>Relative link</td></tr>
+  <tr><td><em>latitude</em>,<em>longitude</em><br><em>number</em>N,<em>number</em>E</td><td>Coordinate pair</td></tr>
+  <tr><td><em>date</em></td><td>Date</td></tr>
+  <tr><td>d<em>sides</em><br><em>rolls</em>d<em>sides</em></em></td><td>Dice notation</td></tr>
+  <tr><td><em>email address</em></td><td>Email address</td></tr>
+  <tr><td><em>plane code</em></td><td>FAA airplane registration number</td></tr>
+  <tr><td><em>xxxxxxxxxxxx</em></td><td>FedEx tracking code</td></tr>
+  <tr><td>#<em>hashtag</em></td><td>Hashtag</td></tr>
+  <tr><td>#<em>hex</em></td><td>Hexadecimal color code</td></tr>
+  <tr><td>hsl(<em>h</em>,<em>s</em>%,<em>l</em>%)<br>hsla(<em>h</em>,<em>s</em>%,<em>l</em>%,<em class="opt">a</em>)</td><td>HSL or HSLA color code</td></tr>
+  <tr><td>#<em>id</em><br>.<em>className</em></td><td>HTML element on page</td></tr>
+  <tr><td><em>flight code</em></td><td>IATA flight number</td></tr>
+  <tr><td><em>callsign</em></td><td>ICAO aircraft callsign</td></tr>
+  <tr><td><em>isbn</em></td><td>International Standard Book Number (ISBN)</td></tr>
+  <tr><td><em>x.x.x.x</em></td><td>IPv4 address</td></tr>
+  <tr><td><em>x:x:x:x:x:x:x:x</em></td><td>IPv6 address</td></tr>
+  <tr><td>R<em>xxxxx</em></td><td>Multiplane planecode</td></tr>
+  <tr><td>R<em>xxxxx</em>-R<em>xxxxx</em></td><td>Multiplane range</td></tr>
+  <tr><td>R<em>xxxxx</em>+R<em>xxxxx</em></td><td>Multiplane union</td></tr>
+  <tr><td><em>x.x.x...</em></td><td>Object Identifier (OID)</td></tr>
+  <tr><td><em>phone number</em></td><td>Phone number</td></tr>
+  <tr><td>:<em>shortcode</em>:</td><td>R74moji</td></tr>
+  <tr><td>P<em>number</em></td><td><a href="https://data.r74n.com">R74n Wikibase</a> property</td></tr>
+  <tr><td>Q<em>number</em></td><td><a href="https://data.r74n.com">R74n Wikibase</a> item</td></tr>
+  <tr><td><em class="opt">subdomain</em>.R74n.com/<em class="opt">...</em></td><td>R74n URL</td></tr>
+  <tr><td>u/<em>username</em></td><td>Reddit profile</td></tr>
+  <tr><td>rgb(<em>r</em>,<em>g</em>,<em>b</em>)<br>rgba(<em>r</em>,<em>g</em>,<em>b</em>,<em class="opt">a</em>)</td><td>RGB or RGBA color code</td></tr>
+  <tr><td>$<em>ticker</em></td><td>Stock or cryptocurrency</td></tr>
+  <tr><td><em>address</em></td><td>Street address</td></tr>
+  <tr><td>r/<em>subreddit</em></td><td>Subreddit</td></tr>
+  <tr><td>U+<em>codepoint</em><br>U+<em>codepoint</em> U+<em class="opt">codepoint</em></td><td>Unicode codepoint</td></tr>
+  <tr><td>urn:<em>...</em></td><td>Uniform Resource Name (URN)</td></tr>
+  <tr><td>0<em>xxxxxxxxxxx</em></td><td>UPC number / Barcode</td></tr>
+  <tr><td><em>ups tracking code</em></td><td>UPS tracking code</td></tr>
+  <tr><td>1Z<em>...</em></td><td>UPS tracking code</td></tr>
+  <tr><td><em>url</em></td><td>URL</td></tr>
+  <tr><td><em>xxxx xxxx xxxx xxxx xxxx xx</em></td><td>USPS tracking code</td></tr>
+  <tr><td><em>vin</em></td><td>Vehicle Identification Number (VIN)</td></tr>
 </tbody>
 </table>
 
@@ -473,9 +555,12 @@ This HTML and its contents are property of R74n.com.
   <tr><th>Shortcut</th><th>Project Page</th></tr>
 </thead>
 <tbody>
+  <tr><td>ant funeral</td><td>Every Ant on Earth Funerals</td></tr>
+  <tr><td>ants<br>eaoe<br>ant browser</td><td>Every Ant on Earth</td></tr>
   <tr><td>binary</td><td>Copy Paste Dump - Binary Translator</td></tr>
   <tr><td>box</td><td>Shulker Boxes</td></tr>
   <tr><td>braille</td><td>Copy Paste Dump - Braille Generator</td></tr>
+  <tr><td>collab</td><td>Collaboration Opportunities</td></tr>
   <tr><td>commons:calendar<br>calendar<br>events</td><td>R74n Calendar</td></tr>
   <tr><td>commons:doc<br>guestbook<br>commons:docs</td><td>R74n Guestbook</td></tr>
   <tr><td>commons:earth</td><td>Commons Google Earth</td></tr>
@@ -491,7 +576,9 @@ This HTML and its contents are property of R74n.com.
   <tr><td>commons:university<br>commons:classroom</td><td>R74n University</td></tr>
   <tr><td>commons:whiteboard<br>commons:jamboard</td><td>Commons Google Jamboard</td></tr>
   <tr><td>commons</td><td>R74n Commons</td></tr>
+  <tr><td>community projects</td><td>Community Projects</td></tr>
   <tr><td>convert<br>converter<br>convert units<br>unit converter</td><td>Unit Converter</td></tr>
+  <tr><td>cook:pr<br>icpr</td><td>Infinite Chef Mod Submissions</td></tr>
   <tr><td>cpd:all<br>cpd:pages</td><td>Copy Paste Dump - All Pages</td></tr>
   <tr><td>cpd<br>c<br>copypastedump<br>copy</td><td>Copy Paste Dump</td></tr>
   <tr><td>discord<br>discord.gg<br>dgg<br>server</td><td>R74n Discord Server</td></tr>
@@ -509,12 +596,16 @@ This HTML and its contents are property of R74n.com.
   <tr><td>gaster</td><td>Copy Paste Dump - W.D. Gaster Translator</td></tr>
   <tr><td>giphy<br>gifs</td><td>R74n Giphy</td></tr>
   <tr><td>github<br>git<br>gh</td><td>R74n GitHub</td></tr>
+  <tr><td>guess the flag</td><td>Guess the Pixel Flag</td></tr>
   <tr><td>halacae</td><td>Halacae Doc</td></tr>
   <tr><td>hexadecimal</td><td>Copy Paste Dump - Hexadecimal Translator</td></tr>
   <tr><td>hieroglyph</td><td>Copy Paste Dump - Hieroglyph Generator</td></tr>
   <tr><td>hiew:changes</td><td>Hello in Every Way Changelog</td></tr>
   <tr><td>hiew<br>hello in every way<br>hellos</td><td>Hello in Every Way</td></tr>
   <tr><td>icons</td><td>R74n Icon Page</td></tr>
+  <tr><td>id request<br>request ids</td><td>Identifier Request Form</td></tr>
+  <tr><td>id<br>ids<br>identifiers</td><td>R74n Identifier Page</td></tr>
+  <tr><td>infinite chef<br>cook<br>ic</td><td>Infinite Chef</td></tr>
   <tr><td>instagram<br>insta<br>ig<br>@R74ndev</td><td>R74n Instagram</td></tr>
   <tr><td>jsonescape</td><td>Copy Paste Dump - JSON Escaper</td></tr>
   <tr><td>leet</td><td>Copy Paste Dump - Leet Speak Generator</td></tr>
@@ -524,11 +615,12 @@ This HTML and its contents are property of R74n.com.
   <tr><td>mc</td><td>Minecraft Tools</td></tr>
   <tr><td>mix<br>mixup</td><td>Mix-Up!</td></tr>
   <tr><td>moji<br>mojis<br>R74moji</td><td>R74moji</td></tr>
-  <tr><td>view moji<br>viewmoji</td><td>R74moji / View</td></tr>
   <tr><td>morse</td><td>Copy Paste Dump - Morse Code Translator</td></tr>
+  <tr><td>multiplane</td><td>Multiplane</td></tr>
   <tr><td>notepad</td><td>Rue's Notepad</td></tr>
   <tr><td>octopi</td><td>Types of Octopi</td></tr>
   <tr><td>old</td><td>R74n Time Machine (Old Site)</td></tr>
+  <tr><td>patreon</td><td>R74n Patreon</td></tr>
   <tr><td>picrew</td><td>R74n Picrew</td></tr>
   <tr><td>piglatin</td><td>Copy Paste Dump - Pig Latin Generator</td></tr>
   <tr><td>pinterest<br>pins</td><td>R74n Pinterest</td></tr>
@@ -538,9 +630,11 @@ This HTML and its contents are property of R74n.com.
   <tr><td>r/sandboxels</td><td>Sandboxels Subreddit</td></tr>
   <tr><td>reddit<br>R/74n<br>subreddit<br>r/</td><td>R74n Subreddit</td></tr>
   <tr><td>regional</td><td>Copy Paste Dump - Regional Indicator Generator</td></tr>
+  <tr><td>response sheet<br>ufbs sheet</td><td>Universal Feedback System Response Sheet</td></tr>
   <tr><td>reverse</td><td>Copy Paste Dump - Text Reverser</td></tr>
-  <tr><td>Rue guide<br>Rue docs<br>Rue manual<br>Rue guidebook</td><td>Explore with Rue Guidebook</td></tr>
   <tr><td>Rue changelog</td><td>Explore with Rue Changelog</td></tr>
+  <tr><td>Rue guide<br>Rue docs<br>Rue manual<br>Rue guidebook</td><td>Explore with Rue Guidebook</td></tr>
+  <tr><td>Rue partners<br>partners</td><td>Rue Partners Page</td></tr>
   <tr><td>rue.js</td><td>Rue script</td></tr>
   <tr><td>sandboxels:changes<br>sandboxels:updates</td><td>Sandboxels Changelog</td></tr>
   <tr><td>sandboxels:mods<br>mod list</td><td>Sandboxels Mod List</td></tr>
@@ -549,8 +643,10 @@ This HTML and its contents are property of R74n.com.
   <tr><td>sarcastic</td><td>Copy Paste Dump - Sarcastic Case Generator</td></tr>
   <tr><td>sblite<br>sandboxels lite</td><td>Sandboxels Lite</td></tr>
   <tr><td>sbwiki<br>sbw<br>sandboxelswiki<br>wiki.gg<br>wikigg</td><td>Sandboxels Wiki</td></tr>
+  <tr><td>sequence</td><td>Sequence</td></tr>
   <tr><td>sga</td><td>Copy Paste Dump - Enchanting Table Generator</td></tr>
   <tr><td>shapes</td><td>Copy Paste Dump - Unicode Shapes</td></tr>
+  <tr><td>shapes</td><td>R74n Shapes</td></tr>
   <tr><td>share<br>share buttons</td><td>Share Buttons</td></tr>
   <tr><td>shorten<br>shorten link<br>link shortener</td><td>R74n Link Shortener</td></tr>
   <tr><td>sml</td><td>Social-Media-Lists</td></tr>
@@ -558,6 +654,8 @@ This HTML and its contents are property of R74n.com.
   <tr><td>Special:RecentChanges</td><td>Newest R74n Wikibase Edits</td></tr>
   <tr><td>spoiler</td><td>Copy Paste Dump - Discord Spoiler Generator</td></tr>
   <tr><td>subtwts</td><td>Twitter Subcommunity List</td></tr>
+  <tr><td>supporters</td><td>Supporter List</td></tr>
+  <tr><td>supporters</td><td>Supporters</td></tr>
   <tr><td>symbols<br>characters<br>unicode</td><td>Copy Paste Dump - Text Symbols</td></tr>
   <tr><td>Talk:Community</td><td>R74n Wikibase Talk Page</td></tr>
   <tr><td>testing zone</td><td>R74n Testing Zone</td></tr>
@@ -573,6 +671,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>uuid</td><td>Minecraft UUID Generator</td></tr>
   <tr><td>vaporwave</td><td>Copy Paste Dump - Vaporwave Text Generator</td></tr>
   <tr><td>view guestbook</td><td>Guestbook Page</td></tr>
+  <tr><td>view moji<br>viewmoji</td><td>R74moji / View</td></tr>
   <tr><td>whiteboard</td><td>Rue's Temporary Whiteboard</td></tr>
   <tr><td>wikibase<br>wb<br>data</td><td>R74n Wikibase</td></tr>
   <tr><td>wikidata<br>wd</td><td>Wikidata</td></tr>
@@ -601,10 +700,12 @@ This HTML and its contents are property of R74n.com.
   <tr><td>AI</td></tr>
   <tr><td>analytics</td></tr>
   <tr><td>apply</td></tr>
+  <tr><td>are you single?</td></tr>
   <tr><td>birth time</td></tr>
   <tr><td>birthday</td></tr>
   <tr><td>boo</td></tr>
   <tr><td>business</td></tr>
+  <tr><td>can you help me?</td></tr>
   <tr><td>changelog<br>changes<br>new update<br>what's new?</td></tr>
   <tr><td>channel<br>discord channel</td></tr>
   <tr><td>clips<br>newvid<br>videos<br>vids</td></tr>
@@ -629,7 +730,9 @@ This HTML and its contents are property of R74n.com.
   <tr><td>hello<br>hiiiiii<br>good mornin' Rue!<br>gm<br>howdy, friend<br>hey again</td></tr>
   <tr><td>help<br>guide<br>readme<br>guidebook<br>tutorial<br>assistance<br>manual</td></tr>
   <tr><td>how are you?<br>hru<br>how is Rue?<br>how r u doing?</td></tr>
+  <tr><td>how can you help?</td></tr>
   <tr><td>how do I use you?<br>how to Explore with Rue</td></tr>
+  <tr><td>how do you work?<br>what can i do with rue?</td></tr>
   <tr><td>hug</td></tr>
   <tr><td>human</td></tr>
   <tr><td>i enjoy you</td></tr>
@@ -644,6 +747,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>lang<br>language</td></tr>
   <tr><td>level up</td></tr>
   <tr><td>lorem ipsum</td></tr>
+  <tr><td>meow</td></tr>
   <tr><td>mods<br>modding</td></tr>
   <tr><td>name origin</td></tr>
   <tr><td>name<br>what is your name?</td></tr>
@@ -677,8 +781,12 @@ This HTML and its contents are property of R74n.com.
   <tr><td>update</td></tr>
   <tr><td>watch out</td></tr>
   <tr><td>what can you do?<br>what do i do?<br>how can you help me?<br>tell me something</td></tr>
-  <tr><td>what's up?</td></tr>
+  <tr><td>what're you doing?</td></tr>
+  <tr><td>what's up?<br>'sup</td></tr>
   <tr><td>what's your favorite <em>thing</em>?*</td></tr>
+  <tr><td>what's your purpose?</td></tr>
+  <tr><td>where am i?<br>where are we?<br>where are you?</td></tr>
+  <tr><td>where are you from?</td></tr>
   <tr><td>where do you live?</td></tr>
   <tr><td>who are you<br>who is Rue<br>what are you<br>what is Rue<br>who is this</td></tr>
   <tr><td>who created you?</td></tr>
@@ -744,13 +852,13 @@ This HTML and its contents are property of R74n.com.
   <tr><td>Plus</td><td>+</td></tr>
   <tr><td>Minus</td><td>-</td></tr>
   <tr><td>Times</td><td>*</td></tr>
-  <tr><td>Divded by</td><td>/</td></tr>
+  <tr><td>Divided by</td><td>/</td></tr>
   <tr><td>Null</td><td>0</td></tr>
 </tbody>
 </table>
 
 <h3 id="replacements">Auto-Capitalization</h3>
-<p>A few phrases will be automatically capitalized when typed into Explore with Rue, in line with <a href="https://r74n.com/lore/#Standard">the R74n Capitalization Standard</a>.</p>
+<p>A few phrases will be automatically capitalized when typed into Explore with Rue, in line with <a href="https://r74n.com/lore/old#Capitalize">the R74n Capitalization Standard</a>.</p>
 <ul class="monolist">
   <li>R74n</li>
   <li>R74moji</li>
@@ -772,6 +880,9 @@ This HTML and its contents are property of R74n.com.
 </tbody>
 </table>
 
+<h3 id="bookmarklet">Bookmarklet</h3>
+<p>If summoned via the <a href="./#bookmarklet">bookmarklet</a>, Rue will be hidden if an empty message is sent.</p>
+
 
 <h2 id="devs">Developer Manual</h2>
 <p>The average user doesn't need to worry about anything in this section.</p>
@@ -792,15 +903,20 @@ This HTML and its contents are property of R74n.com.
 <tbody>
   <tr><td>{{act:<em class="opt">text</em>}}</td><td>*act out an action*</td></tr>
   <tr><td>{{ak}}</td><td>Display the user's action key (Ctrl or Cmd)</td></tr>
+  <tr><td>{{arg:<em class="opt">index</em>}}</td><td>Argument of the command just said, index positive or negative</td></tr>
+  <tr><td>{{args:<em class="opt">joiner</em>}}</td><td>All arguments of the command just said</td></tr>
   <tr><td>{{b:<em class="opt">text</em>}}</td><td>Make text bold</td></tr>
   <tr><td>{{bg:<em class="opt">text</em>|<em class="opt">color</em>}}</td><td>Add background color to text</td></tr>
   <tr><td>{{big:<em class="opt">text</em>}}</td><td>Make text bigger</td></tr>
+  <tr><td>{{br}}</td><td>New line</td></tr>
   <tr><td>{{c:<em class="opt">opt1</em>|<em class="opt">opt2</em>|<em class="opt">...</em>}}</td><td>Choose a value randomly</td></tr>
   <tr><td>{{c:<em>seed</em>|<em class="opt">opt1</em>|<em class="opt">opt2</em>|<em class="opt">...</em>}}</td><td>Choose a value randomly with a seed</td></tr>
   <tr><td>{{cc:<em class="opt">characters</em>}}</td><td>Choose character from string</td></tr>
+  <tr><td>{{cmd:<em>command</em>|<em class="opt">title</em>}}</td><td>Clickable text to set the user's input</td></tr>
   <tr><td>{{code:<em class="opt">text</em>}}</td><td>Make text monospaced</td></tr>
   <tr><td>{{color:<em class="opt">text</em>|<em class="opt">color</em>}}</td><td>Make text colored</td></tr>
   <tr><td>{{comment:<em class="opt">text</em>}}</td><td>Not shown after text is parsed</td></tr>
+  <tr><td>{{date}}</td><td>The current date</td></tr>
   <tr><td>{{emote:<em class="opt">image url</em>}}</td><td>Small in-line image</td></tr>
   <tr><td>{{header:<em class="opt">text</em>}}</td><td>Make text large like a title</td></tr>
   <tr><td>{{highlight:<em class="opt">text</em>}}</td><td>Add yellow highlight to text</td></tr>
@@ -824,11 +940,13 @@ This HTML and its contents are property of R74n.com.
   <tr><td>{{strike:<em class="opt">text</em>}}</td><td>Make text stuckthrough</td></tr>
   <tr><td>{{sub:<em class="opt">text</em>}}</td><td>Make text subscript</td></tr>
   <tr><td>{{sup:<em class="opt">text</em>}}</td><td>Make text superscript</td></tr>
+  <tr><td>{{time}}</td><td>The current time</td></tr>
   <tr><td>{{title:<em class="opt">text</em>}}</td><td>Make text title-cased</td></tr>
   <tr><td>{{today}}</td><td>Today's unique timestamp</td></tr>
   <tr><td>{{ul:<em class="opt">text</em>}}</td><td>Make text underlined</td></tr>
   <tr><td>{{upper:<em class="opt">text</em>}}</td><td>Make text uppercase</td></tr>
   <tr><td>{{userseed:<em class="opt">text</em>}}</td><td>The user's unique seed</td></tr>
+  <tr><td>{{year}}</td><td>The current year</td></tr>
 </tbody>
 </table>
 
@@ -945,6 +1063,9 @@ This HTML and its contents are property of R74n.com.
   <tr><td>Rue.cancelQuestion()</td><td>Stops the current question</td></tr>
   <tr><td>Rue.clearRueData()</td><td>Clear all Rue data to start from scratch</td></tr>
   <tr><td>Rue.onRueLoad(<em>function</em>)</td><td>Call a function when Rue is finished loading</td></tr>
+  <tr><td>Rue.checkStreamerMode()/td><td>Returns true if Streamer Mode is enabled</td></tr>
+  <tr><td>Rue.uninstall()/td><td>Removes Rue from the webpage</td></tr>
+  <tr><td>Rue.stopBlinking()/td><td>Prevents Rue from blinking</td></tr>
 </tbody>
 </table>
 
@@ -963,11 +1084,17 @@ This HTML and its contents are property of R74n.com.
   <tr><td>Rue.brain.sleeping</td><td>Clicks needed to wake up Rue</td></tr>
   <tr><td>Rue.brain.stage</td><td>Stage in the current activity</td></tr>
   <tr><td>Rue.brain.sticky</td><td>If Rue's message box is closeable</td></tr>
-
+  <tr><td>Rue.brain.streamerMode</td><td>If Streamer Mode is enabled</td></tr>
+  
+  
   <tr><td>Rue.brain.actionKey</td><td>Either Ctrl or Cmd (Automatic)</td></tr>
   <tr><td>Rue.brain.closeMessageEvent</td><td>Function used to close the response box (Automatic)</td></tr>
   <tr><td>Rue.brain.confirming</td><td>If Rue is confirming a response (Automatic)</td></tr>
   <tr><td>Rue.brain.lastMessage</td><td>Last response from Rue.say() (Automatic)</td></tr>
+  <tr><td>Rue.brain.loadEnd</td><td>Timestamp (ms) of when Rue finished loading (Automatic)</td></tr>
+  <tr><td>Rue.brain.loadStart</td><td>Timestamp (ms) of when Rue began loading (Automatic)</td></tr>
+  <tr><td>Rue.brain.loadTime</td><td>Milliseconds taken for Rue to load (Automatic)</td></tr>
+  <tr><td>Rue.brain.source</td><td>How Rue was summoned ("bookmarklet", null) (Automatic)</td></tr>
   <tr><td>Rue.brain.speaking</td><td>If Rue's message box is visible (Automatic)</td></tr>
 </tbody>
 </table>

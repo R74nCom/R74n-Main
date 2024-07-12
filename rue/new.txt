@@ -1,0 +1,181 @@
+add these to the changelog AND docs!!!!!!
+
+
+= Text Parser =
+- Commands can be typed like functions. For example:
+    sort(b,c,g,b,e,a,f)
+    length(testing
+- If the argument "this" is passed to a command, it will be replaced with the last text you highlighted. (e.g. translate this)
+- If summoned via the bookmarklet, an empty message will hide Rue
+
+= Keyboard Shortcuts =
+
+= Commands =
+<number> <unit> to <unit>
+    <number><unit> to <unit>
+    convert <number> <unit> to <unit>
+    convert <unit> to <unit>
+patent <number>
+airport <code>
+flight <code>
+fcc <equipment id>
+sitesearch <domain> <query>
+    sitesearch <query>
+    search site
+    search this site
+email <address> <text>?
+    email to <address>
+http / https
+iplookup <ip>? / ipl / rdns / geolocate / what's my ip
+ip <ip>
+streamer mode
+shuffle <options>
+count <text> - Simple word counter
+    count words <text>
+    word count <text>
+    wordcount <text>
+char count <text>
+    charcount <text>
+    character count <text>
+    len <text>
+    length <text>
+clinical trial <query>?
+    medical trial <query>
+    med trial <query>
+dataset <query>
+us census <query>
+webaim <url>?
+tota11y
+xkcd <number>?
+karma decay <image url>
+    karmadecay <image url>
+imgops <image url>
+char <text>
+    codepoint <text>
+    character <text>
+    chars <text>
+    unicode <text>
+bing images <query>?
+    bimages <query>
+    bingimg <query>
+    bimg <query>
+google web <query>?
+    googleweb <query>
+    gweb <query>
+    websearch <query>
+    udm14 <query>
+wikihow to <action>?
+weather <city>?
+    weather near me
+dice <rolls>?d<max>?
+    d<max>
+    <rolls>d<max>
+bad eyesight mode
+    take off glasses
+    blur page
+go blind
+unfocus
+spread <text>
+    spread <amount> <text>
+what's my <key>
+my name is <name>
+stop blinking
+staring contest
+urn:<urn>
+oid <oid>
+resolve <identifier>
+    id <identifier>
+    identifier <identifier>
+planecode <code>
+color picker
+decade<br>what decade is it<br>what's the decade
+
+= Auto Recognition =
+UPS tracking code
+FedEx tracking code
+USPS tracking code
+UPC number
+FAA airplane registration number
+IATA flight number
+ICAO aircraft callsign
+IPv4 address
+IPv6 address
+R74moji :shortcode:
+#id HTML element on page
+    .className
+#hashtag
+Unicode codepoint
+    U+026FB
+    U+02600 U+0FE0F
+Dice notation
+    d<count>
+    <rolls>d<count>
+Object identifier (OID)
+urn:<...> - Uniform Resource Name (URN)
+Multiplane planecode
+Multiplane union
+Multiplane range
+
+= Activities =
+
+= Links =
+infinite chef / cook / ic
+shapes
+cook:pr / icpr
+ant funeral
+id / ids / identifiers
+id request / request ids
+community projects
+supporters
+
+= Responses =
+meow
+where am i / where are we / where are you
+where are you from
+what's your purpose
+how do you work / what can i do with rue
+how can you help
+can you help me
+what're you doing
+'sup
+are you single
+
+= Media Display =
+
+= Calculations =
+
+= Auto-Capitalization =
+
+= Bug Fixes =
+Doesn't respond to "who r u"
+Doesn't respond when math answer is zero
+QR code command is broken
+
+
+= URL Parameters =
+
+= Response Subcommands =
+{{cmd|command|title?}} - Clickable text to set the user's input
+{{date}} - The current date
+{{year}} - The current year
+{{time}} - The current time
+{{br}} - New line
+{{arg|index?}} - Argument of the command just said, index positive or negative
+{{args|joiner?}} - All arguments of the command just said
+
+= Special Responses =
+
+= rueData Types =
+
+= Rue Object =
+checkStreamerMode - Returns true if Streamer Mode is enabled
+uninstall - Removes Rue from the webpage
+stopBlinking - Prevents Rue from blinking
+
+= Rue's Brain =
+streamerMode - If Streamer Mode is enabled
+selectedText - Text that was highlighted before talking to Rue
+source - How Rue was summoned ("bookmarklet", null)
+loadStart - Timestamp (ms) of when Rue began loading
+loadEnd - Timestamp (ms) of when Rue finished loading
+loadTime - Milliseconds taken for Rue to load
