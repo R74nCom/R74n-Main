@@ -2594,7 +2594,7 @@ rueData.totalities = {
     "spanish or english": "=english or spanish",
 
     // R74n Identifiers
-    "/([0-2])((\\.0)|(\\.[1-9][0-9]*))*/": function(text) {
+    "/([0-2])((\\.0)|(\\.[1-9][0-9]*))+/": function(text) {
         Rue.openLink("https://r74n.com/id/?"+text);
     },
     "/R[0-9A-F]{5}($|[+\\-]R.+)/": function(text) {
