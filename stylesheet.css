@@ -262,9 +262,19 @@ tr:nth-child(odd){background-color: #272727;}
 
 kbd {background-color:rgb(59, 59, 59);color:white;border-radius:5px;padding:2px;padding-left:5px;padding-right:5px;margin-left:3px;margin-right:3px;line-height:1.5;}
 
+ul, ol {
+    padding-left:1.5em;
+}
+ul ol, ol ul, ul ul, ol ol { /* Nested lists */
+    padding-inline-start: 1.75em;
+}
+
 /* Mobile styles */
 @media only screen and (max-width: 700px) {
     table {margin-left: 0em}
+    ul, ol {
+        padding-left:0.5em;
+    }
 }
 
 .textButton {

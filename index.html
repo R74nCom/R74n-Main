@@ -247,6 +247,7 @@ function setIcon(){
     document.head.appendChild(confettijs);
   }
   R74nicon.style.display = "inline-block";
+  document.getElementById("iconnoscript").remove();
 
   // Birthday celebrations
   if (currentdatestring == "5-2") {
@@ -310,7 +311,7 @@ function setIcon(){
 <body>
 
 
-<a href="#YOU-ARE-ALREADY-HOME."><noscript><img src="icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n icon"></noscript><img src="icons/favicon.png" style="display:none" id="R74nicon" class="R74nicon" alt="R74n icon"></a>
+<a href="#YOU-ARE-ALREADY-HOME."><noscript id="iconnoscript"><img src="icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n icon"></noscript><img src="icons/favicon.png" style="display:none" id="R74nicon" class="R74nicon" alt="R74n icon"></a>
 <h1 class="pagetitle" title="Please stay a while!" id="pagetitle">Home</h1>
 
 <div id="rueBox"></div>
@@ -400,7 +401,7 @@ function setIcon(){
 </dl>
 </div>
 
-<div class="simplefooter"><a href="outlinks#Friends">Friends</a> • <a href="meta/#About">About</a> • <a href="social/">Contact</a> • <a href="privacy">Privacy</a></div>
+<footer><div class="simplefooter"><a href="outlinks#Friends">Friends</a> • <a href="meta/#About">About</a> • <a href="social/">Contact</a> • <a href="privacy">Privacy</a></div></footer>
 
 <script> // after content loaded
 // Temporary news flashes
