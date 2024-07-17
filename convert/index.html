@@ -486,7 +486,12 @@ This HTML and its contents are property of R74n.com.
             TitleTag.innerHTML = "Convert "+query[1]+" "+toTitleCase(query[2])+" Online - R74n"
           }
           else if (query.length==4) {
-            TitleTag.innerHTML = "Convert "+query[1]+" "+toTitleCase(query[2])+" to "+toTitleCase(query[3])+" Online - R74n"
+            if (query[1] === "-") {
+              TitleTag.innerHTML = "Convert "+toTitleCase(query[2])+" to "+toTitleCase(query[3])+" Online - R74n"
+            }
+            else {
+              TitleTag.innerHTML = "Convert "+query[1]+" "+toTitleCase(query[2])+" to "+toTitleCase(query[3])+" Online - R74n"
+            }
           }
           var canonicalTag = document.getElementById("canonicalTag")
           if (!canonicalTag) {
@@ -554,19 +559,28 @@ This HTML and its contents are property of R74n.com.
       #Arrow::before {content:"↑↓";}
       .content {text-align:center}
       input[type="radio"] {display:inline-block}
-      #MoreLeft, #MoreRight {display:inline-block;vertical-align:top;padding:40px;padding-bottom:0}
-      #MoreBottom {display:block;text-align:center;}
+      #MoreLeft, #MoreRight {display:inline-block;vertical-align:top;padding:40px;padding-top:0;padding-bottom:0}
+      #MoreBottom, #MoreTop {display:block;text-align:center;}
       #MoreLeft {text-align:left}
       #MoreRight {text-align:right}
+      #MoreTop {
+        padding-bottom:20px
+      }
+      #sortForm {
+        padding-bottom:40px
+      }
       #UnitSelect1Box, #UnitSelect2Box {display:inline-block;}
       #UnitSelect1Box select, #UnitSelect2Box select {width:100%;max-width:100%}
       @media only screen and (max-width: 1080px) {
         #Arrow {padding:20px}
         #BoxLeft, #BoxRight, #Arrow {display:block}
         #Box select, #Box input[type="number"] {font-size:20px}
-        #MoreLeft, #MoreRight {display:block;padding:25px;text-align:center}
+        #MoreLeft, #MoreRight {display:block;padding:25px;padding-top:0;text-align:center}
         .morelink {
           margin-top:5px;margin-bottom:5px;display:inline-block
+        }
+        #MoreTop {
+          padding-bottom:0px
         }
       }
       @media only screen and (max-width: 700px) {
@@ -622,8 +636,6 @@ todo:
   <option value="musical-interval">Musical Intervals (Cents, Octaves)</option>
   <option value="death">Deaths (Megadeaths, Gigadeaths)</option>
   <option value="beauty">Beauty (Helens)</option>
-  
-  
 </select>
 
 <br><br>
@@ -649,7 +661,7 @@ todo:
 <!-- centered Swap Units button -->
 <div style="text-align:center">
   <input type="button" id="SwapButton" onclick="swapUnits()" value="Swap Units"></div>
-<form style="margin-top:50px">Sort Units By:
+<form style="margin-top:50px" id="sortForm">Sort Units By:
   <input type="radio" name="sortbtn" selected onclick="updateSort('name')"><label for="name">Name</label>
   <input type="radio" name="sortbtn" onclick="updateSort('value')"><label for="name">Value</label>
   <input type="radio" name="sortbtn" onclick="updateSort('symbol')"><label for="name">Symbol</label>
@@ -658,6 +670,9 @@ todo:
 </div>
 
 <div id="MoreBox" style="display:none">
+  <!-- <div id="MoreTop">
+    <p id="explain"></p>
+  </div> -->
   <div id="MoreLeft">
     <a class="morelink" href="?time">Time Conversion</a><br>
     <a class="morelink" href="?length">Length Conversion</a><br>
@@ -702,7 +717,7 @@ todo:
     <a class="morelink" href="?density/1/gram%20per%20cubic%20centimeter/kilogram%20per%20cubic%20meter">G/cm2 to KG/m3</a><br>
   </div>
   <div id="MoreBottom">
-    <p>Missing something? <a href="https://link.r74n.com/convert-feedback" target="_blank">Submit it here</a>! • <a href="changelog.txt" target="_blank">Recent Changes</a></p>
+    <p>Missing something? <a href="https://link.r74n.com/convert-feedback" target="_blank">Submit it here</a> • <a href="changelog.txt" target="_blank">Recent Changes</a></p>
   </div>
 </div>
 
