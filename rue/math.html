@@ -1,0 +1,327 @@
+<script>
+// Ruemerals
+
+mathRegex = {};
+mathRegex.VALUE = "([-+]+)?([0-9]+(\\.([0-9]+)?)?|\\.[0-9]+)(e[-+]?[0-9]+)?|([-+]+)?Infinity|NaN";
+/* VALUE
+123
+1.23
+.23
+12.
+0123
+Infinity
+NaN
+1e23
+1.23e45
+1.23e-45
+1.23e+45
+12.e45
+.12e45
+*/
+mathRegex.OPERATOR = "[+\\-\\*\\/%]|\\*\\*";
+
+mathRegex.LONE_VALUE = `^(${mathRegex.VALUE})$`;
+mathRegex.LONE_VALUE_PAREN = `\\((${mathRegex.VALUE})\\)`;
+mathRegex.LONE_VALUE_COMMAL = `,(${mathRegex.VALUE})`;
+mathRegex.LONE_VALUE_COMMAR = `(${mathRegex.VALUE}),`;
+mathRegex.SYMBOL = `[\\(\\),\\|<>]`;
+mathRegex.SYMBOL_NO_PAREN = `[,\\|<>]`;
+mathRegex.LONE_VALUE_SYMBOL = `(${mathRegex.SYMBOL})(${mathRegex.VALUE})(${mathRegex.SYMBOL})?|(${mathRegex.SYMBOL})?(${mathRegex.VALUE})(${mathRegex.SYMBOL})`;
+mathRegex.VALUE_NEXT_TO_WRAPPED = `\\}\\)(${mathRegex.VALUE})`;
+mathRegex.OPERATOR_PAREN_VALUE = `(${mathRegex.OPERATOR}|^|${mathRegex.SYMBOL_NO_PAREN})\\(\\{(${mathRegex.VALUE})\\}\\)`;
+
+mathRegex.SIMPLE_EXP = `(((${mathRegex.VALUE})(${mathRegex.OPERATOR}))+)(${mathRegex.VALUE})`;
+mathRegex.PAREN_EXP = `\\(${mathRegex.SIMPLE_EXP}\\)`
+mathRegex.WRAPPED_EXP = `\\{([^}]*)\\}`
+mathRegex.WRAPPED_LONE_VALUE = `\\{(${mathRegex.VALUE})\\}`
+/* SIMPLE_EXP
+1e23+45
+12/34.567
+*/
+
+mathReplacements = {
+    "×": "*",
+    "⋅": "*",
+    "x": "*",
+    "÷": "/",
+    "⁄": "/",
+    "^": "**",
+    "--": "-+-",
+    "++": "-+-+",
+    "mod": "%",
+    "°": "/360",
+    "deg": "/360",
+    "∞": "(Infinity)",
+    "infinity": "(Infinity)",
+    "null": "(NaN)",
+    "nan": "(NaN)",
+    "undefined": "(NaN)",
+    "pi": "("+Math.PI+")",
+    "π": "("+Math.PI+")",
+    "tau": "("+6.283185307179586+")",
+    "τ": "("+6.283185307179586+")",
+    "φ": "("+1.618033988749894+")",
+    "⅟":"1/",
+    "½":"(1/2)",
+    "⅓":"(1/3)",
+    "¼":"(1/4)",
+    "⅕":"(1/5)",
+    "⅙":"(1/6)",
+    "⅛":"(1/8)",
+    "⅔":"(2/3)",
+    "⅖":"(2/5)",
+    "⅚":"(5/6)",
+    "⅜":"(3/8)",
+    "¾":"(3/4)",
+    "⅗":"(3/5)",
+    "⅝":"(5/8)",
+    "⅞":"(7/8)",
+    "⅘":"(4/5)",
+    "（":"(",
+    "）":")",
+}
+mathExponents = {
+    "⁰":"0","¹":"1","²":"2","³":"3","⁴":"4","⁵":"5","⁶":"6","⁷":"7","⁸":"8","⁹":"9",
+    "ⁱ":"i",
+    "ⁿ":"n",
+    "⁺":"+",
+    "⁻":"-",
+    "⁼":"=",
+    "⁽":"(",
+    "⁾":")"
+}
+mathRegex.EXPONENTS = `\\^?[${Object.keys(mathExponents).join("")}]+`;
+mathFunctions = {
+    "sine(EXPR)": "Math.sin(EXPR)",
+    "sin(EXPR)": "Math.sin(EXPR)",
+    "cos(EXPR)": "Math.cos(EXPR)",
+    "tan(EXPR)": "Math.tan(EXPR)",
+    "tangent(EXPR)": "Math.tan(EXPR)",
+    "cosec(EXPR)": "1/Math.sin(EXPR)",
+    "sec(EXPR)": "1/Math.cos(EXPR)",
+    "cot(EXPR)": "1/Math.tan(EXPR)",
+    "|EXPR|": "Math.abs(EXPR)",
+    "abs(EXPR)": "Math.abs(EXPR)",
+    "sqrt(EXPR)": "Math.sqrt(EXPR)",
+    "cbrt(EXPR)": "Math.cbrt(EXPR)",
+    "VALrt(EXPR)": "Math.pow($2, 1/$1)",
+    "VAL√(EXPR)": "Math.pow($2, 1/$1)",
+    "∛(EXPR)": "Math.cbrt(EXPR)",
+    "∛VAL": "Math.cbrt(EXPR)",
+    "∜(EXPR)": "Math.pow(EXPR, 1/4)",
+    "∜VAL": "Math.pow(EXPR, 1/4)",
+    "√(EXPR)": "Math.sqrt(EXPR)",
+    "VAL√VAL": "Math.pow($2, 1/$1)",
+    "√VAL": "Math.sqrt($1)",
+    "logVAL(EXPR)": "Math.log($2) / Math.log($1)",
+    "log(EXPR)": "Math.log10(EXPR)",
+    "random()": "Math.random()",
+}
+
+
+mathFunctionsKeys = Object.keys(mathFunctions);
+mathFunctionsKeys.forEach(function(key){
+    mathFunctions[key.replace(/[\(\)\|]/g,(match)=>{return "\\"+match}).replace(/VAL\\\(/,"VAL\\(?").replace(/\\\)/,"\\)?").replace(/EXPR/g,mathRegex.WRAPPED_EXP).replace(/VAL/g,"{?("+mathRegex.VALUE.replace(/\(/g,"(?:")+")}?\\*?")] = mathFunctions[key];
+    delete mathFunctions[key];
+})
+mathFunctionsKeys.sort((a, b) => b.length - a.length);
+mathReplacementsKeys = Object.keys(mathReplacements);
+mathReplacementsKeys.sort((a, b) => b.length - a.length);
+for (let key in mathRegex) {
+    mathRegex[key] = new RegExp(mathRegex[key],"gi")
+}
+
+
+/* algorithm
+
+|5+sine(6+9)|
+
+|{5}+sine({6+9})|
+
+solve sine(EXPR) based on math replacement string, Math.sin(EXPR)
+
+|{5}+{0.42}|
+
+|5+0.42|
+
+|{5+0.42}|
+
+solve |EXPR| based on math replacement string, Math.abs(EXPR)
+
+5.42
+
+*/
+
+// |(5+3)-6e2/2**2|
+function solveExpression(text) {
+    console.log("----")
+    text = text.trim().toLowerCase();
+    if (!text) return;
+    text = text.replace(/[\s{}]/g,"");
+    // add missing trailing parentheses
+    text += ")".repeat((text.match(/\(/g)||[]).length - (text.match(/\)/g)||[]).length)
+    mathReplacementsKeys.forEach(function(key) {
+        text = text.replaceAll(key,mathReplacements[key])
+    })
+    text = text.replace(mathRegex.EXPONENTS, function(match) {
+        // add missing trailing parentheses
+        match += "⁾".repeat((match.match(/⁽/g)||[]).length - (match.match(/⁾/g)||[]).length)
+        for (let key in mathExponents) {
+            match = match.replaceAll(key,mathExponents[key])
+        }
+        return "**("+match+")"
+    })
+    let answer = null;
+    let lastAnswer = null;
+    let wrappedMidAnswer = [];
+    let success = false;
+    while (!lastAnswer || answer !== lastAnswer) {
+        let skipFunctions = false;
+        if (answer) lastAnswer = answer;
+        else answer = text;
+        answer = answer.replace(mathRegex.PAREN_EXP,function(match) {
+            try { match = eval(match).toString() }
+            catch (error) {}
+            if (match.charAt(0) !== "(") match = "("+match;
+            if (match.charAt(match.length-1) !== ")") match = match+")";
+            return match;
+        })
+        answer = answer.replace(mathRegex.SIMPLE_EXP,function(match) {
+            return "{"+match+"}"
+        })
+        answer = answer.replace(mathRegex.LONE_VALUE,function(match) {
+            return "{"+match+"}"
+        })
+        answer = answer.replace(mathRegex.LONE_VALUE_SYMBOL,function(match) {
+            var left = match.charAt(0);
+            left = left.match(mathRegex.SYMBOL) ? left : "";
+            var right = match.charAt(match.length-1)
+            right = right.match(mathRegex.SYMBOL) ? right : "";
+            if (left) match = match.slice(1);
+            if (right) match = match.slice(0,-1);
+            // console.log(left+"{"+match+"}"+right);
+            return left+"{"+match+"}"+right;
+        })
+        answer = answer.replace(mathRegex.VALUE_NEXT_TO_WRAPPED,function(match){
+            return match.replace(/\}\)/,"}){")+"}";
+        })
+        answer = answer.replace(mathRegex.OPERATOR_PAREN_VALUE,function(match){
+            return match.replace(/[()]/g,"");
+        })
+        // console.log(answer)
+
+        // ){-
+        answer = answer.replace(/[)}][({][-+]/g,function(match){
+            return match.charAt(0)+match.charAt(2)+match.charAt(1)
+        });
+        if (answer.indexOf("}(") !== -1) {
+            answer = answer.replace(/\}\(/g,"}*(");
+            skipFunctions = true;
+        }
+        if (answer.indexOf("){") !== -1) {
+            answer = answer.replace(/\)\{/g,")*{");
+            skipFunctions = true;
+        }
+        if (answer.indexOf("}{") !== -1) {
+            answer = answer.replace(/\}\{/g,"}*{");
+            skipFunctions = true;
+        }
+
+        wrappedMidAnswer.push(answer);
+
+        console.log(answer);
+        if (!skipFunctions) {
+            for (let func in mathFunctions) {
+                var funcRegex = new RegExp(func);
+                var funcJS = mathFunctions[func]; // Math.sin(EXPR)
+                // sine({5+2}) -> Math.sin(EXPR) -> Math.sin(7)
+                var hasVAL = func.indexOf("{?((?:");
+                if (hasVAL > 5 || hasVAL === -1) {
+                    answer = answer.replace(new RegExp("\\d"+func),function(match) {
+                        skipFunctions = true;
+                        return match.slice(0,1)+"*"+match.slice(1);
+                    })
+                }
+                if (skipFunctions) break;
+                console.log("FUNC0",answer);
+                answer = answer.replace(funcRegex,function(match) {
+                    var EXPR = funcRegex.exec(match)[1];
+                    var results = funcRegex.exec(match).slice(1);
+                    console.log(results);
+                    try {
+                        funcJS = funcJS.replace(/\$\d+/g,function(match2) {
+                            console.log("FUNC1",match2);
+                            var index = parseInt(match2.slice(1))-1;
+                            console.log("FUNC2",eval(results[index]))
+                            if (results[index].charAt(results[index].length-1) === "*") {
+                                results[index] = results[index].slice(0,-1)
+                            }
+                            return eval(results[index]);
+                        })
+                        match = funcJS.replace(/EXPR/g,eval(EXPR));
+                        match = "("+eval(match)+")";
+                    }
+                    catch (error) {
+                        console.log(error)
+                    }
+                    return match;
+                })
+            }
+        }
+        if (skipFunctions) continue;
+
+        answer = answer.replace(/[{}]/g,"");
+        // console.log(answer);
+        if (mathRegex.SIMPLE_EXP.test(answer.replace(/[()]/g,""))) {
+            try {
+                answer = (Math.round(eval(answer)*1000000000)/1000000000).toString();
+                success = true;
+            }
+            catch (error) {
+                console.log("SEMIFINAL ERROR: "+error)
+            }
+        }
+        if (mathRegex.LONE_VALUE.test(answer.replace(/[()]/g,""))) {
+            try {
+                answer = (Math.round(eval(answer)*1000000000)/1000000000).toString();
+                success = true;
+            }
+            catch (error) {
+                console.log("FINAL ERROR: "+error)
+            }
+        }
+    }
+    return `
+        text = ${text}
+        steps = ${wrappedMidAnswer.join("\n")}
+        answer = ${answer}
+        success = ${success}
+    `;
+    // raw eval = ${eval(text)}
+    return answer;
+}
+</script>
+
+<input type="text" oninput="document.getElementById('output').innerText = solveExpression(this.value)||'...'">
+<br><br>
+<span id="output">...</span>
+<br><br>
+<hr>
+<br>
+<span id="regexes"></span>
+
+<script>
+    var newInfoText = "";
+    for (let key in mathRegex) {
+        newInfoText += key+" = "+mathRegex[key]+"\n"
+    }
+    newInfoText += "\n"
+    for (let key in mathFunctions) {
+        newInfoText += key.replaceAll(`\\{([^}]*)\\}`,"EXPR").replace(/\\/g,"") + " = "+key+" = "+mathFunctions[key]+"\n"
+    }
+    newInfoText += "\n"
+    for (let key in mathReplacements) {
+        newInfoText += key+" = "+mathReplacements[key]+"\n"
+    }
+    document.getElementById("regexes").innerText = newInfoText;
+</script>
