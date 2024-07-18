@@ -1,0 +1,3 @@
+Entity: R74n,US
+Privacy-policy: https://r74n.com/privacy
+Contact: mailto:contact@r74n.com

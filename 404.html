@@ -106,9 +106,6 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 "convert/",
 "octopi",
 "emojiart/",
-"emojiart/?Planet%20Earth.30.30.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZ3d3AAAAAAAAAAAAAAZmZnd3dmAAAAAAAAAAAGZmZ3d3d2YAAAAAAAAABmZmd3d3d3ZgAAAAAAAAZndnd3d3d2dmAAAAAAAAZ3dnd3d3d3dmAAAAAAAAZ3d3d3d3d2Z2AAAAAAAHZ3d3d3d3dmZmYAAAAAAHdmd3d3d3dmZmYAAAAAAHdmZnd3d3ZmZmYAAAAAAHZmZnd3d3dmZmYAAAAAAHZmZmd3d3d3dmYAAAAAAHdmZmd3d3d3dmYAAAAAAAd2Znd3d3d3ZmAAAAAAAAd3Znd3d3d3ZmAAAAAAAAd3Znd3d3d3ZnAAAAAAAAB3Z3d3d3d3dwAAAAAAAAAHd3d3d3d3cAAAAAAAAAAAd3d3d3d3AAAAAAAAAAAAAAd3d3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA#Generated",
-"emojiart/?Crying%20Laughing%20Emoji.30.30.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVVVVAAAAAAAAAAAAAAVVVVVVVVAAAAAAAAAAAFVVVVVVVVUAAAAAAAAABVVVVVVVVEVQAAAAAAAAVVmVVVVVWZRUAAAAAAAAVJlVVVVVVZmUAAAAAAAAWZVVVVVVVVmUAAAAAAAFVVkZRVVUkZVVQAAAAAAFVUmZlVVZmZRVQAAAAAAFUilVlVVZVZIlQAAAAAACd2VVVVVVVVZ3IAAAAAB3d1VVVVVVVVV3dwAAAAB3dhKVVVVVWSlndwAAAAB3cpIiERERIilXdwAAAAB3JUESIiIiIRlWdwAAAAAAVVkREREREZVUAAAAAAAABVWZERERmVVAAAAAAAAAAFVVmZmZVVQAAAAAAAAAAAREVVVVREAAAAAAAAAAAAAAREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA#Generated",
-"emojiart/?Sad%20Face.30.30.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEiIhAAAAAAAAAAAAAAEiIiIiIRAAAAAAAAAAABIiIiIiIiEAAAAAAAAAASIiIiIiIiIQAAAAAAAAEiIREiIhESIRAAAAAAAAIiERESIRERIhAAAAAAAAIhESESIRIREhAAAAAAABIhESESIRIRIhEAAAAAACIiEREiIhESIhEAAAAAACIiIiIhEiIiIhEAAAAAACIiIiERERIiIhEAAAAAABIiIhEREREREREAAAAAABEiIRESIhEREREAAAAAAAESIRIiIiERERAAAAAAAAESIiIRESIRERAAAAAAAAERIiIREiIRERAAAAAAAAARESIiIiEREQAAAAAAAAABEREREREREAAAAAAAAAAAERERERERAAAAAAAAAAAAAAERERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 "share/",
 "lore/",
 "lore/map/",
@@ -128,7 +125,6 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 "twitch/",
 "textviewer/",
 "textviewer/docs",
-"EoD.png",
 "mix/",
 "mix/changelog",
 "search/",
@@ -179,7 +175,6 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "sandboxels": "https://sandboxels.r74n.com",
     "sandboxgame": "https://sandboxels.r74n.com",
     "sandbox": "old/sandbox",
-    "eod": "https://discord.gg/jHeqgdM",
     "twt": "twitter/",
     "gg": "discord/",
     "disgd": "discord/",
@@ -238,6 +233,11 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "infinite-chef": "cook/",
     "chef": "cook/",
     "infinite-cook": "cook/",
+    "now": "social/",
+    "chat": "rue/",
+    "colophon": "meta/",
+    "disclaimer": "license.txt",
+    "ideas": "https://r74n.com/id/?ufbs:main:a",
     "data": "https://data.r74n.com",
     "wikibase": "https://data.r74n.com",
     "news": "https://news.r74n.com",
@@ -245,6 +245,7 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "substack": "https://news.r74n.com",
     "newsletter": "https://news.r74n.com",
     "subscribe": "https://news.r74n.com/subscribe",
+    "donate": "https://www.patreon.com/R74n",
     "halacae": "https://docs.google.com/document/d/1mZ2IGrIbfYlUwfuZ53_S0n5O2ne9JUKV0yinIyNwLFU/edit?usp=sharing",
     "social-media-lists": "https://github.com/R74nCom/Social-Media-Lists",
     "mod-list": "https://sandboxels.r74n.com/mod-list",
@@ -253,6 +254,9 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "education-use": "https://sandboxels.r74n.com/education-use",
     "mobile-use": "https://sandboxels.r74n.com/mobile-use",
     "offline-use": "https://sandboxels.r74n.com/offline-use"
+  }
+  forceRedirect = {
+    "about": "/meta"
   }
 
   nounChanges = {
@@ -290,6 +294,14 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     return (weight * 100);
   }
 
+  var strippedPath = window.location.pathname.replace(/^\/|\/$/g,"").toLowerCase();
+  if (forceRedirect[strippedPath]) {
+    window.location = forceRedirect[strippedPath];
+  }
+  if (strippedPath === "random") {
+    var choice = pages[Math.floor(Math.random()*pages.length)];
+    window.location = choice;
+  }
   // loop through pages and extraPages to find the closest match
   var pathName = window.location.pathname.substring(1).toLowerCase();
   // var pathName = "https://r74n.com/hello/test"; //test

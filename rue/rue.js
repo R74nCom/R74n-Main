@@ -3652,7 +3652,7 @@ rueData.links = {
 "sb pr": "=sandboxels:pr",
 "sbpr": "=sandboxels:pr",
 "cook:pr": "https://github.com/R74nCom/InfiniteChef-Mods/tree/main",
-"icpr": "=sandboxels:pr",
+"icpr": "=cook:pr",
 "cpd": "https://c.r74n.com/",
 "c": "=cpd",
 "copy": "=cpd",

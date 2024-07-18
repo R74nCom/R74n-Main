@@ -476,7 +476,7 @@ This HTML and its contents are property of R74n.com.
           if (!(query[2]==undefined || query[2]=="")) {UnitSelect1.value = query[2]+"-1"; unit1=query[2]}
           if (!(query[3]==undefined || query[3]=="")) {UnitSelect2.value = query[3]+"-2"; unit2=query[3]}
           var TitleTag = document.getElementById("TitleTag")
-          if (query.length==1 || !query[1]) {
+          if (query.length==1 || !query[2]) {
             TitleTag.innerHTML = "Convert "+TypeSelect.options[TypeSelect.options.selectedIndex].text+" Online - R74n"
           }
           else if (query.length==2) {

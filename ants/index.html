@@ -290,10 +290,10 @@ function startFuneral() {
   var infoTitle = document.getElementById("funeralInfoTitle");
   var genderSymbol = "<span style='color:"+(d.sex === "female" ? "pink" : "skyblue")+"'>"+(d.sex === "female" ? "♀" : "♂")+"</span> ";
   if (d.commonName) {
-    infoTitle.innerHTML = genderSymbol+d.commonName+'<br><span class="antInfoMeta">'+d.taxonName+'<br><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
+    infoTitle.innerHTML = genderSymbol+d.commonName+'<br><span class="antInfoMeta"><em>'+d.taxonName+'</em><br><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
   }
   else {
-    infoTitle.innerHTML = genderSymbol+d.taxonName+'<br><span class="antInfoMeta"><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
+    infoTitle.innerHTML = genderSymbol+"<em>"+d.taxonName+'</em><br><span class="antInfoMeta"><small>#'+id+'</small></span><br><br><em>death by '+parseText(seedWeighted(antData.deaths,"funeral"+currentTime))+'</em><br><span class="antInfoMeta">'+d.age+' old • '+d.location+'</span>';
   }
   document.getElementById("votePurgatory").setAttribute("data-voted","false");
   document.getElementById("voteParadise").setAttribute("data-voted","false");
@@ -303,10 +303,10 @@ function startFuneral() {
     funeralTicks -= 1;
     if (funeralTicks < 0) {
       if (funeralAnt.commonName) {
-        document.getElementById("previousFuneral").innerHTML = funeralAnt.commonName+'<br><span class="antInfoMeta">'+funeralAnt.taxonName+'<br><small>#'+funeralAnt.id+'</small><br>'+funeralAnt.location+'</span><br><br>Decision: '+parseText(seedChoose(["PARADISE","PURGATORY"],"funeral"+currentTime));
+        document.getElementById("previousFuneral").innerHTML = funeralAnt.commonName+'<br><span class="antInfoMeta"><em>'+funeralAnt.taxonName+'</em><br><small>#'+funeralAnt.id+'</small><br>'+funeralAnt.location+'</span><br><br>Decision: '+parseText(seedChoose(["PARADISE","PURGATORY"],"funeral"+currentTime));
       }
       else {
-        document.getElementById("previousFuneral").innerHTML = funeralAnt.taxonName+'<br><span class="antInfoMeta"><small>#'+funeralAnt.id+'</small><br>'+funeralAnt.location+'</span><br><br>Decision: '+parseText(seedChoose(["PARADISE","PURGATORY"],"funeral"+currentTime));
+        document.getElementById("previousFuneral").innerHTML = "<em>"+funeralAnt.taxonName+'</em><br><span class="antInfoMeta"><small>#'+funeralAnt.id+'</small><br>'+funeralAnt.location+'</span><br><br>Decision: '+parseText(seedChoose(["PARADISE","PURGATORY"],"funeral"+currentTime));
       }
       endFuneral();startFuneral();
     }
@@ -434,10 +434,10 @@ function viewAnt(id) {
   }
   var antInfoTitle = document.getElementById("antInfoTitle");
   if (d.commonName) {
-    antInfoTitle.innerHTML = d.commonName+"<br><span id=\"antInfoMeta\">"+d.taxonName+"<br>#"+id+"<br>"+d.location+"</span>";
+    antInfoTitle.innerHTML = d.commonName+"<br><span id=\"antInfoMeta\"><em>"+d.taxonName+"</em><br>#"+id+"<br>"+d.location+"</span>";
   }
   else {
-    antInfoTitle.innerHTML = d.taxonName+"<br><span id=\"antInfoMeta\">#"+id+"<br>"+d.location+"</span>";
+    antInfoTitle.innerHTML = "<em>"+d.taxonName+"</em><br><span id=\"antInfoMeta\">#"+id+"<br>"+d.location+"</span>";
   }
   antFrame.style.display = "block";
 }
@@ -544,7 +544,7 @@ window.addEventListener("load", function() {
       else if (antData.commonNames[taxonData[0]+" "+taxonData[1]+" "+taxonData[2]] !== undefined) {
         commonName = antData.commonNames[taxonData[0]+" "+taxonData[1]+" "+taxonData[2]]
       }
-      if (commonName) { var displayName = commonName + " <span class=\"antNameExtra\">("+taxonName+")</span>"; }
+      if (commonName) { var displayName = commonName + " <span class=\"antNameExtra\">(<em>"+taxonName+"</em>)</span>"; }
       else { var displayName = taxonName; }
       var colonyID = seedRange(1, 72727272700, antID+"Colony");
       var colonyPopulation = seedRange(1000, 500000, colonyID+"Population");

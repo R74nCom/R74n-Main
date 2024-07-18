@@ -1,2 +1,15 @@
+# We will disclose any vulnerabilities after they are fixed.
+# We request CVE identifiers when applicable.
+
 Contact: https://link.r74n.com/ufbs-secure
 Contact: mailto:contact@r74n.com
+Contact: https://discord.gg/ejUc6YPQuS
+
+Preferred-Languages: en
+
+Canonical: https://r74n.com/.well-known/security.txt
+
+Last-Updated: 07/17/2024
+
+# Structured data can be found here: https://data.r74n.com/wiki/Special:WhatLinksHere/Item:Q3407
+# Alternative page: https://raw.githubusercontent.com/R74nCom/.github/main/SECURITY.md

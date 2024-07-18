@@ -776,7 +776,7 @@ unitdata = {
   "light speed": 299792458,
   "snail speed": 0.001,
   "cheetah speed": 33.3333333,
-  "sound speed": 343,
+  "mach": 343,
   "usain bolt": 12.4222222,
   "average running": 3.24,
   "average walking": 1.45,
@@ -847,6 +847,8 @@ aliases = {
   "terahertz":"fresnel",
   "sothic cycle":"canicular",
   "truti":"त्रुटि",
+  "mach":"sound speed",
+  "hammer unit":"quake unit",
 }
 
 // unitpers = {
@@ -873,6 +875,7 @@ extraAliases = {
   "f":"fahrenheit",
   "human year":"year",
   "lunar month":"lunar cycle",
+  "usd":"united states dollar",
 }
 
 abbrs = {
