@@ -635,6 +635,15 @@ function detectID(id,auto) {
     if (key) { r = "urn:"+key }
     if (id === R74nUUID) { r = "urn:main" }
   }
+  else if (id.match(/^CVE-\d{4,}-\d{4,7}$/i)) { // CVE
+    r = "https://www.cve.org/CVERecord?id="+id.toUpperCase();
+  }
+  else if (id.match(/^AVD-\d{4,}-\d{4,7}$/i)) { // CVE
+    r = "https://avd.aliyun.com/detail?id="+id.toUpperCase();
+  }
+  else if (id.match(/^GHSA(-[a-z0-9]{4}){3}$/i)) { // GHSA
+    r = "https://github.com/advisories/GHSA-"+id.split(/GHSA-/i)[1].toLowerCase();
+  }
   else {
     return [null,id]
   }
