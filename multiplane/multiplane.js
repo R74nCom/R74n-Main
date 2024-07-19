@@ -461,6 +461,9 @@ multiplaneEntities = {
 "1322E":"light gray",
 "1320F":"white",
 
+// Vulnerabilities //
+"13300":"CVE-2024-39828//https://www.cve.org/CVERecord?id=CVE-2024-39828",
+
 // Requested Individual Slots //
 "30000":"Test Individual//https://r74n.com/test",
 "30001":"Test Organization//https://r74n.com/test",
@@ -522,10 +525,10 @@ multiplanePlanes = {
     "R0A000-R0A0FF": "Halacae",
     "R0A100-R0A2FF": "R74n Commons",
     "R0A200-R0A2FF": "Universal Feedback System",
-    "R0A300-R0A3FF": "",
-    "R0A400-R0A4FF": "",
-    "R0A500-R0A5FF": "",
-    "R0A600-R0A6FF": "",
+    // "R0A300-R0A3FF": "",
+    // "R0A400-R0A4FF": "",
+    // "R0A500-R0A5FF": "",
+    // "R0A600-R0A6FF": "",
     "R0B000-R0BFFF": "R74n Vault",
       "R0B100-R0B1FF": "Formicode Subspace",
     "R0C000-R0CFFF": "Infinite Chef",
@@ -535,6 +538,7 @@ multiplanePlanes = {
     "R13000-R130FF": "UTC Offsets",
     "R13100-R131FF": "Extended Timekeeping",
     "R13200-R132FF": "Colors",
+    "R13300-R135FF": "Vulnerabilities",
     // extra space
     "R14000-R14FFF": "Specific Locations",
     "R1B000-R1FFFF": "Numeral Compatibility", //Numbers 0-20478
