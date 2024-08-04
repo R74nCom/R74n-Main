@@ -119,7 +119,7 @@ This HTML and its contents are property of R74n.com.
         margin: 0;
       }
       #rueChatContainer {
-        background-color: #161a16;
+        background-color: hsl(120, 8%, 9%);
         width: 100%;
         height: 100vh;
         display: flex;
@@ -164,9 +164,8 @@ This HTML and its contents are property of R74n.com.
         #rueSidebar {
           display: none;
         }
-        #rueBox {
+        #rueMain {
           width: 100%;
-        
         }
       }
       #rueBoxIn {
@@ -232,8 +231,54 @@ This HTML and its contents are property of R74n.com.
   </div>
 </div>
 
+<style>
+  #rueBoxIn {
+    top: unset!important;
+    transform: none!important;
+    padding: 0!important;
+    display: flex!important;
+  }
+  #rueBox {
+    height: auto!important;
+    padding: 0!important;
+    width: 100%!important;
+  }
+  #rueInput, #rueButton {
+    border-radius: 0px!important;
+  }
+  #rueInput {
+    background-color: hsl(120, 7%, 30%) !important;
+    padding: 20px!important;
+  }
+  #rueButton {
+    background-color: hsl(120, 7%, 40%) !important;
+    height: auto!important;
+  }
+  #rueButton:hover {
+      background-color: hsl(120, 7%, 40%) !important;
+  }
+  @media only screen and (min-width: 600px) {
+    #rueBox.rueWideScreen {
+        width: 100% !important;
+    }
+  }
+  @media only screen and (min-width: 600px) {
+    #rueButton {
+        width: 25% !important;
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    #rueBoxIn {
+        width: 100% !important;
+    }
+  }
+</style>
+
 <script>
   createChatMessage("Welcome to Rue Chat! Say something below to get started. Learn all of my capabilities in the <a href='docs'>Guidebook</a>!");
+  window.addEventListener("load",function(){
+    Rue.focus();
+  })
 </script>
 
 
