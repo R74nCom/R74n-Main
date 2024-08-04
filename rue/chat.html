@@ -137,6 +137,8 @@ This HTML and its contents are property of R74n.com.
         padding: 1em;
         display: flex;
         flex-direction: column;
+        overflow-y:scroll;
+        max-height: 100%;
       }
       #rueMobileBar {
         background-color: #2a2e2a;
@@ -408,6 +410,10 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("rueSidebar").style.display = "none";
     document.getElementById("rueMain").style.display = "flex";
   }
+  window.addEventListener('resize', () => {
+    const chat = document.getElementById('rueChatContainer');
+    chat.style.height = window.visualViewport.height + 'px';
+  });
 </script>
 
 
