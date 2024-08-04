@@ -130,6 +130,7 @@ This HTML and its contents are property of R74n.com.
         height: 100vh;
         display: flex;
         flex-direction: row;
+        max-height: 100%;
       }
       #rueSidebar {
         width: 15%;
@@ -410,9 +411,13 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("rueSidebar").style.display = "none";
     document.getElementById("rueMain").style.display = "flex";
   }
-  window.addEventListener('resize', () => {
-    const chat = document.getElementById('rueChatContainer');
-    chat.style.height = window.visualViewport.height + 'px';
+  document.getElementById("rueInput").addEventListener("focus", () => {
+    methodOne.style.opacity = 0;
+    setTimeout(() => methodOne.style.opacity = 1);
+  });
+  window.addEventListener("resize", function(){
+    var chat = document.getElementById("rueChatContainer");
+    chat.style.height = window.visualViewport.height + "px";
   });
 </script>
 
