@@ -52,6 +52,9 @@ This HTML and its contents are property of R74n.com.
           var rueMessageMoji = document.createElement("img");
           rueMessageMoji.src = "ruemoji.png";
           rueMessageMoji.classList.add("rueMessageMoji");
+          rueMessageMoji.onclick = function(){
+            document.getElementById("rueButton").click();
+          }
           rueMessageRow.appendChild(rueMessageMoji);
         }
         rueMessageRow.classList.add("rueMessageRow");
@@ -93,6 +96,9 @@ This HTML and its contents are property of R74n.com.
           return lastMessage;
         }
       }
+
+      currentSession = null;
+
     </script>
 
     <script src="rue.js"></script>
@@ -129,6 +135,34 @@ This HTML and its contents are property of R74n.com.
         width: 15%;
         background-color: #2a2e2a;
         padding: 1em;
+        display: flex;
+        flex-direction: column;
+      }
+      #rueMobileBar {
+        background-color: #2a2e2a;
+        width: 100%;
+        display: none;
+        flex-direction: row;
+        align-items: center;
+        height: 3em;
+      }
+      #rueMobileBar span, #openMenu {
+        margin-left: 10px;
+      }
+      .menuIcon {
+        cursor: pointer;
+      }
+      .menuIcon div {
+        width: 35px;
+        height: 5px;
+        background-color: #ffffff;
+        margin: 6px 0;
+      }
+      #closeMenu {
+        position: absolute;
+        top: 0.75em;
+        right: 1em;
+        display: none;
       }
       #rueMain {
         width: 85%;
@@ -151,22 +185,6 @@ This HTML and its contents are property of R74n.com.
         display: flex;
         justify-content: center;
         align-items: center;
-      }
-      @media only screen and (min-width: 600px) {
-        #rueBox {
-          width: 50%;
-        }
-        #rueBoxIn { margin-left: auto!important; margin-right: auto!important; text-align: center!important; }
-        #rueInput { width: 75%!important;padding-left: 4%!important;padding-right: 0!important; }
-        #rueButton { width: 22%!important;padding-left: 0!important;padding-right: 0!important; }
-      }
-      @media only screen and (max-width: 600px) {
-        #rueSidebar {
-          display: none;
-        }
-        #rueMain {
-          width: 100%;
-        }
       }
       #rueBoxIn {
         background: none!important;
@@ -207,6 +225,74 @@ This HTML and its contents are property of R74n.com.
         margin-right: 0.5em;
         margin-top: 1.5em;
       }
+      @media only screen and (min-width: 600px) {
+        #rueBox {
+          width: 50%;
+        }
+        #rueBoxIn { margin-left: auto!important; margin-right: auto!important; text-align: center!important; }
+        #rueInput { width: 75%!important;padding-left: 4%!important;padding-right: 0!important; }
+        #rueButton { width: 22%!important;padding-left: 0!important;padding-right: 0!important; }
+        #rueSidebar {
+          display: flex!important;
+        }
+        #rueMain {
+          display: flex!important;
+        }
+      }
+      @media only screen and (max-width: 600px) {
+        #rueSidebar {
+          display: none;
+          width: 100%;
+        }
+        #rueMain {
+          display: flex;
+          width: 100%;
+        }
+        .rueMessage {
+          max-width: 100%;
+          margin-left: 0.1em;
+        }
+        #rueChatBox {
+          padding-left: 0.1em;
+          padding-right: 0.1em;
+        }
+        #rueMobileBar {
+          display: flex;
+        }
+        #closeMenu {
+          display:block;
+        }
+      }
+
+      #newSessionButton {
+        margin-top:1em;
+        margin-bottom:1em;
+        background-color: hsl(120, 7%, 30%);
+      }
+      .sessionButton::after {
+        content: "";
+        display:block;
+        height: 2px;
+        width: 100%;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        background-color: hsl(120, 7%, 30%);
+      }
+      .sessionName, .sessionControls {
+        display: block;
+      }
+      .sessionName {
+        cursor: pointer;
+        text-align: left;
+      }
+      .sessionControls {
+        font-size: medium;
+        color: hsl(120, 7%, 70%);
+        text-align: right;
+      }
+      .sessionControls span {
+        cursor: pointer;
+      }
       
     </style>
 </head>
@@ -219,10 +305,39 @@ This HTML and its contents are property of R74n.com.
 
 
 <div id="rueChatContainer">
-  <div id="rueSidebar">Rue Chat (Beta)</div>
-  <div id="rueMain">
-    <div id="rueChatBox">
+  <div id="rueSidebar">
+    <div id="closeMenu" class="menuIcon">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
+    <span>Rue Chat (Beta)</span>
+    <input type="button" value="New Session..." id="newSessionButton">
+    <div id="sessionList">
+      <div class="sessionButton">
+        <span class="sessionName">Aug 4th 3:02 PM</span>
+        <span class="sessionControls"><span onclick="renameSession(this.parentElement.getAttribute('uuid'))">Rename</span> • <span onclick="deleteSession(this.parentElement.getAttribute('uuid'))">Delete</span></span>
+      </div>
+      <div class="sessionButton">
+        <span class="sessionName">Aug 4th 3:02 PM</span>
+        <span class="sessionControls"><span onclick="renameSession(this.parentElement.getAttribute('uuid'))">Rename</span> • <span onclick="deleteSession(this.parentElement.getAttribute('uuid'))">Delete</span></span>
+      </div>
+      <div class="sessionButton">
+        <span class="sessionName">Aug 4th 3:02 PM</span>
+        <span class="sessionControls"><span onclick="renameSession(this.parentElement.getAttribute('uuid'))">Rename</span> • <span onclick="deleteSession(this.parentElement.getAttribute('uuid'))">Delete</span></span>
+      </div>
+    </div>
+  </div>
+  <div id="rueMain">
+    <div id="rueMobileBar">
+      <div id="openMenu" class="menuIcon">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <span>Rue Chat (Beta)</span>
+    </div>
+    <div id="rueChatBox"></div>
     <div id="rueInputContainer">
       <div id="rueContainer" style="text-align:center;width:100%">
         <div id="rueBox" style="height:66px" class="rueWideScreen"></div>
@@ -242,6 +357,7 @@ This HTML and its contents are property of R74n.com.
     height: auto!important;
     padding: 0!important;
     width: 100%!important;
+    top: 0 !important;
   }
   #rueInput, #rueButton {
     border-radius: 0px!important;
@@ -275,10 +391,18 @@ This HTML and its contents are property of R74n.com.
 </style>
 
 <script>
-  createChatMessage("Welcome to Rue Chat! Say something below to get started. Learn all of my capabilities in the <a href='docs'>Guidebook</a>!");
+  createChatMessage("Welcome to Rue Chat! Say something below to get started. Learn all of my capabilities in the <a href='docs'>Guidebook</a>!!");
   window.addEventListener("load",function(){
     Rue.focus();
   })
+  document.getElementById("openMenu").onclick = function(){
+    document.getElementById("rueSidebar").style.display = "flex";
+    document.getElementById("rueMain").style.display = "none";
+  }
+  document.getElementById("closeMenu").onclick = function(){
+    document.getElementById("rueSidebar").style.display = "none";
+    document.getElementById("rueMain").style.display = "flex";
+  }
 </script>
 
 
