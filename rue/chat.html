@@ -131,6 +131,7 @@ This HTML and its contents are property of R74n.com.
         display: flex;
         flex-direction: row;
         max-height: 100%;
+        scroll-behavior: smooth;
       }
       #rueSidebar {
         width: 15%;
@@ -171,6 +172,7 @@ This HTML and its contents are property of R74n.com.
         width: 85%;
         display: flex;
         flex-direction: column;
+        max-height: 100%;
       }
       #rueChatBox {
         background-color: #161a16;
@@ -228,6 +230,14 @@ This HTML and its contents are property of R74n.com.
         margin-right: 0.5em;
         margin-top: 1.5em;
       }
+
+      @keyframes blink_input_opacity_to_prevent_scrolling_when_focus {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+      .input--focused {
+          animation: blink_input_opacity_to_prevent_scrolling_when_focus 0.01s;
+      }
       @media only screen and (min-width: 600px) {
         #rueBox {
           width: 50%;
@@ -258,6 +268,7 @@ This HTML and its contents are property of R74n.com.
         #rueChatBox {
           padding-left: 0.1em;
           padding-right: 0.1em;
+          padding-bottom: 3.5em;
         }
         #rueMobileBar {
           display: flex;
@@ -412,8 +423,14 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("rueMain").style.display = "flex";
   }
   document.getElementById("rueInput").addEventListener("focus", () => {
-    methodOne.style.opacity = 0;
-    setTimeout(() => methodOne.style.opacity = 1);
+    // methodOne.style.opacity = 0;
+    // setTimeout(() => methodOne.style.opacity = 1);
+    this.classList.add("input--focused")
+    var chat = document.getElementById("rueChatContainer");
+    chat.style.height = window.visualViewport.height + "px";
+  });
+  document.getElementById("rueInput").addEventListener("blur", () => {
+    this.classList.remove("input--focused")
   });
   window.addEventListener("resize", function(){
     var chat = document.getElementById("rueChatContainer");
