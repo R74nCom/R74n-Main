@@ -334,6 +334,9 @@ multiplaneEntities = {
 "A131": "R74n Microsoft To Do List//https://to-do.microsoft.com/tasks/sharing?InvitationToken=WOup1zn_TzP5uTIX-DUngQe2iwEHi8htYn7Xe6Yrj4i1LgkCR_Uy0jMCa1WdmY9qY",
 "A132": "R74n Microsoft List//https://lists.live.com/:l:/g/personal/dc19101fcc1d9097/FOpKZGNxtb5BjESKMBwMOW4Bb0awIV1A4OD9XkIS46bF3Q?e=eNM7D9",
 "A133": "R74n Disqus Forum//https://r74n.com/forum/",
+"A140": "~R74n Your World of Text//https://www.yourworldoftext.com/~R74n/",
+"A141": "R74n Our World of Text//https://ourworldoftext.com/r74n",
+"A142": "R74n Our World of Pixels//https://ourworldofpixels.com/R74n",
 // Universal Feedback System //
 "A200": "feedback form",
 "A201": "response sheet",

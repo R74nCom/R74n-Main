@@ -3651,7 +3651,7 @@ rueData.links = {
 "sandboxels:pull": "=sandboxels:pr",
 "sb pr": "=sandboxels:pr",
 "sbpr": "=sandboxels:pr",
-"cook:pr": "https://github.com/R74nCom/InfiniteChef-Mods/tree/main",
+"cook:pr": "https://github.com/R74nCom/InfiniteChef-Mods/pulls",
 "icpr": "=cook:pr",
 "cpd": "https://c.r74n.com/",
 "c": "=cpd",
@@ -4506,7 +4506,7 @@ function sendMessage(e,message) { // send message
     var normalized = normalize(text);
 
     if (Rue.brain.confirming && !Rue.brain.paginate) {
-        if (Rue.brain.confirming === rueInput.value || rueData.yesTerms.indexOf(normalized) !== -1) {
+        if (Rue.brain.confirming === text || rueData.yesTerms.indexOf(normalized) !== -1) {
             Rue.brain.afterConfirm(e);
             Rue.brain.confirming = false;
             Rue.brain.afterConfirm = undefined;
