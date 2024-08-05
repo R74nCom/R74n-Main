@@ -20,7 +20,7 @@
 ⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
 This HTML and its contents are property of R74n.com.
 -->
-    <meta name="description" content="Explore with Rue while saving your conversations.">
+    <meta name="description" content="Explore with Rue while saving your conversations and boosting productivity.">
     <meta name="keywords" content="R74n, R47n">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,9 +30,9 @@ This HTML and its contents are property of R74n.com.
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>
     <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://R74n.com/icons/apple-touch-icon.png?v=R74n-2">
     <link rel="icon" type="image/x-icon" href="favicon.ico" id="rueFavicon">
-    <link rel="manifest" href="https://R74n.com/manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="chat-manifest.json">
     <link rel="mask-icon" href="https://R74n.com/icons/safari-pinned-tab.svg?v=R74n-2" color="#1cd2d2">
     <link rel="shortcut icon" href="https://R74n.com/rue/favicon.ico?v=R74n-2">
     <meta name="msapplication-TileColor" content="#00ffff">
@@ -42,9 +42,11 @@ This HTML and its contents are property of R74n.com.
     <script src="https://R74n.com/load.js"></script>
 
     <script>
-      // <div class="rueMessageRow sent"><div class="rueMessage sent">Hey Rue!</div></div>
-      // <div class="rueMessageRow response"><img src="ruemoji.png" class="rueMessageMoji"><div class="rueMessage response">Hey there, friend!</div></div>
-      function createChatMessage(message,sent) {
+      function clearChat() {
+        var rueChatBox = document.querySelector("#rueChatBox");
+        rueChatBox.innerHTML = "";
+      }
+      function createChatMessage(message,sent,color,loading) {
         var rueChatBox = document.querySelector("#rueChatBox");
         var rueMessageRow = document.createElement("div");
         // if its a response, add the image
@@ -65,17 +67,31 @@ This HTML and its contents are property of R74n.com.
         }
         var rueMessage = document.createElement("div");
         rueMessage.classList.add("rueMessage");
+        if (!loading) {
+          var messageObj = {
+            u: sent ? 1 : 0,
+            t: message
+          }
+        }
         if (sent) {
           rueMessage.classList.add("sent");
           rueMessage.innerText = message;
         } else {
           rueMessage.classList.add("response");
           rueMessage.innerHTML = message;
-          if (typeof rueMessageBox !== "undefined") {
+          if (color) {
+            rueMessage.style.borderColor = color;
+          }
+          else if (!loading && typeof rueMessageBox !== "undefined") {
             if (rueMessageBox.style.borderColor !== "white") {
               rueMessage.style.borderColor = rueMessageBox.style.borderColor;
+              messageObj.c = rueMessageBox.style.borderColor;
             }
           }
+        }
+        if (currentSession && !loading) {
+          currentSession.messages.push(messageObj);
+          if (!sent) saveSession();
         }
         rueMessageRow.appendChild(rueMessage);
         rueChatBox.appendChild(rueMessageRow);
@@ -98,6 +114,140 @@ This HTML and its contents are property of R74n.com.
       }
 
       currentSession = null;
+      months = {
+        0: "Jan",1: "Feb",2: "Mar",3: "Apr",4: "May",5: "Jun",6: "Jul",7:"Aug",8:"Sep",9:"Oct",10:"Nov",11:"Dec"
+      }
+      sessionIndex = JSON.parse(localStorage.getItem("RueChatSessionIndex")||"{}");
+      localStorageFull = false;
+
+      function saveSession() {
+        if (!currentSession) return;
+        try {
+          localStorage.setItem("RueChatSession-"+currentSession.timestamp,JSON.stringify(currentSession));
+          if (!sessionIndex[currentSession.timestamp] || sessionIndex[currentSession.timestamp] !== currentSession.name) {
+            sessionIndex[currentSession.timestamp] = currentSession.name;
+            localStorage.setItem("RueChatSessionIndex",JSON.stringify(sessionIndex));
+            createSessionButton(currentSession.timestamp);
+          }
+        }
+        catch (e) {
+          if (e == QUOTA_EXCEEDED_ERR && !localStorageFull) {
+            alert("Your Local Storage is full! Please delete sessions to regain space. Sessions may not be stored until then.");
+            localStorageFull = true;
+          }
+          console.log("ERROR: "+e)
+        }
+        var btn = document.getElementById("sessionButton-"+currentSession.timestamp);
+        if (btn && btn.previousSibling !== null) {
+          delete sessionIndex[currentSession.timestamp];
+          sessionIndex[currentSession.timestamp] = currentSession.name;
+          localStorage.setItem("RueChatSessionIndex",JSON.stringify(sessionIndex));
+          sessionList.insertBefore(btn, sessionList.firstChild);
+        }
+      }
+      function loadSession(id) {
+        currentSession = JSON.parse(localStorage.getItem("RueChatSession-"+id));
+        clearChat();
+        currentSession.messages.forEach(message => {
+          createChatMessage(message.t, message.u, message.c, true)
+        });
+      }
+      function newSession() {
+        clearChat();
+        var date = new Date();
+        createChatMessage("Welcome to Rue Chat! Say something below to get started. Learn all of my capabilities in the <a target='_blank' href='docs'>Guidebook</a>!!",undefined,undefined,true);
+        currentSession = {
+          timestamp: date.getTime(),
+          name: `${months[date.getMonth()]} ${date.getDate()} ${date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`,
+          messages: [/*
+            {
+              u: 0 (Rue) or 1 (User)
+              t: text
+              c: rueMessage.style.borderColor, if not "white"
+            }
+          */]
+        }
+      }
+      function createSessionButton(id) {
+        var btn = document.getElementById("sessionButton-"+id);
+        if (btn) {
+          btn.remove();
+        }
+//         sessionList.insertAdjacentHTML("afterbegin",
+// `<div class="sessionButton" uuid="${id}" id="sessionButton-${id}" onclick="loadSession('${id}')">
+//   <span class="sessionName">${sessionIndex[id]}</span>
+//   <span class="sessionControls"><span onclick="renameSession('${id}')">Rename</span> • <span onclick="deleteSession('${id}')">Delete</span></span>
+// </div>`)
+        var sessionButton = document.createElement("div");
+        sessionButton.className = "sessionButton";
+        sessionButton.setAttribute("uuid",id);
+        sessionButton.id = "sessionButton-"+id;
+        sessionButton.onclick = function(){loadSession(this.getAttribute("uuid"))}
+        var sessionName = document.createElement("span");
+        sessionName.innerText = sessionIndex[id];
+        sessionName.className = "sessionName";
+        var sessionControls = document.createElement("span");
+        // sessionControls.innerHTML = `<span onclick="renameSession('${id}')">Rename</span> • <span onclick="deleteSession('${id}')">Delete</span>`
+        sessionControls.className = "sessionControls";
+        // sessionControls.onclick = (e)=>{e.stopPropagation()}
+        var sessionRename = document.createElement("span");
+        sessionRename.innerText = "Rename";
+        sessionRename.onclick = function(e){renameSession(this.parentElement.parentElement.getAttribute("uuid")); e.stopPropagation()}
+        sessionControls.appendChild(sessionRename);
+        sessionControls.insertAdjacentText("beforeend"," • ")
+        var sessionDelete = document.createElement("span");
+        sessionDelete.innerText = "Delete";
+        sessionDelete.onclick = function(e){deleteSession(this.parentElement.parentElement.getAttribute("uuid")); e.stopPropagation()}
+        sessionControls.appendChild(sessionDelete);
+        sessionButton.appendChild(sessionName);
+        sessionButton.appendChild(sessionControls);
+        sessionList.appendChild(sessionButton);
+      }
+      function deleteSession(id) {
+        if (confirm("Are you sure you want to delete this session ("+sessionIndex[id]+") forever? This cannot be undone.")) {
+          delete sessionIndex[id];
+          document.getElementById("sessionButton-"+id).remove();
+          localStorage.removeItem("RueChatSession-"+id);
+          localStorage.setItem("RueChatSessionIndex",JSON.stringify(sessionIndex));
+          if (id.toString() === currentSession.timestamp.toString()) {
+            newSession();
+          }
+        }
+      }
+      function selectElementContents(el) {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+      function renameSession(id) {
+        // var newName = prompt("Name?");
+        var btn = document.getElementById("sessionButton-"+id);
+        var nameSpan = btn.querySelector(".sessionName");
+        nameSpan.contentEditable = true;
+        nameSpan.onblur = function() {
+          this.contentEditable = false;
+          var id = this.parentElement.getAttribute("uuid");
+          var newName = this.innerText;
+          sessionIndex[id] = newName;
+          var temp = JSON.parse(localStorage.getItem("RueChatSession-"+id));
+          temp.name = newName;
+          localStorage.setItem("RueChatSession-"+id,JSON.stringify(temp));
+          localStorage.setItem("RueChatSessionIndex",JSON.stringify(sessionIndex));
+          this.onblur = undefined;
+        }
+        nameSpan.onkeydown = function(e) {
+          if (e.keyCode === 13) {
+            this.blur();
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }
+        }
+        nameSpan.focus();
+        selectElementContents(nameSpan);
+      }
 
     </script>
 
@@ -214,6 +364,7 @@ This HTML and its contents are property of R74n.com.
         margin: 0.5em;
         border-radius: 1em;
         border: 4px solid;
+        word-wrap: break-word;
       }
       .rueMessage.response {
         border-color: #1dd31d;
@@ -256,19 +407,27 @@ This HTML and its contents are property of R74n.com.
         #rueSidebar {
           display: none;
           width: 100%;
+          max-width: 100%;
         }
         #rueMain {
           display: flex;
           width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
         }
         .rueMessage {
           max-width: 100%;
+          overflow-wrap: anywhere;
+        }
+        .rueMessage.response {
           margin-left: 0.1em;
         }
         #rueChatBox {
           padding-left: 0.1em;
           padding-right: 0.1em;
-          padding-bottom: 3.5em;
+          padding-bottom: 4em;
+          max-width: 100%;
+          overflow-x: hidden;
         }
         #rueMobileBar {
           display: flex;
@@ -278,7 +437,7 @@ This HTML and its contents are property of R74n.com.
         }
         #rueInputContainer {
           position: fixed;
-          bottom: 0;
+          bottom: -1px;
           width: 100%
         }
       }
@@ -331,21 +490,8 @@ This HTML and its contents are property of R74n.com.
       <div></div>
     </div>
     <span>Rue Chat (Beta)</span>
-    <input type="button" value="New Session..." id="newSessionButton">
-    <div id="sessionList">
-      <div class="sessionButton">
-        <span class="sessionName">Aug 4th 3:02 PM</span>
-        <span class="sessionControls"><span onclick="renameSession(this.parentElement.getAttribute('uuid'))">Rename</span> • <span onclick="deleteSession(this.parentElement.getAttribute('uuid'))">Delete</span></span>
-      </div>
-      <div class="sessionButton">
-        <span class="sessionName">Aug 4th 3:02 PM</span>
-        <span class="sessionControls"><span onclick="renameSession(this.parentElement.getAttribute('uuid'))">Rename</span> • <span onclick="deleteSession(this.parentElement.getAttribute('uuid'))">Delete</span></span>
-      </div>
-      <div class="sessionButton">
-        <span class="sessionName">Aug 4th 3:02 PM</span>
-        <span class="sessionControls"><span onclick="renameSession(this.parentElement.getAttribute('uuid'))">Rename</span> • <span onclick="deleteSession(this.parentElement.getAttribute('uuid'))">Delete</span></span>
-      </div>
-    </div>
+    <input type="button" value="New Session..." id="newSessionButton" onclick="newSession()">
+    <div id="sessionList"></div>
   </div>
   <div id="rueMain">
     <div id="rueMobileBar">
@@ -410,7 +556,7 @@ This HTML and its contents are property of R74n.com.
 </style>
 
 <script>
-  createChatMessage("Welcome to Rue Chat! Say something below to get started. Learn all of my capabilities in the <a href='docs'>Guidebook</a>!!");
+  newSession();
   window.addEventListener("load",function(){
     Rue.focus();
   })
@@ -422,20 +568,25 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("rueSidebar").style.display = "none";
     document.getElementById("rueMain").style.display = "flex";
   }
-  document.getElementById("rueInput").addEventListener("focus", () => {
-    // methodOne.style.opacity = 0;
-    // setTimeout(() => methodOne.style.opacity = 1);
-    this.classList.add("input--focused")
-    var chat = document.getElementById("rueChatContainer");
-    chat.style.height = window.visualViewport.height + "px";
-  });
-  document.getElementById("rueInput").addEventListener("blur", () => {
-    this.classList.remove("input--focused")
+  var temp = Object.keys(sessionIndex);
+  temp.forEach(id => {
+    createSessionButton(id)
   });
   window.addEventListener("resize", function(){
     var chat = document.getElementById("rueChatContainer");
     chat.style.height = window.visualViewport.height + "px";
+    document.getElementById("rueInput").addEventListener("focus", () => {
+      // methodOne.style.opacity = 0;
+      // setTimeout(() => methodOne.style.opacity = 1);
+      this.classList.add("input--focused")
+      var chat = document.getElementById("rueChatContainer");
+      chat.style.height = window.visualViewport.height + "px";
+    });
+    document.getElementById("rueInput").addEventListener("blur", () => {
+      this.classList.remove("input--focused")
+    });
   });
+  sessionList = document.getElementById("sessionList");
 </script>
 
 
