@@ -271,6 +271,9 @@ This HTML and its contents are property of R74n.com.
     </script>
 
     <style>
+      body {
+        overflow: hidden
+      }
       .content {
         margin: 0;
       }
@@ -415,6 +418,9 @@ This HTML and its contents are property of R74n.com.
         }
       }
       @media only screen and (max-width: 600px) {
+        #rueChatContainer {
+          height: 100dvh
+        }
         #rueSidebar {
           display: none;
           width: 100%;
@@ -426,6 +432,7 @@ This HTML and its contents are property of R74n.com.
           max-width: 100%;
           overflow-x: hidden;
           overflow-y: hidden;
+          flex-direction: column;
         }
         .rueMessage {
           max-width: 100%;
