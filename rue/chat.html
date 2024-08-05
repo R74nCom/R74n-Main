@@ -201,7 +201,7 @@ This HTML and its contents are property of R74n.com.
         sessionControls.appendChild(sessionDelete);
         sessionButton.appendChild(sessionName);
         sessionButton.appendChild(sessionControls);
-        sessionList.appendChild(sessionButton);
+        sessionList.insertBefore(sessionButton, sessionList.firstChild);
       }
       function deleteSession(id) {
         if (confirm("Are you sure you want to delete this session ("+sessionIndex[id]+") forever? This cannot be undone.")) {
@@ -291,6 +291,12 @@ This HTML and its contents are property of R74n.com.
         flex-direction: column;
         overflow-y:scroll;
         max-height: 100%;
+      }
+      #underSidebar {
+        color: hsl(120, 7%, 70%);
+      }
+      #underSidebar a {
+        filter: grayscale(75%);
       }
       #rueMobileBar {
         background-color: #2a2e2a;
@@ -382,6 +388,10 @@ This HTML and its contents are property of R74n.com.
         margin-right: 0.5em;
         margin-top: 1.5em;
       }
+      a { color: #00ff00 }
+      a:visited { color: #00ff00 }
+      a:hover { color: #82ff82 }
+      a:hover:active, a:active { color: #bbffbb }
 
       @keyframes blink_input_opacity_to_prevent_scrolling_when_focus {
         0% { opacity: 0; }
@@ -495,6 +505,9 @@ This HTML and its contents are property of R74n.com.
     <span>Rue Chat (Beta)</span>
     <input type="button" value="New Session..." id="newSessionButton" onclick="newSession()">
     <div id="sessionList"></div>
+    <div id="underSidebar">
+      <a href="../privacy">Privacy</a> • <a href="docs">Docs</a>
+    </div>
   </div>
   <div id="rueMain">
     <div id="rueMobileBar">
