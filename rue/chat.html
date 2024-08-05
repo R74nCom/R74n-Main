@@ -122,6 +122,7 @@ This HTML and its contents are property of R74n.com.
 
       function saveSession() {
         if (!currentSession) return;
+        if (currentSession.messages.length <= 1) return;
         try {
           localStorage.setItem("RueChatSession-"+currentSession.timestamp,JSON.stringify(currentSession));
           if (!sessionIndex[currentSession.timestamp] || sessionIndex[currentSession.timestamp] !== currentSession.name) {
@@ -172,7 +173,6 @@ This HTML and its contents are property of R74n.com.
         })
         clearChat();
         var date = new Date();
-        createChatMessage("Welcome to Rue Chat! Learn all of my capabilities in the <a target='_blank' href='docs'>Guidebook</a>!!<br><br>Chats are stored in-browser only! Backup important ones with \"export session\".",undefined,undefined,true);
         currentSession = {
           timestamp: date.getTime(),
           name: `${months[date.getMonth()]} ${date.getDate()} ${date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`,
@@ -185,6 +185,8 @@ This HTML and its contents are property of R74n.com.
           */]
         }
         closeSidebar();
+        Rue.say("{{r:[chatintro]}}");
+        currentSession.messages = [];
         try {Rue.focus();}
         catch {}
       }
@@ -632,12 +634,6 @@ This HTML and its contents are property of R74n.com.
   temp.forEach(id => {
     createSessionButton(id)
   });
-  if (temp.length) {
-    loadSession(temp[temp.length-1]);
-  }
-  else {
-    newSession();
-  }
 
   function download(filename, text, type="text/plain") {
     var element = document.createElement('a');
@@ -657,6 +653,12 @@ This HTML and its contents are property of R74n.com.
   }
 
   window.addEventListener("load",function(){
+    if (temp.length) {
+      loadSession(temp[temp.length-1]);
+    }
+    else {
+      newSession();
+    }
     Rue.addRueData({
       "commands": {
         "export session": function(){

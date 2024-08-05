@@ -3000,6 +3000,7 @@ rueData.responses = {
     "[epilepsy]": "This action has the potential to trigger seizures in people with {{b:photosensitive epilepsy}}.\n\nType 'I don't have epilepsy' if it is true.",
     "[autodanger]": "This command could be dangerous if run automatically!\n\nPlease review and run it manually if you trust the source.",
     "[autolinkdanger]": "This command opens a link!\n\nPlease review and run it manually if you trust the source.",
+    "[chatintro]": "Welcome to Rue Chat! Learn all of my capabilities in the {{link:https://r74n.com/rue/docs|Guidebook}}!!\n\nChats are stored in-browser only! Backup important ones with \"{{cmd:export session}}\".",
     "purpose": "I'm here to help {{c:ya' navigate|find ya' way around}} {{c:this place|R74n}}!",
     "intro": "{{c:Hi|Hey}} there, friend! {{r:purpose}}\n\n{{r:[learnmore]}}",
     "about": "=intro",
