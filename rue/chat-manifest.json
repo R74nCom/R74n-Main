@@ -16,7 +16,7 @@
     "start_url": "/rue/chat?source=pwa",
     "background_color": "#161a16",
     "display": "standalone",
-    "scope": "/rue/chat",
+    "scope": "/rue",
     "theme_color": "#2a2e2a",
     "shortcuts": [
       {

@@ -23,7 +23,7 @@ This HTML and its contents are property of R74n.com.
     <meta name="description" content="Explore with Rue while saving your conversations and boosting productivity.">
     <meta name="keywords" content="R74n, R47n">
     <meta name="author" content="R74n">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="twitter:image:alt" content="R74n">
     <meta name="twitter:image" content="https://R74n.com/rue/ruemoji.png">
     <title>Rue Chat - R74n</title>
@@ -35,8 +35,8 @@ This HTML and its contents are property of R74n.com.
     <link rel="manifest" href="chat-manifest.json">
     <link rel="mask-icon" href="https://R74n.com/icons/safari-pinned-tab.svg?v=R74n-2" color="#1cd2d2">
     <link rel="shortcut icon" href="https://R74n.com/rue/favicon.ico?v=R74n-2">
-    <meta name="msapplication-TileColor" content="#00ffff">
-    <meta name="theme-color" content="#00ffff">
+    <meta name="msapplication-TileColor" content="#161a16">
+    <meta name="theme-color" content="#2a2e2a">
     <meta name="msapplication-config" content="https://R74n.com/icons/browserconfig.xml?v=R74n-2">
 
     <script src="https://R74n.com/load.js"></script>
@@ -335,6 +335,7 @@ This HTML and its contents are property of R74n.com.
         display: flex;
         flex-direction: row;
         /* background-color: #282b28; */
+        background-color: hsl(120, 7%, 30%);
       }
       #rueContainer {
         display: flex;
@@ -431,6 +432,7 @@ This HTML and its contents are property of R74n.com.
         }
         #rueMobileBar {
           display: flex;
+          padding-top: env(safe-area-inset-top,0px);
         }
         #closeMenu {
           display:block;
@@ -438,7 +440,8 @@ This HTML and its contents are property of R74n.com.
         #rueInputContainer {
           position: fixed;
           bottom: -1px;
-          width: 100%
+          width: 100%;
+          padding-bottom: env(safe-area-inset-bottom,0px);
         }
       }
 
