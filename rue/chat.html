@@ -162,6 +162,9 @@ This HTML and its contents are property of R74n.com.
         if (btn) {
           btn.setAttribute("selected","true");
         }
+        closeSidebar();
+        try {Rue.focus();}
+        catch {}
       }
       function newSession() {
         document.querySelectorAll('.sessionButton[selected="true"]').forEach((e)=>{
@@ -169,7 +172,7 @@ This HTML and its contents are property of R74n.com.
         })
         clearChat();
         var date = new Date();
-        createChatMessage("Welcome to Rue Chat! Say something below to get started. Learn all of my capabilities in the <a target='_blank' href='docs'>Guidebook</a>!!",undefined,undefined,true);
+        createChatMessage("Welcome to Rue Chat! Learn all of my capabilities in the <a target='_blank' href='docs'>Guidebook</a>!!<br><br>Chats are stored in-browser only! Backup important ones with \"export session\".",undefined,undefined,true);
         currentSession = {
           timestamp: date.getTime(),
           name: `${months[date.getMonth()]} ${date.getDate()} ${date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`,
@@ -181,6 +184,9 @@ This HTML and its contents are property of R74n.com.
             }
           */]
         }
+        closeSidebar();
+        try {Rue.focus();}
+        catch {}
       }
       function createSessionButton(id) {
         var btn = document.getElementById("sessionButton-"+id);
@@ -514,6 +520,25 @@ This HTML and its contents are property of R74n.com.
       .sessionControls span {
         cursor: pointer;
       }
+
+      /* No Select */
+      #rueChatTitle, #rueSidebar, .rueMessageMoji {
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      /* Yes Select */
+      .sessionName {
+        -webkit-user-select: text; /* Safari */
+        -ms-user-select: unset; /* IE 10 and IE 11 */
+        user-select: text; /* Standard syntax */
+      }
+      ::-moz-selection { /* Code for Firefox */
+        background: yellow;
+      }
+      ::selection {
+        background: yellow;
+      }
       
     </style>
 </head>
@@ -532,7 +557,7 @@ This HTML and its contents are property of R74n.com.
       <div></div>
       <div></div>
     </div>
-    <span>Rue Chat (Beta)</span>
+    <span id="rueChatTitle">Rue Chat (Beta)</span>
     <input type="button" value="New Session..." id="newSessionButton" onclick="newSession()">
     <div id="sessionList"></div>
     <div id="underSidebar">
@@ -613,17 +638,59 @@ This HTML and its contents are property of R74n.com.
   else {
     newSession();
   }
+
+  function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
   window.addEventListener("load",function(){
+    Rue.addRueData({
+      "commands": {
+        "export session": function(){
+          Rue.say("Downloading..");
+          download("RueChatSession-"+currentSession.timestamp+"-"+(new Date()).getTime(), JSON.stringify(currentSession));
+        },
+        "export chat": "=export session",
+        "download session": "=export session",
+        "download chat": "=export session",
+        "backup session": "=export session",
+        "backup chat": "=export session",
+
+        "print session": function(){
+          var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+          mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+          mywindow.document.write('</head><body >');
+          mywindow.document.write('<h1>' + document.title  + '</h1>');
+          mywindow.document.write(document.getElementById("rueChatBox").innerHTML);
+          mywindow.document.write('</body></html>');
+
+          mywindow.document.close(); // necessary for IE >= 10
+          mywindow.focus(); // necessary for IE >= 10*/
+
+          mywindow.print();
+          mywindow.close();
+        }
+      }
+    })
     Rue.focus();
   })
-  document.getElementById("openMenu").onclick = function(){
+  function openSidebar() {
     document.getElementById("rueSidebar").style.display = "flex";
     document.getElementById("rueMain").style.display = "none";
   }
-  document.getElementById("closeMenu").onclick = function(){
+  function closeSidebar() {
     document.getElementById("rueSidebar").style.display = "none";
     document.getElementById("rueMain").style.display = "flex";
   }
+  document.getElementById("openMenu").onclick = openSidebar;
+  document.getElementById("closeMenu").onclick = closeSidebar;
   window.addEventListener("resize", function(){
     var chat = document.getElementById("rueChatContainer");
     chat.style.height = window.visualViewport.height + "px";
