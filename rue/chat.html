@@ -131,8 +131,8 @@ This HTML and its contents are property of R74n.com.
           }
         }
         catch (e) {
-          if (e == QUOTA_EXCEEDED_ERR && !localStorageFull) {
-            alert("Your Local Storage is full! Please delete sessions to regain space. Sessions may not be stored until then.");
+          if (!localStorageFull) {
+            alert("Error saving. Your Local Storage might be full! Please delete sessions to regain space. Sessions may not be stored until then.");
             localStorageFull = true;
           }
           console.log("ERROR: "+e)
@@ -151,8 +151,22 @@ This HTML and its contents are property of R74n.com.
         currentSession.messages.forEach(message => {
           createChatMessage(message.t, message.u, message.c, true)
         });
+        setTimeout(()=>{
+          var chatBox = document.getElementById("rueChatBox");
+          chatBox.scrollTop = chatBox.scrollHeight;
+        },100)
+        document.querySelectorAll('.sessionButton[selected="true"]').forEach((e)=>{
+          e.removeAttribute("selected");
+        })
+        var btn = document.getElementById("sessionButton-"+id);
+        if (btn) {
+          btn.setAttribute("selected","true");
+        }
       }
       function newSession() {
+        document.querySelectorAll('.sessionButton[selected="true"]').forEach((e)=>{
+          e.removeAttribute("selected");
+        })
         clearChat();
         var date = new Date();
         createChatMessage("Welcome to Rue Chat! Say something below to get started. Learn all of my capabilities in the <a target='_blank' href='docs'>Guidebook</a>!!",undefined,undefined,true);
@@ -186,6 +200,9 @@ This HTML and its contents are property of R74n.com.
         var sessionName = document.createElement("span");
         sessionName.innerText = sessionIndex[id];
         sessionName.className = "sessionName";
+        if (currentSession && id.toString() === currentSession.timestamp.toString()) {
+          sessionButton.setAttribute("selected","true");
+        }
         var sessionControls = document.createElement("span");
         // sessionControls.innerHTML = `<span onclick="renameSession('${id}')">Rename</span> • <span onclick="deleteSession('${id}')">Delete</span>`
         sessionControls.className = "sessionControls";
@@ -479,6 +496,9 @@ This HTML and its contents are property of R74n.com.
         margin-bottom: 0.5em;
         background-color: hsl(120, 7%, 30%);
       }
+      .sessionButton[selected="true"] .sessionName {
+        color: yellow;
+      }
       .sessionName, .sessionControls {
         display: block;
       }
@@ -582,7 +602,17 @@ This HTML and its contents are property of R74n.com.
 </style>
 
 <script>
-  newSession();
+  sessionList = document.getElementById("sessionList");
+  var temp = Object.keys(sessionIndex);
+  temp.forEach(id => {
+    createSessionButton(id)
+  });
+  if (temp.length) {
+    loadSession(temp[temp.length-1]);
+  }
+  else {
+    newSession();
+  }
   window.addEventListener("load",function(){
     Rue.focus();
   })
@@ -594,10 +624,6 @@ This HTML and its contents are property of R74n.com.
     document.getElementById("rueSidebar").style.display = "none";
     document.getElementById("rueMain").style.display = "flex";
   }
-  var temp = Object.keys(sessionIndex);
-  temp.forEach(id => {
-    createSessionButton(id)
-  });
   window.addEventListener("resize", function(){
     var chat = document.getElementById("rueChatContainer");
     chat.style.height = window.visualViewport.height + "px";
@@ -612,7 +638,6 @@ This HTML and its contents are property of R74n.com.
       this.classList.remove("input--focused")
     });
   });
-  sessionList = document.getElementById("sessionList");
 </script>
 
 
