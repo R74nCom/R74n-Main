@@ -639,14 +639,21 @@ This HTML and its contents are property of R74n.com.
     newSession();
   }
 
-  function download(filename, text) {
+  function download(filename, text, type="text/plain") {
     var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('href', 'data:'+type+';charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+  function txtSession() {
+    var lines = [];
+    currentSession.messages.forEach((message) => {
+      lines.push((message.u ? "You: " : "Rue: ") +  message.t);
+    })
+    return lines.join("\n\n\n");
   }
 
   window.addEventListener("load",function(){
@@ -654,7 +661,7 @@ This HTML and its contents are property of R74n.com.
       "commands": {
         "export session": function(){
           Rue.say("Downloading..");
-          download("RueChatSession-"+currentSession.timestamp+"-"+(new Date()).getTime(), JSON.stringify(currentSession));
+          download("RueChatSession-"+currentSession.timestamp+"-"+(new Date()).getTime(), JSON.stringify(currentSession), "application/json");
         },
         "export chat": "=export session",
         "download session": "=export session",
@@ -663,12 +670,13 @@ This HTML and its contents are property of R74n.com.
         "backup chat": "=export session",
 
         "print session": function(){
+          Rue.say("Printing..");
           var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
           mywindow.document.write('<html><head><title>' + document.title  + '</title>');
           mywindow.document.write('</head><body >');
           mywindow.document.write('<h1>' + document.title  + '</h1>');
-          mywindow.document.write(document.getElementById("rueChatBox").innerHTML);
+          mywindow.document.write(txtSession().replace(/\n/g,"<br>\n"))
           mywindow.document.write('</body></html>');
 
           mywindow.document.close(); // necessary for IE >= 10
@@ -676,7 +684,49 @@ This HTML and its contents are property of R74n.com.
 
           mywindow.print();
           mywindow.close();
-        }
+        },
+        "print chat": "=print session",
+        "print pdf": "=print session",
+        "export pdf": "=print session",
+        "download pdf": "=print session",
+        "backup pdf": "=print session",
+
+        "export txt": function() {
+          Rue.say("Downloading..");
+          download("RueChatSession-"+currentSession.timestamp+"-"+(new Date()).getTime(), txtSession(), "text/plain");
+        },
+        "download txt": "=export txt",
+        "backup txt": "=export txt",
+
+        "copy session": function() {
+          Rue.say("See you on the other side!!");
+          var temp = currentSession;
+          newSession();
+          currentSession.messages = temp.messages.slice();
+          currentSession.name = temp.name+" copy";
+          saveSession();
+          loadSession(currentSession.timestamp);
+          Rue.say("You're now in a copied session!");
+        },
+        "copy chat": "=copy session"
+      },
+      "responses": {
+        "save session": "Your sessions here are saved automatically! To download a backup, say \"export session\".",
+        "save chat": "=save session",
+        "load session": "To load a previous session, press its name in the sidebar menu!",
+        "load chat": "=load session",
+        "edit session": "To modify a session, use the controls under its name in the sidebar menu!",
+        "edit chat": "=edit chat",
+        "rename session": "=edit chat",
+        "rename chat": "=edit chat",
+        "delete session": "=edit chat",
+        "delete chat": "=edit chat",
+        "remove session": "=edit chat",
+        "remove chat": "=edit chat",
+        "backup": "To make a backup of your Rue Chat session, say \"export session\".",
+        "back up": "=backup",
+        "export": "=backup",
+        "download": "=backup",
       }
     })
     Rue.focus();
