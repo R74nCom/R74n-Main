@@ -113,3 +113,4 @@ https://r74n.com/license.txt
 https://r74n.com/oid.txt
 https://r74n.com/id/ark.txt
 https://r74n.com/milestones.txt
+https://r74n.com/rue/chat

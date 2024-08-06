@@ -109,6 +109,7 @@ This HTML and its contents are property of R74n.com.
         createChatMessage(message||lastMessage||"...",true);
         if (message) lastMessage = message;
         else if (lastMessage) {
+          document.getElementById("rueInput").value = lastMessage;
           return lastMessage;
         }
       }
@@ -422,13 +423,6 @@ This HTML and its contents are property of R74n.com.
       a:hover { color: #82ff82 }
       a:hover:active, a:active { color: #bbffbb }
 
-      @keyframes blink_input_opacity_to_prevent_scrolling_when_focus {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-      }
-      .input--focused {
-          animation: blink_input_opacity_to_prevent_scrolling_when_focus 0.01s;
-      }
       @media only screen and (min-width: 600px) {
         #rueBox {
           width: 50%;
@@ -524,7 +518,7 @@ This HTML and its contents are property of R74n.com.
       }
 
       /* No Select */
-      #rueChatTitle, #rueSidebar, .rueMessageMoji {
+      #rueChatTitle, #rueSidebar, .rueMessageMoji, #rueMobileBar {
         -webkit-user-select: none; /* Safari */
         -ms-user-select: none; /* IE 10 and IE 11 */
         user-select: none; /* Standard syntax */
@@ -559,7 +553,7 @@ This HTML and its contents are property of R74n.com.
       <div></div>
       <div></div>
     </div>
-    <span id="rueChatTitle">Rue Chat (Beta)</span>
+    <span id="rueChatTitle">Rue Chat</span>
     <input type="button" value="New Session..." id="newSessionButton" onclick="newSession()">
     <div id="sessionList"></div>
     <div id="underSidebar">
@@ -573,7 +567,7 @@ This HTML and its contents are property of R74n.com.
         <div></div>
         <div></div>
       </div>
-      <span>Rue Chat (Beta)</span>
+      <span id="rueChatMobileTitle">Rue Chat</span>
     </div>
     <div id="rueChatBox"></div>
     <div id="rueInputContainer">
@@ -715,6 +709,9 @@ This HTML and its contents are property of R74n.com.
       "responses": {
         "save session": "Your sessions here are saved automatically! To download a backup, say \"export session\".",
         "save chat": "=save session",
+        "save this chat": "=save session",
+        "save the chat": "=save session",
+        "save our chat": "=save session",
         "load session": "To load a previous session, press its name in the sidebar menu!",
         "load chat": "=load session",
         "edit session": "To modify a session, use the controls under its name in the sidebar menu!",
@@ -729,6 +726,9 @@ This HTML and its contents are property of R74n.com.
         "back up": "=backup",
         "export": "=backup",
         "download": "=backup",
+        "chat": "You're here! {{i:Rue Chat}} allows you to speak to me, {{link:https://r74n.com/rue|Rue}}, while saving your sessions! Learn everything I can do in the {{link:https://r74n.com/rue/docs|Guidebook}}.",
+        "rue chat": "=chat",
+        "ruechat": "=chat"
       }
     })
     Rue.focus();
@@ -747,14 +747,8 @@ This HTML and its contents are property of R74n.com.
     var chat = document.getElementById("rueChatContainer");
     chat.style.height = window.visualViewport.height + "px";
     document.getElementById("rueInput").addEventListener("focus", () => {
-      // methodOne.style.opacity = 0;
-      // setTimeout(() => methodOne.style.opacity = 1);
-      this.classList.add("input--focused")
       var chat = document.getElementById("rueChatContainer");
       chat.style.height = window.visualViewport.height + "px";
-    });
-    document.getElementById("rueInput").addEventListener("blur", () => {
-      this.classList.remove("input--focused")
     });
   });
 </script>

@@ -3006,6 +3006,8 @@ rueData.responses = {
     "about": "=intro",
     "about rue": "=intro",
     "name": "Name's Rue!",
+    "$$$what,is,rue,chat": "{{link:https://R74n.com/rue/chat|Rue Chat}} is a way to talk to me while saving your sessions! Just tell me to '{{cmd:chat}}' anytime!!",
+    "save": "Your stats are automatically saved! To back them up, say '{{cmd:export data}}'. To save your sessions, try {{link:https://R74n.com/rue/chat|Rue Chat}}!!",
     "pronouns": "I use she/they pronouns, thanks for askin'!!",
     "$$$what,are,your,pronouns": "=pronouns",
     "time zone": "I use whatever time zone you're in right now!",
@@ -3068,8 +3070,6 @@ rueData.responses = {
     "explore without rue":"sad>>>O-oh.. okay..",
     "privacy": "While talking to me, I don't store any data outside of your browser!\n\nSome of my commands use external services, and anything you do with them is subject to their own privacy policies!",
     "ai": "I make no (ZERO!) use of artificial intelligence, or machine learning!",
-    "gpt": "=ai",
-    "chatgpt": "=ai",
     "business": "Our email is open for any business inquiries: {{link:mailto:contact@R74n.com|contact@R74n.com}}",
     "advertise": "=business",
     "biz": "=business",
@@ -3453,6 +3453,14 @@ rueData.keywords = {
     "script>": "Nice try.. not!",
     "alert(": "Nice try.. not!",
     "javascript:": "I can't run your JavaScript here.. Try your browser's console!!",
+    "save chat": "{{link:https://R74n.com/rue/chat|Rue Chat}} is a way to talk to me while saving your sessions! Just tell me to '{{cmd:chat}}' anytime!!",
+    "save this chat": "=save chat",
+    "save the chat": "=save chat",
+    "save our chat": "=save chat",
+    "save conv": "=save chat",
+    "save this conv": "=save chat",
+    "save the conv": "=save chat",
+    "save session": "=save chat",
     /* /!\ trigger warning /!\ */
     "suicide": "Feeling down? Seek help!\n\nThe emergency suicide hotline is {{link:tel:988|988}} for the US, and {{link:tel:112|112}} for the UK.\n\nThere are also a bunch more for {{link:https://blog.opencounseling.com/suicide-hotlines/|other countries}}.\n\nFor LGBTQ+ youth, you can call the Trevor Hotline at {{link:tel:1-866-488-7386|1-866-488-7386}} or text 'START' to {{link:sms:678-678|678-678}}.",
     "suicidal": "=suicide","suiciding": "=suicide","crisis hotline": "=suicide",
@@ -4320,6 +4328,14 @@ rueData.links = {
 "community projects": "https://R74n.com/community/",
 "supporters": "https://R74n.com/supporters/",
 "collab": "https://R74n.com/collab/",
+"chat": "https://R74n.com/rue/chat",
+"rue chat": "=chat",
+"ruechat": "=chat",
+"chatgpt": "=chat",
+"chat gpt": "=chat",
+"gpt": "=chat",
+"openai": "=chat",
+"gui": "=chat",
 
 "turbowarp": "https://turbowarp.org/editor",
 "tw": "=turbowarp",
@@ -4506,6 +4522,7 @@ function sendMessage(e,message) { // send message
     }
     var normalized = normalize(text);
 
+    console.log(text,Rue.brain.confirming,Rue.brain.paginate)
     if (Rue.brain.confirming && !Rue.brain.paginate) {
         if (Rue.brain.confirming === text || rueData.yesTerms.indexOf(normalized) !== -1) {
             Rue.brain.afterConfirm(e);
