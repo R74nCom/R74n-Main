@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="notranslate" translate="no">
 <head>
     <meta charset="utf-8">
 <!--
@@ -41,6 +41,7 @@ This HTML and its contents are property of R74n.com.
 
     <script src="https://R74n.com/load.js"></script>
 
+    <meta name="google" content="notranslate" />
     <script>
       function clearChat() {
         var rueChatBox = document.querySelector("#rueChatBox");
@@ -366,6 +367,8 @@ This HTML and its contents are property of R74n.com.
         padding: 1em;
         height: 90%;
         overflow-y: scroll;
+        overflow-x: auto;
+        resize: horizontal;
       }
       #rueInputContainer {
         display: flex;
@@ -470,6 +473,7 @@ This HTML and its contents are property of R74n.com.
           overflow-x: hidden;
           overflow-y: scroll;
           flex-shrink: 1;
+          resize:none;
         }
         #rueMobileBar {
           display: flex;
