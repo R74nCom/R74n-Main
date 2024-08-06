@@ -482,6 +482,9 @@ This HTML and its contents are property of R74n.com.
           width: 100%;
           padding-bottom: env(safe-area-inset-bottom,0px);
         }
+        #backPageButton {
+          display: none
+        }
       }
 
       #newSessionButton {
@@ -553,7 +556,7 @@ This HTML and its contents are property of R74n.com.
       <div></div>
       <div></div>
     </div>
-    <span id="rueChatTitle">Rue Chat</span>
+    <span id="rueChatTitle"><a href="https://R74n.com/" id="backPageButton">←</a> Rue Chat</span>
     <input type="button" value="New Session..." id="newSessionButton" onclick="newSession()">
     <div id="sessionList"></div>
     <div id="underSidebar">

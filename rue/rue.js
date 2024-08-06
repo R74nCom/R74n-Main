@@ -4336,6 +4336,9 @@ rueData.links = {
 "gpt": "=chat",
 "openai": "=chat",
 "gui": "=chat",
+"artfight": "https://artfight.net/character/4312264.rue-explore-with-rue-r74n",
+"art fight": "=artfight",
+"draw rue": "=artfight",
 
 "turbowarp": "https://turbowarp.org/editor",
 "tw": "=turbowarp",
@@ -4522,7 +4525,6 @@ function sendMessage(e,message) { // send message
     }
     var normalized = normalize(text);
 
-    console.log(text,Rue.brain.confirming,Rue.brain.paginate)
     if (Rue.brain.confirming && !Rue.brain.paginate) {
         if (Rue.brain.confirming === text || rueData.yesTerms.indexOf(normalized) !== -1) {
             Rue.brain.afterConfirm(e);
