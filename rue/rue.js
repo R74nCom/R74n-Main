@@ -4617,8 +4617,15 @@ function sendMessage(e,message) { // send message
         });
     }
     if (!done) { // counters
-        done = tryVariants(normalized.split(" ")[0], Rue.userData.user.counters, function(value, counter) {
-            var newValue = normalized.split(" ")[1];
+        if (!isNaN(parseInt(normalized.split(" ").slice(-1)))) {
+            var newValue = parseInt(normalized.split(" ").slice(-1));
+            var counterName = normalized.split(" ").slice(0,-1).join(" ");
+        }
+        else {
+            var newValue = 1;
+            var counterName = normalized;
+        }
+        done = tryVariants(counterName, Rue.userData.user.counters, function(value, counter) {
             if (newValue === undefined) { newValue = 1; }
             else {
                 newValue = parseInt(newValue);
