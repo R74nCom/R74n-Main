@@ -2693,6 +2693,46 @@ rueData.totalities = {
         var parts = text.split(" to ");
         Rue.openLink("https://R74n.com/convert/?-/-/"+parts.join("/"));
     },
+    "map": function() {
+        var world = Rue.getUser("world");
+        var worldData = Rue.getEnv("worlds")[world];
+        if (!worldData) {
+            Rue.error("You seem to be in a nonexistent place.."); return;
+        }
+        var mapString = "<span style='font-family:monospace;letter-spacing:0.2em;font-size:smaller;color:#aaaaaa'>";
+        var leftBound = Rue.getUser("x")-7;
+        var topBound = Rue.getUser("z")-5;
+        for (let z = topBound; z < topBound+11; z++) {
+            for (let x = leftBound; x < leftBound+15; x++) {
+                var items = Rue.itemsAtPos(x,z);
+                if (items[0]) {
+                    mapString += `<span style='color:${(items[0].color || "#aaaaaa")};cursor:pointer' onclick='Rue.say("${items[0].n||"Unknown"}.")'>${(items[0].i || "?")}</span>`;
+                }
+                else {
+                    mapString += ".";
+                }
+                // if (Rue.getRue("x") === x && Rue.getRue("z") === z) {
+                //     mapString += "&"; continue;
+                // }
+                // if (Rue.getUser("x") === x && Rue.getUser("z") === z) {
+                //     mapString += "@"; continue;
+                // }
+                // newChar = ".";
+                // var chunk = Rue.coordsToChunk(x,z);
+                // if (worldData.chunks[chunk]) {
+                //     worldData.chunks[chunk].forEach(function(item){
+                //         if (item.x === x && item.z === z) {
+                //             newChar = item.i || "?";
+                //         }
+                //     })
+                // }
+                // mapString += newChar;
+            }
+            mapString += "\n";
+        }
+        mapString += "</span>"
+        Rue.say(mapString)
+    },
 
     "/is (.+) down/": function(text) { //partner
         var match = text.match(/is (.+) down/i);
@@ -5187,7 +5227,11 @@ Rue = {
             mods: [],
             userSeed: 926310944,
             userStart: 1687438260000,
-            x:0, y:0, z:2
+            x:0, y:0, z:2, i:"&",
+            color:"#00ff00",
+            world: "default",
+            n: "Rue",
+            subtitle: "Me"
         },
         user: {
             inv: {},
@@ -5196,9 +5240,23 @@ Rue = {
             customLinks: {},
             lists: {},
             counters: {},
-            x:0, y:0, z:0
+            x:0, y:0, z:0, i:"@",
+            color:"#00ffff",
+            world: "default",
+            n: "You",
+            subtitle: "You"
         },
-        env: {}
+        env: {
+            worlds: {
+                "default": {
+                    chunks: {
+                        "0,0": [
+                            { n:"block", x:5, z:3, i:"☐" }
+                        ]
+                    }
+                }
+            }
+        }
     },
     loadUserData: function() {
         var data = localStorage.getItem("rueUserData");
@@ -5207,9 +5265,9 @@ Rue = {
             data = JSON.parse(data);
             // loop through defaultUserData
             for (var datacat in Rue.defaultUserData) {
-                if (!data[datacat]) { data[datacat] = {}; }
+                if (data[datacat] === undefined) { data[datacat] = {}; }
                 for (key in Rue.defaultUserData[datacat]) {
-                    if (!data[datacat][key]) {
+                    if (data[datacat][key] === undefined) {
                         var value = Rue.defaultUserData[datacat][key];
                         if (typeof value === "object") { data[datacat][key] = JSON.parse(JSON.stringify(value)); }
                         else { data[datacat][key] = value; }
@@ -5220,6 +5278,29 @@ Rue = {
         if (!data.user.userSeed) { data.user.userSeed = Math.floor(Math.random() * 1000000000); }
         if (!data.user.userStart) { data.user.userStart = Date.now().toString(); }
         Rue.userData = data;
+    },
+    coordsToChunk: function(x,z) {
+        return Math.floor(x/16)+","+Math.floor(z/16);
+    },
+    itemsAtPos: function(x,z,y,world) {
+        var worldData = Rue.getEnv("worlds")[world||Rue.getUser("world")];
+        var chunk = Rue.coordsToChunk(x,z);
+        var itemsAtPos = [];
+        if (Rue.getRue("x") === x && Rue.getRue("z") === z && (y === undefined || Rue.getRue("y") === y)) {
+            itemsAtPos.push(Rue.userData.rue);
+        }
+        if (Rue.getUser("x") === x && Rue.getUser("z") === z && (y === undefined || Rue.getUser("y") === y)) {
+            itemsAtPos.push(Rue.userData.user);
+        }
+        if (worldData.chunks[chunk]) {
+            worldData.chunks[chunk].forEach(function(item){
+                if (item.x === x && item.z === z && (y === undefined || item.y === y)) {
+                    itemsAtPos.push(item);
+                    return false;
+                }
+            })
+        }
+        return itemsAtPos;
     },
     startActivity: function(activity) {
         Rue.brain.activity = chooseValue(rueData.activities,activity)[1];
