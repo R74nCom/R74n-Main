@@ -738,6 +738,16 @@ This HTML and its contents are property of R74n.com.
         "ruechat": "=chat"
       }
     })
+    oldChatBoxWidth = document.getElementById("rueChatBox").clientWidth;
+    document.getElementById("rueChatBox").addEventListener("mousedown",function(){
+      oldChatBoxWidth = this.clientWidth;
+    })
+    document.getElementById("rueChatBox").addEventListener("mousemove",function(){
+      if (oldChatBoxWidth !== this.clientWidth) {
+        this.scrollTop = this.scrollHeight;
+        oldChatBoxWidth = this.clientWidth;
+      }
+    })
     Rue.focus();
   })
   function openSidebar() {

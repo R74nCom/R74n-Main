@@ -4379,6 +4379,7 @@ rueData.links = {
 "artfight": "https://artfight.net/character/4312264.rue-explore-with-rue-r74n",
 "art fight": "=artfight",
 "draw rue": "=artfight",
+"ontomata": "https://R74n.com/ontomata/",
 
 "turbowarp": "https://turbowarp.org/editor",
 "tw": "=turbowarp",
