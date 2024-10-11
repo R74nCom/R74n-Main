@@ -1414,6 +1414,13 @@ This HTML and its contents are property of R74n.com.
       "reactionContact": true
     }
   }
+  // Holiday detection
+  var currentMonth = new Date().getMonth();
+  if (window.location.href.includes("holiday=false")) {}
+  else if (currentMonth == 9) { // October
+      viewInfo.bowl.image = "bowl_spooky.png";
+      viewInfo.bowl.imageFront = "bowl_front_spooky.png";
+  }
   leftBound = 0;
   rightBound = 0;
   hitLine = 0;
@@ -2841,14 +2848,6 @@ This HTML and its contents are property of R74n.com.
       e.preventDefault();
     });
     gameCanvas.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); return false }
-
-    // Holiday detection
-    var currentMonth = new Date().getMonth();
-    if (window.location.href.includes("holiday=false")) {}
-    else if (currentMonth == 9) { // October
-        viewInfo.bowl.image = "bowl_spooky.png";
-        viewInfo.bowl.imageFront = "bowl_front_spooky.png";
-    }
 
     // Initialization
     for (var key in ingredients) {
