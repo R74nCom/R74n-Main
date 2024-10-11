@@ -1318,7 +1318,7 @@ This HTML and its contents are property of R74n.com.
         ctx.shadowColor = "rgb(0,0,"+heatIndex+")"
       }
       ctx.shadowBlur = 20;
-      var bowlImg = loadImage('bowl.png');
+      var bowlImg = loadImage(viewInfo[currentView].image);
       // put in the middle on the table
       ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
       ctx.shadowColor = "transparent";
@@ -1360,7 +1360,7 @@ This HTML and its contents are property of R74n.com.
         ctx.drawImage(liquidImg2, canvas.width/2 - liquidImg2.width/2*5, canvas.height/2 - liquidImg2.height/2*5+75, liquidImg2.width*5, liquidImg2.height*5);
         ctx.globalAlpha = 1;
       }
-      var bowlImg2 = loadImage('bowl_front.png');
+      var bowlImg2 = loadImage(viewInfo[currentView].imageFront);
       ctx.drawImage(bowlImg2, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
       // draw line in yellow
       // ctx.fillStyle = "rgba(255,255,0)";
@@ -1396,6 +1396,7 @@ This HTML and its contents are property of R74n.com.
   viewInfo = {
     "bowl": {
       "image": "bowl.png",
+      "imageFront": "bowl_front.png",
       "hitbox": [0.5,3,4,1,0.5],
       "holdsLiquid": true,
       "doRotation": true,
@@ -2840,6 +2841,14 @@ This HTML and its contents are property of R74n.com.
       e.preventDefault();
     });
     gameCanvas.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); return false }
+
+    // Holiday detection
+    var currentMonth = new Date().getMonth();
+    if (window.location.href.includes("holiday=false")) {}
+    else if (currentMonth == 9) { // October
+        viewInfo.bowl.image = "bowl_spooky.png";
+        viewInfo.bowl.imageFront = "bowl_front_spooky.png";
+    }
 
     // Initialization
     for (var key in ingredients) {

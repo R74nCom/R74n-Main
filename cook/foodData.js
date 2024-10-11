@@ -829,6 +829,7 @@ sprinkles: {
     color: shapeMeta.colorsNeon,
     adj:"sprinkled",
     parts:["sugar"],
+    keywords:"candy"
 },
 icing: {
     type:"sauce",
@@ -2392,7 +2393,7 @@ potato: {
 chip: {
     color:"#ecdb8f",
     cookColor:"#625026",
-    broken:"crumb",
+    broken:"crumbs",
     shape:"bean_l",
     keywords:"potato chip,lays,potato crisp",
     name:"potato chip",
@@ -2859,10 +2860,15 @@ crouton: {
     scale:0.75,
     dishName:null
 },
-breadcrumbs: {
-    color:"#ddc69c",
+crumbs: {
+    color:"#c4bba9",
     type:"powder",
     shape:"powder_rough",
+    hidden:true
+},
+breadcrumbs: {
+    color:"#ddc69c",
+    type:"crumbs",
     keywords:"bread crumbs",
     adj:"breaded"
 },
