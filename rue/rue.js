@@ -3411,8 +3411,8 @@ rueData.responses = {
     "true": "tRue",
     "$$$where,is,waldo": "Hmm.. He must be nearby..",
 
-    "pitspower": "hello &nbsp;hope all is well", // partner
-    "serioustar": ":3", // patron
+    "pitspower": "hello &nbsp;hope all is well", //partner
+    "serioustar": ":3", //patron
 } // responses
 rueData.regex = {
     "do": "do|does|dost|can|will",
@@ -4379,6 +4379,7 @@ rueData.links = {
 "5b": "https://www.infernity.dev/HTML5b/", //partner
 "infernity": "https://www.infernity.dev/", //partner
 "adryd": "https://adryd.com/",
+"suss": "https://www.youtube.com/@sussdood", //patron
 } // links
 
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
