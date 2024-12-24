@@ -712,6 +712,16 @@ rueData.commands = {
         Rue.say("Hmm.. I{{c:'ll|}} {{c:rate|give}} you a " + seedRange(0,10,"rueRate--"+Rue.getUser("userSeed")) + "/10!");
     },
     "rateme": "=rate me",
+    "santa says": function(args) {
+        var thing = ultraNormalize(args.join(" "));
+        if (!thing) {
+            let nice = seedChoose([true,false],"rueSantaSays--"+Rue.getUser("userSeed"));
+            Rue.say((nice ? "happy" : "angry") + ">>>Hmm.. It {{c:look|seem}}s like you're on the " + (nice ? "nice" : "naughty") + " list!");
+            return;
+        }
+        let nice = seedChoose([true,false],"rueSantaSays--"+thing);
+        Rue.say((nice ? "happy" : "angry") + ">>>Hmm.. It {{c:look|seem}}s like " + args.join(" ") + " is on the " + (nice ? "nice" : "naughty") + " list!");
+    },
     "tts": function(args) {
         if (!('speechSynthesis' in window)) { Rue.error("Awkward.. Your browser doesn't support text to speech!! :("); return }
         var text = args.join(" ");
