@@ -4697,7 +4697,12 @@ function sendMessage(e,message) { // send message
             // if text starts with key+" " or is equal to key, set commandBase to key and argsArray to the rest of text split by whitespace
             if (text.indexOf(key+" ") === 0) {
                 commandBase = key;
-                argsArray = text.split(key+" ")[1].replace(whitespaceRegex, " ").split(" ");
+                argsArray = text.split(commandBase+" ")[1].replace(whitespaceRegex, " ").split(" ");
+                break;
+            }
+            else if (text.toLowerCase().indexOf(key+" ") === 0) {
+                commandBase = text.substring(0,key.length);
+                argsArray = text.split(commandBase+" ")[1].replace(whitespaceRegex, " ").split(" ");
                 break;
             }
             else if (text === key) {
