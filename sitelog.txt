@@ -1,0 +1,4 @@
+Miscellaneous things that aren't in other changelogs.
+
+2025-01-16 - Updated Translation Hub with user submissions
+2025-01-16 - Updated Copy Paste Dump season on main page
