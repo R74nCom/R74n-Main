@@ -1,5 +1,11 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-02-01 - Updated Link Dump with user submissions
+2025-02-01 - 404 page now suggests Infinite Chef for "/ic"
+2025-02-01 - Added VIAF, LOC, FAIRsharing, BookBrainz to Identifiers
+2025-02-01 - Added Desmos Graph link to Icons
+2025-02-01 - Added Wafrn to Socials
+2025-01-24 - Updated Supporters page
 2025-01-16 - Updated Socials page with many new accounts, including new TikTok competitors
 2025-01-16 - Updated Translation Hub with user submissions
 2025-01-16 - Updated Copy Paste Dump season on main page
