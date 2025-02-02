@@ -115,3 +115,4 @@ https://r74n.com/id/ark.txt
 https://r74n.com/milestones.txt
 https://r74n.com/rue/chat
 https://r74n.com/ontomata/
+https://r74n.com/sitelog.txt
