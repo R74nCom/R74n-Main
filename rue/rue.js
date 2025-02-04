@@ -2755,6 +2755,19 @@ rueData.totalities = {
             Rue.openLink("https://downdetector.com/search/?q="+key)
         }
     },
+
+    "moss": function() { //patron
+        Rue.showMedia(chooseItem([
+        "https://i.imgur.com/UrzhOOJ.png",
+        "https://i.imgur.com/goYgoYH.png",
+        "https://i.imgur.com/DEPcH6U.png",
+        "https://i.imgur.com/eeGi7oQ.png",
+        "https://i.imgur.com/MFQrbKX.png",
+        "https://i.imgur.com/AhD4sa5.png",
+        "https://i.imgur.com/dC6kmQZ.png",
+        "https://i.imgur.com/JoOTXNr.png"
+        ]),"You got...")
+    }
 } // totalities
 rueData.activities = {
     "testactivity": function(text) {
