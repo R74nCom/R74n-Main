@@ -1,3 +1,73 @@
+[Version 1.4  - February 7, 2025 - Infinite Drink]
+     + Cup Mode
+     + Meat and more can be fried with Oil and heat
+     + Mixable Dye ingredients
+    [Ingredients]
+     + Acid (Hidden)
+     + Ackee
+     + Air
+     + American Cheese
+     + Blue Dye
+     + Breadfruit
+     + Cheese Wheel
+     + Chicken Nugget
+     + Corn Syrup
+     + Cupcake Wrapper
+     + Frog Leg
+     + Gingerbread Man
+     + Green Dye
+     + Indigo Dye
+     + Jackfruit
+     + Liquors (Rum, Whiskey)
+     + Maggot
+     + Meatball
+     + Mochi
+     + Straw
+     + Yellow Dye
+     + Yellow Tomato
+    [Recipes]
+     + Banana Pudding
+     + Bloody Mary (Cocktail)
+     + Casu Marzu
+     + Cupcake
+     + Dango
+     + Diet Soda
+     + Focaccia
+     + Poutine
+    [Silly Recipes]
+     + Pou
+     + Charlie the Steak
+     + Gadagadigadagado
+     + Bill Cipher
+     + Cheese Orb (BFDI)
+     + Orange Joe (Omori)
+     + Krabby Patty
+     ~ Yoyleberries turn Dolls into metal
+    [Changes]
+     + Notification below game for new updates
+     + Version number below page
+     + Gallium now gives "Metallic" adjective
+     ~ Placed ingredients can hold adjectives on their own
+     + Special 'Unknown' ingredient
+     + Color adjectives are mixed in dish name
+     ~ Tweaked Dye behavior
+     + Fries can be made by heating Potatoes in Oil
+     + Sakura Petals can be shredded
+     + Mushrooms blend into powder
+     ~ Worms are placed in random rotation
+     ~ Lychee Juice is white
+     ~ Strawberries are smaller
+    [Bug Fixes]
+     ~ Fixed: Ingredients can be easily flung with Tongs on mobile
+     ~ Fixed: Invalid ingredients crash the game
+     ~ Fixed: Sandwiches cannot be made
+     ~ Fixed: Batter can make Omelettes
+     ~ Fixed: Sand from broken Boulders is gray
+     ~ Fixed: Vanilla doesn't give adjective
+     ~ Fixed: Pizza can be made with Taco Shells
+     ~ Fixed: Cheese Sauce makes Lasagna instead of Mac & Cheese
+     ~ Fixed: View hitbox is sometimes not applied
+
 [Version 1.3.1 - October 11, 2024 - Halloween Special]
     [Halloween]
      + Pumpkin Pot during October

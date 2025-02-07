@@ -44,10 +44,13 @@ This HTML and its contents are property of R74n.com.
     <script src="https://R74n.com/load.js"></script>
 
     <script src="foodData.js"></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","additionalType":"WebSite","name":"Infinite Chef","description":"Infinite Chef is a cooking simulator that can be played in your browser. With a sophisticated dish name generator that can accept any of hundreds of ingredients, Infinite Chef is the ultimate virtual kitchen.","url":"https://R74n.com/cook/","logo":"https://R74n.com/cook/icons/icon.png","contactPoint":{"@type":"ContactPoint","email":"contact@R74n.com","contactType":"customer service","availableLanguage":"en","url":"https://R74n.com/ufbs/","name":"Contact R74n"},"sameAs":["https://R74n.com/cook/"],"identifier":[ "/g/11vx63rh8r","Q126009787"],"datePublished":"2024-04-27","author":{"@type":"Organization","name":"R74n","sameAs":"https://R74n.com/schema/R74n.json"}}</script>
 
     <script>
       // Load Settings
       settings = JSON.parse(localStorage.getItem('settings')) || {};
+      // Version
+      currentVersion = "1.4";
     </script>
 
     <style>
@@ -274,6 +277,7 @@ This HTML and its contents are property of R74n.com.
       .searchResult span {
         font-size: 22px;
       }
+      #alertBox { text-align: center;}
 
       #prepControls {
         position: absolute;
@@ -564,10 +568,11 @@ This HTML and its contents are property of R74n.com.
   </div>
   <div id="rightDiv" style="display: none;">
     <div id="controlsBar" oncontextmenu="return false;";>
-      <button selected id="button-bowl" onclick="changeView('bowl')" title="Bowl Mode"><img src="../shapes/png/semicircle_bottom.png" class="pixelart" alt="bowl"></button>
-      <button id="button-stack" onclick="changeView('stack')" title="Stack Mode"><img src="../shapes/png/stack.png" class="pixelart" alt="stack"></button>
-      <button id="button-clear" onclick="clearView()" title="Start Over"><img src="../shapes/png/x.png" class="pixelart" alt="x"></button>
-      <button id="button-done" onclick="serveDish()" title="Serve Dish"><img src="green_check.png" class="pixelart" alt="check"></button>
+      <button selected id="button-bowl" onclick="changeView('bowl')" title="Bowl Mode"><img src="../shapes/png/semicircle_bottom.png" class="pixelart" alt="Bowl"></button>
+      <button id="button-stack" onclick="changeView('stack')" title="Stack Mode"><img src="../shapes/png/stack.png" class="pixelart" alt="Stack"></button>
+      <button id="button-cup" onclick="changeView('cup')" title="Cup Mode"><img src="../shapes/png/trapezoid_full_down.png" class="pixelart" alt="Cup"></button>
+      <button id="button-clear" onclick="clearView()" title="Start Over"><img src="../shapes/png/x.png" class="pixelart" alt="X"></button>
+      <button id="button-done" onclick="serveDish()" title="Serve Dish"><img src="green_check.png" class="pixelart" alt="Check"></button>
     </div>
   </div>
   <div id="loadingScreen">
@@ -656,11 +661,11 @@ This HTML and its contents are property of R74n.com.
     }
 
     if (!leftBound) {
-      if (viewInfo[currentView] !== undefined && viewInfo[currentView].hitbox) {
+      if (viewInfo[currentView] !== undefined) {
         var bowlImg = loadImage(viewInfo[currentView].image);
-        leftBound = Math.round(canvas.width/2 - bowlImg.width/2*5) + 50;
-        rightBound = Math.round(canvas.width/2 + bowlImg.width/2*5) - 50;
-        hitLine = Math.round(bowlImg.height*3 + canvas.height/2 - bowlImg.height/2*5+80);
+        leftBound = Math.round(canvas.width/2 - viewImageWidth/2*5) + (viewInfo[currentView].sideBoundOffset||50);
+        rightBound = Math.round(canvas.width/2 + viewImageWidth/2*5) - (viewInfo[currentView].sideBoundOffset||50);
+        hitLine = Math.round(viewImageHeight*3 + canvas.height/2 - viewImageHeight/2*5+(viewInfo[currentView].hitLineOffset||80));
       }
     }
     drawCanvas();
@@ -829,6 +834,7 @@ This HTML and its contents are property of R74n.com.
     for (var i = 0; i < viewData[currentView].total.length; i++) {
       var placed = viewData[currentView].total[i];
       if (placed.hide) continue;
+      if (!ingredients[placed.id]) changeIngredient(placed,"unknown");
       var shape = placed.shape || ingredients[placed.id].shape;
       var ingredientImg = colorizeStandard("../shapes/png/"+shape+".png", placed.h??ingredients[placed.id].h, placed.s??ingredients[placed.id].s, placed.l??ingredients[placed.id].l);
       if (ingredientImg.loaded === false) {
@@ -930,7 +936,8 @@ This HTML and its contents are property of R74n.com.
     if (ingredient.original.indexOf(ingredient.id) === -1) { ingredient.original.push(ingredient.id); }
     ingredient.id = newIngredient;
     colorIngredient(ingredient);
-    ingredient.a = ingredientAttr(ingredient.id,"a") || 1;
+    ingredient.a = ingredientAttr(ingredient.id,"a");
+    if (isNaN(ingredient.a)) ingredient.a = 1;
     var newBehavior = ingredientAttr(ingredient.id,"behavior");
     if (newBehavior === 3) { ingredient.done = false; ingredient.done2 = false; ingredient.hide = false; }
     else if (wasLiquid || (ingredient.done2 && newBehavior === 1 && !ingredient.original)) {
@@ -984,7 +991,8 @@ This HTML and its contents are property of R74n.com.
       h = info.h[index]; s = info.s[index]; l = info.l[index];
     }
     var shape = chooseShape(ingredient);
-    var a = ingredientAttr(ingredient, "a") || 1;
+    var a = ingredientAttr(ingredient, "a");
+    if (isNaN(a)) a = 1;
     var r = choose(ingredientAttr(ingredient, "r")) || 0;
     var placed = {id:ingredient, x:x, y:y, r:r, shape:shape, h:h, s:s, l:l, a:a};
     updateSize(placed);
@@ -1069,6 +1077,7 @@ This HTML and its contents are property of R74n.com.
     var placed2original = placed2.id;
     if (params.tempMin && viewData[currentView].temp < params.tempMin) return false;
     if (params.noHidden && (placed1.hide || placed2.hide)) return false;
+    if (params.chance && Math.random() > params.chance) return false;
     if (params.set1 !== undefined) {
       if (params.set1 === null) deleteIngredient(placed1);
       else if (placed1.id !== params.set1) {
@@ -1098,6 +1107,16 @@ This HTML and its contents are property of R74n.com.
     if (params.color2) {
       var hsl = hexToHsl(choose(params.color2));
       colorIngredient(placed2, hsl[0]*360, hsl[1]*100, hsl[2]*100);
+    }
+    if (params.adj1) {
+      placed1.adj = choose(params.adj1);
+    }
+    if (params.adj2) {
+      placed2.adj = choose(params.adj2);
+    }
+    if (params.create) {
+      var x = Math.random() * (rightBound - leftBound) + leftBound;
+      placeIngredient(choose(params.create), x, hitLine-50);
     }
     return true;
   }
@@ -1157,6 +1176,7 @@ This HTML and its contents are property of R74n.com.
     }
     // Do Reactions
     if (!viewInfo[currentView].reactionContact) checkReactions(placed);
+    if (delete_) deleteIngredient(placed);
   }
   function uncontainAll() {
     for (var i = 0; i < viewData[currentView].total.length; i++) {
@@ -1173,11 +1193,6 @@ This HTML and its contents are property of R74n.com.
   }
   roomTemp = 20;
   function tickPlaced() {
-    if (viewInfo[currentView] !== undefined && viewInfo[currentView].hitbox) {
-      var bowlImg = loadImage(viewInfo[currentView].image);
-      var hitbox = viewInfo[currentView].hitbox;
-    }
-    else {var hitbox = null}
     var view = viewData[currentView];
 
     // Temperature
@@ -1223,6 +1238,7 @@ This HTML and its contents are property of R74n.com.
       for (var j = 0; j < view.total.length; j++) {
         if (i === j) { continue; }
         var other = view.total[j];
+        if (other === placed) { continue; }
         if (other.hide) { continue; }
         if (placed.x - placed.width/2.5 < other.x + other.width/2.5 &&
             placed.x + placed.width/2.5 > other.x - other.width/2.5 &&
@@ -1238,9 +1254,18 @@ This HTML and its contents are property of R74n.com.
           }
           // stop ingredient if applicable
           if (behavior < 3 && placed.vy >= 0 && (other.done||other.done2) && placed.y > canvas.height*(viewInfo[currentView].maxHeight||0) && placed.y < other.y && placed.x > leftBound-placed.width/2 && placed.x < rightBound+placed.width/2) {
-            containIngredient(placed);
+            if (placed.skipContain) delete placed.skipContain;
+            else containIngredient(placed);
             if (ingredientAttr(placed.id,"stain")) {
               stainIngredient(other, placed.h, placed.s, placed.l);
+              let adj = ingredientAttr(placed.id,"adj");
+              if (adjReactions[other.adj] && adjReactions[other.adj][adj]) {
+                other.adj = adjReactions[other.adj][adj];
+              }
+              else if (adjReactions[adj] && adjReactions[adj][other.adj]) {
+                other.adj = adjReactions[adj][other.adj];
+              }
+              else if (adj) other.adj = adj;
             }
             if (viewInfo[currentView].reactionContact) {
               checkReactions(placed, [other]);
@@ -1302,6 +1327,8 @@ This HTML and its contents are property of R74n.com.
   }
   lastLiquidColor = null;
   lastLiquidImg2 = null;
+  viewImageWidth = 68;
+  viewImageHeight = 54;
   viewRenderer = {
     "bowl": function(hideGUI) {
       // draw from file table.png to fit the whole canvas
@@ -1320,17 +1347,17 @@ This HTML and its contents are property of R74n.com.
       ctx.shadowBlur = 20;
       var bowlImg = loadImage(viewInfo[currentView].image);
       // put in the middle on the table
-      ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
+      ctx.drawImage(bowlImg, canvas.width/2 - viewImageWidth/2*5, canvas.height/2 - viewImageHeight/2*5+75, viewImageWidth*5, viewImageHeight*5);
       ctx.shadowColor = "transparent";
-      if (viewData.bowl.liquid) {
-        var liquidColor = [viewData.bowl.liquidR/viewData.bowl.liquid, viewData.bowl.liquidG/viewData.bowl.liquid, viewData.bowl.liquidB/viewData.bowl.liquid]
+      if (viewData[currentView].liquid) {
+        var liquidColor = [viewData[currentView].liquidR/viewData[currentView].liquid, viewData[currentView].liquidG/viewData[currentView].liquid, viewData[currentView].liquidB/viewData[currentView].liquid]
         var hsl = rgbToHsl(liquidColor[0], liquidColor[1], liquidColor[2]);
         liquidColor = [Math.round(hsl[0]*360), Math.round(hsl[1]*100), Math.round(hsl[2]*100)];
-        var liquidImg = colorizeStandard('bowl_liquid.png', liquidColor[0], liquidColor[1], liquidColor[2]);
+        var liquidImg = colorizeStandard(viewInfo[currentView].imageLiquid, liquidColor[0], liquidColor[1], liquidColor[2]);
         if (liquidImg.loaded === false) {
           if (lastLiquidColor) {
             liquidColor = lastLiquidColor;
-            liquidImg = colorizeStandard('bowl_liquid.png', lastLiquidColor[0], lastLiquidColor[1], lastLiquidColor[2]);
+            liquidImg = colorizeStandard(viewInfo[currentView].imageLiquid, lastLiquidColor[0], lastLiquidColor[1], lastLiquidColor[2]);
           }
         }
         else {
@@ -1345,9 +1372,9 @@ This HTML and its contents are property of R74n.com.
       drawPlaced();
       // draw transparent ingredient at mousePos
       if (!hideGUI) drawCursor();
-      if (viewData.bowl.liquid) {
-        if (!viewData.bowl.liquidSolid) ctx.globalAlpha = 0.75;
-        var liquidImg2 = colorizeStandard('bowl_liquid_front.png', liquidColor[0], liquidColor[1], liquidColor[2]);
+      if (viewData[currentView].liquid) {
+        if (!viewData[currentView].liquidSolid) ctx.globalAlpha = 0.75;
+        var liquidImg2 = colorizeStandard(viewInfo[currentView].imageLiquidFront, liquidColor[0], liquidColor[1], liquidColor[2]);
         if (liquidImg2.loaded === false) {
           if (lastLiquidImg2) {
             var liquidImg2 = lastLiquidImg2;
@@ -1361,7 +1388,7 @@ This HTML and its contents are property of R74n.com.
         ctx.globalAlpha = 1;
       }
       var bowlImg2 = loadImage(viewInfo[currentView].imageFront);
-      ctx.drawImage(bowlImg2, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
+      ctx.drawImage(bowlImg2, canvas.width/2 - viewImageWidth/2*5, canvas.height/2 - viewImageHeight/2*5+75, viewImageWidth*5, viewImageHeight*5);
       // draw line in yellow
       // ctx.fillStyle = "rgba(255,255,0)";
       // ctx.fillRect(leftBound, hitLine, rightBound - leftBound, 5);
@@ -1383,7 +1410,7 @@ This HTML and its contents are property of R74n.com.
       ctx.shadowBlur = 20;
       var bowlImg = loadImage('plate.png');
       // put in the middle on the table
-      ctx.drawImage(bowlImg, canvas.width/2 - bowlImg.width/2*5, canvas.height/2 - bowlImg.height/2*5+75, bowlImg.width*5, bowlImg.height*5);
+      ctx.drawImage(bowlImg, canvas.width/2 - viewImageWidth/2*5, canvas.height/2 - viewImageHeight/2*5+75, viewImageWidth*5, viewImageHeight*5);
       ctx.shadowColor = "transparent";
       drawPlaced();
       // draw transparent ingredient at mousePos
@@ -1393,11 +1420,14 @@ This HTML and its contents are property of R74n.com.
       // ctx.fillRect(leftBound, hitLine, rightBound - leftBound, 5);
     }
   }
+  viewRenderer.cup = viewRenderer.bowl;
   viewInfo = {
     "bowl": {
       "image": "bowl.png",
       "imageFront": "bowl_front.png",
-      "hitbox": [0.5,3,4,1,0.5],
+      "imageLiquid": "bowl_liquid.png",
+      "imageLiquidFront": "bowl_liquid_front.png",
+      // "hitbox": [0.5,3,4,1,0.5],
       "holdsLiquid": true,
       "doRotation": true,
       "maxHeight": 0.45,
@@ -1405,13 +1435,26 @@ This HTML and its contents are property of R74n.com.
     },
     "stack": {
       "image": "plate.png",
-      "hitbox": [0.5,3,4,1,0.5],
+      // "hitbox": [0.5,3,4,1,0.5],
       "holdsLiquid": false,
       "doRotation": false,
       "maxHeight": 0.1,
       "placedHeightMul": 0.7,
       "foodScale": 2.75,
       "reactionContact": true
+    },
+    "cup": {
+      "image": "cup.png",
+      "imageFront": "cup_front.png",
+      "imageLiquid": "cup_liquid.png",
+      "imageLiquidFront": "cup_liquid_front.png",
+      // "hitbox": [1.25,3,2.5,1,0.5],
+      "holdsLiquid": true,
+      "doRotation": true,
+      "maxHeight": 0.45,
+      "placedHeightMul": 0.5,
+      "hitLineOffset": 165,
+      "sideBoundOffset": 90
     }
   }
   // Holiday detection
@@ -1451,6 +1494,11 @@ This HTML and its contents are property of R74n.com.
         foodScale = 2.25
       }
     }
+    leftBound = 0;
+    rightBound = 0;
+    hitLine = 0;
+    lastLiquidColor = null;
+    lastLiquidImg2 = null;
   }
   function clearView() {
     viewData[currentView].total = [];
@@ -1805,9 +1853,15 @@ This HTML and its contents are property of R74n.com.
       // if theyre the same length, sort by total length
       var al = a.split("+").length; var bl = b.split("+").length;
       if (a.indexOf("~") !== -1) {
-        al -= 99999;
+        al -= 999999;
       }
       if (b.indexOf("~") !== -1) {
+        bl -= 999999;
+      }
+      if (a.charCodeAt(a.length-1) === 45) { //-
+        al -= 99999;
+      }
+      if (b.charCodeAt(a.length-1) === 45) { //-
         bl -= 99999;
       }
       if (al === bl) {
@@ -1935,6 +1989,10 @@ This HTML and its contents are property of R74n.com.
               // if (!nameMap[needed]) { nameMap[needed] = [ nameMap[needed][0].derivedFrom ] }
             }
             ingredientFound = true
+            // if (modifiers.inverse) {
+            //   count = 0;
+            //   break;
+            // }
           }
           else {
             for (var j = 0; j < ingredients.length; j++) {
@@ -1951,9 +2009,13 @@ This HTML and its contents are property of R74n.com.
                 else var id = ingredients[j].id;
                 if (nameMap[id] && nameMap[id].length > (toUse[id]||0)) {
                   needed = id;
-                  if (ingredients[j].noName) noNameCount++;
                   // console.log("nameMap[needed] ("+needed+"): "+nameMap[needed])
-                  ingredientFound = true
+                  ingredientFound = true;
+                  // if (modifiers.inverse && ingredientFound) {
+                  //   count = 0;
+                  //   break;
+                  // }
+                  if (ingredients[j].noName) noNameCount++;
                   break;
                 }
               }
@@ -1961,7 +2023,13 @@ This HTML and its contents are property of R74n.com.
           }
           // console.log("used[needed] ("+needed+"): "+used[needed])
           // console.log("ingredientFound: "+ingredientFound)
-          if (ingredientFound && nameMap[needed].length) {
+          if (modifiers.inverse) {
+            if (ingredientFound) {
+              count = 0;
+              break;
+            }
+          }
+          else if (ingredientFound && nameMap[needed].length) {
             toUse[needed] = (toUse[needed]||0) + 1;
             // console.log(toUse[needed])
             count++;
@@ -2063,6 +2131,9 @@ This HTML and its contents are property of R74n.com.
         ingName = nameOverride;
       }
       nameParts.push([ingName, weight, type, fallback]);
+      if (ingredient.adj) {
+        nameParts.push([ingredient.adj, weight-100, "adj", undefined]);
+      }
       used[ingredient.id] = 2;
     }
     var nameSorted = nameParts.sort(function(b, a) {
@@ -2144,6 +2215,7 @@ This HTML and its contents are property of R74n.com.
     if (name.trim().length === 0) {
       name = "Mostly Nothing";
     }
+    name = name.replace(/@/g,"")
 
     return name;
   }
@@ -2273,6 +2345,10 @@ This HTML and its contents are property of R74n.com.
     localStorage.setItem("InfiniteChef-Mods", JSON.stringify(enabledMods));
   }
   function addMod(js) {
+    if (js.match(/["'<>]/)) {
+      alert("Mod name contains invalid characters!");
+      return;
+    }
     if (!js.startsWith("http")) {
       js = "https://r74ncom.github.io/InfiniteChef-Mods/"+js;
     }
@@ -2418,7 +2494,8 @@ This HTML and its contents are property of R74n.com.
         currentToolR = 10;
       },
       onMouseUp: () => {
-        if (dragging) {
+        console.log(mousePos.dX,mousePos.dY)
+        if (dragging && !(Math.abs(mousePos.dX) <= 5 && Math.abs(mousePos.dY) <= 5)) {
           dragging.forEach((placed) => {
             placed.vx = mousePos.speedX;
             placed.vy = mousePos.speedY;
@@ -2753,7 +2830,9 @@ This HTML and its contents are property of R74n.com.
         x: Math.round(e.clientX - rect.left),
         y: Math.round(e.clientY - rect.top),
         speedX: -Math.round(mousePos.x - (e.clientX - rect.left)),
-        speedY: -Math.round(mousePos.y - (e.clientY - rect.top))
+        speedY: -Math.round(mousePos.y - (e.clientY - rect.top)),
+        dX: Math.round((e.clientX - rect.left) - mousePos.x),
+        dY: Math.round((e.clientY - rect.top) - mousePos.y),
       }
     }
     window.addEventListener('mousemove', function(e) {
@@ -2863,9 +2942,9 @@ This HTML and its contents are property of R74n.com.
         var split = recipeMap[sortedKeys[i]][0].split(":");
         recipeMap[sortedKeys[i]][0] = split[1];
       }
-      var modifier = recipeMap[sortedKeys[i]][0].charCodeAt(0);
+      var totalModifier = recipeMap[sortedKeys[i]][0].charCodeAt(0);
       // if starts with = or ~, remove the character
-      if (modifier === 61 || modifier === 126) {
+      if (totalModifier === 61 || totalModifier === 126) {
         recipeMap[sortedKeys[i]][0] = recipeMap[sortedKeys[i]][0].substring(1);
       }
     }
@@ -2888,6 +2967,19 @@ This HTML and its contents are property of R74n.com.
 </script>
 
 <div id="textualContent">
+  <p id="alertBox" style="display:none">
+    <span style="color:red">NEW UPDATE</span>: <a href="changelog.txt" target="_blank" id="changelogButton">View Changelog</a>
+  </p>
+  <script>
+    // version check
+    if (settings.lastVersion !== currentVersion) {
+        document.getElementById("alertBox").style.display = "block";
+    }
+    document.getElementById("changelogButton").addEventListener("click", function() {
+        setSetting("lastVersion",currentVersion);
+    });
+  </script>
+
   <h2>About Infinite Chef</h2>
   <p><dfn>Infinite Chef</dfn> is a cooking simulator that can be played in your browser. With a sophisticated <strong>dish name generator</strong> that can accept any of <strong>hundreds of ingredients</strong>, Infinite Chef is the <strong>ultimate virtual kitchen</strong>.</p>
 
@@ -2924,7 +3016,10 @@ This HTML and its contents are property of R74n.com.
 
   <p>Infinite Chef is made by <a href="https://R74n.com/">R74n</a>, the developer of <a href="https://sandboxels.R74n.com/">Sandboxels</a>.</p>
 
-  <p style="text-align:center"><a href="https://R74n.com/"><img src="https://R74n.com/icons/favicon.svg" style="height:1em;vertical-align:top;"></a> • <a href="changelog.txt">Changelog</a> • <a href="../license.txt">License</a> • <a href="../privacy">Privacy</a></p>
+  <p style="text-align:center"><a href="https://R74n.com/"><img src="https://R74n.com/icons/favicon.svg" style="height:1em;vertical-align:top;"></a> • <span id="versionNumber"></span> • <a href="changelog.txt">Changelog</a> • <a href="../license.txt">License</a> • <a href="../privacy">Privacy</a></p>
+  <script>
+    document.getElementById("versionNumber").innerText = "v"+currentVersion;
+  </script>
 </div>
 
 

@@ -58,6 +58,16 @@ shapeMeta = {
     octRotation: [0,45,90,135,180,225,270,315],
 }
 
+adjReactions = {
+    "red": {
+        "blue": "purple",
+        "yellow": "orange",
+    },
+    "yellow": {
+        "blue": "green",
+    }
+}
+
 
 ingredients = {
 
@@ -94,6 +104,10 @@ gas: {
     behavior:3,
     dishName:null
 },
+air: {
+    type:"gas",
+    a: 0
+},
 energy: {
     color:"#ffff80",
     group:"generic",
@@ -107,11 +121,17 @@ energy: {
     delete:true,
     dissolve:true
 },
+unknown: {
+    group:"generic",
+    shape:"unknown",
+    adj:"glitched"
+},
 utensil: {
     group:"generic",
     shape:"fork_down",
     dishName:null
 },
+
 fork: {
     type:"utensil",
     shape:"fork_down",
@@ -125,38 +145,18 @@ skewer: {
     keywords:"stick,kebab,kabob,kebap,kabab,popsicle stick",
     width:0.2
 },
+straw: {
+    type:"utensil",
+    shape:"rectangle_vertical_thinnest_tb",
+    scale:4,
+    color:"#c6dadc",
+    width:0.2
+},
 decor: {
     group:"generic",
     shape:"astroid",
     dishName:null,
     dishWeight:-200
-},
-microplastic: {
-    color:"#d0bfce",
-    type:"powder",
-    shape:"powder_rough",
-    hidden:true,
-    dishName:null
-},
-eye: {
-    name:"googly eye",
-    adj:"pet",
-    color:"#ffffff",
-    shape:"fisheye_dark",
-    type:"decor",
-    scale:0.4,
-    keywords:"eyeball",
-    broken:"microplastic",
-    width:1
-},
-hat: {
-    name:"top hat",
-    adj:"dapper",
-    color:"#303030",
-    shape:"hat",
-    type:"decor",
-    scale:0.75,
-    dishWeight:-205
 },
 random: {
     shape:"assorted",
@@ -252,7 +252,7 @@ shaved_ice: {
     adj:"iced",
     meltPoint:30,
     meltInto:"water",
-    keywords:"crushed ice,snow,slush"
+    keywords:"crushed ice,snow,slush,slushie,smoothie"
 },
 sauce: {
     type:"thick_liquid",
@@ -310,7 +310,8 @@ jam: {
 jelly: {
     type:"jam",
     color:"#b82e7f",
-    keywords:"jam,grape jelly"
+    keywords:"jam,grape jelly",
+    parts:null
 },
 marmalade: {
     type:"paste",
@@ -439,6 +440,19 @@ vodka: {
     reactions:null,
     parts:["water"]
 },
+liquor: {
+    type:"alcohol",
+    color:"#b1c5c3",
+    keywords:"distilled beverage,distilled alcohol,spirit"
+},
+rum: {
+    type:"liquor",
+    color:"#B95711"
+},
+whiskey: {
+    type:"liquor",
+    color:"#D28C23"
+},
 soda: {
     type:"liquid",
     color:"#501c00",
@@ -455,7 +469,7 @@ coffee: {
     color:"#7f402b",
     boilPoint:100,
     boilInto:"steam",
-    keywords:"caffeine,black coffee,decaf"
+    keywords:"caffeine,black coffee,decaf,joe"
 },
 tea: {
     type:"liquid",
@@ -536,7 +550,17 @@ oil: {
     color:"#e7df97",
     pin:true,
     dishName:null,
-    keywords:"cooking oil"
+    keywords:"cooking oil",
+    reactions: { // frying
+        meat: { adj2:"fried", tempMin:80, create:"gas", chance:0.005 },
+        yolk: { adj2:"fried", tempMin:80, create:"gas", chance:0.005 },
+        rice: { adj2:"fried", tempMin:80, create:"gas", chance:0.005 },
+        mushroom: { adj2:"fried", tempMin:80, create:"gas", chance:0.005 },
+        breadcrumbs: { adj2:"fried", tempMin:80, create:"gas", chance:0.005 },
+        potato: { set2:"fry", tempMin:80, create:"gas", chance:0.005 },
+        mashed_potato: { set2:"fry", tempMin:80, create:"gas", chance:0.005 },
+        chicken: { set2:"chicken_nugget", tempMin:80, create:"gas", chance:0.005 },
+    }
 },
 vegetable_oil: {
     type:"oil",
@@ -851,7 +875,7 @@ butterscotch: {
 chocolate_icing: {
     type:"icing",
     color:"#95592e",
-    keywords:"chocolate frosting"
+    keywords:"chocolate frosting,nutella,chocolate spread"
 },
 brown_sugar: {
     type:"sugar",
@@ -980,6 +1004,11 @@ cornstarch: {
     type:"flour",
     keywords:"cornflour,maize starch"
 },
+corn_syrup: {
+    type:"syrup",
+    color:"#EAE1AA",
+    parts:["cornstarch"]
+},
 rice_flour: {
     type:"flour",
     keywords:"rice powder"
@@ -1093,6 +1122,15 @@ dough: {
     meltPoint:100,
     meltInto:"bread"
 },
+mochi: {
+    color:"#e8e3dc",
+    type:"dough",
+    keywords:"mochi dough",
+    placedShape:"droplets_some",
+    landedShape:"blob_short",
+    behavior:2,
+    dissolve:true
+},
 easter_egg: {
     type:"egg",
     color:["#ffaaaa","#ffddaa","#aaffaa","#aaffff","#aaaaff","#ffaaff"],
@@ -1108,6 +1146,23 @@ cheese: {
     meltPoint:60,
     stackShape:"rectangle_thinner",
     parts:null
+},
+cheese_wheel: {
+    color:"#fec118",
+    group:"dairy",
+    shape:"circle_porous",
+    adj:"cheesy",
+    dishWeight:-55,
+    broken:"cheese_powder",
+    meltPoint:60,
+    stackShape:null,
+},
+cheese_wheel: {
+    type:"cheese",
+    shape:"circle_porous",
+    stackShape:null,
+    keywords:"wheel of cheese",
+    scale:1.5
 },
 swiss_cheese: {
     color:"#e1d5a6",
@@ -1175,7 +1230,17 @@ mozzarella: {
     color:"#e1d9ca",
     type:"cheese",
     shape:"blob_short",
-    keywords:"mozarella,mozzarela"
+    keywords:"mozarella,mozzarela,mozzarella cheese",
+    parts:null
+},
+mozzarella_stick: {
+    color:"#a35d11",
+    innerColor:"#e1d9ca",
+    broken:"mozzarella",
+    shape:"rod_bumpy",
+    keywords:"mozz stick",
+    group:"dairy",
+    parts:["mozzarella"]
 },
 feta: {
     color:"#F2F0EA",
@@ -1183,6 +1248,12 @@ feta: {
     shape:"wedge_porous",
     stackShape:"rectangle_thinner_round_porous",
     keywords:"feta cheese"
+},
+american_cheese: {
+    color:"#ffbf00",
+    type:"cheese",
+    shape:"rectangle_thinner",
+    keywords:"processed cheese"
 },
 
 
@@ -1231,7 +1302,9 @@ vegetable: {
 mushroom: {
     color:"#d8b377",
     type:"vegetable",
-    shape:"fungus"
+    shape:"fungus",
+    broken:null,
+    brokenShape:"squares_some_flat"
 },
 shiitake: {
     color:"#c39142",
@@ -1473,6 +1546,22 @@ watermelon_slice: {
     name:"watermelon",
     type:"watermelon"
 },
+breadfruit: {
+    color:"#7ebf60",
+    innerColor:"#e5c8ab",
+    scale:1.5,
+    r:-90,
+    type:"fruit",
+    shape:"buds"
+},
+jackfruit: {
+    color:"#b3ba6e",
+    innerColor:"#F1C234",
+    scale:2,
+    r:-90,
+    type:"fruit",
+    shape:"buds"
+},
 orange: {
     color:"#FFA500",
     innerColor:"#FFD700",
@@ -1564,7 +1653,15 @@ lychee: {
     color:"#E84C5A",
     type:"fruit",
     shape:"pick",
-    keywords:"litchi"
+    keywords:"litchi",
+    innerColor:"#E1DECD"
+},
+ackee: {
+    color:"#e8764c",
+    type:"fruit",
+    shape:"oval_bi",
+    scale:0.75,
+    keywords:"acki,akee,ackee apple"
 },
 blueberry: {
     color:["#4f86f7","#312581","#492581"],
@@ -1657,7 +1754,7 @@ strawberry: {
     color:"#F81F3C",
     type:"berry",
     shape:"pick",
-    scale:0.75
+    scale:0.6
 },
 olive: {
     color:"#808000",
@@ -1717,6 +1814,11 @@ tomato: {
     shape:"fruit_wide",
     stackShape:"rectangle_thinner_tablet",
     broken:"tomato_sauce"
+},
+yellow_tomato: {
+    color:"#ffcb3c",
+    type:"tomato",
+    innerColor:"#ffcb3c"
 },
 persimmon: {
     color:"#E65F1D",
@@ -2160,7 +2262,8 @@ sakura: {
     shape:"spheroid_prolate",
     scale:0.5,
     r:shapeMeta.quadRotation,
-    keywords:"cherry blossom,petal,flower"
+    keywords:"cherry blossom,petal,flower",
+    brokenShape:"squares_some_flat"
 },
 mint: {
     color:"#1a9e16",
@@ -2670,7 +2773,8 @@ vanilla_bean: {
     type:"bean",
     color:"#442921",
     shape:"curve",
-    broken:"vanilla"
+    broken:"vanilla",
+    adj:"vanilla"
 },
 vanilla: {
     type:"spice",
@@ -2678,12 +2782,14 @@ vanilla: {
     reactions: {
         water: { set1:"vanilla_extract", set2:null },
         alcohol: { set1:"vanilla_extract", set2:null }
-    }
+    },
+    adj:"vanilla"
 },
 vanilla_extract: {
     type:"liquid",
     color:"#442921",
-    parts:["vanilla"]
+    parts:["vanilla"],
+    adj:"vanilla"
 },
 
 herb: {
@@ -2763,7 +2869,8 @@ rice: {
     type:"powder",
     pin:true,
     broken:"rice_flour",
-    keywords:"white rice"
+    keywords:"white rice",
+    whipped:"mochi"
 },
 brown_rice: {
     type:"rice",
@@ -2852,6 +2959,17 @@ taco_shell: {
     width:1,
     dishName:"taco"
 },
+cupcake_wrapper: {
+    type:"utensil",
+    color:shapeMeta.colorsPastel,
+    shape:"angle_bracket_up_thin_top",
+    stackShape:null,
+    scale:2,
+    height:0.4,
+    width:1,
+    keywords:"cupcake cup,muffin wrapper,muffin cup",
+    dishName:"cupcake"
+},
 crouton: {
     type:"bread",
     color:"#bd8336",
@@ -2922,6 +3040,12 @@ cookie: {
     shape:"circle_porous",
     stackShape:"rectangle_thinner_round_porous",
     broken:"cookie_butter"
+},
+gingerbread_man: {
+    color:"#BD7129",
+    type:"cookie",
+    shape:"figure",
+    stackShape:null
 },
 pancake: {
     type:"cake",
@@ -3001,10 +3125,17 @@ plant_patty: {
     type:"beef_patty",//not really
     color:"#ff8b4d",
     shape:"rectangle_thinner_round",
-    keywords:"vegan patty,vegetarian patty,plant meat,vegan meat,vegan beef,impossible burger",
+    keywords:"vegan patty,vegetarian patty,plant meat,vegan meat,vegan beef,impossible burger,beyond meat burger,beyond burger",
     dishName:"vegan burger",
     cookName:null,
     height:0.5
+},
+meatball: {
+    type:"meat",
+    color: "#72543c",
+    shape:"circle_ms",
+    cookName:null,
+    scale: 0.75
 },
 veal: {
     color:"#c37c81",
@@ -3152,6 +3283,13 @@ chicken_foot: {
     stackShape:"talon",
     color:"#dec69b",
 },
+chicken_nugget: {
+    type:"chicken",
+    shape:"foliage",
+    stackShape:"foliage",
+    color:"#ba7836",
+    keywords:"chicken nuggie"
+},
 turkey: {
     color:"#ffd3d6",
     type:"poultry"
@@ -3220,6 +3358,19 @@ anchovy: {
 sardine: {
     color:"#aed0c3",
     type:"fish"
+},
+jellyfish: {
+    color:["#e87997","#b879e8","#8479e8","#79b2e8"],
+    shape:"jellyfish",
+    broken:"jelly",
+    group:"meat"
+},
+frog_leg: {
+    color:"#ffdddf",
+    shape:"leaf_stem",
+    type:"meat",
+    r:90,
+    height: 0.5
 },
 shellfish: {
     type:"meat",
@@ -3345,14 +3496,27 @@ worm: {
     scale:0.75,
     dishWeight:-10,
     keywords:"earthworm,bug",
-    broken:"bug_juice"
+    broken:"bug_juice",
+    r:shapeMeta.octRotation
+},
+maggot: {
+    color:"#c9b47d",
+    shape:"larva",
+    scale:0.75,
+    dishWeight:-10,
+    keywords:"grub,bug,worm,larva",
+    broken:"bug_juice",
+    r:shapeMeta.octRotation
 },
 
 
 yoyleberry: {
     type:"berry",
     color:"#9901FF",
-    shape:"circle_ms_leafed"
+    shape:"circle_ms_leafed",
+    reactions: {
+        doll: { adj2:"steel", color2:"#969696" }
+    }
 },
 dreamberry: {
     type:"yoyleberry",
@@ -3369,7 +3533,8 @@ dye: {
     adj:"dyed",
     shape:"powder_rough",
     dishWeight:-60,
-    delete:true
+    delete:true,
+    name:"random dye"
 },
 red_dye: {
     name:"red 40",
@@ -3377,7 +3542,43 @@ red_dye: {
     type:"dye",
     stain:true,
     adj:"red",
-    keywords:"carmine"
+    keywords:"carmine,red 3,red no 3"
+},
+blue_dye: {
+    name:"blue 1",
+    color:"#0000ff",
+    type:"dye",
+    stain:true,
+    adj:"blue"
+},
+indigo_dye: {
+    name:"blue 2",
+    color:"#8a008a",
+    type:"dye",
+    stain:true,
+    adj:"purple",
+    keywords:"purple dye,violet dye,blue dye"
+},
+yellow_dye: {
+    name:"yellow 5",
+    color:"#ffff00",
+    type:"dye",
+    stain:true,
+    adj:"yellow"
+},
+orange_dye: {
+    name:"yellow 6",
+    color:"#ffa500",
+    type:"dye",
+    stain:true,
+    adj:"orange"
+},
+green_dye: {
+    name:"green 3",
+    color:"#00ff00",
+    type:"dye",
+    stain:true,
+    adj:"green"
 },
 squid_ink: {
     color:"#292929",
@@ -3385,7 +3586,8 @@ squid_ink: {
     stain:true,
     adj:"inky",
     landedShape:"liquid_splat",
-    delete:false
+    delete:false,
+    keywords:"black dye"
 },
 pandan_extract: {
     color:"#75e169",
@@ -3393,7 +3595,7 @@ pandan_extract: {
     stain:true,
     adj:"green",
     keywords:"green dye,pandan juice",
-    delete:true,
+    // delete:true,
     dishWeight:-60
 },
 
@@ -3431,7 +3633,8 @@ boulder: {
     type:"rock",
     shape:"rock_ball",
     scale:3,
-    hidden:true
+    hidden:true,
+    broken:"sand"
 },
 sand: {
     type:"powder",
@@ -3445,7 +3648,21 @@ gallium: {
     color:"#cccccc",
     meltPoint:29.76,
     height:0.75,
-    hidden:true
+    hidden:true,
+    adj:"metallic"
+},
+acid: {
+    type:"thick_liquid",
+    hidden:true,
+    color:"#70bd13",
+    onCollide: (self, other) => {
+        if (other.id === "acid") return;
+        // deleteIngredient(other);
+        // uncontainAll();
+        changeIngredient(other,["acid","steam"]);
+        self.skipContain = true;
+    },
+    adj: "corrosive"
 },
 knife: {
     type:"utensil",
@@ -3458,6 +3675,33 @@ knife: {
         if (reactions && reactions.knife) return;
         toolData.blend.func(other);
     }
+},
+microplastic: {
+    color:"#d0bfce",
+    type:"powder",
+    shape:"powder_rough",
+    hidden:true,
+    dishName:null
+},
+eye: {
+    name:"googly eye",
+    adj:"pet",
+    color:"#ffffff",
+    shape:"fisheye_dark",
+    type:"decor",
+    scale:0.4,
+    keywords:"eyeball",
+    broken:"microplastic",
+    width:1
+},
+hat: {
+    name:"top hat",
+    adj:"dapper",
+    color:"#303030",
+    shape:"hat",
+    type:"decor",
+    scale:0.75,
+    dishWeight:-205
 },
 doll: {
     color:["#9f9f9f","#f6ede4","#f3e7db","#f7ead0","#eadaba","#d7bd96","#a07e56","#825c43","#604134","#3a312a","#292420"],
@@ -3539,6 +3783,8 @@ dishRecipes = {
 "=top_bun+bottom_bun":"nothing burger",
 "hamburger+cheese":"cheeseburger",
 "hamburger+pizza":"cheeseburger",
+"cheeseburger+lettuce+tomato+onion+ketchup+mustard+pickle":"krabby @patty@",
+"krabby @patty@+dye":"pretty patty",
 "bun+meat+bun":"meat burger",
 "chicken_patty+bun+bun":"chicken burger",
 "&bowl:~leaf_vegetable+vegetable":"vegetable salad",
@@ -3553,7 +3799,7 @@ dishRecipes = {
 "dough+meat":"meat pot pie",
 "dough+sauce+cheese":"pizza",
 "flatbread+sauce+cheese":"pizza",
-"&stack:bread+sauce+cheese+bun-":"pizza",
+"&stack:bread+sauce+cheese+bun-+taco_shell-":"pizza",
 "pizza+pepperoni+bacon+sausage":"meatlover's pizza",
 "pizza+salt+beef+cabbage":"reuben sandwich",
 "pizza+basil":"pizza margherita",
@@ -3579,23 +3825,25 @@ dishRecipes = {
 "sandwich+ground_meat":"sloppy joe",
 "sandwich+meat_sauce":"sloppy joe",
 "sloppy joe+mayonnaise+bacon+lettuce+tomato":"club sandwich",
-"sandwich+ham+cheese":"ham and cheese",
+"sandwich+ham+cheese":"ham and cheese sandwich",
 "sandwich+bacon+lettuce+tomato":"=BLT=",
+"sandwich+meatball":"meatball sub",
 "bread+cheese+butter":"grilled cheese",
-"&stack:yolk":"omelette",
+"&stack:yolk+batter-":"omelette",
 "flour+flour+liquid+liquid+yolk+fat":"bread",
 "flour+liquid+yolk+fat":"bread",
 "flour+butter+sugar+yolk":"pound cake",
 "flour+flour+flour+liquid+liquid+fat":"biscuit",
 "flour+liquid+fat":"biscuit",
 "flour+flour+liquid+yolk+fat":"muffin",
-"&stack:batter":"pancake",
+"&stack:~batter":"pancake",
 "sugar+butter+milk":"fudge",
 "chocolate+cream":"ganache",
 "ice_cream+sauce":"sauce sundae",
 "ice_cream+syrup":"syrup sundae",
 "milkoid+cooked_yolk+sugar+vanilla?":"custard",
 "custard+chocolate":"chocolate pudding",
+"custard+banana":"banana pudding",
 "cabbage+vinegar+oil?+salt?":"coleslaw",
 "gelatin+sugar+water":"jello",
 "chicken+hot_sauce":"buffalo wing",
@@ -3637,6 +3885,7 @@ dishRecipes = {
 "=skewer+skewer":"chopsticks",
 "skewer+marshmallow":"camper's delight",
 "skewer+carrot":"carrot on a stick",
+"skewer+mochi":"dango",
 "acai+granola":"açaí bowl",
 "corn_chip+corn_chip":"nachos",
 "fry+fish":"fish and chips",
@@ -3644,19 +3893,32 @@ dishRecipes = {
 "tea+tapioca_pearl":"boba",
 "boba+milk":"milk tea",
 "coffee+milk":"latte",
+"squid":"calamari",
+"cupcake_wrapper+batter":"cupcake",
+"cupcake_wrapper+cake":"cupcake",
+"&cup:cake":"cupcake",
+"&cup:batter":"cupcake",
+"fry+cheese+gravy":"poutine",
+"cheese+maggot":"casu marzu",
+"~flatbread+oil":"focaccia",
+"~dough+oil":"focaccia",
 
 // liquid combos
 "milk+soda":"pilk",
 "milk+cream?+sugar+yolk":"eggnog",
 "soda+eggnog":"pilknog",
 "milk+ice_cream+sugar?":"milkshake",
+"milk+icing+sugar?":"milkshake",
 "soda+milkshake":"pilkshake",
 "root_beer+ice_cream":"root beer float",
 "milk+vanilla+sugar":"angel milk",
+"shaved_ice+milk":"smoothie",
 "shaved_ice+water":"slushie",
 "shaved_ice+juice":"slushie",
+"caramel+soda+seltzer":"diet soda",
 // cocktails
 "orange_juice+alcohol":"screwdriver",
+"tomato_sauce+alcohol":"bloody mary",
 
 // br*nds
 "chocolate_wafer+icing":"oreo",
@@ -3693,11 +3955,21 @@ dishRecipes = {
 "hat+octopus":"dapperpus",
 "pumpkin+knife":"jack-o'-lantern",
 "&bowl:=leek":"leaky pot",
+"&bowl:=leek":"leaky glass",
 "=tomato+cucumber":"=V=eggie=T=ales",
 "ice_cube+date":"cold shoulder",
 "ice_cube+bone":"chilled bone",
 "ice_cube+pepper":"chilly pepper",
 "ice_cube+spice":"ice spice",
+"dough+eye+eye":"pou",
+"gumdrop+eye+eye":"shiny pou",
+"beef+eye+eye":"charlie the steak",
+"chicken_nugget+eye+eye":"gadagadigadagado",
+"sandwich+energy":"sand-witch",
+"corn_chip+hat":"bill cipher",
+"chip+hat":"pringle",
+"ice_cube+ice_cube+hat":"snowman",
+"~ice_cube+ice_cube+baby_doll":"ice@ @ice@ baby",
 
 // fandoms
 "batter+yoyleberry":"yoylecake",
@@ -3705,11 +3977,14 @@ dishRecipes = {
 "juice+yoyleberry":"yoylestew",
 "water+yoyleberry":"yoylestew",
 "broth+yoyleberry":"yoylestew",
+"cheese_wheel+uranium":"@cheese@ orb",
+"cheeseball+uranium":"@cheese@ orb",
 "seltzer+sugar+citrus_juice+spice":"nuka cola",
 "doll+leek":"miku",
 "miku+sakura":"sakura miku",
 "miku+red_dye":"teto",
 "milk+yam+vanilla":"yam jam",
+"coffee+orange_juice":"orange joe",
 
 // sauces and soups
 "tomato_sauce+chili_sauce+spice+salt?":"salsa",
@@ -3720,7 +3995,7 @@ dishRecipes = {
 "noodles+sauce":"spaghetti",
 "noodles+coconut_milk":"laksa",
 "noodles+broth":"ramen",
-"pasta+sauce+cheese":"lasagna",
+"pasta+sauce+cheese+cheese_sauce-":"lasagna",
 "broth+meat+vegetable":"meat stew",
 "broth+mushroom":"mushroom stew",
 "milkoid+roux+shellfish":"shellfish chowder",
@@ -3733,7 +4008,8 @@ dishRecipes = {
 "pasta+butter+parmesan":"fettuccine alfredo",
 "butter+cayenne+vinegar":"buffalo sauce",
 "mayonnaise+ketchup":"mayochup",
-"mayonnaise+mustard":"mayomust",
-"ketchup+mustard":"mustketch",
+"~mayonnaise+mustard":"mayomust",
+"~ketchup+mustard":"mustketch",
+"meatball+spaghetti":"spaghetti and meatball",
 
 }

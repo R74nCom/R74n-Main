@@ -1,0 +1,98 @@
+{
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "additionalType": "WebSite",
+    "name": "Infinite Chef",
+    "description": "Infinite Chef is a cooking simulator that can be played in your browser. With a sophisticated dish name generator that can accept any of hundreds of ingredients, Infinite Chef is the ultimate virtual kitchen.",
+    "url": "https://R74n.com/cook/",
+    "logo": "https://R74n.com/cook/icons/icon.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "contact@R74n.com",
+      "contactType": "customer service",
+      "availableLanguage": "en",
+      "url": "https://R74n.com/ufbs/",
+      "name": "Contact R74n"
+    },
+    "sameAs": [
+      "https://R74n.com/cook/"
+    ],
+    "identifier": [
+        "/g/11vx63rh8r",
+        "Q126009787"
+    ],
+    "datePublished": "2024-04-27",
+    "dateCreated": "2024-02-29",
+    "gamePlatform": "Web",
+    "playMode": "SinglePlayer",
+    "numberOfPlayers": {
+        "@type": "QuantitativeValue",
+        "minValue": "1",
+        "maxValue": "1"
+    },
+    "applicationCategory": "Game, Multimedia",
+    "applicationSubCategory": "Cooking Game",
+    "applicationSuite": "R74n",
+    "featureList": "https://r74n.com/cook/",
+    "releaseNotes": "https://r74n.com/cook/changelog.txt",
+    "screenshot": "https://r74n.com/cook/screenshots/critter-soup.webp",
+    "softwareHelp": {
+        "@type": "WebPage",
+        "url": "https://r74n.com/cook/"
+    },
+    "softwareRequirements": "HTML5",
+    "softwareVersion": "1.4",
+    "archivedAt": "http://web.archive.org/web/https://r74n.com/cook/",
+    "author": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "copyrightHolder": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "copyrightYear": 2024,
+    "creator": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "creditText": "R74n",
+    "discussionUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfXx1NWgGz_VJ-796FsmawOzHF1MzAZevCVXFHXtQymWj3ysA/viewform",
+    "educationalUse": "experimental",
+    "genre": "Cooking",
+    "inLanguage": "en",
+    "headline": "Infinite Chef - Cooking Simulator",
+    "isPartOf": "https://R74n.com/",
+    "keywords": "cooking, crafting, games, game, chef, kitchen",
+    "learningResourceType": "lab",
+    "maintainer": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "url": "https://R74n.com/cook/"
+    },
+    "producer": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
+    "publication": {
+        "@type": "PublicationEvent",
+        "startDate": "2024-04-27",
+        "name": "Version 1.0 - Official Release"
+    },
+    "teaches": "Cooking, Spelling",
+    "thumbnailUrl": "https://r74n.com/cook/icons/screenshot.png"
+}
