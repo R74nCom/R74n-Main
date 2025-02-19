@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-02-18 - Updated Rue bookmarklet to work in Firefox
 2025-02-08 - Added LineRider.com file to Icons
 2025-02-07 - Updated Sandboxels schema, created Infinite Chef schema
 2025-02-05 - Archived News Flashes from 2024
