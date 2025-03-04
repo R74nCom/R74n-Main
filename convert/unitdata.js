@@ -786,6 +786,7 @@ unitdata = {
   "parsec per year": 977813106,
   "sandboxels pixel per sandboxels tick": 0.047624994,
   "bubnoff unit": 1/31540000000000,
+  "roblox stud per second":0.28,
   // "test speed": 0.5,
 },
 
