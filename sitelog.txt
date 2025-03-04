@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-03-04 - Text Viewer Parser - Standalone
 2025-02-28 - Updated milestones.txt
 2025-02-18 - Updated Rue bookmarklet to work in Firefox
 2025-02-08 - Added LineRider.com file to Icons
