@@ -1,5 +1,7 @@
 // Text Viewer Parser - Standalone
 // Based on Explore with Rue, which is based on Text Viewer
+// Developed by R74n (https://R74n.com/)
+// Available at https://r74n.com/textviewer/standalone.js
 
 textParserCommands = {}
 textParserConfig = {
