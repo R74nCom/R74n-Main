@@ -2964,6 +2964,14 @@ This HTML and its contents are property of R74n.com.
     refreshCanvas();
     gameLoop = setInterval(tick, 1000 / fps);
   });
+
+  window.addEventListener("load",function(){
+    let script = document.createElement("script");
+    script.setAttribute("async",true);
+    script.setAttribute("src","https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8485284630785740");
+    script.setAttribute("crossorigin","anonymous");
+    document.head.appendChild(script);
+  });
 </script>
 
 <div id="textualContent">
