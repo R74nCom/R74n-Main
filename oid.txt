@@ -235,6 +235,7 @@ The following list contains OIDs with definitions, as opposed to being inherent.
 61117.9000.14       -   Solar Smash
 61117.9000.15       -   R74n Adoption Agency
 61117.9000.16       -   RUBYinc
+61117.9000.17       -   adacey
 61117.9000.123      -   Requested Example
 61117.9998          -   Experimental, for testing only
 61117.9999          -   Example, for explanation only
