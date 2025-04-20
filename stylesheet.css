@@ -281,6 +281,18 @@ ul ol, ol ul, ul ul, ol ol { /* Nested lists */
     cursor: pointer;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
 }
 
+.noSelect, .panelTitle, .actionItem, .logMessage .logDay, .logMessage .logAct {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+summary {
+    cursor: pointer;
+}
+
 .artgallery {
     display:flex;
     flex-wrap:wrap;

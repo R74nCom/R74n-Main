@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-04-10 - Updated annual holiday dates for main page
 2025-04-10 - Updated Copy Paste Dump season on main page
 2025-04-10 - Fixed formatting typo on Socials page
 2025-03-31 - Updated R74n Guestbook links in accordance with its archiving
