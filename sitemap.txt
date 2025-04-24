@@ -57,7 +57,6 @@ https://r74n.com/discord/
 https://r74n.com/twitch/
 https://r74n.com/textviewer/
 https://r74n.com/textviewer/docs
-https://r74n.com/EoD.png
 https://r74n.com/mix/
 https://r74n.com/mix/changelog
 https://r74n.com/search/
@@ -99,7 +98,6 @@ https://r74n.com/schema/
 https://r74n.com/meta/
 https://r74n.com/collab/
 https://r74n.com/outlinks/
-https://r74n.com/eod/
 https://r74n.com/supporters/
 https://r74n.com/uses
 https://r74n.com/shapes/
@@ -116,3 +114,4 @@ https://r74n.com/milestones.txt
 https://r74n.com/rue/chat
 https://r74n.com/ontomata/
 https://r74n.com/sitelog.txt
+https://r74n.com/music/
