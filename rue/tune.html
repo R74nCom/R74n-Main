@@ -731,38 +731,46 @@ playTune(`
   let recordedChunks = [];
 
   async function recordStart() {
-    try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: false,
-        audio: true
-      });
+  try {
+    const stream = await navigator.mediaDevices.getDisplayMedia({
+      video: true, // Must be true
+      audio: true
+    });
 
-      mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder = new MediaRecorder(stream);
 
-      mediaRecorder.ondataavailable = function(e) {
-        if (e.data.size > 0) {
-          recordedChunks.push(e.data);
-        }
-      };
+    mediaRecorder.ondataavailable = function(e) {
+      if (e.data.size > 0) {
+        recordedChunks.push(e.data);
+      }
+    };
 
-      mediaRecorder.onstop = function() {
-        const blob = new Blob(recordedChunks, { type: 'audio/webm' });
-        const url = URL.createObjectURL(blob);
-        const audio = document.createElement('audio');
-        audio.controls = true;
-        audio.src = url;
-        document.getElementById('recordings').appendChild(audio);
+    mediaRecorder.onstop = function() {
+      const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+      const url = URL.createObjectURL(blob);
 
-        // Reset for next recording
-        recordedChunks = [];
-      };
+      const audio = document.createElement('audio');
+      audio.controls = true;
+      audio.src = url;
+      document.getElementById('recordings').appendChild(audio);
 
-      mediaRecorder.start();
-      console.log("Recording started...");
-    } catch (err) {
-      console.error("Error starting recording:", err);
-    }
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'recording.webm';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      recordedChunks = [];
+    };
+
+    mediaRecorder.start();
+    console.log("Recording started...");
+  } catch (err) {
+    console.error("Error starting recording:", err);
   }
+}
 
   function recordStop() {
     if (mediaRecorder && mediaRecorder.state !== "inactive") {
