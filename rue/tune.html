@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<!--
+⢠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⣀⣀⠄⠄⠄⠄⠄⠄⠄⠄⣀⣀⣀⣀⣀⣀⣀⡀
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣆⡀⠄⠄⠄⠄⠿⠿⠿⠿⢿⣿⣿⠇
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠄⠄⠄⠄⠄⠄⠄⣠⣿⡿⠁⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠈⠹⣿⣿⣿⣿⣧⠄⠄⠄⠄⠄⣰⣿⡿⠁⠄⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⠄⠄⠄⠄⢀⣿⣿⠇⠄⠄⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⢀⣿⣿⣿⣿⡟⠄⠄⠄⠄⠘⠛⠛⢀⣀⣀⠄
+⢸⣿⣿⣿⣿⣤⣤⣤⣤⣤⣤⣤⣶⣾⣿⣿⣿⡿⠄⠄⠄⠄⠄⠄⢀⣴⣿⣿⣿⠄
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⠄⠄⠄⠄⠄⠄⣠⣿⠟⢹⣿⣿⠄
+⢸⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⣿⣯⣍⠁⠄⠄⠄⠄⠄⠄⢀⣾⣿⣉⣀⣸⣿⣿⣀
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠙⢿⣿⣿⣿⣷⣄⠄⠄⠄⠄⠄⠸⠿⠿⠿⠿⢿⣿⣿⠿
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠈⣿⣿⣿⣿⣿⣆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠸⠿⠿⠄
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿⣿⣿⣇⠄⠄⠄⠄⣿⣿⣧⣾⣿⣿⣷⡀
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠈⢻⣿⣿⣿⣿⣦⠄⠄⠄⣿⣿⡏⠄⢸⣿⣿⡇
+⢸⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⢿⣿⣿⣿⣿⣆⠄⠄⣿⣿⡇⠄⢸⣿⣿⡇
+⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
+This HTML and its contents are property of R74n.com.
+-->
+    <meta name="description" content="Simplified music format and online song creation tool">
+    <meta name="keywords" content="R74n, R47n">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="https://R74n.com/icons/avatar.png">
+    <title>RueTune - R74n</title>
+    <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://R74n.com/icons/apple-touch-icon.png?v=R74n-2">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://R74n.com/icons/favicon-32x32.png?v=R74n-2">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://R74n.com/icons/favicon-16x16.png?v=R74n-2">
+    <link rel="manifest" href="https://R74n.com/manifest.json">
+    <link rel="mask-icon" href="https://R74n.com/icons/safari-pinned-tab.svg?v=R74n-2" color="#1cd2d2">
+    <link rel="shortcut icon" href="https://R74n.com/icons/favicon.ico?v=R74n-2">
+    <meta name="msapplication-TileColor" content="#00ffff">
+    <meta name="theme-color" content="#00ffff">
+    <meta name="msapplication-config" content="https://R74n.com/icons/browserconfig.xml?v=R74n-2">
+
+    <script src="https://R74n.com/load.js"></script>
+
+    <style>
+      .tuneBox {
+        /* width:100%; */
+        border: solid 4px rgba(0, 255, 0, 0.5);
+        padding: 1em;
+        text-wrap: none;
+        word-wrap: none;
+        overflow-x: scroll;
+        overflow: scroll;
+        white-space: nowrap;
+        outline: 0px solid transparent;
+        caret-color: #00ffff;
+        scrollbar-color: rgba(0, 255, 0, 0.25);
+        font-family: monospace;
+        text-transform:uppercase;
+      }
+      .tuneBox::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 10px;
+        cursor:default;
+      }
+      .tuneBox::-webkit-scrollbar-thumb {
+        cursor: pointer;
+      }
+
+      .tuneBox::-webkit-scrollbar-thumb:horizontal {
+        border-radius: 0;
+        background-color: rgba(0, 255, 0, 0.5);
+        -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+      }
+
+      .tuneBox::-webkit-scrollbar:horizontal {
+        border-radius: 0;
+        background-color: rgba(0, 255, 0, 0.25);
+        -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+      }
+
+      .tuneBox::-webkit-scrollbar-corner {
+        background-color: rgba(0, 255, 0, 0.25);
+      }
+
+      #controlsAbove {
+        margin-bottom: 0;
+      }
+      .controlsDiv input {
+        background-color: rgba(0, 255, 0, 0.5);
+        box-shadow: none;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      #controlsAbove input {
+        margin-bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      #controlsBelow {
+        margin-top: 1em;
+      }
+      #controlsBelow details {
+        margin-bottom: 0.75em;
+      }
+      #controlsBelow input[type="range"], #waveManagerAdd {
+        width: 25%;
+        text-align: center;
+        display: inline-block;
+        cursor: pointer;
+      }
+      #waveManagerAdd {
+        text-align: right;
+      }
+      @media only screen and (max-width: 800px) {
+        #controlsBelow input[type="range"], #waveManagerAdd {
+          width: 70%;
+        }
+      }
+      #controlsBelow .waveN {
+        width: 2.5em;
+        display: inline-block;
+        text-align: center;
+      }
+      #controlsBelow .waveN:nth-of-type(odd) {
+        text-align: right;
+        padding-right: 5px;
+      }
+    </style>
+
+<script src="tuneWaves.js"></script>
+<script defer>
+
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 48000, latencyHint: 'interactive' });
+  // const oscillator = audioCtx.createOscillator();
+  
+  
+  function playTone(waveReal, frequency, duration, chordLength) {
+      const osc = audioCtx.createOscillator();
+      osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+      if (waveReal) {
+          let real = new Float32Array(waveReal);
+          let imag = new Float32Array(waveReal.length);
+          let wave = audioCtx.createPeriodicWave(real, imag);
+          osc.setPeriodicWave(wave);
+      }
+      else {
+          osc.type = 'square';
+      }
+  
+      const gainNode = audioCtx.createGain(); // Volume control
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+  
+      // Set the gain to 0 initially (silence) to fade in
+      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  
+      // Fade in over a short time (50ms)
+      gainNode.gain.linearRampToValueAtTime(tuneConfig.masterVolume/(chordLength||1), audioCtx.currentTime + 0.05);
+  
+      osc.start();
+  
+      // Schedule the tone to stop after the specified duration
+      // Fade out by reducing the gain to 0 before stopping
+      gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + duration - 0.05); // Smooth fade-out
+  
+      // Stop the oscillator after the gain has fully ramped down
+      osc.stop(audioCtx.currentTime + duration);
+  
+      return osc;
+  }
+  
+  freqByOctave = {
+      "C": [16.35,32.70,65.41,130.81,261.63,523.25,1046.50,2093.00,4186.01],
+      "C#": [17.32,34.65,69.30,138.59,277.18,554.37,1108.73,2217.46,4434.92],
+      "Db": [17.32,34.65,69.30,138.59,277.18,554.37,1108.73,2217.46,4434.92],
+      "D": [18.35,36.71,73.42,146.83,293.66,587.33,1174.66,2349.32,4698.63],
+      "D#": [19.45,38.89,77.78,155.56,311.13,622.25,1244.51,2489.02,4978.03],
+      "Eb": [19.45,38.89,77.78,155.56,311.13,622.25,1244.51,2489.02,4978.03],
+      "E": [20.60,41.20,82.41,164.81,329.63,659.25,1318.51,2637.02,5274.04],
+      "F": [21.83,43.65,87.31,174.61,349.23,698.46,1396.91,2793.83,5587.65],
+      "F#": [23.12,46.25,92.50,185,369.99,739.99,1479.98,2959.96,5919.91],
+      "Gb": [23.12,46.25,92.50,185,369.99,739.99,1479.98,2959.96,5919.91],
+      "G": [24.50,49,98,196,392,783.99,1567.98,3135.96,6271.93],
+      "G#": [25.96,51.91,103.83,207.65,415.30,830.61,1661.22,3322.44,6644.88],
+      "Ab": [25.96,51.91,103.83,207.65,415.30,830.61,1661.22,3322.44,6644.88],
+      "A": [27.50,55,110,220,440,880,1760,3520,7040],
+      "A#": [29.14,58.27,116.54,233.08,466.16,932.33,1864.66,3729.31,7458.62],
+      "Bb": [29.14,58.27,116.54,233.08,466.16,932.33,1864.66,3729.31,7458.62],
+      "B": [30.87,61.74,123.47,246.94,493.88,987.77,1975.53,3951.07,7902.13]
+  }
+  
+  noteByKey = {
+      "`": "C",
+      "1": "C#",
+      "2": "D",
+      "3": "D#",
+      "4": "E",
+      "5": "F",
+      "6": "F#",
+      "7": "G",
+      "8": "G#",
+      "9": "A",
+      "0": "A#",
+      "=": "B"
+  }
+  
+  /* Chords
+  C-E-G       `47
+  C-Eb-G      `37
+  C-Eb-Gb     `36
+  C-E-G#      `48
+  C-E-G-B     `47=
+  C-Eb-G-Bb   `370
+  C-E-G-Bb    `470
+  C-Eb-Gb-Bb  `360
+  */
+  
+  tuneRegex = {}
+  
+  tuneRegex.KEY = `[\`0-9=]`;
+  tuneRegex.KEY_EXT = `${tuneRegex.KEY}(?:-+)?`;
+  tuneRegex._KEY = `^${tuneRegex.KEY_EXT}`;
+  
+  tuneRegex._CHORD = `^\\[((?:${tuneRegex.KEY})+)\\](-+)?`;
+  
+  tuneRegex._REST = `^\\.(?:-+)?`;
+  
+  tuneRegex._META = `^<[^>]+>`;
+  tuneRegex.META_ATTR = `[\\w-]+(?:=[\\w,\\.-]+)?`;
+  
+  for (let key in tuneRegex) {
+      tuneRegex[key] = new RegExp(tuneRegex[key],"gi");
+  }
+  
+  // chord/harmony: playTone(freqByOctave["D"][5],1);playTone(freqByOctave["E"][5],1)
+  
+  tuneConfig = {
+      tempo: 240, //bpm
+      octave: 4,
+      masterVolume: 0.5,
+      waveReal: null,
+      // waveReal: waves.buzz,
+      waveImag: null,
+  }
+  tuneConfig.toneLength = 60 / tuneConfig.tempo;
+  
+  // tempo = 240; //bpm
+  // toneLength = 60 / tempo;
+  // octave = 4;
+  // masterVolume = 1;
+  
+  // waveReal = null;
+  // waveReal = waves.buzz;
+
+  metaAttrs = {
+    bpm: (ctx,value) => {
+      value = parseInt(value);
+      ctx.tempo = value;
+      ctx.toneLength = 60 / value;
+    },
+    speed: (ctx,value) => {
+      metaAttrs.bpm( ctx, 15*(2**parseInt(value)) )
+    },
+    oct: (ctx,value) => {
+      value = parseInt(value);
+      value = Math.min(8,value);
+      value = Math.max(value,0);
+      ctx.octave = value;
+    },
+    wave: (ctx,value) => {
+      ctx.waveReal = value.split(",");
+    }
+  }
+  
+  function nextStep(string,tuneCtx,trackID) {
+      if (tuneCtx.pause) return;
+      string = string.replace(/^\s+/g,"");
+      console.log(string);
+  
+      // 34321
+      // 67654
+      // [`57]
+
+      if (!tuneCtx.trackCtx) tuneCtx.trackCtx = {};
+      if (!tuneCtx.trackCtx[trackID]) tuneCtx.trackCtx[trackID] = {};
+      let trackCtx = tuneCtx.trackCtx[trackID];
+  
+      const prevString = string;
+      let match;
+      let osc;
+      let toneLength = trackCtx.toneLength || tuneCtx.toneLength || tuneConfig.toneLength;
+      let waveReal = trackCtx.waveReal || tuneCtx.waveReal || tuneConfig.waveReal;
+      let octave = trackCtx.octave || tuneCtx.octave || tuneConfig.octave;
+      let done = false;
+  
+      if (!done) { // Meta Tag
+        match = string.match(tuneRegex._META);
+        if (match) {
+            done = true;
+            string = removeMatch(string, tuneRegex._META);
+            toneLength = 0;
+            let attrs = match[0].match(tuneRegex.META_ATTR);
+            console.log(attrs);
+            let global = attrs.indexOf("G") !== -1;
+            let ctx = global ? tuneCtx : trackCtx;
+
+            if (attrs.length === 1 && tuneCtx.vars[attrs[0]]) {
+              // console.log(tuneCtx.vars[attrs[0]]);
+              attrs = tuneCtx.vars[attrs[0]];
+            }
+
+            let isVar = false;
+            if (string.match("var=")) {
+              isVar = true;
+            }
+
+            for (let i = 0; i < attrs.length; i++) {
+              const attr = attrs[i];
+              let key = attr;
+              let value;
+              if (attr.indexOf("=") !== -1) {
+                let split = attr.split("=");
+                key = split[0];
+                value = split[1];
+              }
+              key = key.toLowerCase();
+              if (key === "var" && value !== undefined) {
+                attrs.splice(i, 1);
+                tuneCtx.vars[value] = attrs;
+              }
+              else if (!isVar) {
+                if (metaAttrs[key]) metaAttrs[key](ctx,value);
+                else if (tuneWaves[key]) ctx.waveReal = tuneWaves[key];
+                else if (key === "note") delete ctx.waveReal;
+              }
+            }
+        }
+      }
+
+      if (!done) { // Tone
+        match = string.match(tuneRegex._KEY);
+        if (match) {
+            done = true;
+            string = removeMatch(string, tuneRegex._KEY);
+            let key = match[0];
+            toneLength *= key.length;
+            let note = noteByKey[key[0]];
+            let freq = freqByOctave[note][octave];
+            playTone(waveReal, freq, toneLength);
+        }
+      }
+  
+      if (!done) { // Rest
+        match = string.match(tuneRegex._REST);
+        
+        if (match) {
+          done = true;
+          string = removeMatch(string, tuneRegex._REST);
+          toneLength *= match[0].length;
+        }
+      }
+  
+      if (!done) { // Chord
+        match = tuneRegex._CHORD.exec(string);
+        tuneRegex._CHORD.lastIndex = 0;
+        if (match) {
+          done = true;
+          let chord = match[1];
+          let rest = match[2];
+          if (rest) toneLength *= rest.length+1;
+          [...chord].forEach(key => {
+              let note = noteByKey[key];
+              let freq = freqByOctave[note][octave];
+              playTone(waveReal, freq, toneLength, chord.length);
+          });
+          console.log(chord);
+          string = removeMatch(string, tuneRegex._CHORD);
+        }
+      }
+
+      // remove invalid characters
+      if (!done) {
+        string = string.slice(1);
+      }
+
+
+      // if (tuneCtx.elem) {
+      //   let markers = tuneCtx.elem.querySelectorAll('mark[data-track="'+trackID+'"]');
+      //   if (markers) {
+      //     markers.forEach((e) => {
+      //       e.replaceWith(e.innerText);
+      //     })
+      //   }
+      // }
+      // console.log("tuneCtx.markerIndex[trackID]: "+tuneCtx.markerIndex[trackID])
+      // if (match && tuneCtx.markerIndex && tuneCtx.markerIndex[trackID] !== undefined) {
+      //   console.log("Match: "+JSON.stringify(match));
+      //   let before = tuneCtx.elem.innerHTML.slice(0,tuneCtx.markerIndex[trackID]);
+      //   let after = tuneCtx.elem.innerHTML.slice(tuneCtx.markerIndex[trackID]);
+
+      //   tuneCtx.elem.innerHTML = before + after.replace(match[0], "<mark data-track='"+trackID+"'>"+match[0]+"</mark>");
+
+      //   // tuneCtx.elem.innerHTML = 
+      //   //   tuneCtx.elem.innerHTML.substring(0, tuneCtx.markerIndex[trackID]) + 
+      //   //   tuneCtx.elem.innerHTML.substring(tuneCtx.markerIndex[trackID], tuneCtx.markerIndex[trackID+1] || undefined).replace(match[0], "<mark>"+match[0]+"</mark>") +
+      //   //   tuneCtx.elem.innerHTML.substring(tuneCtx.markerIndex[trackID+1] || undefined)
+      //   tuneCtx.markerIndex[trackID] += match[0].length;
+      // }
+      
+  
+      // Only schedule the next step if there is remaining input
+      if (string && string !== prevString) {
+        if (toneLength) {
+          setTimeout(() => {
+              nextStep(string,tuneCtx,trackID);
+          }, toneLength * 1000);
+        }
+        else {
+          nextStep(string,tuneCtx,trackID);
+        }
+      } else {
+        console.log("END: " + string);
+      }
+  }
+  
+  currentTuneCtx = null;
+  function playTune(string,tuneCtx) {
+      if (currentTuneCtx) currentTuneCtx.pause = true;
+      if (!tuneCtx) tuneCtx = {
+        pause: false,
+        full: string,
+        trackCtx: {},
+        vars: {}
+      };
+      currentTuneCtx = tuneCtx
+      string = string.replace(/#[^#\n]+#/g,""); // inline comments
+      string = string.replace(/#.+/g,""); // full-line comments
+      string = string.replace(/\n/g,"");
+      string = string.toUpperCase();
+      let tracks = string.split(";");
+      let trackID = 0;
+      tracks.forEach((t) => {
+          if (t) {
+            nextStep(t,tuneCtx,trackID);
+            trackID++;
+          }
+      })
+  }
+
+  function pauseTunes() {
+    if (currentTuneCtx) {
+      currentTuneCtx.pause = true;
+    }
+  }
+  
+  function removeMatch(string,regex) {
+      return string.replace(regex,"");
+  }
+
+  // function playTuneFromElement(elem) {
+  //   let string = elem.innerText;
+  //   let startingSpace = string.match(/\s+/g)[0];
+  //   let tuneCtx = {
+  //     pause: false,
+  //     markerIndex: {},
+  //     elem: elem
+  //   }
+  //   currentTuneCtx = tuneCtx;
+  //   let tracks = string.split(";");
+  //   let trackID = 0;
+  //   let markerIndex = 0;
+  //   tracks.forEach((t) => {
+  //     let tstring = t.replace(/\s/g,"");
+  //     if (tstring) {
+  //       tuneCtx.markerIndex[trackID] = markerIndex;
+  //       nextStep(tstring,tuneCtx,trackID);
+  //       trackID++;
+  //     }
+  //     markerIndex += t.length+2;
+  //   })
+  // }
+  
+/*
+
+playTune("4.6-7642")
+playTune("[29]-[20]-[2=]-[20]-")
+playTune("[`47]-[`37]-[`36]-[`48]-")
+playTune("[`47=]-[`370]-[`470]-[`360]-")
+
+(double tempo)
+playTune("5555 6666 8888 6666")
+
+playTune(`
+; 4444 5555 6666 5555
+; 8--- 9--- 0--- 8---
+`)
+
+playTune(`
+; 4444 5555 6666 5555 4444 5555 6666 5555
+; .... .... .... .... 8--- 9--- 0--- 8---
+`)
+
+playTune(`
+; 4444 5555 6666 5555   4444 5555 6666 5555
+; .--- .--- .--- .---   8--- 9--- 0--- 8---
+`)
+
+
+<G BPM=60>
+
+4444 5555 6666 5555
+
+
+<G BPM=60>
+
+; <BPM=240>  4444 5555 6666 5555
+; <BPM=60>   8    9    0    8   
+
+
+<VAR=SLOW BPM=60>
+<VAR=FAST BPM=240>
+
+; <FAST>  4444 5555 6666 5555
+; <SLOW>  8    9    0    8   
+
+
+<VAR=SLOW SPEED=2>
+<VAR=FAST SPEED=4>
+
+; <FAST>  4444 5555 6666 5555
+; <SLOW>  8    9    0    8   
+
+
+<VAR=P PIANO BPM=60>
+
+; <P> 5678
+
+
+<G SPEED=4>
+<VAR=P PIANO OCT=2>
+<VAR=N NOTE OCT=4>
+
+<P> 5678 5678 5678 5678 <N> 6--- 76543
+
+
+<g speed=4>
+<var=p piano oct=2>
+<var=N NOTE oct=4>
+
+; <p> 5678 5678 5678 5678
+; <N> 6--- 6-4- 4-8-- 64-
+
+
+<g oct=4 speed=4>
+<var=deep oct=3>
+
+; <deep> 4444 5555 6666 5555   4444 5555 6666 5555   4444 5555 6666 5555
+;        .--- .--- .--- .---   6--- 7--- 8--- 7---   6--- 7--- 8--- 7---
+
+
+# THIS IS A COMMENT
+; 4444 5555 #COMMENT# 6666 5555
+
+
+*/
+
+
+  function autoSave() {
+    localStorage.setItem("RueTune-AutoSave",document.getElementById("tuneBox").innerText);
+  }
+  function quickSave(n=1) {
+    let text = document.getElementById("tuneBox").innerText;
+    if (!text.trim()) {
+      alert("Type into the TuneBoard above before saving!");
+      return;
+    }
+    localStorage.setItem("RueTune-QuickSave-"+n,text);
+  }
+  function quickLoad(n=1) {
+    var tuneBox = document.getElementById("tuneBox");
+    if (tuneBox.innerText.trim() && !confirm("Are you sure? This will clear your current TuneBoard, which can't be undone.")) return;
+    let text = localStorage.getItem("RueTune-QuickSave-"+n);
+    if (!text) {
+      alert("There is no Tune quicksaved! Press the Quicksave button to save and return to it later.");
+      return;
+    }
+    tuneBox.innerText = text;
+  }
+  function copyTune() {
+    var tuneBox = document.getElementById("tuneBox");
+    var r = document.createRange();
+    r.selectNode(tuneBox);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    try {
+        navigator.clipboard.writeText(tuneBox.innerText);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+    } catch (err) {
+        alert('Unable to copy!');
+    }
+    tuneBox.focus();
+  }
+  function pasteTune() {
+    let tuneBox = document.getElementById("tuneBox");
+    if (tuneBox.innerText.trim() && !confirm("Are you sure? This will clear your current TuneBoard, which can't be undone.")) return;
+    navigator.clipboard.readText()
+      .then(text => {
+        if (!text) return;
+        tuneBox.innerText = text;
+      })
+      .catch(err => {
+        alert('Failed to read clipboard: ', err);
+      });
+  }
+  function saveFile() {
+    let filename = document.getElementById("tuneName").value || "Untitled";
+    let text = document.getElementById("tuneBox").innerText.trim();
+
+    if (!text) {
+      alert("Type into the TuneBoard above before saving!");
+      return;
+    }
+
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+  function loadFilePrompt() {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.addEventListener('change', getFile);
+    input.click();
+  }
+  function getFile(event) {
+    const input = event.target
+    if ('files' in input && input.files.length > 0) {
+      readFileContent(input.files[0]).then(content => {
+        loadFile(content);
+        document.getElementById("tuneName").value = input.files[0].name.replace(/\.\w+$/g,"") || "";
+      }).catch(error => console.log(error))
+    }
+  }
+  function readFileContent(file) {
+    const reader = new FileReader()
+    return new Promise((resolve, reject) => {
+      reader.onload = event => resolve(event.target.result)
+      reader.onerror = error => reject(error)
+      reader.readAsText(file)
+    })
+  }
+  function loadFile(text) {
+    let tuneBox = document.getElementById("tuneBox");
+    if (tuneBox.innerText.trim() && !confirm("Are you sure? This will clear your current TuneBoard, which can't be undone.")) return;
+    tuneBox.innerText = text;
+  }
+
+  function injectMeta(key, value) {
+    key = key.toUpperCase();
+    if (value) value = "="+value.toString().toUpperCase();
+
+
+    let regex = new RegExp(`(\\n|^)<G( |.+ )(${key}(?:=[\\w,\\.-]+)?)( |>)`);
+    let match = tuneBox.innerText.match(regex);
+    if (match) {
+      regex.lastIndex = 0;
+      tuneBox.innerText = tuneBox.innerText.replace(regex, `$1<G$2${key}${value}$4`)
+    }
+    else {
+      
+      let match = tuneBox.innerText.match(/>( +)?\n\n/);
+      if (match) {
+        tuneBox.innerText = tuneBox.innerText.replace(/>( +)?\n\n/,`>\n<G ${key}${value}>\n\n`)
+      }
+      else {
+        tuneBox.innerText = `<G ${key}${value}>\n\n`+tuneBox.innerText.replace(/(^\n+)/g,"");
+      }
+
+    }
+  }
+
+  function waveManagerAdd(e)  {
+    e.insertAdjacentHTML("beforebegin",`<span class="waveN">1</span><input type="range" min="0" max="2" step="0.01" value="1" oninput="waveManagerChange(this)" onchange="waveManagerUpdate()"><span class="waveN" onclick="waveManagerRemove(this)">-</span><br>`);
+  }
+  function waveManagerChange(e) {
+    e.previousElementSibling.innerText = e.value;
+  }
+  function waveManagerRemove(e) {
+    e.previousElementSibling.previousElementSibling.remove();
+    e.previousElementSibling.remove();
+    e.nextSibling.remove();
+    e.remove();
+  }
+  function waveManagerTest() {
+
+  }
+  function waveManagerUpdate() {
+    // waveManagerTest();
+    let waveManager = document.getElementById("waveManager");
+    let reals = [];
+    waveManager.querySelectorAll("input").forEach((e) => {
+      reals.push(e.value);
+    });
+    injectMeta("wave",reals.join(","));
+    playTune(document.getElementById("tuneBox").innerText);
+  }
+
+  function waveTest() {
+    val = () => Math.floor(Math.random()*100)/100 * (Math.random() < 0.5 ? 1 : -1);
+    let waveReal = [];
+    for (let i = -2; i < Math.round(Math.random()*30); i++) {
+      waveReal.push(val());
+    }
+    console.log(waveReal.join(","))
+    let tuneBox = document.getElementById("tuneBox");
+    tuneBox.innerText = `<WAVE=${waveReal.join(",")}>
+
+\`1234567890=`;
+    playTune(tuneBox.innerText);
+  }
+
+  recordChunks = [];
+  mediaRecorder = null;
+
+  function recordStart() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+      console.log("getDisplayMedia supported.");
+      navigator.mediaDevices
+        .getDisplayMedia(
+          // constraints - only audio needed for this app
+          {
+            audio: true,
+          },
+        )
+
+        // Success callback
+        .then((stream) => {
+
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+          console.log(mediaRecorder.state);
+          console.log("recorder started");
+          recordChunks = [];
+
+          mediaRecorder.ondataavailable = (e) => {
+            recordChunks.push(e.data);
+          };
+          mediaRecorder.onstop = (e) => {
+            console.log("recorder stopped");
+
+            const container = document.getElementById("recordings");
+
+            const audio = document.createElement("audio");
+            audio.setAttribute("controls", "");
+
+            const blob = new Blob(recordChunks, { type: "audio/ogg; codecs=opus" });
+            recordChunks = [];
+            const audioURL = window.URL.createObjectURL(blob);
+            audio.src = audioURL;
+
+            container.appendChild(audio);
+          };
+          
+        })
+
+        // Error callback
+        .catch((err) => {
+          console.error(`The following getDisplayMedia error occurred: ${err}`);
+        });
+    } else {
+      console.log("getDisplayMedia not supported on your browser!");
+    }
+  }
+  function recordStop() {
+    if (mediaRecorder) mediaRecorder.stop();
+  }
+
+ </script>
+</head>
+<body>
+
+
+<a href="." class="backbutton">⦉</a>
+<h1 class="pagetitle">RueTune</h1>
+<div class="content">
+
+<div id="controlsAbove" class="controlsDiv noSelect">
+  <input type="button" value="Play" onclick="playTune(document.getElementById('tuneBox').innerText)">
+  <input type="button" value="Stop" onclick="pauseTunes()">
+</div>
+
+<div class="tuneBox" contenteditable="plaintext-only" id="tuneBox"><br><br><br><br><br></div>
+
+<div id="controlsBelow" class="controlsDiv noSelect">
+  <details open>
+    <summary>Export</summary>
+    <input type="text" placeholder="Untitled..." id="tuneName" value="">
+    <input type="button" value="Quicksave" onclick="autoSave();quickSave()">
+    <input type="button" value="Save File" onclick="saveFile()">
+    <input type="button" value="Copy Text" onclick="copyTune()">
+    <input type="button" value="Share Link" onclick="copyTuneLink()">
+  </details>
+  <details open>
+    <summary>Import</summary>
+    <input type="button" value="Quickload" onclick="quickLoad()">
+    <input type="button" value="Load File" onclick="loadFilePrompt()">
+    <input type="button" value="Paste" onclick="pasteTune()">
+  </details>
+  <details>
+    <summary>Record</summary>
+    <input type="button" value="Start" onclick="recordStart()">
+    <input type="button" value="Stop" onclick="recordStop()">
+    <div id="recordings"></div>
+  </details>
+  <!-- <details>
+    <summary>Other</summary>
+    <input type="button" value="Wave Test" onclick="waveTest()">
+  </details> -->
+  <details>
+    <summary>Wave Manager</summary>
+    <div id="waveManager">
+      <span class="waveN">0</span><input type="range" min="0" max="2" step="0.01" value="0" oninput="waveManagerChange(this)" onchange="waveManagerUpdate()" disabled><span class="waveN"></span><br>
+      <span class="waveN">1</span><input type="range" min="0" max="2" step="0.01" value="1" oninput="waveManagerChange(this)" onchange="waveManagerUpdate()" disabled><span class="waveN"></span><br>
+      <span class="waveN">0.25</span><input type="range" min="0" max="2" step="0.01" value="0.25" oninput="waveManagerChange(this)" onchange="waveManagerUpdate()"><span class="waveN" onclick="waveManagerRemove(this)">-</span><br>
+      <span id="waveManagerAdd" onclick="waveManagerAdd(this)">+ Add Point</span>
+    </div>
+  </details>
+</div>
+
+<h2>About RueTune</h2>
+<p><dfn>RueTune</dfn> is a music format in the <a href=".">Explore with Rue</a> format family.</p>
+
+
+
+
+
+
+</div>
+
+
+<!-- i like having this but ublock blocks these things anyway -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>
