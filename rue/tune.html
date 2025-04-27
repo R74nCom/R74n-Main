@@ -727,60 +727,48 @@ playTune(`
     playTune(tuneBox.innerText);
   }
 
-  recordChunks = [];
-  mediaRecorder = null;
+  let mediaRecorder;
+  let recordedChunks = [];
 
-  function recordStart() {
-    if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
-      console.log("getDisplayMedia supported.");
-      navigator.mediaDevices
-        .getDisplayMedia(
-          // constraints - only audio needed for this app
-          {
-            audio: true,
-          },
-        )
+  async function recordStart() {
+    try {
+      const stream = await navigator.mediaDevices.getDisplayMedia({
+        video: false,
+        audio: true
+      });
 
-        // Success callback
-        .then((stream) => {
+      mediaRecorder = new MediaRecorder(stream);
 
-          mediaRecorder = new MediaRecorder(stream);
-          mediaRecorder.start();
-          console.log(mediaRecorder.state);
-          console.log("recorder started");
-          recordChunks = [];
+      mediaRecorder.ondataavailable = function(e) {
+        if (e.data.size > 0) {
+          recordedChunks.push(e.data);
+        }
+      };
 
-          mediaRecorder.ondataavailable = (e) => {
-            recordChunks.push(e.data);
-          };
-          mediaRecorder.onstop = (e) => {
-            console.log("recorder stopped");
+      mediaRecorder.onstop = function() {
+        const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        const audio = document.createElement('audio');
+        audio.controls = true;
+        audio.src = url;
+        document.getElementById('recordings').appendChild(audio);
 
-            const container = document.getElementById("recordings");
+        // Reset for next recording
+        recordedChunks = [];
+      };
 
-            const audio = document.createElement("audio");
-            audio.setAttribute("controls", "");
-
-            const blob = new Blob(recordChunks, { type: "audio/ogg; codecs=opus" });
-            recordChunks = [];
-            const audioURL = window.URL.createObjectURL(blob);
-            audio.src = audioURL;
-
-            container.appendChild(audio);
-          };
-          
-        })
-
-        // Error callback
-        .catch((err) => {
-          console.error(`The following getDisplayMedia error occurred: ${err}`);
-        });
-    } else {
-      console.log("getDisplayMedia not supported on your browser!");
+      mediaRecorder.start();
+      console.log("Recording started...");
+    } catch (err) {
+      console.error("Error starting recording:", err);
     }
   }
+
   function recordStop() {
-    if (mediaRecorder) mediaRecorder.stop();
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+      console.log("Recording stopped.");
+    }
   }
 
  </script>
