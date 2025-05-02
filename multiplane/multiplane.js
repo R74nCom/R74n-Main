@@ -481,6 +481,10 @@ multiplaneEntities = {
 "40101":"R74n Content License Version 1.1//https://web.archive.org/web/20240208113646/https://r74n.com/license.txt",
 "40120":"R74n Privacy Policy - September 7, 2023//https://web.archive.org/web/20230907183354/https://r74n.com/privacy",
 
+// Published Media //
+"44020": "Explore with Rue (Single)//urn:wikibase:entity:Q3568",
+"44030": "Rue & U!//urn:wikibase:entity:Q3570",
+
 "(-)0": "something",
 "(∞)1": "everything",
 "(-)2": "actionless",
