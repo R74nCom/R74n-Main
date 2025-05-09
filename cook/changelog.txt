@@ -1,3 +1,8 @@
+[Version 1.4.1  - May 8, 2025 - Infinite Share]
+     + When sharing a dish, the ingredients are embedded in the URL
+     + Players that open the URL will be presented with your ingredients
+     + Pondiverse support
+
 [Version 1.4  - February 7, 2025 - Infinite Drink]
      + Cup Mode
      + Meat and more can be fried with Oil and heat
