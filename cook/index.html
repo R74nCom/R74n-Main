@@ -536,7 +536,7 @@ This HTML and its contents are property of R74n.com.
           <div id="serveUnder">
             <span id="shareBlurb">Share with the world. Screenshot!</span>
             <div id="shareIconDiv">
-              <a href="https://twitter.com/" title="Share to Twitter / X" id="shareTwitter" target="_blank"><img src="../shapes/png/share-buttons/twitter.png" class="pixelart"></a><a href="https://reddit.com/" title="Share to Reddit" id="shareReddit" target="_blank"><img src="../shapes/png/share-buttons/reddit.png" class="pixelart"></a><a href="mailto:contact@R74n.com?subject=%5BInfiniteChef%5D" title="Send via Email" id="shareEmail" target="_blank"><img src="../shapes/png/share-buttons/email.png" class="pixelart"></a><a href="#" id="shareClipboard" title="Copy to Clipboard" target="_blank"><img src="../shapes/png/share-buttons/clipboard-copy.png" class="pixelart"></a>
+              <a href="https://twitter.com/" title="Share to Twitter / X" id="shareTwitter" target="_blank"><img src="../shapes/png/share-buttons/twitter.png" class="pixelart"></a><a href="https://reddit.com/" title="Share to Reddit" id="shareReddit" target="_blank"><img src="../shapes/png/share-buttons/reddit.png" class="pixelart"></a><a title="Share to the Pondiverse" id="sharePondiverse" style="display:none" target="_blank"><img src="../shapes/png/share-buttons/pondiverse.png" class="pixelart"></a><a href="mailto:contact@R74n.com?subject=%5BInfiniteChef%5D" title="Send via Email" id="shareEmail" target="_blank"><img src="../shapes/png/share-buttons/email.png" class="pixelart"></a><a href="#" id="shareClipboard" title="Copy to Clipboard" target="_blank"><img src="../shapes/png/share-buttons/clipboard-copy.png" class="pixelart"></a>
               <button onclick="clearView()" id="serveClearButton">Start Over</button>
             </div>
           </div>
@@ -1514,6 +1514,7 @@ This HTML and its contents are property of R74n.com.
     turnOff("tempDecrease");
     viewData[currentView].temp = 20;
     hideDialog();
+    if (location.search) window.history.replaceState(null, '', window.location.pathname);
   }
 
   function selectIngredient(ingredient) {
@@ -2289,7 +2290,7 @@ This HTML and its contents are property of R74n.com.
 
     var dishName = generateDishName();
     document.getElementById("dishName").innerText = dishName;
-    var url = "https://R74n.com/cook/?utm=social";
+    var url = "https://R74n.com/cook/?utm=social&r="+generateRecipeURL();
     var hashtag = "#InfiniteChef";
     var shareMessage = choose(shareMessages).replaceAll("DISHNAME", dishName);
     document.getElementById("shareTwitter").href = "https://twitter.com/intent/tweet?original_referer=https://r74n.com/cook/&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&related=R74nCom&text="+encodeURIComponent(shareMessage.toLowerCase().replace(/\(?infinite chef\)?/g, hashtag))+"&url="+encodeURIComponent(url);
@@ -2965,7 +2966,117 @@ This HTML and its contents are property of R74n.com.
     gameLoop = setInterval(tick, 1000 / fps);
   });
 
+  // URL Recipes
+  function getIngredientPrefix(name) {
+    let prefix = "";
+    for (let i = 0; i < name.length; i++) {
+      const char = name[i];
+      prefix += char;
+      let found = false;
+      for (let key in ingredients) {
+        if (key !== name && key.startsWith(prefix)) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) break;
+    }
+    if (!prefix) return name;
+    return prefix;
+  }
+  function getIngredientByPrefix(prefix) {
+    if (ingredients[prefix]) return prefix;
+    for (let key in ingredients) {
+      if (key.startsWith(prefix)) return key;
+    }
+    return null;
+  }
+
+  function generateRecipeURL() {
+    let ings = {};
+    viewData[currentView].total.forEach((ing) => {
+      if (!ing.id) return;
+      if (!ings[ing.id]) ings[ing.id] = 1;
+      else ings[ing.id]++;
+    })
+    let params = "";
+    for (let key in ings) {
+      params += getIngredientPrefix(key)+(ings[key] > 1 ? "*"+ings[key] : "") + ";";
+    }
+    if (params) {
+      params = params.substring(0,params.length-1);
+      params = encodeURIComponent(params);
+
+      let meta = "";
+      if (currentView !== "bowl") meta += "v:"+currentView;
+      
+      if (meta) params += "@"+meta;
+    }
+    return params;
+  }
+  function loadRecipeURL(params) {
+    let metaSplit = params.split("@");
+    let lines = metaSplit[0].split(";");
+    let meta = (metaSplit[1] || "").split(";");
+    meta.forEach((line) => {
+      let split = line.split(":");
+      let key = split[0];
+      let value = split[1] || null;
+      if (key === "v") {
+        changeView(value);
+      }
+    })
+    lines.forEach((line) => {
+      let split = line.split("*");
+      let ing = getIngredientByPrefix(split[0]);
+      if (!ingredients[ing]) return;
+      let count = split[1] || 1;
+      for (let i = 0; i < count; i++) {
+        placeIngredient(ing, canvas.width/2, canvas.height/3);
+      }
+    })
+  }
+  function generatePondiverse() {
+    return {
+      title: document.getElementById("dishName").innerText,
+      type: "cook",
+      data: generateRecipeURL(),
+      image: document.getElementById("dishImage").src
+    }
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  fromRecipeURL = false;
+  fromSource = urlParams.get('src') || null;
+
   window.addEventListener("load",function(){
+    const urlRecipe = urlParams.get('r');
+    if (urlRecipe) {
+      fromRecipeURL = true;
+      loadRecipeURL(urlRecipe);
+    }
+
+    if (urlParams.has("pond-id") || fromSource === "pondiverse") { // Pondiverse Port
+      let script = document.createElement("script");
+      script.setAttribute("type","module");
+      script.setAttribute("id","pondiversePort");
+      script.innerHTML = `import { openPondiverseDialog } from "https://www.pondiverse.com/pondiverse.js";
+  import { fetchPondiverseCreation } from "https://www.pondiverse.com/pondiverse.js";
+  window.fromSource = "pondiverse";
+  document.getElementById("sharePondiverse").style.display = "inline";
+  document.getElementById("sharePondiverse").onclick = ()=>{
+    openPondiverseDialog(generatePondiverse)
+  }
+
+  const creationParam = window.urlParams.get("pond-id");
+  if (creationParam) {
+    const creation = await fetchPondiverseCreation(creationParam);
+    console.log(creation.data);
+    loadRecipeURL(creation.data);
+  }`;
+      document.head.appendChild(script);
+    }
+
     let script = document.createElement("script");
     script.setAttribute("async",true);
     script.setAttribute("src","https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8485284630785740");
@@ -2973,6 +3084,8 @@ This HTML and its contents are property of R74n.com.
     document.head.appendChild(script);
   });
 </script>
+
+
 
 <div id="textualContent">
   <p id="alertBox" style="display:none">

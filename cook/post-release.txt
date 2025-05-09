@@ -5,6 +5,12 @@ function imageGen(id,h,s,l) {
     return img;
 }
 
+function imageGen(shape,h,s,l) {
+    var img = colorizeStandard("../shapes/png/"+shape+".png",h,s,l);
+    document.body.appendChild(img);
+    return img;
+}
+
 
 
 
