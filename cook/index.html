@@ -3015,6 +3015,7 @@ This HTML and its contents are property of R74n.com.
     return params;
   }
   function loadRecipeURL(params) {
+    params = decodeURIComponent(params);
     let metaSplit = params.split("@");
     let lines = metaSplit[0].split(";");
     let meta = (metaSplit[1] || "").split(";");
