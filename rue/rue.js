@@ -3635,6 +3635,7 @@ rueData.media = {
     "rickroll": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "dogjam": "https://media.tenor.com/nlg0arag0w4AAAAd/dog-jam.gif",
     "catjam": "https://media.tenor.com/82Rr2PPBCtIAAAAS/cat-jam-cat.gif",
+    "feed the slime": "https://i.imgur.com/plDBfOG.png" //patron
 } // media
 rueData.embeds = { // WIP
     "/(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/)([\\w_\\-]+)/": function(args) {}
