@@ -1,14 +1,14 @@
 body {
-    background-color: black;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size:22px;
-    word-wrap: break-word;
+	background-color: black;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:22px;
+	word-wrap: break-word;
 }
 .content {
-    margin:10px;
-    margin-top:20px;
-    overflow-wrap: break-word;
+	margin:10px;
+	margin-top:20px;
+	overflow-wrap: break-word;
 }
 
 a {color: rgb(255, 0, 255);text-decoration: none;cursor:pointer}
@@ -38,102 +38,102 @@ img, audio, video {vertical-align:middle;max-width:100%}
 
 
 .R74nicon:hover {
-    filter:hue-rotate(3600deg);
-    transition:30s;
+	filter:hue-rotate(3600deg);
+	transition:30s;
 }
 
 textarea, button, input, .checkmark {
-    vertical-align: middle;
-    color-scheme: dark;
+	vertical-align: middle;
+	color-scheme: dark;
 }
 input[type=submit] {background-color: rgb(126, 126, 126)!important;}
 input[type=reset] {background-color: rgb(111, 79, 79)!important;}
 input[type=button], button, input[type=submit], input[type=reset], .checkmark {
-    background-color: rgb(107,107,107);
-    color: rgb(255,255,255);
-    box-shadow: 0em -0.1em 0em inset rgb(0,0,0,0.5);
-    font-size: 20px;
-    border-radius: 7px;
-    border-style: none;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 7px;
-    padding-right: 7px;
-    min-width: 30px;
-    max-height: 40px;
-    vertical-align: middle;
-    line-height: 22px;
-    cursor: pointer;
-    outline: 0;
-    margin: 4px 0;
-    line-height: 1;
-    /* color transition */
-    transition: filter 0.2s;
+	background-color: rgb(107,107,107);
+	color: rgb(255,255,255);
+	box-shadow: 0em -0.1em 0em inset rgb(0,0,0,0.5);
+	font-size: 20px;
+	border-radius: 7px;
+	border-style: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 7px;
+	padding-right: 7px;
+	min-width: 30px;
+	max-height: 40px;
+	vertical-align: middle;
+	line-height: 22px;
+	cursor: pointer;
+	outline: 0;
+	margin: 4px 0;
+	line-height: 1;
+	/* color transition */
+	transition: filter 0.2s;
 }
 input[type=button][selected=true] {
-    filter: brightness(150%);
+	filter: brightness(150%);
 }
 input[disabled], textarea[disabled], button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
 input[type=button]:hover, button:hover, input[type=submit]:hover, .checkmark:hover {
-    filter: brightness(125%);
+	filter: brightness(125%);
 }
 input[type=button][disabled]:hover, button[disabled]:hover, input[type=submit][disabled]:hover {
-    filter: brightness(75%);
+	filter: brightness(75%);
 }
 input[type=button]:active, button:active, input[type=submit]:active, .checkmark:active {
-    filter: brightness(50%);
+	filter: brightness(50%);
 }
 
 textarea, input[type=text], input[type=number], input[type=date], input[type=datetime-local], input[type=month], input[type=week], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=time], input[type=url] {
-    background-color: rgb(107,107,107);
-    color: rgb(255,255,255);
-    border-radius: 15px;
-    border-style: none;
-    outline: 0;
-    padding: 10px;
+	background-color: rgb(107,107,107);
+	color: rgb(255,255,255);
+	border-radius: 15px;
+	border-style: none;
+	outline: 0;
+	padding: 10px;
 }
 input[type=number] {width:100px}
 textarea:focus {
-    box-shadow: 0 0 3pt 2pt rgb(31, 31, 31);
+	box-shadow: 0 0 3pt 2pt rgb(31, 31, 31);
 }
 textarea {
-    max-width:80%;
+	max-width:80%;
 }
 select {
-    background-color: rgb(107,107,107);
-    color: rgb(255,255,255);
-    border-radius: 15px;
-    border-style: none;
-    outline: 0;
-    padding: 10px;
+	background-color: rgb(107,107,107);
+	color: rgb(255,255,255);
+	border-radius: 15px;
+	border-style: none;
+	outline: 0;
+	padding: 10px;
 }
 meter, progress {
-    height: 1.5em;
-    vertical-align: middle;
+	height: 1.5em;
+	vertical-align: middle;
 }
 input[type="color"] {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    background-color: rgb(107,107,107);
-    border: 0;
-    cursor: pointer;
-    padding: 0;
-    vertical-align: middle;
-    height: 1.75em;
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	background-color: rgb(107,107,107);
+	border: 0;
+	cursor: pointer;
+	padding: 0;
+	vertical-align: middle;
+	height: 1.75em;
 }
 
 
 ul, dl {
-    list-style: none; /* Remove default bullets */
+	list-style: none; /* Remove default bullets */
 }
 ul li::before, dl dt::before {
-    content: "\003E\00A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-    color: lime; /* Change the color */
-    font-weight: bold; /* If you want it to be bold */
-    display: inline-block; /* Needed to add space between the bullet and the text */
-    /*width: 1em; /* Also needed for space (tweak if needed) */
-    margin-left: 0.5em; /* Also needed for space (tweak if needed) */
+	content: "\003E\00A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+	color: lime; /* Change the color */
+	font-weight: bold; /* If you want it to be bold */
+	display: inline-block; /* Needed to add space between the bullet and the text */
+	/*width: 1em; /* Also needed for space (tweak if needed) */
+	margin-left: 0.5em; /* Also needed for space (tweak if needed) */
 }
 li.redbullet::before, dt.redbullet::before {color:red;}
 li.cyanbullet::before, dt.cyanbullet::before {color:#00ffff;}
@@ -158,62 +158,62 @@ ol li {counter-increment: li}
 
 
 .checkbox {
-    position: absolute;
-    opacity: 0;
+	position: absolute;
+	opacity: 0;
 }
 .checkbox + label {
-    position: relative;
-    cursor: pointer;
-    padding: 0;
+	position: relative;
+	cursor: pointer;
+	padding: 0;
 }
 .checkbox + label:before {
-    content: '';
-    margin-right: 5px;
-    margin-top: 2.5px;
-    display: inline-block;
-    vertical-align: text-top;
-    width: 20px;
-    height: 20px;
-    background: rgb(107,107,107);
-    border-radius: 5px;
-    border-style: none;
+	content: '';
+	margin-right: 5px;
+	margin-top: 2.5px;
+	display: inline-block;
+	vertical-align: text-top;
+	width: 20px;
+	height: 20px;
+	background: rgb(107,107,107);
+	border-radius: 5px;
+	border-style: none;
 }
 .checkbox:hover + label:before {
-    filter: brightness(150%)
+	filter: brightness(150%)
 }
 .checkbox:focus + label:before {
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+	box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
 }
 .checkbox:checked + label:before {
-    background: white;
+	background: white;
 }
 .checkbox:disabled + label {
-    color: #b8b8b8;
-    cursor: auto;
+	color: #b8b8b8;
+	cursor: auto;
 }
 .checkbox:disabled + label:before {
-    box-shadow: none;
-    background: #ddd;
+	box-shadow: none;
+	background: #ddd;
 }
 .checkbox:checked + label:after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 9px;
-    background: black;
-    width: 2px;
-    height: 2px;
-    box-shadow: 2px 0 0 black, 4px 0 0 black, 4px -2px 0 black, 4px -4px 0 black, 4px -6px 0 black, 4px -8px 0 black;
-    transform: rotate(45deg);
-    margin-top: 2.5px;
+	content: '';
+	position: absolute;
+	left: 5px;
+	top: 9px;
+	background: black;
+	width: 2px;
+	height: 2px;
+	box-shadow: 2px 0 0 black, 4px 0 0 black, 4px -2px 0 black, 4px -4px 0 black, 4px -6px 0 black, 4px -8px 0 black;
+	transform: rotate(45deg);
+	margin-top: 2.5px;
 }
 
 hr {
-    border: 1px solid rgb(53, 53, 53);
-    margin-left:50px;
-    margin-right:50px;
-    margin-bottom:30px;
-    margin-top:30px;
+	border: 1px solid rgb(53, 53, 53);
+	margin-left:50px;
+	margin-right:50px;
+	margin-bottom:30px;
+	margin-top:30px;
 }
 
 /*.lidesc {margin-left:10px;}*/
@@ -254,62 +254,65 @@ tr:nth-child(odd){background-color: #272727;}
 #newsheader a:active {color:yellow;}
 
 .pixelart, .pixelflag {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: crisp-edges;
 }
 .grayimg {background-color:gray;padding:5px;}
 
 kbd {background-color:rgb(59, 59, 59);color:white;border-radius:5px;padding:2px;padding-left:5px;padding-right:5px;margin-left:3px;margin-right:3px;line-height:1.5;}
 
 ul, ol {
-    padding-left:1.5em;
+	padding-left:1.5em;
 }
 ul ol, ol ul, ul ul, ol ol { /* Nested lists */
-    padding-inline-start: 1.75em;
+	padding-inline-start: 1.75em;
 }
 
 /* Mobile styles */
 @media only screen and (max-width: 700px) {
-    table {margin-left: 0em}
-    ul, ol {
-        padding-left:0.5em;
-    }
+	table {margin-left: 0em}
+	ul, ol {
+	    padding-left:0.5em;
+	}
 }
 
 .textButton {
-    cursor: pointer;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
+	cursor: pointer;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
 }
 
 .noSelect, .panelTitle, .actionItem, .logMessage .logDay, .logMessage .logAct {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-     -khtml-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	 -khtml-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
 }
 summary {
-    cursor: pointer;
+	cursor: pointer;
+}
+abbr {
+	cursor:help;
 }
 
 .artgallery {
-    display:flex;
-    flex-wrap:wrap;
-    flex-direction: row;
-    /* center whole gallery on page */
-    justify-content: center;
-    border:solid white;
+	display:flex;
+	flex-wrap:wrap;
+	flex-direction: row;
+	/* center whole gallery on page */
+	justify-content: center;
+	border:solid white;
 }
 .artgallery div {
-    text-align: center;
-    padding: 10px;
-    flex-grow: 1;
-    border:solid white;
+	text-align: center;
+	padding: 10px;
+	flex-grow: 1;
+	border:solid white;
 }
 .artgallery div img, .artgallery div video {
-    height: 198px;
+	height: 198px;
 }
 .artgallery div audio {
-    height: 125px;
+	height: 125px;
 }

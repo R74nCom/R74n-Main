@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-05-18 - Updated Music page
+2025-05-18 - Added music link-in-bio pages to Socials page
+2025-05-18 - Reordered some Socials page links
 2025-05-01 - Added Rue & U! to Multiplane
 2025-05-01 - Updated Music page
 2025-04-24 - Published Music page
