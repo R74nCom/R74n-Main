@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-05-19 - Moved Bluesky higher on Socials page
 2025-05-18 - Updated Music page
 2025-05-18 - Added music link-in-bio pages to Socials page
 2025-05-18 - Reordered some Socials page links
