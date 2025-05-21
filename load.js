@@ -86,7 +86,7 @@ function playSound(url) {
 /*R74n Observer
   Don't worry, I'm harmless!*/
 if (document.referrer) {
-    document.cookie = "R74nRef="+document.referrer+";path=/;domain=r74n.com";
+    document.cookie = "R74nRef="+document.referrer+";max-age=86400;path=/;domain=r74n.com";
 }
 
 window.addEventListener("load",function(){
