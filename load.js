@@ -7,7 +7,9 @@ if (!String.prototype.replaceAll) {
 	};
 };
 
-urlParams = new URLSearchParams(window.location.search);
+if (!window.urlParams) {
+	window.urlParams = new URLSearchParams(window.location.search);
+}
 
 const LSPrefix = "R74nMain-";
 class R74nClass {

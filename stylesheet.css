@@ -248,10 +248,12 @@ tr:nth-child(odd){background-color: #272727;}
 .imgtext { height:1em }
 
 .linkcategory {color:yellow}
-#newsheader {color:white;background-color:darkred;padding:0.25em;border-radius:10px;}
+.alertheader {padding:0.25em;border-radius:10px;}
+#newsheader {color:white;background-color:darkred;}
 #newsheader a {color:lime;}
 #newsheader a:hover {color:rgb(117, 255, 117);}
 #newsheader a:active {color:yellow;}
+#splashheader {text-align: center;}
 
 .pixelart, .pixelflag {
 	image-rendering: pixelated;

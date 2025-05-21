@@ -134,9 +134,8 @@ function newsFlash(text) {
   document.getElementById("newsheader").style.backgroundColor = "darkred";
 }
 function splashText(text) {
-  document.getElementById("newsheader").innerHTML = text;
-  document.getElementById("newsheader").style.display = "block";
-  document.getElementById("newsheader").style.backgroundColor = "#363636";
+  document.getElementById("splashheader").innerHTML = text;
+  document.getElementById("splashheader").style.display = "block";
 }
 
 function setIcon(){
@@ -316,7 +315,7 @@ function setIcon(){
 <div id="rueBox"></div>
 
 <div class="content">
-<p id="newsheader" style="display:none;"></p><script>setIcon();</script>
+<p id="newsheader" class="alertheader" style="display:none;"></p><p id="splashheader" class="alertheader" style="display:none;"></p><script>setIcon();</script>
 
 <!-- <div class="homefundivtop">Fun stuff could go here!</div> -->
 
@@ -468,6 +467,20 @@ try {
 }
 catch (e) {
   console.log(e);
+}
+
+// Referral Splashes
+const refdomain = getCookie("R74nRef") || urlParams.get("utm_source");
+console.log(refdomain);
+if (refdomain || true) {
+  // Social Referrals
+  const refsocials = {
+    "t.co": `Escaped from <span style="color:#1DA1F2">Twitter</span>? <a title="@R74nCom" href="https://twitter.com/intent/follow?user_id=1436857621827530753">Leave a follow</a> on your way back! 💙`,
+  }
+  let refsocial = refsocials[refdomain];
+  if (typeof refsocial === "string") refsocial = refsocials[refsocial];
+  refsocial = refsocial.replace(/<a /g,"<a target='_blank' ");
+  splashText(refsocial);
 }
 </script>
 
