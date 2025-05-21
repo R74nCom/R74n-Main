@@ -473,7 +473,12 @@ catch (e) {
   Don't worry, I'm harmless!*/
 if (document.referrer && document.referrer.indexOf("r74n.") === -1) {
 	const refdomain = document.referrer.replace(/^https?:\/\//g, "").replace(/^www\./g, "").replace(/\/$/g, "");
-    document.cookie = "R74nRef="+refdomain+";max-age=86400;path=/;domain=r74n.com";
+  document.cookie = "R74nRef="+refdomain+";max-age=86400;path=/;domain=r74n.com";
+}
+
+function closeSplash() {
+  document.getElementById("splashheader").style.display = "none";
+  document.cookie = "R74nRef=no.com;max-age=0;path=/;domain=r74n.com";
 }
 
 // Referral Splashes
@@ -497,6 +502,7 @@ if (refdomain) {
   if (refsocial) {
     if (refsocial.indexOf(" ") === -1 && refsocials[refsocial]) refsocial = refsocials[refsocial];
     refsocial = refsocial.replace(/<a /g,"<a target='_blank' ");
+    refsocial += `<span class="clickable noselect" onclick="closeSplash();">[❌]</span>`
     splashText(refsocial);
   }
 }

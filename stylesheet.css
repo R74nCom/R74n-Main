@@ -74,14 +74,17 @@ input[type=button][selected=true] {
 	filter: brightness(150%);
 }
 input[disabled], textarea[disabled], button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
-input[type=button]:hover, button:hover, input[type=submit]:hover, .checkmark:hover {
+input[type=button]:hover, button:hover, input[type=submit]:hover, .checkmark:hover, .clickable:hover {
 	filter: brightness(125%);
 }
 input[type=button][disabled]:hover, button[disabled]:hover, input[type=submit][disabled]:hover {
 	filter: brightness(75%);
 }
-input[type=button]:active, button:active, input[type=submit]:active, .checkmark:active {
+input[type=button]:active, button:active, input[type=submit]:active, .checkmark:active, .clickable:active {
 	filter: brightness(50%);
+}
+.clickable {
+	cursor: pointer
 }
 
 textarea, input[type=text], input[type=number], input[type=date], input[type=datetime-local], input[type=month], input[type=week], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=time], input[type=url] {
