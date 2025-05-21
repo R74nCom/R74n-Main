@@ -90,6 +90,10 @@ if (document.referrer && document.referrer.indexOf("r74n.") === -1) {
     document.cookie = "R74nRef="+refdomain+";max-age=86400;path=/;domain=r74n.com";
 }
 
+if (!window.getCookie) {
+	window.getCookie = function (name) {const cookieString = document.cookie;const cookies = cookieString.split(';');for (let i = 0; i < cookies.length; i++) {let cookie = cookies[i].trim();if (cookie.startsWith(name + '=')) {return cookie.substring(name.length + 1);}}return null;}
+}
+
 window.addEventListener("load",function(){
 
 // Console Watermark
@@ -130,7 +134,7 @@ if (urlParams.get("rue") && urlParams.get("rue") !== "false" && urlParams.get("r
 	callRue();
 }
 
-// if metaKey + shift + R is pressed, add Rue script to the head
+// if metaKey + shift + E is pressed, add Rue script to the head
 window.addEventListener("keydown", function(e) {
 	if (e.shiftKey && (e.metaKey||e.ctrlKey) && e.key.toLowerCase() === "e") {
 		callRue();
