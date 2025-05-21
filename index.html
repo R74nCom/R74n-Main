@@ -475,7 +475,9 @@ console.log(refdomain);
 if (refdomain || true) {
   // Social Referrals
   const refsocials = {
-    "t.co": `Escaped from <span style="color:#1DA1F2">Twitter</span>? <a title="@R74nCom" href="https://twitter.com/intent/follow?user_id=1436857621827530753">Leave a follow</a> on your way back! 💙`,
+    "t.co":`Escaped from <span style="color:#1DA1F2">Twitter</span>? <a title="@R74nCom" href="https://twitter.com/intent/follow?user_id=1436857621827530753">Leave a follow</a> on your way back! 💙`,
+    "x.com":"t.co",
+    "twitter.com":"t.co",
   }
   let refsocial = refsocials[refdomain];
   if (typeof refsocial === "string") refsocial = refsocials[refsocial];
