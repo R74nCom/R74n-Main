@@ -502,7 +502,7 @@ if (refdomain) {
   if (refsocial) {
     if (refsocial.indexOf(" ") === -1 && refsocials[refsocial]) refsocial = refsocials[refsocial];
     refsocial = refsocial.replace(/<a /g,"<a target='_blank' ");
-    refsocial += `<span class="clickable noselect" onclick="closeSplash();">[❌]</span>`
+    refsocial += ` - <span class="clickable noselect" onclick="closeSplash();">❌</span>`
     splashText(refsocial);
   }
 }
