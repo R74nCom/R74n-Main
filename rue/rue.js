@@ -1662,6 +1662,17 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
         var color = args[0] || "#00ffff";
         Rue.say(`<span id="rueColorPickerText">${color}</span>\n\n<input type="color" oninput="document.getElementById('rueColorPickerText').innerText = this.value;" value="${color}">`)
     },
+    "ref": function(args) {
+        Rue.say(`document.referrer: ${document.referrer}
+
+                refdomain: ${typeof refdomain !== "undefined" ? refdomain : "null"}
+
+                navigator.userAgent: {{small:${window.navigator.userAgent}}}
+                
+                navigator.appName: ${navigator.appName}
+                
+                window.location.origin: ${window.location.origin}`)
+    },
 
     "downdetector": function(args) { //partner
         if (args.length === 0) {
