@@ -1,5 +1,11 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-05-24 - Moved Picrew logo maker link to Icons page
+2025-05-24 - Updated main page categories to use semantic tags
+2025-05-24 - Revamped Socials page with categorization and cleanup
+2025-05-24 - Fixed Amazon Music link on Music page
+2025-05-21 - Added main page messages for visitors from certain social media platforms
+2025-05-21 - Created R74n Observer
 2025-05-19 - Moved Bluesky higher on Socials page
 2025-05-18 - Updated Music page
 2025-05-18 - Added music link-in-bio pages to Socials page

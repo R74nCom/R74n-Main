@@ -14,6 +14,14 @@ body {
 a {color: rgb(255, 0, 255);text-decoration: none;cursor:pointer}
 a:active, a:hover:active {color: rgb(255, 179, 255);}
 a:hover {color: rgb(255, 121, 255);}
+a[style]:active, a[style]:hover:active {
+	color: unset;
+	filter: brightness(2.8);
+}
+a[style]:hover {
+	color: unset;
+	filter: brightness(1.8)
+}
 a.newLink::before {color: red; content: "(NEW) "}
 a.newLink:hover::before { filter:brightness(200%);}
 a.newLink:active::before { filter:brightness(300%);}
@@ -138,11 +146,11 @@ ul li::before, dl dt::before {
 	/*width: 1em; /* Also needed for space (tweak if needed) */
 	margin-left: 0.5em; /* Also needed for space (tweak if needed) */
 }
-li.redbullet::before, dt.redbullet::before {color:red;}
+li.redbullet::before, dt.redbullet::before, li.red::before, dt.red::before {color:red;}
 li.cyanbullet::before, dt.cyanbullet::before {color:#00ffff;}
 li.glowbullet::before, dt.glowbullet::before, .glowtext {text-shadow: 0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px,0px 0px 20px;}
 li.graybullet::before, dt.graybullet::before {color:gray;}
-li.yellowbullet::before, dt.yellowbullet::before {color:yellow;}
+li.yellowbullet::before, dt.yellowbullet::before, li.yel::before, dt.yel::before {color:yellow;}
 ol {list-style: none; counter-reset: li}
 ol li::before {content: counter(li); color: lime;display: inline-block; width: 1em;margin-left: -1.25em}
 ol li {counter-increment: li}
@@ -251,7 +259,14 @@ tr:nth-child(odd){background-color: #272727;}
 .imgtext { height:1em }
 
 .linkcategory {color:yellow}
-.alertheader {padding:0.25em;border-radius:10px;}
+h2.linkcategory, h3.linkcategory {font-size: 1em;margin-block-start: 0;}
+
+.alertheader {
+	padding:0.25em;
+	border-radius:10px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}
 #newsheader {color:white;background-color:darkred;}
 #newsheader a {color:lime;}
 #newsheader a:hover {color:rgb(117, 255, 117);}
