@@ -159,11 +159,14 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 "supporters/",
 "shapes/",
 "cook/",
+"cook/changelog.txt",
 "rue/chat",
 "ontomata/",
 "sitemap.txt",
 "community/",
 "community/birthday2024",
+"sitelog.txt",
+"music/",
 "license.txt",
 "404",
 ]
@@ -217,9 +220,6 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "license": "license.txt",
     "copyright": "license.txt",
     "collaborate": "collab/",
-    "elemental-on-discord": "eod/",
-    "elemental": "eod/",
-    "elem": "eod/",
     "disqus": "forum/",
     "friends": "outlinks/",
     "pages": "sitemap.txt",
@@ -231,10 +231,12 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "chef": "cook/",
     "infinite-cook": "cook/",
     "ic": "cook/",
+    "cook/mods": "https://github.com/R74nCom/InfiniteChef-Mods",
     "now": "social/",
     "ruechat": "rue/chat",
     "colophon": "meta/",
     "disclaimer": "license.txt",
+    "r74n": "https://r74n.com",
     "ideas": "https://r74n.com/id/?ufbs:main:a",
     "data": "https://data.r74n.com",
     "wikibase": "https://data.r74n.com",
@@ -252,9 +254,19 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "mod-list": "https://sandboxels.r74n.com/mod-list",
     "mods": "https://sandboxels.r74n.com/mod-list",
     "changelog": "https://sandboxels.r74n.com/changelog",
+    "changelog.txt": "https://sandboxels.r74n.com/changelog.txt",
     "education-use": "https://sandboxels.r74n.com/education-use",
     "mobile-use": "https://sandboxels.r74n.com/mobile-use",
-    "offline-use": "https://sandboxels.r74n.com/offline-use"
+    "offline-use": "https://sandboxels.r74n.com/offline-use",
+    "wp-admin": "password.txt",
+    "password.txt": "wp-admin",
+
+    "converter": "https://c.r74n.com/converter/",
+    "fonts": "https://c.r74n.com/fonts/",
+    "font": "https://c.r74n.com/fonts/",
+
+    //
+    "blooket": "https://dashboard.blooket.com/user/R74n",
   }
   forceRedirect = {
     "about": "/meta",
@@ -299,6 +311,9 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
   var strippedPath = window.location.pathname.replace(/^\/|\/$/g,"").toLowerCase();
   if (forceRedirect[strippedPath]) {
     window.location = forceRedirect[strippedPath];
+  }
+  if (pages.indexOf(strippedPath.toLowerCase()) !== -1) {
+    window.location = "/"+strippedPath.toLowerCase();
   }
   if (strippedPath === "random") {
     var choice = pages[Math.floor(Math.random()*pages.length)];

@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-05-29 - Updated 404 page and added case-insensitive redirects
+2025-05-29 - Updated Socials page - Added new links, added Prami icon for omg.lol
 2025-05-28 - Updated Music page - Multiple columns like Socials page
 2025-05-28 - Updated Socials page - Added new links, colored some links
 2025-05-26 - Updated Socials page - Added new links, colored many links, Improved QR buttons
