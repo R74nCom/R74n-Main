@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-06-01 - Changed "More R74n Commons" to simply "Commons" on main page
+2025-06-01 - Moved Halacae higher up on main page
+2025-06-01 - Halacae reclist and Halacae-to-IPA Lua script
 2025-06-01 - New Pride logo on main page and Icons page
 2025-05-29 - Updated 404 page and added case-insensitive redirects
 2025-05-29 - Updated Socials page - Added new links, added Prami icon for omg.lol
