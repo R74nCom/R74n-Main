@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-06-01 - New Pride logo on main page and Icons page
 2025-05-29 - Updated 404 page and added case-insensitive redirects
 2025-05-29 - Updated Socials page - Added new links, added Prami icon for omg.lol
 2025-05-28 - Updated Music page - Multiple columns like Socials page
