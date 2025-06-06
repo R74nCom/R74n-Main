@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-06-06 - Removed broken embed and added #InfiniteChef on Twitter page
 2025-06-01 - Changed "More R74n Commons" to simply "Commons" on main page
 2025-06-01 - Moved Halacae higher up on main page
 2025-06-01 - Halacae reclist and Halacae-to-IPA Lua script
