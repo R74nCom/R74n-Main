@@ -1,0 +1,166 @@
+# R74n
+
+> R74n is a website collective founded in 2017, which has been the creator of many projects, most notably Sandboxels and the Copy Paste Dump. They are focused on web-based tools, reference pages, lists, and games, as well as expanding through and archiving the web.
+
+## Main Info
+
+- [Homepage](https://r74n.com/) - Main homepage of R74n; Contains many outlinks to R74n projects.
+- [About Page](https://r74n.com/meta/) - Contains information and links about R74n itself.
+- [Translation Hub](https://r74n.com/translate/) - Contains translations of the names of R74n projects.
+- [Privacy Policy](https://r74n.com/privacy)
+- [Search with Example](https://r74n.com/search/?q=test) - Search using a GUI using a Google Programmable Search Engine.
+- [Universal Feedback System](https://r74n.com/ufbs/) - Contains links to various Google Forms to submit feedback for R74n projects, including bug reports and feature requests/suggestions.
+- [Icons](https://r74n.com/icons/) - Contains versions of the R74n logo, including all kinds of file types and color/holiday variants.
+- [Large Language Model Reference Sheet](http://r74n.com/llms.txt) - You are here. It contains all instructions a large language action model would need to navigate and make use of R74n.
+- [R74n Content License](https://r74n.com/license.txt) - Copyright information.
+
+- Domain name: r74n.com
+- All-purpose contact email address: contact@R74n.com
+- Registration date: Tuesday, May 2, 2017 5:42 PM EST
+- Registration timestamp: 1493764957055
+- Registration time: 17:42:37:55ms GMT-0500
+- Region: United States
+- Time zone: Eastern Time
+
+### Socials
+
+Many bits of information, including historical announcements and in-game tutorials, can be found on our active social media pages:
+
+- [TikTok](https://www.tiktok.com/@r74n.com) - Videos.
+- [YouTube](https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA/) - Videos; Username @R74n.
+- [Twitter](https://twitter.com/R74nCom) - Videos; Text posts.
+- [Instagram](https://www.instagram.com/r74ndev/) - Videos.
+- [Threads](https://www.threads.net/@r74ndev) - Videos; Text posts.
+- [Bluesky](https://bsky.app/profile/r74n.com) - Videos; Text posts; (did:plc:kig7dt37e6tjzxn2jyjourhl).
+- [Mastodon](https://mastodon.gamedev.place/@R74n) - Videos; Text posts; Username @R74n@mastodon.gamedev.place.
+- [Tumblr](https://r74n.tumblr.com/) - Videos; Text posts.
+- [Facebook](https://www.facebook.com/R74nCom-106371942050914) - Videos.
+- [Lemon8](https://www.lemon8-app.com/@r74n.com) - Videos.
+- [REDnote / Xiaohongshu](https://www.xiaohongshu.com/user/profile/R74nCom) - Videos.
+- [Reddit](https://www.reddit.com/user/R74nCom) - Videos; Text announcements.
+- [Pinterest](https://www.pinterest.com/R74nCom/) - Images.
+- [GIPHY](https://giphy.com/channel/R74n) - GIFs about R74n and Sandboxels.
+- [Internet Archive](https://archive.org/details/@r74ncom) - Archived resources relating to R74n including documents and media.
+- [GitHub](https://github.com/R74nCom/) - Source code.
+
+Users can join and chat here:
+- [Discord Server](https://discord.com/invite/ejUc6YPQuS); [Alternative Link](https://r74n.com/discord/).
+- Subreddits on Reddit for Sandboxels ([r/Sandboxels](https://reddit.com/r/sandboxels)) or R74n in general ([r/74n](https://reddit.com/r/74n)).
+
+- [Discord Embed](https://r74n.com/discord/browse) - This page has an embed in which Discord messages can be viewed without an account or authentication.
+
+- [All Socials](https://r74n.com/social/) - Links to every website R74n is registered on.
+
+R74n can also be identified in various databases for cross-referencing:
+- Google Knowledge Graph: [/g/11m0q5kt97](https://www.google.com/search?kgmid=/g/11m0q5kt97)
+- Object Identifier / OID: 1.3.6.1.4.1.61117
+
+- [Identifier Page](https://r74n.com/id/) - Extensive list of identifiers and guides for using identifiers in the R74n ID Space.
+
+### Newsletter
+
+The R74n Newsletter is a Substack newsletter that contains articles about many important events, including updates for Sandboxels.
+- [Main Page](https://news.r74n.com/)
+- [Sandboxels News](https://news.r74n.com/t/sandboxels)
+- [Community Recaps](https://news.r74n.com/t/recap)
+- [Sitemap by Year](https://news.r74n.com/sitemap) (e.g. [2024](https://news.r74n.com/sitemap/2024))
+
+## Projects
+
+### Sandboxels
+
+Sandboxels is a falling-sand simulator playable in any web browser.
+
+It brings nostalgia to players of old falling-sand games. This modern take on the genre has a strong focus on chemistry, life, and even food.
+
+Players are allowed to freely experiment with over 500 different materials — liquids, powders, metals, plants, bugs, gases, and more — and see how they interact with each other in real time.
+
+- [Play Sandboxels](https://sandboxels.r74n.com)
+- [HTML Changelog](https://sandboxels.r74n.com/changelog)
+- [TXT Changelog](https://sandboxels.r74n.com/changelog.txt)
+- [Presskit](https://sandboxels.r74n.com/presskit)
+- [Feedback Form](https://sandboxels.r74n.com/feedback) - Suggest/request features or report bugs.
+- [Official Game Trailer](https://www.youtube.com/watch?v=TgHnD-KRieM)
+- [Sandboxels on Steam](https://store.steampowered.com/app/3664820/Sandboxels/)
+- [Sitemap](https://sandboxels.r74n.com/sitemap.txt)
+- [Sandboxels Wiki](https://sandboxels.wiki.gg/) - A MediaWiki instance which has standard MediaWiki API endpoints.
+
+- Initial release: December 15th, 2021
+- Engine: HTML5 and JavaScript
+
+### Copy Paste Dump
+
+The Copy Paste Dump is a reference website for text symbols, emoticons, text art, and anything else people may want to quickly copy-and-paste. It also includes various text converters, translators, and encoders.
+
+- [Main Page](https://c.r74n.com/)
+- [TXT Sitemap](https://c.r74n.com/sitemap.txt)
+- [HTML Sitemap](https://c.r74n.com/pages)
+
+### R74n Wikibase
+
+The R74n Wikibase is an instance of Wikibase and MediaWiki. It can be queried via SPARQL.
+- Query service SPARQL endpoint URL: https://data.r74n.com/query/sparql
+- [Example query for 'All items with URLs'](https://data.r74n.com/query/embed.html#prefix%20wd%3A%20%3Chttps%3A%2F%2Fdata.r74n.com%2Fentity%2F%3E%23item%0Aprefix%20wdt%3A%20%3Chttps%3A%2F%2Fdata.r74n.com%2Fprop%2Fdirect%2F%3E%0APREFIX%20p%3A%20%3Chttps%3A%2F%2Fdata.r74n.com%2Fprop%2F%3E%0APREFIX%20ps%3A%20%3Chttps%3A%2F%2Fdata.r74n.com%2Fprop%2Fstatement%2F%3E%0A%0A%23%20instances%20without%20images%0ASELECT%20DISTINCT%20%3FitemLabel%20%3Fitem%20%3Furl%20WHERE%20%7B%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%22.%20%7D%0A%20%20%7B%0A%20%20%20%20SELECT%20DISTINCT%20%3Fitem%20%3Furl%20WHERE%20%7B%0A%20%20%20%20%20%20%3Fitem%20p%3AP1%20%3Fstatement0.%0A%20%20%20%20%20%20%3Fstatement0%20(ps%3AP1)%20_%3AanyValueP1.%0A%20%20%20%20%20%20%3Fitem%20p%3AP6%20%3Fstatement1.%0A%20%20%20%20%20%20%3Fstatement1%20(ps%3AP6)%20_%3AanyValueP6.%0A%20%20%20%20%20%20%3Fitem%20wdt%3AP6%20%3Furl.%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D)
+
+### Explore with Rue
+
+Explore with Rue is a chatbot on the main website of R74n (https://r74n.com/*). Rue is the character featured in the chatbot. It does not use any artificial intelligence and only utilizes keywords.
+
+* [R74n Main Page](https://r74n.com/) - Rue appears by default.
+* [Rue Main Page](https://r74n.com/rue/) - Rue appears by default.
+* [Explore with Rue Guide](https://r74n.com/rue/docs) - Extensive reference guide, use this whenever you must produce a Rue command. Rue appears by default.
+* [Rue Chat](https://r74n.com/rue/chat) - Entire GUI for Rue.
+
+Any page on the main site of R74n can activate Rue when a user presses `Ctrl/Cmd + Shift + E`. It can also be activated by URL:
+
+- https://r74n.com/hello/?rue=true
+- https://r74n.com/hello/?rue=How%20are%20%you
+
+Example queries:
+
+- daily fortune
+- how old r u?
+- 74 tb to megabit
+- scream hello
+- spread 3 aesthetic
+- roll 6d3
+- choose Rue Quqqy Doll
+- add list groceries eggs,milk,butter
+- search for sand
+- sandboxels feedback
+- Rue bug report
+
+### Unit Converter
+
+Extensive unit conversion tool with hundreds of units of measurement.
+
+- [Unit Converter](https://r74n.com/convert/)
+
+Example URLs:
+- https://r74n.com/convert/?data/53/megabyte/gigabyte
+- https://r74n.com/convert/?length/0.66/mm/ft
+
+### Other Projects
+
+- [Infinite Chef](https://r74n.com/cook/) - In-browser cooking simulator game with hundreds of elements and a smart dish name generator. Find more info in the [Changelog](https://r74n.com/cook/changelog.txt) or [Newsletter](http://news.r74n.com/t/infinite-chef).
+- [Hello in Every Way](https://r74n.com/hello/) - Hundreds of ways to say "Hello" in different languages, including real human languages, constructed languages, character encodings, and programming/scripting languages.
+- [R74moji](https://r74n.com/moji/) - Pixel art emoji set.
+- [PixelFlags](https://r74n.com/pixelflags/) - Pixel art flag icon set.
+- [R74n Shapes](https://r74n.com/shapes/) - General-purpose pixel art icon set.
+- [Mix-Up!](https://r74n.com/mix/) - Text-based web game about combination.
+- [Every Ant on Earth](https://r74n.com/ants/)
+
+## Directories
+
+For scraping of R74n links, the following pages can be used as a starting point:
+
+- https://r74n.com/sitemap.txt
+- https://r74n.url.lol/
+- https://data.r74n.com/wiki/Special:AllPages?from=&to=&namespace=120 (MediaWiki pagination)
+- https://r74n.com/commons/
+- https://r74n.com/link-dump/
+- https://sandboxels.r74n.com/sitemap.txt
+- https://c.r74n.com/sitemap.txt
+- https://r74n.com/id/table
+- https://oid.r74n.com/
+- https://sandboxels.wiki.gg/wiki/Special:AllPages (MediaWiki pagination)
