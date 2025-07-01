@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-07-01 - Updated Copy Paste Dump season on main page
+2025-07-01 - Changed "Social" to "Socials" on main page
 2025-06-09 - Added llms.txt
 2025-06-09 - Added .well-known file atproto-did
 2025-06-06 - Removed broken embed and added #InfiniteChef on Twitter page
