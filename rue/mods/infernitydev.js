@@ -13,7 +13,7 @@ Rue.addRueData({
         "digin": "https://digi.infernity.dev/",
     },
     commands: {
-        "(join )?mpmap": function(args) {
+        "/(join )?mpmap/": function(args) {
             if (args.length == 0) {
                 Rue.openLink("https://mpmap.infernity.dev/app/")
                 return
