@@ -4411,8 +4411,6 @@ rueData.links = {
 "mooses": "=meese",
 "moosen": "=meese",
 "plural of moose": "=meese",
-"5b": "https://www.infernity.dev/HTML5b/", //partner
-"infernity": "https://www.infernity.dev/", //partner
 "adryd": "https://adryd.com/",
 "suss": "https://www.youtube.com/@sussdood", //patron
 } // links
