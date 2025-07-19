@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-07-18 - Updated Privacy Policy to mention Discord and Steam Workshop
 2025-07-01 - Updated Copy Paste Dump season on main page
 2025-07-01 - Changed "Social" to "Socials" on main page
 2025-06-09 - Added llms.txt
