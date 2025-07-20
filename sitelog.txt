@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-07-19 - Added YouTube verified badge and Play Button to Socials page
+2025-07-19 - Created YouTube and Play Button pages
+2025-07-19 - Added Threads Anniversary and Pride 2025 v2 logos to Icons page
 2025-07-18 - Updated Privacy Policy to mention Discord and Steam Workshop
 2025-07-01 - Updated Copy Paste Dump season on main page
 2025-07-01 - Changed "Social" to "Socials" on main page

@@ -116,3 +116,5 @@ https://r74n.com/ontomata/
 https://r74n.com/sitelog.txt
 https://r74n.com/music/
 https://r74n.com/llms.txt
+https://r74n.com/youtube/
+https://r74n.com/youtube/button
