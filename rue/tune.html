@@ -126,14 +126,32 @@ This HTML and its contents are property of R74n.com.
         text-align: right;
         padding-right: 5px;
       }
+
+      .tuneExample {
+        white-space: pre;
+      }
     </style>
 
 <script src="tuneWaves.js"></script>
 <script defer>
 
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 48000, latencyHint: 'interactive' });
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext);
   // const oscillator = audioCtx.createOscillator();
   
+  function setTone(trackCtx, tuneCtx, chordCtx) {
+    let osc = (chordCtx||trackCtx).osc;
+    
+    let waveReal = trackCtx.waveReal || tuneCtx.waveReal || tuneConfig.waveReal;
+    let chordLength = trackCtx.chordLength || 1;
+
+    let gainNode = trackCtx.gainNode;
+    // gainNode.gain.setValueAtTime(tuneConfig.masterVolume/(chordLength||1), audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(tuneConfig.masterVolume/(chordLength||1), audioCtx.currentTime + 0.05);
+    
+    let freq = (chordCtx||trackCtx).freq;
+    // osc.frequency.value = freq;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  }
   
   function playTone(waveReal, frequency, duration, chordLength) {
       const osc = audioCtx.createOscillator();
@@ -347,7 +365,9 @@ This HTML and its contents are property of R74n.com.
             toneLength *= key.length;
             let note = noteByKey[key[0]];
             let freq = freqByOctave[note][octave];
-            playTone(waveReal, freq, toneLength);
+            tuneCtx.trackCtx[trackID].freq = freq;
+            // playTone(waveReal, freq, toneLength);
+            setTone(trackCtx,tuneCtx);
         }
       }
   
@@ -358,9 +378,10 @@ This HTML and its contents are property of R74n.com.
           done = true;
           string = removeMatch(string, tuneRegex._REST);
           toneLength *= match[0].length;
+          tuneCtx.trackCtx[trackID].gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
         }
       }
-  
+
       if (!done) { // Chord
         match = tuneRegex._CHORD.exec(string);
         tuneRegex._CHORD.lastIndex = 0;
@@ -369,11 +390,40 @@ This HTML and its contents are property of R74n.com.
           let chord = match[1];
           let rest = match[2];
           if (rest) toneLength *= rest.length+1;
-          [...chord].forEach(key => {
-              let note = noteByKey[key];
-              let freq = freqByOctave[note][octave];
-              playTone(waveReal, freq, toneLength, chord.length);
-          });
+          tuneCtx.trackCtx[trackID].gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+          let keys = [...chord];
+          for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            if (!tuneCtx.chordCtx) { tuneCtx.chordCtx = {} }
+            if (!tuneCtx.chordCtx[trackID]) { tuneCtx.chordCtx[trackID] = [] }
+            if (!tuneCtx.chordCtx[trackID][i]) {
+              const osc = audioCtx.createOscillator();
+              const gainNode = audioCtx.createGain(); // Volume control
+              osc.connect(gainNode);
+              gainNode.connect(audioCtx.destination);
+              gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+              gainNode.gain.linearRampToValueAtTime(tuneConfig.masterVolume, audioCtx.currentTime + 0.05);
+              tuneCtx.chordCtx[trackID][i] = {
+                osc: osc,
+                gainNode: gainNode
+              }
+              osc.start();
+            }
+            let note = noteByKey[key[0]];
+            let freq = freqByOctave[note][octave];
+            tuneCtx.chordCtx[trackID][i].freq = freq;
+            // playTone(waveReal, freq, toneLength);
+            setTone(trackCtx,tuneCtx,tuneCtx.chordCtx[trackID][i]);
+            tuneCtx.chordCtx[trackID][i].gainNode.gain.setValueAtTime(0, audioCtx.currentTime+toneLength);
+          }
+          // [...chord].forEach(key => {
+          //     let note = noteByKey[key];
+          //     let freq = freqByOctave[note][octave];
+          //     tuneCtx.trackCtx[trackID].freq = freq;
+          //     tuneCtx.trackCtx[trackID].chordLength = chord.length;
+          //     // playTone(waveReal, freq, toneLength, chord.length);
+          //     setTone(trackCtx,tuneCtx);
+          // });
           console.log(chord);
           string = removeMatch(string, tuneRegex._CHORD);
         }
@@ -420,6 +470,7 @@ This HTML and its contents are property of R74n.com.
           nextStep(string,tuneCtx,trackID);
         }
       } else {
+        tuneCtx.trackCtx[trackID].osc.stop(audioCtx.currentTime + toneLength);
         console.log("END: " + string);
       }
   }
@@ -431,7 +482,8 @@ This HTML and its contents are property of R74n.com.
         pause: false,
         full: string,
         trackCtx: {},
-        vars: {}
+        vars: {},
+        chordCtx: {}
       };
       currentTuneCtx = tuneCtx
       string = string.replace(/#[^#\n]+#/g,""); // inline comments
@@ -442,6 +494,17 @@ This HTML and its contents are property of R74n.com.
       let trackID = 0;
       tracks.forEach((t) => {
           if (t) {
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain(); // Volume control
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(tuneConfig.masterVolume, audioCtx.currentTime + 0.05);
+            tuneCtx.trackCtx[trackID] = {
+              osc: osc,
+              gainNode: gainNode
+            }
+            osc.start();
             nextStep(t,tuneCtx,trackID);
             trackID++;
           }
@@ -602,6 +665,11 @@ playTune(`
     }
     tuneBox.focus();
   }
+  function copyTuneLink() {
+    var tuneBox = document.getElementById("tuneBox");
+    let base64 = btoa(tuneBox.innerText);
+
+  }
   function pasteTune() {
     let tuneBox = document.getElementById("tuneBox");
     if (tuneBox.innerText.trim() && !confirm("Are you sure? This will clear your current TuneBoard, which can't be undone.")) return;
@@ -727,57 +795,9 @@ playTune(`
     playTune(tuneBox.innerText);
   }
 
-  let mediaRecorder;
-  let recordedChunks = [];
-
-  async function recordStart() {
-  try {
-    const stream = await navigator.mediaDevices.getDisplayMedia({
-      video: true, // Must be true
-      audio: true
-    });
-
-    mediaRecorder = new MediaRecorder(stream);
-
-    mediaRecorder.ondataavailable = function(e) {
-      if (e.data.size > 0) {
-        recordedChunks.push(e.data);
-      }
-    };
-
-    mediaRecorder.onstop = function() {
-      const blob = new Blob(recordedChunks, { type: 'audio/webm' });
-      const url = URL.createObjectURL(blob);
-
-      const audio = document.createElement('audio');
-      audio.controls = true;
-      audio.src = url;
-      document.getElementById('recordings').appendChild(audio);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'recording.webm';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      recordedChunks = [];
-    };
-
-    mediaRecorder.start();
-    console.log("Recording started...");
-  } catch (err) {
-    console.error("Error starting recording:", err);
-  }
-}
-
-  function recordStop() {
-    if (mediaRecorder && mediaRecorder.state !== "inactive") {
-      mediaRecorder.stop();
-      console.log("Recording stopped.");
-    }
-  }
+  window.addEventListener("load",() => {
+    
+  })
 
  </script>
 </head>
@@ -809,12 +829,6 @@ playTune(`
     <input type="button" value="Quickload" onclick="quickLoad()">
     <input type="button" value="Load File" onclick="loadFilePrompt()">
     <input type="button" value="Paste" onclick="pasteTune()">
-  </details>
-  <details>
-    <summary>Record</summary>
-    <input type="button" value="Start" onclick="recordStart()">
-    <input type="button" value="Stop" onclick="recordStop()">
-    <div id="recordings"></div>
   </details>
   <!-- <details>
     <summary>Other</summary>
