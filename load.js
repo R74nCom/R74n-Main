@@ -44,6 +44,9 @@ class R74nClass {
 	keys() {
 		return listLS(LSPrefix);
 	}
+	has(key) {
+		return localStorage.hasOwnProperty(LSPrefix+key);
+	}
 }
 const R74n = new R74nClass();
 
