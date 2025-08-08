@@ -469,6 +469,9 @@ multiplaneEntities = {
 // Vulnerabilities //
 "13300":"CVE-2024-39828//https://www.cve.org/CVERecord?id=CVE-2024-39828",
 
+// File Formats //
+"13600":"Sandboxels Save (.SBXLS)//urn:wikibase:entity:Q2426",
+
 // Requested Individual Slots //
 "30000":"Test Individual//https://r74n.com/test",
 "30001":"Test Organization//https://r74n.com/test",
@@ -548,6 +551,7 @@ multiplanePlanes = {
     "R13100-R131FF": "Extended Timekeeping",
     "R13200-R132FF": "Colors",
     "R13300-R135FF": "Vulnerabilities",
+    "R13600-R137FF": "File Formats",
     // extra space
     "R14000-R14FFF": "Specific Locations",
     "R1B000-R1FFFF": "Numeral Compatibility", //Numbers 0-20478
