@@ -256,7 +256,7 @@ gameEvents = {
           if (newChunk) {
             let colonyRate = 0.05;
             
-            if (subject.size <= 10 || (subject.lastColony && planet.day-subject.lastColony > 10)) colonyRate = 0;
+            if (subject.size <= 10 || (subject.lastColony !== undefined && planet.day-subject.lastColony < 25)) colonyRate = 0;
             else {
               colonyRate = subtractInfluence(colonyRate, subject, "happy");
               colonyRate = addInfluence(colonyRate, subject, "travel");
@@ -266,7 +266,7 @@ gameEvents = {
             if (Math.random() < colonyRate) {
               let newTown = happen("town", "Create", subject, null, {x:chunk.x, y:chunk.y});
               subject.lastColony = planet.day;
-              newTown.lastColony = planet.day;
+              newTown.lastColony = planet.day - 25;
               logMessage("Settlers from {{regname:town|"+subject.id+"}} found {{regname:town|"+newTown.id+"}}.")
             }
             else {

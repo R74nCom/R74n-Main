@@ -1423,6 +1423,10 @@ function doPrompt(obj) {
 }
 function handlePrompt(result) {
   if (!promptState) return;
+  if (typeof result === "string") {
+    result = result.replace(/[{<]/g, "[");
+    result = result.replace(/[}>]/g, "]");
+  }
   if (promptState.func) promptState.func(result);
   handleX(document.querySelector("#promptPopup .panelX"));
   promptState = null;

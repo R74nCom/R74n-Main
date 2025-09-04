@@ -1,0 +1,10 @@
+[Version 0.2 - 4 Sep 2025]
+ ~ Fixed: Out-of-control colonies
+ ~ Fixed: XSS through text prompts
+
+[Version 0.1 - 4 Sep 2025 - Early Beta]
+ + Towns
+ + Jobs
+ + Resources
+ + Unlocks
+ + A couple prompt events

@@ -62,7 +62,7 @@ function parseText(text) {
       }
       else if (textParserCommands[command].func) { result = textParserCommands[command].func(args); }
       // else { result = eval(textParserCommands[command].text); }
-      newtext = newtext.replace("{{"+whole+"}}",result);
+      newtext = newtext.replace("{{"+whole+"}}",result.replace(/\$/g,"$$$$"));
       count++;
       if (count > 1000) { newtext = newtext.split("{{")[0]; break }
     }
