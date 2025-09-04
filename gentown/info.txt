@@ -1,0 +1,39 @@
+GenTown is a game about guiding civilization - indirectly, through a series of prompts. Inhabitants ask for your input, but have affairs of their own.
+
+GenTown is developed by R74n, the creator of Sandboxels and Infinite Chef.
+
+All events that take place are canon to the R74n Multiverse.
+
+
+---
+
+
+planet
+    chunk
+        pixel
+    registry
+        subregistry
+            subregistry ID
+            registry entry
+                registry entry ID
+                player
+                town
+                resource
+                individual
+                registry (meta)
+
+biome
+actionable
+game event
+    daily event
+    random event
+        prompt
+influence
+job
+
+
+---
+
+
+a = setInterval(nextDay, 100);
+clearInterval(a);
