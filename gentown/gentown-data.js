@@ -57,7 +57,7 @@ actionables = {
             let done = 0;
             let chunks = [];
             for (let i = 0; i < 5; i++) {
-              let newChunk = nearestChunk(chunk.x, chunk.y,  (c) => c.b !== "water" && !c.v.s,  (c) => c.v.s || c.b === "water" || c.b === "mountain");
+              let newChunk = nearestChunk(chunk.x, chunk.y,  (c) => c.b !== "water" && !c.v.s,  (c) => (c.v.s && c.v.s !== chunk.v.s) || c.b === "water" || c.b === "mountain");
               if (newChunk) {
                 newChunk.v.s = target.id;
                 chunks.push(newChunk);
