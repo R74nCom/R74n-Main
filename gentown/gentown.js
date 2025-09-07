@@ -148,8 +148,20 @@ function chunkCoordsToCoords(cx, cy, x, y) {
 function chunkAt(x, y) {
   return planet.chunks[x+","+y];
 }
+
 function RGBtoHSL(rgb) {let r=rgb[0];let g=rgb[1];let b=rgb[2];r /= 255, g /= 255, b /= 255;var max = Math.max(r, g, b), min = Math.min(r, g, b);var h, s, l = (max + min) / 2;if (max == min) {h = s = 0;} else {var d = max - min;s = l > 0.5 ? d / (2 - max - min) : d / (max + min);switch (max) {case r: h = (g - b) / d + (g < b ? 6 : 0); break;case g: h = (b - r) / d + 2; break;case b: h = (r - g) / d + 4; break;}h /= 6;}return [ h, s, l ];}
 function HSLtoRGB(hsl) {let h=hsl[0];let s=hsl[1];let l=hsl[2];var r, g, b;if (s == 0) {r = g = b = l;} else {function hue2rgb(p, q, t) {if (t < 0) t += 1;if (t > 1) t -= 1;if (t < 1/6) return p + (q - p) * 6 * t;if (t < 1/2) return q;if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;return p;}var q = l < 0.5 ? l * (1 + s) : l + s - l * s;var p = 2 * l - q;r = hue2rgb(p, q, h + 1/3);g = hue2rgb(p, q, h);b = hue2rgb(p, q, h - 1/3);}return [ r * 255, g * 255, b * 255 ];}
+
+colorCache = {};
+function colorBrightness(rgb, multiplier) {
+  const key = rgb.join(",")+":b"+multiplier;
+  // if (colorCache[key]) return colorCache[key];
+  let hsl = RGBtoHSL(rgb);
+  hsl[2] = Math.min(1, hsl[2] * multiplier);
+  hsl[0] = (hsl[0] * multiplier) % 1;
+  colorCache[key] = HSLtoRGB(hsl).map((n) => Math.round(n));
+  return colorCache[key];
+}
 
 function generatePerlinNoise(x, y, octaves, persistence) {
   let total = 0;
@@ -230,9 +242,13 @@ function regCount(subregistryName) {
 function regFilter(subregistryName, check) {
   let results = [];
   for (let key in reg[subregistryName]) {
+    if (!isNaN(reg[subregistryName][key])) continue;
     if (check(reg[subregistryName][key])) results.push(reg[subregistryName][key]);
   }
   return results;
+}
+function regValid(subregistryName) {
+  return regFilter(subregistryName, (i) => !i.end);
 }
 
 townColors = [
@@ -295,11 +311,11 @@ function readyEvent(eventClass, subject=null, target=null) {
   if (!subject && eventInfo.subject && eventInfo.subject.reg) {
     let regname = eventInfo.subject.reg;
     if (eventInfo.subject.random) {
-      subject = choose(regToArray(regname));
+      subject = choose(regValid(regname));
       if (!subject) return;
     }
     else if (eventInfo.subject.all) {
-      subject = regToArray(regname);
+      subject = regValid(regname);
       if (subject.length === 0) return;
     }
     else if (eventInfo.subject.id) {
@@ -311,11 +327,11 @@ function readyEvent(eventClass, subject=null, target=null) {
   if (!target && eventInfo.target && eventInfo.target.reg) {
     let regname = eventInfo.target.reg;
     if (eventInfo.target.random) {
-      target = choose(regToArray(regname));
+      target = choose(regValid(regname));
       if (!target) return;
     }
     else if (eventInfo.target.all) {
-      target = regToArray(regname);
+      target = regValid(regname);
       if (target.length === 0) return;
     }
     else if (eventInfo.target.id) {
@@ -602,14 +618,51 @@ function calculateLandmasses() {
       parts.forEach((newChunk) => {
         newChunk.v.g = id;
         landmass.size++;
-        if (newChunk.x < landmass.boundLeft) landmass.boundLeft = newChunk.x;
-        if (newChunk.x > landmass.boundRight) landmass.boundRight = newChunk.x;
-        if (newChunk.y < landmass.boundTop) landmass.boundTop = newChunk.y;
-        if (newChunk.y > landmass.boundBottom) landmass.boundBottom = newChunk.y;
+        // if (newChunk.x < landmass.boundLeft) landmass.boundLeft = newChunk.x;
+        // if (newChunk.x > landmass.boundRight) landmass.boundRight = newChunk.x;
+        // if (newChunk.y < landmass.boundTop) landmass.boundTop = newChunk.y;
+        // if (newChunk.y > landmass.boundBottom) landmass.boundBottom = newChunk.y;
       })
 
       if (landmass.size < 40) landmass.type = "island";
       else landmass.type = "continent";
+    }
+  }
+
+  for (let chunkKey in planet.chunks) {
+    const chunk = planet.chunks[chunkKey];
+    if (chunk.v.g === undefined && chunk.b !== "water") {
+      const parts = floodFill(chunk.x,chunk.y,(c) => c.b !== "water" && c.v.g === undefined);
+      if (parts.length > 5) {
+        let landmass = regAdd("landmass", {
+          name: generateWord(randRange(2,3), true),
+          size: parts.length,
+          type: "island"
+        });
+        landmass.color = farColors[(landmass.id-1) % farColors.length];
+        parts.forEach((newChunk) => {
+          newChunk.v.g = landmass.id;
+        })
+      }
+      else {
+        let nearest = nearestChunk(chunk.x, chunk.y, (c) => c.v.g, (c) => c.b === "water");
+        if (nearest) {
+          parts.forEach((newChunk) => {
+            newChunk.v.g = nearest.v.g;
+          })
+        }
+        else {
+          let landmass = regAdd("landmass", {
+            name: generateWord(randRange(2,3), true),
+            size: parts.length,
+            type: "island"
+          });
+          landmass.color = farColors[(landmass.id-1) % farColors.length];
+          parts.forEach((newChunk) => {
+            newChunk.v.g = landmass.id;
+          })
+        }
+      }
     }
   }
 }
@@ -1018,13 +1071,30 @@ function filterChunks(check) {
 
 
 wordSyllables = {};
-wordSyllables.C  = "B,C,D,F,G,H,J,K,L,M,N,P,QU,R,S,T,V,W,X,Y,Z,CH,TH,SH,PH";
-wordSyllables.C2 = wordSyllables.C + ",CK,NG,SS";
-wordSyllables.V  = "A,A,A,E,E,É,I,I,I,O,O,O,U,U,OU,AE,EE,IE,EA,EU,UI,OI,AI,OO,OW,OE,IA";
+wordSyllables.C  = "B,C,D,F,G,H,J,K,L,M,N,P,QU,R,S,T,V,W,Y,Z";
+wordSyllables.C2 = wordSyllables.C + "X,CK,NG,SS";
+wordSyllables.V  = "A,A,A,E,E,É,I,I,I,O,O,O,U,U";
+wordSyllables.V2 = wordSyllables.V + ",OU,AE,EE,IE,EA,EU,UI,OI,AI,OO,OW,OE,IA";
 
 wordSyllables.C = wordSyllables.C.toLowerCase().split(",");
 wordSyllables.C2 = wordSyllables.C2.toLowerCase().split(",");
 wordSyllables.V = wordSyllables.V.toLowerCase().split(",");
+wordSyllables.V2 = wordSyllables.V2.toLowerCase().split(",");
+
+wordSyllables.C0 = {
+  b: "lr",
+  c: "hlr",
+  d: "rw",
+  f: "lr",
+  g: "hlnr",
+  k: "lr",
+  p: "hlr",
+  s: "hklmnptw",
+  t: "hrw",
+  v: "lr",
+  w: "hr",
+  z: "hl"
+}
 
 badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bQ==').split(",");
 
@@ -1035,15 +1105,21 @@ function generateWord(syllableCount,titled) {
   syllableCount = syllableCount || randRange(2,3);
   let type = Math.random() < 0.5;
   if (type === false && syllableCount === 1) syllableCount++;
+  let lastLetter = "";
   for (let i = 0; i < syllableCount; i++) {
     let letter;
+    // console.log(lastLetter.length);
     if (type === true) {
       letter = choose(i === 0 ? wordSyllables.C : wordSyllables.C2);
       syllableCount++;
     }
-    else letter = choose(wordSyllables.V);
+    else letter = choose(lastLetter.length > 1 ? wordSyllables.V : wordSyllables.V2);
+    if (wordSyllables.C0[letter] !== undefined && Math.random() < 1/26) {
+      letter += choose(wordSyllables.C0[letter]);
+    }
     word += letter;
     type = !type;
+    lastLetter = letter;
   }
 
   for (let i = 0; i < badWords.length; i++) {
@@ -1076,7 +1152,8 @@ function renderHighlight() {
     const chunk = chunks[i];
     let color = regGet("town",chunk.v.s).color;
     if (currentHighlight === chunk.v.s) {
-      color = color.map((x) => Math.floor(Math.min(255, x+30)))
+      // color = color.map((x) => Math.floor(Math.min(255, x+30)))
+      color = colorBrightness(color, 1.15);
     }
     color = color.join(",");
     ctx.fillStyle = "rgba("+color+",.33)";
@@ -1280,7 +1357,7 @@ function updateStats() {
     html += `<span class="panelSubtitle">[Global]</span>`;
     html += `<span>Population: ${ regToArray("town").reduce((n, {pop}) => n + pop, 0) }</span>`;
     html += `<span>Towns: ${
-      parseText(regToArray("town").reduce((l, {id}) => {l.push("{{regname|town|"+id+"}}"); return l}, []).join(", ")
+      parseText(regValid("town").reduce((l, {id}) => {l.push("{{regname|town|"+id+"}}"); return l}, []).join(", ")
       || "{{none}}")}</span>`;
   }
   else {
@@ -1330,7 +1407,6 @@ function updateStats() {
   statsDiv.innerHTML = html;
 }
 function handleX(elem) {
-  selectedChunk = null;
   if (elem.parentNode.style.display) {
     elem.parentNode.style.display = "";
   }
@@ -1340,6 +1416,8 @@ function handleX(elem) {
     promptState = null;
   }
   elem.parentNode.classList.remove("popupShown");
+  if (currentPopup === elem.parentNode.id) closePopups();
+  else selectedChunk = null;
   document.getElementById("gamePopupOverlay").classList.remove("overlayShown");
   document.getElementById("gameDiv").focus();
   updateStats();
@@ -1347,6 +1425,7 @@ function handleX(elem) {
   updateCanvas();
 }
 function openPopup(id) {
+  if (currentPopup) closePopups();
   let elem = document.getElementById(id);
   let X = elem.querySelector(".panelX");
   if (X) X.style.display = "block";
@@ -1413,11 +1492,13 @@ function doPrompt(obj) {
   if (message === null) {
     popupContent.style.display = "none";
     popupTitle.style.flexGrow = "0";
+    popupTitle.style.paddingBottom = "0.25em";
     popupInput.style.flexGrow = "1";
   }
   else {
     popupContent.innerHTML = parseText(message);
     popupContent.style.display = "";
+    popupTitle.style.paddingBottom = "0";
     popupInput.style.flexGrow = "";
   }
 }
@@ -1426,6 +1507,7 @@ function handlePrompt(result) {
   if (typeof result === "string") {
     result = result.replace(/[{<]/g, "[");
     result = result.replace(/[}>]/g, "]");
+    result = result.substr(0,(promptState.limit || 32))
   }
   if (promptState.func) promptState.func(result);
   handleX(document.querySelector("#promptPopup .panelX"));
@@ -1439,6 +1521,11 @@ function closePopups() {
       popups[i].classList.remove("popupShown");
     }
   };
+  if (currentPopup) {
+    let popup = document.getElementById(currentPopup);
+    popup.classList.remove("popupShown");
+    if (popup.style.display) popup.style.display = "";
+  }
   currentPopup = null;
 }
 document.getElementById("popupText").addEventListener("keydown",(e) => {
@@ -1451,6 +1538,7 @@ document.getElementById("gamePopupOverlay").addEventListener("click",(e) => {
 
 function regBrowse(subregistryName, id) {
   let data = regGet(subregistryName, id);
+  if (data === undefined) return;
   openRegBrowser(data, subregistryName);
 }
 function openRegBrowser(obj,regName) {
@@ -1939,8 +2027,8 @@ function nextDay(e) {
         autosave();
       })
 
-      logAct.appendChild(logYes);
       logAct.appendChild(logNo);
+      logAct.appendChild(logYes);
     }
     messageElement.appendChild(logAct);
 
@@ -1991,7 +2079,8 @@ function initGame() {
   clearLog();
   closeExecutive();
 
-  if (reg.player._id === 1) {
+  currentPlayer = regGet("player", 1);
+  if (!currentPlayer) {
     currentPlayer = happen("player","Create");
   }
 
@@ -2104,7 +2193,7 @@ viewData = {
       return chunk.v.g !== undefined;
     },
     click: (chunk) => {
-      regBrowse("landmass", chunk.v.g);
+      if (chunk.v.g) regBrowse("landmass", chunk.v.g);
     }
   },
   plates: {
@@ -2426,6 +2515,8 @@ window.addEventListener("load", function(){ //onload
     userSettings = JSON.parse(R74n.get("GenTownSettings"));
     if (userSettings.view) setView(userSettings.view);
   }
+
+  document.querySelector("#gameHalf2 .panelX").addEventListener("click", closeExecutive);
 
   populateExecutive([
     {

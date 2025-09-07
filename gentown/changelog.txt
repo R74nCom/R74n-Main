@@ -1,3 +1,18 @@
+[Version 0.3 - 6 Sep 2025]
+ + Starvation
+ + Towns will fall if they lose all population
+ ~ Improved prompt layout on mobile
+ ~ All land chunks are now assigned landmasses
+ ~ Swapped "Yes" and "No" positions for consistency
+ ~ Tweaked name generation
+ ~ Projectile Weapons unlock influences Crime
+ + Custom names have length limits
+ ~ Fixed: Towns expand through each other
+ ~ Fixed: Prompts are hidden when executive panel is opened on mobile
+ ~ Fixed: Game is bigger than screen on iOS
+ ~ Fixed: Page can be overscrolled on iOS
+ ~ Fixed: Map hover brightness for towns are inconsistent
+
 [Version 0.2 - 4 Sep 2025]
  ~ Fixed: Out-of-control colonies
  ~ Fixed: XSS through text prompts

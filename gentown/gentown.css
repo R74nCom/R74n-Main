@@ -1,13 +1,17 @@
+html, body {
+	overscroll-behavior: none;
+}
+
 .content {
 	margin: 0;
 }
 
 #gameLoading {
-		font-family: Arial, Helvetica, sans-serif;
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translateX(-50%) translateY(-50%);
+	font-family: Arial, Helvetica, sans-serif;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translateX(-50%) translateY(-50%);
 }
 
 #gameDiv {
@@ -15,8 +19,12 @@
 	border: 2px solid gray;
 	max-width: 100%;
 	flex-direction: row;
+	height: 100%;
 	height: 100vh;
+	height: 100dvh;
+	max-height: 100%;
 	max-height: 100vh;
+	max-height: 100dvh;
 	box-sizing: border-box;
 	overflow-y: scroll;
 }
@@ -31,9 +39,9 @@
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	 -khtml-user-select: none;
-		 -moz-user-select: none;
-			-ms-user-select: none;
-					user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+			user-select: none;
 }
 .gamePanel {
 	border: 2px solid gray;
@@ -46,6 +54,7 @@
 	padding: 15px;
 	overflow-y: scroll;
 	overflow-wrap:anywhere;
+	overscroll-behavior: auto;
 }
 .gamePanel::-webkit-scrollbar, #gameDiv::-webkit-scrollbar, #gameHalf1-2::-webkit-scrollbar { /* WebKit */
 		width: 0;
@@ -86,10 +95,19 @@
 #gameHalf2 {
 	max-width: 25%;
 }
+#mapPanel {
+	border: 2px solid gray;
+	box-sizing: border-box;
+}
+#mapDiv {
+	border: none;
+}
 #underMap {
 	height: 1.75em;
 	justify-content: center;
 	align-items: center;
+	border: none;
+	border-top: 4px solid gray;
 }
 
 .entityName {
@@ -193,6 +211,9 @@ span.none {
 	-webkit-box-shadow: 0px 0px 30px 5px rgba(255,255,0,0.25);
 	-moz-box-shadow: 0px 0px 30px 5px rgba(255,255,0,0.25);
 	box-shadow: 0px 0px 30px 5px rgba(255,255,0,0.25);
+	display: inline-block;
+	text-align: center;
+	min-width: 33px;
 }
 .logMessage .logAct span:first-of-type {
 	margin-left: 0.25em;
@@ -482,7 +503,9 @@ span.none {
 	top:0;
 	left:0;
 	width:100vw;
-	height:100vh;
+	height: 100%;
+	height: 100vh;
+	height: 100dvh;
 	background-color: rgba(0,0,0,0.5);
 	cursor:pointer;
 
@@ -583,7 +606,7 @@ span.none {
 .gamePopup .popupTitle {
 	display: none;
 	padding-top: 0.25em;
-	padding-bottom: 0.25em;
+	padding-bottom: 0;
 	font-size: 1.5em;
 }
 .gamePopup .popupInput {
@@ -614,6 +637,9 @@ span.none {
 	cursor: pointer;
 	background-color: rgb(42, 42, 42);
 	border-left: solid 4px rgb(70, 70, 70);
+}
+#popupNo {
+	border-left: none;
 }
 .popupButton:first-of-type {
 	border-left: none;
@@ -770,6 +796,9 @@ span.none {
 		transform: none;
 		right: 5px;
 	}
+	#statsPanel {
+		flex-basis: unset;
+	}
 }
 
 .mobileBar {
@@ -814,7 +843,7 @@ span.none {
 	background-color: rgb(8, 62, 0);
 }
 
-@media only screen and (max-width: 600px) { /* Mobile */
+@media only screen and (max-width: 600px) { /* Mobile Style */
 	#gameHalf2, #statsPanel {
 		display: none;
 		position: absolute;
@@ -831,7 +860,11 @@ span.none {
 	#actionPanel, #statsDiv {
 		height: 100%;
 		width: 100%;
-		font-size: 1.1em
+		font-size: 1.1em;
+	}
+	#actionPanel, #statsPanel {
+		border-width: 5px;
+		border-style: dashed;
 	}
 	#underStats {
 		display: none;
@@ -842,6 +875,11 @@ span.none {
 	#mapPanel {
 		display: flex;
 		flex-direction: column-reverse;
+		width: 100%;
+	}
+	#underMap {
+		border-top: none;
+		border-bottom: 4px solid gray;
 	}
 	#gameHalf1-2 {
 		overflow-y: hidden;
@@ -866,7 +904,12 @@ span.none {
 		margin-left:1em;
 	}
 	.gamePopup {
-		max-height: 75%;
+		max-height: 80%;
 		top: 50%;
+	}
+	.gamePopup .popupContent {
+		padding-left: 1em;
+		padding-right: 1em;
+		text-align: justify;
 	}
 }

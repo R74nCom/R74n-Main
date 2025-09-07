@@ -138,7 +138,7 @@ actionables = {
       },
       Death: (subject,target,args) => {
         let pop = target.pop;
-        let count = args.count;
+        let count = args.count || 1;
         count = Math.min(count, pop);
         target.pop -= count;
 
@@ -170,7 +170,13 @@ actionables = {
         filterChunks((c) => c.v.s === target.id).forEach(c => {
           delete c.v.s;
         });
-        regRemove("town", target.id);
+        // regRemove("town", target.id);
+        target.end = planet.day;
+        target.size = 0;
+        delete target.pop;
+        delete target.jobs;
+        delete target.influences;
+        delete target.resources;
         renderHighlight();
         updateCanvas();
       }
@@ -201,6 +207,10 @@ actionables = {
 
 
 
+
+weights = {
+
+}
 
 
 
@@ -252,7 +262,7 @@ gameEvents = {
       if (Math.random() < expandRate) {
         let chunk = randomChunk((c) => c.v.s === subject.id);
         if (chunk) {
-          let newChunk = nearestChunk(chunk.x, chunk.y, (c) => c.v.s === undefined && c.b !== "water", (c) => ((!planet.unlocks.travel || planet.unlocks.travel < 30) && c.b === "water") || c.b === "mountain");
+          let newChunk = nearestChunk(chunk.x, chunk.y, (c) => c.v.s === undefined && c.b !== "water", (c) => ((!planet.unlocks.travel || planet.unlocks.travel < 30) && c.b === "water") || c.b === "mountain" || (c.v.s && c.v.s !== subject.id));
           if (newChunk) {
             let colonyRate = 0.05;
             
@@ -289,6 +299,7 @@ gameEvents = {
       if (foodCount < 1) {
         happen("town", "Influence", null, subject, { "happy":-0.75 });
         logWarning("noFood"+subject.id, "{{regname:town|"+subject.id+"}} is out of food!");
+        happen("town", "Death", null, subject, { count:randRange(1,foodCost) })
       }
       else if (foodCount < subject.pop) {
         happen("town", "Influence", null, subject, { "happy":-0.25 });
@@ -403,6 +414,7 @@ gameEvents = {
       }
     }
   },
+
 
 
 
@@ -868,7 +880,7 @@ unlockTree = {
         name: "Military",
         message: "The addition of a second settlement worries {{regname:town|1}}. Should it?",
         messageDone: "{{regname:town|1}} begins enlisting soldiers.",
-        influences: { military:1 },
+        influences: { military:1, crime:0.25 },
         messageNo: "The settlements trust each other, for now...",
         influencesNo: { military:-2 },
         check: () => regCount("town") > 1
@@ -887,7 +899,7 @@ unlockTree = {
         name: "Projectile Weapons",
         message: "Sharp objects could be crafted and thrown in battle. {{should}}",
         messageDone: "Projectile weapons are made to attack from afar.",
-        influences: { military:1 },
+        influences: { military:1, crime:0.8 },
         messageNo: "Soldiers prefer close-up combat.",
         influencesNo: { military:-0.5 },
       },
@@ -985,6 +997,7 @@ regBrowserKeys = {
   "rate": "Efficiency",
   "jobs": "Jobs",
   "town.start": "Founded",
+  "town.end": "Fell",
   "planet.start": "Formed",
 
   "farmer":"{{icon:crop}}Farmer",
@@ -1002,5 +1015,6 @@ regBrowserValues = {
   "livestock": (value) => `{{num:${value}}}{{icon:livestock}}`,
   "biome": (value) => `{{color:${titleCase(value)}|rgb(${biomes[value].color.join(",")})}}`,
   "start": (value) => `Day {{num:${value}}}`,
+  "end": (value) => `Day {{num:${value}}}`,
   "birth": null
 }
