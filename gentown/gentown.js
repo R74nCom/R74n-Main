@@ -66,7 +66,7 @@ addParserCommand("randreg",function(args) {
   return ``;
 })
 addParserCommand("planet",function(args) {
-  return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet||biomes.water).color.join(",")})">${planet.name}</span>`;
+  return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})">${planet.name}</span>`;
 })
 addParserCommand("people",function(args) {
   return "Inhabitants of {{planet}}";
