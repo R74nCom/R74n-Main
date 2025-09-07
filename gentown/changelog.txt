@@ -1,3 +1,15 @@
+[Version 0.3.1 - 7 Sep 2025]
+ + Colonies display their parent towns in their stats
+ + Planet name is colored like the ocean
+ ~ Greatly reduced number of colonies
+ ~ Towns cannot produce more food than their population (e.g. Towns with 1 population)
+ ~ Lightened default red and magenta town colors
+ ~ Town recolor events can vary in lightness
+ ~ Colonies are colored similar to recolor events
+ ~ Fixed: Fallen towns break everything
+ ~ Fixed: Colonies can spawn with territory on different sides of parent town
+ ~ Fixed: Beta progress tab is outdated
+
 [Version 0.3 - 6 Sep 2025]
  + Starvation
  + Towns will fall if they lose all population

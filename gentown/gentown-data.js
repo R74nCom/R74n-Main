@@ -173,10 +173,10 @@ actionables = {
         // regRemove("town", target.id);
         target.end = planet.day;
         target.size = 0;
-        delete target.pop;
-        delete target.jobs;
-        delete target.influences;
-        delete target.resources;
+        target.pop = 0;
+        target.jobs = {};
+        target.influences = {};
+        target.resources = {};
         renderHighlight();
         updateCanvas();
       }
@@ -266,7 +266,9 @@ gameEvents = {
           if (newChunk) {
             let colonyRate = 0.05;
             
-            if (subject.size <= 10 || (subject.lastColony !== undefined && planet.day-subject.lastColony < 25)) colonyRate = 0;
+            // One town per 30 days
+            if (!(regCount("town") < Math.ceil(planet.day / 30))) colonyRate = 0;
+            else if (subject.size <= 10 || (subject.lastColony !== undefined && planet.day-subject.lastColony < 25)) colonyRate = 0;
             else {
               colonyRate = subtractInfluence(colonyRate, subject, "happy");
               colonyRate = addInfluence(colonyRate, subject, "travel");
@@ -274,9 +276,11 @@ gameEvents = {
             }
 
             if (Math.random() < colonyRate) {
-              let newTown = happen("town", "Create", subject, null, {x:chunk.x, y:chunk.y});
+              let newTown = happen("town", "Create", subject, null, {x:newChunk.x, y:newChunk.y});
               subject.lastColony = planet.day;
               newTown.lastColony = planet.day - 25;
+              newTown.color = colorChange(subject.color);
+              newTown.former = subject.id;
               logMessage("Settlers from {{regname:town|"+subject.id+"}} found {{regname:town|"+newTown.id+"}}.")
             }
             else {
@@ -340,7 +344,8 @@ gameEvents = {
     daily: true,
     subject: { reg: "town", all: true },
     chunkRate: 0.05,
-    perChunk: function(subject, target, chunk) {
+    value: 0,
+    perChunk: (subject, target, chunk, args) => {
       let fertility = happen("chunk","Fertility",subject,chunk) / 2;
       fertility = addInfluence(fertility, subject, "farm");
       if (Math.random() < fertility) {
@@ -353,15 +358,21 @@ gameEvents = {
         if (subject.jobs.farmer) count += randRange(0,subject.jobs.farmer);
         if (crop.rate > 0) count += randRange(0,crop.rate);
 
-        happen("town","AddResource",null,subject,{ type:"crop", count:count });
+        args.value += count;
       }
+    },
+    func: (subject, target, args) => {
+      if (!args.value) return;
+      args.value = Math.floor(Math.min(subject.pop * (randRange(1,10) / 10), args.value));
+      if (!args.value) return;
+      happen("town","AddResource",null,subject,{ type:"crop", count:args.value });
     }
   },
   "townMine": {
     daily: true,
     subject: { reg: "town", all: true },
     chunkRate: 0.05,
-    perChunk: function(subject, target, chunk) {
+    perChunk: (subject, target, chunk) => {
       let fertility = planet.unlocks.smith < 20 ? 0.1 : chunk.e; //elevation
       if (planet.unlocks.smith >= 20) fertility += 0.05;
       if (planet.unlocks.smith >= 30) fertility += 0.05;
@@ -386,7 +397,7 @@ gameEvents = {
     daily: true,
     subject: { reg: "town", all: true },
     chunkRate: 0.05,
-    perChunk: function(subject, target, chunk) {
+    perChunk: (subject, target, chunk) => {
       if (biomes[chunk.b].hasLumber !== true) return;
 
       let fertility = 0.1;
@@ -406,6 +417,10 @@ gameEvents = {
     daily: true,
     subject: { reg: "town", all: true },
     func: (subject, target, args) => {
+      if (subject.pop <= 0) {
+        happen("town","End",null,subject);
+        return;
+      }
       if (subject.influences.happy < -6) {
         logWarning("angry"+subject.id, "{{residents:"+subject.id+"}} are very angry!");
       }
@@ -512,9 +527,7 @@ gameEvents = {
     //   random: [ [255,0,0], [0,255,0], [0,0,255] ]
     // },
     value: (subject, target) => {
-      let hsl = RGBtoHSL(target.color);
-      hsl[0] += randRange(2,5) / 10 * (Math.random() < 0.5 ? -1 : 1)
-      return HSLtoRGB(hsl);
+      return colorChange(target.color);
     },
     // check: (subject, target) => {
     //   return planet.day % 5 === 0;
@@ -998,6 +1011,7 @@ regBrowserKeys = {
   "jobs": "Jobs",
   "town.start": "Founded",
   "town.end": "Fell",
+  "former": "Formerly",
   "planet.start": "Formed",
 
   "farmer":"{{icon:crop}}Farmer",
@@ -1016,5 +1030,6 @@ regBrowserValues = {
   "biome": (value) => `{{color:${titleCase(value)}|rgb(${biomes[value].color.join(",")})}}`,
   "start": (value) => `Day {{num:${value}}}`,
   "end": (value) => `Day {{num:${value}}}`,
+  "town.former": (value) => `{{regname:town|${value}}}`,
   "birth": null
 }

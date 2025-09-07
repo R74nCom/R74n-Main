@@ -66,7 +66,7 @@ addParserCommand("randreg",function(args) {
   return ``;
 })
 addParserCommand("planet",function(args) {
-  return `<span class='entityName' onclick='regBrowsePlanet()'>${planet.name}</span>`;
+  return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet||biomes.water).color.join(",")})">${planet.name}</span>`;
 })
 addParserCommand("people",function(args) {
   return "Inhabitants of {{planet}}";
@@ -162,6 +162,12 @@ function colorBrightness(rgb, multiplier) {
   colorCache[key] = HSLtoRGB(hsl).map((n) => Math.round(n));
   return colorCache[key];
 }
+function colorChange(rgb) {
+  let hsl = RGBtoHSL(rgb);
+  hsl[0] += randRange(2,5) / 10 * (Math.random() < 0.5 ? -1 : 1)
+  hsl[2] *= 1 + (randRange(-1,1) / 10);
+  return HSLtoRGB(hsl).map((n) => Math.round(n));
+}
 
 function generatePerlinNoise(x, y, octaves, persistence) {
   let total = 0;
@@ -233,8 +239,11 @@ function regRemove(subregistryName, id) {
 function regGet(subregistryName, id) {
   return reg[subregistryName][id];
 }
+// function regToArray(subregistryName) {
+//   return Object.values(reg[subregistryName]).filter((i) => isNaN(i));
+// }
 function regToArray(subregistryName) {
-  return Object.values(reg[subregistryName]).filter((i) => isNaN(i));
+  return regFilter(subregistryName, (i) => !i.end);
 }
 function regCount(subregistryName) {
   return regToArray(subregistryName).length;
@@ -247,18 +256,15 @@ function regFilter(subregistryName, check) {
   }
   return results;
 }
-function regValid(subregistryName) {
-  return regFilter(subregistryName, (i) => !i.end);
-}
 
 townColors = [
-  [255, 51, 51],
+  [255, 87, 87],
   [255, 116, 51],
   [255, 164, 73],
   [87, 87, 255],
   [151, 87, 255],
   [255, 25, 159],
-  [255, 25, 255]
+  [255, 87, 255]
 ]
 function defaultTown() {
   return {
@@ -311,11 +317,11 @@ function readyEvent(eventClass, subject=null, target=null) {
   if (!subject && eventInfo.subject && eventInfo.subject.reg) {
     let regname = eventInfo.subject.reg;
     if (eventInfo.subject.random) {
-      subject = choose(regValid(regname));
+      subject = choose(regToArray(regname));
       if (!subject) return;
     }
     else if (eventInfo.subject.all) {
-      subject = regValid(regname);
+      subject = regToArray(regname);
       if (subject.length === 0) return;
     }
     else if (eventInfo.subject.id) {
@@ -327,11 +333,11 @@ function readyEvent(eventClass, subject=null, target=null) {
   if (!target && eventInfo.target && eventInfo.target.reg) {
     let regname = eventInfo.target.reg;
     if (eventInfo.target.random) {
-      target = choose(regValid(regname));
+      target = choose(regToArray(regname));
       if (!target) return;
     }
     else if (eventInfo.target.all) {
-      target = regValid(regname);
+      target = regToArray(regname);
       if (target.length === 0) return;
     }
     else if (eventInfo.target.id) {
@@ -388,16 +394,16 @@ function doEvent(eventClass,eventCaller) {
     for (let j = 0; j < targets.length; j++) {
       const target = targets[j];
       
-      if (eventInfo.func) {
-        r = eventInfo.func(subject, target, eventCaller.args);
-      }
       if (eventInfo.chunkRate && eventInfo.subject && eventInfo.subject.reg === "town" && eventInfo.perChunk) {
         let chunks = filterChunks((c) => c.v.s === subject.id);
         for (let k = 0; k < chunks.length; k++) {
           if (Math.random() > eventInfo.chunkRate) continue;
           const chunk = chunks[k];
-          eventInfo.perChunk(subject,target,chunk);
+          eventInfo.perChunk(subject,target,chunk,eventCaller.args);
         }
+      }
+      if (eventInfo.func) {
+        r = eventInfo.func(subject, target, eventCaller.args);
       }
     }
 
@@ -486,6 +492,7 @@ function generatePlanet() {
     chunks: {},
     reg: defaultRegistry(),
     created: Date.now(),
+    color: biomes.water.color,
     saved: null,
     unlocks: {},
     unlocksRejected: {},
@@ -1357,7 +1364,7 @@ function updateStats() {
     html += `<span class="panelSubtitle">[Global]</span>`;
     html += `<span>Population: ${ regToArray("town").reduce((n, {pop}) => n + pop, 0) }</span>`;
     html += `<span>Towns: ${
-      parseText(regValid("town").reduce((l, {id}) => {l.push("{{regname|town|"+id+"}}"); return l}, []).join(", ")
+      parseText(regToArray("town").reduce((l, {id}) => {l.push("{{regname|town|"+id+"}}"); return l}, []).join(", ")
       || "{{none}}")}</span>`;
   }
   else {
@@ -1546,15 +1553,16 @@ function openRegBrowser(obj,regName) {
   regContent.innerHTML = "";
 
   let title = obj.name;
-  if (obj.name && regName) {
-    title = parseText(`{{regname:${regName}|${obj.id}}}`);
+  if (title) {
+    if (regName) title = `{{regname:${regName}|${obj.id}}}`;
+    else if (obj.color) title = `{{color:${title}|rgb(${obj.color.join(",")})}}`;
   }
   if (title) {
     let nameSection = document.createElement("div");
     nameSection.className = "regSection regTitle";
     let regTitle = document.createElement("span");
     regTitle.className = "regTitle";
-    regTitle.innerHTML = title;
+    regTitle.innerHTML = parseText(title);
     nameSection.appendChild(regTitle);
     regContent.appendChild(nameSection);
   }
@@ -1576,13 +1584,14 @@ function openRegBrowser(obj,regName) {
 
   for (let key in regBrowserKeys) {
     let rkey = key;
-    if (!obj[key]) {
+    if (obj[key] === undefined) {
       const split = key.split(".");
       if (split.length < 2) continue;
       if (split[0] === regName || split[0] === obj.type) {
         key = split[1];
       }
       else continue;
+      if (obj[key] === undefined) continue;
     }
     let section = document.createElement("div");
     section.className = "regSection";
@@ -1681,6 +1690,7 @@ function openRegBrowser(obj,regName) {
 function regBrowsePlanet() {
   openRegBrowser({
     name: planet.name,
+    color: planet.color,
     type: "planet",
     start: 0
   })
@@ -2594,8 +2604,8 @@ window.addEventListener("load", function(){ //onload
       { text: "{{check}} Jobs" },
       { text: "{{check}} Resources" },
       { text: "{{check}} Unlocks" },
+      { text: "{{check}} Starvation" },
 
-      { text: "{{x}} Starvation" },
       { text: "{{x}} Migration" },
       { text: "{{x}} Settings" },
       { text: "{{x}} Linguistics" },
