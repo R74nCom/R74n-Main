@@ -1128,7 +1128,7 @@ function filterChunks(check) {
 
 wordComponents = {};
 wordComponents.C  = "B,C,D,F,G,H,J,K,L,M,N,P,QU,R,S,T,V,W,Y,Z";
-wordComponents.C2 = wordComponents.C + "X,CK,NG,SS";
+wordComponents.C2 = wordComponents.C + ",X,CK,NG,SS";
 wordComponents.V  = "A,A,A,E,E,É,I,I,I,O,O,O,U,U";
 wordComponents.V2 = wordComponents.V + ",OU,AE,EE,IE,EA,EU,UI,OI,AI,OO,OW,OE,IA";
 
