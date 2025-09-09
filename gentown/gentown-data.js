@@ -16,6 +16,7 @@ actionables = {
         if (levelData.func) {
           levelData.func(subject,target,args);
         }
+        unlockExecutive("unlocks");
       }
     }
   },
@@ -40,6 +41,7 @@ actionables = {
       },
       Boost: (subject,target,args) => {
         target.rate = (target.rate||1) + (args.value||0.5);
+        target.rate = Math.round(target.rate * 100) / 100;
         return target;
       }
     }
@@ -49,30 +51,40 @@ actionables = {
     reg: "town",
     asTarget: {
       Create: (subject,target,args) => {
-        target = regAdd("town",defaultTown());
+        target = defaultTown();
+        target.id = reg.town._id;
         if (args && args.x && args.y) {
           let x = args.x; let y = args.y;
           let chunk = chunkAt(x, y);
           if (chunk) {
             let done = 0;
             let chunks = [];
-            for (let i = 0; i < 5; i++) {
-              let newChunk = nearestChunk(chunk.x, chunk.y,  (c) => c.b !== "water" && !c.v.s,  (c) => (c.v.s && c.v.s !== chunk.v.s) || c.b === "water" || c.b === "mountain");
-              if (newChunk) {
-                newChunk.v.s = target.id;
-                chunks.push(newChunk);
-                done++;
-              }
-            }
+            let newChunks = floodFill(chunk.x, chunk.y, (c) => c.b !== "water" && !c.v.s, 5, (c) => (c.v.s && c.v.s !== chunk.v.s) || c.b === "water" || c.b === "mountain")
+            newChunks.forEach(newChunk => {
+              newChunk.v.s = target.id;
+              chunks.push(newChunk);
+              done++;
+            })
+            // for (let i = 0; i < 5; i++) {
+            //   let newChunk = nearestChunk(chunk.x, chunk.y,  (c) => c.b !== "water" && !c.v.s,  (c) => (c.v.s && c.v.s !== chunk.v.s) || c.b === "water" || c.b === "mountain");
+            //   if (newChunk) {
+            //     newChunk.v.s = target.id;
+            //     chunks.push(newChunk);
+            //     done++;
+            //   }
+            // }
             if (done) {
+              target.size += chunks.length;
               chunks.forEach((c) => {
-                target.size++;
                 if (biomes[c.b].crop) {
                   happen("town","AddResource",null,target,{ type:"crop", count:20 })
                 }
-              })
+              });
+              unlockExecutive("towns");
+              target.startBiome = chunk.b;
+              regAdd("town",target);
             }
-            target.startBiome = chunk.b;
+            else return false;
           }
         }
         return target;
@@ -98,6 +110,15 @@ actionables = {
         let inv = target.resources;
         if (inv[type] === undefined) inv[type] = 0;
         inv[type] += args.count || 1;
+        let max = 0;
+        let size = target.size;
+        if (size >= 5) {
+          max += size * 20;
+          size -= 5;
+        }
+        max += size * 5;
+        // let max = Math.max(20, target.size * 5);
+        if (inv[type] > max) inv[type] = max;
       },
       RemoveResource: (subject,target,args) => {
         let type = args.type;
@@ -166,7 +187,7 @@ actionables = {
         }
       },
       End: (subject,target,args) => {
-        logMessage(`{{regname:town|${target.id}}} has fallen.`);
+        logMessage(`{{regname:town|${target.id}}} has fallen.`, "warning");
         filterChunks((c) => c.v.s === target.id).forEach(c => {
           delete c.v.s;
         });
@@ -607,6 +628,7 @@ gameEvents = {
         let resource = regGet("resource",args.resourceID);
         if (resource) {
           happen("resource","Boost",subject,resource,args);
+          unlockExecutive("almanac");
         }
       }
     },
@@ -998,8 +1020,8 @@ regBrowserKeys = {
   "pop": "Population",
   "resources": "Resources",
   "raw": "Material",
-  "crop": "Crop",
-  "livestock": "Livestock",
+  "town.crop": "Crop",
+  "town.livestock": "Livestock",
   "size": "Size",
   "influences": "Influences",
   "birth": "Birth",
@@ -1013,6 +1035,8 @@ regBrowserKeys = {
   "town.end": "Fell",
   "former": "Formerly",
   "planet.start": "Formed",
+  "biome.crops": "Crops",
+  "biome.livestocks": "Livestock",
 
   "farmer":"{{icon:crop}}Farmer",
   "lumberer":"{{icon:lumber}}Lumberer",
@@ -1026,10 +1050,11 @@ regBrowserValues = {
   "lumber": (value) => `{{num:${value}}}{{icon:lumber}}`,
   "rock": (value) => `{{num:${value}}}{{icon:rock}}`,
   "metal": (value) => `{{num:${value}}}{{icon:metal}}`,
-  "livestock": (value) => `{{num:${value}}}{{icon:livestock}}`,
-  "biome": (value) => `{{color:${titleCase(value)}|rgb(${biomes[value].color.join(",")})}}`,
+  "town.livestock": (value) => `{{num:${value}}}{{icon:livestock}}`,
+  "biome": (value) => `{{biome:${value}}}`,
   "start": (value) => `Day {{num:${value}}}`,
   "end": (value) => `Day {{num:${value}}}`,
   "town.former": (value) => `{{regname:town|${value}}}`,
-  "birth": null
+  "birth": null,
+  "rate": (value) => `${value}x`,
 }

@@ -1,3 +1,23 @@
+[Version 0.3.2 - 8 Sep 2025]
+ ~ Revamped Stats panel
+    + All town populations and their moods are now shown neatly
+    + Planet name is shown
+    ~ On hover, landmass and water names are shown
+    ~ On hover, town population is shown alongside resources
+    ~ Town names are sorted by population
+ + Almanac
+ ~ Executive buttons must be unlocked
+    + The new Almanac is unlocked after a domestication event
+    ~ Unlocks button is unlocked after an unlock event
+    ~ Town button is unlocked after your town is created
+ + Biome information can be browsed by clicking its name or in Terrain view
+ ~ Entity names are animated when hovered or clicked
+ ~ Town resource capacity is limited by territory size
+ ~ Town recolor events have a maximum and minimum lightness
+ ~ Prompt length limits are enforced while typing
+ ~ Fixed: Text box doesn't autofocus in popups
+ ~ Technical: Saves are validated to detect game-breaking data
+
 [Version 0.3.1 - 7 Sep 2025]
  + Colonies display their parent towns in their stats
  + Planet name is colored like the ocean

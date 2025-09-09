@@ -113,13 +113,37 @@ html, body {
 .entityName {
 	cursor: pointer;
 	/* transition: 0.25s; */
-	transition: 0.25s filter;
+	transition: 0.25s;
+	transition-property: filter, scale, transform;
+	display: inline-block;
+	/* -webkit-transform-origin: 50% 0;
+	transform-origin: 50% 0; */
 }
 .entityName:hover {
-	filter: brightness(150%);
+	filter: brightness(150%) hue-rotate(15deg);
+	-webkit-animation: sway 0.5s cubic-bezier(0.25, 0.25, 0.25, 0.5) forwards infinite;
+	animation: sway 0.5s cubic-bezier(0.25, 0.25, 0.25, 0.5) forwards infinite;
+	scale: 1.1;
 }
 .entityName:active, .entityName:hover:active {
-	filter: brightness(75%);
+	filter: brightness(75%) hue-rotate(-15deg);
+	-webkit-animation: none;
+	animation: none;
+	scale: 0.95;
+}
+@keyframes sway {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 span.none {
@@ -198,7 +222,9 @@ span.none {
 	color: rgb(255, 0, 0)
 }
 
-/* .logMessage .logAct {} */
+.logMessage .logAct {
+	display: inline-block;
+}
 .logMessage .logAct span {
 	border: solid gray 2px;
 	padding-left: 7px;
@@ -207,7 +233,7 @@ span.none {
 	cursor: pointer;
 	transition: 0.5s;
 	/* transition-timing-function: ease-in-out; */
-	transition-property: background-color, color, border-color, box-shadow, -moz-box-shadow, -webkit-box-shadow, margin-bottom, margin-top;
+	transition-property: background-color, color, border-color, box-shadow, -moz-box-shadow, -webkit-box-shadow, margin-bottom, margin-top, scale;
 	-webkit-box-shadow: 0px 0px 30px 5px rgba(255,255,0,0.25);
 	-moz-box-shadow: 0px 0px 30px 5px rgba(255,255,0,0.25);
 	box-shadow: 0px 0px 30px 5px rgba(255,255,0,0.25);
@@ -243,7 +269,8 @@ span.none {
 .logMessage .logAct span:active {
 	/* background-color: rgb(30, 178, 0); */
 	filter: brightness(75%);
-	transition: 0s;
+	/* transition: 0s; */
+	scale: 0.9;
 }
 .logMessage[done="true"] .logAct span {
 	opacity: 0.5;
@@ -301,10 +328,31 @@ span.none {
 	position: relative;
 	min-width: 15em;
 	flex-basis: 0;
+	display: flex;
+	flex-direction: column;
 }
 #statsDiv {
 	display: flex;
 	flex-direction: column;
+}
+#statsDiv table {
+	width: 100%;
+	table-layout:fixed;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#statsDiv table, #statsDiv tr, #statsDiv td {
+	border: none;
+	margin-left: 0;
+}
+#statsDiv tr {
+	width: 100%;
+}
+#statsDiv td {
+	width: fit-content
+}
+#statsDiv td:last-of-type {
+	width: fit-content
 }
 .inlineIcon {
 	height: 0.8em;
@@ -315,18 +363,29 @@ span.none {
 	-webkit-touch-callout: none;
 	pointer-events: none;
 }
+#statsMain {
+	flex-grow: 1;
+	overflow-y: scroll;
+	max-height: 383.594px;
+}
+#statsMain .panelSubtitle, #statsMain .panelSubtitle span {
+	text-decoration: underline;
+	text-decoration-color: gray;
+}
 #underStats {
 	height: 1.75em;
 	justify-content: center;
 	align-items: center;
-	position: absolute;
-	bottom: 5px;
-	left: 50%;
-	transform: translateX(-50%);
+	position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 	padding: 0;
 	box-sizing: content-box;
 	transition: 0.5s;
 	transition-property: border-color;
+	background-color: black;
+	text-align: center;
+	max-width: 7em;
 }
 #underStats:hover {
 	border-color: white
@@ -393,6 +452,7 @@ span.none {
 }
 #statsPanel .panelTitle, #actionPanel .panelTitle {
 	text-align: center;
+	display: inline-block;
 }
 .panelSubtitle {
 	text-align: center;
@@ -429,6 +489,7 @@ span.none {
 .actionItem.clickable:active {
 	background-color: rgb(8, 62, 0);
 	transform: scale(97.5%);
+	color: yellow
 }
 @keyframes notify {
 		0% { background-color: rgba(124, 16, 0, 0); color:white }
@@ -517,6 +578,7 @@ span.none {
 	overflow-y: scroll;
 	touch-action: none;
 	pointer-events: none;
+	visibility: hidden;
 }
 .overlayShown {
 	opacity: 1;
@@ -527,45 +589,26 @@ span.none {
 	touch-action:auto;
 	pointer-events:all;
 	filter:none;
+	visibility: visible;
 }
 
 .gamePopup {
 	display: flex;
 	flex-direction: column;
 	border: solid 4px gray;
-
+	position: absolute;
 	background:
-		/* Shadow Cover TOP */
-		linear-gradient(
-			rgb(26, 26, 26) 30%,
-			rgba(255, 255, 255, 0)
-		) center top,
-		
-		/* Shadow Cover BOTTOM */
-		linear-gradient(
-			rgba(255, 255, 255, 0), 
-			rgb(26, 26, 26) 70%
-		) center bottom,
-		
-		/* Shadow TOP */
-		radial-gradient(
-			farthest-side at 50% 0,
-			rgba(255, 255, 255, 0.5),
-			rgba(0, 0, 0, 0)
-		) center top,
-		
-		/* Shadow BOTTOM */
-		radial-gradient(
-			farthest-side at 50% 100%,
-			rgba(255, 255, 255, 0.5),
-			rgba(0, 0, 0, 0)
-		) center bottom;
-	
+	/* Shadow Cover TOP */
+	linear-gradient( rgb(26, 26, 26) 30%, rgba(255, 255, 255, 0) ) center top,
+	/* Shadow Cover BOTTOM */
+	linear-gradient( rgba(255, 255, 255, 0),  rgb(26, 26, 26) 70% ) center bottom,
+	/* Shadow TOP */
+	radial-gradient( farthest-side at 50% 0, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0)) center top,
+	/* Shadow BOTTOM */
+	radial-gradient( farthest-side at 50% 100%, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0) ) center bottom;
 	background-repeat: no-repeat;
 	background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
 	background-attachment: local, local, scroll, scroll;
-
-	position: absolute;
 	background-color: rgb(26, 26, 26);
 	/* height: 97%; */
 	width: 97%;
@@ -585,6 +628,7 @@ span.none {
 	overflow-y: scroll;
 	touch-action: none;
 	pointer-events: none;
+	visibility: hidden;
 
 	/* animation: 0.2s ease-out 0s 1 popup; */
 }
@@ -594,6 +638,7 @@ span.none {
 	touch-action:auto;
 	pointer-events:all;
 	filter:none;
+	visibility: visible;
 }
 .gamePopup .popupContent {
 	padding: 2em;
@@ -792,9 +837,9 @@ span.none {
 		position: relative
 	}
 	#underStats {
-		left: unset;
+		/* left: unset;
 		transform: none;
-		right: 5px;
+		right: 5px; */
 	}
 	#statsPanel {
 		flex-basis: unset;
@@ -865,6 +910,9 @@ span.none {
 	#actionPanel, #statsPanel {
 		border-width: 5px;
 		border-style: dashed;
+	}
+	#statsMain {
+		max-height: none;
 	}
 	#underStats {
 		display: none;

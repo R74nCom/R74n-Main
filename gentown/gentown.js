@@ -35,7 +35,11 @@ addParserCommand("resourcetotal",function(args) {
   let town = regGet("town",parseInt(args[0]));
   let type = args[1];
   if (!town.resources || !town.resources[type]) return 0;
-  return town.resources[type].toString();
+  let total = town.resources[type].toString();
+  if (total >= Math.max(20, town.size * 5)) {
+    return `{{color:${total}|#ffff8c}}`
+  }
+  return total;
 })
 addParserCommand("diff",function(args) {
   if (args.length === 0) {return ""}
@@ -68,12 +72,27 @@ addParserCommand("randreg",function(args) {
 addParserCommand("planet",function(args) {
   return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})">${planet.name}</span>`;
 })
+addParserCommand("biome",function(args) {
+  return `<span class='entityName' onclick='regBrowseBiome("${args[0]}")' style="color:rgb(${biomes[args[0]].color.join(",")})">${titleCase(args[1] || biomes[args[0]].name || args[0])}</span>`;
+})
 addParserCommand("people",function(args) {
   return "Inhabitants of {{planet}}";
 })
 addParserCommand("residents",function(args) {
   if (args.length === 0) return "Residents";
   return `{{c:Residents|Citizens}} of {{regname|town|${args[0]}}}`;
+})
+addParserCommand("face",function(args) {
+  if (args.length === 0) return "{{icon:neutral|Population}}";
+  let town = regGet("town", parseInt(args[0]));
+  if (!town) return "{{icon:neutral|Population}}";
+
+  let mood = town.influences.happy || 0;
+  let icon = "neutral";
+  if (mood >= 3) icon = "happy";
+  if (mood <= -2) icon = "sad";
+
+  return `{{icon:${icon}|${args[1]||"Population"}}}`;
 })
 addParserCommand("should",function(args) {
   return "{{c:Should they|Do you approve|Good idea}}?";
@@ -166,6 +185,7 @@ function colorChange(rgb) {
   let hsl = RGBtoHSL(rgb);
   hsl[0] += randRange(2,5) / 10 * (Math.random() < 0.5 ? -1 : 1)
   hsl[2] *= 1 + (randRange(-1,1) / 10);
+  hsl[2] = Math.max(0.2, Math.min(0.8, hsl[2]));
   return HSLtoRGB(hsl).map((n) => Math.round(n));
 }
 
@@ -244,6 +264,25 @@ function regGet(subregistryName, id) {
 // }
 function regToArray(subregistryName) {
   return regFilter(subregistryName, (i) => !i.end);
+}
+function regSorted(subregistryName, sortBy, inverse) {
+  sortBy = sortBy.split(".");
+  let key = sortBy[0];
+  let subkey = sortBy[1];
+
+  let items = regToArray(subregistryName);
+
+  if (subkey) {
+    if (inverse) items.sort((a, b) => (a[key]||{})[subkey] - (b[key]||{})[subkey] );
+    else items.sort((a, b) => (b[key]||{})[subkey] - (a[key]||{})[subkey] );
+  }
+  else {
+    items = items.filter((item) => item[key] !== undefined);
+    if (inverse) items.sort((a, b) => a[key] - b[key] );
+    else items.sort((a, b) => b[key] - a[key] );
+  }
+
+  return items;
 }
 function regCount(subregistryName) {
   return regToArray(subregistryName).length;
@@ -498,7 +537,8 @@ function generatePlanet() {
     unlocksRejected: {},
     oneTimeEvents: {},
     nextDayMessages: [],
-    warnings: {}
+    warnings: {},
+    unlockedExecutive: {}
   };
   // reg = planet.reg;
   
@@ -680,7 +720,8 @@ biomes = {
     elevation: 0.5,
     moisture: 0.5,
     temp: 0.5,
-    hasLumber: true
+    hasLumber: true,
+    name: "grassland"
   },
   "mountain": {
     color: [150,150,150],
@@ -689,6 +730,7 @@ biomes = {
     moisture: 0.6,
     crop: null,
     livestock: null,
+    name: "mountains"
   },
   "snow": {
     color: [255,255,255],
@@ -696,13 +738,15 @@ biomes = {
     temp: 0.1,
     moisture: 0.6,
     crop: null,
-    hasLumber: true
+    hasLumber: true,
+    name: "snowland"
   },
   "desert": {
     color: [255,255,0],
     moisture: 0.3,
     elevation: 0.4,
-    temp: 0.8
+    temp: 0.8,
+    name: "desert"
   },
   "badlands": {
     color: [191, 159, 61],
@@ -710,21 +754,24 @@ biomes = {
     elevation: 0.5,
     temp: 0.8,
     crop: null,
-    infertile: true
+    infertile: true,
+    name: "badlands"
   },
   "tundra": {
     color: [0, 209, 98],
     elevation: 0.5,
     temp: 0.3,
     moisture: 0.3,
-    hasLumber: true
+    hasLumber: true,
+    name: "tundra"
   },
   "wetland": {
     color: [145, 255, 0],
     moisture: 0.9,
     temp: 0.8,
     elevation: 0.5,
-    hasLumber: true
+    hasLumber: true,
+    name: "wetland"
   },
   "water": {
     noAuto: true,
@@ -733,7 +780,8 @@ biomes = {
     moisture: 1,
     temp: 0.5,
     crop: null,
-    infertile: true
+    infertile: true,
+    name: "waters"
   },
 }
 
@@ -960,6 +1008,7 @@ currentPopup = null;
 promptState = null;
 currentView = "terrain";
 currentHighlight = null;
+currentExecutive = null;
 userSettings = {};
 
 function handleEntityHover(e) {
@@ -1077,18 +1126,18 @@ function filterChunks(check) {
 
 
 
-wordSyllables = {};
-wordSyllables.C  = "B,C,D,F,G,H,J,K,L,M,N,P,QU,R,S,T,V,W,Y,Z";
-wordSyllables.C2 = wordSyllables.C + "X,CK,NG,SS";
-wordSyllables.V  = "A,A,A,E,E,É,I,I,I,O,O,O,U,U";
-wordSyllables.V2 = wordSyllables.V + ",OU,AE,EE,IE,EA,EU,UI,OI,AI,OO,OW,OE,IA";
+wordComponents = {};
+wordComponents.C  = "B,C,D,F,G,H,J,K,L,M,N,P,QU,R,S,T,V,W,Y,Z";
+wordComponents.C2 = wordComponents.C + "X,CK,NG,SS";
+wordComponents.V  = "A,A,A,E,E,É,I,I,I,O,O,O,U,U";
+wordComponents.V2 = wordComponents.V + ",OU,AE,EE,IE,EA,EU,UI,OI,AI,OO,OW,OE,IA";
 
-wordSyllables.C = wordSyllables.C.toLowerCase().split(",");
-wordSyllables.C2 = wordSyllables.C2.toLowerCase().split(",");
-wordSyllables.V = wordSyllables.V.toLowerCase().split(",");
-wordSyllables.V2 = wordSyllables.V2.toLowerCase().split(",");
+wordComponents.C = wordComponents.C.toLowerCase().split(",");
+wordComponents.C2 = wordComponents.C2.toLowerCase().split(",");
+wordComponents.V = wordComponents.V.toLowerCase().split(",");
+wordComponents.V2 = wordComponents.V2.toLowerCase().split(",");
 
-wordSyllables.C0 = {
+wordComponents.C0 = {
   b: "lr",
   c: "hlr",
   d: "rw",
@@ -1117,12 +1166,12 @@ function generateWord(syllableCount,titled) {
     let letter;
     // console.log(lastLetter.length);
     if (type === true) {
-      letter = choose(i === 0 ? wordSyllables.C : wordSyllables.C2);
+      letter = choose(i === 0 ? wordComponents.C : wordComponents.C2);
       syllableCount++;
     }
-    else letter = choose(lastLetter.length > 1 ? wordSyllables.V : wordSyllables.V2);
-    if (wordSyllables.C0[letter] !== undefined && Math.random() < 1/26) {
-      letter += choose(wordSyllables.C0[letter]);
+    else letter = choose(lastLetter.length > 1 ? wordComponents.V : wordComponents.V2);
+    if (wordComponents.C0[letter] !== undefined && Math.random() < 1/26) {
+      letter += choose(wordComponents.C0[letter]);
     }
     word += letter;
     type = !type;
@@ -1312,8 +1361,10 @@ function handleMouseUp(e) {
 mapCanvas.addEventListener("mouseup", handleMouseUp)
 mapCanvas.addEventListener("mouseout", (e) => {
   mousePos = null;
+  currentHighlight = null;
   updateStats();
   renderCursor();
+  renderHighlight();
   updateCanvas();
 })
 mapCanvas.oncontextmenu = () => { return false; }
@@ -1361,11 +1412,22 @@ function updateStats() {
   let html = "";
   
   if (!mousePos && !selectedChunk) {
-    html += `<span class="panelSubtitle">[Global]</span>`;
-    html += `<span>Population: ${ regToArray("town").reduce((n, {pop}) => n + pop, 0) }</span>`;
-    html += `<span>Towns: ${
-      parseText(regToArray("town").reduce((l, {id}) => {l.push("{{regname|town|"+id+"}}"); return l}, []).join(", ")
-      || "{{none}}")}</span>`;
+    html += `<span class="panelSubtitle">Towns of ${ parseText("{{planet}}") }</span>`;
+    // html += `<span>Towns: <br>&nbsp;${
+    //   parseText(regToArray("town").reduce((l, {id}) => {l.push("{{regname|town|"+id+"}}"); return l}, []).join("<br>&nbsp;")
+    //   || "{{none}}")}</span>`;
+    html += `<span><table>`;
+    regSorted("town","pop").forEach((town) => {
+      html += `<tr>`;
+      html += `<td>` + parseText("{{regname:town|"+town.id+"}}") + `</td>`;
+      html += `<td>` + parseText("{{face:"+town.id+"}}") + town.pop + `</td>`;
+      html += `<td>` + "" + `</td>`;
+      html += `</tr>`;
+      // html += `<br>`;
+    });
+    html += `</table></span>`;
+
+    html += `<span style="text-align:right">Total: ${ regToArray("town").reduce((n, {pop}) => n + pop, 0) }</span>`;
   }
   else {
     let chunk = selectedChunk || planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
@@ -1373,18 +1435,36 @@ function updateStats() {
       if (chunk.v.s) {
         let town = regGet("town",chunk.v.s);
         if (town) {
-          html += `<span class="panelSubtitle">[${parseText("{{regname:town|"+town.id+"}}")}]</span>`;
+          html += `<span class="panelSubtitle">${parseText("{{regname:town|"+town.id+"}}")}</span>`;
           html += `<span style="text-align:center">${
+            parseText(` ${town.pop}{{icon:neutral|Population}}`) +
             parseText(` {{resourcetotal:${town.id}|crop}}{{icon:crop|Crops}}`) +
             parseText(` {{resourcetotal:${town.id}|lumber}}{{icon:lumber|Lumber}}`) +
             parseText(` {{resourcetotal:${town.id}|rock}}{{icon:rock|Rock}}`) +
             parseText(` {{resourcetotal:${town.id}|livestock}}{{icon:livestock|Livestock}}`)
-          }</span>`;
-          html += `<span>Population: ${town.pop}</span>`;
+          }</span><br>`;
+          // html += `<span>Population: ${town.pop}</span>`;
         }
       }
-      html += `<span class="panelSubtitle">[Local${selectedChunk ? " - Pinned" : ""}]</span>`;
-      html += `<span>Biome: ${parseText("{{color:"+titleCase(chunk.b)+"|rgb("+biomes[chunk.b].color+")}}")}</span>`;
+      let localName = "Local";
+      if (chunk.b === "water") {
+        let waters = floodFill(chunk.x, chunk.y, (c) => c.b === "water", 60);
+        let land = nearestChunk(chunk.x, chunk.y, (c) => c.v.g !== undefined)
+        if (land && regGet("landmass",land.v.g).type === "island") localName = "bay";
+        else if (waters.length < 20) localName = "lake";
+        else if (waters.length < 50) localName = "sea";
+        else localName = "ocean";
+        localName = "{{biome:water|"+localName+"}}";
+        if (land) {
+          localName += " of ";
+          localName += "{{regname:landmass|"+land.v.g+"}}";
+        }
+      }
+      else {
+        localName = "{{biome:"+chunk.b+"}}";
+        if (chunk.v.g) localName += ` of {{regname:landmass|${chunk.v.g}}}`;
+      }
+      html += `<span class="panelSubtitle">${parseText(localName)}</span>`;
       // html += `<span>Temperature: ${
       //   Math.round(titleCase(chunk.t)*100)
       // }%</span>`;
@@ -1469,6 +1549,7 @@ function doPrompt(obj) {
     popupText.style.display = "";
     document.getElementById("popupTextConfirm").style.display = "";
     popupText.focus();
+    setTimeout(() => {popupText.focus()}, 100);
   }
   else if (type === "choose") {
     let popupChoices = document.getElementById("popupChoices");
@@ -1509,12 +1590,13 @@ function doPrompt(obj) {
     popupInput.style.flexGrow = "";
   }
 }
+defaultPromptLimit = 32;
 function handlePrompt(result) {
   if (!promptState) return;
   if (typeof result === "string") {
     result = result.replace(/[{<]/g, "[");
     result = result.replace(/[}>]/g, "]");
-    result = result.substr(0,(promptState.limit || 32))
+    result = result.substr(0,(promptState.limit || defaultPromptLimit))
   }
   if (promptState.func) promptState.func(result);
   handleX(document.querySelector("#promptPopup .panelX"));
@@ -1537,6 +1619,11 @@ function closePopups() {
 }
 document.getElementById("popupText").addEventListener("keydown",(e) => {
   if(e.key === "Enter") handlePrompt(document.getElementById("popupText").value.replace(/[\{\}]/g,""));
+})
+document.getElementById("popupText").addEventListener("input",(e) => {
+  if (e.target.value.length > (promptState.limit || defaultPromptLimit)) {
+    e.target.value = e.target.value.substr(0,(promptState.limit || defaultPromptLimit));
+  }
 })
 document.getElementById("gamePopupOverlay").addEventListener("click",(e) => {
   closePopups();
@@ -1693,6 +1780,24 @@ function regBrowsePlanet() {
     color: planet.color,
     type: "planet",
     start: 0
+  })
+}
+function regBrowseBiome(biome) {
+  let data = biomes[biome];
+
+  let crops = regFilter("resource", (r) => r.type === "crop" && r.biome === biome);
+  crops = crops.map((r) => "{{regname:resource|"+r.id+"}}");
+  if (!crops.length) crops = undefined;
+  let livestocks = regFilter("resource", (r) => r.type === "livestock" && r.biome === biome);
+  livestocks = livestocks.map((r) => "{{regname:resource|"+r.id+"}}");
+  if (!livestocks.length) livestocks = undefined;
+  
+  openRegBrowser({
+    name: data.name || biome,
+    color: data.color,
+    type: "biome",
+    crops: crops,
+    livestocks: livestocks
   })
 }
 
@@ -2176,6 +2281,12 @@ viewData = {
     // chunkColor: (chunk) => {
     //   return [255,0,0,0.5]
     // }
+    hover: (chunk) => {
+      return chunk.b !== undefined;
+    },
+    click: (chunk) => {
+      regBrowseBiome(chunk.b);
+    }
   },
   temperature: {
     showTerrain: true,
@@ -2237,14 +2348,36 @@ function saveSettings() {
   R74n.set("GenTownSettings",JSON.stringify(userSettings));
 }
 
+function unlockExecutive(executiveID) {
+  if (planet.unlockedExecutive === undefined) planet.unlockedExecutive = {};
+  else if (planet.unlockedExecutive[executiveID]) return;
+  planet.unlockedExecutive[executiveID] = true;
+  let button = document.getElementById("actionItem-"+executiveID)
+  if (button) {
+    button.classList.add("notify");
+    button.style.display = "";
+  }
+}
+
 // Saves
 function autosave() {
   let json = generateSave();
   R74n.set("GenTownSave",JSON.stringify(json));
 }
 function autoload() {
-  let json = JSON.parse(R74n.get("GenTownSave"));
+  let json = R74n.get("GenTownSave");
+  json = json.replace(/</g, "[");
+  json = json.replace(/>/g, "]");
+  json = JSON.parse(json);
   parseSave(json);
+}
+function validatePlanet() {
+  for (let chunkKey in planet.chunks) {
+    let chunk = planet.chunks[chunkKey];
+    if (!biomes[chunk.b]) chunk.b = "water";
+    if (!chunk.v) chunk.v = {};
+    if (chunk.v.s && !reg.town[chunk.v.s]) delete chunk.v.s;
+  }
 }
 
 unicodeSkips = {
@@ -2416,7 +2549,7 @@ function parseSave(json) {
         t: chunkData.t[chunkIndex],
         e: chunkData.e[chunkIndex],
         m: chunkData.m[chunkIndex],
-        b: chunkData.b[chunkIndex],
+        b: biomes[chunkData.b[chunkIndex]] ? chunkData.b[chunkIndex] : "water",
         v: chunkData.v[chunkIndex]
       };
       let chunkKey = chunkX + "," + chunkY;
@@ -2427,6 +2560,8 @@ function parseSave(json) {
   }
 
   planet.chunks = chunks;
+
+  validatePlanet();
 
   initGame();
   logMessage("The Sun rises on Planet {{planet}}...")
@@ -2447,6 +2582,8 @@ function populateExecutive(items, title, main=false) {
     panelTitle.className = "panelTitle";
     panelTitle.innerText = title ? parseText(title) : "Options";
     subpanelList.appendChild(panelTitle);
+
+    if (title) currentExecutive = title.toLowerCase();
   }
 
   for (let i = 0; i < items.length; i++) {
@@ -2463,7 +2600,7 @@ function populateExecutive(items, title, main=false) {
     if (item.id) actionItem.id = "actionItem-"+item.id;
     if (item.indent) actionItem.style.marginLeft = item.indent + "em";
     if (item.opacity) actionItem.style.opacity = item.opacity;
-    if (item.hide) actionItem.style.display = "none";
+    if (item.hide && (!item.id || !planet.unlockedExecutive || !planet.unlockedExecutive[item.id])) actionItem.style.display = "none";
 
     actionItem.addEventListener("click", (e) => {
       e.target.classList.remove("notify");
@@ -2485,6 +2622,7 @@ function closeExecutive() {
   document.getElementById("actionMain").style.display = "flex";
   document.getElementById("actionSub").style.display = "none";
   document.getElementById("actionSubList").innerHTML = "";
+  currentExecutive = null;
 }
 document.getElementById("actionSubpanelClose").addEventListener("click",closeExecutive)
 
@@ -2530,8 +2668,24 @@ window.addEventListener("load", function(){ //onload
 
   populateExecutive([
     {
+      text: "Towns",
+      id: "towns",
+      hide: true,
+      func: () => {
+        let items = [];
+        regToArray("town").forEach((town) => {
+          items.push({
+            text: `{{regname:town|${town.id}}}`,
+            func: () => regBrowse("town", town.id)
+          });
+        })
+        populateExecutive(items, "Towns");
+      }
+    },
+    {
       text: "Unlocks",
       id: "unlocks",
+      hide: true,
       func: () => {
         let items = [];
         for (let type in unlockTree) {
@@ -2560,17 +2714,20 @@ window.addEventListener("load", function(){ //onload
       }
     },
     {
-      text: "Towns",
-      id: "towns",
+      text: "Almanac",
+      id: "almanac",
+      hide: true,
       func: () => {
         let items = [];
-        regToArray("town").forEach((town) => {
+        regSorted("resource", "rate").forEach((resource) => {
+          if (resource.type !== "crop" && resource.type !== "livestock") return;
+          if (resource.rate === 1 || resource.rate === undefined) return;
           items.push({
-            text: `{{regname:town|${town.id}}}`,
-            func: () => regBrowse("town", town.id)
+            text: `{{regname:resource|${resource.id}}} (${resource.rate}x)`,
+            func: () => regBrowse("resource", resource.id)
           });
         })
-        populateExecutive(items, "Towns");
+        populateExecutive(items, "Resources");
       }
     }
   ], undefined, true)
@@ -2595,7 +2752,7 @@ window.addEventListener("load", function(){ //onload
           })
         }
       }
-    ])
+    ], "Save Options")
   })
   
   document.getElementById("actionBeta").addEventListener("click",() => {
