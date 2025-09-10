@@ -1079,7 +1079,7 @@ regBrowserKeys = {
   "soldier":"{{icon:sword}}Soldier",
 }
 regBrowserValues = {
-  "pop": (value) => `{{num:${value}}}{{icon:neutral}}`,
+  "pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}`,
   "size": (value) => `{{num:${value}}}{{icon:land}}`,
   "crop": (value) => `{{num:${value}}}{{icon:crop}}`,
   "lumber": (value) => `{{num:${value}}}{{icon:lumber}}`,

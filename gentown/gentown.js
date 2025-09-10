@@ -1829,7 +1829,7 @@ function openRegBrowser(obj,regName) {
         if (i !== 0) sectionValue.insertAdjacentText("beforeend",", ");
         let value = values[i];
         if (regBrowserValues[key]) {
-          value = regBrowserValues[key](value);
+          value = regBrowserValues[key](value, obj);
         }
         let itemSpan = document.createElement("span");
         itemSpan.className = "regArrayItem";
@@ -1875,10 +1875,10 @@ function openRegBrowser(obj,regName) {
 
         }
         else if (regBrowserValues[subkey]) {
-          value = regBrowserValues[subkey](value);
+          value = regBrowserValues[subkey](value, obj);
         }
         else if (regBrowserValues[regName + "." + subkey]) {
-          value = regBrowserValues[regName + "." + subkey](value);
+          value = regBrowserValues[regName + "." + subkey](value, obj);
         }
         valueSpan.innerHTML = parseText(value.toString());
 
@@ -1893,13 +1893,13 @@ function openRegBrowser(obj,regName) {
         value = Math.round(value*100)/100;
       }
       if (regBrowserValues[rkey]) {
-        value = regBrowserValues[rkey](value);
+        value = regBrowserValues[rkey](value, obj);
       }
       else if (regBrowserValues[key]) {
-        value = regBrowserValues[key](value);
+        value = regBrowserValues[key](value, obj);
       }
       else if (regBrowserValues[regName + "." + key]) {
-        value = regBrowserValues[regName + "." + key](value);
+        value = regBrowserValues[regName + "." + key](value, obj);
       }
       sectionValue.innerHTML = parseText(value.toString());
     }
