@@ -2173,7 +2173,7 @@ function nextDay(e) {
 
         promptState = {
           type: "ask",
-          message: eventInfo.value.message(eventCaller.subject, eventCaller.target) || eventCaller.message,
+          message: eventInfo.value.message ? eventInfo.value.message(eventCaller.subject, eventCaller.target) : eventCaller.message,
           func: (r) => {
             if (r) {
               eventCaller.args.value = r;
