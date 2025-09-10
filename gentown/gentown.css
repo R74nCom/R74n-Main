@@ -184,7 +184,7 @@ span.none {
 	margin-top: 0.25em;
 	display: block;
 	transition: 1s;
-	transition-property: opacity, font-size;
+	transition-property: opacity, font-size, margin-bottom;
 }
 .logMessage[new="true"] {
 	/* font-weight: bold; */
@@ -474,6 +474,9 @@ span.none {
 .actionSubpanel div:last-of-type {
 	flex-basis:content;
 }
+#actionSubList {
+	overflow-y: scroll;
+}
 .actionItem {
 	border-bottom: solid 2px gray;
 	transition: 0.2s;
@@ -696,6 +699,16 @@ span.none {
 .popupButton:active {
 	filter: brightness(75%);
 	transition: 0s;
+}
+.popupPreview {
+	display: block;
+    margin-top: 1em;
+    font-style: italic;
+    opacity: 0.7;
+}
+.popupPreview strong {
+	font-weight: unset;
+    color: lightgoldenrodyellow;
 }
 
 #promptPopup[data-type="choose"] .popupInput {

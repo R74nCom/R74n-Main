@@ -1,3 +1,18 @@
+[Version 0.3.3 - 9 Sep 2025]
+ + Mountains have their own names and landmasses
+ ~ As more towns appear, only the most relevant resource updates are shown
+ ~ Renamed Snowland biome to Snowscape
+ ~ Town names sometimes start with "Los", "Las", or "La"
+ ~ Colony names sometimes start with "New"
+ ~ Colonies are no longer directly next to other towns
+ + Towns tab shows amount of towns
+ + Almanac shows Livestock or Crop icon next to names
+ + Some text prompts display a live preview
+ ~ Double vowels in names are less common
+ ~ Fixed: Livestock and Formerly values are broken in browser
+ ~ Fixed: Towns can employ more than their population
+ ~ Stats show rounded numbers (e.g. 4.5K)
+
 [Version 0.3.2 - 8 Sep 2025]
  ~ Revamped Stats panel
     + All town populations and their moods are now shown neatly

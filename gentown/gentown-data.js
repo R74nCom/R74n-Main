@@ -59,7 +59,7 @@ actionables = {
           if (chunk) {
             let done = 0;
             let chunks = [];
-            let newChunks = floodFill(chunk.x, chunk.y, (c) => c.b !== "water" && !c.v.s, 5, (c) => (c.v.s && c.v.s !== chunk.v.s) || c.b === "water" || c.b === "mountain")
+            let newChunks = floodFill(chunk.x, chunk.y, (c) => c.b !== "water" && c.b !== "mountain" && !c.v.s, 5, (c) => (c.v.s && c.v.s !== chunk.v.s) || c.b === "water" || c.b === "mountain")
             newChunks.forEach(newChunk => {
               newChunk.v.s = target.id;
               chunks.push(newChunk);
@@ -297,11 +297,18 @@ gameEvents = {
             }
 
             if (Math.random() < colonyRate) {
-              let newTown = happen("town", "Create", subject, null, {x:newChunk.x, y:newChunk.y});
+              let limit = Math.floor(addInfluence(50, subject, "travel"));
+              let possibleChunks = floodFill(newChunk.x, newChunk.y, (c) => c.v.s === undefined && c.b !== "water" && c.b !== "mountain", limit );
+              let colonyChunk = choose(possibleChunks);
+
+              let newTown = happen("town", "Create", subject, null, {x:colonyChunk.x, y:colonyChunk.y});
               subject.lastColony = planet.day;
               newTown.lastColony = planet.day - 25;
               newTown.color = colorChange(subject.color);
               newTown.former = subject.id;
+              if (Math.random() < 0.2 && !subject.name.includes("New")) {
+                newTown.name = titleCase(choose(wordComponents.prefixes.NEW)[0] + subject.name.match(/\S+$/)[0]);
+              }
               logMessage("Settlers from {{regname:town|"+subject.id+"}} found {{regname:town|"+newTown.id+"}}.")
             }
             else {
@@ -343,6 +350,7 @@ gameEvents = {
       let employed = sumValues(subject.jobs);
       let unemployed = subject.pop - employed;
       let toEmploy = Math.max(Math.floor(unemployed*0.05), Math.random() < 0.5 ? 1 : 0);
+      if (employed >= subject.pop) toEmploy = 0;
       if (toEmploy) {
         let jobs = [];
         let weights = [];
@@ -572,7 +580,9 @@ gameEvents = {
       reg: "town", random: true
     },
     value: {
-      ask: true
+      ask: true,
+      message: (_, target) => `What should {{regname:town|${target.id}}} be called?`,
+      preview: (text) => `Welcome to {{b:${text}}}.`
     },
     func: (subject, target, args) => {
       if (!args.value) return false;
@@ -581,6 +591,31 @@ gameEvents = {
     message: (subject, target, args) => `{{residents|${target.id}}} want you to pick their town's new name.`,
     messageDone: (subject, target, args) => `{{regname:town|${target.id}}} adopts a new name.`,
     messageNo: (subject, target, args) => `{{regname:town|${target.id}}} keeps its name.`,
+    weight: 5
+  },
+  "townDemonym": {
+    random: true,
+    subject: {
+      reg: "player", id: 1
+    },
+    target: {
+      reg: "town", random: true
+    },
+    check: (target) => target.dem === undefined,
+    value: {
+      ask: true,
+      message: (_, target) => `What should a person from {{regname:town|${target.id}}} be called?`,
+      preview: (text) => `This {{b:${titleCase(text)}}}. These ${titleCase(wordPlural(text))}. The ${titleCase(wordAdjective(text))} people.`
+    },
+    func: (subject, target, args) => {
+      if (!args.value) return false;
+      target.dem = titleCase(args.value);
+      target.dems = titleCase(wordPlural(args.value));
+      target.adj = titleCase(wordAdjective(args.value));
+      happen("town", "Influence", subject, target, { happy: 1 });
+    },
+    message: (subject, target, args) => `{{residents|${target.id}}} need a name for themselves.`,
+    messageDone: (subject, target, args) => `{{residents|${target.id}}} have an emboldened identity.`,
     weight: 5
   },
 
@@ -611,7 +646,7 @@ gameEvents = {
     random: true,
     auto: true,
     subject: {
-      reg: "town", id: 1
+      reg: "town", random: true
     },
     value: (subject, target, args) => {
       let chunk = randomChunk((c) => c.v.s === subject.id);

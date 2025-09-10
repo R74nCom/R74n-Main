@@ -8,8 +8,17 @@ addParserCommand("color",function(args) {
   if (args.length === 1) {return args[0]}
   return "<span style='color:"+args[1]+"'>"+args[0]+"</span>";
 })
+addParserCommand("b",function(args) {
+  if (args.length === 0) {return ""}
+  return "<strong>"+args[0]+"</strong>";
+})
 addParserCommand("num",function(args) {
   if (args.length === 0) {return ""}
+  if (args[1] === "K") {
+    let num = parseFloat(args[0]);
+    if (num < 1000) return num.toString();
+    return Math.floor((num / 1000) * 10) / 10 + "K"
+  }
   let parts = args[0].toString().split(".");
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return parts.join(".");
@@ -35,9 +44,10 @@ addParserCommand("resourcetotal",function(args) {
   let town = regGet("town",parseInt(args[0]));
   let type = args[1];
   if (!town.resources || !town.resources[type]) return 0;
-  let total = town.resources[type].toString();
+  let total = town.resources[type];
+  total = total.toString();
   if (total >= Math.max(20, town.size * 5)) {
-    return `{{color:${total}|#ffff8c}}`
+    return `{{color:{{num:${total}|K}}|#ffff8c}}`
   }
   return total;
 })
@@ -57,7 +67,7 @@ addParserCommand("regname",function(args) {
   if (args.length < 2) {return ""}
   let data = regGet(args[0],parseInt(args[1]));
   if (!data) return `<span class='entityName' title='${data.id}' data-reg='${args[0]}' data-id='${data.id}'>Invalid Thing</span>`;
-  return `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${data.color ? `style="color:rgb(${data.color[0]},${data.color[1]},${data.color[2]})"` : ""} onclick="regBrowse('${args[0]}',${data.id})" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${data.name}</span>`;
+  return `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${data.color ? `style="color:rgb(${data.color[0]},${data.color[1]},${data.color[2]})"` : ""} onclick="regBrowse('${args[0]}',${data.id})" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] || data.name}</span>`;
 })
 addParserCommand("randreg",function(args) {
   if (args.length < 1) {return ""}
@@ -80,6 +90,9 @@ addParserCommand("people",function(args) {
 })
 addParserCommand("residents",function(args) {
   if (args.length === 0) return "Residents";
+  let town = regGet("town",args[0]);
+  if (!town) return "{{c:Residents|Citizens}}";
+  if (town.dems) return `{{regname|town|${args[0]}|${town.dems}}}`;
   return `{{c:Residents|Citizens}} of {{regname|town|${args[0]}}}`;
 })
 addParserCommand("face",function(args) {
@@ -126,8 +139,8 @@ function titleCase(str) {
   str = str.toString();
   str = str.replace(/_/g," ");
   return str.replace(
-    /\w\S*/g,
-    text => text.charAt(0).toUpperCase() + text.substring(1)
+    /(?:^| )[A-Za-zÀ-ÖØ-öø-ÿ]/g,
+    text => text.toUpperCase()
   ).replace(
     / (Of|And|Or|With) /g,
     text => text.toLowerCase()
@@ -307,9 +320,10 @@ townColors = [
 ]
 function defaultTown() {
   return {
-    "name": generateWord(3,true),
+    "name": generateWord(3,true,wordComponents.prefixes.TOWN),
     "pop": 20,
     "color": choose(townColors),
+    "type": "town",
     "resources": {},
     "size": 0,
     "jobs": {},
@@ -639,6 +653,24 @@ farColors = [
 function calculateLandmasses() {
   if (!reg.landmass) regCreate("landmass");
 
+  // Pre-landmass (Mountains)
+  for (let chunkKey in planet.chunks) {
+    const chunk = planet.chunks[chunkKey];
+    if (chunk.v.g === undefined && chunk.b === "mountain") {
+      const mountains = floodFill(chunk.x, chunk.y, (c) => c.b === "mountain");
+      const landmass = regAdd("landmass", {
+        name: "Mount "+generateWord(randRange(1,2), true),
+        color: biomes.mountain.color,
+        size: mountains.length,
+        type: "mountain"
+      });
+      mountains.forEach((c) => {
+        c.v.g = landmass.id;
+      })
+    }
+  }
+
+  // Main landmasses
   for (let chunkKey in planet.chunks) {
     const chunk = planet.chunks[chunkKey];
     if (chunk.v.g === undefined && chunk.b !== "water") {
@@ -676,6 +708,7 @@ function calculateLandmasses() {
     }
   }
 
+  // Post-landmass (Edges and islands)
   for (let chunkKey in planet.chunks) {
     const chunk = planet.chunks[chunkKey];
     if (chunk.v.g === undefined && chunk.b !== "water") {
@@ -739,7 +772,7 @@ biomes = {
     moisture: 0.6,
     crop: null,
     hasLumber: true,
-    name: "snowland"
+    name: "snowscape"
   },
   "desert": {
     color: [255,255,0],
@@ -781,7 +814,8 @@ biomes = {
     temp: 0.5,
     crop: null,
     infertile: true,
-    name: "waters"
+    name: "waters",
+    water: true
   },
 }
 
@@ -900,9 +934,9 @@ adjacentCoords = [
   [-1,0]
 ]
 
-l = ["#1949aa","#1949aa","#4573d0","#7a9bde","#b2cafc"];
-v = 0.34;
-c = l[Math.min(l.length-1,Math.floor(v*(l.length)))];
+waterColors = ["#1949aa","#1949aa","#4573d0","#7a9bde","#b2cafc"];
+// v = 0.34;
+// c = l[Math.min(l.length-1,Math.floor(v*(l.length)))];
 
 function setView(view) {
   if (!view) view = reg.town._id === 1 ? "terrain" : "territory";
@@ -943,17 +977,21 @@ function renderMap() {
           // pixel biome blending
           if (y0 === chunkSize-1 && Math.sin((chunk.x+x0)*167) < 0.5) {
             let adjacentChunk = planet.chunks[(chunk.x)+","+(chunk.y+1)];
-            if (adjacentChunk) pixelColor = biomes[adjacentChunk.b].color;
+            if (adjacentChunk) {
+              pixelColor = biomes[adjacentChunk.b].color;
+            }
           }
           else if (x0 === chunkSize-1 && Math.sin((chunk.y+y0)*167) < 0.5) {
             let adjacentChunk = planet.chunks[(chunk.x+1)+","+(chunk.y)];
-            if (adjacentChunk) pixelColor = biomes[adjacentChunk.b].color;
+            if (adjacentChunk) {
+              pixelColor = biomes[adjacentChunk.b].color;
+            }
           }
 
           let color;
           if (value < waterLevel) { // water colors
             value += 1-waterLevel;
-            color = l[Math.min(l.length-1,Math.floor(value*(l.length)))];
+            color = waterColors[Math.min(waterColors.length-1,Math.floor(value*(waterColors.length)))];
           }
           else { // land colors
 
@@ -1130,7 +1168,7 @@ wordComponents = {};
 wordComponents.C  = "B,C,D,F,G,H,J,K,L,M,N,P,QU,R,S,T,V,W,Y,Z";
 wordComponents.C2 = wordComponents.C + ",X,CK,NG,SS";
 wordComponents.V  = "A,A,A,E,E,É,I,I,I,O,O,O,U,U";
-wordComponents.V2 = wordComponents.V + ",OU,AE,EE,IE,EA,EU,UI,OI,AI,OO,OW,OE,IA";
+wordComponents.V2 = wordComponents.V + "," + wordComponents.V + ",OU,AE,EE,IE,EA,EU,UI,OI,AI,OO,OW,OE,IA";
 
 wordComponents.C = wordComponents.C.toLowerCase().split(",");
 wordComponents.C2 = wordComponents.C2.toLowerCase().split(",");
@@ -1152,15 +1190,49 @@ wordComponents.C0 = {
   z: "hl"
 }
 
+wordComponents.prefixes = {};
+
+wordComponents.prefixes.TOWN = [
+  ["los ",1],
+  ["las ",1],
+  ["la ",1],
+]
+
+wordComponents.prefixes.NEW = [
+  ["new ",1],
+  ["nova ",2],
+]
+
+wordComponents.prefixes.NORTH = [
+  ["north ",1],
+]
+wordComponents.prefixes.EAST = [
+  ["east ",1],
+]
+wordComponents.prefixes.WEST = [
+  ["west ",1],
+]
+wordComponents.prefixes.SOUTH = [
+  ["south ",1],
+]
+
 badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bQ==').split(",");
 
-function generateWord(syllableCount,titled) {
+function generateWord(syllableCount, titled=false, prefixes=null) {
   let word = "";
   let syllableCount0 = syllableCount;
 
   syllableCount = syllableCount || randRange(2,3);
+
+  if (prefixes && Math.random() < Math.min(12,prefixes.length)/13) {
+    const prefix = choose(prefixes);
+    word += prefix[0];
+    syllableCount -= prefix[1];
+  }
+
   let type = Math.random() < 0.5;
   if (type === false && syllableCount === 1) syllableCount++;
+
   let lastLetter = "";
   for (let i = 0; i < syllableCount; i++) {
     let letter;
@@ -1181,13 +1253,51 @@ function generateWord(syllableCount,titled) {
   for (let i = 0; i < badWords.length; i++) {
     const badWord = badWords[i];
     if (word.indexOf(badWord) !== -1) {
-      word = generateWord(syllableCount0);
+      word = generateWord(syllableCount0, false, prefixes);
       break;
     }
   }
 
-  if (titled) word = word[0].toUpperCase() + word.substring(1);
+  if (titled) {
+    if (prefixes) word = titleCase(word);
+    else word = word[0].toUpperCase() + word.substring(1);
+  }
 
+  return word;
+}
+
+function wordPlural(word) {
+  let suffix = "s";
+  
+  if (word.endsWith("ese")) suffix = "";
+  else if (word.endsWith("ai")) suffix = "";
+
+  else if (word.endsWith("y")) {
+    word = word.substring(0, word.length-1);
+    suffix = "ies";
+  }
+  else if (word.endsWith("man")) {
+    word = word.substring(0, word.length-3);
+    suffix = "men";
+  }
+
+  else if (word.match(/(s|h)$/g)) suffix = "es";
+  
+  if (suffix) word += suffix;
+  return word;
+}
+function wordAdjective(word) {
+  let suffix = "";
+  if (word.endsWith("er")) {
+    word = word.substring(0, word.length-2);
+    suffix = "ic";
+  }
+  else if (word.endsWith("man")) {
+    word = word.substring(0, word.length-3);
+    suffix = "";
+  }
+
+  if (suffix) word += suffix;
   return word;
 }
 
@@ -1437,7 +1547,7 @@ function updateStats() {
         if (town) {
           html += `<span class="panelSubtitle">${parseText("{{regname:town|"+town.id+"}}")}</span>`;
           html += `<span style="text-align:center">${
-            parseText(` ${town.pop}{{icon:neutral|Population}}`) +
+            parseText(` {{num:${town.pop}|K}}{{icon:neutral|Population}}`) +
             parseText(` {{resourcetotal:${town.id}|crop}}{{icon:crop|Crops}}`) +
             parseText(` {{resourcetotal:${town.id}|lumber}}{{icon:lumber|Lumber}}`) +
             parseText(` {{resourcetotal:${town.id}|rock}}{{icon:rock|Rock}}`) +
@@ -1459,6 +1569,9 @@ function updateStats() {
           localName += " of ";
           localName += "{{regname:landmass|"+land.v.g+"}}";
         }
+      }
+      else if (chunk.b === "mountain" && chunk.v.g) {
+        localName = `{{regname:landmass|${chunk.v.g}}}`;
       }
       else {
         localName = "{{biome:"+chunk.b+"}}";
@@ -1621,8 +1734,23 @@ document.getElementById("popupText").addEventListener("keydown",(e) => {
   if(e.key === "Enter") handlePrompt(document.getElementById("popupText").value.replace(/[\{\}]/g,""));
 })
 document.getElementById("popupText").addEventListener("input",(e) => {
+  let sanitized = e.target.value.replace(/[{<]/g, "[").replace(/[}>]/g, "]");
+  if (sanitized !== e.target.value) e.target.value = sanitized;
+
   if (e.target.value.length > (promptState.limit || defaultPromptLimit)) {
     e.target.value = e.target.value.substr(0,(promptState.limit || defaultPromptLimit));
+  }
+
+  if (promptState.preview) {
+    let preview = document.querySelector("#popupContent .popupPreview");
+    if (!preview) {
+      if (e.target.value.length === 0) return;
+      preview = document.createElement("span");
+      preview.className = "popupPreview";
+      document.getElementById("popupContent").appendChild(preview);
+    }
+    if (e.target.value.length === 0) preview.remove();
+    else preview.innerHTML = parseText(promptState.preview(e.target.value));
   }
 })
 document.getElementById("gamePopupOverlay").addEventListener("click",(e) => {
@@ -1638,6 +1766,7 @@ function regBrowse(subregistryName, id) {
 function openRegBrowser(obj,regName) {
   let regContent = document.getElementById("regContent")
   regContent.innerHTML = "";
+  document.getElementById("regBrowser").scrollTop = 0;
 
   let title = obj.name;
   if (title) {
@@ -1656,9 +1785,10 @@ function openRegBrowser(obj,regName) {
   let subtitle;
   if (regName) {
     subtitle = titleCase(regName);
-    if (obj.type) subtitle += " ("+titleCase(obj.type)+")";
+    if (obj.type && obj.type !== regName) subtitle += " ("+titleCase(obj.type)+")";
   }
   else if (obj.type) subtitle = titleCase(obj.type);
+  if (obj.dems) subtitle += " of the "+obj.dems;
   if (subtitle) {
     let subtitleSection = document.createElement("div");
     subtitleSection.className = "regSection regSubTitle";
@@ -1671,8 +1801,9 @@ function openRegBrowser(obj,regName) {
 
   for (let key in regBrowserKeys) {
     let rkey = key;
+    let split = null;
     if (obj[key] === undefined) {
-      const split = key.split(".");
+      split = key.split(".");
       if (split.length < 2) continue;
       if (split[0] === regName || split[0] === obj.type) {
         key = split[1];
@@ -1746,6 +1877,9 @@ function openRegBrowser(obj,regName) {
         else if (regBrowserValues[subkey]) {
           value = regBrowserValues[subkey](value);
         }
+        else if (regBrowserValues[regName + "." + subkey]) {
+          value = regBrowserValues[regName + "." + subkey](value);
+        }
         valueSpan.innerHTML = parseText(value.toString());
 
         itemSpan.appendChild(keySpan);
@@ -1763,6 +1897,9 @@ function openRegBrowser(obj,regName) {
       }
       else if (regBrowserValues[key]) {
         value = regBrowserValues[key](value);
+      }
+      else if (regBrowserValues[regName + "." + key]) {
+        value = regBrowserValues[regName + "." + key](value);
       }
       sectionValue.innerHTML = parseText(value.toString());
     }
@@ -1933,8 +2070,14 @@ function nextDay(e) {
   let sunsetMsg = "The Sun sets... ";
   // log daily recap of town changes
   if (townsBefore) {
+    let minChange = 0;
+    for (let i = 0; i < towns.length; i++) {
+      if (!towns[i].end) minChange++;
+    }
+    console.log(minChange);
     for (let i = 0; i < towns.length; i++) {
       const town = towns[i];
+      if (town.end) continue;
       const townBefore = townsBefore[town.id];
       if (!townBefore) continue;
 
@@ -1943,25 +2086,25 @@ function nextDay(e) {
       const changes = {};
 
       try {changes.pop = town.pop - townBefore.pop;} catch{}
-      if (changes.pop) msg += `{{diff:${changes.pop}}}{{icon:neutral|Population}} `;
+      if (changes.pop > minChange) msg += `{{diff:${changes.pop}}}{{icon:neutral|Population}} `;
 
       try {changes.size = town.size - townBefore.size;} catch{}
-      if (changes.size) msg += `{{diff:${changes.size}}}{{icon:land|Size}} `;
+      if (changes.size > minChange) msg += `{{diff:${changes.size}}}{{icon:land|Size}} `;
 
       try {changes.crop = (town.resources.crop||0) - (townBefore.resources.crop||0)} catch{}
-      if (changes.crop) msg += `{{diff:${changes.crop}}}{{icon:crop|Crops}} `;
+      if (changes.crop > minChange) msg += `{{diff:${changes.crop}}}{{icon:crop|Crops}} `;
 
       try {changes.lumber = (town.resources.lumber||0) - (townBefore.resources.lumber||0)} catch{}
-      if (changes.lumber) msg += `{{diff:${changes.lumber}}}{{icon:lumber|Lumber}} `;
+      if (changes.lumber > minChange) msg += `{{diff:${changes.lumber}}}{{icon:lumber|Lumber}} `;
 
       try {changes.rock = (town.resources.rock||0) - (townBefore.resources.rock||0)} catch{}
-      if (changes.rock) msg += `{{diff:${changes.rock}}}{{icon:rock|Rock}} `;
+      if (changes.rock > minChange) msg += `{{diff:${changes.rock}}}{{icon:rock|Rock}} `;
       
       try {changes.metal = (town.resources.metal||0) - (townBefore.resources.metal||0)} catch{}
-      if (changes.metal) msg += `{{diff:${changes.metal}}}{{icon:metal|Metal}} `;
+      if (changes.metal > minChange) msg += `{{diff:${changes.metal}}}{{icon:metal|Metal}} `;
 
       try {changes.livestock = (town.resources.livestock||0) - (townBefore.resources.livestock||0)} catch{}
-      if (changes.livestock) msg += `{{diff:${changes.livestock}}}{{icon:livestock|Livestock}} `;
+      if (changes.livestock > minChange) msg += `{{diff:${changes.livestock}}}{{icon:livestock|Livestock}} `;
 
       if (msg) {
         sunsetMsg += `{{regname:town|${town.id}}} (` + msg.trim() + ") ";
@@ -2030,7 +2173,7 @@ function nextDay(e) {
 
         promptState = {
           type: "ask",
-          message: eventCaller.message,
+          message: eventInfo.value.message(eventCaller.subject, eventCaller.target) || eventCaller.message,
           func: (r) => {
             if (r) {
               eventCaller.args.value = r;
@@ -2048,7 +2191,8 @@ function nextDay(e) {
               renderHighlight();
               updateCanvas();
             }
-          }
+          },
+          preview: eventInfo.value.preview
         }
         doPrompt();
 
@@ -2182,7 +2326,7 @@ function initGame() {
   if (!planet.reg) planet.reg = defaultRegistry();
   reg = planet.reg;
 
-  updateBiomes();
+  // updateBiomes();
   
   if (parseInt(planet.day) !== planet.day) planet.day = 1;
   document.getElementById("dayNumber").innerText = planet.day;
@@ -2655,6 +2799,7 @@ window.addEventListener("load", function(){ //onload
   else {
     planet = generatePlanet();
     reg = planet.reg;
+    updateBiomes();
     calculateLandmasses();
     initGame();
   }
@@ -2679,7 +2824,7 @@ window.addEventListener("load", function(){ //onload
             func: () => regBrowse("town", town.id)
           });
         })
-        populateExecutive(items, "Towns");
+        populateExecutive(items, "Towns ("+items.length+")");
       }
     },
     {
@@ -2723,7 +2868,7 @@ window.addEventListener("load", function(){ //onload
           if (resource.type !== "crop" && resource.type !== "livestock") return;
           if (resource.rate === 1 || resource.rate === undefined) return;
           items.push({
-            text: `{{regname:resource|${resource.id}}} (${resource.rate}x)`,
+            text: `{{icon:${resource.type}}} {{regname:resource|${resource.id}}} (${resource.rate}x)`,
             func: () => regBrowse("resource", resource.id)
           });
         })
@@ -2767,7 +2912,7 @@ window.addEventListener("load", function(){ //onload
       { text: "{{x}} Settings" },
       { text: "{{x}} Linguistics" },
       { text: "{{x}} Laws" },
-      { text: "{{x}} Revolutions" },
+      { text: "{{x}} Revolutions / Merging" },
       { text: "{{x}} Economy / Trade" },
       { text: "{{x}} Diplomacy / Wars" },
     ], "Beta Progress")
