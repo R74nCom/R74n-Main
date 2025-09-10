@@ -2086,25 +2086,25 @@ function nextDay(e) {
       const changes = {};
 
       try {changes.pop = town.pop - townBefore.pop;} catch{}
-      if (changes.pop > minChange) msg += `{{diff:${changes.pop}}}{{icon:neutral|Population}} `;
+      if (Math.abs(changes.pop) >= minChange) msg += `{{diff:${changes.pop}}}{{icon:neutral|Population}} `;
 
       try {changes.size = town.size - townBefore.size;} catch{}
-      if (changes.size > minChange) msg += `{{diff:${changes.size}}}{{icon:land|Size}} `;
+      if (Math.abs(changes.size) >= minChange) msg += `{{diff:${changes.size}}}{{icon:land|Size}} `;
 
       try {changes.crop = (town.resources.crop||0) - (townBefore.resources.crop||0)} catch{}
-      if (changes.crop > minChange) msg += `{{diff:${changes.crop}}}{{icon:crop|Crops}} `;
+      if (Math.abs(changes.crop) >= minChange) msg += `{{diff:${changes.crop}}}{{icon:crop|Crops}} `;
 
       try {changes.lumber = (town.resources.lumber||0) - (townBefore.resources.lumber||0)} catch{}
-      if (changes.lumber > minChange) msg += `{{diff:${changes.lumber}}}{{icon:lumber|Lumber}} `;
+      if (Math.abs(changes.lumber) >= minChange) msg += `{{diff:${changes.lumber}}}{{icon:lumber|Lumber}} `;
 
       try {changes.rock = (town.resources.rock||0) - (townBefore.resources.rock||0)} catch{}
-      if (changes.rock > minChange) msg += `{{diff:${changes.rock}}}{{icon:rock|Rock}} `;
+      if (Math.abs(changes.rock) >= minChange) msg += `{{diff:${changes.rock}}}{{icon:rock|Rock}} `;
       
       try {changes.metal = (town.resources.metal||0) - (townBefore.resources.metal||0)} catch{}
-      if (changes.metal > minChange) msg += `{{diff:${changes.metal}}}{{icon:metal|Metal}} `;
+      if (Math.abs(changes.metal) >= minChange) msg += `{{diff:${changes.metal}}}{{icon:metal|Metal}} `;
 
       try {changes.livestock = (town.resources.livestock||0) - (townBefore.resources.livestock||0)} catch{}
-      if (changes.livestock > minChange) msg += `{{diff:${changes.livestock}}}{{icon:livestock|Livestock}} `;
+      if (Math.abs(changes.livestock) >= minChange) msg += `{{diff:${changes.livestock}}}{{icon:livestock|Livestock}} `;
 
       if (msg) {
         sunsetMsg += `{{regname:town|${town.id}}} (` + msg.trim() + ") ";
