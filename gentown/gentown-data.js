@@ -601,7 +601,7 @@ gameEvents = {
     target: {
       reg: "town", random: true
     },
-    check: (target) => target.dem === undefined,
+    check: (subject, target) => target.dem === undefined,
     value: {
       ask: true,
       message: (_, target) => `What should a person from {{regname:town|${target.id}}} be called?`,
