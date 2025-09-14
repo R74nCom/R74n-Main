@@ -2827,6 +2827,15 @@ function populateExecutive(items, title, main=false) {
     if (item.indent) actionItem.style.marginLeft = item.indent + "em";
     if (item.opacity) actionItem.style.opacity = item.opacity;
     if (item.hide && (!item.id || !planet.unlockedExecutive || !planet.unlockedExecutive[item.id])) actionItem.style.display = "none";
+    if (item.heading) {
+      actionItem.style.paddingTop = "1em";
+      actionItem.style.textAlign = "center";
+      actionItem.style.color = "yellow";
+    }
+    if (item.spacer) {
+      actionItem.innerHTML = "&nbsp;";
+      actionItem.style.borderBottom = "none";
+    }
 
     actionItem.addEventListener("click", (e) => {
       e.target.classList.remove("notify");
@@ -2836,6 +2845,14 @@ function populateExecutive(items, title, main=false) {
       actionItem.addEventListener("click", item.func);
       actionItem.classList.add("clickable");
       actionItem.setAttribute("role","button");
+    }
+    if (item.url) {
+      actionItem.addEventListener("click", () => {
+        if (item.url.toLowerCase().includes("r74n.com")) location.href = item.url;
+        else window.open(item.url, '_blank').focus();
+      });
+      actionItem.classList.add("clickable");
+      actionItem.setAttribute("role","link");
     }
 
     subpanelList.appendChild(actionItem);
@@ -2984,6 +3001,10 @@ window.addEventListener("load", function(){ //onload
   
   document.getElementById("actionBeta").addEventListener("click",() => {
     populateExecutive([
+      { text: "Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform" },
+      
+      { text: "To-do", heading: true },
+      
       { text: "{{check}} Towns" },
       { text: "{{check}} Jobs" },
       { text: "{{check}} Resources" },

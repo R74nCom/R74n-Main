@@ -9,6 +9,7 @@
  ~ Trade unlocks improve mood
  ~ Reformatted town list in stats, now shows town sizes
  ~ Improved page responsiveness for short windows
+ + Link to feedback form in beta menu
  ~ Fixed: Population icon when hovering over town doesn't show mood
 
 [Version 0.3.3 - 9 Sep 2025]
