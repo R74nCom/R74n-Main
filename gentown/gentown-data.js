@@ -77,11 +77,23 @@ actionables = {
               target.size += chunks.length;
               chunks.forEach((c) => {
                 if (biomes[c.b].crop) {
-                  happen("town","AddResource",null,target,{ type:"crop", count:20 })
+                  happen("AddResource",null,target,{ type:"crop", count:20 })
                 }
               });
               unlockExecutive("towns");
               target.startBiome = chunk.b;
+              // names
+              let prefix = "";
+              if (chunkIsNearby(x, y, (c) => c.b === "mountain", 5)) { //Monte-
+                prefix = choose(wordComponents.prefixes.MOUNTAINOUS)[0];
+              }
+              else if (Math.random() < 0.25 && chunkIsNearby(x, y, (c) => c.b === "water", 2)) { //Cape-
+                prefix = choose(wordComponents.prefixes.WATERFRONT)[0];
+              }
+              if (prefix) {
+                if (target.name.includes(" ")) target.name = titleCase(target.name.replace(/ /," "+prefix).toLowerCase());
+                else target.name = titleCase((prefix + target.name).toLowerCase());
+              }
               regAdd("town",target);
             }
             else return false;
@@ -152,7 +164,7 @@ actionables = {
             for (let effect in effects) {
               let args2 = { done: done };
               args2[effect] = effects[effect] * amount;
-              happen("town", "Influence", subject, target, args2);
+              happen("Influence", subject, target, args2);
             }
           }
         }
@@ -183,7 +195,7 @@ actionables = {
         }
 
         if (target.pop <= 0) {
-          happen("town","End",subject,target);
+          happen("End",subject,target);
         }
       },
       End: (subject,target,args) => {
@@ -301,13 +313,36 @@ gameEvents = {
               let possibleChunks = floodFill(newChunk.x, newChunk.y, (c) => c.v.s === undefined && c.b !== "water" && c.b !== "mountain", limit );
               let colonyChunk = choose(possibleChunks);
 
-              let newTown = happen("town", "Create", subject, null, {x:colonyChunk.x, y:colonyChunk.y});
+              let newTown = happen("Create", subject, null, {x:colonyChunk.x, y:colonyChunk.y}, "town");
               subject.lastColony = planet.day;
               newTown.lastColony = planet.day - 25;
               newTown.color = colorChange(subject.color);
               newTown.former = subject.id;
-              if (Math.random() < 0.2 && !subject.name.includes("New")) {
-                newTown.name = titleCase(choose(wordComponents.prefixes.NEW)[0] + subject.name.match(/\S+$/)[0]);
+              newTown.type = "colony";
+              newTown.level = 10;
+              if (Math.random() < 0.2) {
+                let newName = "";
+                let mainName = subject.name.match(/\S+$/)[0].toLowerCase();
+                if (Math.random() < 0.5) {
+                  let vertical = colonyChunk.y - newChunk.y;
+                  let horizontal = colonyChunk.x - newChunk.x;
+                  if (Math.abs(vertical) > Math.abs(horizontal)) { // NS
+                    if (vertical > 0) newName += choose(wordComponents.prefixes.SOUTH)[0];
+                    else newName += choose(wordComponents.prefixes.NORTH)[0];
+                  }
+                  else { // EW
+                    if (horizontal > 0) newName += choose(wordComponents.prefixes.EAST)[0];
+                    else newName += choose(wordComponents.prefixes.WEST)[0];
+                  }
+                  newName += mainName;
+                }
+                else {
+                  newName = choose(wordComponents.prefixes.NEW)[0] + mainName;
+                }
+                if (newName && !usedNames[newName]) {
+                  newTown.name = titleCase(newName);
+                  usedNames[newName] = true;
+                }
               }
               logMessage("Settlers from {{regname:town|"+subject.id+"}} found {{regname:town|"+newTown.id+"}}.")
             }
@@ -326,15 +361,15 @@ gameEvents = {
     func: (subject, target, args) => {
       let foodCost = subject.pop*0.2;
       foodCost = Math.floor(addInfluence(foodCost, subject, "hunger"));
-      let foodCount = happen("town","CountResource",null,subject,{ type:"crop" });
+      let foodCount = happen("CountResource",null,subject,{ type:"crop" });
 
       if (foodCount < 1) {
-        happen("town", "Influence", null, subject, { "happy":-0.75 });
+        happen("Influence", null, subject, { "happy":-0.75 });
         logWarning("noFood"+subject.id, "{{regname:town|"+subject.id+"}} is out of food!");
-        happen("town", "Death", null, subject, { count:randRange(1,foodCost) })
+        happen("Death", null, subject, { count:randRange(1,foodCost) })
       }
       else if (foodCount < subject.pop) {
-        happen("town", "Influence", null, subject, { "happy":-0.25 });
+        happen("Influence", null, subject, { "happy":-0.25 });
         logWarning("lowFood"+subject.id, "{{regname:town|"+subject.id+"}} is dangerously low on food!");
       }
 
@@ -375,7 +410,7 @@ gameEvents = {
     chunkRate: 0.05,
     value: 0,
     perChunk: (subject, target, chunk, args) => {
-      let fertility = happen("chunk","Fertility",subject,chunk) / 2;
+      let fertility = happen("Fertility",subject,chunk,null,"chunk") / 2;
       fertility = addInfluence(fertility, subject, "farm");
       if (Math.random() < fertility) {
         let biome = biomes[chunk.b];
@@ -394,7 +429,7 @@ gameEvents = {
       if (!args.value) return;
       args.value = Math.floor(Math.min(subject.pop * (randRange(1,10) / 10), args.value));
       if (!args.value) return;
-      happen("town","AddResource",null,subject,{ type:"crop", count:args.value });
+      happen("AddResource",null,subject,{ type:"crop", count:args.value });
     }
   },
   "townMine": {
@@ -410,13 +445,13 @@ gameEvents = {
       if (Math.random() < fertility) {
         let rockCount = 1;
         if (subject.jobs.miner) rockCount += randRange(0,subject.jobs.miner);
-        happen("town","AddResource",null,subject,{ type:"rock", count:rockCount });
+        happen("AddResource",null,subject,{ type:"rock", count:rockCount });
 
         if (planet.unlocks.smith < 30) return;
         let metalCount = 1;
         if (subject.jobs.miner) metalCount += randRange(0,subject.jobs.miner);
         metalCount = Math.floor(metalCount/2);
-        happen("town","AddResource",null,subject,{ type:"metal", count:metalCount });
+        happen("AddResource",null,subject,{ type:"metal", count:metalCount });
 
       }
     },
@@ -436,7 +471,7 @@ gameEvents = {
       if (Math.random() < fertility) {
         let rockCount = 1;
         if (subject.jobs.lumberer) rockCount += randRange(0,subject.jobs.lumberer);
-        happen("town","AddResource",null,subject,{ type:"lumber", count:rockCount });
+        happen("AddResource",null,subject,{ type:"lumber", count:rockCount });
 
       }
     },
@@ -447,7 +482,7 @@ gameEvents = {
     subject: { reg: "town", all: true },
     func: (subject, target, args) => {
       if (subject.pop <= 0) {
-        happen("town","End",null,subject);
+        happen("End",null,subject);
         return;
       }
       if (subject.influences.happy < -6) {
@@ -455,6 +490,47 @@ gameEvents = {
       }
       else if (subject.influences.happy < -2) {
         logWarning("unhappy"+subject.id, "{{residents:"+subject.id+"}} are unhappy!");
+      }
+    }
+  },
+  "townUpgrade": {
+    daily: true,
+    subject: { reg: "town", all: true },
+    func: (subject, target, args) => {
+      // colony 0
+      // town 10size
+      // city 100
+      // metropolis 500
+      // nation 1000
+      // empire 5000
+
+      if (subject.level === undefined) { //compat
+        subject.level = 10;
+        subject.type = "town";
+        return;
+      }
+
+      let upgrade = null;
+      if (subject.level === 0 && subject.size > 10) { // colony -> town
+        upgrade = [10,"town"];
+      }
+      else if (subject.level <= 10 && subject.pop > 100) { // town -> city
+        upgrade = [20,"city"];
+      }
+      else if (subject.level <= 20 && subject.pop > 500) { // city -> metropolis
+        upgrade = [30,"metropolis"];
+      }
+      else if (subject.level <= 30 && subject.pop > 1000) { // metropolis -> nation
+        upgrade = [40,"nation"];
+      }
+      else if (subject.level <= 40 && subject.pop > 5000) { // nation -> empire
+        upgrade = [50,"empire"];
+      }
+
+      if (upgrade) {
+        logMessage(`${titleCase(subject.type)} of {{regname:town|${subject.id}}} has reached {{i:${upgrade[1]}}} status.`);
+        subject.level = upgrade[0];
+        subject.type = upgrade[1];
       }
     }
   },
@@ -521,10 +597,10 @@ gameEvents = {
     func: (subject, target, args) => {
       let type = args.value.type;
       let levelData = args.value.levelData;
-      happen("player", "Unlock", target, subject, args);
+      happen("Unlock", target, subject, args);
       if (levelData.influences) {
         regToArray("town").forEach((town) => {
-          happen("town", "Influence", subject, town, levelData.influences)
+          happen("Influence", subject, town, levelData.influences)
         })
       }
     },
@@ -534,7 +610,7 @@ gameEvents = {
       planet.unlocksRejected[type] = planet.day;
       if (levelData.influencesNo) {
         regToArray("town").forEach((town) => {
-          happen("town", "Influence", subject, town, levelData.influencesNo)
+          happen("Influence", subject, town, levelData.influencesNo)
         })
       }
     },
@@ -562,7 +638,7 @@ gameEvents = {
     //   return planet.day % 5 === 0;
     // },
     func: (subject, target, args) => {
-      return happen("town", "Recolor", subject, target, args);
+      return happen("Recolor", subject, target, args);
     },
     // funcNo: (subject, target, args) => {},
     message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to adopt a new {{color:national color|rgb(${args.value.join(",")})}}.`,
@@ -582,11 +658,11 @@ gameEvents = {
     value: {
       ask: true,
       message: (_, target) => `What should {{regname:town|${target.id}}} be called?`,
-      preview: (text) => `Welcome to {{b:${text}}}.`
+      preview: (text) => `Welcome to {{b:${titleCase(text)}}}.`
     },
     func: (subject, target, args) => {
       if (!args.value) return false;
-      return happen("town", "Rename", subject, target, args);
+      return happen("Rename", subject, target, args);
     },
     message: (subject, target, args) => `{{residents|${target.id}}} want you to pick their town's new name.`,
     messageDone: (subject, target, args) => `{{regname:town|${target.id}}} adopts a new name.`,
@@ -612,7 +688,7 @@ gameEvents = {
       target.dem = titleCase(args.value);
       target.dems = titleCase(wordPlural(args.value));
       target.adj = titleCase(wordAdjective(args.value));
-      happen("town", "Influence", subject, target, { happy: 1 });
+      happen("Influence", subject, target, { happy: 1 });
     },
     message: (subject, target, args) => `{{residents|${target.id}}} need a name for themselves.`,
     messageDone: (subject, target, args) => `{{residents|${target.id}}} have an emboldened identity.`,
@@ -662,7 +738,7 @@ gameEvents = {
       if (args.resourceID) {
         let resource = regGet("resource",args.resourceID);
         if (resource) {
-          happen("resource","Boost",subject,resource,args);
+          happen("Boost",subject,resource,args);
           unlockExecutive("almanac");
         }
       }
@@ -688,7 +764,7 @@ gameEvents = {
     },
     func: (subject, target, args) => {
       if (!args.value) return false;
-      // return happen("town", "Rename", subject, target, args);
+      // return happen("Rename", subject, target, args);
     },
     message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to encourage farming research.`,
     messageDone: (subject, target, args) => `{{regname:town|${target.id}}} focuses on new farming methods.`,
@@ -760,7 +836,7 @@ unlockTree = {
         name: "Trade",
         message: "{{people}} want to exchange goods for others of equal value. {{should}}",
         messageDone: "Goods are exchanged with mutual benefit.",
-        influences: { trade:1, travel:1 },
+        influences: { trade:1, travel:1, happy:0.2 },
         messageNo: "Nobody wants to give up their precious goods.",
         influencesNo: { trade:-5, travel:-0.5 },
         needsUnlock: {
@@ -772,7 +848,7 @@ unlockTree = {
         name: "Trade routes",
         message: "{{people}} are traveling long distances to trade goods. {{should}}",
         messageDone: "Trade routes are established as goods are transported.",
-        influences: { trade:1.5, travel:1.5 },
+        influences: { trade:1.5, travel:1.5, happy:0.2 },
         messageNo: "Goods are traded strictly within small communities.",
         influencesNo: { trade:-0.5, travel:-0.5 },
         needsUnlock: {
@@ -914,7 +990,7 @@ unlockTree = {
         influences: { farm:2, military:3 },
         messageNo: "Stone tools are perfectly fine for the {{people}}.",
         // func: (subject, target) => {
-        //   if (planet.unlocks.military) happen("town", "Influence", null, subject, { "military":3 });
+        //   if (planet.unlocks.military) happen("Influence", null, subject, { "military":3 });
         // }
       },
     ]

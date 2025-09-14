@@ -55,6 +55,7 @@ html, body {
 	overflow-y: scroll;
 	overflow-wrap:anywhere;
 	overscroll-behavior: auto;
+	background: black;
 }
 .gamePanel::-webkit-scrollbar, #gameDiv::-webkit-scrollbar, #gameHalf1-2::-webkit-scrollbar { /* WebKit */
 		width: 0;
@@ -98,6 +99,7 @@ html, body {
 #mapPanel {
 	border: 2px solid gray;
 	box-sizing: border-box;
+	height: fit-content;
 }
 #mapDiv {
 	border: none;
@@ -337,7 +339,6 @@ span.none {
 }
 #statsDiv table {
 	width: 100%;
-	table-layout:fixed;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -349,10 +350,21 @@ span.none {
 	width: 100%;
 }
 #statsDiv td {
-	width: fit-content
+	width: fit-content;
+	opacity: 0.8;
+}
+#statsDiv td:first-of-type {
+	text-align: right;
+	opacity: 1;
+}
+#statsDiv td:nth-of-type(2) {
+	opacity: 1;
 }
 #statsDiv td:last-of-type {
 	width: fit-content
+}
+tr.total {
+	font-style: italic;
 }
 .inlineIcon {
 	height: 0.8em;
@@ -906,7 +918,7 @@ span.none {
 		display: none;
 		position: absolute;
 		background-color: rgb(26, 26, 26);
-		height: 97%;
+		height: 97%!important;
 		width: 97%;
 		max-width: unset;
 		box-sizing: border-box;

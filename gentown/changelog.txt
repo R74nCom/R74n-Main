@@ -1,3 +1,16 @@
+[Version 0.3.4 - 13 Sep 2025]
+ + Town status upgrades based on population
+   + Colony, Town, City, Metropolis, Nation, and Empires
+ + Colony names can start with "North", "East", etc. based on direction
+ + Towns placed near mountains will start with "Monte"
+ + Some towns placed near water will start with "Cape"
+ + Prevention of duplicate names
+ ~ Happy influence is displayed as "Mood" in the log
+ ~ Trade unlocks improve mood
+ ~ Reformatted town list in stats, now shows town sizes
+ ~ Improved page responsiveness for short windows
+ ~ Fixed: Population icon when hovering over town doesn't show mood
+
 [Version 0.3.3 - 9 Sep 2025]
  + Mountains have their own names and landmasses
  ~ As more towns appear, only the most relevant resource updates are shown
