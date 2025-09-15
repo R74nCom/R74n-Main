@@ -1,3 +1,38 @@
+constants = {
+  defaultPlanetWidth: 200,
+  defaultPlanetHeight: 120,
+  defaultPixelSize: 6,
+  defaultChunkSize: 4,
+  defaultWaterLevel: 0.45,
+  maxPopulationPerChunk: 20,
+  maxPopulation: (subject) => subject.size * constants.maxPopulationPerChunk,
+  maxResourcePerChunk: 5,
+  maxResource: (subject) => {
+    let max = 0;
+    let size = subject.size;
+    if (size >= 5) {
+      max += size * (constants.maxResourcePerChunk * 4);
+      size -= 5;
+    }
+    max += size * constants.maxResourcePerChunk;
+    return max;
+  },
+  baseBirthRate: 0.02,
+  baseDeathRate: 0.008,
+  baseExpandRate: 0.5,
+  baseColonyRate: 0.05,
+  colonyCooldown: 25,
+  colonyNameSuffixRate: 0.2,
+  baseEatRate: 0.2,
+  noFoodHappyInfluence: -0.75,
+  lowFoodHappyInfluence: -0.25,
+  baseEmployRate: 0.05,
+  baseResourceRate: 0.05,
+  maxInfluence: 10,
+  minInfluence: -10
+}
+
+
 actionables = {
 
   player: {
@@ -122,14 +157,7 @@ actionables = {
         let inv = target.resources;
         if (inv[type] === undefined) inv[type] = 0;
         inv[type] += args.count || 1;
-        let max = 0;
-        let size = target.size;
-        if (size >= 5) {
-          max += size * 20;
-          size -= 5;
-        }
-        max += size * 5;
-        // let max = Math.max(20, target.size * 5);
+        let max = constants.maxResource(target);
         if (inv[type] > max) inv[type] = max;
       },
       RemoveResource: (subject,target,args) => {
@@ -156,8 +184,8 @@ actionables = {
           else target.influences[key] -= change;
 
           // minimum and maximum influence
-          if (target.influences[key] > 10) target.influences[key] = 10;
-          else if (target.influences[key] < -10) target.influences[key] = -10;
+          if (target.influences[key] > constants.maxInfluence) target.influences[key] = constants.maxInfluence;
+          else if (target.influences[key] < constants.minInfluence) target.influences[key] = constants.minInfluence;
 
           if (influenceEffects[key]) {
             let effects = influenceEffects[key];
@@ -169,11 +197,24 @@ actionables = {
           }
         }
       },
-      Death: (subject,target,args) => {
+      AddPop: (subject,target,args) => {
+        const pop = target.pop;
+        const maxPop = constants.maxPopulation(target);
+        if (pop >= maxPop) return;
+
+        let count = args.count || 1;
+        let maxChange = maxPop - pop;
+        count = Math.min(count, maxChange);
+
+        target.pop += count;
+      },
+      RemovePop: (subject,target,args) => {
         let pop = target.pop;
         let count = args.count || 1;
         count = Math.min(count, pop);
         target.pop -= count;
+
+        let jobCount = {};
 
         // Remove workers
         let jobs = Object.keys(target.jobs);
@@ -182,6 +223,8 @@ actionables = {
           if (target.jobs[job] <= 0) continue;
           if (Math.random() < (target.jobs[job] / pop)) {
             target.jobs[job] --;
+            if (jobCount[job] === undefined) jobCount[job] = 0;
+            jobCount[job] ++;
           }
         }
 
@@ -190,6 +233,8 @@ actionables = {
         while (employed > target.pop) {
           let job = choose(jobs);
           if (target.jobs[job] <= 0) continue;
+          if (jobCount[job] === undefined) jobCount[job] = 0;
+          jobCount[job] ++;
           target.jobs[job] --;
           employed --;
         }
@@ -197,6 +242,11 @@ actionables = {
         if (target.pop <= 0) {
           happen("End",subject,target);
         }
+
+        return {count:count, jobs:jobCount};
+      },
+      Death: (subject,target,args) => {
+        let count = happen("RemovePop",subject,target, {count:args.count || 1});
       },
       End: (subject,target,args) => {
         logMessage(`{{regname:town|${target.id}}} has fallen.`, "warning");
@@ -257,17 +307,18 @@ gameEvents = {
     subject: { reg: "town", all: true },
     func: (subject, target, args) => {
       let pop = subject.pop;
-      let maxPop = subject.size * 20;
+      const maxPop = constants.maxPopulation(subject);
       if (pop >= maxPop) return;
-      let birthRate = addInfluence(0.02, subject, "birth");
+      let birthRate = addInfluence(constants.baseBirthRate, subject, "birth");
       let popChange = pop*birthRate;
       if (pop+popChange > maxPop) {
         popChange = maxPop - pop;
       }
-      if (popChange) {
-        subject.pop += Math.floor(popChange);
-      }
-      if (Math.random() < (popChange % 1)) subject.pop += 1;
+
+      if (Math.random() < (popChange % 1)) popChange += 1;
+      popChange = Math.floor(popChange);
+
+      if (popChange) happen("AddPop", null, subject, {count: popChange});
     }
   },
   "townDeath": {
@@ -276,28 +327,29 @@ gameEvents = {
     func: (subject, target, args) => {
       let pop = subject.pop;
       if (pop <= 0) return;
-      let deathRate = addInfluence(0.008, subject, "disease");
+      let deathRate = addInfluence(constants.baseDeathRate, subject, "disease");
       let popChange = pop*deathRate;
       if (popChange > pop) {
         popChange = pop;
       }
-      if (popChange) {
-        subject.pop -= Math.floor(popChange);
-      }
-      if (Math.random() < (popChange % 1)) subject.pop -= 1;
+
+      if (Math.random() < (popChange % 1)) popChange += 1;
+      popChange = Math.floor(popChange);
+
+      if (popChange) happen("Death", null, subject, { count: popChange });
     }
   },
   "townExpand": {
     daily: true,
     subject: { reg: "town", all: true },
     func: (subject, target, args) => {
-      let expandRate = addInfluence(0.5 + (subject.size/50), subject, "travel");
+      let expandRate = addInfluence(constants.baseExpandRate + (subject.size/50), subject, "travel");
       if (Math.random() < expandRate) {
         let chunk = randomChunk((c) => c.v.s === subject.id);
         if (chunk) {
           let newChunk = nearestChunk(chunk.x, chunk.y, (c) => c.v.s === undefined && c.b !== "water", (c) => ((!planet.unlocks.travel || planet.unlocks.travel < 30) && c.b === "water") || c.b === "mountain" || (c.v.s && c.v.s !== subject.id));
           if (newChunk) {
-            let colonyRate = 0.05;
+            let colonyRate = constants.baseColonyRate;
             
             // One town per 30 days
             if (!(regCount("town") < Math.ceil(planet.day / 30))) colonyRate = 0;
@@ -315,12 +367,12 @@ gameEvents = {
 
               let newTown = happen("Create", subject, null, {x:colonyChunk.x, y:colonyChunk.y}, "town");
               subject.lastColony = planet.day;
-              newTown.lastColony = planet.day - 25;
+              newTown.lastColony = planet.day - constants.colonyCooldown;
               newTown.color = colorChange(subject.color);
               newTown.former = subject.id;
               newTown.type = "colony";
               newTown.level = 10;
-              if (Math.random() < 0.2) {
+              if (Math.random() < constants.colonyNameSuffixRate) {
                 let newName = "";
                 let mainName = subject.name.match(/\S+$/)[0].toLowerCase();
                 if (Math.random() < 0.5) {
@@ -359,17 +411,17 @@ gameEvents = {
     daily: true,
     subject: { reg: "town", all: true },
     func: (subject, target, args) => {
-      let foodCost = subject.pop*0.2;
+      let foodCost = subject.pop * constants.baseEatRate;
       foodCost = Math.floor(addInfluence(foodCost, subject, "hunger"));
       let foodCount = happen("CountResource",null,subject,{ type:"crop" });
 
       if (foodCount < 1) {
-        happen("Influence", null, subject, { "happy":-0.75 });
+        happen("Influence", null, subject, { "happy": constants.noFoodHappyInfluence });
         logWarning("noFood"+subject.id, "{{regname:town|"+subject.id+"}} is out of food!");
         happen("Death", null, subject, { count:randRange(1,foodCost) })
       }
       else if (foodCount < subject.pop) {
-        happen("Influence", null, subject, { "happy":-0.25 });
+        happen("Influence", null, subject, { "happy": constants.lowFoodHappyInfluence });
         logWarning("lowFood"+subject.id, "{{regname:town|"+subject.id+"}} is dangerously low on food!");
       }
 
@@ -384,7 +436,7 @@ gameEvents = {
       if (!subject.jobs) subject.jobs = {};
       let employed = sumValues(subject.jobs);
       let unemployed = subject.pop - employed;
-      let toEmploy = Math.max(Math.floor(unemployed*0.05), Math.random() < 0.5 ? 1 : 0);
+      let toEmploy = Math.max(Math.floor(unemployed * constants.baseEmployRate), Math.random() < 0.5 ? 1 : 0);
       if (employed >= subject.pop) toEmploy = 0;
       if (toEmploy) {
         let jobs = [];
@@ -407,7 +459,7 @@ gameEvents = {
   "townFarm": {
     daily: true,
     subject: { reg: "town", all: true },
-    chunkRate: 0.05,
+    chunkRate: constants.baseResourceRate,
     value: 0,
     perChunk: (subject, target, chunk, args) => {
       let fertility = happen("Fertility",subject,chunk,null,"chunk") / 2;
@@ -435,7 +487,7 @@ gameEvents = {
   "townMine": {
     daily: true,
     subject: { reg: "town", all: true },
-    chunkRate: 0.05,
+    chunkRate: constants.baseResourceRate,
     perChunk: (subject, target, chunk) => {
       let fertility = planet.unlocks.smith < 20 ? 0.1 : chunk.e; //elevation
       if (planet.unlocks.smith >= 20) fertility += 0.05;
@@ -460,7 +512,7 @@ gameEvents = {
   "townLumber": {
     daily: true,
     subject: { reg: "town", all: true },
-    chunkRate: 0.05,
+    chunkRate: constants.baseResourceRate,
     perChunk: (subject, target, chunk) => {
       if (biomes[chunk.b].hasLumber !== true) return;
 
@@ -692,6 +744,27 @@ gameEvents = {
     },
     message: (subject, target, args) => `{{residents|${target.id}}} need a name for themselves.`,
     messageDone: (subject, target, args) => `{{residents|${target.id}}} have an emboldened identity.`,
+    weight: 5
+  },
+  "planetDemonym": {
+    random: true,
+    subject: {
+      reg: "player", id: 1
+    },
+    check: () => planet.dem === undefined,
+    value: {
+      ask: true,
+      message: () => `What should a person living on Planet {{planet}} be called?`,
+      preview: (text) => `This {{b:${titleCase(text)}}}. These ${titleCase(wordPlural(text))}. The ${titleCase(wordAdjective(text))} people.`
+    },
+    func: (subject, target, args) => {
+      if (!args.value) return false;
+      planet.dem = titleCase(args.value);
+      planet.dems = titleCase(wordPlural(args.value));
+      planet.adj = titleCase(wordAdjective(args.value));
+    },
+    message: (subject, target, args) => `{{people}} need a name for themselves.`,
+    messageDone: (subject, target, args) => `{{people}} have an emboldened identity.`,
     weight: 5
   },
 
@@ -1133,7 +1206,9 @@ regBrowserKeys = {
   "raw": "Material",
   "town.crop": "Crop",
   "town.livestock": "Livestock",
+  "planet.start": "Formed",
   "size": "Size",
+  "land": "Land",
   "influences": "Influences",
   "birth": "Birth",
   "smith": "Smithing",
@@ -1144,8 +1219,8 @@ regBrowserKeys = {
   "jobs": "Jobs",
   "town.start": "Founded",
   "town.end": "Fell",
+  "age": "Age",
   "former": "Formerly",
-  "planet.start": "Formed",
   "biome.crops": "Crops",
   "biome.livestocks": "Livestock",
 
@@ -1157,6 +1232,7 @@ regBrowserKeys = {
 regBrowserValues = {
   "pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}`,
   "size": (value) => `{{num:${value}}}{{icon:land}}`,
+  "land": (value) => `{{num:${value}}}{{icon:land}}`,
   "crop": (value) => `{{num:${value}}}{{icon:crop}}`,
   "lumber": (value) => `{{num:${value}}}{{icon:lumber}}`,
   "rock": (value) => `{{num:${value}}}{{icon:rock}}`,
@@ -1165,6 +1241,7 @@ regBrowserValues = {
   "biome": (value) => `{{biome:${value}}}`,
   "start": (value) => `Day {{num:${value}}}`,
   "end": (value) => `Day {{num:${value}}}`,
+  "age": (value) => `{{num:${value}}} Day${Math.abs(value) === 1 ? "" : "s"}`,
   "town.former": (value) => `{{regname:town|${value}}}`,
   "birth": null,
   "rate": (value) => `${value}x`,

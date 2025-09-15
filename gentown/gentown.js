@@ -50,7 +50,7 @@ addParserCommand("resourcetotal",function(args) {
   if (!town.resources || !town.resources[type]) return 0;
   let total = town.resources[type];
   total = total.toString();
-  if (total >= Math.max(20, town.size * 5)) {
+  if (total >= constants.maxResource(town)) {
     return `{{color:{{num:${total}|K}}|#ffff8c}}`
   }
   return total;
@@ -84,12 +84,13 @@ addParserCommand("randreg",function(args) {
   return ``;
 })
 addParserCommand("planet",function(args) {
-  return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})">${planet.name}</span>`;
+  return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})">${args[0] || planet.name}</span>`;
 })
 addParserCommand("biome",function(args) {
   return `<span class='entityName' onclick='regBrowseBiome("${args[0]}")' style="color:rgb(${biomes[args[0]].color.join(",")})">${titleCase(args[1] || biomes[args[0]].name || args[0])}</span>`;
 })
 addParserCommand("people",function(args) {
+  if (planet.dems) return `{{planet|${planet.dems}}}`;
   return "Inhabitants of {{planet}}";
 })
 addParserCommand("residents",function(args) {
@@ -194,7 +195,7 @@ function colorBrightness(rgb, multiplier) {
   // if (colorCache[key]) return colorCache[key];
   let hsl = RGBtoHSL(rgb);
   hsl[2] = Math.min(1, hsl[2] + multiplier-1);
-  // hsl[0] = (hsl[0] * multiplier) % 1;
+  hsl[0] = (hsl[0] * multiplier) % 1;
   colorCache[key] = HSLtoRGB(hsl).map((n) => Math.round(n));
   return colorCache[key];
 }
@@ -225,11 +226,11 @@ function generatePerlinNoise(x, y, octaves, persistence) {
 mapCanvas = document.getElementById("mapCanvas");
 ctx = mapCanvas.getContext("2d");
 
-planetWidth = 200;
-planetHeight = 120;
-pixelSize = 6;
-chunkSize = 4;
-waterLevel = 0.45;
+planetWidth = constants.defaultPlanetWidth;
+planetHeight = constants.defaultPlanetHeight;
+pixelSize = constants.defaultPixelSize;
+chunkSize = constants.defaultChunkSize;
+waterLevel = constants.defaultWaterLevel;
 planetOld = [];
 
 // ensure chunks fit into planet
@@ -377,7 +378,7 @@ finalizeEvents();
 function happen(action, subject, target, args, targetClass=undefined) {
   if (!targetClass && target && target._reg) targetClass = target._reg;
   let actionFunc = actionables[targetClass].asTarget[action];
-  let r = actionFunc(subject,target,args);
+  let r = actionFunc(subject,target,args||{});
   if (r === 0) return r;
   return r || target;
 }
@@ -511,7 +512,7 @@ function chooseEvent(step=0,influencingTown) {
       }
       if (i.influencedBy) {
         for (let influence in i.influencedBy) {
-          if (influences[influence] <= -10) return 0;
+          if (influences[influence] <= constants.minInfluence) return 0;
           if (influences[influence]) weight = addInfluence(weight, influencingTown, influence);
           // if (influences[influence]) weight *= (Math.sign(influences[influence]) + influences[influence]) * (Math.sign(i.influencedBy[influence]) + i.influencedBy[influence]);
           // console.log(weight)
@@ -540,7 +541,7 @@ doEvent("townRecolor",e);
 function addInfluence(value, subject, influenceName) {
   if (subject.influences !== undefined && subject.influences[influenceName] !== undefined) {
     let influence = subject.influences[influenceName];
-    if (influence <= -10) return 0;
+    if (influence <= constants.minInfluence) return 0;
     if (influence > 0) value *= (influence/10 + 1);
     else value *= (1 - Math.abs(influence)/10)
   }
@@ -549,7 +550,7 @@ function addInfluence(value, subject, influenceName) {
 function subtractInfluence(value, subject, influenceName) {
   if (subject.influences !== undefined && subject.influences[influenceName] !== undefined) {
     let influence = subject.influences[influenceName];
-    if (influence >= 10) return 0;
+    if (influence >= constants.maxInfluence) return 0;
     if (influence > 0) value /= (influence/10 + 1);
     else value /= (1 - Math.abs(influence)/10)
   }
@@ -1270,7 +1271,7 @@ wordComponents.prefixes.SOUTH = [
   ["south ",1],
 ]
 
-badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bQ==').split(",");
+badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bSxreWtlLGtpa2U=').split(",");
 
 function generateWord(syllableCount, titled=false, prefixes=null) {
   let word = "";
@@ -1351,6 +1352,14 @@ function wordAdjective(word) {
     word = word.substring(0, word.length-3);
     suffix = "";
   }
+  else if (word.endsWith("ling")) {
+    word = word.substring(0, word.length-4);
+    suffix = "";
+  }
+  else if (word.endsWith("ing")) {
+    word = word.substring(0, word.length-3);
+    suffix = "";
+  }
 
   if (suffix) word += suffix;
   return word;
@@ -1372,12 +1381,14 @@ function renderHighlight() {
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];
     let color = regGet("town",chunk.v.s).color;
+    let opacity = 0.33;
     if (currentHighlight === chunk.v.s) {
       // color = color.map((x) => Math.floor(Math.min(255, x+30)))
       color = colorBrightness(color, 1.15);
+      opacity = 0.5;
     }
     color = color.join(",");
-    ctx.fillStyle = "rgba("+color+",.33)";
+    ctx.fillStyle = "rgba("+color+"," + opacity + ")";
     ctx.fillRect(chunk.x*chunkSize, chunk.y*chunkSize, chunkSize, chunkSize);
 
     ctx.fillStyle = "rgb("+color+")";
@@ -1555,14 +1566,54 @@ mapCanvas.addEventListener("touchend", (e) => {
 })
 
 window.addEventListener("keydown",(e) => {
-  if(e.key === "Escape") {
+  const key = e.key.toLowerCase();
+  let meta = e.metaKey || e.ctrlKey;
+
+  if (meta) return;
+
+  if (key === "escape") {
     if (currentPopup) {
       closePopups();
       document.getElementById("gameDiv").focus();
     }
+    else if (currentExecutive) {
+      closeExecutive();
+    }
     else if (selectedChunk) {
       deselectChunk();
       updateStats();
+      renderCursor();
+      updateCanvas();
+    }
+  }
+
+  if (currentPopup) return;
+  if (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON") return;
+
+  if (key === "enter" || key === " ") {
+    let btn = document.getElementById("nextDay");
+    if (!btn.getAttribute("disabled")) {
+      btn.click();
+    }
+  }
+  else if (key === "backspace" && currentExecutive) {
+    closeExecutive();
+  }
+  else if (key === "p") {
+    if (mousePos) {
+      selectedChunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
+      document.querySelector("#statsPanel .panelX").style.display = "block";
+      renderCursor();
+      updateCanvas();
+    }
+  }
+  else if (key === "0" || key === "`") {
+    setView();
+  }
+  else if (parseInt(key)) {
+    let newView = Object.keys(viewData)[key - 1];
+    if (newView) {
+      setView(newView);
     }
   }
 })
@@ -1831,7 +1882,7 @@ function openRegBrowser(obj,regName) {
 
   let title = obj.name;
   if (title) {
-    if (regName) title = `{{regname:${regName}|${obj.id}}}`;
+    if (regName && obj.id) title = `{{regname:${regName}|${obj.id}}}`;
     else if (obj.color) title = `{{color:${title}|rgb(${obj.color.join(",")})}}`;
   }
   if (title) {
@@ -1844,7 +1895,7 @@ function openRegBrowser(obj,regName) {
     regContent.appendChild(nameSection);
   }
   let subtitle;
-  if (regName) {
+  if (regName && obj.id) {
     subtitle = titleCase(obj.type || regName);
     // if (obj.type && obj.type !== regName) subtitle += " ("+titleCase(obj.type)+")";
   }
@@ -1976,9 +2027,13 @@ function regBrowsePlanet() {
   openRegBrowser({
     name: planet.name,
     color: planet.color,
-    type: "planet",
-    start: 0
-  })
+    type: planet.dems ? "planet" : (!regToArray("town").length ? "un" : "") + "inhabited planet",
+    start: 0,
+    age: planet.day,
+    land: filterChunks((c) => c.b !== "water").length,
+    size: planetHeight * planetWidth,
+    dems: planet.dems
+  }, "planet")
 }
 function regBrowseBiome(biome) {
   let data = biomes[biome];
@@ -2250,6 +2305,7 @@ function nextDay(e) {
               renderMap();
               renderHighlight();
               updateCanvas();
+              autosave();
             }
           },
           preview: eventInfo.value.preview
@@ -2533,6 +2589,14 @@ viewData = {
       }
       let color = reg.landmass[chunk.v.g].color;
       return [color[0],color[1],color[2],0.75]
+    }
+  },
+  elevation: {
+    colorFunction: "hsl(",
+    pixelColor: (value) => {
+      let hue = value;
+      hue = 1 - hue;
+      return [hue*250, 0.6*100+"%", 0.5*100+"%"];
     }
   }
 };

@@ -1,3 +1,15 @@
+[Version 0.3.5 - 14 Sep 2025]
+ + Planet info panel displays surface area, land area, and inhabited status
+ + Elevation view
+ ~ Town hover highlight affects opacity to be more apparent
+ + 'Enter' key or Spacebar to progress to the next day
+ + 'P' key to pin a chunk without right clicking
+ + Number keys to change views
+ ~ 'Escape' key can close executive menus
+ ~ Fixed: Daily deaths are not handled properly
+ ~ Fixed: Game doesn't autosave after text prompts
+ ~ Technical: Many constants are no longer hard-coded
+
 [Version 0.3.4 - 13 Sep 2025]
  + Town status upgrades based on population
    + Colony, Town, City, Metropolis, Nation, and Empires
