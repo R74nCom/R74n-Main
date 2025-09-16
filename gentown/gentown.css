@@ -742,6 +742,10 @@ tr.total {
     font-style: italic;
     opacity: 0.7;
 }
+.popupContent strong {
+	font-weight: unset;
+	color: yellow;
+}
 .popupPreview strong {
 	font-weight: unset;
     color: lightgoldenrodyellow;

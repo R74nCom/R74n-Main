@@ -1887,6 +1887,8 @@ function doPrompt(obj) {
 		if (promptState.title) popupContent.style.paddingTop = "1em";
 		if (promptState.pre) popupContent.style.whiteSpace = "pre-wrap";
 		else popupContent.style.whiteSpace = "";
+		if (message.length > 1000) popupContent.style.fontSize = "1em";
+		else popupContent.style.fontSize = "";
 	}
 	if (!message && !promptState.title) {
 		promptPopup.classList.add("noContent");
@@ -3287,6 +3289,10 @@ window.addEventListener("load", function(){ //onload
 				fetch("https://r74n.com/gentown/changelog.txt")
 				.then((r) => r.text())
 				.then((text) => {
+					text = text.replace(/(^|\n)(\[.+\])/g, "$1{{b:$2}}");
+					text = text.replace(/((?:^|\n) +)(\+)/g, "$1{{color:$2|#00ff00}}");
+					text = text.replace(/((?:^|\n) +)(~)/g, "$1{{color:$2|#ffff00}}");
+					text = text.replace(/((?:^|\n) +)(-)/g, "$1{{color:$2|#ff0000}}");
 					doPrompt({
 						type: "text",
 						message: text,
