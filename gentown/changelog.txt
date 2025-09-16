@@ -7,6 +7,11 @@
  + Towns can tame and eat livestock
  + New towns with 2 or less territory are labeled as Microtowns
  + Town status upgrade messages show a green day number
+ ~ Beta button changes
+   + Changelog button
+   + Update notification
+   + Version number displayed
+   ~ The Beta button will become a general info button in the future
  ~ Colonies no longer form with just 1 population
  ~ Births can no longer happen with less than 2 population
  ~ Fixed: Text prompts don't display influence changes afterwards

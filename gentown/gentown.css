@@ -223,6 +223,9 @@ span.none {
 .logWarning[new="true"] .logDay {
 	color: rgb(255, 0, 0)
 }
+.logMilestone[new="true"] .logDay {
+	color: rgb(0, 255, 0)
+}
 
 .logMessage .logAct {
 	display: inline-block;
@@ -521,6 +524,21 @@ tr.total {
 	opacity: 0.5;
 	filter: none!important;
 }
+.actionItem.actionSort::before {
+	content: "Sort: "
+}
+.actionItem.actionSort {
+	font-style: italic;
+	border-bottom: none;
+	margin-bottom: 0.5em;
+	opacity: 0.85;
+}
+.actionItem.actionSort:hover {
+	opacity: unset;
+}
+.actionItem.actionSort::after {
+	content: "..."
+}
 #actionSubpanelClose:active {
 	transform: translateX(-0.2em);
 }
@@ -634,7 +652,7 @@ tr.total {
 	left: 50%;
 	top: 45%;
 	/* z-index: -1; */
-	transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-45%);
 	overflow: hidden;
 	opacity: 0;
 	filter: opacity(0%);
@@ -658,6 +676,9 @@ tr.total {
 .gamePopup .popupContent {
 	padding: 2em;
 }
+#promptPopup .popupContent {
+	overflow-y: scroll;
+}
 .gamePopup .popupContent, .gamePopup .popupTitle {
 	flex-grow: 1;
 	align-self: center;
@@ -676,6 +697,9 @@ tr.total {
 	border-top: solid 4px rgb(70, 70, 70);
 	font-size: 1.3em;
 	height: 2em;
+}
+.gamePopup.noContent .popupInput {
+	border-top: none;
 }
 #popupText {
 	width: calc(100% - 0.75em - 0.75em);
@@ -860,11 +884,6 @@ tr.total {
 	#mapPanel {
 		width: 100%;
 		position: relative
-	}
-	#underStats {
-		/* left: unset;
-		transform: none;
-		right: 5px; */
 	}
 	#statsPanel {
 		flex-basis: unset;
