@@ -1,3 +1,10 @@
+[Version 0.4.1 - 16 Sep 2025]
+ + New fallen towns are labeled as Ghost Towns
+ ~ Moved About button to Beta tab
+ ~ Changelog must be opened to remove notification from Beta button
+ ~ Message for incomplete features such as militarism
+ ~ Fixed: Town count in Towns tab is inaccurate
+
 [Version 0.4 - 15 Sep 2025]
  + Migration
    + Population, resources, and jobs are transferred during migration

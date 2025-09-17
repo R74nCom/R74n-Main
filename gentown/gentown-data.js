@@ -298,6 +298,7 @@ actionables = {
 				target.jobs = {};
 				target.influences = {};
 				target.resources = {};
+				target.type = "ghost "+(target.type || "town");
 				renderHighlight();
 				updateCanvas();
 			}
@@ -1213,7 +1214,8 @@ unlockTree = {
 				influences: { military:1, crime:0.25 },
 				messageNo: "The settlements trust each other, for now...",
 				influencesNo: { military:-2 },
-				check: () => regCount("town") > 1
+				check: () => regCount("town") > 1,
+				func: () => logMessage("Militarism hasn't been added yet.", "tip") //BETA
 			},
 			{
 				level: 20,

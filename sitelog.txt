@@ -1,5 +1,9 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-09-16 - Added Bitsy to Icons page
+2025-09-16 - Added Comic Studio to Commons page
+2025-09-16 - Updated Translation Hub
+2025-09-16 - Updated Link Dump and added feedback link
 2025-07-19 - Added YouTube verified badge and Play Button to Socials page
 2025-07-19 - Created YouTube and Play Button pages
 2025-07-19 - Added Threads Anniversary and Pride 2025 v2 logos to Icons page

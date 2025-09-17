@@ -424,6 +424,10 @@ function readyEvent(eventClass, subject=null, target=null) {
 			subject = regToArray(regname);
 			if (subject.length === 0) return;
 		}
+		else if (eventInfo.subject.filter) {
+			subject = regFilter(regname, eventInfo.subject.filter);
+			if (subject.length === 0) return;
+		}
 		else if (eventInfo.subject.id) {
 			subject = regGet(regname,eventInfo.subject.id);
 			if (!subject) return;
@@ -440,6 +444,10 @@ function readyEvent(eventClass, subject=null, target=null) {
 		}
 		else if (eventInfo.target.all) {
 			target = regToArray(regname);
+			if (target.length === 0) return;
+		}
+		else if (eventInfo.target.filter) {
+			target = regFilter(regname, eventInfo.target.filter);
 			if (target.length === 0) return;
 		}
 		else if (eventInfo.target.id) {
@@ -1705,7 +1713,7 @@ function updateStats() {
 		regSorted("town","pop").forEach((town) => {
 			html += `<tr>`;
 			html += `<td>` + parseText("{{regname:town|"+town.id+"}}") + `</td>`;
-			html += `<td>` + parseText("{{face:"+town.id+"}}") + town.pop + `</td>`;
+			html += `<td>` + parseText(`{{face:${town.id}}}{{num:${town.pop}|K}}`) + `</td>`;
 			html += `<td>` + parseText("{{icon:land}}") + town.size + `</td>`;
 			html += `<td>` + "" + `</td>`;
 			html += `</tr>`;
@@ -2143,8 +2151,8 @@ function logMessage(text, type) {
 		return;
 	}
 	let uuid = uuidv4();
-	let html = `<span class="logMessage${type ? ' log'+titleCase(type) : ''}" id="logMessage-${uuid}" new="true">
-	<span class="logDay" onclick="handleMessageClick(this)">${planet.day}</span><span class="logText">${parseText(escapeHTML(text))}</span>
+	let html = `<span class="logMessage${type ? ' log'+titleCase(type) : ' logNormal'}" id="logMessage-${uuid}" new="true">
+	<span class="logDay" title="${type ? titleCase(type) : ""}" onclick="handleMessageClick(this)">${type === "tip" ? "?" : planet.day}</span><span class="logText">${parseText(escapeHTML(text))}</span>
 </span>`
 	// <span class="logAct"><span>Yes</span><span>No</span></span>
 	let logMessages = document.getElementById("logMessages");
@@ -2586,7 +2594,7 @@ function initGame() {
 
 	// create first town prompt
 	if (reg.town._id === 1) {
-		logMessage("GenTown is in early beta. Most features are incomplete. Please report all issues.");
+		logMessage("GenTown is in early beta. Most features are incomplete. Please report all issues.", "tip");
 		onMapClickMsg = logMessage("Tap on the map to settle your town.");
 		onMapClick = function(e) {
 			let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
@@ -2993,6 +3001,7 @@ function populateExecutive(items, title, main=false) {
 		if (item.indent) actionItem.style.marginLeft = item.indent + "em";
 		if (item.opacity) actionItem.style.opacity = item.opacity;
 		if (item.hide && (!item.id || !planet.unlockedExecutive || !planet.unlockedExecutive[item.id])) actionItem.style.display = "none";
+		if (item.notify) actionItem.classList.add("notify");
 		if (item.heading) {
 			actionItem.style.paddingTop = "1em";
 			actionItem.style.textAlign = "center";
@@ -3120,14 +3129,31 @@ function sortExecutive(e) {
 document.getElementById("actionSubpanelClose").addEventListener("click",closeExecutive)
 
 
+function checkHash() {
+	if (this.location.hash) {
+		let id = location.hash.substring(1);
+
+		if (id === "changelog" || id === "about" || id === "feedback") {
+			this.document.getElementById("actionInfo").click();
+		}
+
+		let button = this.document.getElementById("actionItem-"+id);
+		if (button) button.click();
+
+		button = this.document.getElementById("action"+titleCase(id));
+		if (button) button.click();
+	}
+	else if (currentExecutive) {
+		closeExecutive();
+	}
+}
+window.addEventListener("hashchange", checkHash);
+
 
 window.addEventListener("load", function(){ //onload
 
 	document.getElementById("gameLoading").style.display = "none";
 	document.getElementById("gameDiv").style.display = "flex";
-	document.getElementById("actionAbout").addEventListener("click",()=>{
-		doPrompt({ type:"text", message:document.getElementById("blurbAbout").innerText });
-	})
 
 	for (let key in influenceModality) {
 		allInfluences[key] = true;
@@ -3159,7 +3185,7 @@ window.addEventListener("load", function(){ //onload
 	}
 
 	if (userSettings.lastVersionCheck !== gameVersion && userSettings.view) {
-		document.getElementById("actionVersion").classList.add("notify");
+		document.getElementById("actionInfo").classList.add("notify");
 	}
 	userSettings.lastVersion = gameVersion;
 	saveSettings();
@@ -3190,7 +3216,7 @@ window.addEventListener("load", function(){ //onload
 						entity: town
 					});
 				})
-				populateExecutive(items, "Towns ("+items.length+")");
+				populateExecutive(items, "Towns ("+(items.length - 1)+")");
 			}
 		},
 		{
@@ -3276,16 +3302,14 @@ window.addEventListener("load", function(){ //onload
 		], "Save Options")
 	})
 	
-	document.getElementById("actionVersion").addEventListener("click",(e) => {
-		e.target.classList.remove("notify");
-
-		if (userSettings.lastVersionCheck !== gameVersion) {
-			userSettings.lastVersionCheck = gameVersion;
-			saveSettings();
-		}
-
+	document.getElementById("actionInfo").addEventListener("click",(e) => {
 		populateExecutive([
+			{ text: "About", func: ()=> {
+				doPrompt({ type:"text", message:document.getElementById("blurbAbout").innerText });
+			}, id:"about" },
 			{ text: "Changelog", func: ()=>{
+				doPrompt({ type: "text", message: "Loading..." })
+
 				fetch("https://r74n.com/gentown/changelog.txt")
 				.then((r) => r.text())
 				.then((text) => {
@@ -3299,12 +3323,20 @@ window.addEventListener("load", function(){ //onload
 						title: "Changelog",
 						pre: true
 					})
+
+					document.getElementById("actionItem-changelog").classList.remove("notify");
+					document.getElementById("actionInfo").classList.remove("notify");
+
+					if (userSettings.lastVersionCheck !== gameVersion) {
+						userSettings.lastVersionCheck = gameVersion;
+						saveSettings();
+					}
 				})
 				.catch((error) => {
 					alert(error);
 				})
-			} },
-			{ text: "Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform" },
+			}, id:"changelog", notify: userSettings.lastVersionCheck !== gameVersion },
+			{ text: "Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform", id:"feedback" },
 			
 			{ text: "To-do", heading: true },
 			
@@ -3324,5 +3356,7 @@ window.addEventListener("load", function(){ //onload
 			{ text: "{{x}} Diplomacy / Wars" },
 		], "GenTown v"+gameVersion)
 	})
+
+	checkHash();
 
 })
