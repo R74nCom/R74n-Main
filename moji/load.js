@@ -754,7 +754,6 @@ R74mojiData = {
 "detective":["detective","🕵️"],
 "dither":["dither",""],
 "dogecoin_eyes":["dogecoin_eyes",""],
-"dream":["dream",""],
 "emoji_eyes":["emoji_eyes","🟡‍👀"],
 "ethereum_eyes":["ethereum_eyes",""],
 "evil_horns":["evil_horns","😈‍🟨"],
