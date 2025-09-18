@@ -6,7 +6,7 @@ addParserCommand("c",function(args) {
 addParserCommand("color",function(args) {
 	if (args.length === 0) {return ""}
 	if (args.length === 1) {return args[0]}
-	return "<span style='color:"+args[1]+"'>"+args[0]+"</span>";
+	return `<span style='color:${args[1]+ (args[2] ? ";background-color:"+args[2] : "")}'${ args[2] ? " class='font2'" : "" }>${args[0]}</span>`;
 })
 addParserCommand("b",function(args) {
 	if (args.length === 0) {return ""}
@@ -76,7 +76,7 @@ addParserCommand("regname",function(args) {
 	if (args.length < 2) {return ""}
 	let data = regGet(args[0],parseInt(args[1]));
 	if (!data) return `<span class='entityName' title='${data.id}' data-reg='${args[0]}' data-id='${data.id}'>Invalid Thing</span>`;
-	return `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${data.color ? `style="color:rgb(${data.color[0]},${data.color[1]},${data.color[2]})"` : ""} onclick="handleEntityClick(this)" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] || data.name}</span>`;
+	return `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${data.color ? `style="color:rgb(${data.color[0]},${data.color[1]},${data.color[2]})"` : ""} onclick="handleEntityClick(this)" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${data.flag ? parseText(data.flag)+" " : ""}${args[2] || data.name}</span>`;
 })
 addParserCommand("regoldest",function(args) {
 	if (args.length < 1) {return ""}
@@ -361,6 +361,12 @@ townColors = [
 	[151, 87, 255],
 	[255, 25, 159],
 	[255, 87, 255]
+]
+extraColors = [
+	[87,255,87],
+	[38,38,38],
+	[224,224,224],
+	[87,255,87]
 ]
 function defaultTown() {
 	return {
@@ -911,6 +917,11 @@ function updateBiomes() {
 			}
 		}
 
+		if (chunk.e === 1) {
+			closestBiome = "mountain";
+			if (chunk.v.s) delete chunk.v.s;
+		}
+
 		if (closestBiome) {
 			chunk.b = closestBiome;
 		}
@@ -1323,6 +1334,42 @@ wordComponents.prefixes.SOUTH = [
 	["south ",1],
 ]
 
+wordComponents.flags = {};
+wordComponents.flags.TEMPLATE = [
+	" $ ","($)","/$\\","\\$/","/$/",")$(","[$]","]$[","»$«","«$»","−$−","‖$‖","→$←","←$→","░$░","▒$▒","⏴$⏵","⏵$⏴","▌$▐","▛$▟","▙$▜","≣$≣","⏵$―","+$―","$==","◣$◥","◤$◢","» $","$≣≣","⏸$⏸","█$█"
+];
+wordComponents.flags.EMBLEM = "@,¢,X,₸,₪,≈,―,§,†,‡,∑,®,¤,↕,☼,☻,☺,◦,●,Ξ,Ψ,Ω,ǃ,☮,Ϫ,Ͳ,⏶,⏻,🖤,👽,🥥,🌴,🏆,◆,𝕏,☗,☖,🏠,Ӂ,⏼,⏷".split(",");
+
+wordComponents.CURRENCY = {
+	a: "Δ,₳,Ѧ",
+	b: "&,ẞ,ß,Б,Ҕ,Ƀ,ƀ,฿,Ȣ",
+	c: "©,¢,₵,₠,Ͼ",
+	d: "δ,ԁ",
+	e: "£,€,≡,Ξ,ξ,₤,Ʃ",
+	f: "₣,ƒ,Ϝ,៛",
+	g: "Ǥ",
+	h: "Ҥ",
+	i: "I,Í",
+	j: "₺",
+	k: "Ҡ,₭",
+	l: "₺",
+	m: "М",
+	n: "₪,Й,П,א,Ͷ,ỻ",
+	o: "@,Ø,Ф,Ω,Ө",
+	p: "₽,₱,⁋",
+	q: "Q",
+	r: "®,Я,₹,֏",
+	s: "$,☼",
+	t: "₸,Ͳ,✛",
+	u: "μ,Ů,Ʉ,Ʋ",
+	v: "V,Ỵ",
+	w: "Щ,Ψ,ʬ,Ѡ,₩",
+	x: "Ж,※,𝕏",
+	y: "Ψ,Ұ,Ҹ",
+	z: "Z",
+	_: "¤"
+}
+
 badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bSxreWtlLGtpa2U=').split(",");
 
 function generateWord(syllableCount, titled=false, prefixes=null) {
@@ -1653,6 +1700,8 @@ window.addEventListener("keydown",(e) => {
 		if (!btn.getAttribute("disabled")) {
 			btn.click();
 		}
+		e.preventDefault();
+		e.stopPropagation();
 	}
 	else if (key === "backspace" && currentExecutive) {
 		closeExecutive();
@@ -2606,7 +2655,7 @@ function initGame() {
 					onMapClickMsg = null;
 					let town = happen("Create",currentPlayer,null,{x:chunk.x, y:chunk.y},"town");
 
-					logMessage("The town of {{regname|town|"+town.id+"}} is founded.")
+					logMessage("The "+(town.type||"town")+" of {{regname|town|"+town.id+"}} is founded.")
 					document.getElementById("nextDay").removeAttribute("disabled");
 					document.getElementById("nextDayMobile").removeAttribute("disabled");
 					townsBefore = JSON.parse(JSON.stringify(reg.town));
@@ -3335,7 +3384,7 @@ window.addEventListener("load", function(){ //onload
 				.catch((error) => {
 					alert(error);
 				})
-			}, id:"changelog", notify: userSettings.lastVersionCheck !== gameVersion },
+			}, id:"changelog", notify: userSettings.lastVersionCheck && userSettings.lastVersionCheck !== gameVersion },
 			{ text: "Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform", id:"feedback" },
 			
 			{ text: "To-do", heading: true },

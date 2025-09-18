@@ -856,6 +856,41 @@ gameEvents = {
 		messageDone: (subject, target, args) => `{{people}} have an emboldened identity.`,
 		weight: 5
 	},
+	"townFlag": {
+		random: true,
+		subject: {
+			reg: "player", id: 1
+		},
+		target: {
+			reg: "town", random: true
+		},
+		check: (subject, target) => target.flag === undefined,
+		value: (subject, target, args) => {
+			let background = "rgb(" + choose([ ...townColors, ...extraColors ]).join(",") + ")";
+			let foreground = "rgb(" + choose([ ...townColors, ...extraColors ]).join(",") + ")";
+			let emblem = choose(wordComponents.flags.EMBLEM);
+			args.emblem = emblem;
+			let emblemColor = "rgb(" + target.color.join(",") + ")";
+
+			let template = choose(wordComponents.flags.TEMPLATE);
+
+			let flag = template
+				.replace(/^([^$]+)/, `{{color:$1|${foreground}|${background}}}`)
+				.replace(/([^$]+)$/, `{{color:$1|${foreground}|${background}}}`)
+				.replace(/\$/g, `{{color:${emblem}|${emblemColor}|${background}}}`);
+
+			return flag;
+		},
+		func: (subject, target, args) => {
+			if (!args.value) return false;
+			target.flag = args.value;
+			target.emblem = args.emblem;
+		},
+		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to adopt a new flag. ${args.value}`,
+		messageDone: (subject, target, args) => `{{residents|${target.id}}} fly their new flag.`,
+		messageNo: (subject, target, args) => `{{residents|${target.id}}} reject {{c:hollow|shallow}} symbolism.`,
+		weight: 5
+	},
 
 	"playerAskName": {
 		random: true,

@@ -1,3 +1,8 @@
+[Version 0.4.2 - 17 Sep 2025]
+ + Towns can adopt auto-generated flags which display next to their names
+ ~ Mountains are more common, appearing anywhere with 100% elevation
+ ~ Fixed: Pressing Spacebar after clicking on chronicle causes scrolling
+
 [Version 0.4.1 - 16 Sep 2025]
  + New fallen towns are labeled as Ghost Towns
  ~ Moved About button to Beta tab
