@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-09-23 - Removed Fragrantica from socials due to unwarranted political messages
 2025-09-18 - Updated Icons page
 2025-09-17 - Updated broken button on Outlinks page
 2025-09-17 - Updated Music page
