@@ -1,5 +1,9 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-09-25 - Created /blank
+2025-09-25 - Added more 404 redirects
+2025-09-25 - Created community.txt
+2025-09-25 - Updated Wplace Gallery
 2025-09-24 - Created Wplace Gallery in Community Projects
 2025-09-24 - Added missing Sandboxels 3rd Birthday link to Community Projects
 2025-09-23 - Removed Fragrantica from socials due to unwarranted political messages
