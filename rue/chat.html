@@ -92,7 +92,7 @@ This HTML and its contents are property of R74n.com.
         }
         if (currentSession && !loading) {
           currentSession.messages.push(messageObj);
-          if (!sent) saveSession();
+          if (!sent && !Rue.brain.auto) saveSession();
         }
         rueMessageRow.appendChild(rueMessage);
         rueChatBox.appendChild(rueMessageRow);
@@ -654,7 +654,10 @@ This HTML and its contents are property of R74n.com.
   }
 
   window.addEventListener("load",function(){
-    if (temp.length) {
+    if (urlParams.has("rue")) {
+      newSession();
+    }
+    else if (temp.length) {
       loadSession(temp[temp.length-1]);
     }
     else {
@@ -749,6 +752,9 @@ This HTML and its contents are property of R74n.com.
       }
     })
     Rue.focus();
+    if (urlParams.has("rue")) {
+      Rue.handleRueParam();
+    }
   })
   function openSidebar() {
     document.getElementById("rueSidebar").style.display = "flex";

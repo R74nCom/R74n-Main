@@ -5443,6 +5443,24 @@ Rue = {
         if (text && !skipSet) { Rue.setInput(text); }
         sendMessage(undefined, text);
     },
+    handleRueParam: function() {
+        if (rueParam === "focus") {
+            rueInput.focus();
+        }
+        else if (rueParam !== "true" && rueParam !== "on") {
+            Rue.brain.auto = true;
+            rueParam = rueParam.split(";;")[0];
+            rueInput.value = rueParam;
+            if (normalizeL2(normalize(rueParam)).match(/^(remove|rm|delete|del|add|new|create|append|rename|go ?to|deposit|withdraw|set|copy|paste|clear|turn on|turn off|enable|disable) |^(\/|http|www)/)) {
+                Rue.error("{{r:[autodanger]}}");
+            }
+            else {
+                sendMessage();
+                rueInput.focus();
+            }
+            Rue.brain.auto = false;
+        }
+    },
     calculate: function(mathExpression) {
         mathExpression = mathExpression.toLowerCase();
         // if it is only a number, return it
@@ -5686,22 +5704,7 @@ for (var i = 0; i < rueLoadFunctions.length; i++) {
 
 console.log("Rue's ready to go! ("+Rue.brain.loadTime+"ms)")
 if (rueParam) { // handle URL parameter
-    if (rueParam === "focus") {
-        rueInput.focus();
-    }
-    else if (rueParam !== "true" && rueParam !== "on") {
-        Rue.brain.auto = true;
-        rueParam = rueParam.split(";;")[0];
-        rueInput.value = rueParam;
-        if (normalizeL2(normalize(rueParam)).match(/^(remove|rm|delete|del|add|new|create|append|rename|go ?to|deposit|withdraw|set|copy|paste|clear|turn on|turn off|enable|disable) |^(\/|http|www)/)) {
-            Rue.error("{{r:[autodanger]}}");
-        }
-        else {
-            sendMessage();
-            rueInput.focus();
-        }
-        Rue.brain.auto = false;
-    }
+    Rue.handleRueParam();
 }
 /*end rue load*/}
 
