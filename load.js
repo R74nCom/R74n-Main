@@ -83,6 +83,19 @@ function addSchema(schema,id) {
 	document.head.appendChild(script);
 }
 
+if (!window.choose) {
+	window.choose = function(array) {
+		return array[Math.floor(Math.random() * array.length)];
+	}
+}
+if (!window.randRange) {
+	window.randRange = function(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+}
+
 function playSound(url) {
 	var audio = new Audio(url);
 	audio.play();
