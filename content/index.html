@@ -163,8 +163,25 @@ This HTML and its contents are property of R74n.com.
         let url = "https://raw.githubusercontent.com/R74nCom/Avatars/main/pfp"+index+".jpg";
         element.setAttribute("src", url);
       }
+      function toggleIcon(element) {
+        let src = element.getAttribute("src");
+        if (src.match(/-yes/)) {
+          src = src.replace(/-yes/,"");
+        }
+        else {
+          src = src.replace(/\./,"-yes.");
+        }
+        element.setAttribute("src", src);
+      }
+
+      function openTab(name) {
+        document.querySelectorAll(".content .tab").forEach((tab) => {
+          tab.style.display = tab.id === name ? "block" : "none";
+        })
+      }
 
       function generateIdea() {
+        openTab("Comments");
         const commentType = choose(Object.keys(commentTypes));
         const comment = document.querySelector("."+commentType);
         comment.style.display = "flex";
@@ -209,8 +226,32 @@ This HTML and its contents are property of R74n.com.
 
         usernameSpan.innerText = chooseUsername();
       }
+
+      function randomRecipes() {
+        openTab("List");
+        const listElem = document.querySelector("#List ul");
+        listElem.innerHTML = "";
+        for (let i = 0; i < 10; i++) {
+          let combo = choose(mixable);
+          listElem.insertAdjacentHTML("beforeend", `<li>${combo.replace(",", " + ")}</li>`);
+        }
+      }
+      function allRecipes() {
+        openTab("List");
+        const listElem = document.querySelector("#List ul");
+        listElem.innerHTML = "";
+        mixable.forEach((combo) => {
+          listElem.insertAdjacentHTML("beforeend", `<li>${combo.replace(",", " + ")}</li>`);
+        })
+      }
       
     </script>
+    
+    <style>
+      .content .tab {
+        display: none;
+      }
+    </style>
 
 </head>
 <body>
@@ -222,7 +263,11 @@ This HTML and its contents are property of R74n.com.
 
 <p>
   <button onclick="generateIdea()">Generate</button>
+  <button onclick="randomRecipes()">Random Recipes</button>
+  <button onclick="allRecipes()">All Recipes</button>
 </p>
+
+<div id="Comments" class="tab">
 
 <div class="youtube">
   <div class="halfVertical halfTop">
@@ -243,10 +288,10 @@ This HTML and its contents are property of R74n.com.
       <img class="avatar" src="../icons/avatar.png">
     </div>
     <div class="halfRight">
-      <img class="likeIcon" src="assets/like.png"> <span class="likes" contenteditable>1</span>
+      <img class="likeIcon" src="assets/like.png" onclick="toggleIcon(this)"> <span class="likes" contenteditable>1</span>
       <img class="dislikeIcon" src="assets/dislike.png">
       <img class="commentIcon" src="assets/comment.png">
-      <img class="loveIcon" src="assets/love.png">
+      <img class="loveIcon" src="assets/love.png" onclick="toggleIcon(this)">
     </div>
   </div>
 </div>
@@ -275,6 +320,7 @@ This HTML and its contents are property of R74n.com.
   .youtube .halfRight p {
     margin: 0;
     margin-bottom: 0.5em;
+    font-size: 1em!important;
   }
   .youtube .halfRight p.title {
     color: #5F5F5F;
@@ -297,6 +343,12 @@ This HTML and its contents are property of R74n.com.
   }
 </style>
 
+</div>
+
+
+<div id="List" class="tab">
+  <ul></ul>
+</div>
 
 
 
