@@ -2711,7 +2711,7 @@ function logSub(uuid,text) {
 		let html = `<span class="logSub">${parseText(escapeHTML(text))}</span>`
 		elem.insertAdjacentHTML("beforeend", html);
 		let act = elem.querySelector(".logAct");
-		if (!act.innerHTML.length) act.style.display = "none";
+		if (act && !act.innerHTML.length) act.style.display = "none";
 	}
 	return uuid;
 }
