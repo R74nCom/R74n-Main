@@ -1,4 +1,4 @@
-[Version 0.5 - 30 Sep 2025]
+[Version 0.5 - 29 Sep 2025]
  + Construction Projects
      + Towns with Stoneworking unlocked can start projects
      + Projects use building material each day
