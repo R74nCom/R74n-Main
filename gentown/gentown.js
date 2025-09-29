@@ -4153,7 +4153,8 @@ window.addEventListener("load", function(){ //onload
 							saveSettings();
 							location.reload();
 						}
-					}
+					},
+					danger: true
 				})
 			},
 			danger: true
