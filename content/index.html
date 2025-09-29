@@ -80,17 +80,19 @@ This HTML and its contents are property of R74n.com.
         "[NAME] [THE] [JOB]",
         "[NAME] [LETTER][NUMBER]",
         "[MR] [NAME]",
-        "[THING] [FAN]",
+        "[THING] [FAN][NUMBER]",
         "[NAME] [YEAR]",
+        "[NAME][SURNAME] [YEAR]",
         "[NAME] [LETTER][YEAR]",
         "[NAME][THING][NUMBER]",
         "[THING] [YEAR,NUMBER]",
         "[NAME][notfound,ishere,nothere,shere,gaming,plays][NUMBER]",
         "[NAME][LETTERS] [YEAR,NUMBER]",
-        "[NAME][NAME]-[LETTER][DIGIT][LETTER]"
+        "[NAME][SURNAME]-[LETTER][DIGIT][LETTER]"
       ]
       const usernameFormatters = {
         NAME: () => choose(firstNames),
+        SURNAME: () => choose(lastNames),
         NUMBER: () => Math.random() < 0.33 ? choose([123,67,69]) : randRange(0,300),
         DIGIT: () => randRange(1,9),
         JOB: () => choose(["gamer","fisher","crafter","chemist","coder"]),
@@ -159,7 +161,7 @@ This HTML and its contents are property of R74n.com.
         return str + choose(options).repeat(randRange(1,3));
       }
       function chooseAvatar(element) {
-        let index = randRange(1,84);
+        let index = randRange(1,120);
         let url = "https://raw.githubusercontent.com/R74nCom/Avatars/main/pfp"+index+".jpg";
         element.setAttribute("src", url);
       }
