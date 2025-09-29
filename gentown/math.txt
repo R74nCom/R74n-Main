@@ -1,0 +1,30 @@
+[length]
+1 chunk = 800 km
+1 elevation (10%) = 1475 m
+1 pixel = 200 km = (800 km / 4)
+1 chunk = 4 pixels
+
+[area]
+1 chunk = 640000 km²
+1 elevation * 1 chunk = 1180 km² = (800000 m * 1475 m)
+1 pixel = 40000 km²
+1 chunk = 16 pixels
+
+[volume]
+[per-pixel volume] 1 pixel * 1 pixel * 1 elevation = 59000000 km² (200000 m * 200000 m * 1475 m)
+[entire chunk volume] 1 chunk * 1 chunk * 1 elevation = 944000000 km² = (800000 m * 800000 m * 1475 m)
+
+
+
+
+     ,——————————————————.
+    /                  /|
+   /                  / |
+  /                  /  |
+ /_________________ /   |
+|                  |    |
+|                  |    |
+|                  |   /
+|                  |  /
+|                  | /
+|__________________|/

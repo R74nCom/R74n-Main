@@ -163,14 +163,14 @@ span.none {
 		line-height: 0;
 		margin-top: 0;
 		margin-bottom: 0;
-		text-overflow: clip;
+		/* text-overflow: clip; */
 		transform: translateX(-100%);
 	}
 	100% {
 		line-height: auto;
 		margin-top: 0.25em;
 		margin-bottom: 0.5em;
-		text-overflow: unset;
+		/* text-overflow: unset; */
 		transform: translateX(0);
 	}
 }
@@ -414,10 +414,11 @@ tr.total {
 	position: relative;
     left: 50%;
     transform: translateX(-50%);
+	transform-origin: left;
 	padding: 0;
 	box-sizing: content-box;
 	transition: 0.5s;
-	transition-property: border-color;
+	transition-property: border-color, scale;
 	background-color: black;
 	text-align: center;
 	max-width: 7em;
@@ -427,6 +428,9 @@ tr.total {
 }
 #underStats:has(#nextDay[disabled="true"]):hover {
 	border-color: gray
+}
+#underStats:active {
+	scale: 0.95;
 }
 #nextDay {
 	height: 1.75em;
@@ -559,6 +563,21 @@ tr.total {
 .actionItem.actionSort::after {
 	content: "..."
 }
+.actionItem .settingValue {
+	font-style: normal;
+	color: rgb(255, 255, 153);
+}
+.actionItem.on .settingValue {
+	color: rgb(153, 255, 153);
+}
+.actionItem.off .settingValue, .actionItem.danger, .popupButton.danger {
+	color: rgb(255, 153, 153);
+}
+.actionItem.default .settingValue {
+	font-style: italic;
+	color: inherit;
+	opacity: 0.5;
+}
 #actionSubpanelClose:active {
 	transform: translateX(-0.2em);
 }
@@ -579,8 +598,14 @@ tr.total {
 	-moz-user-select: none; /* Old versions of Firefox */
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none;
+	font-smooth: never;
+    -webkit-font-smoothing : none;
+	-moz-osx-font-smoothing: grayscale;
 	/* max-width: 700px; */
 	/* cursor: pointer; */
+}
+#mapCanvas.zoomed {
+	cursor: all-scroll;
 }
 
 .panelX {
@@ -662,7 +687,8 @@ tr.total {
 	background-repeat: no-repeat;
 	background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
 	background-attachment: local, local, scroll, scroll;
-	background-color: rgb(26, 26, 26);
+	background-color: rgba(26, 26, 26, 0.75);
+	backdrop-filter: blur(3px);
 	/* height: 97%; */
 	width: 97%;
 	min-height: 10em;
@@ -670,20 +696,25 @@ tr.total {
 	max-height: 90%;
 	box-sizing: border-box;
 	left: 50%;
-	top: 45%;
+	top: 50%;
 	/* z-index: -1; */
-	transform: translateX(-50%) translateY(-45%);
+	transform: translateX(-50%) translateY(-50%);
 	overflow: hidden;
 	opacity: 0;
 	filter: opacity(0%);
-	transition: 0.2s;
-	transition-property: opacity filter;
+	transition: opacity 0.2s, filter 0.2s, backdrop-filter 1.5s, background-color 1.5s;
+	/* transition-property: opacity filter; */
 	overflow-y: scroll;
 	touch-action: none;
 	pointer-events: none;
 	visibility: hidden;
 
 	/* animation: 0.2s ease-out 0s 1 popup; */
+}
+.gamePopup:hover {
+	transition: backdrop-filter 0.5s, background-color 0.5s;
+	background-color: rgba(26, 26, 26, 0.85);
+	backdrop-filter: blur(10px);
 }
 .gamePopup.popupShown {
 	opacity: 1;
@@ -703,6 +734,13 @@ tr.total {
 	flex-grow: 1;
 	align-self: center;
 	font-size: 1.4em;
+}
+.font2 {
+	padding-top: 2px;
+	padding-bottom: 3px;
+}
+.gamePopup .font2 {
+	font-size: 20px;
 }
 .gamePopup .popupTitle {
 	display: none;
@@ -1027,5 +1065,17 @@ tr.total {
 		padding-left: 1em;
 		padding-right: 1em;
 		text-align: justify;
+	}
+	#statsPanel.preview {
+		display: unset;
+		height: 50% !important;
+		position: absolute;
+		bottom: 0;
+		top: unset;
+		/* max-width: 100vw; */
+		/* overflow-x: clip; */
+		left: 0;
+		width: 100vw;
+		transform: unset;
 	}
 }

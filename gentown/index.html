@@ -42,11 +42,14 @@ This HTML and its contents are property of R74n.com.
 
     <script src="../load.js"></script>
     
+    <link rel="preload" href="fonts/PublicPixel.ttf" type="font/ttf" as="font" />
+    <link rel="preload" href="fonts/VT323-Regular.ttf" type="font/ttf" as="font" />
     <link rel="stylesheet" type="text/css" href="gentown.css">
     <script src="perlin.js"></script>
     <script src="../textviewer/standalone.js"></script>
     <script src="gentown-data.js"></script>
     <script src="gentown.js" defer></script>
+    <script src="gentown-mass.js"></script>
 
     <style>
       @font-face {
@@ -62,17 +65,16 @@ This HTML and its contents are property of R74n.com.
         font-size: 25px
       }
       .font2 {
-        font-family: 'PublicPixel', monospace;
+        font-family: 'PublicPixel', 'VT323', monospace;
         font-variant-emoji: text;
         font-size: 14px;
         direction: ltr;
-        padding-top: 2px;
-        padding-bottom: 3px;
+        overflow-wrap: anywhere;
       }
     </style>
 
     <script>
-      gameVersion = "0.4.2";
+      gameVersion = "0.5";
       saveVersion = "gt1";
     </script>
 </head>
@@ -91,7 +93,7 @@ This HTML and its contents are property of R74n.com.
   JavaScript is required to play GenTown.
 </noscript>
 
-<span id="gameLoading">Loading GenTown...</span>
+<span id="gameLoading">Loading GenTown...<span class="font2"></span></span>
 
 <div id="gameDiv" style="display:none">
   <div class="gameHalf" id="gameHalf1">
@@ -110,7 +112,7 @@ This HTML and its contents are property of R74n.com.
       <div class="gamePanel" id="statsPanel">
         <div id="statsMain">
           <div class="panelX" onclick="handleX(this); closePopups();">X</div>
-          <span class="panelTitle">Day <span id="dayNumber">123</span></span>
+          <span class="panelTitle"><span id="dayNumber">123</span></span>
           <div id="statsDiv">
             <span class="panelSubtitle">[Global]</span>
             <span>Population: 0</span>
@@ -123,7 +125,7 @@ This HTML and its contents are property of R74n.com.
     </div>
     <div id="gameHalf1-2">
       <div class="gamePanel mobileBar noSelect" id="mobileControlBar">
-        <span>Day <span id="dayNumberMobile">123</span></span>
+        <span><span id="dayNumberMobile">123</span></span>
         <span id="nextDayMobile" class="nextDay" disabled="true" tabindex="0" role="button">Next Day ▷</span>
       </div>
       <div class="gamePanel" id="logPanel">
@@ -144,7 +146,7 @@ This HTML and its contents are property of R74n.com.
           <span class="panelTitle">Executive</span>
         </div>
         <div>
-          <span class="actionItem clickable" disabled="true" id="actionSettings" role="button">Settings</span>
+          <span class="actionItem clickable" id="actionSettings" role="button">Settings</span>
           <span class="actionItem clickable" id="actionSaves" role="button">Saves</span>
           <span class="actionItem clickable" id="actionInfo" role="button">Beta</span>
         </div>

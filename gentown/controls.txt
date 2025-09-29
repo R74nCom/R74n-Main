@@ -1,8 +1,11 @@
 == Controls ==
 * Right click or 'P' on map to pin chunk
 * Enter or Spacebar to progress to next day
-* Number keys to change view
 * Escape to close menus or unpin chunk
+* Shift to show town names on map
+* Number keys to change view
+* 'V' to open Select View
+* '\' to open Settings
 
 == Technical ==
 * Ctrl + Click entity name to copy ID

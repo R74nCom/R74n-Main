@@ -1,3 +1,54 @@
+[Version 0.5 - 30 Sep 2025]
+ + Construction Projects
+     + Towns with Stoneworking unlocked can start projects
+     + Projects use building material each day
+     + When completed, a landmark appears on the map and the town is influenced
+     + Landmark naming prompt
+ + Natural Disasters
+     + Rare events around the map that can kill or injure residents, destroy landmarks
+     + Wildfires
+     + Hurricanes
+     + Earthquakes
+ + Settings tab
+     + Units setting, view numbers in metric or imperial units
+     + Dates setting, view dates in Gregorian format
+     + Hold 'Shift' to show town names on the map, or enable in Settings
+     + Carve borders setting to remove square borders around water
+     + Marker setting to hide landmarks on map
+     + Desaturate Biomes accessibility setting
+ + Towns celebrate each 100th day anniversary
+ + Temporary influences
+     ~ Towns made unhappy from starving will become happier after food is returned
+ + Town migration transfers some influences
+ + Projects tab, unlocked after a project begins
+ + Timeline tab, unlocked after a project or other event ends
+ + Towns can adopt national animals
+ + Some special town names add attributes to the town
+ + Planet info shows continents, circumference, and volume
+ + Landmass info shows the current planet and plate size
+ + Town info shows average elevation
+ + Stats display on mobile when touching over the canvas
+ + Destructive options are colored red
+ + Global colony cooldown
+ ~ Deep-sea regions are labeled as Trenches
+ ~ Some livestock are based on others when a new planet is formed
+ ~ Livestock taming no longer uses chunk fertility
+ ~ Next Day button shrinks when clicked
+ ~ Town flags can have their initial as their emblem
+ ~ Black and white are more common in flag designs
+ ~ Popups backgrounds are translucent unless hovered over
+ ~ Mountain town names are shorter
+ ~ Town names can't have three of the same letter in a row
+ ~ Improved plural generator for names ending in 'y'
+ ~ Temperature view no longer shows towns
+ ~ Player name is stored in settings instead of the planet
+ ~ Fixed: Canvas size gets stuck when zooming on mobile
+ ~ Fixed: Towns with -10 Hunger influence don't eat
+ ~ Fixed: Planet info shows pixel size instead of chunk size
+ ~ Fixed: Colonies can become cities before towns
+ + Link to R74n in Beta tab
+ + Technical: System for updating loaded planets with new data
+
 [Version 0.4.2 - 17 Sep 2025]
  + Towns can adopt auto-generated flags which display next to their names
  ~ Mountains are more common, appearing anywhere with 100% elevation
@@ -12,18 +63,18 @@
 
 [Version 0.4 - 15 Sep 2025]
  + Migration
-   + Population, resources, and jobs are transferred during migration
-   + Emigration occurs when a colony is formed, increasing if the town is unhappy
-   + Mass migration events occur when a town is unhappy and travel is unlocked
+     + Population, resources, and jobs are transferred during migration
+     + Emigration occurs when a colony is formed, increasing if the town is unhappy
+     + Mass migration events occur when a town is unhappy and travel is unlocked
  + Towns and Almanac tabs can be sorted
  + Towns can tame and eat livestock
  + New towns with 2 or less territory are labeled as Microtowns
  + Town status upgrade messages show a green day number
  ~ Beta button changes
-   + Changelog button
-   + Update notification
-   + Version number displayed
-   ~ The Beta button will become a general info button in the future
+     + Changelog button
+     + Update notification
+     + Version number displayed
+     ~ The Beta button will become a general info button in the future
  ~ Colonies no longer form with just 1 population
  ~ Births can no longer happen with less than 2 population
  ~ Fixed: Text prompts don't display influence changes afterwards
@@ -45,7 +96,7 @@
 
 [Version 0.3.4 - 13 Sep 2025]
  + Town status upgrades based on population
-   + Colony, Town, City, Metropolis, Nation, and Empires
+     + Colony, Town, City, Metropolis, Nation, and Empires
  + Colony names can start with "North", "East", etc. based on direction
  + Towns placed near mountains will start with "Monte"
  + Some towns placed near water will start with "Cape"
@@ -74,16 +125,16 @@
 
 [Version 0.3.2 - 8 Sep 2025]
  ~ Revamped Stats panel
-    + All town populations and their moods are now shown neatly
-    + Planet name is shown
-    ~ On hover, landmass and water names are shown
-    ~ On hover, town population is shown alongside resources
-    ~ Town names are sorted by population
+ + All town populations and their moods are now shown neatly
+ + Planet name is shown
+ ~ On hover, landmass and water names are shown
+ ~ On hover, town population is shown alongside resources
+ ~ Town names are sorted by population
  + Almanac
  ~ Executive buttons must be unlocked
-    + The new Almanac is unlocked after a domestication event
-    ~ Unlocks button is unlocked after an unlock event
-    ~ Town button is unlocked after your town is created
+ + The new Almanac is unlocked after a domestication event
+ ~ Unlocks button is unlocked after an unlock event
+ ~ Town button is unlocked after your town is created
  + Biome information can be browsed by clicking its name or in Terrain view
  ~ Entity names are animated when hovered or clicked
  ~ Town resource capacity is limited by territory size

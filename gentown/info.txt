@@ -30,10 +30,3 @@ game event
         prompt
 influence
 job
-
-
----
-
-
-a = setInterval(nextDay, 100);
-clearInterval(a);
