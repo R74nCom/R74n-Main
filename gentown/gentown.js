@@ -611,7 +611,7 @@ function readyEvent(eventClass, subject=null, target=null) {
 	if (!subject && eventInfo.subject && eventInfo.subject.reg) {
 		let regname = eventInfo.subject.reg;
 		if (eventInfo.subject.random) {
-			subject = choose(regToArray(regname));
+			subject = choose(regFilter(regname, (r) => !r.start || (planet.day - r.start > 1)));
 			if (!subject) return;
 		}
 		else if (eventInfo.subject.all) {
@@ -635,7 +635,7 @@ function readyEvent(eventClass, subject=null, target=null) {
 	if (!target && eventInfo.target && eventInfo.target.reg) {
 		let regname = eventInfo.target.reg;
 		if (eventInfo.target.random) {
-			target = choose(regToArray(regname));
+			target = choose(regFilter(regname, (r) => !r.start || (planet.day - r.start > 1)));
 			if (!target) return;
 			if (subject == target) choose(regToArray(regname));
 			if (subject == target) return;
@@ -1425,19 +1425,22 @@ function nearestChunk(chunkX,chunkY,check,stop) {
 	return null;
 }
 function randomChunk(check) {
-	let checked = {};
-	let tries = 0;
-	let chunksX = Math.floor(planetWidth/chunkSize);
-	let chunksY = Math.floor(planetHeight/chunkSize);
-	let maxTries = chunksX*chunksY;
-	while (tries < maxTries) {
-		tries++;
-		let chunkKey = randRange(0,chunksX) + "," + randRange(0,chunksY);
-		if (checked[chunkKey] || !planet.chunks[chunkKey]) continue;
-		if (check(planet.chunks[chunkKey])) return planet.chunks[chunkKey];
-	}
-	return null;
+	return choose(filterChunks(check));
 }
+// function randomChunk(check) {
+// 	let checked = {};
+// 	let tries = 0;
+// 	let chunksX = Math.floor(planetWidth/chunkSize);
+// 	let chunksY = Math.floor(planetHeight/chunkSize);
+// 	let maxTries = chunksX*chunksY;
+// 	while (tries < maxTries) {
+// 		tries++;
+// 		let chunkKey = randRange(0,chunksX) + "," + randRange(0,chunksY);
+// 		if (checked[chunkKey] || !planet.chunks[chunkKey]) continue;
+// 		if (check(planet.chunks[chunkKey])) return planet.chunks[chunkKey];
+// 	}
+// 	return null;
+// }
 function filterChunks(check) {
 	let results = [];
 	for (let chunkKey in planet.chunks) {
@@ -1456,6 +1459,13 @@ function chunkIsNearby(chunkX, chunkY, check, radius=5) {
 	return false;
 }
 
+function distanceCoords(x1, y1, x2, y2) {
+	const a = x1 - x2;
+	const b = y1 - y2;
+
+	return Math.sqrt( a*a + b*b );
+}
+
 function circleCoords(chunkX,chunkY,radius) {
 	let coords = [];
 	for (let i = Math.max(0, chunkX - radius); i <= Math.min(planetWidth, chunkX + radius); i++) {
@@ -1467,12 +1477,17 @@ function circleCoords(chunkX,chunkY,radius) {
 	}
 	return coords;
 }
-function circleChunks(chunkX,chunkY,radius) {
+function circleChunks(chunkX,chunkY,radius,taper=false) {
 	const coords = circleCoords(chunkX,chunkY,radius);
 	let chunks = [];
 	coords.forEach((coord) => {
 		const chunk = chunkAt(coord.x, coord.y);
-		if (chunk) chunks.push(chunk);
+		if (!chunk) return;
+		if (taper === true) {
+			const distance = distanceCoords(chunkX, chunkY, coord.x, coord.y);
+			if (distance/radius > 0.5 && Math.random() < distance/radius) return;
+		}
+		chunks.push(chunk);
 	})
 	return chunks;
 }
@@ -2722,7 +2737,7 @@ function logTomorrow(text, type, args) {
 	planet.nextDayMessages.push([text,type,args]);
 }
 function logWarning(type, text) {
-	if (planet.warnings[type] && planet.day - planet.warnings[type] < 10) return false;
+	if (planet.warnings[type] && planet.day - planet.warnings[type] < $c.warningCooldown) return false;
 	planet.warnings[type] = planet.day;
 	(sunsetting ? logTomorrow : logMessage)(text, "warning");
 }
@@ -2772,6 +2787,13 @@ function reportInfluences(uuid, oldInfluences, newInfluences) {
 	}
 
 	if (text) logSub(uuid, text);
+}
+
+function killPlanet() {
+	logMessage("There are no more settlements on Planet {{planet}}.");
+	logTip("deadPlanet", "You may want to start a new planet.");
+	document.getElementById("actionSaves").classList.add("notify");
+	planet.dead = true;
 }
 
 
@@ -2873,8 +2895,7 @@ function nextDay(e) {
 	}
 
 	if (!regCount("town") && !planet.dead) {
-		logMessage("There are no more settlements on Planet {{planet}}.")
-		planet.dead = true;
+		killPlanet();
 	}
 
 	// skip events when failing additional checks
@@ -2894,7 +2915,7 @@ function nextDay(e) {
 		else break;
 	}
 
-	if (planet.dead && !(eventCaller.subject && eventCaller.subject._reg === "nature")) eventCaller = undefined;
+	if (eventCaller && planet.dead && !(eventCaller.subject && eventCaller.subject._reg === "nature")) eventCaller = undefined;
 
 	if (eventCaller && !eventCaller.target && randomEvents[eventCaller.eventClass].target) eventCaller = undefined;
 	if (eventCaller) {
@@ -3079,7 +3100,7 @@ function nextDay(e) {
 			logAct.appendChild(logNo);
 			logAct.appendChild(logYes);
 		}
-		messageElement.appendChild(logAct);
+		if (logAct.innerHTML.length) messageElement.appendChild(logAct);
 	}
 	else if (!planet.dead) {
 		logMessage("An uneventful day.");
@@ -3476,6 +3497,28 @@ function generateSave() {
 	chunkData.b = compressChunkData(chunkData.b);
 	chunkData.v = chunkData.v.slice(0, -1).replace(/\{\}\t/g,"§").replace(/§§§§§§/g,"¦");
 
+	for (const regname in json.planet.reg) {
+		for (const id in json.planet.reg[regname]) {
+			const data = json.planet.reg[regname][id];
+			if (data.delete) {
+				delete json.planet.reg[regname][id];
+				continue;
+			}
+			const keys = Object.keys(data);
+			keys.forEach((key) => {
+				if (!codes[key]) {
+					let char = String.fromCharCode(codeN);
+					codes[key] = char;
+					codesReverse[char] = key;
+					codeN++;
+					if (unicodeSkips[codeN]) codeN = unicodeSkips[codeN];
+				}
+				data[codes[key]] = data[key];
+				delete data[key];
+			})
+		}
+	}
+
 	json.codes = codesReverse;
 	json.chunkData = chunkData;
 
@@ -3484,26 +3527,15 @@ function generateSave() {
 
 function parseSave(json) {
 	planet = json.planet;
-	reg = json.planet.reg;
 	planetHeight = json.planetHeight;
 	planetWidth = json.planetWidth;
 	chunkSize = json.chunkSize;
 	waterLevel = json.waterLevel;
 
-	usedNames = {};
-	for (const regname in reg) {
-		for (const id in reg[regname]) {
-			const data = reg[regname][id];
-			if (!isNaN(data)) continue;
-
-			if (data.name) usedNames[data.name.toLowerCase()] = true;
-
-			reg[regname][id]._reg = regname;
-		}
-	}
-
 	planet.created = json.meta.created || json.meta.saved || Date.now();
 	planet.saved = json.meta.saved || json.meta.created || Date.now();
+	
+	let saveVer = parseInt(json.meta.saveVersion.split("gt")[1]);
 
 	let codes = json.codes;
 	let chunkData = json.chunkData;
@@ -3556,6 +3588,35 @@ function parseSave(json) {
 
 	planet.chunks = chunks;
 
+	if (saveVer >= 2) {
+		for (const regname in json.planet.reg) {
+			for (const id in json.planet.reg[regname]) {
+				const data = json.planet.reg[regname][id];
+				const keys = Object.keys(data);
+				keys.forEach((key) => {
+					if (codes[key]) {
+						data[codes[key]] = data[key];
+						delete data[key];
+					}
+				})
+			}
+		}
+	}
+
+	reg = json.planet.reg;
+
+	usedNames = {};
+	for (const regname in reg) {
+		for (const id in reg[regname]) {
+			const data = reg[regname][id];
+			if (!isNaN(data)) continue;
+
+			if (data.name) usedNames[data.name.toLowerCase()] = true;
+
+			reg[regname][id]._reg = regname;
+		}
+	}
+
 	validatePlanet();
 
 	initGame();
@@ -3566,7 +3627,9 @@ function parseSave(json) {
 		saveSettings();
 	}
 
-	logMessage("The Sun rises on Planet {{planet}}...")
+	logMessage("The Sun rises on Planet {{planet}}...");
+
+	if (planet.dead) killPlanet();
 }
 
 
@@ -4024,6 +4087,7 @@ window.addEventListener("load", function(){ //onload
 					text += `{{regname:process|${process.id}}}`;
 				}
 				if (process.deaths) text += " kills "+process.deaths;
+				else if (process.type === "disaster" && !process.injuries) return;
 				items.push({
 					text: text,
 					func: () => regBrowse("process", process.id),
@@ -4044,7 +4108,7 @@ window.addEventListener("load", function(){ //onload
 			setting: "units",
 			options: { "x": "Simple", "i": "Imperial", "m": "Metric" },
 			default: "x",
-			tip: "Appears in entity info",
+			tip: "Displays in entity info and preview",
 			func: () => {
 				updateStats();
 			}
@@ -4054,6 +4118,7 @@ window.addEventListener("load", function(){ //onload
 			setting: "dates",
 			options: { "x": "Simple", "g": "Gregorian" },
 			default: "x",
+			tip: "Displays in entity info and preview",
 			func: () => {
 				updateStats();
 				document.querySelectorAll(".logDay").forEach(elem => {
@@ -4075,6 +4140,7 @@ window.addEventListener("load", function(){ //onload
 			setting: "carve",
 			options: { "true": "Enabled", "false": "Disabled" },
 			default: "false",
+			tip: "Removes square borders along the coastline",
 			func: () => { renderHighlight(); updateCanvas(); }
 		},
 		{
@@ -4157,6 +4223,7 @@ window.addEventListener("load", function(){ //onload
 					danger: true
 				})
 			},
+			notify: planet.dead,
 			danger: true
 		}
 	], "Save Options")

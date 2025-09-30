@@ -1,5 +1,9 @@
 html, body {
 	overscroll-behavior: none;
+	color-scheme: only dark;
+}
+:root {
+	color-scheme: only dark;
 }
 
 .content {
@@ -58,8 +62,8 @@ html, body {
 	background: black;
 }
 .gamePanel::-webkit-scrollbar, #gameDiv::-webkit-scrollbar, #gameHalf1-2::-webkit-scrollbar { /* WebKit */
-		width: 0;
-		height: 0;
+	width: 0;
+	height: 0;
 }
 .gamePanel, #gameDiv, #gameHalf1-2 {
 	scrollbar-width: none; /* Firefox */
@@ -375,6 +379,7 @@ span.none {
 #statsDiv td {
 	width: fit-content;
 	opacity: 0.8;
+	text-wrap-mode: nowrap;
 }
 #statsDiv td:first-of-type {
 	text-align: right;
@@ -729,6 +734,7 @@ tr.total {
 }
 #promptPopup .popupContent {
 	overflow-y: scroll;
+	max-width: 95%;
 }
 .gamePopup .popupContent, .gamePopup .popupTitle {
 	flex-grow: 1;
@@ -1077,5 +1083,8 @@ tr.total {
 		left: 0;
 		width: 100vw;
 		transform: unset;
+	}
+	#statsPanel.preview .panelTitle {
+		display: none;
 	}
 }

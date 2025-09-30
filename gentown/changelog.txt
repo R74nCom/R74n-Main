@@ -1,3 +1,27 @@
+[Version 0.5.1 - 30 Sep 2025]
+ + Underpopulated towns begin to decay
+     + Towns with 1 population or a low population density will lose territory
+ ~ Boating is separate from expansion
+     + Boating event allows towns to dock once on each landmass
+     ~ Hopefully fixes ugly town borders
+ + Tip and notification when a planet dies out
+ ~ Disasters that don't affect towns no longer show in Timeline tab
+ ~ Disasters that don't affect towns are excluded from saves
+ ~ Disasters are no longer perfectly circular
+ ~ Wildfires don't start in snowscapes
+ ~ Highway landmarks are less dark
+ ~ Warnings repeat after 20 days instead of 10
+ ~ Less text wrapping in towns table
+ ~ Mobile hover preview no longer shows day number
+ ~ Scrollbars should appear dark-themed
+ ~ Improved save compression
+ ~ Fixed: Landmarks are displayed as "Marker" instead of their type
+ ~ Fixed: Colonies can have events immediately after founding
+ ~ Fixed: Wildfires can spread onto water
+ ~ Fixed: Empty space under some messages, notably migration
+ ~ Fixed: Changelog looks bad on mobile
+ ~ Fixed: Towns can tame animals before unlocking Husbandry
+
 [Version 0.5 - 29 Sep 2025]
  + Construction Projects
      + Towns with Stoneworking unlocked can start projects

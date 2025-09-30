@@ -25,6 +25,8 @@ constants = {
 	colonyCooldown: 25,
 	daysPerColony: 30,
 	colonyNameSuffixRate: 0.2,
+	baseDecayRate: 0.75,
+	minPopulationDensity: 0.1,
 	baseEatRate: 0.2,
 	noFoodHappyInfluence: -1.25,
 	lowFoodHappyInfluence: -0.75,
@@ -33,7 +35,8 @@ constants = {
 	maxInfluence: 10,
 	minInfluence: -10,
 	townProjectCooldown: 30,
-	townSyllables: 3
+	townSyllables: 3,
+	warningCooldown: 20
 }
 
 $c = constants;
@@ -205,6 +208,9 @@ actionables = {
 				target.center = [result.x, result.y];
 
 				return target;
+			},
+			Landmasses: (subject,target,args) => {
+				return [...new Set(filterChunks((c) => c.v.s === target.id).map((c) => c.v.g))];
 			},
 			CountResource: (subject,target,args) => {
 				if (!target.resources) return 0;
@@ -535,6 +541,9 @@ actionables = {
 					let data = actionables.process._disasterSubtypes[target.subtype] || {};
 
 					if (target.deaths || target.injuries) unlockExecutive("timeline");
+					else {
+						data.delete = true;
+					}
 
 					delete target.chunks;
 				}
@@ -618,7 +627,7 @@ actionables = {
 			},
 			"highway": {
 				symbol: "ǁ",
-				color: [43, 43, 43],
+				color: [110, 110, 110],
 				influences: { travel:2, trade:2, happy:-1 },
 				needsUnlock: { travel:40 },
 				nameTemplate: "Route $"
@@ -631,6 +640,7 @@ actionables = {
 				message: "Brush catches fire, causing [NAME] $.",
 				messageDone: "[NAME] $ is extinguished.",
 				color: [255, 0, 0],
+				excludeBiome: ["snow"],
 				
 				deathRate: 1,
 				destroy: true,
@@ -667,7 +677,7 @@ actionables = {
 		asTarget: {
 			Create: (subject,target,args) => {
 				target = regAdd("marker", {
-					name: args.name || "Marker",
+					name: args.name,
 					type: args.type || "marker",
 					x: args.x,
 					y: args.y,
@@ -772,10 +782,13 @@ gameEvents = {
 		subject: { reg: "town", all: true },
 		func: (subject, target, args) => {
 			let expandRate = addInfluence($c.baseExpandRate + (subject.size/50), subject, "travel");
+			
+			if ((subject.pop === 1 || subject.pop/subject.size <= $c.minPopulationDensity)) return;
+
 			if (Math.random() < expandRate) {
 				let chunk = randomChunk((c) => c.v.s === subject.id);
 				if (chunk) {
-					let newChunk = nearestChunk(chunk.x, chunk.y, (c) => c.v.s === undefined && c.b !== "water", (c) => ((!planet.unlocks.travel || planet.unlocks.travel < 30) && c.b === "water") || c.b === "mountain" || (c.v.s && c.v.s !== subject.id));
+					let newChunk = nearestChunk(chunk.x, chunk.y, (c) => c.v.s === undefined && c.b !== "water", (c) => c.b === "water" || c.b === "mountain" || (c.v.s && c.v.s !== subject.id));
 					if (newChunk) {
 						let colonyRate = $c.baseColonyRate;
 						
@@ -792,8 +805,9 @@ gameEvents = {
 
 						if (Math.random() < colonyRate) {
 							let limit = Math.floor(addInfluence(50, subject, "travel"));
-							let possibleChunks = floodFill(newChunk.x, newChunk.y, (c) => c.v.s === undefined && c.b !== "water" && c.b !== "mountain", limit );
+							let possibleChunks = floodFill(newChunk.x, newChunk.y, (c) => c.v.s === undefined && !biomes[c.b].infertile && c.b !== "water" && c.b !== "mountain", limit );
 							let colonyChunk = choose(possibleChunks);
+							if (!colonyChunk) return;
 
 							let newTown = happen("Create", subject, null, {x:colonyChunk.x, y:colonyChunk.y, pop:0}, "town");
 							subject.lastColony = planet.day;
@@ -848,6 +862,35 @@ gameEvents = {
 					}
 				}
 			}
+		}
+	},
+	"townBoat": {
+		random: true,
+		auto: true,
+		subject: { reg: "town", random: true },
+		value: (subject, _) => {
+			let landmasses = happen("Landmasses", null, subject);
+			let chunk = randomChunk((c) => c.v.s === subject.id);
+			if (!chunk) return false;
+			newChunk = nearestChunk(chunk.x, chunk.y, (c) => c.v.s === undefined && c.b !== "water" && c.b !== "mountain" && !landmasses.includes(c.v.g), (c) => c.v.s && c.v.s !== subject.id);
+			if (!newChunk) return false;
+			return newChunk;
+		},
+		func: (subject, _, args) => {
+			let newChunk = args.value;
+			let chunks = floodFill(newChunk.x, newChunk.y, (c) => c.b !== "water" && c.b !== "mountain" && c.v.s === undefined, 5);
+			chunks.forEach((c) => {
+				c.v.s = subject.id;
+				subject.size ++;
+			})
+		},
+		message: (subject, _, args) => `Ships from {{regname:town|${subject.id}}} dock on {{regname:landmass|${args.value.v.g}}}.`,
+		weight: 5,
+		influencedBy: {
+			travel: 1
+		},
+		needsUnlock: {
+			travel: 30
 		}
 	},
 	"townEat": {
@@ -956,6 +999,7 @@ gameEvents = {
 			}
 		},
 		func: (subject, target, args) => {
+			if (planet.unlocks.farm >= 20) return;
 			if (!args.value) return;
 			args.value = Math.floor(Math.min(subject.pop * (randRange(1,10) / 10), args.value));
 			args.value = Math.min(args.value, subject.size);
@@ -1015,6 +1059,12 @@ gameEvents = {
 			if (subject.pop <= 0) {
 				happen("End",null,subject);
 				return;
+			}
+
+			if ((subject.pop === 1 || subject.pop/subject.size <= $c.minPopulationDensity) && Math.random() < $c.baseDecayRate) {
+				logWarning("decay"+subject.id, `{{regname:town|${subject.id}}} is decaying due to underpopulation.`);
+				let chunk = randomChunk((c) => c.v.s === subject.id);
+				happen("Unclaim", null, subject, {x:chunk.x, y:chunk.y});
 			}
 
 			if (!subject.center) {
@@ -1078,7 +1128,7 @@ gameEvents = {
 		daily: true,
 		subject: { reg:"town", filter: (town) => (planet.day - town.start) % 100 === 0 && (planet.day - town.start) },
 		func: (subject) => {
-			logMessage(`{{residents|${subject.id}}} celebrate {{num:${planet.day - subject.start}}} days since its founding.`, "milestone");
+			logMessage(`{{residents|${subject.id}}} celebrate {{num:${planet.day - subject.start}}} days since their town's founding.`, "milestone");
 			happen("Influence", null, subject, {temp:true, happy:1})
 		}
 	},
@@ -1156,6 +1206,7 @@ gameEvents = {
 						let adjacent = choose(adjacentCoords);
 						let newChunk = chunkAt(chunk.x + adjacent[0], chunk.y + adjacent[1]);
 						if (!newChunk) return;
+						if (data.location !== "any" && newChunk.b === "water") return;
 						let exists = subject.chunks.filter((co) => co[0] === newChunk.x && co[1] === newChunk.y).length;
 						if (!exists) {
 							subject.chunks.push([newChunk.x, newChunk.y]);
@@ -1737,16 +1788,16 @@ gameEvents = {
 			let locationDesc;
 			
 			if (data.location === "land" || !data.location) {
-				chunk = randomChunk((c) => c.b !== "water");
+				chunk = randomChunk((c) => c.b !== "water" && (!data.excludeBiome || !data.excludeBiome.includes(c.b)));
 				locationDesc = "on";
 			}
 			else if (data.location === "shore") {
 				origChunk = randomChunk((c) => c.b === "water");
-				chunk = nearestChunk(origChunk.x, origChunk.y, (c) => c.b !== "water");
+				chunk = nearestChunk(origChunk.x, origChunk.y, (c) => c.b !== "water" && (!data.excludeBiome || !data.excludeBiome.includes(c.b)));
 				locationDesc = "on the coast of";
 			}
 			else if (data.location === "any") {
-				chunk = randomChunk(() => true);
+				chunk = randomChunk(() => (!data.excludeBiome || !data.excludeBiome.includes(c.b)));
 				locationDesc = "on the coast of";
 			}
 
@@ -1760,7 +1811,7 @@ gameEvents = {
 			locationDesc += " {{regname:landmass|"+landmass+"}}";
 
 			let chunks;
-			if (data.radius) chunks = circleChunks(chunk.x, chunk.y, data.radius);
+			if (data.radius) chunks = circleChunks(chunk.x, chunk.y, data.radius, true);
 			else chunks = [chunk];
 
 			if (data.location !== "any") chunks = chunks.filter((c) => c.b !== "water");
@@ -2301,6 +2352,21 @@ regBrowserExtra = {
 		"color": (process) => {
 			if (process.subtype) {
 				if (process.type === "project") {
+					return actionables.process._projectSubtypes[process.subtype].color;
+				}
+				if (process.type === "disaster") {
+					return actionables.process._disasterSubtypes[process.subtype].color;
+				}
+			}
+		}
+	},
+	marker: {
+		"name": (process) => {
+			if (process.subtype) return titleCase(process.subtype);
+		},
+		"color": (process) => {
+			if (process.subtype) {
+				if (process.type === "landmark") {
 					return actionables.process._projectSubtypes[process.subtype].color;
 				}
 				if (process.type === "disaster") {
