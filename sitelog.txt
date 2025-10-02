@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-10-02 - Inverted some images in Translation Hub
+2025-10-02 - Corrected some link categories in Link Dump
 2025-09-25 - Created /blank
 2025-09-25 - Added more 404 redirects
 2025-09-25 - Created community.txt

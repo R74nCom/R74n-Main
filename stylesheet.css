@@ -257,6 +257,7 @@ th {background-color:#00ffff;color:black}
 tr:nth-child(odd){background-color: #272727;}
 .fullTable {margin-left:0;min-width:100%;max-width:unset;overflow-wrap:unset}
 .imgtext { height:1em }
+img.invert { filter:invert(1) }
 
 .linkcategory {color:yellow}
 h2.linkcategory, h3.linkcategory {font-size: 1em;margin-block-start: 0;}

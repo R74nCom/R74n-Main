@@ -47,6 +47,7 @@ This HTML and its contents are property of R74n.com.
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <script src="data.js"></script>
+    <script src="../cook/foodData.js"></script>
 
     <script>
       const commentTypes = {
@@ -175,6 +176,15 @@ This HTML and its contents are property of R74n.com.
         }
         element.setAttribute("src", src);
       }
+      function toggleVisible(element) {
+        if (element.style.opacity === "0") {
+          element.style.opacity = "100%";
+          element.style.whiteSpace = "pre";
+          return;
+        }
+        element.style.opacity = "0%";
+        element.style.whiteSpace = "";
+      }
 
       function openTab(name) {
         document.querySelectorAll(".content .tab").forEach((tab) => {
@@ -182,26 +192,43 @@ This HTML and its contents are property of R74n.com.
         })
       }
 
-      function generateIdea() {
+      function generateIdea(type=null) {
         openTab("Comments");
         const commentType = choose(Object.keys(commentTypes));
         const comment = document.querySelector("."+commentType);
         comment.style.display = "flex";
+        
+        const mod = type === "mod" ? choose(Object.keys(makeableModded)) : null;
 
         const usernameSpan = comment.querySelector(".username");
         const dateSpan = comment.querySelector(".date");
+        const editedSpan = comment.querySelector(".edited");
         const textSpan = comment.querySelector(".text");
         const avatarImg = comment.querySelector(".mainAvatar");
         const likeIcon = comment.querySelector(".likeIcon");
         const loveIcon = comment.querySelector(".loveIcon");
         const likeCount = comment.querySelector(".likes");
+        const infoSpan = document.getElementById("extraInfo");
 
-        let text = choose(commentTemplates[choose(commentTypes[commentType].templates)]);
-        text = text.replace(/\$elem/g, elementName(choose(makeable)));
-        text = text.replace(/\$combo/g, () => {
-          let elements = choose(mixable).split(",");
-          return randomCase(elementName(elements[0]) + " and " + elementName(elements[1]));
-        });
+        let templateChoices = commentTypes[commentType].templates;
+        if (type) templateChoices = templateChoices.filter((v) => v !== "sandboxelsMix");
+
+        let text = choose(commentTemplates[choose(templateChoices)]);
+        if (type === "ic") {
+          let recipe = choose(Object.keys(dishRecipes));
+          let result = dishRecipes[recipe];
+          text = text.replace(/\$elem/g, elementName(result.replace(/=/g, "")));
+          infoSpan.innerText = recipe.replace(/\+/g, " + ").replace(/_/g, " ").replace(/@/g, "").replace(/&(\w+):/, "[$1] ").replace(/^ ?=/, " [ONLY] ");
+        }
+        else {
+          text = text.replace(/\$elem/g, elementName(choose(mod ? makeableModded[mod] : makeable)));
+          text = text.replace(/\$combo/g, () => {
+            let elements = choose(mixable).split(",");
+            return randomCase(elementName(elements[0]) + " and " + elementName(elements[1]));
+          });
+          if (mod) infoSpan.innerHTML = `<a href="https://sandboxels.r74n.com/mods/${mod}.js" target="_blank">${mod}.js</a>`
+          else infoSpan.innerHTML = "";
+        }
         text = text.replace(/\$but/g, () => choose(["", "but"]));
         text = text.replace(/\$please/g, () => choose(["", "please"]));
         text = text.replace(/\$bet/g, () => choose(["", "", "", "", "bet", "bet that", "i bet", "i bet that"]));
@@ -225,6 +252,9 @@ This HTML and its contents are property of R74n.com.
 
         if (Math.random() < 0.5) dateSpan.innerText = randRange(1,4) + "d ago";
         else dateSpan.innerText = randRange(1,23) + "h ago";
+
+        if (editedSpan.style.opacity !== "0") toggleVisible(editedSpan);
+        if (Math.random() < 0.1) toggleVisible(editedSpan);
 
         usernameSpan.innerText = chooseUsername();
       }
@@ -263,13 +293,20 @@ This HTML and its contents are property of R74n.com.
 <h1 class="pagetitle">Content Generator</h1>
 <div class="content">
 
+<p> YouTube: 
+  <button onclick="generateIdea()">Sandboxels</button>
+  <button onclick="generateIdea('mod')">Modded</button>
+  <button onclick="generateIdea('ic')">Infinite Chef</button>
+</p>
+
 <p>
-  <button onclick="generateIdea()">Generate</button>
   <button onclick="randomRecipes()">Random Recipes</button>
   <button onclick="allRecipes()">All Recipes</button>
 </p>
 
 <div id="Comments" class="tab">
+
+<p id="extraInfo"></p>
 
 <div class="youtube">
   <div class="halfVertical halfTop">
@@ -281,6 +318,7 @@ This HTML and its contents are property of R74n.com.
         @<span class="username" contenteditable>R74n</span>
         &nbsp;•&nbsp;
         <span class="date" contenteditable>2w ago</span>
+        <span class="edited" onclick="toggleVisible(this)" style="opacity:0%">(edited)</span>
       </p>
       <p class="text" contenteditable>Cellular Mitosis</p>
     </div>
