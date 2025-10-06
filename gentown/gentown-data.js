@@ -6,7 +6,6 @@ constants = {
 	markerResolution: 2,
 	defaultWaterLevel: 0.4,
 	defaultMaxPopulationPerChunk: 20,
-	buildingTechMultiplier: 20,
 	maxPopulation: (subject) => {
 		let base = $c.defaultMaxPopulationPerChunk
 		if (planet.unlocks.smith >= 50) {
