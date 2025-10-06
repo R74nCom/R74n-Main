@@ -538,6 +538,9 @@ tr.total {
 	transform: scale(97.5%);
 	color: yellow
 }
+.actionItem.clickable[disabled]:active {
+	color: red
+}
 @keyframes notify {
 		0% { background-color: rgba(124, 16, 0, 0); color:white }
 		50% { background-color: rgba(124, 16, 0, 1); color:yellow }

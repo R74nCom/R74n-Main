@@ -96,7 +96,7 @@ actionables = {
 				return target;
 			},
 			Boost: (subject,target,args) => {
-				if (target.rate === undefined) target.domesticated = planet.day;
+				if (target.domesticated === undefined) target.domesticated = planet.day;
 				target.rate = (target.rate||1) + (args.value||0.5);
 				target.rate = Math.round(target.rate * 100) / 100;
 				return target;
@@ -307,6 +307,8 @@ actionables = {
 				count = Math.min(count, maxChange);
 
 				target.pop += count;
+
+				return {count: count};
 			},
 			RemovePop: (subject,target,args) => {
 				let pop = target.pop;
@@ -347,6 +349,8 @@ actionables = {
 			},
 			Death: (subject,target,args) => {
 				let count = happen("RemovePop",subject,target, {count:args.count || 1});
+				statsAdd("death", count.count);
+				if (args.cause !== undefined) statsAdd("deathBy."+args.cause, count.count);
 				return count;
 			},
 			Migrate: (subject,target,args) => {
@@ -756,7 +760,10 @@ gameEvents = {
 			if (Math.random() < (popChange % 1)) popChange += 1;
 			popChange = Math.floor(popChange);
 
-			if (popChange) happen("AddPop", null, subject, {count: popChange});
+			if (popChange) {
+				let count = happen("AddPop", null, subject, {count: popChange}).count;
+				statsAdd("birth", count);
+			}
 		}
 	},
 	"townDeath": {
@@ -774,7 +781,7 @@ gameEvents = {
 			if (Math.random() < (popChange % 1)) popChange += 1;
 			popChange = Math.floor(popChange);
 
-			if (popChange) happen("Death", null, subject, { count: popChange });
+			if (popChange) happen("Death", null, subject, { count: popChange, cause: "natural" });
 		}
 	},
 	"townExpand": {
@@ -907,7 +914,7 @@ gameEvents = {
 			if (foodCount < 1) {
 				happen("Influence", null, subject, { "temp":true, "happy": $c.noFoodHappyInfluence });
 				logWarning("noFood"+subject.id, "{{regname:town|"+subject.id+"}} is out of food!");
-				happen("Death", null, subject, { count:randRange(1,foodCost) });
+				happen("Death", null, subject, { count:randRange(1,foodCost), cause:"starve" });
 				return;
 			}
 			else if (foodCount < subject.pop) {
@@ -1051,6 +1058,22 @@ gameEvents = {
 			}
 		},
 		check: () => planet.unlocks.smith >= 20
+	},
+	"planetCheck": {
+		daily: true,
+		subject: { reg: "nature", random: true },
+		func: (subject, target, args) => {
+
+			const totalPop = regToArray("town").reduce((n, {pop}) => n + pop, 0);
+
+			// if global population > 100 unlock stats
+			if (!planet.unlockedExecutive["stats"] && totalPop > 100) {
+				unlockExecutive("stats");
+				logTip("stats", "{{planet}} is growing fast. We can now check on global statistics.");
+			}
+
+			if (!planet.stats.peak || totalPop > planet.stats.peak) planet.stats.peak = totalPop;
+		}
 	},
 	"townCheck": {
 		daily: true,
@@ -1239,7 +1262,7 @@ gameEvents = {
 						deaths = Math.min(town.pop/town.size,deaths);
 						if (Math.random() < deaths) {
 							deaths = Math.ceil(deaths);
-							deaths = happen("Death", subject, town, {count:deaths}).count;
+							deaths = happen("Death", subject, town, {count:deaths, cause:"disaster"}).count;
 							newDeaths += deaths;
 						}
 
@@ -2255,6 +2278,13 @@ regBrowserKeys = {
 	"former": "Formerly",
 
 	"planet": "Planet",
+
+	"stats.alive": "Alive",
+	"stats.death": "Deaths",
+	"stats.birth": "Births",
+	"stats.peak": "Peak population",
+	"stats.prompt": "Acts issued",
+	"stats.towns": "Towns",
 }
 regBrowserValues = {
 	"pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}`,
@@ -2288,6 +2318,14 @@ regBrowserValues = {
 	"resource.ancestor": (value) => `{{regname:resource|${value}}}`,
 }
 regBrowserExtra = {
+	stats: {
+		"alive": () => {
+			return regToArray("town").reduce((n, {pop}) => n + pop, 0);
+		},
+		"towns": () => {
+			return regToArray("town", true).length;
+		}
+	},
 	planet: {
 		"volume": () => {
 			let volume = 0;

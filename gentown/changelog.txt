@@ -1,3 +1,12 @@
+[Version 0.5.2 - 5 Oct 2025]
+ + Save planets to files and load them later
+ + Planets keep track of basic statistics
+ + After 100 global population, the Stats tab is unlocked
+ + Unlocks tab shows a progress percentage
+ + Projects tab and Almanac show an item count
+ ~ Almanac title shows "Almanac" instead of "Resources"
+ ~ Fixed: Crops and livestock don't track their domestication date
+
 [Version 0.5.1 - 30 Sep 2025]
  + Underpopulated towns begin to decay
      + Towns with 1 population or a low population density will lose territory

@@ -532,7 +532,8 @@ function defaultPlanet() {
 		oneTimeEvents: {},
 		nextDayMessages: [],
 		warnings: {},
-		unlockedExecutive: {}
+		unlockedExecutive: {},
+		stats: {}
 	};
 }
 
@@ -1117,6 +1118,22 @@ function updateBiomes() {
 	}
 }
 
+function statsAdd(key, number) {
+	const split = key.split(".");
+	key = split[0];
+	const subkey = split[1];
+	let sub;
+	if (subkey) {
+		if (!planet.stats[key]) planet.stats[key] = {};
+		sub = planet.stats[key];
+		key = subkey;
+	}
+	else sub = planet.stats;
+
+	if (sub[key] === undefined) sub[key] = number;
+	else sub[key] += number;
+}
+
 canvasLayers = {};
 canvasLayersCtx = {};
 canvasLayersOrder = [];
@@ -1589,7 +1606,7 @@ wordComponents.CURRENCY = {
 	_: "¤"
 }
 
-badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bSxreWtlLGtpa2U=').split(",");
+badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bSxreWtlLGtpa2Usc2V4').split(",");
 
 function generateWord(syllableCount, titled=false, prefixes=null) {
 	let word = "";
@@ -2238,8 +2255,6 @@ function updateStats() {
 		html += `<td>` + "" + `</td>`;
 		html += `</tr>`;
 		html += `</table></span>`;
-
-		// html += `<span style="text-align:right">Total: ${ regToArray("town").reduce((n, {pop}) => n + pop, 0) }</span>`;
 	}
 	else {
 		let chunkKey = mousePos.chunkX+","+mousePos.chunkY;
@@ -2994,6 +3009,7 @@ function nextDay(e) {
 							}
 							else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
 							eventCaller.done = true;
+							statsAdd("prompt",1);
 							updateStats();
 							renderMap();
 							renderHighlight();
@@ -3047,6 +3063,7 @@ function nextDay(e) {
 				}
 				else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
 				eventCaller.done = true;
+				statsAdd("prompt",1);
 				updateStats();
 				// renderMap();
 				renderHighlight();
@@ -3090,6 +3107,7 @@ function nextDay(e) {
 				}
 				else if (eventInfo.messageNo) logChange(eventCaller.logID, eventInfo.messageNo);
 				eventCaller.done = true;
+				statsAdd("prompt",1);
 				updateStats();
 				// renderMap();
 				renderHighlight();
@@ -3324,6 +3342,46 @@ function autoload() {
 	json = JSON.parse(json);
 	parseSave(json);
 }
+function saveFile(btn) {
+	if (btn && btn.getAttribute("disabled")) return;
+
+	var a = document.createElement("a");
+
+	let json = generateSave();
+	let fileName = (planet.name||"Planet") + "-" + (planet.day||1);
+
+    var file = new Blob([JSON.stringify(json)], {type: 'application/vnd.R74n.gentown+json'});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName + ".planet";
+    a.click();
+
+	if (btn) btn.setAttribute("disabled","true");
+}
+function loadFile() {
+	let input = document.getElementById("saveUpload");
+
+	input.click();
+}
+document.getElementById("saveUpload").addEventListener("change", (e) => {
+	const file = e.target.files[0];
+	if (file) {
+		console.log('File selected:', file.name);
+		var reader = new FileReader();
+		reader.readAsText(file, "UTF-8");
+		console.log(file)
+		reader.onload = function (evt) {
+			let json = evt.target.result;
+			json = json.replace(/</g, "[");
+			json = json.replace(/>/g, "]");
+			json = JSON.parse(json);
+			console.log(json);
+			parseSave(json);
+		}
+		reader.onerror = function (evt) {
+			alert("File '"+file.name+"' could not be read");
+		}
+	}
+})
 
 function validatePlanet() {
 
@@ -3659,6 +3717,8 @@ function populateExecutive(items, title, main=false) {
 		text: "{{none}}"
 	})
 
+	let fallbackID = 1;
+
 	for (let i = 0; i < items.length; i++) {
 		const item = items[i];
 
@@ -3666,10 +3726,9 @@ function populateExecutive(items, title, main=false) {
 		actionItem.classList.add("actionItem");
 		actionItem.classList.add("item");
 
-		let text;
+		let text = "";
 		if (typeof item === "string") text = item;
 		else text = item.text || "Option #"+i;
-		actionItem.innerHTML = parseText(text);
 
 		if (item.id) actionItem.id = "actionItem-"+item.id;
 		if (item.indent) actionItem.style.marginLeft = item.indent + "em";
@@ -3684,9 +3743,17 @@ function populateExecutive(items, title, main=false) {
 			actionItem.style.color = "yellow";
 		}
 		if (item.spacer) {
-			actionItem.innerHTML = "&nbsp;";
+			text = item.text || "&nbsp;";
+			if (item.text) {
+				actionItem.style.paddingBottom = "1em";
+				actionItem.style.fontStyle = "italic";
+				if (!item.opacity) actionItem.style.opacity = "0.8";
+			}
 			actionItem.style.borderBottom = "none";
 		}
+
+		actionItem.innerHTML = parseText(text);
+
 		if (item.sorter) {
 			actionItem.classList.add("actionSort");
 			actionItem.classList.add("clickable");
@@ -3713,8 +3780,16 @@ function populateExecutive(items, title, main=false) {
 			})
 		}
 		if (item.entity) {
+			if (item.entity._reg) {
+				actionItem.setAttribute("data-reg", item.entity._reg);
+			}
+			else {
+				item.entity.id = fallbackID;
+				fallbackID ++;
+				actionItem.setAttribute("data-reg", "none");
+				actionItem.setAttribute("data-entity", JSON.stringify(item.entity));
+			}
 			actionItem.setAttribute("data-id", item.entity.id);
-			actionItem.setAttribute("data-reg", item.entity._reg);
 		}
 		if (item.setting) {
 			actionItem.classList.add("actionSetting");
@@ -3805,7 +3880,8 @@ function sortExecutive(e) {
 	buttons.forEach((button) => {
 		let reg = button.getAttribute("data-reg");
 		let id = button.getAttribute("data-id");
-		if (reg && id) entities.push(regGet(reg, id));
+		if (reg && reg !== "none" && id) entities.push(regGet(reg, id));
+		else if (button.getAttribute("data-entity")) entities.push(JSON.parse(button.getAttribute("data-entity")))
 	})
 
 	if (!entities.length) return;
@@ -3821,7 +3897,7 @@ function sortExecutive(e) {
 	entities.reverse();
 
 	entities.forEach((entity) => {
-		let reg = entity._reg;
+		let reg = entity._reg || "none";
 		let id = entity.id;
 		let button = e.target.parentNode.querySelector(`.actionItem[data-reg="${reg}"][data-id="${id}"]`)
 		if (button) {
@@ -3980,7 +4056,13 @@ window.addEventListener("load", function(){ //onload
 		id: "unlocks",
 		hide: true,
 		func: () => {
+			let total = 0;
+			for (let type in unlockTree) {
+				total += unlockTree[type].levels.length;
+			}
+
 			let items = [];
+			let unlocked = 0;
 			for (let type in unlockTree) {
 				if (!planet.unlocks[type]) continue;
 				let levels = unlockTree[type].levels;
@@ -3990,7 +4072,8 @@ window.addEventListener("load", function(){ //onload
 						items.push({
 							text: levelData.name,
 							indent: i
-						})
+						});
+						unlocked ++;
 					}
 					else {
 						items.push({
@@ -4004,6 +4087,7 @@ window.addEventListener("load", function(){ //onload
 			}
 			if (!items.length) items.push("No unlocks yet..");
 			populateExecutive(items, "Unlocks");
+			populateExecutive(items, "Unlocks ("+Math.round(unlocked / total * 100)+"%)");
 		}
 	},
 	{
@@ -4030,7 +4114,7 @@ window.addEventListener("load", function(){ //onload
 					entity: resource
 				});
 			})
-			populateExecutive(items, "Resources");
+			populateExecutive(items, "Almanac ("+(items.length-1)+")");
 		}
 	},
 	{
@@ -4048,7 +4132,57 @@ window.addEventListener("load", function(){ //onload
 					entity: process
 				});
 			})
-			populateExecutive(items, "Projects");
+			populateExecutive(items, "Projects ("+items.length+")");
+		}
+	},
+	{
+		text: "Stats",
+		id: "stats",
+		hide: true,
+		func: () => {
+			let items = [];
+			items.push({
+				sorter: [
+					// [key, invert?, name?]
+					["value", false, "Highest"],
+					["value", true, "Lowest"],
+					["name", false, "Name"]
+				]
+			})
+			for (let key in planet.stats) {
+				const statsKey = "stats."+key;
+				if (!regBrowserKeys[statsKey]) continue;
+
+				let name = regBrowserKeys[statsKey];
+
+				let value = planet.stats[key];
+				if (regBrowserValues[statsKey]) value = regBrowserValues[statsKey](value);
+				let valueText = value;
+				if (!isNaN(valueText)) {
+					valueText = "{{num:"+valueText+"}}";
+					value = parseFloat(value);
+				}
+
+				items.push({
+					text: `{{i:${name}:}} ${valueText}`,
+					entity: {name:name, value:value}
+				})
+			}
+			for (let key in regBrowserExtra.stats) {
+				const statsKey = "stats."+key;
+				let name = regBrowserKeys[statsKey];
+				let value = regBrowserExtra.stats[key]();
+				let valueText = value;
+				if (!isNaN(value)) {
+					valueText = "{{num:"+valueText+"}}";
+					value = parseFloat(value);
+				}
+				items.push({
+					text: `{{i:${name}:}} ${valueText}`,
+					entity: {name:name, value:value}
+				})
+			}
+			populateExecutive(items, "Stats");
 		}
 	},
 	{
@@ -4205,6 +4339,25 @@ window.addEventListener("load", function(){ //onload
 
 	document.getElementById("actionSaves").addEventListener("click",() => {
 	populateExecutive([
+		// {
+		// 	text: "Your current planet is automatically saved.",
+		// 	spacer: true
+		// },
+		{
+			text: "Save to file",
+			func: saveFile,
+			id: "saveFile"
+		},
+		{
+			text: "Load from file",
+			func: loadFile,
+			id: "loadFile"
+		},
+		{ spacer: true },
+		{
+			text: "Make frequent backups!",
+			spacer: true
+		},
 		{
 			text: "Reset progress",
 			func: () => {
