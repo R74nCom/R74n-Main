@@ -5,8 +5,20 @@ constants = {
 	defaultChunkSize: 4,
 	markerResolution: 2,
 	defaultWaterLevel: 0.4,
-	maxPopulationPerChunk: 20,
-	maxPopulation: (subject) => subject.size * $c.maxPopulationPerChunk,
+	defaultMaxPopulationPerChunk: 20,
+	buildingTechMultiplier: 20,
+	maxPopulation: (subject) => {
+		let base = $c.defaultMaxPopulationPerChunk
+		if (planet.unlocks.smith >= 50) {
+			base *= 1.5
+		}
+		let size = subject.size
+		if (size <= 8) { // Allow small towns to be densely populated
+			size = 8
+		} 
+		let max = size * base
+		return max
+	},
 	maxResourcePerChunk: 5,
 	maxResource: (subject) => {
 		let max = 0;
@@ -1258,7 +1270,12 @@ gameEvents = {
 					happen("Influence", subject, town, {temp:true, happy:-0.1});
 
 					if (data.deathRate) {
+						let deathMitigations = 1
+						if (planet.unlocks.smith >= 50) {
+							deathMitigations *= 1.5
+						}
 						let deaths = (town.pop*data.deathRate*(randRange(8,12) / 10))/town.size;
+						deaths /= deathMitigations
 						deaths = Math.min(town.pop/town.size,deaths);
 						if (Math.random() < deaths) {
 							deaths = Math.ceil(deaths);
@@ -2086,6 +2103,14 @@ unlockTree = {
 				// func: (subject, target) => {
 				//   if (planet.unlocks.military) happen("Influence", null, subject, { "military":3 });
 				// }
+			},
+			{
+				level: 50,
+				name: "Metal Construction",
+				message: "{{people}} try using metal for buildings. {{should}}",
+				messageDone: "Metal buildings allow people to build taller than ever.",
+				influences: { farm:1, military:2, education:3, travel:-2 },
+				messageNo: "{{randreg:town}} decides that tall towers are unsafe, anyway."
 			},
 		]
 	},
