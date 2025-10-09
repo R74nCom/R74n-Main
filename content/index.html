@@ -308,7 +308,7 @@ This HTML and its contents are property of R74n.com.
         if (videoList) return;
         fetch("https://docs.google.com/spreadsheets/d/1MtGDzUJDv7DzjCt6Fq0eY4vuRataWrspni-l49MiaDk/gviz/tq?tqx=out:csv&sheet=Video%20List").then(response => response.text())
         .then((response) => {
-          response = response.split("\n").filter(l => !l.includes('"Meta"')).join("\n");
+          response = response.split("\n").slice(1).filter(l => !l.includes('"Meta"') && !l.includes('Modded')).join("\n");
           videoList = ("\n"+response).match(/\n"[^"]+"/g).map((l) => l.substr(1).replace(/"/g,""));
         })
         .catch(err => console.log(err))
