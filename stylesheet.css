@@ -152,7 +152,7 @@ li.glowbullet::before, dt.glowbullet::before, .glowtext {text-shadow: 0px 0px 20
 li.graybullet::before, dt.graybullet::before {color:gray;}
 li.yellowbullet::before, dt.yellowbullet::before, li.yel::before, dt.yel::before {color:yellow;}
 ol {list-style: none; counter-reset: li}
-ol li::before {content: counter(li); color: lime;display: inline-block; width: 1em;margin-left: -1.25em}
+ol li::before {content: counter(li) "."; color: lime;display: inline-block; padding-right: 0.5em; margin-left: -1.25em}
 ol li {counter-increment: li}
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

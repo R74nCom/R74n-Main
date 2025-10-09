@@ -214,20 +214,30 @@ This HTML and its contents are property of R74n.com.
         if (type) templateChoices = templateChoices.filter((v) => v !== "sandboxelsMix");
 
         let text = choose(commentTemplates[choose(templateChoices)]);
+        let elem;
+        let combo;
         if (type === "ic") {
           let recipe = choose(Object.keys(dishRecipes));
           let result = dishRecipes[recipe];
-          text = text.replace(/\$elem/g, elementName(result.replace(/=/g, "")));
+          elem = result.replace(/=/g, "");
+          text = text.replace(/\$elem/g, elementName(elem));
           infoSpan.innerText = recipe.replace(/\+/g, " + ").replace(/_/g, " ").replace(/@/g, "").replace(/&(\w+):/, "[$1] ").replace(/^ ?=/, " [ONLY] ");
         }
         else {
-          text = text.replace(/\$elem/g, elementName(choose(mod ? makeableModded[mod] : makeable)));
-          text = text.replace(/\$combo/g, () => {
-            let elements = choose(mixable).split(",");
-            return randomCase(elementName(elements[0]) + " and " + elementName(elements[1]));
-          });
+          if (text.match(/\$elem/)) {
+            elem = choose(mod ? makeableModded[mod] : makeable);
+            if (videoList !== null && Math.random() < 0.25) elem = choose(videoList);
+            text = text.replace(/\$elem/g, elementName(elem));
+          }
+          if (text.match(/\$combo/)) {
+            text = text.replace(/\$combo/g, () => {
+              let elements = choose(mixable).split(",");
+              combo = elementName(elements[0]) + " and " + elementName(elements[1]);
+              return randomCase(combo);
+            });
+          }
           if (mod) infoSpan.innerHTML = `<a href="https://sandboxels.r74n.com/mods/${mod}.js" target="_blank">${mod}.js</a>`
-          else infoSpan.innerHTML = "";
+          else infoSpan.innerHTML = `<a href="https://raw.githubusercontent.com/R74nCom/sandboxels/refs/heads/main/index.html" target="_blank">Source code</a>`;
         }
         text = text.replace(/\$but/g, () => choose(["", "but"]));
         text = text.replace(/\$please/g, () => choose(["", "please"]));
@@ -257,11 +267,19 @@ This HTML and its contents are property of R74n.com.
         if (Math.random() < 0.1) toggleVisible(editedSpan);
 
         usernameSpan.innerText = chooseUsername();
+
+        let game = type === "ic" ? "infinite chef" : "sandboxels";
+        let gameSearch = type === "ic" ? `("infinite chef" OR "infinitechef")` : `("sandboxels" OR "sand boxels" OR "sandboxles")`;
+        let searchTerm = elem ? '"' + elem + '"' : combo;
+
+        infoSpan.insertAdjacentHTML("beforeend", ` • 
+          <a href="https://www.google.com/search?q=${encodeURIComponent(searchTerm)} ${encodeURIComponent(gameSearch)}&udm=7&nfpr=1&dpr=2" target="_blank">Video search</a>
+        `)
       }
 
       function randomRecipes() {
         openTab("List");
-        const listElem = document.querySelector("#List ul");
+        const listElem = document.querySelector("#List ol");
         listElem.innerHTML = "";
         for (let i = 0; i < 10; i++) {
           let combo = choose(mixable);
@@ -270,12 +288,32 @@ This HTML and its contents are property of R74n.com.
       }
       function allRecipes() {
         openTab("List");
-        const listElem = document.querySelector("#List ul");
+        const listElem = document.querySelector("#List ol");
         listElem.innerHTML = "";
         mixable.forEach((combo) => {
           listElem.insertAdjacentHTML("beforeend", `<li>${combo.replace(",", " + ")}</li>`);
         })
       }
+
+      function listSteps() {
+        openTab("List");
+        const listElem = document.querySelector("#List ol");
+        listElem.innerHTML = `
+          <li>Screenshot a random YouTube comment</li>
+        `;
+      }
+
+      videoList = null;
+      function getVideoList() {
+        if (videoList) return;
+        fetch("https://docs.google.com/spreadsheets/d/1MtGDzUJDv7DzjCt6Fq0eY4vuRataWrspni-l49MiaDk/gviz/tq?tqx=out:csv&sheet=Video%20List").then(response => response.text())
+        .then((response) => {
+          response = response.split("\n").filter(l => !l.includes('"Meta"')).join("\n");
+          videoList = ("\n"+response).match(/\n"[^"]+"/g).map((l) => l.substr(1).replace(/"/g,""));
+        })
+        .catch(err => console.log(err))
+      }
+      getVideoList();
       
     </script>
     
@@ -302,6 +340,7 @@ This HTML and its contents are property of R74n.com.
 <p>
   <button onclick="randomRecipes()">Random Recipes</button>
   <button onclick="allRecipes()">All Recipes</button>
+  <button onclick="listSteps()">Content Steps</button>
 </p>
 
 <div id="Comments" class="tab">
@@ -387,7 +426,7 @@ This HTML and its contents are property of R74n.com.
 
 
 <div id="List" class="tab">
-  <ul></ul>
+  <ol></ol>
 </div>
 
 
