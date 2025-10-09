@@ -53,6 +53,7 @@
 [81920, "va",   "vault",        ""],
 [286,   "sa",   "shapes",       ""],
 [287,   "in",   "cook",         ""],
+[288,   "gt",   "gentown",      ""],
 [496,   "al",   "alpha",        ""],
 [497,   "am",   "alphamul",     ""],
 [498,   "at",   "alphatwo",     ""],

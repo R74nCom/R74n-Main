@@ -92,7 +92,7 @@ multiplaneEntities = {
 "11D": "Text Viewer//urn:textviewer",
 "11E": "R74n Shapes//urn:shapes",
 "11F": "Infinite Chef//urn:cook",
-"120": "Codename GT",
+"120": "GenTown//urn:gentown",
 "140": "R74n Commons//urn:commons",
 "141": "Universal Feedback System//urn:ufbs",
 "142": "R74n Wikibase//urn:wikibase",

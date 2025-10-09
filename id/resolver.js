@@ -347,6 +347,10 @@ urnResolvers = {
     if (args[0] === "changelog") { return "https://R74n.com/cook/changelog.txt"; }
     return "https://R74n.com/cook/"+args.join("/");
 },
+"gentown": (args) => {
+    if (args[0] === "changelog") { return "https://R74n.com/gentown/changelog.txt"; }
+    return "https://R74n.com/gentown/"+args.join("/");
+},
 }
 function resolveURN(urn) {
     var parts = urn.split(":");
