@@ -88,7 +88,7 @@ multiplaneEntities = {
 "119": "Mix-Up!//urn:mix",
 "11A": "Explore with Rue//urn:rue",
 "11B": "Copy & Paste Dump (Old Site)//urn:copy",
-"11C": "Elemental on Discord//urn:eod",
+"11C": "[reserved]",
 "11D": "Text Viewer//urn:textviewer",
 "11E": "R74n Shapes//urn:shapes",
 "11F": "Infinite Chef//urn:cook",
@@ -145,7 +145,7 @@ multiplaneEntities = {
 "2C1": "Copy Paste Dump Discord server//urn:discord:cpd",
 "2C2": "minecraft item cult//urn:discord:mc",
 "2D2": "Sandboxels Wiki//urn:sbwiki",
-"2D3": "Elemental on Discord Wiki//urn:eodwiki",
+"2D3": "[reserved]",
 "2E0": "R74n OIDplus Instance//urn:oidplus",
 
 // Particulars //
@@ -290,11 +290,11 @@ multiplaneEntities = {
 "8000": "R74n Logo (2021–)//urn:icons:favicon.png",
 "8001": "R74n Logo (2020–2021)//https://r74n.com/icons_old/favicon.png",
 "8300": "Sandboxels Logo//https://sandboxels.r74n.com/icons/icon.png",
-"8310": "EoD Logo (Original)",
-"8311": "EoD Logo (Pixel)//https://r74n.com/EoD.png",
-"8312": "EoD Wordmark (Original)",
-"8313": "EoD Dev Logo (Original)",
-"8314": "EoD Dev Logo (Pixel)",
+"8310": "[reserved]",
+"8311": "[reserved]",
+"8312": "[reserved]",
+"8313": "[reserved]",
+"8314": "[reserved]",
 
 // Halacae //
 "A000": "Halacae Handbook//https://docs.google.com/document/d/1mZ2IGrIbfYlUwfuZ53_S0n5O2ne9JUKV0yinIyNwLFU/edit?usp=sharing",
@@ -535,7 +535,7 @@ multiplanePlanes = {
     "R08000-R08FFF": "Logos",
       "R08000-R082FF": "R74n Logos",
       "R08300-R08FFF": "Other Logos",
-    "R09000-R09FFF": "Elemental on Discord",
+    "R09000-R09FFF": "[reserved]",
     "R0A000-R0A0FF": "Halacae",
     "R0A100-R0A2FF": "R74n Commons",
     "R0A200-R0A2FF": "Universal Feedback System",

@@ -149,7 +149,7 @@ urnResolvers = {
     return url;
 },
 "copy": (args) => {return "https://copy.R74n.com/"+args.join("/");},
-"eod": (args) => {return "urn:X-R74n:discord:eod:"+args.join(":");},
+// "eod": (args) => {return "urn:X-R74n:discord:eod:"+args.join(":");},
 "halacae": (args) => {
     if (args[0] === "docs") { return fromPlanecode("A000"); }
     if (args[0] === "names") { return fromPlanecode("A001"); }
@@ -180,10 +180,10 @@ urnResolvers = {
     if (args[0] === "user" || args[0] === "User") { return "https://sandboxels.wiki.gg/wiki/User:"+args[1]; }
     return "https://sandboxels.wiki.gg/wiki/"+args.join("/");
 },
-"eodwiki": (args) => {
-    if (args[0] === "user" || args[0] === "User") { return "https://elemental-on-discord.fandom.com/wiki/User:"+args[1]; }
-    return "https://elemental-on-discord.fandom.com/wiki/"+args.join("/");
-},
+// "eodwiki": (args) => {
+//     if (args[0] === "user" || args[0] === "User") { return "https://elemental-on-discord.fandom.com/wiki/User:"+args[1]; }
+//     return "https://elemental-on-discord.fandom.com/wiki/"+args.join("/");
+// },
 "search": (args) => {return "https://R74n.com/search/?q="+(args[0]||"");},
 "sequence": (args) => {return "https://R74n.com/sequence/?"+(args[0]||"");},
 "share": (args) => {return "https://R74n.com/share/"+args.join("/");},
@@ -264,7 +264,7 @@ urnResolvers = {
         if (args[1] === "browse") { return "https://R74n.com/discord/browse"; }
         id = "939255181474955331"
     }
-    else if (args[0] === "eod") { id = "705084182673621033" }
+    // else if (args[0] === "eod") { id = "705084182673621033" }
     else if (args[0] === "cpd") { id = "726709356984401920" }
     else if (args[0] === "mc") { id = "762484868898488321" }
     var url = "https://discord.com/channels/"+id;
