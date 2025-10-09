@@ -3371,6 +3371,7 @@ function addModPrompt() {
 		title: "Add Mod",
 		message: "Enter a mod name (example_mod.js) or full URL below. Only add mods that you trust!",
 		placeholder: ".JS or URL",
+		limit: 1000,
 		func: (url) => {
 			if (!url) return;
 			let r = addMod(url);
