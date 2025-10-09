@@ -1,3 +1,7 @@
+[Version 0.5.3 - 8 Oct 2025]
+ + Mod manager
+ ~ Fixed: Improper spacing in some prompts
+
 [Version 0.5.2 - 5 Oct 2025]
  + Save planets to files and load them later
  + Planets keep track of basic statistics

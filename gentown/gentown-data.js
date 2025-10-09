@@ -36,7 +36,12 @@ constants = {
 	minInfluence: -10,
 	townProjectCooldown: 30,
 	townSyllables: 3,
-	warningCooldown: 20
+	warningCooldown: 20,
+
+	RARE: 3,
+	UNCOMMON: 5,
+	COMMON: 10,
+	SUPERCOMMON: 15
 }
 
 $c = constants;
@@ -123,14 +128,6 @@ actionables = {
 							chunks.push(newChunk);
 							done++;
 						})
-						// for (let i = 0; i < 5; i++) {
-						//   let newChunk = nearestChunk(chunk.x, chunk.y,  (c) => c.b !== "water" && !c.v.s,  (c) => (c.v.s && c.v.s !== chunk.v.s) || c.b === "water" || c.b === "mountain");
-						//   if (newChunk) {
-						//     newChunk.v.s = target.id;
-						//     chunks.push(newChunk);
-						//     done++;
-						//   }
-						// }
 						if (done) {
 							target.size += chunks.length;
 							chunks.forEach((c) => {
@@ -732,9 +729,7 @@ actionables = {
 
 
 
-weights = {
 
-}
 
 
 
@@ -892,7 +887,7 @@ gameEvents = {
 			})
 		},
 		message: (subject, _, args) => `Ships from {{regname:town|${subject.id}}} dock on {{regname:landmass|${args.value.v.g}}}.`,
-		weight: 5,
+		weight: $c.UNCOMMON,
 		influencedBy: {
 			travel: 1
 		},
@@ -1400,7 +1395,7 @@ gameEvents = {
 		message: (subject, target, args) => args.value.levelData.message,
 		messageDone: (subject, target, args) => args.value.levelData.messageDone,
 		messageNo: (subject, target, args) => args.value.levelData.messageNo,
-		weight: 10,
+		weight: $c.COMMON,
 	},
 
 	"townRecolor": {
@@ -1427,7 +1422,7 @@ gameEvents = {
 		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to adopt a new {{color:national color|rgb(${args.value.join(",")})}}.`,
 		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} adopts a new national color.`,
 		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} keeps its national color.`,
-		weight: 5
+		weight: $c.UNCOMMON
 	},
 
 	"townAskName": {
@@ -1491,7 +1486,7 @@ gameEvents = {
 		message: (subject, target, args) => `{{residents|${target.id}}} want you to pick their town's new name.`,
 		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} adopts a new name.`,
 		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} keeps its name.`,
-		weight: 5
+		weight: $c.UNCOMMON
 	},
 	"townDemonym": {
 		random: true,
@@ -1517,7 +1512,7 @@ gameEvents = {
 		},
 		message: (subject, target, args) => `{{residents|${target.id}}} need a name for themselves.`,
 		messageDone: (subject, target, args) => `{{residents|${target.id}}} have an emboldened identity.`,
-		weight: 5
+		weight: $c.UNCOMMON
 	},
 	"planetDemonym": {
 		random: true,
@@ -1539,7 +1534,7 @@ gameEvents = {
 		},
 		message: (subject, target, args) => `{{people}} need a name for themselves.`,
 		messageDone: (subject, target, args) => `{{people}} have an emboldened identity.`,
-		weight: 5
+		weight: $c.UNCOMMON
 	},
 	"townFlag": {
 		random: true,
@@ -1575,7 +1570,7 @@ gameEvents = {
 		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to adopt a new flag. ${args.value}`,
 		messageDone: (subject, target, args) => `{{residents|${target.id}}} fly their new flag.`,
 		messageNo: (subject, target, args) => `{{residents|${target.id}}} reject {{c:hollow|shallow}} symbolism.`,
-		weight: 5
+		weight: $c.UNCOMMON
 	},
 	"townAnimal": {
 		random: true,
@@ -1600,7 +1595,7 @@ gameEvents = {
 		message: (subject, target, args) => `Motion to adopt the {{regname:resource|${args.value}}} as {{regname:town|${target.id}}}'s town animal.`,
 		messageDone: (subject, target, args) => `{{residents|${target.id}}} look up to the {{c:courage|bravery|independence|grace|strength|harmony|power}} of the {{regname:resource|${args.value}}}.`,
 		messageNo: (subject, target, args) => `{{residents|${target.id}}} look up to historical figures instead of animals.`,
-		weight: 5
+		weight: $c.UNCOMMON
 	},
 
 	"townProjectStart": {
@@ -1646,7 +1641,7 @@ gameEvents = {
 		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to {{c:begin|start}} {{c:constructing|building|construction of}} a new ${args.value.replace(/_/g," ")}.`,
 		messageDone: (subject, target, args) => `{{residents|${target.id}}} {{c:begin|start}} {{c:constructing|building|construction of}} a ${args.value.replace(/_/g," ")}.`,
 		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} prioritizes other projects.`,
-		weight: 10,
+		weight: $c.COMMON,
 		needsUnlock: {
 			smith: 10
 		}
@@ -1679,7 +1674,7 @@ gameEvents = {
 		},
 		message: (subject, target, args) => `The new {{regname:marker|${target.id}}} in {{regname:town|${target.town}}} needs a name.`,
 		messageDone: (subject, target, args) => `{{regname:marker|${target.id}}} has been named.`,
-		weight: 10,
+		weight: $c.COMMON,
 		needsUnlock: {
 			smith: 10
 		}
@@ -1706,7 +1701,7 @@ gameEvents = {
 			return target;
 		},
 		message: (subject, target, args) => `{{people}} want to know your name.`,
-		weight: 10
+		weight: $c.COMMON
 	},
 
 	"domesticate": {
@@ -1735,7 +1730,7 @@ gameEvents = {
 			}
 		},
 		message: (subject,target,args) => `New methods in {{regname:resource|${args.resourceID}}} ${args.type === "crop" ? "cultivation" : "breeding"} allow for improved ${args.type === "crop" ? "crop harvest" : "livestock products"}.`,
-		weight: 15,
+		weight: $c.SUPERCOMMON,
 		influencedBy: {
 			"farm": 1
 			// from -1 to 1, or beyond
@@ -1756,7 +1751,7 @@ gameEvents = {
 		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to encourage farming research.`,
 		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} focuses on new farming methods.`,
 		// messageNo: (subject, target, args) => `{{regname:town|${target.id}}} prefers to stick to their old ways.`,
-		weight: 5,
+		weight: $c.UNCOMMON,
 		influences: {
 			"farm": 0.1
 		},
@@ -1785,7 +1780,7 @@ gameEvents = {
 			happen("Migrate", subject, target, {count: Math.round(args.value)});
 		},
 		message: (subject,target,args) => `${subject.influences.happy < 0 ? "Looking for change, a" : "A"} group of {{residents:${subject.id}|travelers}} make their way to {{regname:town|${target.id}}}.`,
-		weight: 5,
+		weight: $c.UNCOMMON,
 		influencedBy: {
 			"happy": -1,
 			"travel": 1
@@ -1872,7 +1867,7 @@ gameEvents = {
 		message: (subject, target, args) => {
 			return args.message;
 		},
-		weight: 3
+		weight: $c.RARE
 	}
 
 
@@ -2118,7 +2113,7 @@ unlockTree = {
 			{
 				level: 10,
 				name: "Military",
-				message: "The addition of a second settlement worries {{regoldest:town}}. Should it?",
+				message: "The addition of another settlement worries {{regoldest:town}}. Should it?",
 				messageDone: "{{regoldest:town}} begins enlisting soldiers.",
 				influences: { military:1, crime:0.25 },
 				messageNo: "The settlements trust each other, for now...",

@@ -1,3 +1,5 @@
+gameLoaded = false;
+
 // Text Viewer setup
 textParserConfig.escapeHTML = true;
 addParserCommand("c",function(args) {
@@ -279,6 +281,11 @@ addParserCommand("bad",function(args) {
 addParserCommand("none",function(args) {
 	return `<span class='none'>None yet..</span>`;
 })
+
+userSettings = {};
+if (R74n.has("GenTownSettings")) {
+	userSettings = JSON.parse(R74n.get("GenTownSettings"));
+}
 
 function escapeHTML(unsafe) {
 	return unsafe
@@ -1334,7 +1341,6 @@ currentView = "terrain";
 currentHighlight = null;
 currentExecutive = null;
 currentExecutiveSorter = null;
-userSettings = {};
 debugTemp = null;
 
 function handleEntityClick(e) {
@@ -1671,6 +1677,10 @@ function wordPlural(word) {
 		word = word.substring(0, word.length-3);
 		suffix = "men";
 	}
+	else if (word.endsWith("person")) {
+		word = word.substring(0, word.length-3);
+		suffix = "people";
+	}
 
 	else if (word.match(/(s|h)$/g)) suffix = "es";
 	
@@ -1782,7 +1792,7 @@ function renderHighlight() {
 				}
 			}
 		}
-		}
+	}
 
 	const disasters = regFilter("process", (p) => p.done === undefined && p.type === "disaster");
 	for (let i = 0; i < disasters.length; i++) {
@@ -2430,9 +2440,10 @@ function doPrompt(obj) {
 	else {
 		popupContent.innerHTML = parseText(message);
 		popupContent.style.display = "";
-		popupTitle.style.paddingBottom = "0";
+		popupTitle.style.paddingBottom = "0em";
 		popupInput.style.flexGrow = "";
 		if (promptState.title) popupContent.style.paddingTop = "1em";
+		else popupContent.style.paddingTop = "";
 		if (promptState.pre) popupContent.style.whiteSpace = "pre-wrap";
 		else popupContent.style.whiteSpace = "";
 		if (message.length > 1000) popupContent.style.fontSize = "1em";
@@ -2445,6 +2456,7 @@ function doPrompt(obj) {
 defaultPromptLimit = 32;
 function handlePrompt(result) {
 	if (!promptState) return;
+	const _promptState = promptState;
 	if (typeof result === "string") {
 		result = result.replace(/[{<]/g, "[");
 		result = result.replace(/[}>]/g, "]");
@@ -2452,9 +2464,11 @@ function handlePrompt(result) {
 	}
 	if (promptState.map && promptState.map[result]) result = promptState.map[result];
 	if (promptState.choiceValues) result = promptState.choiceValues[promptState.choices.indexOf(result)];
-	if (promptState.func) promptState.func(result);
 	handleX(document.querySelector("#promptPopup .panelX"));
-	promptState = null;
+	if (_promptState.func) {
+		_promptState.func(result);
+	}
+	else promptState = null;
 }
 function closePopups() {
 	document.getElementById("gamePopupOverlay").classList.remove("overlayShown");
@@ -3137,10 +3151,10 @@ document.getElementById("nextDayMobile").addEventListener("click",nextDay);
 
 
 
-
 function initGame() {
 	if (!planet.reg) planet.reg = defaultRegistry();
 	reg = planet.reg;
+	gameLoaded = true;
 
 	// updateBiomes();
 	
@@ -3329,6 +3343,125 @@ function unlockExecutive(executiveID) {
 		button.style.display = "";
 	}
 }
+
+
+// Mods
+Mod = {};
+Mod.event = function(id, data) {
+	gameEvents[id] = data;
+	if (data.meta === true) {
+		metaEvents[id] = data;
+	}
+	else if (data.daily === true) {
+		dailyEvents[id] = data;
+	}
+	else { // random: true
+		randomEvents[id] = data;
+	}
+}
+Mod.action = function(className, func) {
+	if (!actionables[className]) actionables[className] = {};
+	if (!actionables[className].asTarget) actionables[className].asTarget = {};
+	actionables[className].asTarget = func;
+}
+
+function addModPrompt() {
+	doPrompt({
+		type: "ask",
+		title: "Add Mod",
+		message: "Enter a mod name (example_mod.js) or full URL below. Only add mods that you trust!",
+		placeholder: ".JS or URL",
+		func: (url) => {
+			if (!url) return;
+			let r = addMod(url);
+			if (r === true) r = `${url} was enabled. It may need a page refresh to take effect.`;
+			else r = `${url} was unable to be added: ${r||"Unknown error"}.`;
+
+			logMessage(r,"tip");
+		}
+	})
+}
+function normalizeMod(url) {
+	url = url || "";
+	url = url.trim();
+	url = url.replace(/\/$/g,"");
+	url = url.replace(/ /g,"_");
+	url = url.toLowerCase();
+	return url;
+}
+// https://r74ncom.github.io/GenTown-Mods/example_mod.js
+function modToURL(url) {
+	if (url.match(/^https?:\/\//)) return url;
+	else if (url.match(/\.[a-z.]+\//i)) return "https://"+url;
+	return "https://r74ncom.github.io/GenTown-Mods/" + url;
+}
+function modToName(url) {
+	return url.match(/[^\/]+$/)[0]
+}
+function addMod(url) {
+	url = normalizeMod(url);
+	if (!url) return "Mod not specified";
+	if (!userSettings.mods) userSettings.mods = [];
+	if (userSettings.mods.includes(url)) return "Mod already enabled";
+	if (!url.match(/\.js$/)) return "Not a .JS file"
+	userSettings.mods.push(url);
+	saveSettings();
+	let btn = document.getElementById("actionItem-enabledMods");
+	if (btn) btn.style.display = "";
+	runMod(url);
+	return true;
+}
+function removeMod(url) {
+	if (!userSettings.mods) return;
+	userSettings.mods = userSettings.mods.filter((u) => u !== url);
+	if (!userSettings.mods.length) {
+		let btn = document.getElementById("actionItem-enabledMods");
+		if (btn) btn.style.display = "none";
+	}
+	saveSettings();
+}
+function showMods() {
+	if (!userSettings.mods) return;
+	doPrompt({
+		type: "choose",
+		message: "Choose a mod to manage.",
+		choices: userSettings.mods,
+		func: (url) => {
+			manageMod(url);
+		}
+	})
+}
+function manageMod(url) {
+	doPrompt({
+		type: "choose",
+		title: modToName(url),
+		message: null,
+		choices: [
+			"view",
+			"remove"
+		],
+		func: (r) => {
+			if (r === "view") window.open(modToURL(url), '_blank').focus();
+			if (r === "remove") {
+				removeMod(url);
+				logMessage(modToName(url) + " has been removed. Refresh to apply changes.","tip");
+			}
+		}
+	})
+}
+function runMod(url) {
+	url = modToURL(url);
+	let script = document.createElement("script");
+	script.src = url;
+	document.body.appendChild(script);
+}
+if (userSettings.mods) {
+	for (let i = 0; i < userSettings.mods.length; i++) {
+		const url = userSettings.mods[i];
+		runMod(url);
+	}
+}
+
 
 // Saves
 function autosave() {
@@ -3836,6 +3969,7 @@ function populateExecutive(items, title, main=false) {
 			});
 			actionItem.classList.add("clickable");
 			actionItem.setAttribute("role","link");
+			actionItem.insertAdjacentHTML("beforeend", " <span class='font2'>▶</span>");
 		}
 
 		subpanelList.appendChild(actionItem);
@@ -3853,6 +3987,7 @@ function closeExecutive() {
 	currentExecutive = null;
 	currentExecutiveSorter = null;
 }
+
 function sorterName(sorter, reg) {
 	let sortBy = sorter[0];
 	let name = sorter[2] || regBrowserKeys[sortBy];
@@ -3979,10 +4114,6 @@ window.addEventListener("hashchange", checkHash);
 
 
 window.addEventListener("load", function(){ //onload
-
-	if (R74n.has("GenTownSettings")) {
-		userSettings = JSON.parse(R74n.get("GenTownSettings"));
-	}
 
 	if (userSettings.lastVersionCheck !== gameVersion && userSettings.view) {
 		document.getElementById("actionInfo").classList.add("notify");
@@ -4290,6 +4421,21 @@ window.addEventListener("load", function(){ //onload
 			options: { "true": "Enabled", "false": "Disabled" },
 			default: "false",
 			func: () => { renderMap(); updateCanvas(); }
+		},
+		{ text:"Mods", heading:true },
+		{
+			text: "Enabled mods",
+			id: "enabledMods",
+			hide: !(userSettings.mods || []).length,
+			func: () => { showMods(); }
+		},
+		{
+			text: "Add mod",
+			func: () => { addModPrompt(); }
+		},
+		{
+			text: "Mod list",
+			url: "https://github.com/R74nCom/GenTown-Mods/"
 		},
 		{ spacer:true },
 		{
