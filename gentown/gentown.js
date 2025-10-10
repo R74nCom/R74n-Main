@@ -3404,7 +3404,7 @@ function addMod(url) {
 	if (!url) return "Mod not specified";
 	if (!userSettings.mods) userSettings.mods = [];
 	if (userSettings.mods.includes(url)) return "Mod already enabled";
-	if (!url.match(/\.js$/)) return "Not a .JS file"
+	if (!url.match(/\.m?js$/)) return "Not a .JS file"
 	userSettings.mods.push(url);
 	saveSettings();
 	let btn = document.getElementById("actionItem-enabledMods");
@@ -3453,6 +3453,9 @@ function manageMod(url) {
 function runMod(url) {
 	url = modToURL(url);
 	let script = document.createElement("script");
+	if (url.endsWith("mjs")) {
+		script.type = "module"
+	}
 	script.src = url;
 	document.body.appendChild(script);
 }
