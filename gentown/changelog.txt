@@ -1,3 +1,18 @@
+[Version 0.6 - 12 Oct 2025]
+ + Laws
+     + Towns can legalize or illegalize certain actions
+     + Laws can be unlocked after farming
+     + Towns become anarchies when laws are rejected
+ + Natural and disaster deaths are shown in Stats tab
+ + Apostrophes can appear in names, representing glottal stops
+ ~ There should be much less "uneventful days"
+ ~ Prison construction requires Laws unlock
+ ~ Currency unlock depends on Laws unlock
+ ~ "North", "West", etc. in colony names use town's center for higher accuracy
+ ~ Towns can't create colonies directly after disasters
+ ~ Next Day and View triangles are pixelated
+ ~ Fixed: Towns don't hire soldiers
+
 [Version 0.5.3 - 8 Oct 2025]
  + Mod manager
  ~ Fixed: Improper spacing in some prompts

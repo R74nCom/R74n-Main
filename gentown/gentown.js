@@ -219,7 +219,7 @@ addParserCommand("regname",function(args) {
 		}
 	}
 	if (!name) name = data.subtype || data.type;
-	return `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${color[0]},${color[1]},${color[2]})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${(data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : ""}${name}</span>`;
+	return (!args[2] && data.prefix ? "<span class='prefix'>" + data.prefix + " </span>" : "") + `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${color[0]},${color[1]},${color[2]})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${(data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : ""}${name}</span>`;
 })
 addParserCommand("regoldest",function(args) {
 	if (args.length < 1) {return ""}
@@ -606,7 +606,8 @@ function happen(action, subject, target, args, targetClass=undefined) {
 	let actionFunc = actionables[targetClass].asTarget[action];
 	let r = actionFunc(subject,target,args||{});
 	if (r === 0) return r;
-	return r || target;
+	if (r === undefined) return target;
+	return r;
 }
 
 function readyEvent(eventClass, subject=null, target=null) {
@@ -1520,7 +1521,7 @@ function circleChunks(chunkX,chunkY,radius,taper=false) {
 
 wordComponents = {};
 wordComponents.C  = "B,C,D,F,G,H,J,K,L,M,N,P,QU,R,S,T,V,W,Y,Z";
-wordComponents.C2 = wordComponents.C + ",X,CK,NG,SS";
+wordComponents.C2 = wordComponents.C + ",X,CK,NG,SS,'";
 wordComponents.V  = "A,A,A,E,E,É,I,I,I,O,O,O,U,U";
 wordComponents.V2 = wordComponents.V + "," + wordComponents.V + ",OU,AE,EE,IE,EA,EU,UI,OI,AI,OO,OW,OE,IA";
 
@@ -1704,6 +1705,14 @@ function wordAdjective(word) {
 	else if (word.endsWith("ing")) {
 		word = word.substring(0, word.length-3);
 		suffix = "";
+	}
+	else if (word.endsWith("chy")) {
+		word = word.substring(0, word.length-1);
+		suffix = "ic";
+	}
+	else if (word.endsWith("acy")) {
+		word = word.substring(0, word.length-2);
+		suffix = "tic";
 	}
 
 	if (suffix) word += suffix;
@@ -2544,6 +2553,7 @@ function openRegBrowser(obj,regName) {
 	}
 	else if (obj.type) subtitle = titleCase(obj.type);
 	if (obj.dems) subtitle += " of the "+obj.dems;
+	if (obj.gov) subtitle = titleCase(wordAdjective(obj.gov)) + " " + subtitle;
 	if (subtitle) {
 		let subtitleSection = document.createElement("div");
 		subtitleSection.className = "regSection regSubTitle";
@@ -2715,6 +2725,7 @@ function logMessage(text, type, args) {
 		logTomorrow(text, type, args);
 		return;
 	}
+	text = text.replace(/^[a-z]/, (match) => match.toUpperCase());
 	let uuid = uuidv4();
 	let html = `<span class="logMessage${type ? ' log'+titleCase(type) : ' logNormal'}" id="logMessage-${uuid}" new="true">
 	<span class="logDay" data-day="${type === "tip" ? "" : planet.day}" title="${type ? titleCase(type) : ""}" onclick="handleMessageClick(this)">${type === "tip" ? "?" : parseText("{{date:"+planet.day+"|s}}")}</span><span class="logText">${parseText(escapeHTML(text))}</span>
@@ -2722,6 +2733,10 @@ function logMessage(text, type, args) {
 	// <span class="logAct"><span>Yes</span><span>No</span></span>
 	let logMessages = document.getElementById("logMessages");
 	logMessages.insertAdjacentHTML("afterbegin",html);
+	let logText = logMessages.querySelector("#logMessage-"+uuid+" .logText");
+	if (logText.childNodes[0].className === "prefix") {
+		logText.childNodes[0].innerText = logText.childNodes[0].innerText.replace(/^[a-z]/, (match) => match.toUpperCase());
+	}
 	if (logMessages.childNodes.length > 100) {
 		logMessages.removeChild(logMessages.lastChild);
 	}
@@ -2746,6 +2761,10 @@ function logChange(uuid,text) {
 	if (elem) {
 		elem.setAttribute("changed","true");
 		elem.querySelector(".logText").innerHTML = parseText(escapeHTML(text));
+		let logText = elem.querySelector(".logText");
+		if (logText.childNodes[0].className === "prefix") {
+			logText.childNodes[0].innerText = logText.childNodes[0].innerText.replace(/^[a-z]/, (match) => match.toUpperCase());
+		}
 	}
 	return uuid;
 }
@@ -2938,15 +2957,14 @@ function nextDay(e) {
 		else if (gameEvents[chosenEvent].target && gameEvents[chosenEvent].target.reg === "town" && !gameEvents[chosenEvent].target.random) chosenTarget = influencingTown;
 		eventCaller = readyEvent(chosenEvent, chosenSubject, chosenTarget);
 		if (eventCaller && eventCaller.eventClass && randomEvents[eventCaller.eventClass].check && !randomEvents[eventCaller.eventClass].check(eventCaller.subject, eventCaller.target, eventCaller.args)) {
-			recentEvents.push(eventCaller.eventClass);
+			// recentEvents.push(eventCaller.eventClass);
 			eventCaller = undefined;
 		}
-		else break;
+		if (eventCaller && planet.dead && !(eventCaller.subject && eventCaller.subject._reg === "nature")) eventCaller = undefined;
+		if (eventCaller && !eventCaller.target && randomEvents[eventCaller.eventClass].target) eventCaller = undefined;
+		if (eventCaller !== undefined) break;
 	}
 
-	if (eventCaller && planet.dead && !(eventCaller.subject && eventCaller.subject._reg === "nature")) eventCaller = undefined;
-
-	if (eventCaller && !eventCaller.target && randomEvents[eventCaller.eventClass].target) eventCaller = undefined;
 	if (eventCaller) {
 		let eventID = eventCaller.eventID;
 		let eventClass = eventCaller.eventClass;
@@ -2996,40 +3014,39 @@ function nextDay(e) {
 					type: "ask",
 					message: eventInfo.value.message ? eventInfo.value.message(eventCaller.subject, eventCaller.target) : eventCaller.message,
 					func: (r) => {
-						if (r) {
+						if (!r) return;
 
-							let influencedTown;
-							if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
-							else if (eventInfo.subject && eventInfo.subject.reg === "town") influencedTown = eventCaller.subject;
+						let influencedTown;
+						if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
+						else if (eventInfo.subject && eventInfo.subject.reg === "town") influencedTown = eventCaller.subject;
 
-							let oldInfluences;
-							if (influencedTown) {
-								oldInfluences = structuredClone(influencedTown.influences);
-							}
-
-							eventCaller.args.value = r;
-							doEvent(eventClass, currentEvents[eventID]);
-
-							if (oldInfluences) {
-								let newInfluences = influencedTown.influences;
-								reportInfluences(eventCaller.logID, oldInfluences, newInfluences);
-							}
-
-							messageElement.removeAttribute("new");
-							messageElement.setAttribute("done","true");
-							e.target.setAttribute("selected","true");
-							if (isFunction(eventInfo.messageDone)) {
-								logChange(eventCaller.logID, eventInfo.messageDone(eventCaller.subject,eventCaller.target,eventCaller.args));
-							}
-							else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
-							eventCaller.done = true;
-							statsAdd("prompt",1);
-							updateStats();
-							renderMap();
-							renderHighlight();
-							updateCanvas();
-							autosave();
+						let oldInfluences;
+						if (influencedTown) {
+							oldInfluences = structuredClone(influencedTown.influences);
 						}
+
+						eventCaller.args.value = r;
+						doEvent(eventClass, currentEvents[eventID]);
+
+						if (oldInfluences) {
+							let newInfluences = influencedTown.influences;
+							reportInfluences(eventCaller.logID, oldInfluences, newInfluences);
+						}
+
+						messageElement.removeAttribute("new");
+						messageElement.setAttribute("done","true");
+						e.target.setAttribute("selected","true");
+						if (isFunction(eventInfo.messageDone)) {
+							logChange(eventCaller.logID, eventInfo.messageDone(eventCaller.subject,eventCaller.target,eventCaller.args));
+						}
+						else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
+						eventCaller.done = true;
+						statsAdd("prompt",1);
+						updateStats();
+						renderMap();
+						renderHighlight();
+						updateCanvas();
+						autosave();
 					},
 					preview: eventInfo.value.preview,
 					subject: eventCaller.subject,

@@ -294,6 +294,16 @@ actionables = {
 
 				return target;
 			},
+			Legality: (subject,target,args) => {
+				let law = args.law;
+				let split = law.split(".");
+				let influence = split[0];
+				let sublaw = split[split.length - 1];
+				if (target.legal[law] === undefined) {
+					return !!influenceModality[influence];
+				}
+				return target.legal[law];
+			},
 			AddPop: (subject,target,args) => {
 				const pop = target.pop;
 				const maxPop = $c.maxPopulation(target);
@@ -596,6 +606,7 @@ actionables = {
 				symbol: "⌧",
 				color: [163, 89, 85],
 				influences: { crime:-1 },
+				needsUnlock: { government:10 },
 				nameTemplate: "$ Prison"
 			},
 			"fortress": {
@@ -819,12 +830,13 @@ gameEvents = {
 							newTown.former = subject.id;
 							newTown.type = newTown.size <= 2 ? "microtown" : "colony";
 							newTown.level = 10;
+							newTown.legal = structuredClone(subject.legal);
 							if (Math.random() < $c.colonyNameSuffixRate) {
 								let newName = "";
 								let mainName = subject.name.match(/\S+$/)[0].toLowerCase();
 								if (Math.random() < 0.5) {
-									let vertical = colonyChunk.y - newChunk.y;
-									let horizontal = colonyChunk.x - newChunk.x;
+									let horizontal = colonyChunk.x - subject.center[0];
+									let vertical = colonyChunk.y - subject.center[1];
 									if (Math.abs(vertical) > Math.abs(horizontal)) { // NS
 										if (vertical > 0) newName += choose(wordComponents.prefixes.SOUTH)[0];
 										else newName += choose(wordComponents.prefixes.NORTH)[0];
@@ -973,6 +985,7 @@ gameEvents = {
 			}
 		},
 		func: (subject, target, args) => {
+			if (subject.legal.farm === false) return;
 			if (!args.value) return;
 			args.value = Math.floor(Math.min(subject.pop * (randRange(1,10) / 10), args.value));
 			if (!args.value) return;
@@ -1002,6 +1015,7 @@ gameEvents = {
 		},
 		func: (subject, target, args) => {
 			if (planet.unlocks.farm >= 20) return;
+			if (subject.legal.farm === false) return;
 			if (!args.value) return;
 			args.value = Math.floor(Math.min(subject.pop * (randRange(1,10) / 10), args.value));
 			args.value = Math.min(args.value, subject.size);
@@ -1251,6 +1265,7 @@ gameEvents = {
 					const town = regGet("town",chunk.v.s);
 
 					happen("Influence", subject, town, {temp:true, happy:-0.1});
+					town.lastColony = planet.day;
 
 					if (data.deathRate) {
 						let deaths = (town.pop*data.deathRate*(randRange(8,12) / 10))/town.size;
@@ -1390,6 +1405,9 @@ gameEvents = {
 				regToArray("town").forEach((town) => {
 					happen("Influence", subject, town, levelData.influencesNo)
 				})
+			}
+			if (levelData.funcNo) {
+				levelData.funcNo(subject, target, args);
 			}
 		},
 		message: (subject, target, args) => args.value.levelData.message,
@@ -1614,6 +1632,7 @@ gameEvents = {
 				if (data.needsUnlock) {
 					for (let unlock in data.needsUnlock) {
 						if (!planet.unlocks[unlock] || planet.unlocks[unlock] < data.needsUnlock[unlock]) invalid = true;
+						if (target.legal[unlock] === false) invalid = true;
 					}
 				}
 				if (!invalid) choices.push(key);
@@ -1677,6 +1696,62 @@ gameEvents = {
 		weight: $c.COMMON,
 		needsUnlock: {
 			smith: 10
+		}
+	},
+
+	// LAWS
+	"townLaw": {
+		random: true,
+		subject: {
+			reg: "player", id: 1
+		},
+		target: {
+			reg: "town", random: true
+		},
+		value: (subject, target, args) => {
+			let choices = [];
+			let weights = [];
+			for (let key in allLaws) {
+				let split = key.split(".");
+				let influence = split[0];
+				let isLegal = happen("Legality",subject,target,{law: key});
+				let weight = (isLegal ? subtractInfluence : addInfluence)(100, target, influence);
+				weight = Math.max(weight, 10);
+				choices.push(key);
+				weights.push(weight);
+			};
+			let law = chooseWeighted(choices, weights);
+			if (!law) return false;
+			
+			args.result = !happen("Legality",subject,target,{law: law});
+			let split = law.split(".");
+			args.influence = split[0];
+			args.name = split[split.length-1];
+			args.name = (regBrowserKeys[args.name] || args.name).toLowerCase();
+
+			return law;
+		},
+		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to make ${args.name} ${args.result ? "legal" : "illegal"}${target.legal[args.value] !== undefined ? " again" : ""}.`,
+		messageDone: (subject, target, args) => `{{regname:town|${target.id}}}'s ${args.result ? "legalization" : "banning"} of ${args.name} {{c:resonates|sends shockwaves}} through the town.`,
+		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} {{c:decides not to|will not}} ${args.result ? "allow" : "prosecute"} ${args.name}.`,
+		func: (subject, target, args) => {
+			target.legal[args.value] = args.result;
+			let severity = allLaws[args.value];
+			let a = {};
+			if (args.result) {
+				a[args.influence] = Math.abs(target.influences[args.influence] || 1);
+				a[args.influence] = Math.min(a[args.influence], 5);
+			}
+			else {
+				a[args.influence] = -8;
+				if (target.influences[args.influence] > 0) a[args.influence] -= target.influences[args.influence];
+			}
+			a[args.influence] *= severity;
+			happen("Influence", subject, target, a);
+		},
+		weight: $c.COMMON,
+		needsUnlock: {
+			"government": 10
 		}
 	},
 
@@ -1752,6 +1827,9 @@ gameEvents = {
 		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} focuses on new farming methods.`,
 		// messageNo: (subject, target, args) => `{{regname:town|${target.id}}} prefers to stick to their old ways.`,
 		weight: $c.UNCOMMON,
+		influencedBy: {
+			"farm": 1
+		},
 		influences: {
 			"farm": 0.1
 		},
@@ -1918,46 +1996,6 @@ unlockTree = {
 			}
 		]
 	},
-	"trade": {
-		levels: [
-			{
-				level: 10,
-				name: "Trade",
-				message: "{{people}} want to exchange goods for others of equal value. {{should}}",
-				messageDone: "Goods are exchanged with mutual benefit.",
-				influences: { trade:1, travel:1, happy:0.2 },
-				messageNo: "Nobody wants to give up their precious goods.",
-				influencesNo: { trade:-5, travel:-0.5 },
-				needsUnlock: {
-					"farm": 10
-				}
-			},
-			{
-				level: 20,
-				name: "Trade routes",
-				message: "{{people}} are traveling long distances to trade goods. {{should}}",
-				messageDone: "Trade routes are established as goods are transported.",
-				influences: { trade:1.5, travel:1.5, happy:0.2 },
-				messageNo: "Goods are traded strictly within small communities.",
-				influencesNo: { trade:-0.5, travel:-0.5 },
-				needsUnlock: {
-					"travel": 20
-				}
-			},
-			{
-				level: 30,
-				name: "Currency",
-				message: "{{people}} want a way to trade without having immediate access to their goods. {{should}}",
-				messageDone: "Tokens symbolizing monetary value are traded in exchange for goods.",
-				influences: { trade:1.5 },
-				messageNo: "Merchants carry bags of crops in case they encounter a customer.",
-				influencesNo: { trade:-0.5 },
-				needsUnlock: {
-					"farm": 20
-				}
-			}
-		]
-	},
 	"travel": {
 		levels: [
 			{
@@ -2084,6 +2122,73 @@ unlockTree = {
 			},
 		]
 	},
+	"trade": {
+		levels: [
+			{
+				level: 10,
+				name: "Trade",
+				message: "{{people}} want to exchange goods for others of equal value. {{should}}",
+				messageDone: "Goods are exchanged with mutual benefit.",
+				influences: { trade:1, travel:1, happy:0.2 },
+				messageNo: "Nobody wants to give up their precious goods.",
+				influencesNo: { trade:-5, travel:-0.5 },
+				needsUnlock: {
+					"farm": 10
+				}
+			},
+			{
+				level: 20,
+				name: "Trade routes",
+				message: "{{people}} are traveling long distances to trade goods. {{should}}",
+				messageDone: "Trade routes are established as goods are transported.",
+				influences: { trade:1.5, travel:1.5, happy:0.2 },
+				messageNo: "Goods are traded strictly within small communities.",
+				influencesNo: { trade:-0.5, travel:-0.5 },
+				needsUnlock: {
+					"travel": 20
+				}
+			},
+			{
+				level: 30,
+				name: "Currency",
+				message: "{{people}} want a way to trade without having immediate access to their goods. {{should}}",
+				messageDone: "Tokens symbolizing monetary value are traded in exchange for goods.",
+				influences: { trade:1.5 },
+				messageNo: "Merchants carry bags of crops in case they encounter a customer.",
+				influencesNo: { trade:-0.5 },
+				needsUnlock: {
+					"farm": 20,
+					"government": 10
+				}
+			}
+		]
+	},
+	"government": {
+		levels: [
+			{
+				level: 10,
+				name: "Laws",
+				message: "{{people}} seek control over others they see as immoral. {{should}}",
+				messageDone: "Towns begin constructing prisons.",
+				influences: { crime:-2 },
+				messageNo: "Inhabitants are left to do whatever they please.",
+				influencesNo: { crime:3 },
+				needsUnlock: {
+					"farm": 10
+				},
+				funcNo: () => {
+					regToArray("town").forEach(town => {
+						town.gov = "anarchy";
+					})
+				},
+				func: () => {
+					regToArray("town").forEach(town => {
+						if (town.gov === "anarchy") delete town.gov;
+					})
+				}
+			}
+		]
+	},
 	"education": {
 		levels: [
 			{
@@ -2203,7 +2308,7 @@ influenceModality = {
 	"education": 1,
 	"military": 1,
 }
-defaultJobs = ["farmer","lumberer","miner"];
+defaultJobs = ["farmer","lumberer","miner","soldier"];
 jobInfluences = {
 	// job: influence
 	"farmer": "farm",
@@ -2217,6 +2322,18 @@ jobNeedsUnlock = {
 	"miner": ["smith", 20],
 	"lumberer": ["smith", 20],
 	"soldier": ["military", 10]
+}
+allLaws = {
+	// key: severity from 0-1
+	// influence.name
+	"farm": 0.8,
+	"travel": 0.8,
+	"happy.speech": 1,
+	"crime.gambling": 0.1,
+	"crime.fraud": 0.5,
+	"crime.theft": 0.6,
+	"crime.arson": 0.75,
+	"crime.murder": 1,
 }
 regBrowserKeys = {
 	"pop": "Population",
@@ -2236,6 +2353,7 @@ regBrowserKeys = {
 	"biome": "Biome",
 	"rate": "Efficiency",
 	"jobs": "Jobs",
+	"laws": "Laws",
 	"town.animal": "Town Animal",
 	"biome.crops": "Crops",
 	"biome.livestocks": "Livestock",
@@ -2276,6 +2394,8 @@ regBrowserKeys = {
 
 	"stats.alive": "Alive",
 	"stats.death": "Deaths",
+	"stats.deathnatural": "Natural deaths",
+	"stats.deathdisaster": "Disaster deaths",
 	"stats.birth": "Births",
 	"stats.peak": "Peak population",
 	"stats.prompt": "Acts issued",
@@ -2319,6 +2439,12 @@ regBrowserExtra = {
 		},
 		"towns": () => {
 			return regToArray("town", true).length;
+		},
+		"deathnatural": () => {
+			return planet.stats.deathBy.natural || 0;
+		},
+		"deathdisaster": () => {
+			return planet.stats.deathBy.disaster || 0;
 		}
 	},
 	planet: {
@@ -2343,6 +2469,17 @@ regBrowserExtra = {
 		}
 	},
 	town: {
+		"laws": (town) => {
+			let laws = {};
+			for (let law in town.legal) {
+				let split = law.split(".");
+				let name = split[split.length - 1];
+				if (regBrowserKeys[name]) name = regBrowserKeys[name];
+				laws[titleCase(name)] = town.legal[law] ? "{{color:Legal|hsl(120,80%,50%)}}" : "{{color:Illegal|hsl(0,80%,50%)}}";
+			}
+			if (!Object.keys(laws).length) return;
+			return laws;
+		},
 		"elevation": (town) => {
 			let elevations = filterChunks((c) => c.v.s === town.id).map((c) => c.e);
 			if (!elevations.length) return;
