@@ -163,7 +163,19 @@ actionables = {
 			},
 			Rename: (subject,target,args) => {
 				if (!target) return;
+				delete target.prefix;
+				if (args.value.match(/^the /i)) {
+					args.value = args.value.substring(4);
+					target.prefix = "the";
+				}
+				else if (args.value.match(/^a /i)) {
+					args.value = args.value.substring(2);
+					target.prefix = "a";
+				}
 				target.name = titleCase(args.value);
+				if (target.name.match(/^United| of |republic$|kingdom$|lands$/i)) {
+					target.prefix = "the";
+				}
 				return target;
 			},
 			Recolor: (subject,target,args) => {
@@ -794,6 +806,8 @@ gameEvents = {
 		daily: true,
 		subject: { reg: "town", all: true },
 		func: (subject, target, args) => {
+			if (subject.legal["travel.expansion"] === false) return;
+
 			let expandRate = addInfluence($c.baseExpandRate + (subject.size/50), subject, "travel");
 			
 			if ((subject.pop === 1 || subject.pop/subject.size <= $c.minPopulationDensity)) return;
@@ -1265,7 +1279,7 @@ gameEvents = {
 					const town = regGet("town",chunk.v.s);
 
 					happen("Influence", subject, town, {temp:true, happy:-0.1});
-					town.lastColony = planet.day;
+					town.lastColony = planet.day - 10;
 
 					if (data.deathRate) {
 						let deaths = (town.pop*data.deathRate*(randRange(8,12) / 10))/town.size;
@@ -1490,6 +1504,8 @@ gameEvents = {
 				if (data.dem) target.dem = data.dem;
 				if (data.dems) target.dems = data.dems;
 				if (data.adj) target.adj = data.adj;
+				if (data.gov) target.gov = data.gov;
+				if (data.prefix) target.prefix = data.prefix;
 				let color = data.color || data.emblemColor;
 				if (color) {
 					if (typeof color === "string" && color.match(/^#/)) color = hexToRGB(color);
@@ -1625,6 +1641,8 @@ gameEvents = {
 			reg: "town", random: true
 		},
 		value: (subject, target) => {
+			if (target.legal["travel.construction"] === false) return;
+
 			let choices = [];
 			for (let key in actionables.process._projectSubtypes) {
 				let data = actionables.process._projectSubtypes[key] || {};
@@ -2328,12 +2346,14 @@ allLaws = {
 	// influence.name
 	"farm": 0.8,
 	"travel": 0.8,
+	"travel.expansion": 0.6,
+	"travel.construction": 0.3,
 	"happy.speech": 1,
 	"crime.gambling": 0.1,
 	"crime.fraud": 0.5,
 	"crime.theft": 0.6,
 	"crime.arson": 0.75,
-	"crime.murder": 1,
+	"crime.murder": 1
 }
 regBrowserKeys = {
 	"pop": "Population",

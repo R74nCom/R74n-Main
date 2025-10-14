@@ -1,3 +1,13 @@
+[Version 0.6.1 - 14 Oct 2025]
+ + Expansion can be illegalized
+ + Construction can be illegalized
+ + Town name prefixes ("The")
+     + Prefix will be added automatically with certain names (i.e. "United Towns")
+     + Prefix is only displayed in certain contexts
+     + Prefix added by user will be detected
+ ~ Updated Beta checklist
+ ~ Fixed: "Volume (No Water)" in planet info is formatted wrong on mobile
+
 [Version 0.6 - 12 Oct 2025]
  + Laws
      + Towns can legalize or illegalize certain actions

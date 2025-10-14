@@ -1082,6 +1082,9 @@ tr.total {
 		padding-right: 1em;
 		text-align: justify;
 	}
+	.regSectionTitle {
+		text-align: left;
+	}
 	#statsPanel.preview {
 		display: unset;
 		height: 50% !important;

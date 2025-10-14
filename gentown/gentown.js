@@ -4593,8 +4593,7 @@ window.addEventListener("load", function(){ //onload
 		
 		{ text: "{{check}} Long Events / Disasters" },
 		{ text: "{{check}} Settings" },
-		{ text: "{{x}} Linguistics" },
-		{ text: "{{x}} Laws" },
+		{ text: "{{check}} Laws" },
 		{ text: "{{x}} Revolutions / Merging" },
 		{ text: "{{x}} Economy / Trade" },
 		{ text: "{{x}} Diplomacy / Wars" },
