@@ -1,3 +1,41 @@
+[Version 0.7 - 20 Oct 2025]
+ + Revolutions
+     + Angry towns can start revolutions
+     + Revolutions result in town splitting or reorganization
+     + Revolutions cause death, injuries, and destruction
+     + Requires a form of government
+     + Town suffixes are sometimes applied for certain forms (i.e. X Republic)
+     + Towns can't expand during revolutions
+ + Forms of government (Democracies, Republics, Monarchies, and Dictatorships)
+ + Score
+     + Calculated from the joy and suffering of inhabitants
+     + Shown in Stats tab when unlocked
+     + Shown when all towns fall
+     + Peak planet score is shown in Stats tab
+ + Warning markers show on the map during revolutions and disasters
+ + Warning markers in town hover previews
+ + All executive menus update dynamically if left open
+ + Unemployment can be illegalized
+ + Law influence (Hidden)
+ + Average mood is shown in stats
+ + Landmasses are shown in town info
+ + PWA support
+ + Favicon
+ ~ Total population over 1,000 is abbreviated in stats panel like others
+ ~ Town land count over 1,000 is abbreviated in stats panel
+ ~ Biome name in info popup is capitalized
+ ~ Town prefixes no longer shown in sunset summary
+ ~ Fixed: Info screen for processes (disasters, projects) don't show name
+ ~ Fixed: "Roman" demonym plural
+ ~ Fixed: Error when hovering out of the map with a chunk pinned
+ ~ Fixed: Landmarks can be corrupted in long saves
+ ~ Fixed: Non-damaging disasters are still saved
+ ~ Fixed: Disasters are saved with names
+ ~ Fixed: Construction projects don't properly cancel when town falls
+ ~ Fixed: Unlocked executive buttons aren't shown/hidden when loading save file
+ ~ Fixed: Save files can't be loaded on iOS
+ ~ Fixed: Banning expansion doesn't prevent boating
+
 [Version 0.6.1 - 14 Oct 2025]
  + Expansion can be illegalized
  + Construction can be illegalized

@@ -1,0 +1,32 @@
+{
+  "short_name": "GenTown",
+  "name": "GenTown - R74n",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+  }
+  ],
+  "start_url": "/gentown/?source=pwa",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "standalone",
+  "scope": "/gentown/",
+  "description": "Influence human civilization through prompts in this planet and town simulator.",
+  "screenshots": [
+    {
+      "src": "cover-large.png",
+      "type": "image/png",
+      "sizes": "1200x720",
+      "form_factor": "wide"
+    }
+  ]
+}

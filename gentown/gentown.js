@@ -38,6 +38,12 @@ addParserCommand("num",function(args) {
 	}
 	return num;
 })
+addParserCommand("percent",function(args) {
+	if (args.length === 0) {return ""}
+	let n = parseFloat(args[0]);
+	n = Math.round(n * 100);
+	return `{{num:${n}}}%`;
+})
 addParserCommand("area",function(args) {
 	if (args.length === 0) {return ""}
 	let n = parseFloat(args[0]);
@@ -208,7 +214,8 @@ addParserCommand("regname",function(args) {
 	// if (isNaN(id)) return `<span class='entityName' title='${data.id}' data-reg='${args[0]}' data-id='${data.id}'>Invalid Thing</span>`;
 	const data = regGet(args[0],parseInt(args[1]));
 	if (!data) return `<span class='entityName' title='${args[1]}' data-reg='${args[0]}' data-id='${args[1]}'>Invalid Thing</span>`;
-	let name = args[2] || data.name;
+	let name = data.name;
+	if (args[2] && args[2] !== "-") name = args[2];
 	let color = data.color;
 	if (regBrowserExtra[data._reg]) {
 		if (!name && regBrowserExtra[data._reg].name) {
@@ -219,7 +226,7 @@ addParserCommand("regname",function(args) {
 		}
 	}
 	if (!name) name = data.subtype || data.type;
-	return (!args[2] && data.prefix ? "<span class='prefix'>" + data.prefix + " </span>" : "") + `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${color[0]},${color[1]},${color[2]})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${(data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : ""}${name}</span>`;
+	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${color[0]},${color[1]},${color[2]})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
 })
 addParserCommand("regoldest",function(args) {
 	if (args.length < 1) {return ""}
@@ -245,15 +252,15 @@ addParserCommand("biome",function(args) {
 })
 addParserCommand("people",function(args) {
 	if (planet.dems) return `{{planet|${planet.dems}}}`;
-	return "Inhabitants of {{planet}}";
+	return "inhabitants of {{planet}}";
 })
 addParserCommand("residents",function(args) {
-	if (args.length === 0) return "Residents";
+	if (args.length === 0) return "residents";
 	let town = regGet("town",args[0]);
-	if (!town) return "{{c:Residents|Citizens}}";
+	if (!town) return "{{c:residents|citizens}}";
 	if (town.dems) return `{{regname|town|${args[0]}|${town.dems}}}`;
 	if (args[1]) return `${args[1]} from {{regname|town|${args[0]}}}`;
-	return `{{c:Residents|Citizens}} of {{regname|town|${args[0]}}}`;
+	return `{{c:residents|Citizens}} of {{regname|town|${args[0]}}}`;
 })
 addParserCommand("face",function(args) {
 	if (args.length === 0) return "{{icon:neutral|Population}}";
@@ -328,6 +335,9 @@ function chooseWeighted(items, weights) {
 	
 	return items[i];
 }
+function chooseDifferent(items, not) {
+	return choose(items.filter(i => i !== not));
+}
 function sumArray(array) {
 	return array.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 }
@@ -379,7 +389,8 @@ function colorBrightness(rgb, multiplier) {
 function colorChange(rgb) {
 	let hsl = RGBtoHSL(rgb);
 	hsl[0] += randRange(2,5) / 10 * (Math.random() < 0.5 ? -1 : 1)
-	hsl[2] *= 1 + (randRange(-1,1) / 10);
+	let old = hsl[2];
+	hsl[2] += (randRange(-2,2) / 10);
 	hsl[2] = Math.max(0.2, Math.min(0.8, hsl[2]));
 	return HSLtoRGB(hsl).map((n) => Math.round(n));
 }
@@ -576,6 +587,7 @@ function defaultTown() {
 			// "crime": 0,
 		},
 		"legal": {},
+		"issues": {},
 		"_reg": "town"
 	}
 }
@@ -1225,6 +1237,17 @@ adjacentCoords = [
 	[0,1],
 	[-1,0]
 ]
+squareCoords = [
+	[-1,-1],
+	[0,-1],
+	[1,-1],
+	[-1,0],
+	[0,0],
+	[1,0],
+	[-1,1],
+	[0,1],
+	[1,1]
+]
 
 waterColors = [
 	[25, 73, 170],
@@ -1341,6 +1364,7 @@ promptState = null;
 currentView = "terrain";
 currentHighlight = null;
 currentExecutive = null;
+currentExecutiveButton = null;
 currentExecutiveSorter = null;
 debugTemp = null;
 
@@ -1674,7 +1698,7 @@ function wordPlural(word) {
 		word = word.substring(0, word.length-1);
 		suffix = "ies";
 	}
-	else if (word.endsWith("man")) {
+	else if (word.endsWith("man") && word.length > 5) {
 		word = word.substring(0, word.length-3);
 		suffix = "men";
 	}
@@ -1694,7 +1718,7 @@ function wordAdjective(word) {
 		word = word.substring(0, word.length-2);
 		suffix = "ic";
 	}
-	else if (word.endsWith("man")) {
+	else if (word.endsWith("man") && word.length > 5) {
 		word = word.substring(0, word.length-3);
 		suffix = "";
 	}
@@ -1714,6 +1738,10 @@ function wordAdjective(word) {
 		word = word.substring(0, word.length-2);
 		suffix = "tic";
 	}
+	else if (word.endsWith("ship")) {
+		word = word.substring(0, word.length-4);
+		suffix = "ial";
+	}
 
 	if (suffix) word += suffix;
 	return word;
@@ -1726,6 +1754,61 @@ function commaList(array) {
 	return array.slice(0,-1).join(", ") + ", and " + array.slice(-1);
 }
 
+
+
+
+function splitChunks(array, center, groupCount=2) {
+	let chunks = {};
+	let done = {};
+	array.forEach((c) => {
+		chunks[c.x + "," + c.y] = c;
+	})
+
+	let cursors = {};
+	for (let n = 1; n < groupCount+1; n++) {
+		cursors[n] = [...center]
+	}
+	
+	for (let n = 0; n < 100; n++) {
+
+		for (let cursor in cursors) {
+			const pos = cursors[cursor];
+
+			let diff = choose(squareCoords);
+			let newX = pos[0] + diff[0];
+			let newY = pos[1] + diff[1];
+
+			let chunkKey = newX + "," + newY;
+			if (!chunks[chunkKey] || done[chunkKey] !== undefined) continue;
+
+			pos[0] = newX;
+			pos[1] = newY;
+			cursor = parseInt(cursor);
+			done[chunkKey] = cursor;
+			chunks[chunkKey].v.tempsplit = cursor;
+		}
+		
+	}
+
+	let groups = {};
+	for (let cursor in cursors) {
+		groups[cursor] = [];
+	}
+
+	array.forEach((c) => {
+		let cursor = nearestChunk(c.x, c.y, (c2) => c2.v.tempsplit);
+		if (!groups[cursor]) return;
+		if (cursor) cursor = cursor.v.tempsplit;
+		groups[cursor].push(c);
+	})
+
+	array.forEach((c) => {
+		delete c.v.tempsplit;
+	})
+
+	return groups;
+}
+// let chunks = splitChunks(filterChunks((c) => c.v.s === 1), regGet("town", 1).center);
 
 
 
@@ -1742,7 +1825,8 @@ function renderHighlight() {
 	let chunks = filterChunks((c) => c.v.s !== undefined);
 	for (let i = 0; i < chunks.length; i++) {
 		const chunk = chunks[i];
-		let color = regGet("town",chunk.v.s).color;
+		const town = regGet("town",chunk.v.s);
+		let color = town.color;
 		let opacity = 0.33;
 		if (currentHighlight && currentHighlight[1] === chunk.v.s && currentHighlight[0] === "town") {
 			// color = color.map((x) => Math.floor(Math.min(255, x+30)))
@@ -1771,43 +1855,43 @@ function renderHighlight() {
 				else if (coords[1] === 1) {
 					ctx.fillRect(chunk.x*chunkSize, chunk.y*chunkSize+chunkSize-1, chunkSize, 1);
 				}
-			}
-		}
 
-		if (userSettings.carve) {
-			for (let x = 0; x < chunk.p.length; x++) {
-				for (let y = 0; y < chunk.p[x].length; y++) {
-					let adjacent = false;
-	
-					let absX = chunkSize * chunk.x + x;
-					let absY = chunkSize * chunk.y + y;
-	
-					for (let i = 0; i < adjacentCoords.length; i++) {
-						const coords = adjacentCoords[i];
-						let adjacentPixel = pixelAt(absX + coords[0], absY + coords[1]);
-						// console.log(adjacentPixel)
-						if (adjacentPixel <= waterLevel) {
-							adjacent = true;
-							break;
+				if (userSettings.carve !== true) continue;
+				for (let x = 0; x < chunk.p.length; x++) {
+					for (let y = 0; y < chunk.p[x].length; y++) {
+						let adjacent = false;
+		
+						let absX = chunkSize * chunk.x + x;
+						let absY = chunkSize * chunk.y + y;
+		
+						for (let i = 0; i < adjacentCoords.length; i++) {
+							const coords = adjacentCoords[i];
+							let adjacentPixel = pixelAt(absX + coords[0], absY + coords[1]);
+							// console.log(adjacentPixel)
+							if (adjacentPixel <= waterLevel) {
+								adjacent = true;
+								break;
+							}
 						}
-					}
-	
-					if (chunk.p[x][y] <= waterLevel) {
-						ctx.clearRect(chunk.x*chunkSize + x, chunk.y*chunkSize + y, 1, 1);
-					}
-					else if (adjacent === true) {
-						ctx.fillRect(absX, absY, 1, 1);
+		
+						if (chunk.p[x][y] <= waterLevel) {
+							ctx.clearRect(chunk.x*chunkSize + x, chunk.y*chunkSize + y, 1, 1);
+						}
+						else if (adjacent === true) {
+							ctx.fillRect(absX, absY, 1, 1);
+						}
 					}
 				}
 			}
 		}
+		// ctx.fillStyle = ((chunk.x * chunk.y) % 2) ? "rgb(255, 55, 55)" : "rgb(255, 255, 55)";
 	}
 
 	const disasters = regFilter("process", (p) => p.done === undefined && p.type === "disaster");
 	for (let i = 0; i < disasters.length; i++) {
 		const disaster = disasters[i];
 		let color = disaster.color || [255,0,0];
-		if (disaster.chunks) {
+		if (Array.isArray(disaster.chunks)) {
 			let chunks = {};
 			disaster.chunks.forEach((coords) => {
 				chunks[coords[0] + "," + coords[1]] = true;
@@ -1842,6 +1926,16 @@ function renderHighlight() {
 
 		}
 	}
+
+	// const groups = splitChunks(filterChunks((c) => c.v.s === 3), regGet("town", 3).center, 3);
+	// for (let group in groups) {
+	// 	let chunks = groups[group];
+	// 	group = parseInt(group);
+	// 	chunks.forEach((c) => {
+	// 		ctx.fillStyle = group === 1 ? "#ff0000" : group === 2 ? "#00ff00" : "#0000ff";
+	// 		ctx.fillRect(c.x*chunkSize, c.y*chunkSize, chunkSize, chunkSize);
+	// 	})
+	// }
 
 	renderMarkers();
 }
@@ -1885,23 +1979,46 @@ function renderMarkers() {
 		if (highlight) ctx.font = (_chunkSize)+"px PublicPixel";
 	}
 
-	if ((userSettings.townNames && !controlState.shift) || (controlState.shift && !userSettings.townNames)) {
-		ctx.strokeStyle = "rgb(0,0,0)";
-		regToArray("town").forEach((town) => {
-			if (!town.center) happen("UpdateCenter", null, town);
+	ctx.strokeStyle = "rgb(0,0,0)";
+	regToArray("town").forEach((town) => {
+		if (!town.center) happen("UpdateCenter", null, town);
+		let hasIssue = Object.values(town.issues).length;
 
-			const x = town.center[0];
-			const y = town.center[1];
-			const name = town.name;
+		let x = town.center[0];
+		let y = town.center[1];
 
+		if ((userSettings.townNames && !controlState.shift) || (controlState.shift && !userSettings.townNames)) {
+			let name = town.name;
+
+			if (hasIssue) {
+				ctx.strokeStyle = "rgb(255, 0, 0)";
+				ctx.fillStyle = "rgb(255, 255, 0)";
+			}
+			else {
+				ctx.strokeStyle = "rgb(0,0,0)";
+				ctx.fillStyle = "rgb("+town.color.join(",")+")";
+			}
+			
 			ctx.font = Math.max(64, Math.round(Math.min(town.size,100)/100 * 96))+"px VT323";
 
 			ctx.lineWidth = pixelSize*2.5;
 			ctx.strokeText(name, x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
-			ctx.fillStyle = "rgb("+town.color.join(",")+")";
 			ctx.fillText(name, x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
-		})
-	}
+			
+			
+		}
+		
+		else if (hasIssue && userSettings.markers !== false) {
+			ctx.lineWidth = pixelSize*3;
+			
+			ctx.strokeStyle = "rgb(255, 0, 0)";
+			ctx.fillStyle = "rgb(255, 255, 0)";
+
+			ctx.font = Math.max(112, Math.round(Math.min(town.size,128)/100 * 96))+"px VT323";
+			ctx.strokeText("!".repeat(hasIssue), x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
+			ctx.fillText("!".repeat(hasIssue), x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
+		}
+	})
 }
 
 onMapClick = null;
@@ -2093,7 +2210,7 @@ mapCanvas.addEventListener("mouseout", (e) => {
 	renderHighlight();
 	updateCanvas();
 })
-mapCanvas.oncontextmenu = () => { return false; }
+// mapCanvas.oncontextmenu = () => { return false; }
 
 mapCanvas.addEventListener("touchstart", (e) => {
 	selectedChunk = null;
@@ -2263,20 +2380,22 @@ function updateStats() {
 			html += `<tr>`;
 			html += `<td>` + parseText("{{regname:town|"+town.id+"}}") + `</td>`;
 			html += `<td>` + parseText(`{{face:${town.id}}}{{num:${town.pop}|K}}`) + `</td>`;
-			html += `<td>` + parseText("{{icon:land}}") + town.size + `</td>`;
+			html += `<td>` + parseText(`{{icon:land}}{{num:${town.size}|K}}`) + `</td>`;
 			html += `<td>` + "" + `</td>`;
 			html += `</tr>`;
 			// html += `<br>`;
 		});
 		html += `<tr class="total">`;
 		html += `<td>Total</td>`;
-		html += `<td>` + parseText("{{face}}") + regToArray("town").reduce((n, {pop}) => n + pop, 0) + `</td>`;
+		html += `<td>` + parseText("{{face}}{{num:" + regToArray("town").reduce((n, {pop}) => n + pop, 0)+"|K}}") + `</td>`;
 		html += `<td>` + "" + `</td>`;
 		html += `</tr>`;
 		html += `</table></span>`;
 	}
 	else {
-		let chunkKey = mousePos.chunkX+","+mousePos.chunkY;
+		let chunkKey;
+		if (mousePos) chunkKey = mousePos.chunkX+","+mousePos.chunkY;
+		else if (selectedChunk) chunkKey = selectedChunk.x+","+selectedChunk.y;
 		let chunk = selectedChunk || planet.chunks[chunkKey];
 		if (chunk) {
 			if (tempHover[chunkKey]) {
@@ -2297,8 +2416,17 @@ function updateStats() {
 						parseText(` {{resourcetotal:${town.id}|lumber}}{{icon:lumber|Lumber}}`) +
 						parseText(` {{resourcetotal:${town.id}|rock}}{{icon:rock|Rock}}`) +
 						parseText(` {{resourcetotal:${town.id}|livestock}}{{icon:livestock|Livestock}}`)
-					}</span><br>`;
+					}</span>`;
 					// html += `<span>Population: ${town.pop}</span>`;
+
+					if (Object.values(town.issues).length) {
+						html += `<span style="text-align:center">${
+							Object.values(town.issues).map(id => 
+								"<span class='warningSign'>{!}</span> " + parseText("{{regname:process|"+id+"}}")
+							).join("<br>")
+						}</span><br>`;
+					}
+					else html += "<br>";
 				}
 			}
 			let localName = "Local";
@@ -2533,6 +2661,9 @@ function openRegBrowser(obj,regName) {
 	document.getElementById("regBrowser").scrollTop = 0;
 
 	let title = obj.name;
+	if (!title && regBrowserExtra[regName] && regBrowserExtra[regName].name) {
+		title = regBrowserExtra[regName].name(obj);
+	}
 	if (title) {
 		if (regName && obj.id) title = `{{regname:${regName}|${obj.id}}}`;
 		else if (obj.color) title = `{{color:${title}|rgb(${obj.color.join(",")})}}`;
@@ -2710,7 +2841,7 @@ function regBrowseBiome(biome) {
 	if (!livestocks.length) livestocks = undefined;
 	
 	openRegBrowser({
-		name: data.name || biome,
+		name: titleCase(data.name || biome),
 		color: data.color,
 		type: "biome",
 		crops: crops,
@@ -2725,16 +2856,17 @@ function logMessage(text, type, args) {
 		logTomorrow(text, type, args);
 		return;
 	}
+	text = parseText(escapeHTML(text));
 	text = text.replace(/^[a-z]/, (match) => match.toUpperCase());
 	let uuid = uuidv4();
 	let html = `<span class="logMessage${type ? ' log'+titleCase(type) : ' logNormal'}" id="logMessage-${uuid}" new="true">
-	<span class="logDay" data-day="${type === "tip" ? "" : planet.day}" title="${type ? titleCase(type) : ""}" onclick="handleMessageClick(this)">${type === "tip" ? "?" : parseText("{{date:"+planet.day+"|s}}")}</span><span class="logText">${parseText(escapeHTML(text))}</span>
+	<span class="logDay" data-day="${type === "tip" ? "" : planet.day}" title="${type ? titleCase(type) : ""}" onclick="handleMessageClick(this)">${type === "tip" ? "?" : parseText("{{date:"+planet.day+"|s}}")}</span><span class="logText">${text}</span>
 </span>`
 	// <span class="logAct"><span>Yes</span><span>No</span></span>
 	let logMessages = document.getElementById("logMessages");
 	logMessages.insertAdjacentHTML("afterbegin",html);
 	let logText = logMessages.querySelector("#logMessage-"+uuid+" .logText");
-	if (logText.childNodes[0].className === "prefix") {
+	if (logText.childNodes[0].className === "affix") {
 		logText.childNodes[0].innerText = logText.childNodes[0].innerText.replace(/^[a-z]/, (match) => match.toUpperCase());
 	}
 	if (logMessages.childNodes.length > 100) {
@@ -2762,7 +2894,7 @@ function logChange(uuid,text) {
 		elem.setAttribute("changed","true");
 		elem.querySelector(".logText").innerHTML = parseText(escapeHTML(text));
 		let logText = elem.querySelector(".logText");
-		if (logText.childNodes[0].className === "prefix") {
+		if (logText.childNodes[0].className === "affix") {
 			logText.childNodes[0].innerText = logText.childNodes[0].innerText.replace(/^[a-z]/, (match) => match.toUpperCase());
 		}
 	}
@@ -2813,7 +2945,7 @@ function reportInfluences(uuid, oldInfluences, newInfluences) {
 		const key = diffs[i][0];
 		const diff = diffs[i][1];
 		
-		if (diff) {
+		if (Math.abs(diff) > 0.01) {
 			let abs = Math.abs(diff);
 			let modality = influenceModality[key];
 			if (modality === undefined) modality = 1;
@@ -2838,7 +2970,7 @@ function reportInfluences(uuid, oldInfluences, newInfluences) {
 }
 
 function killPlanet() {
-	logMessage("There are no more settlements on Planet {{planet}}.");
+	logMessage("There are no more settlements on Planet {{planet}}. Your final score was {{percent:"+planet.stats.score+"}}.");
 	logTip("deadPlanet", "You may want to start a new planet.");
 	document.getElementById("actionSaves").classList.add("notify");
 	planet.dead = true;
@@ -2923,7 +3055,7 @@ function nextDay(e) {
 			if (Math.abs(changes.livestock) >= minChange) msg += `{{diff:${changes.livestock}}}{{icon:livestock|Livestock}} `;
 
 			if (msg) {
-				sunsetMsg += `{{regname:town|${town.id}}} (` + msg.trim() + ") ";
+				sunsetMsg += `{{regname:town|${town.id}|-}} (` + msg.trim() + ") ";
 			}
 		}
 	}
@@ -3043,6 +3175,7 @@ function nextDay(e) {
 						eventCaller.done = true;
 						statsAdd("prompt",1);
 						updateStats();
+						refreshExecutive();
 						renderMap();
 						renderHighlight();
 						updateCanvas();
@@ -3096,6 +3229,7 @@ function nextDay(e) {
 				eventCaller.done = true;
 				statsAdd("prompt",1);
 				updateStats();
+				refreshExecutive();
 				// renderMap();
 				renderHighlight();
 				updateCanvas();
@@ -3140,6 +3274,7 @@ function nextDay(e) {
 				eventCaller.done = true;
 				statsAdd("prompt",1);
 				updateStats();
+				refreshExecutive();
 				// renderMap();
 				renderHighlight();
 				updateCanvas();
@@ -3156,6 +3291,7 @@ function nextDay(e) {
 	}
 
 	updateStats();
+	refreshExecutive();
 	// renderMap();
 	renderHighlight();
 	updateCanvas();
@@ -3182,6 +3318,8 @@ function initGame() {
 
 	clearLog();
 	closeExecutive();
+
+	initExecutive();
 
 	currentPlayer = regGet("player", 1);
 	if (!currentPlayer) {
@@ -3513,6 +3651,11 @@ function loadFile() {
 
 	input.click();
 }
+
+isIOS = ['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+if (isIOS) {
+	document.getElementById("saveUpload").removeAttribute("accept");
+}
 document.getElementById("saveUpload").addEventListener("change", (e) => {
 	const file = e.target.files[0];
 	if (file) {
@@ -3583,13 +3726,19 @@ function validatePlanet() {
 		if (chunk.v.s && !reg.town[chunk.v.s]) delete chunk.v.s;
 	}
 
+	regToArray("town").forEach((town) => {
+		let _defaultTown = defaultTown();
+		for (const key in _defaultTown) {
+			if (town[key] === undefined) town[key] = _defaultTown[key];
+		}
+	})
+
 }
 
 unicodeSkips = {
 	0: 65, // null -> A
 	58: 65, // : -> A
-	91: 97, // [ -> a
-	123: 192, // { -> À
+	91: 192, // [ -> À
 	215: 216, // × -> Ø
 	247: 248, // ÷ -> ø
 	688: 880,
@@ -3975,7 +4124,11 @@ function populateExecutive(items, title, main=false) {
 
 		if (item.func) {
 			actionItem.addEventListener("click", () => {
+				let tempExecutive = currentExecutive;
 				item.func(actionItem);
+				if (tempExecutive !== currentExecutive) {
+					currentExecutiveButton = actionItem
+				}
 			});
 			actionItem.classList.add("clickable");
 			actionItem.setAttribute("role","button");
@@ -4003,7 +4156,16 @@ function closeExecutive() {
 	document.getElementById("actionSub").style.display = "none";
 	document.getElementById("actionSubList").innerHTML = "";
 	currentExecutive = null;
+	currentExecutiveButton = null;
 	currentExecutiveSorter = null;
+}
+function refreshExecutive() {
+	if (!currentExecutiveButton) return;
+	let e = currentExecutiveButton;
+	if (e) {
+		closeExecutive();
+		e.click();
+	}
 }
 
 function sorterName(sorter, reg) {
@@ -4130,49 +4292,10 @@ function checkHash() {
 }
 window.addEventListener("hashchange", checkHash);
 
-
-window.addEventListener("load", function(){ //onload
-
-	if (userSettings.lastVersionCheck !== gameVersion && userSettings.view) {
-		document.getElementById("actionInfo").classList.add("notify");
-	}
-	else {
-		userSettings.lastVersionCheck = gameVersion;
-	}
-	userSettings.lastVersion = gameVersion;
-	saveSettings();
-
-	document.getElementById("gameLoading").style.display = "none";
-	document.getElementById("gameDiv").style.display = "flex";
-
-	for (let key in influenceModality) {
-		allInfluences[key] = true;
-	}
-	for (let key in influenceEffects) {
-		allInfluences[key] = true;
-		for (let key2 in influenceEffects[key]) {
-			allInfluences[key2] = true;
-		}
-	}
-	for (let key in jobInfluences) {
-		allInfluences[jobInfluences[key]] = true;
-	}
-	
-	if (R74n.has("GenTownSave")) {
-		autoload();
-	}
-	else {
-		planet = generatePlanet();
-		reg = planet.reg;
-		updateBiomes();
-		calculateLandmasses();
-		initGame();
-	}
-
-	if (userSettings.view) setView(userSettings.view);
-
-	document.querySelector("#gameHalf2 .panelX").addEventListener("click", closeExecutive);
-
+function initExecutive() {
+	document.querySelectorAll("#actionMainList .actionItem").forEach((e) => {
+		e.remove();
+	})
 	populateExecutive([
 	{
 		text: "Towns",
@@ -4276,7 +4399,7 @@ window.addEventListener("load", function(){ //onload
 				p.type === "project" && !p.done
 			).forEach((process) => {
 				items.push({
-					text: `${process.done ? "{{check" : "{{wait"}${process.symbol ? "|"+process.symbol : ""}}} ${process.name} ({{regname:town|${process.town}}})`,
+					text: `${process.done ? "{{check" : "{{wait"}${process.symbol ? "|"+process.symbol : ""}}} {{regname:process|${process.id}|-}} ({{regname:town|${process.town}}})`,
 					func: () => regBrowse("process", process.id),
 					entity: process
 				});
@@ -4305,8 +4428,8 @@ window.addEventListener("load", function(){ //onload
 				let name = regBrowserKeys[statsKey];
 
 				let value = planet.stats[key];
-				if (regBrowserValues[statsKey]) value = regBrowserValues[statsKey](value);
 				let valueText = value;
+				if (regBrowserValues[statsKey]) valueText = regBrowserValues[statsKey](value);
 				if (!isNaN(valueText)) {
 					valueText = "{{num:"+valueText+"}}";
 					value = parseFloat(value);
@@ -4364,7 +4487,7 @@ window.addEventListener("load", function(){ //onload
 			})
 			regToArray("process").forEach((process) => {
 				let text = `{{color:[{{date:${process.start}|s}}${process.done ? "–{{date:"+process.done+"|s}}" : ""}]|rgba(255,255,0,0.75)}} `;
-				if (process.type === "project") text += `${process.marker ? "{{regname:marker|"+process.marker+"}}" : process.name} constructed in {{regname:town|${process.town}}}`;
+				if (process.type === "project") text += `${process.marker ? "{{regname:marker|"+process.marker+"}}" : "{{regname:process|"+process.id+"}}"} constructed in {{regname:town|${process.town}}}`;
 				// else if (process.type === "disaster") text += 
 				else {
 					text += `{{regname:process|${process.id}}}`;
@@ -4382,7 +4505,50 @@ window.addEventListener("load", function(){ //onload
 			populateExecutive(items, "Timeline");
 		}
 	}
-	], undefined, true)
+	], "Executive", true)
+}
+
+window.addEventListener("load", function(){ //onload
+
+	if (userSettings.lastVersionCheck !== gameVersion && userSettings.view) {
+		document.getElementById("actionInfo").classList.add("notify");
+	}
+	else {
+		userSettings.lastVersionCheck = gameVersion;
+	}
+	userSettings.lastVersion = gameVersion;
+	saveSettings();
+
+	document.getElementById("gameLoading").style.display = "none";
+	document.getElementById("gameDiv").style.display = "flex";
+
+	for (let key in influenceModality) {
+		allInfluences[key] = true;
+	}
+	for (let key in influenceEffects) {
+		allInfluences[key] = true;
+		for (let key2 in influenceEffects[key]) {
+			allInfluences[key2] = true;
+		}
+	}
+	for (let key in jobInfluences) {
+		allInfluences[jobInfluences[key]] = true;
+	}
+	
+	if (R74n.has("GenTownSave")) {
+		autoload();
+	}
+	else {
+		planet = generatePlanet();
+		reg = planet.reg;
+		updateBiomes();
+		calculateLandmasses();
+		initGame();
+	}
+
+	if (userSettings.view) setView(userSettings.view);
+
+	document.querySelector("#gameHalf2 .panelX").addEventListener("click", closeExecutive);
 
 	document.getElementById("actionSettings").addEventListener("click",() => {
 	populateExecutive([
@@ -4594,7 +4760,8 @@ window.addEventListener("load", function(){ //onload
 		{ text: "{{check}} Long Events / Disasters" },
 		{ text: "{{check}} Settings" },
 		{ text: "{{check}} Laws" },
-		{ text: "{{x}} Revolutions / Merging" },
+		{ text: "{{check}} Revolutions" },
+		{ text: "{{x}} Merging" },
 		{ text: "{{x}} Economy / Trade" },
 		{ text: "{{x}} Diplomacy / Wars" },
 

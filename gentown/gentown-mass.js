@@ -18,6 +18,17 @@ specialNames = {
 	"unitedstates": "=america",
 	"unitedstatesofamerica": "=america",
 
+	"r74n": {
+		background: "#000000",
+		foreground: "#ff00ff",
+		emblem: "R",
+		emblemColor: "#00ffff",
+		color: "#00ffff",
+		template: "→$←",
+		dem: "Developer",
+		dems: "Developers"
+	},
+
 	"france": {
 		// flag: "{{color: |unset|#0000ff}}{{color: |unset|#ffffff}}{{color: |unset|#ff0000}}",
 		flag: flagColors("#0000ff","#ffffff","#ff0000"),

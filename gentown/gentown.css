@@ -353,10 +353,10 @@ span.none {
 	color: rgb(255, 200, 200);
 }
 
-.prefix {
+.affix {
 	display: none;
 }
-.logMessage .prefix {
+.logMessage .affix {
 	display: unset;
 }
 
@@ -507,6 +507,15 @@ tr.total {
 }
 .panelSubtitle {
 	text-align: center;
+}
+@keyframes warningSign {
+	0% { color:auto }
+	50% { color:yellow }
+	100% { color:auto }
+}
+.warningSign {
+	color: red;
+	animation: warningSign infinite 0.75s;
 }
 #actionPanel, .actionSubpanel {
 	display: flex;
@@ -887,6 +896,7 @@ tr.total {
 .regSectionTitle {
 	margin-left: 1.5em;
 	min-width: 130px;
+	word-wrap: normal;
 }
 .regSectionValue {
 	text-align: right;
