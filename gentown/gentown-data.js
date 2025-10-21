@@ -2188,7 +2188,7 @@ gameEvents = {
 			args.message = args.message.replace(/\[NAME\]/g, `{{regname:process|${disaster.id}}}`);
 
 			towns.forEach((town) => {
-				town.subject.disaster = disaster.id;
+				town.issues.disaster = disaster.id;
 			})
 
 			return disaster;
