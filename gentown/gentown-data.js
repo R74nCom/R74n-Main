@@ -228,7 +228,7 @@ actionables = {
 							target.startBiome = chunk.b;
 							// names
 							let prefix = "";
-							if (chunkIsNearby(x, y, (c) => c.b === "mountain", 5)) { //Monte-
+							if (chunkIsNearby(x, y, (c) => c.b === "mountain", 4)) { //Monte-
 								target.name = generateWord($c.townSyllables-1, true);
 								prefix = choose(wordComponents.prefixes.MOUNTAINOUS)[0];
 							}
@@ -990,6 +990,10 @@ gameEvents = {
 			}
 			else if (subject.influences.happy <= -8.5) {
 				happen("Influence", null, subject, { faith:-0.2 });
+			}
+
+			if (!planet.stats.oldesttown || planet.stats.oldesttown < planet.day - subject.start) {
+				planet.stats.oldesttown = planet.day - subject.start;
 			}
 
 			if (subject.usurp) {
@@ -1778,6 +1782,7 @@ gameEvents = {
 		messageDone: (subject, target, args) => args.value.levelData.messageDone,
 		messageNo: (subject, target, args) => args.value.levelData.messageNo,
 		weight: $c.COMMON,
+		noUsurp: true
 	},
 
 	"townRecolor": {
@@ -2051,6 +2056,13 @@ gameEvents = {
 				if (data && data.nameTemplate) name = data.nameTemplate.replace(/\$/g, text);
 				return `Welcome to {{b:${titleCase(name)}}}.`
 			}	
+		},
+		check: (subject, target, args) => {
+			if (planet.usurp) return false;
+			if (!target.town) return true;
+			let town = regGet("town", target.town);
+			if (town.usurp) return false;
+			return true;
 		},
 		func: (subject, target, args) => {
 			if (!args.value) return false;
@@ -2818,6 +2830,7 @@ regBrowserKeys = {
 	"stats.peakscore": "Peak score",
 	"stats.promptstreak": "Prompt streak",
 	"stats.peakprompts": "Peak prompt streak",
+	"stats.oldesttown": "Oldest town",
 }
 regBrowserValues = {
 	"pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}`,
@@ -2853,6 +2866,7 @@ regBrowserValues = {
 	"issues": null,
 	"stats.score": (value) => `{{percent:${value}}}`,
 	"stats.peakscore": (value) => `{{percent:${value}}}`,
+	"stats.oldesttown": (value) => `{{num:${value}}} days`,
 }
 regBrowserExtra = {
 	stats: {

@@ -1,3 +1,17 @@
+[Version 0.7.2 - 23 Oct 2025]
+ + Oldest town stat
+ ~ Towns must be slightly closer to mountains to obtain "Monte-" prefix
+ ~ Fixed: Carved borders are broken
+ ~ Fixed: Territory view isn't selected when loading a save
+ ~ Fixed: A save file can't be loaded twice without refreshing
+ ~ Fixed: Formatting error in revolution message for towns with apostrophes
+ ~ Fixed: First letter isn't capitalized in Reset Progress prompt
+ ~ Fixed: Bottom buttons are slightly cut off on iOS
+ ~ Fixed: Flags of autonomous towns are italicized
+ ~ Fixed: Autonomous towns can make global decisions, like unlocks
+ ~ Fixed: Autonomous towns still ask to name landmarks
+ ~ Fixed: Info sheet for towns that fell before v0.7 don't display
+
 [Version 0.7.1 - 22 Oct 2025]
  + Faith influence
      + Faith goes up if towns are consistently happy

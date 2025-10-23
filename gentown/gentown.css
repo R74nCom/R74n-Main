@@ -242,6 +242,9 @@ span.none {
 .usurp {
 	font-style: italic;
 }
+.usurp .font2 {
+	font-style: normal;
+}
 
 .logMessage .logAct {
 	display: inline-block;
@@ -1078,6 +1081,7 @@ tr.total {
 	}
 	#gameHalf1-2 {
 		overflow-y: hidden;
+		margin-bottom: env(safe-area-inset-bottom, 0px);
 	}
 	.mobileBar {
 		display: flex;

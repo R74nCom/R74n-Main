@@ -304,6 +304,8 @@ if (R74n.has("GenTownSettings")) {
 
 function escapeHTML(unsafe) {
 	return unsafe
+		.replace(/&#039;/g, "'")
+		.replace(/&quot;/g, '"')
 		.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")
 		.replace(/>/g, "&gt;")
@@ -398,7 +400,7 @@ function colorChange(rgb) {
 	let hsl = RGBtoHSL(rgb);
 	hsl[0] += randRange(2,5) / 10 * (Math.random() < 0.5 ? -1 : 1)
 	hsl[2] += (randRange(-2,2) / 10);
-	hsl[2] = Math.max(0.2, Math.min(0.8, hsl[2]));
+	hsl[2] = Math.max(0.35, Math.min(0.8, hsl[2]));
 	return HSLtoRGB(hsl).map((n) => Math.round(n));
 }
 
@@ -1876,31 +1878,32 @@ function renderHighlight() {
 				else if (coords[1] === 1) {
 					ctx.fillRect(chunk.x*chunkSize, chunk.y*chunkSize+chunkSize-1, chunkSize, 1);
 				}
+			}
+		}
 
-				if (userSettings.carve !== true) continue;
-				for (let x = 0; x < chunk.p.length; x++) {
-					for (let y = 0; y < chunk.p[x].length; y++) {
-						let adjacent = false;
-		
-						let absX = chunkSize * chunk.x + x;
-						let absY = chunkSize * chunk.y + y;
-		
-						for (let i = 0; i < adjacentCoords.length; i++) {
-							const coords = adjacentCoords[i];
-							let adjacentPixel = pixelAt(absX + coords[0], absY + coords[1]);
-							// console.log(adjacentPixel)
-							if (adjacentPixel <= waterLevel) {
-								adjacent = true;
-								break;
-							}
+		if (userSettings.carve) {
+			for (let x = 0; x < chunk.p.length; x++) {
+				for (let y = 0; y < chunk.p[x].length; y++) {
+					let adjacent = false;
+	
+					let absX = chunkSize * chunk.x + x;
+					let absY = chunkSize * chunk.y + y;
+	
+					for (let i = 0; i < adjacentCoords.length; i++) {
+						const coords = adjacentCoords[i];
+						let adjacentPixel = pixelAt(absX + coords[0], absY + coords[1]);
+						// console.log(adjacentPixel)
+						if (adjacentPixel <= waterLevel) {
+							adjacent = true;
+							break;
 						}
-		
-						if (chunk.p[x][y] <= waterLevel) {
-							ctx.clearRect(chunk.x*chunkSize + x, chunk.y*chunkSize + y, 1, 1);
-						}
-						else if (adjacent === true) {
-							ctx.fillRect(absX, absY, 1, 1);
-						}
+					}
+	
+					if (chunk.p[x][y] <= waterLevel) {
+						ctx.clearRect(chunk.x*chunkSize + x, chunk.y*chunkSize + y, 1, 1);
+					}
+					else if (adjacent === true) {
+						ctx.fillRect(absX, absY, 1, 1);
 					}
 				}
 			}
@@ -2596,7 +2599,9 @@ function doPrompt(obj) {
 		popupInput.style.flexGrow = "1";
 	}
 	else {
-		popupContent.innerHTML = parseText(message);
+		message = parseText(message);
+		message = message.replace(/^[a-z]/, (match) => match.toUpperCase());
+		popupContent.innerHTML = message;
 		popupContent.style.display = "";
 		popupTitle.style.paddingBottom = "0em";
 		popupInput.style.flexGrow = "";
@@ -3203,7 +3208,6 @@ function nextDay(e) {
 		logAct.className = "logAct";
 		if (eventInfo.value && eventInfo.value.ask) {
 			eventCaller.needsInput = true;
-			if (eventCaller.target && eventCaller.target.usurp) eventCaller.needsInput = false;
 
 			let logAsk = document.createElement("span");
 			logAsk.setAttribute("type","act");
@@ -3266,7 +3270,9 @@ function nextDay(e) {
 		}
 		else if ((eventInfo.func || eventInfo.influences || eventInfo.influencesNo || eventInfo.messageNo) && !eventInfo.auto) {
 			eventCaller.needsInput = true;
-			if (eventCaller.target && eventCaller.target.usurp) eventCaller.needsInput = false;
+			if (eventCaller.target && eventCaller.target.usurp && !eventInfo.noUsurp) {
+				eventCaller.needsInput = false;
+			}
 			if (planet.usurp) eventCaller.needsInput = false;
 
 			let logYes = document.createElement("span");
@@ -3777,6 +3783,7 @@ document.getElementById("saveUpload").addEventListener("change", (e) => {
 		reader.onerror = function (evt) {
 			alert("File '"+file.name+"' could not be read");
 		}
+		e.target.value = "";
 	}
 })
 
@@ -3829,7 +3836,7 @@ function validatePlanet() {
 		if (chunk.v.s && !reg.town[chunk.v.s]) delete chunk.v.s;
 	}
 
-	regToArray("town").forEach((town) => {
+	regToArray("town", true).forEach((town) => {
 		let _defaultTown = defaultTown();
 		for (const key in _defaultTown) {
 			if (town[key] === undefined) town[key] = _defaultTown[key];
@@ -4081,6 +4088,7 @@ function parseSave(json) {
 	validatePlanet();
 
 	initGame();
+	setView();
 
 	if (currentPlayer.name) {
 		userSettings.playerName = currentPlayer.name;
