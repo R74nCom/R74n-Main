@@ -226,7 +226,7 @@ addParserCommand("regname",function(args) {
 		}
 	}
 	if (!name) name = data.subtype || data.type;
-	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${color[0]},${color[1]},${color[2]})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
+	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${color[0]},${color[1]},${color[2]})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
 })
 addParserCommand("regoldest",function(args) {
 	if (args.length < 1) {return ""}
@@ -243,6 +243,14 @@ addParserCommand("randreg",function(args) {
 	if (options.length) return `{{regname:${args[0]}|${choose(options).id}}}`
 	
 	return ``;
+})
+addParserCommand("regadj",function(args) {
+	if (args.length < 2) {return ""}
+	const data = regGet(args[0],parseInt(args[1]));
+	if (!data) return `{{regname:${args[0]}|${args[1]}}}`;
+	return `{{regname:${args[0]}|${args[1]}${
+		data.adj ? "|"+data.adj : ""
+	}}}`
 })
 addParserCommand("planet",function(args) {
 	return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})">${args[0] || planet.name}</span>`;
@@ -389,7 +397,6 @@ function colorBrightness(rgb, multiplier) {
 function colorChange(rgb) {
 	let hsl = RGBtoHSL(rgb);
 	hsl[0] += randRange(2,5) / 10 * (Math.random() < 0.5 ? -1 : 1)
-	let old = hsl[2];
 	hsl[2] += (randRange(-2,2) / 10);
 	hsl[2] = Math.max(0.2, Math.min(0.8, hsl[2]));
 	return HSLtoRGB(hsl).map((n) => Math.round(n));
@@ -439,7 +446,8 @@ function defaultRegistry() {
 		"registry": defaultSubregistry(),
 		"process": defaultSubregistry(),
 		"marker": defaultSubregistry(),
-		"nature": defaultSubregistry()
+		"nature": defaultSubregistry(),
+		"product": defaultSubregistry()
 	}
 	for (let key in r) {
 		r.registry[key] = r.registry._id;
@@ -1703,7 +1711,7 @@ function wordPlural(word) {
 		suffix = "men";
 	}
 	else if (word.endsWith("person")) {
-		word = word.substring(0, word.length-3);
+		word = word.substring(0, word.length-6);
 		suffix = "people";
 	}
 
@@ -1741,6 +1749,9 @@ function wordAdjective(word) {
 	else if (word.endsWith("ship")) {
 		word = word.substring(0, word.length-4);
 		suffix = "ial";
+	}
+	else if (word.endsWith("ublic")) {
+		suffix = "al";
 	}
 
 	if (suffix) word += suffix;
@@ -1797,8 +1808,8 @@ function splitChunks(array, center, groupCount=2) {
 
 	array.forEach((c) => {
 		let cursor = nearestChunk(c.x, c.y, (c2) => c2.v.tempsplit);
-		if (!groups[cursor]) return;
 		if (cursor) cursor = cursor.v.tempsplit;
+		if (!groups[cursor]) return;
 		groups[cursor].push(c);
 	})
 
@@ -1832,6 +1843,16 @@ function renderHighlight() {
 			// color = color.map((x) => Math.floor(Math.min(255, x+30)))
 			color = colorBrightness(color, 1.15);
 			opacity = 0.5;
+		}
+		if (town.usurp) {
+			color = [...color];
+			let i = (color[0] + color[1] + color[2]) / 3;
+			let dr = i - color[0];
+			let dg = i - color[1];
+			let db = i - color[2];
+			color[0] = color[0] + dr * 0.75;
+			color[1] = color[1] + dg * 0.75;
+			color[2] = color[2] + db * 0.75;
 		}
 		color = color.join(",");
 		ctx.fillStyle = "rgba("+color+"," + opacity + ")";
@@ -1999,7 +2020,7 @@ function renderMarkers() {
 				ctx.fillStyle = "rgb("+town.color.join(",")+")";
 			}
 			
-			ctx.font = Math.max(64, Math.round(Math.min(town.size,100)/100 * 96))+"px VT323";
+			ctx.font = (town.usurp ? "italic " : "") + Math.max(64, Math.round(Math.min(town.size,100)/100 * 96))+"px VT323";
 
 			ctx.lineWidth = pixelSize*2.5;
 			ctx.strokeText(name, x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
@@ -2014,7 +2035,7 @@ function renderMarkers() {
 			ctx.strokeStyle = "rgb(255, 0, 0)";
 			ctx.fillStyle = "rgb(255, 255, 0)";
 
-			ctx.font = Math.max(112, Math.round(Math.min(town.size,128)/100 * 96))+"px VT323";
+			ctx.font = (town.usurp ? "italic " : "") + Math.max(112, Math.round(Math.min(town.size,128)/100 * 96))+"px VT323";
 			ctx.strokeText("!".repeat(hasIssue), x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
 			ctx.fillText("!".repeat(hasIssue), x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
 		}
@@ -2210,7 +2231,7 @@ mapCanvas.addEventListener("mouseout", (e) => {
 	renderHighlight();
 	updateCanvas();
 })
-// mapCanvas.oncontextmenu = () => { return false; }
+mapCanvas.oncontextmenu = () => { return false; }
 
 mapCanvas.addEventListener("touchstart", (e) => {
 	selectedChunk = null;
@@ -2685,6 +2706,7 @@ function openRegBrowser(obj,regName) {
 	else if (obj.type) subtitle = titleCase(obj.type);
 	if (obj.dems) subtitle += " of the "+obj.dems;
 	if (obj.gov) subtitle = titleCase(wordAdjective(obj.gov)) + " " + subtitle;
+	if (obj.usurp) subtitle = "Autonomous " + subtitle;
 	if (subtitle) {
 		let subtitleSection = document.createElement("div");
 		subtitleSection.className = "regSection regSubTitle";
@@ -2693,6 +2715,13 @@ function openRegBrowser(obj,regName) {
 		regSubTitle.innerHTML = subtitle;
 		subtitleSection.appendChild(regSubTitle);
 		regContent.appendChild(subtitleSection);
+	}
+
+	if (obj.desc) {
+		let descSection = document.createElement("div");
+		descSection.className = "regSection regDesc";
+		descSection.innerHTML = parseText(obj.desc).replace(/\n/g, "<br>");
+		regContent.appendChild(descSection);
 	}
 
 	for (let key in regBrowserKeys) {
@@ -2820,7 +2849,7 @@ function regBrowsePlanet() {
 	openRegBrowser({
 		name: planet.name,
 		color: planet.color,
-		type: planet.dems ? "planet" : (!regToArray("town").length ? "un" : "") + "inhabited planet",
+		type: planet.dems ? "planet" : (!regToArray("town").length ? "uninhabited" : planet.usurp ? "autonomous" : "inhabited") +" planet",
 		start: 0,
 		age: planet.day,
 		land: filterChunks((c) => c.b !== "water").length,
@@ -2873,10 +2902,25 @@ function logMessage(text, type, args) {
 		logMessages.removeChild(logMessages.lastChild);
 	}
 	if (args) {
+		if (args.buttons) {
+			let messageElement = document.getElementById("logMessage-"+uuid);
+			let logAct = document.createElement("span");
+			logAct.className = "logAct";
+			args.buttons.forEach(item => {
+				let logAsk = document.createElement("span");
+				logAsk.setAttribute("type","act");
+				logAsk.setAttribute("role","button");
+				logAsk.innerText = item.name || "Act";
+				logAsk.addEventListener("click",item.func)
+				logAct.appendChild(logAsk);
+			})
+			messageElement.appendChild(logAct);
+		}
 		if (args.influences) {
 			reportInfluences(uuid, args.influences[0], args.influences[1]);
 		}
 	}
+	if (logPanel.scrollTop) logPanel.scrollTop = 0;
 	return uuid;
 }
 function fadeMessage(uuid) {
@@ -2892,7 +2936,9 @@ function logChange(uuid,text) {
 	let elem = document.getElementById("logMessage-"+uuid);
 	if (elem) {
 		elem.setAttribute("changed","true");
-		elem.querySelector(".logText").innerHTML = parseText(escapeHTML(text));
+		text = parseText(escapeHTML(text));
+		text = text.replace(/^[a-z]/, (match) => match.toUpperCase());
+		elem.querySelector(".logText").innerHTML = text;
 		let logText = elem.querySelector(".logText");
 		if (logText.childNodes[0].className === "affix") {
 			logText.childNodes[0].innerText = logText.childNodes[0].innerText.replace(/^[a-z]/, (match) => match.toUpperCase());
@@ -2975,18 +3021,30 @@ function killPlanet() {
 	document.getElementById("actionSaves").classList.add("notify");
 	planet.dead = true;
 }
-
+function lockPlanet() {
+	planet.locked = true;
+	document.getElementById("nextDay").setAttribute("disabled", "true");
+	document.getElementById("nextDayMobile").setAttribute("disabled", "true");
+}
+function unlockPlanet() {
+	planet.locked = false;
+	document.getElementById("nextDay").removeAttribute("disabled");
+	document.getElementById("nextDayMobile").removeAttribute("disabled");
+}
 
 townsBefore = null;
 sunsetting = false;
 
 function nextDay(e) {
-	if (e && e.target.getAttribute("disabled") === "true") return;
+	if (e && e.target.getAttribute("disabled") === "true") {
+		if (planet.letter) logTip("letter", "There is an urgent letter you must read before continuing.");
+		return;
+	}
 
 	if (e) {
 		e.target.setAttribute("disabled","true");
 		setTimeout(()=>{
-			e.target.removeAttribute("disabled");
+			if (!planet.locked) { e.target.removeAttribute("disabled"); }
 		}, 1000)
 	}
 
@@ -2999,8 +3057,14 @@ function nextDay(e) {
 	})
 	for (let eventID in currentEvents) {
 		let eventCaller = currentEvents[eventID];
-		if (eventCaller.logID && !eventCaller.done) {
-			fadeMessage(eventCaller.logID);
+		if (!eventCaller.done) {
+			if (eventCaller.logID) {
+				fadeMessage(eventCaller.logID);
+			}
+			if (eventCaller.needsInput) {
+				if (planet.stats.promptstreak <= 0) statsAdd("promptstreak",-1);
+				else planet.stats.promptstreak = 0;
+			}
 		}
 		delete currentEvents[eventID];
 	}
@@ -3094,6 +3158,10 @@ function nextDay(e) {
 		}
 		if (eventCaller && planet.dead && !(eventCaller.subject && eventCaller.subject._reg === "nature")) eventCaller = undefined;
 		if (eventCaller && !eventCaller.target && randomEvents[eventCaller.eventClass].target) eventCaller = undefined;
+		if (eventCaller && gameEvents[chosenEvent].value && gameEvents[chosenEvent].value.ask &&
+			((eventCaller.target && eventCaller.target.usurp) || planet.usurp) && 
+			eventCaller.subject && eventCaller.subject._reg === "player") eventCaller = undefined;
+
 		if (eventCaller !== undefined) break;
 	}
 
@@ -3134,6 +3202,8 @@ function nextDay(e) {
 		let logAct = document.createElement("span");
 		logAct.className = "logAct";
 		if (eventInfo.value && eventInfo.value.ask) {
+			eventCaller.needsInput = true;
+			if (eventCaller.target && eventCaller.target.usurp) eventCaller.needsInput = false;
 
 			let logAsk = document.createElement("span");
 			logAsk.setAttribute("type","act");
@@ -3174,6 +3244,8 @@ function nextDay(e) {
 						else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
 						eventCaller.done = true;
 						statsAdd("prompt",1);
+						if (planet.stats.promptstreak < 0) planet.stats.promptstreak = 0;
+						statsAdd("promptstreak",1);
 						updateStats();
 						refreshExecutive();
 						renderMap();
@@ -3193,6 +3265,10 @@ function nextDay(e) {
 
 		}
 		else if ((eventInfo.func || eventInfo.influences || eventInfo.influencesNo || eventInfo.messageNo) && !eventInfo.auto) {
+			eventCaller.needsInput = true;
+			if (eventCaller.target && eventCaller.target.usurp) eventCaller.needsInput = false;
+			if (planet.usurp) eventCaller.needsInput = false;
+
 			let logYes = document.createElement("span");
 			logYes.setAttribute("type","yes");
 			logYes.setAttribute("role","button");
@@ -3227,7 +3303,11 @@ function nextDay(e) {
 				}
 				else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
 				eventCaller.done = true;
-				statsAdd("prompt",1);
+				if (eventCaller.needsInput) {
+					statsAdd("prompt",1);
+					if (planet.stats.promptstreak < 0) planet.stats.promptstreak = 0;
+					statsAdd("promptstreak",1);
+				}
 				updateStats();
 				refreshExecutive();
 				// renderMap();
@@ -3272,7 +3352,11 @@ function nextDay(e) {
 				}
 				else if (eventInfo.messageNo) logChange(eventCaller.logID, eventInfo.messageNo);
 				eventCaller.done = true;
-				statsAdd("prompt",1);
+				if (eventCaller.needsInput) {
+					statsAdd("prompt",1);
+					if (planet.stats.promptstreak < 0) planet.stats.promptstreak = 0;
+					statsAdd("promptstreak",1);
+				}
 				updateStats();
 				refreshExecutive();
 				// renderMap();
@@ -3283,6 +3367,16 @@ function nextDay(e) {
 
 			logAct.appendChild(logNo);
 			logAct.appendChild(logYes);
+
+			if (!eventCaller.needsInput) { // usurp
+				setTimeout(() => {
+					(Math.random() < 0.5 ? logYes : logNo).click();
+					logAct.addEventListener("click", () => {
+						logMessage(`{{regname:${eventCaller.target._reg}|${eventCaller.target.id}}} has chosen to be run independently.`, "tip");
+					});
+				}, 100);
+				messageElement.classList.add("usurp");
+			}
 		}
 		if (logAct.innerHTML.length) messageElement.appendChild(logAct);
 	}
@@ -3308,8 +3402,6 @@ function initGame() {
 	if (!planet.reg) planet.reg = defaultRegistry();
 	reg = planet.reg;
 	gameLoaded = true;
-
-	// updateBiomes();
 	
 	if (parseInt(planet.day) !== planet.day) planet.day = 1;
 	
@@ -3372,8 +3464,10 @@ function initGame() {
 					let town = happen("Create",currentPlayer,null,{x:chunk.x, y:chunk.y},"town");
 
 					logMessage("The "+(town.type||"town")+" of {{regname|town|"+town.id+"}} is founded.")
-					document.getElementById("nextDay").removeAttribute("disabled");
-					document.getElementById("nextDayMobile").removeAttribute("disabled");
+					if (!planet.locked) {
+						document.getElementById("nextDay").removeAttribute("disabled");
+						document.getElementById("nextDayMobile").removeAttribute("disabled");
+					}
 					townsBefore = JSON.parse(JSON.stringify(reg.town));
 
 					setView("territory");
@@ -3385,10 +3479,19 @@ function initGame() {
 	else { // enable "Next Day" buttons if town already exists
 		onMapClick = null;
 		onMapClickMsg = null;
-		document.getElementById("nextDay").removeAttribute("disabled");
-		document.getElementById("nextDayMobile").removeAttribute("disabled");
+		if (!planet.locked) {
+			document.getElementById("nextDay").removeAttribute("disabled");
+			document.getElementById("nextDayMobile").removeAttribute("disabled");
+		}
 		townsBefore = JSON.parse(JSON.stringify(reg.town));
 	}
+
+	let gameDiv = document.getElementById("gameDiv");
+	if (planet.letter) {
+		happen("Letter", null, currentPlayer);
+	}
+	if (planet.usurp) gameDiv.classList.add("usurp");
+	else gameDiv.classList.remove("usurp");
 
 	updateStats();
 	renderMap();

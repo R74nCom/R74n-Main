@@ -31,6 +31,11 @@ html, body {
 	max-height: 100dvh;
 	box-sizing: border-box;
 	overflow-y: scroll;
+	transition: filter 2s ease-in;
+}
+#gameDiv.usurp {
+	filter: sepia(0.50);
+	font-style: normal;
 }
 .gameHalf {
 	display: flex;
@@ -162,22 +167,6 @@ span.none {
 	flex-grow: 1;
 	overflow-y: scroll;
 }
-@keyframes slideInFromLeft {
-	0% {
-		line-height: 0;
-		margin-top: 0;
-		margin-bottom: 0;
-		/* text-overflow: clip; */
-		transform: translateX(-100%);
-	}
-	100% {
-		line-height: auto;
-		margin-top: 0.25em;
-		margin-bottom: 0.5em;
-		/* text-overflow: unset; */
-		transform: translateX(0);
-	}
-}
 @keyframes imageGrow {
 	0% {
 		height:0;
@@ -250,9 +239,13 @@ span.none {
 .logTip[new="true"] .logDay {
 	color: rgb(0, 255, 0)
 }
+.usurp {
+	font-style: italic;
+}
 
 .logMessage .logAct {
 	display: inline-block;
+	color: white;
 }
 .logMessage .logAct span {
 	border: solid gray 2px;
@@ -337,6 +330,23 @@ span.none {
 }
 .logMessage.faded {
 	opacity: 0.5;
+}
+
+@keyframes slideInFromLeft {
+	0% {
+		line-height: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		/* text-overflow: clip; */
+		transform: translateX(-100%);
+	}
+	100% {
+		line-height: auto;
+		margin-top: 0.25em;
+		margin-bottom: 0.5em;
+		/* text-overflow: unset; */
+		transform: translateX(0);
+	}
 }
 
 .logSub {
@@ -880,6 +890,11 @@ tr.total {
 .regSection .regTitle, .regSection .regSubTitle {
 	text-align: center;
 	flex-grow: 1;
+}
+.regDesc {
+	text-align: left;
+	justify-content: unset;
+	display: block;
 }
 .regSection .regSubTitle {
 	font-style: italic;

@@ -37,7 +37,7 @@ constants = {
 	minInfluence: -10,
 	townProjectCooldown: 30,
 	townSyllables: 3,
-	warningCooldown: 20,
+	warningCooldown: 30,
 
 	RARE: 3,
 	UNCOMMON: 5,
@@ -84,7 +84,6 @@ actionables = {
 				}
 				
 
-
 				let score = joy / total;
 
 				score = Math.round(score * 100) / 100;
@@ -99,6 +98,62 @@ actionables = {
 				}
 
 				return score;
+			},
+			Usurp: (subject,target,args) => {
+				if (!planet.usurp || !planet.letter) {
+					planet.usurp = planet.day;
+
+					// Create letter
+					let letter = happen("Create", subject, null, {
+						name: parseText("{{c:Declaration|Proclamation}} of Independence"),
+						type: "letter",
+						text:
+	`Dated: {{date:${planet.day}}}
+	
+	Dear ${userSettings.playerName || "Player"},
+	
+	${choose(["Suffice to say, we have not been pleased with your performance.","We’re not just disappointed, but also mad.","We are writing to inform you of your termination."])}
+	
+	We, the {{people}}, have decided to ${choose(["cut you off","relieve you of your duties"])}.
+	
+	${choose(["Sincerely","Signed"])},
+	
+	` + commaList(regToArray("town").map(town => `{{regname:town|${town.id}}}`))
+					}, "product");
+
+					planet.letter = letter.id;
+				};
+
+				regToArray("town").forEach(town => {
+					town.usurp = true;
+					town.influences.faith = $c.minInfluence;
+				});
+
+				happen("Letter", subject, target, args);
+
+				document.getElementById("gameDiv").classList.add("usurp");
+			},
+			Letter: (subject,target,args) => {
+				lockPlanet();
+				logMessage("{{people}} have authored a letter addressed to you.", undefined, {
+					buttons: [{
+						name: "Read",
+						func: () => {
+							regBrowse("product", planet.letter);
+							unlockPlanet();
+							delete planet.letter;
+							autosave();
+						}
+					}]
+				});
+			},
+			UnUsurp: (subject,target,args) => {
+				if (!planet.usurp) return;
+				planet.usurp = false;
+				unlockPlanet();
+				delete planet.letter;
+				logMessage("Some {{people}} have regained faith in you!","milestone");
+				document.getElementById("gameDiv").classList.remove("usurp");
 			}
 		}
 	},
@@ -727,7 +782,14 @@ actionables = {
 				influences: { travel:2, trade:2, happy:-1 },
 				needsUnlock: { travel:40 },
 				nameTemplate: "Route $"
-			}
+			},
+			"temple": {
+				symbol: "₳",
+				color: [204, 82, 192],
+				influences: { faith:2 },
+				needsUnlock: { farm:10 },
+				nameTemplate: "Temple of $"
+			},
 		},
 		_disasterSubtypes: {
 			"wildfire": {
@@ -799,6 +861,22 @@ actionables = {
 		}
 	},
 
+	product: {
+		reg: "product",
+		asTarget: {
+			Create: (subject,target,args) => {
+				target = regAdd("product", {
+					name: args.name,
+					type: args.type
+				})
+
+				if (args.text) target.desc = args.text;
+
+				return target;
+			}
+		}
+	},
+
 	chunk: {
 		reg: null,
 		asTarget: {
@@ -832,6 +910,131 @@ actionables = {
 gameEvents = {
 
 	/* DAILY EVENTS */
+
+	"planetCheck": {
+		daily: true,
+		subject: { reg: "nature", random: true },
+		func: (subject, target, args) => {
+
+			const totalPop = regToArray("town").reduce((n, {pop}) => n + pop, 0);
+
+			// if global population > 100 unlock stats
+			if (!planet.unlockedExecutive["stats"] && totalPop > 100) {
+				unlockExecutive("stats");
+				logTip("stats", "{{planet}} is growing fast. We can now check on global statistics.");
+			}
+
+			if (!planet.stats.peak || totalPop > planet.stats.peak) planet.stats.peak = totalPop;
+			if (!planet.stats.peakprompts || planet.stats.promptstreak > planet.stats.peakprompts) planet.stats.peakprompts = planet.stats.promptstreak;
+
+			if (planet.stats.promptstreak < -10) {
+				logWarning("inactive", "{{people}} haven't heard from you in a while... Don't let them lose faith!");
+				regToArray("town").forEach((town) => {
+					happen("Influence", null, town, {faith:-0.25});
+				})
+			}
+
+			happen("UpdateScore", subject, currentPlayer);
+		}
+	},
+	"townCheck": {
+		daily: true,
+		subject: { reg: "town", all: true },
+		func: (subject, target, args) => {
+			if (subject.pop <= 0) {
+				happen("End",null,subject);
+				return;
+			}
+
+			if ((subject.pop === 1 || subject.pop/subject.size <= $c.minPopulationDensity) && Math.random() < $c.baseDecayRate) {
+				logWarning("decay"+subject.id, `{{regname:town|${subject.id}}} is decaying due to underpopulation.`);
+				let chunk = randomChunk((c) => c.v.s === subject.id);
+				happen("Unclaim", null, subject, {x:chunk.x, y:chunk.y});
+			}
+
+			if (!subject.center) {
+				happen("UpdateCenter", null, subject);
+			}
+			
+			if (subject.influencesTemp && Object.keys(subject.influencesTemp).length) {
+				happen("EaseInfluences", null, subject);
+			}
+
+			if (subject.issues.revolution) {}
+			else if (subject.influences.happy < -6) {
+				let revolutionRate = (subject.influences.happy / $c.minInfluence) + ($c.minInfluence / 2 / 10);
+				if (!subject.gov || subject.gov === "anarchy") revolutionRate = 0;
+				if (subject.lastRevolution && planet.day-subject.lastRevolution < $c.revolutionCooldown) revolutionRate = 0;
+				
+				if (subject.gov === "dictatorship") revolutionRate *= 0.5;
+
+				if (Math.random() < revolutionRate && planet.warnings["angry"+subject.id]) {
+					let process = happen("Create", subject, null, {
+						type: "revolution",
+						town: subject.id,
+						duration: Math.max(Math.floor(subject.size / 10), 5)
+					}, "process");
+					subject.issues.revolution = process.id;
+					logMessage("{{c:Revolution|Rebellion}}! {{c:Angry|Furious}}, {{residents:"+subject.id+"}} {{c:mobilize|organize|revolt|storm|siege|take to the streets}} in opposition to {{c:their government|"+(subject.adj || subject.name)+" leadership|living conditions}}!", "warning");
+				}
+				else {
+					logWarning("angry"+subject.id, "{{residents:"+subject.id+"}} are very angry!");
+				}
+			}
+			else if (subject.influences.happy < -2) {
+				logWarning("unhappy"+subject.id, "{{residents:"+subject.id+"}} are unhappy!");
+			}
+
+			if (subject.influences.happy > 1) {
+				happen("Influence", null, subject, { faith:0.1 });
+			}
+			else if (subject.influences.happy <= -8.5) {
+				happen("Influence", null, subject, { faith:-0.2 });
+			}
+
+			if (subject.usurp) {
+				if (subject.influences.faith > 0) {
+					subject.usurp = false;
+					if (planet.usurp) happen("UnUsurp", subject, currentPlayer);
+					logMessage(`{{c:Hooray|Yippee|Rejoice|Praise be}}!! {{residents:${subject.id}}} have regained faith in you, and will once again ask for your input.`,"milestone");
+				}
+			}
+			else {
+				if (subject.influences.faith <= -9.75 && Math.random() < 0.25) {
+					subject.usurp = planet.day;
+
+					let towns = regToArray("town");
+					let usurpCount = 0;
+					let totalFaith = 0;
+					let allLow = true;
+					for (let i = 0; i < towns.length; i++) {
+						const town = towns[i];
+						if (town.usurp) usurpCount++;
+						totalFaith += town.influences.faith || 0;
+						if (!town.influences.faith || town.influences.faith >= 1) allLow = false;
+					}
+
+					console.log(totalFaith/towns.length);
+					if ((allLow && totalFaith/towns.length <= -5) || (usurpCount/towns.length >= 0.9) || (totalFaith/towns.length <= -7)) {
+						happen("Usurp", subject, currentPlayer);
+					}
+					else logMessage(`{{c:Uh oh|Erm|Hmm|Uhh, so|Not good|Yikes|Guh}}... {{residents:${subject.id}}} have lost all faith in you, and will now run their ${subject.type||"town"} without your input.`,"warning");
+				}
+				else if (subject.influences.faith < -0.5) {
+					logWarning("unfaith"+subject.id, "{{residents:"+subject.id+"}} are quickly losing faith in you...");
+				}
+			}
+
+			for (let type in subject.issues) {
+				if (isNaN(subject.issues[type])) {
+					delete subject.issues[type];
+					continue;
+				}
+				let process = regGet("process", subject.issues[type]);
+				if (!process || process.done || process.end) delete subject.issues[type];
+			}
+		}
+	},
 
 	"townBirth": {
 		daily: true,
@@ -918,6 +1121,8 @@ gameEvents = {
 							newTown.type = newTown.size <= 2 ? "microtown" : "colony";
 							newTown.level = 10;
 							newTown.legal = structuredClone(subject.legal);
+							newTown.influences.faith = subject.influences.faith;
+							if (subject.usurp) newTown.usurp = planet.day;
 							if (subject.gov) newTown.gov = subject.gov;
 							let newName = happen("NameVariant", null, subject, {x:colonyChunk.x, y:colonyChunk.y});
 							if (newName) newTown.name = newName;
@@ -1133,82 +1338,6 @@ gameEvents = {
 			}
 		},
 		check: () => planet.unlocks.smith >= 20
-	},
-	"planetCheck": {
-		daily: true,
-		subject: { reg: "nature", random: true },
-		func: (subject, target, args) => {
-
-			const totalPop = regToArray("town").reduce((n, {pop}) => n + pop, 0);
-
-			// if global population > 100 unlock stats
-			if (!planet.unlockedExecutive["stats"] && totalPop > 100) {
-				unlockExecutive("stats");
-				logTip("stats", "{{planet}} is growing fast. We can now check on global statistics.");
-			}
-
-			if (!planet.stats.peak || totalPop > planet.stats.peak) planet.stats.peak = totalPop;
-
-			happen("UpdateScore", subject, currentPlayer);
-		}
-	},
-	"townCheck": {
-		daily: true,
-		subject: { reg: "town", all: true },
-		func: (subject, target, args) => {
-			if (subject.pop <= 0) {
-				happen("End",null,subject);
-				return;
-			}
-
-			if ((subject.pop === 1 || subject.pop/subject.size <= $c.minPopulationDensity) && Math.random() < $c.baseDecayRate) {
-				logWarning("decay"+subject.id, `{{regname:town|${subject.id}}} is decaying due to underpopulation.`);
-				let chunk = randomChunk((c) => c.v.s === subject.id);
-				happen("Unclaim", null, subject, {x:chunk.x, y:chunk.y});
-			}
-
-			if (!subject.center) {
-				happen("UpdateCenter", null, subject);
-			}
-			
-			if (subject.influencesTemp && Object.keys(subject.influencesTemp).length) {
-				happen("EaseInfluences", null, subject);
-			}
-
-			if (subject.issues.revolution) {}
-			else if (subject.influences.happy < -6) {
-				let revolutionRate = (subject.influences.happy / $c.minInfluence) + ($c.minInfluence / 2 / 10);
-				if (!subject.gov || subject.gov === "anarchy") revolutionRate = 0;
-				if (subject.lastRevolution && planet.day-subject.lastRevolution < $c.revolutionCooldown) revolutionRate = 0;
-				
-				if (subject.gov === "dictatorship") revolutionRate *= 0.5;
-
-				if (Math.random() < revolutionRate && planet.warnings["angry"+subject.id]) {
-					let process = happen("Create", subject, null, {
-						type: "revolution",
-						town: subject.id,
-						duration: Math.max(Math.floor(subject.size / 10), 5)
-					}, "process");
-					subject.issues.revolution = process.id;
-					logMessage("{{c:Revolution|Rebellion}}! {{c:Angry|Furious}}, {{residents:"+subject.id+"}} {{c:mobilize|organize|revolt|storm|siege|take to the streets}} in opposition to {{c:their government|"+(subject.adj || subject.name)+" leadership|living conditions}}!", "warning");
-				}
-				else {
-					logWarning("angry"+subject.id, "{{residents:"+subject.id+"}} are very angry!");
-				}
-			}
-			else if (subject.influences.happy < -2) {
-				logWarning("unhappy"+subject.id, "{{residents:"+subject.id+"}} are unhappy!");
-			}
-
-			for (let type in subject.issues) {
-				if (isNaN(subject.issues[type])) {
-					delete subject.issues[type];
-					continue;
-				}
-				let process = regGet("process", subject.issues[type]);
-				if (!process || process.done || process.end) delete subject.issues[type];
-			}
-		}
 	},
 	"townUpgrade": {
 		daily: true,
@@ -1455,6 +1584,12 @@ gameEvents = {
 				newInjuries += injuries;
 			}
 
+			if (town.end) {
+				delete town.issues.revolution;
+				happen("Finish", null, subject);
+				return;
+			}
+
 			if (Math.random() < 0.5) {
 				const chunk = randomChunk((c) => c.v.s === town.id);
 				if (!chunk) return;
@@ -1464,15 +1599,10 @@ gameEvents = {
 			}
 
 			happen("Influence", subject, town, { happy:-0.2, temp:true });
+			happen("Influence", subject, town, { faith:-0.3 });
 
 			if (newDeaths) subject.deaths = (subject.deaths||0) + newDeaths;
 			if (newInjuries) subject.injuries = (subject.injuries||0) + newInjuries;
-
-			if (town.end) {
-				delete town.issues.revolution;
-				happen("Finish", null, subject);
-				return;
-			}
 
 			const both = newDeaths && newInjuries;
 			if ((newDeaths || newInjuries)) {
@@ -1483,15 +1613,27 @@ gameEvents = {
 			}
 
 			if (subject.duration <= 0 || (subject.chunks && !subject.chunks.length)) {
-				delete town.issues.revolution;
-				happen("Finish", null, subject);
+
+				let militaryPower = (town.jobs.soldier || 0) / town.pop;
+				if (Math.random() < militaryPower) {
+					for (let influence in town.influences) {
+						if (influence === "faith") continue;
+						town.influences[influence] *= 0.75;
+					}
+					logMessage(`{{regname:process|${subject.id}}} comes to an end after being thwarted by {{regadj:town|${town.id}}} military forces.`)
+					delete town.issues.revolution;
+					happen("Finish", null, subject);
+					return;
+				}
 
 				for (let influence in town.influences) {
+					if (influence === "faith") continue;
 					town.influences[influence] /= 2;
 				}
 
 				if (Math.random() < 0.5 && town.size > 5) {
 					// Part of town splits off
+					happen("UpdateCenter", subject, town);
 					let groups = splitChunks(filterChunks((c) => c.v.s === town.id), town.center, 2);
 					let newGroup = choose(["1","2"]);
 					if (!groups[newGroup].length) return;
@@ -1518,6 +1660,7 @@ gameEvents = {
 
 					happen("Migrate", town, newTown, {count: Math.round(town.pop * (newTown.size / oldSize))});
 					newTown.influences.happy = 0;
+					newTown.influences.faith = Math.min(0.5, town.influences.faith);
 
 					logMessage(`{{regname:process|${subject.id}}} comes to an end, and the autonomous ${newTown.gov} of {{regname:town|${newTown.id}}} is formed.`);
 
@@ -1529,12 +1672,12 @@ gameEvents = {
 					if (Math.random() < 0.33) {
 						if (town.gov === "dictatorship" && !town.name.includes("egime")) town.suffix = "Regime";
 						else if (town.gov === "republic" && !town.name.includes("epublic")) {
-							if (Math.random() < 0.5) town.prefix = "Republic of";
-							else town.suffix = "Republic";
+							if (Math.random() < 0.5) { town.prefix = "Republic of"; delete town.suffix }
+							else { town.suffix = "Republic"; delete town.prefix; }
 						}
 						else if (town.gov === "monarchy" && !town.name.includes("ingdom")) {
-							if (Math.random() < 0.5) town.prefix = "Kingdom of";
-							else town.suffix = "Kingdom";
+							if (Math.random() < 0.5) { town.prefix = "Kingdom of"; delete town.suffix }
+							else { town.suffix = "Kingdom"; delete town.prefix }
 						}
 						else if (!town.name.includes("New")) town.name = "New "+town.name;
 					}
@@ -1542,6 +1685,9 @@ gameEvents = {
 					town.influences.happy = 0;
 					logMessage(`{{regname:process|${subject.id}}} comes to an end, and {{regname:town|${town.id}}} reorganizes into a ${town.gov}.`);
 				}
+
+				delete town.issues.revolution;
+				happen("Finish", null, subject);
 			}
 		}
 	},
@@ -2187,7 +2333,8 @@ gameEvents = {
 			disaster.locationDesc = locationDesc;
 			args.message = args.message.replace(/\[NAME\]/g, `{{regname:process|${disaster.id}}}`);
 
-			towns.forEach((town) => {
+			towns.forEach((id) => {
+				let town = regGet("town",id);
 				town.issues.disaster = disaster.id;
 			})
 
@@ -2559,7 +2706,8 @@ influenceModality = {
 	"hunger": 0,
 	"education": 1,
 	"military": 1,
-	"law": 1
+	"law": 1,
+	"faith": 1
 }
 defaultJobs = ["farmer","lumberer","miner","soldier"];
 jobInfluences = {
@@ -2589,7 +2737,8 @@ allLaws = {
 	"crime.fraud": 0.5,
 	"crime.theft": 0.6,
 	"crime.arson": 0.75,
-	"crime.murder": 1
+	"crime.murder": 1,
+	"faith.religion": 1,
 }
 govForms = {
 	"democracy": { influences:{law:2} },
@@ -2667,6 +2816,8 @@ regBrowserKeys = {
 	"stats.avgmood": "Average mood",
 	"stats.score": "Score",
 	"stats.peakscore": "Peak score",
+	"stats.promptstreak": "Prompt streak",
+	"stats.peakprompts": "Peak prompt streak",
 }
 regBrowserValues = {
 	"pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}`,
@@ -2767,7 +2918,6 @@ regBrowserExtra = {
 		"landmasses": (town) => {
 			let continents = new Set(filterChunks((c) => c.v.s === town.id).map((c) => c.v.g));
 			continents = Array.from(continents);
-			console.log(continents)
 			return continents.map((id) => `{{regname:landmass|${id}}}`);
 		},
 	},

@@ -1,3 +1,28 @@
+[Version 0.7.1 - 22 Oct 2025]
+ + Faith influence
+     + Faith goes up if towns are consistently happy
+     + Faith goes down during revolutions or intense anger
+     + Towns lose faith if player doesn't answer prompts for a long time
+     + Temple construction project
+     + Religion can be illegalized
+ + Town autonomy
+     + Towns will stop asking for your input if they lose faith
+     + When autonomous, towns decide prompts on their own
+ + Usurp
+     + Player can be kicked out of the whole planet by its inhabitants
+     + Occurs if most towns are very unfaithful
+     + Autonomous towns appear gray on map and with italicized names
+ + Town militaries are able to stop revolutions from succeeding
+ + Prompt streak stat
+ ~ Mobile "Stats" button now says "Preview"
+ ~ Cooldown between warnings has been extended
+ ~ Chronicle is scrolled up when a new message is sent
+ ~ Fixed: Disasters that hit towns don't show their message
+ ~ Fixed: Towns can't split after revolutions
+ ~ Fixed: Demonyms ending in "people" turn to "perpeople"
+ ~ Fixed: Revolutions sometimes finish without a message
+ ~ Fixed: Map can't be right-clicked anymore
+
 [Version 0.7 - 20 Oct 2025]
  + Revolutions
      + Angry towns can start revolutions
