@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-10-23 - Added temporary demographics question to Unit Converter
+2025-10-23 - Added external embed warning to Infinite Chef
 2025-10-14 - Added color-changing Discord R74n logo GIF to Icons page
 2025-10-09 - Updated Identifier space to properly include GenTown
 2025-10-07 - Added ?newsflash=no URL parameter to homepage

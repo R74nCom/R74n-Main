@@ -3083,6 +3083,12 @@ This HTML and its contents are property of R74n.com.
     script.setAttribute("src","https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8485284630785740");
     script.setAttribute("crossorigin","anonymous");
     document.head.appendChild(script);
+
+    if (location.hostname !== "r74n.com") {
+      document.querySelector(".content").insertAdjacentHTML("afterbegin", `
+        <p style="color:red; text-align:center"><strong>Warning: You're playing on an unofficial embed! Please visit the real version at <a href="https://r74n.com/cook/" style="text-decoration:underline">R74n.com</a> :) Enjoy!</strong></p>
+      `)
+    }
   });
 </script>
 
