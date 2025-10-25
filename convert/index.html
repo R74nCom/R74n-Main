@@ -41,6 +41,12 @@ This HTML and its contents are property of R74n.com.
     <meta name="msapplication-config" content="https://R74n.com/icons/browserconfig.xml?v=R74n-2">
     <!--<link id="canonicalTag" rel="canonical" href="https://R74n.com/convert/?pressure//attopascal/atmosphere" />-->
 
+    <script>
+      let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (timezone && timezone.match(/prc|china|singapore|asia\//i)) {
+        document.documentElement.innerHTML = "";
+      }
+    </script>
 
     <script src="unitdata.js"></script>
     <script>
