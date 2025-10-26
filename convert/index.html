@@ -219,7 +219,10 @@ This HTML and its contents are property of R74n.com.
 
       function updateMore(x) {
         let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        if (timezone && timezone.match(/prc|china|singapore|asia\//i)) {
+        // if (timezone && timezone.match(/prc|china|singapore|asia\//i)) {
+        //   return;
+        // }
+        if (!timezone || !timezone.match(/America\//i)) {
           return;
         }
 
