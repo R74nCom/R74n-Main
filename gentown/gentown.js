@@ -3093,6 +3093,7 @@ isIOS = ['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','i
 shareOptions = {
 	"Copy Text": {
 		func: async (text,title,url) => {
+			text += "\n\nPlay: "+url;
 			await navigator.clipboard.writeText(text);
 			logMessage("Message copied!", "tip");
 		},
