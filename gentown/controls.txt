@@ -4,8 +4,18 @@
 * Escape to close menus or unpin chunk
 * Shift to show town names on map
 * Number keys to change view
+* 'Y' to select Yes or Act
+* 'N' to select No
 * 'V' to open Select View
 * '\' to open Settings
+* 'L' to open Saves
+* 'I' to open game Info tab
+* 'T' to open Towns tab if unlocked
+* 'U' to open Unlocks tab if unlocked
+* 'R' to open Almanac if unlocked
+* 'P' to open Projects tab if unlocked
+* '/' to open Stats tab if unlocked
+* 'H' to open Timeline if unlocked
 
 == Technical ==
 * Ctrl + Click entity name to copy ID

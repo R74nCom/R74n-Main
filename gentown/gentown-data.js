@@ -122,6 +122,10 @@ actionables = {
 					}, "product");
 
 					planet.letter = letter.id;
+
+					happen("Create", subject, null, {
+						type: "usurp"
+					})
 				};
 
 				regToArray("town").forEach(town => {
@@ -152,8 +156,11 @@ actionables = {
 				planet.usurp = false;
 				unlockPlanet();
 				delete planet.letter;
-				logMessage("Some {{people}} have regained faith in you!","milestone");
+				if (args.message !== false) logMessage("Some {{people}} have regained faith in you!","milestone");
 				document.getElementById("gameDiv").classList.remove("usurp");
+				happen("Create", subject, null, {
+					type: "unusurp"
+				})
 			}
 		}
 	},
@@ -316,7 +323,6 @@ actionables = {
 			},
 			AddResource: (subject,target,args) => {
 				let type = args.type;
-				if (!target.resources) target.resources = {};
 				let inv = target.resources;
 				if (inv[type] === undefined) inv[type] = 0;
 				inv[type] += args.count || 1;
@@ -325,7 +331,6 @@ actionables = {
 			},
 			RemoveResource: (subject,target,args) => {
 				let type = args.type;
-				if (!target.resources) target.resources = {};
 				let inv = target.resources;
 				if (inv[type] === undefined) return;
 				inv[type] -= Math.max(0, args.count || 1);
@@ -511,12 +516,20 @@ actionables = {
 				if (sumValues(subject.resources)) {
 					for (let i = 0; i < count; i++) {
 						let resource = choose(resources);
+						if (resource === "cash") continue;
 						if (subject.resources[resource] <= 0) continue;
 						if (Math.random() < (subject.resources[resource] / pop)) {
 							happen("RemoveResource", null, subject, {type:resource, count:1});
 							happen("AddResource", null, target, {type:resource, count:1});
 						}
 					}
+				}
+
+				if (subject.wealth) {
+					let perCapita = Math.round((subject.wealth || 0) / subject.pop);
+					let wealth = perCapita * count;
+					subject.wealth -= wealth;
+					target.wealth = (target.wealth || 0) + wealth;
 				}
 
 				// influences
@@ -927,7 +940,15 @@ gameEvents = {
 			if (!planet.stats.peak || totalPop > planet.stats.peak) planet.stats.peak = totalPop;
 			if (!planet.stats.peakprompts || planet.stats.promptstreak > planet.stats.peakprompts) planet.stats.peakprompts = planet.stats.promptstreak;
 
-			if (planet.stats.promptstreak < -10) {
+			if (planet.usurp) {
+				if (planet.day - planet.usurp > 30 && Math.random() < 0.2) {
+					regToArray("town").forEach((town) => {
+						if (town.influences.faith <= -5) town.influences.faith = 0;
+					})
+					happen("UnUsurp", null, currentPlayer);
+				}
+			}
+			else if (planet.stats.promptstreak < -10) {
 				logWarning("inactive", "{{people}} haven't heard from you in a while... Don't let them lose faith!");
 				regToArray("town").forEach((town) => {
 					happen("Influence", null, town, {faith:-0.25});
@@ -999,11 +1020,11 @@ gameEvents = {
 			if (subject.usurp) {
 				if (subject.influences.faith > 0) {
 					subject.usurp = false;
-					if (planet.usurp) happen("UnUsurp", subject, currentPlayer);
+					if (planet.usurp) happen("UnUsurp", subject, currentPlayer, {message:false});
 					logMessage(`{{c:Hooray|Yippee|Rejoice|Praise be}}!! {{residents:${subject.id}}} have regained faith in you, and will once again ask for your input.`,"milestone");
 				}
 			}
-			else {
+			else if (!planet.usurp) {
 				if (subject.influences.faith <= -9.75 && Math.random() < 0.25) {
 					subject.usurp = planet.day;
 
@@ -1018,7 +1039,6 @@ gameEvents = {
 						if (!town.influences.faith || town.influences.faith >= 1) allLow = false;
 					}
 
-					console.log(totalFaith/towns.length);
 					if ((allLow && totalFaith/towns.length <= -5) || (usurpCount/towns.length >= 0.9) || (totalFaith/towns.length <= -7)) {
 						happen("Usurp", subject, currentPlayer);
 					}
@@ -1026,6 +1046,26 @@ gameEvents = {
 				}
 				else if (subject.influences.faith < -0.5) {
 					logWarning("unfaith"+subject.id, "{{residents:"+subject.id+"}} are quickly losing faith in you...");
+				}
+			}
+
+			if (subject.econcrash) {
+				if (Math.random() < 0.25) {
+					subject.econ = chooseDifferent(Object.keys(econForms), subject.econ);
+					subject.influences.trade = 0;
+					delete subject.econcrash;
+					logMessage(`{{residents|${subject.id}}} have {{c:elected|adopted}} a new, ${wordAdjective(subject.econ)} {{c:economy|economic system|economic structure}}.`)
+				}
+			}
+			else if (subject.econ && subject.influences.trade <= -9) {
+				if (!planet.warnings["lowtrade"+subject.id]) {
+					logWarning("lowtrade"+subject.id, `Economic collapse in {{regname:town|${subject.id}}} is imminent!`);
+				}
+				else if (Math.random() < 0.25) {
+					subject.econcrash = true;
+					delete subject.tax;
+					happen("Influence", null, subject, { trade:-1, happy:-5, temp:true });
+					logMessage(`Crash!! The economy has collapsed in {{regname:town|${subject.id}}}.`, "warning");
 				}
 			}
 
@@ -1128,6 +1168,8 @@ gameEvents = {
 							newTown.influences.faith = subject.influences.faith;
 							if (subject.usurp) newTown.usurp = planet.day;
 							if (subject.gov) newTown.gov = subject.gov;
+							if (subject.econ) newTown.econ = subject.econ;
+							if (subject.tax) newTown.tax = subject.tax / 2;
 							let newName = happen("NameVariant", null, subject, {x:colonyChunk.x, y:colonyChunk.y});
 							if (newName) newTown.name = newName;
 							// Colony migration
@@ -1393,6 +1435,137 @@ gameEvents = {
 		}
 	},
 
+	"townPay": {
+		daily: true,
+		subject: { reg:"town", all:true },
+		check: () => planet.unlocks.trade >= 30,
+		func: (subject) => {
+			if (!subject.econ) return;
+			let employed = sumValues(subject.jobs);
+			subject.wealth = (subject.wealth || 0) + employed;
+		}
+	},
+	"townTax": {
+		daily: true,
+		subject: { reg:"town", all:true },
+		check: () => planet.unlocks.trade >= 30,
+		func: (subject) => {
+			if (!(subject.tax > 0)) return;
+			let taxRate = subject.tax;
+			if (subject.legal["crime.tax_evasion"]) taxRate /= 2;
+			let employed = sumValues(subject.jobs);
+			let tax = employed * taxRate;
+			tax = Math.min(tax, subject.wealth);
+
+			subject.wealth -= tax;
+			happen("AddResource", null, subject, { type:"cash", count:subject.wealth });
+
+			if (!subject.econStart || planet.day - subject.econStart > 20) {
+				let perCapita = Math.round((subject.wealth || 0) / subject.pop);
+				if (!subject.econcrash && perCapita < subject.pop / 100) {
+					logWarning("poor"+subject.id, `{{residents:${subject.id}}} are very poor!`);
+					happen("Influence", null, subject, { trade:-0.5 });
+				}
+			}
+		}
+	},
+
+	"townTaxChange": {
+		random: true,
+		subject: {
+			reg: "player", id: 1
+		},
+		target: {
+			reg: "town", random: true
+		},
+		check: (_, target) => planet.unlocks.trade >= 30 && target.econ,
+		value: (_, target, args) => {
+			let diff = randRange(1,5) / 100;
+			if (Math.random() < 0.5 && target.tax) diff = -diff;
+			if (diff < 0) diff = Math.max(-target.tax, diff);
+
+			args.result = (target.tax || 0) + diff;
+			if (Math.abs(args.result) < 0.01) args.result = 0;
+			diff = Math.round(diff * 100) / 100;
+			args.result = Math.round(args.result * 100) / 100;
+
+			return diff;
+		},
+		message: (_, target, args) => {
+			let msg = `Motion from {{regname:town|${target.id}}} to `;
+
+			if (!target.tax) return msg+`introduce a {{percent:${args.value}}} income tax for funding town projects.`;
+
+			if (args.result === 0) return msg+`abolish the town's {{percent:${town.tax}}} income tax.`;
+			
+			return msg+(args.value > 0 ? "increase" : "decrease")+` the town's income tax by {{percent:${args.value}}}, for a total of {{percent:${args.result}}}.`;
+		},
+		messageDone: (_, target, args) => {
+			let msg = `{{regname:town|${target.id}}} `;
+
+			if (!target.tax) return msg+`introduces a {{percent:${args.value}}} income tax.`;
+
+			if (args.result === 0) return msg+`abolishes the town's income tax.`;
+			
+			return msg+(args.value > 0 ? "increases" : "decreases")+` the town's income tax to {{percent:${args.result}}}.`;
+		},
+		messageNo: (_, target) => `{{residents:${target.id}}} reject tax changes.`,
+		func: (_, target, args) => {
+			target.tax = args.result;
+		},
+		needsUnlock: {
+			trade: 30
+		},
+		weight: $c.UNCOMMON
+	},
+
+	"townTrade": {
+		random: true,
+		auto: true,
+		subject: { reg:"town", random:true },
+		target: { reg:"town", random:true },
+		check: () => planet.unlocks.trade >= 10,
+		func: (subject, target, args) => {
+			let resource = chooseDifferent(Object.keys(target.resources),"cash");
+
+			let seller;
+			let buyer;
+
+			if (subject.resources[resource] > target.resources[resource]) {
+				seller = subject;
+				buyer = target;
+			}
+			else {
+				seller = target;
+				buyer = subject;
+			}
+
+			let useCash = !!buyer.resources.cash;
+
+			let min = Math.round(seller.resources[resource] * 0.05);
+			min = Math.max(min, 1);
+			let max = Math.round(seller.resources[resource] * 0.33);
+			let count = randRange(min, max);
+			if (useCash) count = Math.min(count, buyer.resources.cash);
+
+			if (!count) return;
+
+			happen("AddResource", seller, buyer, {type:resource, count:count});
+			happen("RemoveResource", buyer, seller, {type:resource, count:count});
+			if (useCash) {
+				happen("AddResource", buyer, seller, {type:"cash", count:count});
+				happen("RemoveResource", seller, buyer, {type:"cash", count:count});
+			}
+
+			args.message = `{{regname:town|${buyer.id}}} ${useCash ? "{{c:purchases|buys}}" : "receives"} ${resource} from {{regname:town|${seller.id}}}.`;
+		},
+		message: (subject, target, args) => args.message,
+		influencedBy: {
+			trade: 1
+		},
+		weight: $c.COMMON
+	},
+
 
 
 	/* PROCESSES */
@@ -1427,6 +1600,7 @@ gameEvents = {
 			
 			happen("RemoveResource", subject, target, {type:"rock", count:rockCost});
 			happen("RemoveResource", subject, target, {type:"lumber", count:lumberCost});
+			happen("RemoveResource", subject, target, {type:"cash", count:cost});
 
 			// subtract cost from project
 			subject.cost -= rockCost * 2;
@@ -1862,6 +2036,8 @@ gameEvents = {
 				if (data.gov) target.gov = data.gov;
 				if (data.prefix) target.prefix = data.prefix;
 				if (data.suffix) target.suffix = data.suffix;
+				if (data.gov) target.gov = data.gov;
+				if (data.econ) target.econ = data.econ;
 				let color = data.color || data.emblemColor;
 				if (color) {
 					if (typeof color === "string" && color.match(/^#/)) color = hexToRGB(color);
@@ -1959,7 +2135,7 @@ gameEvents = {
 		},
 		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to adopt a new flag. ${args.value}`,
 		messageDone: (subject, target, args) => `{{residents|${target.id}}} fly their new flag.`,
-		messageNo: (subject, target, args) => `{{residents|${target.id}}} reject {{c:hollow|shallow}} symbolism.`,
+		messageNo: (subject, target, args) => `{{residents|${target.id}}} reject the {{c:hollow|shallow}} symbolism of flags.`,
 		weight: $c.UNCOMMON
 	},
 	"townAnimal": {
@@ -1986,6 +2162,38 @@ gameEvents = {
 		messageDone: (subject, target, args) => `{{residents|${target.id}}} look up to the {{c:courage|bravery|independence|grace|strength|harmony|power}} of the {{regname:resource|${args.value}}}.`,
 		messageNo: (subject, target, args) => `{{residents|${target.id}}} look up to historical figures instead of animals.`,
 		weight: $c.UNCOMMON
+	},
+	"townCurrency": {
+		random: true,
+		subject: {
+			reg: "player", id: 1
+		},
+		target: {
+			reg: "town", random: true
+		},
+		check: (subject, target) => target.currency === undefined && target.econ,
+		value: {
+			ask: true,
+			message: (_, target) => `What should money from {{regname:town|${target.id}}} be called?`,
+			preview: (text) => `One {{b:${titleCase(text)}}}. Twenty ${titleCase(wordPlural(text))}.`
+		},
+		func: (subject, target, args) => {
+			if (!args.value) return false;
+			args.value = args.value.replace(/^an? /, "");
+			target.currency = titleCase(args.value);
+			let split = args.value.toLowerCase().split(" ");
+			let lastWord = split[split.length - 1];
+			let letter = lastWord[0];
+			if (!wordComponents.CURRENCY[letter]) letter = "_";
+			let sign = choose(wordComponents.CURRENCY[letter].split(","));
+			target.currencySign = sign;
+		},
+		message: (subject, target, args) => `{{regname:town|${target.id}}} needs a name for their currency.`,
+		messageDone: (subject, target, args) => `{{residents:${target.id}}} have spare {{symbol:${target.currencySign}|rgb(${target.color.join(",")})}} ${wordPlural(target.currency)} lying around.`,
+		weight: $c.UNCOMMON,
+		needsUnlock: {
+			trade: 30
+		}
 	},
 
 	"townProjectStart": {
@@ -2109,6 +2317,7 @@ gameEvents = {
 			args.influence = split[0];
 			args.name = split[split.length-1];
 			args.name = (regBrowserKeys[args.name] || args.name).toLowerCase();
+			args.name = args.name.replace(/_/g," ");
 
 			return law;
 		},
@@ -2154,9 +2363,35 @@ gameEvents = {
 		},
 		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to {{c:establish|form}} a {{c:${wordAdjective(args.value)} government|${args.value}}}.`,
 		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} {{c:establishes|forms}} a {{c:${wordAdjective(args.value)} government|${args.value}}}.`,
-		weight: $c.COMMON,
+		messageNo: (subject, target, args) => `{{residents:${target.id}}} reject ${wordAdjective(args.value)} ideals.`,
+		weight: $c.SUPERCOMMON,
 		needsUnlock: {
 			"government": 10
+		}
+	},
+	"townEcon": {
+		random: true,
+		subject: {
+			reg: "player", id: 1
+		},
+		target: {
+			reg: "town", random: true
+		},
+		value: () => choose(Object.keys(econForms)),
+		check: (_, target) => !target.econ,
+		func: (subject, target, args) => {
+			target.econ = args.value;
+			target.econStart = planet.day;
+			if (econForms[args.value].influences) {
+				happen("Influence", subject, target, econForms[args.value].influences);
+			}
+		},
+		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to adopt {{c:a ${wordAdjective(args.value)} economy|${args.value}}}.`,
+		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} adopts {{c:a ${wordAdjective(args.value)} economy|${args.value}}}.`,
+		messageNo: (subject, target, args) => `{{residents:${target.id}}} reject ${args.value}.`,
+		weight: $c.SUPERCOMMON,
+		needsUnlock: {
+			"trade": 10
 		}
 	},
 
@@ -2750,6 +2985,7 @@ allLaws = {
 	"crime.theft": 0.6,
 	"crime.arson": 0.75,
 	"crime.murder": 1,
+	"crime.tax_evasion": 1,
 	"faith.religion": 1,
 }
 govForms = {
@@ -2757,6 +2993,10 @@ govForms = {
 	"republic": { influences:{law:1.5} },
 	"monarchy": { influences:{law:1} },
 	"dictatorship": { influences:{law:5, happy:-3} },
+}
+econForms = {
+	"socialism": { color:"#ff0a4f", influences:{trade:1, law:2, happy:1} },
+	"capitalism": { color:"#93FF08", influences:{trade:3, law:0.5} },
 }
 regBrowserKeys = {
 	"pop": "Population",
@@ -2776,6 +3016,7 @@ regBrowserKeys = {
 	"happy": "Mood",
 	"biome": "Biome",
 	"rate": "Efficiency",
+	"economy": "Economy",
 	"jobs": "Jobs",
 	"laws": "Laws",
 	"town.animal": "Town Animal",
@@ -2843,6 +3084,7 @@ regBrowserValues = {
 	"rock": (value) => `{{num:${value}}}{{icon:rock}}`,
 	"metal": (value) => `{{num:${value}}}{{icon:metal}}`,
 	"town.livestock": (value) => `{{num:${value}}}{{icon:livestock}}`,
+	"town.cash": (value, town) => `{{num:${value}}} {{currency:${town.id}}}`,
 	"biome": (value) => `{{biome:${value}}}`,
 	"town.animal": (value) => `{{regname:resource|${value}}}`,
 	"start": (value) => `{{date:${value}}}`,
@@ -2918,6 +3160,23 @@ regBrowserExtra = {
 			}
 			if (!Object.keys(laws).length) return;
 			return laws;
+		},
+		"economy": (town) => {
+			if (!town.econ) return;
+
+			
+			let data = {};
+			
+			if (planet.unlocks.trade >= 30) {
+				data["private wealth"] = `{{currency:${town.id}}}{{num:${Math.round(town.wealth || 0)}|K}}`;
+				if (town.tax) data["tax rate"] = `{{percent:${town.tax}}}`;
+				data["per capita"] = `{{currency:${town.id}}}{{num:${Math.round((town.wealth || 0) / town.pop)}|K}}`;
+			}
+			
+			data.form = `{{color:${titleCase(wordAdjective(town.econ))}|${econForms[town.econ].color || ""}}}`;
+			if (town.currency) data.currency = `{{color:${town.currency}|rgb(${town.color.join(",")})}}`;
+
+			return data;
 		},
 		"elevation": (town) => {
 			let elevations = filterChunks((c) => c.v.s === town.id).map((c) => c.e);

@@ -12,7 +12,7 @@ addParserCommand("color",function(args) {
 })
 addParserCommand("symbol",function(args) {
 	if (args.length === 0) {return ""}
-	return `<span class="font2">${args[0]}</span>`;
+	return `<span class="font2"${ args[1] ? ` style="color:`+args[1]+`"` : "" }>${args[0]}</span>`;
 })
 addParserCommand("b",function(args) {
 	if (args.length === 0) {return ""}
@@ -28,7 +28,8 @@ addParserCommand("num",function(args) {
 	if (args[1] === "K") {
 		let num = n;
 		if (num < 1000) return num.toString();
-		return Math.floor((num / 1000) * 10) / 10 + "K"
+		if (num < 1000000) return Math.floor((num / 1000) * 10) / 10 + "K";
+		return Math.floor((num / 1000000) * 10) / 10 + "M";
 	}
 	let parts = args[0].toString().split(".");
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -251,6 +252,13 @@ addParserCommand("regadj",function(args) {
 	return `{{regname:${args[0]}|${args[1]}${
 		data.adj ? "|"+data.adj : ""
 	}}}`
+})
+addParserCommand("currency",function(args) {
+	if (args.length < 1) {return ""}
+	const data = regGet("town",parseInt(args[0]));
+	if (!data) return `{{symbol:¤}}`;
+	let symbol = data.currencySign || "¤";
+	return `{{symbol:${symbol}|rgb(${data.color.join(",")})}}`;
 })
 addParserCommand("planet",function(args) {
 	return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})">${args[0] || planet.name}</span>`;
@@ -598,6 +606,7 @@ function defaultTown() {
 		},
 		"legal": {},
 		"issues": {},
+		"wealth": 0,
 		"_reg": "town"
 	}
 }
@@ -1740,6 +1749,10 @@ function wordAdjective(word) {
 		word = word.substring(0, word.length-3);
 		suffix = "";
 	}
+	else if (word.endsWith("ism")) {
+		word = word.substring(0, word.length-1);
+		suffix = "t";
+	}
 	else if (word.endsWith("chy")) {
 		word = word.substring(0, word.length-1);
 		suffix = "ic";
@@ -2089,6 +2102,10 @@ function handleCursor(e) {
 			hovered = true;
 			highlight = ["town",chunk.v.s];
 		}
+
+		if (chunk.v.m) {
+			highlight = ["marker",chunk.v.m];
+		}
 	}
 	
 	if (hovered) {
@@ -2294,6 +2311,14 @@ keybinds = {
 		if (currentExecutive === "settings") closeExecutive();
 		else document.getElementById("actionSettings").click();
 	},
+	"l": () => {
+		if (currentExecutive === "saves") closeExecutive();
+		else document.getElementById("actionSaves").click();
+	},
+	"i": () => {
+		if (currentExecutive === "info") closeExecutive();
+		else document.getElementById("actionInfo").click();
+	},
 	"?": () => {
 		populateExecutive([{
 			text: "Symbols",
@@ -2310,6 +2335,23 @@ keybinds = {
 				})})
 			}
 		}], "Debug")
+	},
+	"y": (e) => {
+		let button = document.querySelector('#logMessages .logMessage[new="true"] .logAct span[type="yes"]');
+		if (button) {
+			button.click();
+			return;
+		}
+		button = document.querySelector('#logMessages .logMessage[new="true"] .logAct span[type="act"]');
+		e.stopPropagation();
+		if (button) button.click();
+		setTimeout(() => {
+			document.getElementById("popupText").value = "";
+		}, 100)
+	},
+	"n": () => {
+		let button = document.querySelector('#logMessages .logMessage[new="true"] .logAct span[type="no"]');
+		if (button) button.click();
 	}
 }
 
@@ -2344,8 +2386,15 @@ window.addEventListener("keydown",(e) => {
 
 	controlState[key] = true;
 
-	if (keybinds[key]) {
+	const button = document.querySelector('#actionPanel span[data-keybind="'+key+'"]');
+	if (button) {
+		if (button.style.display === "none") return;
+		if (button == currentExecutiveButton) closeExecutive();
+		else button.click();
+	}
+	else if (keybinds[key]) {
 		keybinds[key](e);
+		e.stopPropagation();
 	}
 	else if (parseInt(key)) {
 		let newView = Object.keys(viewData)[key - 1];
@@ -3123,6 +3172,9 @@ function nextDay(e) {
 			try {changes.livestock = (town.resources.livestock||0) - (townBefore.resources.livestock||0)} catch{}
 			if (Math.abs(changes.livestock) >= minChange) msg += `{{diff:${changes.livestock}}}{{icon:livestock|Livestock}} `;
 
+			try {changes.cash = (town.resources.cash||0) - (townBefore.resources.cash||0)} catch{}
+			if (Math.abs(changes.cash) >= minChange) msg += `{{currency:${town.id}}}{{diff:${changes.cash}}} `;
+
 			if (msg) {
 				sunsetMsg += `{{regname:town|${town.id}|-}} (` + msg.trim() + ") ";
 			}
@@ -3194,7 +3246,7 @@ function nextDay(e) {
 			}
 			eventCaller.done = true;
 		}
-		eventCaller.logID = logMessage(eventCaller.message);
+		if (eventCaller.message) eventCaller.logID = logMessage(eventCaller.message);
 		let messageElement = document.getElementById("logMessage-"+eventCaller.logID);
 		recentEvents.push(eventClass);
 		messageElement.setAttribute("data-eventid",eventID)
@@ -3843,6 +3895,10 @@ function validatePlanet() {
 		}
 	})
 
+	if (!regSingle("resource", (r) => r.name === "cash")) {
+		happen("Create",null,null,{ type:"raw", name:"cash" },"resource");
+	}
+
 }
 
 unicodeSkips = {
@@ -4253,6 +4309,11 @@ function populateExecutive(items, title, main=false) {
 			actionItem.setAttribute("role","link");
 			actionItem.insertAdjacentHTML("beforeend", " <span class='font2'>▶</span>");
 		}
+		if (item.keybind) {
+			actionItem.setAttribute("data-keybind", item.keybind.toLowerCase());
+			// actionItem.innerHTML = actionItem.innerHTML.replace(new RegExp(item.keybind, "i"), (k) => "<u>"+k+"</u>")
+			actionItem.insertAdjacentHTML("afterbegin", "<u>"+item.keybind.toUpperCase()+"</u> ");
+		}
 
 		subpanelList.appendChild(actionItem);
 	}
@@ -4412,6 +4473,7 @@ function initExecutive() {
 		text: "Towns",
 		id: "towns",
 		hide: true,
+		keybind: "t",
 		func: () => {
 			let items = [];
 			items.push({
@@ -4438,6 +4500,7 @@ function initExecutive() {
 		text: "Unlocks",
 		id: "unlocks",
 		hide: true,
+		keybind: "u",
 		func: () => {
 			let total = 0;
 			for (let type in unlockTree) {
@@ -4477,6 +4540,7 @@ function initExecutive() {
 		text: "Almanac",
 		id: "almanac",
 		hide: true,
+		keybind: "r",
 		func: () => {
 			let items = [];
 			items.push({
@@ -4504,6 +4568,7 @@ function initExecutive() {
 		text: "Projects",
 		id: "projects",
 		hide: true,
+		keybind: "p",
 		func: () => {
 			let items = [];
 			regFilter("process", (p) => 
@@ -4522,6 +4587,7 @@ function initExecutive() {
 		text: "Stats",
 		id: "stats",
 		hide: true,
+		keybind: "/",
 		func: () => {
 			let items = [];
 			items.push({
@@ -4572,6 +4638,7 @@ function initExecutive() {
 		text: "Timeline",
 		id: "timeline",
 		hide: true,
+		keybind: "h",
 		func: () => {
 			let items = [];
 			// items.push({
@@ -4588,18 +4655,29 @@ function initExecutive() {
 					entity: town,
 					_day: town.start
 				});
-				if (!town.end) return;
-				items.push({
-					text: `{{color:[{{date:${town.end}|s}}]|rgba(255,255,0,0.75)}} {{regname:town|${town.id}}} falls`,
-					func: () => regBrowse("town", town.id),
-					entity: town,
-					_day: town.end
-				});
+				if (town.end) {
+					items.push({
+						text: `{{color:[{{date:${town.end}|s}}]|rgba(255,255,0,0.75)}} {{regname:town|${town.id}}} falls`,
+						func: () => regBrowse("town", town.id),
+						entity: town,
+						_day: town.end
+					});
+				}
+				if (town.usurp) {
+					items.push({
+						text: `{{color:[{{date:${town.usurp}|s}}]|rgba(255,255,0,0.75)}} {{regname:town|${town.id}}} becomes independent`,
+						func: () => regBrowse("town", town.id),
+						entity: town,
+						_day: town.usurp
+					});
+				}
 			})
 			regToArray("process").forEach((process) => {
 				let text = `{{color:[{{date:${process.start}|s}}${process.done ? "–{{date:"+process.done+"|s}}" : ""}]|rgba(255,255,0,0.75)}} `;
 				if (process.type === "project") text += `${process.marker ? "{{regname:marker|"+process.marker+"}}" : "{{regname:process|"+process.id+"}}"} constructed in {{regname:town|${process.town}}}`;
 				// else if (process.type === "disaster") text += 
+				else if (process.type === "usurp") text += "{{planet}} becomes independent"
+				else if (process.type === "unusurp") text += "{{planet}} regains faith"
 				else {
 					text += `{{regname:process|${process.id}}}`;
 				}
@@ -4776,6 +4854,7 @@ window.addEventListener("load", function(){ //onload
 			}
 		},
 	], "Settings");
+	currentExecutive = "settings";
 	})
 
 	document.getElementById("actionSaves").addEventListener("click",() => {
@@ -4820,7 +4899,8 @@ window.addEventListener("load", function(){ //onload
 			notify: planet.dead,
 			danger: true
 		}
-	], "Save Options")
+	], "Save Options");
+	currentExecutive = "saves";
 	})
 	
 	document.getElementById("actionInfo").addEventListener("click",(e) => {
@@ -4878,7 +4958,8 @@ window.addEventListener("load", function(){ //onload
 
 		{ spacer: true },
 		{ text: "{{color:R74n|#00ffff}} - More projects!", url:"https://r74n.com/" }
-	], "GenTown v"+gameVersion)
+	], "GenTown v"+gameVersion);
+	currentExecutive = "info";
 	})
 
 	checkHash();

@@ -615,6 +615,18 @@ tr.total {
 	color: inherit;
 	opacity: 0.5;
 }
+.actionItem u {
+	text-decoration: none;
+	color: rgba(255, 255, 153, 0.66);
+}
+.actionItem u::before {
+	content: "[";
+	opacity: 0.5;
+}
+.actionItem u::after {
+	content: "]";
+	opacity: 0.5;
+}
 #actionSubpanelClose:active {
 	transform: translateX(-0.2em);
 }
@@ -1127,6 +1139,9 @@ tr.total {
 		transform: unset;
 	}
 	#statsPanel.preview .panelTitle {
+		display: none;
+	}
+	.actionItem u {
 		display: none;
 	}
 }

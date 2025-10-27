@@ -1,3 +1,33 @@
+[Version 0.8 - 26 Oct 2025]
+ + Economic systems (Socialism and Capitalism)
+ + Currency naming with automatic symbols
+ + Economic data shown in town info
+    + Private wealth is increased daily for employed residents
+ + Taxation
+    + Cash resource
+    + Tax rates can be introduced, increased, or decreased
+    + Taxes are taken from private wealth daily
+    + Tax rates are reset after economic collapse
+    + Tax evasion can be legalized
+ + Trading
+    + Towns trade needed resources with each other
+    + Cash is used to trade when available
+ + Private wealth is transferred through migration, but town cash isn't
+ + Economic collapse with low trade
+    + Low private wealth decreases trade
+ ~ Construction projects use cash when available
+ + Keybinds for all executive buttons
+ + Keybinds for Yes and No buttons ('Y' and 'N')
+ + After 30 days of global usurp, the player can be brought back into power
+ + Town and planet autonomy dates are shown in the Timeline
+ + Landmarks are highlighted when hovered over on map
+ + Government form rejection message
+ ~ Government formation prompts are more common
+ ~ Improved flag rejection message
+ ~ Numbers can abbreviate millions (e.g. 6.7M)
+ ~ Fixed: Player can be usurped from planet again while already usurped
+ ~ Fixed: Inactivity warning still shows after being globally usurped
+
 [Version 0.7.2 - 23 Oct 2025]
  + Oldest town stat
  ~ Towns must be slightly closer to mountains to obtain "Monte-" prefix
@@ -10,7 +40,7 @@
  ~ Fixed: Flags of autonomous towns are italicized
  ~ Fixed: Autonomous towns can make global decisions, like unlocks
  ~ Fixed: Autonomous towns still ask to name landmarks
- ~ Fixed: Info sheet for towns that fell before v0.7 don't display
+ ~ Fixed: Info sheets for towns that fell before v0.7 don't display
 
 [Version 0.7.1 - 22 Oct 2025]
  + Faith influence
