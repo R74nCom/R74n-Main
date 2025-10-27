@@ -1,3 +1,19 @@
+[Version 0.8.1 - 27 Oct 2025]
+ + Sharing
+    + Progress can be shared to social media
+    + Share button in Info (Beta) tab
+    + Click on a day number to share individual messages
+    ~ Added 'Start Over' and 'Share' buttons to game over messages
+    ~ Special share messages for dead and autonomous planets
+ + Controls button in Info (Beta) tab
+ + Day number appears in page title
+ ~ Town rename prompts are rarer
+ + Planet deaths appear in Timeline
+ ~ Fixed: Global usurp message is broken
+ ~ Fixed: Letter read button can't be clicked more than once
+ ~ Fixed: Weird text spacing in some popups on mobile
+ ~ Fixed: Sunset message doesn't round cash changes with decimals
+
 [Version 0.8 - 26 Oct 2025]
  + Economic systems (Socialism and Capitalism)
  + Currency naming with automatic symbols

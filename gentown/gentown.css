@@ -194,10 +194,7 @@ span.none {
 	opacity: 0.75;
 	margin-right: 0.25em;
 	display: inline-block;
-	cursor: help;
-}
-.logNormal .logDay {
-	cursor: unset;
+	cursor: pointer;
 }
 .logMessage .logDay:before {
 	content: "[";
@@ -969,7 +966,7 @@ tr.total {
 		transform: translateY(0);
 	}
 } */
-#viewButton {
+#viewButton, .logDay {
 	cursor: pointer;
 	/* transition: 0.5s transform; */
 	transition: 0.2s;
@@ -980,7 +977,7 @@ tr.total {
 	transition: 0.2s;
 	transition-property: color;
 }
-#viewButton:active {
+#viewButton:active, .logDay:active {
 	transform: translateY(0.1em);
 }
 #viewButton:active #viewName {
@@ -1119,9 +1116,9 @@ tr.total {
 		top: 50%;
 	}
 	.gamePopup .popupContent {
-		padding-left: 1em;
-		padding-right: 1em;
-		text-align: justify;
+		padding-left: 1.5em;
+		padding-right: 1.5em;
+		text-align: left;
 	}
 	.regSectionTitle {
 		text-align: left;

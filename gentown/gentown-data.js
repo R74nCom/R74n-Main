@@ -125,7 +125,7 @@ actionables = {
 
 					happen("Create", subject, null, {
 						type: "usurp"
-					})
+					}, "process")
 				};
 
 				regToArray("town").forEach(town => {
@@ -139,13 +139,24 @@ actionables = {
 			},
 			Letter: (subject,target,args) => {
 				lockPlanet();
+				let id = planet.letter;
 				logMessage("{{people}} have authored a letter addressed to you.", undefined, {
 					buttons: [{
 						name: "Read",
 						func: () => {
-							regBrowse("product", planet.letter);
+							regBrowse("product", id);
 							unlockPlanet();
 							delete planet.letter;
+							if (planet.usurp) logMessage("You may start a new planet or wait for faith to build up again.", "tip", {buttons: [
+							{
+								name: "Start Over",
+								func: () => resetPlanetPrompt()
+							},
+							{
+								name: "Share",
+								func: () => shareProgress()
+							}
+							]})
 							autosave();
 						}
 					}]
@@ -160,7 +171,7 @@ actionables = {
 				document.getElementById("gameDiv").classList.remove("usurp");
 				happen("Create", subject, null, {
 					type: "unusurp"
-				})
+				}, "process")
 			}
 		}
 	},
@@ -2052,7 +2063,7 @@ gameEvents = {
 		message: (subject, target, args) => `{{residents|${target.id}}} want you to pick their town's new name.`,
 		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} adopts a new name.`,
 		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} keeps its name.`,
-		weight: $c.UNCOMMON
+		weight: $c.RARE
 	},
 	"townDemonym": {
 		random: true,
@@ -2604,6 +2615,7 @@ unlockTree = {
 			{
 				level: 10,
 				name: "Agriculture",
+				emoji: "🌱",
 				message: "{{people}} want to settle down and plant seeds. {{should}}",
 				messageDone: "Crops quickly become a popular product.",
 				messageTomorrow: "{{randreg:town}} begins hiring farmers.",
@@ -2614,6 +2626,7 @@ unlockTree = {
 			{
 				level: 20,
 				name: "Husbandry",
+				emoji: "🐄",
 				message: "{{people}} want to start feeding their scraps to wild animals. {{should}}",
 				messageDone: "Animals become friendly to the population.",
 				messageTomorrow: "{{randreg:town}} begins collecting livestock.",
@@ -2655,6 +2668,7 @@ unlockTree = {
 			{
 				level: 20,
 				name: "Paths",
+				emoji: "🚶",
 				message: "Repeated travel can cause paths to develop over common routes. {{should}}",
 				messageDone: "Paths lead travelers to popular areas.",
 				influences: { travel:2 },
@@ -2667,6 +2681,7 @@ unlockTree = {
 			{
 				level: 30,
 				name: "Boats",
+				emoji: "🛶",
 				message: "{{people}} notice how wood floats on water and want to investigate further. {{should}}",
 				messageDone: "Travelers make use of boats to expand across the seas.",
 				influences: { travel:2 },
@@ -2676,6 +2691,7 @@ unlockTree = {
 			{
 				level: 40,
 				name: "Wheels",
+				emoji: "🛞",
 				message: "{{people}} notice that rolling seems to be more efficient in transportation. {{should}}",
 				messageDone: "Wheels are used to transport efficiently.",
 				influences: { travel:2 },
@@ -2689,6 +2705,7 @@ unlockTree = {
 			{
 				level: 10,
 				name: "Firestarting",
+				emoji: "🔥",
 				message: "{{people}} realize rubbing sticks together makes lots of heat. {{should}}",
 				messageDone: "Fire allows for heating and lighting.",
 				influences: { happy:1 },
@@ -2698,6 +2715,7 @@ unlockTree = {
 			{
 				level: 20,
 				name: "Cooking",
+				emoji: "🍳",
 				message: "{{people}} try lighting food on fire for fun. {{should}}",
 				messageDone: "Cooking allows for safer and more nutritious food.",
 				influences: { hunger:-1, disease:-1 },
@@ -2726,6 +2744,7 @@ unlockTree = {
 			{
 				level: 10,
 				name: "Stonework",
+				emoji: "🪨",
 				message: "{{people}} try breaking rocks with other rocks. {{should}}",
 				messageDone: "Stone is used as a durable building material.",
 				influences: { travel:0.5 }
@@ -2733,6 +2752,7 @@ unlockTree = {
 			{
 				level: 20,
 				name: "Stone Tools",
+				emoji: "⛏️",
 				message: "{{people}} try connecting loose rocks to handles. {{should}}",
 				messageDone: "Tools made of stone increase durability and efficiency.",
 				messageTomorrow: "{{randreg:town}} begins hiring miners and lumberers.",
@@ -2757,6 +2777,7 @@ unlockTree = {
 			{
 				level: 40,
 				name: "Metal Tools",
+				emoji: "🪚",
 				message: "{{people}} try connecting casted metal to handles. {{should}}",
 				messageDone: "Tools made of metal increase durability and efficiency.",
 				influences: { farm:2, military:3 },
@@ -2772,6 +2793,7 @@ unlockTree = {
 			{
 				level: 10,
 				name: "Trade",
+				emoji: "📈",
 				message: "{{people}} want to exchange goods for others of equal value. {{should}}",
 				messageDone: "Goods are exchanged with mutual benefit.",
 				influences: { trade:1, travel:1, happy:0.2 },
@@ -2796,6 +2818,7 @@ unlockTree = {
 			{
 				level: 30,
 				name: "Currency",
+				emoji: "💸",
 				message: "{{people}} want a way to trade without having immediate access to their goods. {{should}}",
 				messageDone: "Tokens symbolizing monetary value are traded in exchange for goods.",
 				influences: { trade:1.5 },
@@ -2813,6 +2836,7 @@ unlockTree = {
 			{
 				level: 10,
 				name: "Laws",
+				emoji: "⚖️",
 				message: "{{people}} seek control over others they see as immoral. {{should}}",
 				messageDone: "Towns begin constructing prisons.",
 				influences: { crime:-2 },
@@ -2839,6 +2863,7 @@ unlockTree = {
 			{
 				level: 10,
 				name: "Education",
+				emoji: "🏫",
 				message: "{{people}} want their children to learn a variety skills. {{should}}",
 				messageDone: "Knowledge is passed down through generations.",
 				influences: { education:1 },
@@ -2863,6 +2888,7 @@ unlockTree = {
 			{
 				level: 10,
 				name: "Military",
+				emoji: "🗡️",
 				message: "The addition of another settlement worries {{regoldest:town}}. Should it?",
 				messageDone: "{{regoldest:town}} begins enlisting soldiers.",
 				influences: { military:1, crime:0.25 },

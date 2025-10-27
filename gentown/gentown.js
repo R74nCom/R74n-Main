@@ -1414,7 +1414,26 @@ function handleEntityHoverOut(e) {
 function handleMessageClick(e) {
 	if (controlState.meta) {
 		e.parentNode.remove();
+		return;
 	}
+
+	let elem = e.parentNode;
+	let logText = elem.querySelector(".logText");
+	logText.querySelectorAll(".font2").forEach(el => el.style.visibility = "hidden");
+
+	let text = logText.innerText;
+	text = text.replace(/  +/, " ");
+
+	logText.querySelectorAll(".font2").forEach(el => el.style.visibility = "");
+
+	text = "**[" + e.innerText + "]** " + text;
+
+	if (elem.querySelector('.logAct span[type="no"][selected="true"]')) text += " [NO]";
+	if (elem.querySelector('.logAct span[type="yes"][selected="true"]')) text += " [YES]";
+
+	sharePrompt(text);
+
+	console.log(elem);
 }
 
 function renderCursor() {
@@ -2650,7 +2669,7 @@ function doPrompt(obj) {
 	else {
 		message = parseText(message);
 		message = message.replace(/^[a-z]/, (match) => match.toUpperCase());
-		popupContent.innerHTML = message;
+		popupContent.innerHTML = message.replace(/\n/g, "<br>");
 		popupContent.style.display = "";
 		popupTitle.style.paddingBottom = "0em";
 		popupInput.style.flexGrow = "";
@@ -3069,11 +3088,165 @@ function reportInfluences(uuid, oldInfluences, newInfluences) {
 	if (text) logSub(uuid, text);
 }
 
+isIOS = ['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+
+shareOptions = {
+	"Copy Text": {
+		func: async (text,title,url) => {
+			await navigator.clipboard.writeText(text);
+			logMessage("Message copied!", "tip");
+		},
+		main: true
+	},
+	"Twitter": {
+		template: "https://x.com/intent/post?text=TEXT",
+		useHashtag: true,
+		addLink: true,
+		main: true
+	},
+	"Reddit": {
+		template: "https://reddit.com/submit?url=URL&title=TEXT",
+		oneLine: true,
+		main: true
+	},
+	"Email": {
+		template: "mailto:?subject=TITLE&body=TEXT",
+		main: true,
+		addLink: true,
+	},
+	"More...": {
+		func: (text) => {
+			sharePrompt(text, true);
+		},
+		main: true
+	},
+
+	"Threads": {
+		template: "https://threads.net/intent/post?text=TEXT",
+		useHashtag: true,
+		addLink: true
+	},
+	"Bluesky": {
+		template: "https://bsky.app/intent/compose?text=TEXT",
+		useHashtag: true,
+		addLink: true
+	},
+	"Tumblr": {
+		template: "https://www.tumblr.com/widgets/share/tool?canonicalUrl=URL&title=TITLE&caption=TEXT&tags=HASHTAG"
+	},
+	"WhatsApp": {
+		template: "https://api.whatsapp.com/send?text=TEXT",
+		addLink: true
+	},
+}
+shareOptions[isIOS ? "iMessage" : "SMS"] = {
+	template: "sms:{phone_number}?body={url}{text}",
+	addLink: true
+}
+if (navigator.share) {
+	shareOptions["Share to..."] = {
+		func: async (text,title,url) => {
+			const shareData = {
+				title: title,
+				text: text,
+				url: url,
+			};
+			if (!navigator.canShare(shareData)) {
+				logMessage("Could not share!","tip");
+				delete shareOptions["Share to..."];
+				return;
+			}
+			await navigator.share(shareData);
+		}
+	}
+}
+function sharePrompt(text, more) {
+	let title = "GenTown";
+	let hashtag = "GenTown";
+	let url = "https://r74n.com/gentown/?utm_medium=social";
+
+	doPrompt({
+		type: "choose",
+		message: more ? null : text,
+		title: more ? "More..." : null,
+		choices: Object.keys(shareOptions).filter((key) => more ? !shareOptions[key].main : shareOptions[key].main),
+		func: (r) => {
+			if (!r) return;
+			let share = shareOptions[r];
+			if (share.func) share.func(text, title, url);
+			if (share.template) {
+				let link = share.template;
+				if (share.oneLine) text = text.replace(/\n/g, " ");
+				if (share.useHashtag) {
+					if (text.includes(hashtag)) text = text.replace(hashtag, "#"+hashtag);
+					else if (!share.addLink) text += " #"+hashtag;
+				}
+				if (share.addLink) {
+					text += "\n\nPlay";
+					if (share.useHashtag && !text.includes(hashtag)) text += " #"+hashtag;
+					text += ": "+url;
+				}
+				link = link.replace(/TEXT/g, encodeURIComponent(text));
+				link = link.replace(/TITLE/g, encodeURIComponent(title));
+				link = link.replace(/HASHTAG/g, encodeURIComponent(hashtag));
+				link = link.replace(/URL/g, encodeURIComponent(url));
+				window.open(link, '_blank').focus();
+			}
+		}
+	})
+}
+function shareProgress() {
+	let msg = `My GenTown planet, ${planet.name}, `;
+
+	if (planet.dead) {
+		msg += `${planet.dead < 50 ? "only" : ""} lasted ${parseText("{{num:"+planet.dead+"}}")} days before societal collapse`;
+	}
+	else if (planet.usurp) {
+		msg += `${planet.usurp < 50 ? "only" : ""} lasted ${parseText("{{num:"+planet.usurp+"}}")} days before they lost faith in me`;
+	}
+	else {
+		msg += `has lasted ${parseText("{{num:"+planet.day+"}}")} days and has `;
+		msg += choose([
+			parseText("{{num:"+regCount("town")+"}}") + " towns",
+			parseText("{{num:"+regToArray("town").reduce((n, {pop}) => n + pop, 0)+"|K}}") + " residents",
+		])
+	}
+
+	msg += "!";
+
+	let emojis = "";
+	for (let type in unlockTree) {
+		let levels = unlockTree[type].levels;
+		let currentLevel = planet.unlocks[type] || 0;
+		for (let i = 0; i < levels.length; i++) {
+			const levelData = levels[i];
+			if (levelData.level <= currentLevel && levelData.emoji) {
+				emojis += levelData.emoji;
+			}
+			else break;
+		}
+	}
+	if (emojis) msg += "\n\n"+emojis;
+
+	sharePrompt(msg);
+}
+
 function killPlanet() {
-	logMessage("There are no more settlements on Planet {{planet}}. Your final score was {{percent:"+planet.stats.score+"}}.");
-	logTip("deadPlanet", "You may want to start a new planet.");
+	if (!planet.dead || planet.dead === true) planet.dead = planet.day;
+	logMessage("There are no more settlements on Planet {{planet}}. Your final score was {{percent:"+planet.stats.score+"}}.", undefined, {
+	buttons: [
+	{
+		name: "Start Over",
+		func: () => resetPlanetPrompt()
+	},
+	{
+		name: "Share",
+		func: () => shareProgress()
+	}
+	]
+	});
+	// logTip("deadPlanet", "You may want to start a new planet.");
 	document.getElementById("actionSaves").classList.add("notify");
-	planet.dead = true;
 }
 function lockPlanet() {
 	planet.locked = true;
@@ -3084,6 +3257,29 @@ function unlockPlanet() {
 	planet.locked = false;
 	document.getElementById("nextDay").removeAttribute("disabled");
 	document.getElementById("nextDayMobile").removeAttribute("disabled");
+}
+
+function resetPlanetPrompt() {
+	doPrompt({
+		type: "confirm",
+		message: "{{people}} look up dreadfully at the sky.\n\nAre you sure you want to DELETE them permanently?",
+		title: "Reset Progress",
+		func: (r) => {
+			if (r) {
+				R74n.del("GenTownSave");
+				delete userSettings.view;
+				saveSettings();
+				location.reload();
+			}
+		},
+		danger: true
+	});
+}
+
+function updateTitle() {
+	newTitle = "GenTown";
+	if (planet.day > 1) newTitle += ": Day " + parseText("{{num:"+planet.day+"}}");
+	document.title = document.title.replace(/GenTown.+- /, newTitle +" - ")
 }
 
 townsBefore = null;
@@ -3173,7 +3369,7 @@ function nextDay(e) {
 			if (Math.abs(changes.livestock) >= minChange) msg += `{{diff:${changes.livestock}}}{{icon:livestock|Livestock}} `;
 
 			try {changes.cash = (town.resources.cash||0) - (townBefore.resources.cash||0)} catch{}
-			if (Math.abs(changes.cash) >= minChange) msg += `{{currency:${town.id}}}{{diff:${changes.cash}}} `;
+			if (Math.abs(changes.cash) >= minChange) msg += `{{currency:${town.id}}}{{diff:${Math.round(changes.cash)}}} `;
 
 			if (msg) {
 				sunsetMsg += `{{regname:town|${town.id}|-}} (` + msg.trim() + ") ";
@@ -3449,6 +3645,7 @@ function nextDay(e) {
 	updateCanvas();
 
 	autosave();
+	updateTitle();
 }
 
 document.getElementById("nextDay").addEventListener("click",nextDay);
@@ -3509,7 +3706,7 @@ function initGame() {
 
 	// create first town prompt
 	if (reg.town._id === 1) {
-		logMessage("GenTown is in early beta. Most features are incomplete. Please report all issues.", "tip");
+		logMessage("GenTown is in early beta. Please report all issues.", "tip");
 		onMapClickMsg = logMessage("Tap on the map to settle your town.");
 		onMapClick = function(e) {
 			let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
@@ -3557,6 +3754,7 @@ function initGame() {
 	updateCanvas();
 
 	fitToScreen();
+	updateTitle();
 }
 
 
@@ -3658,6 +3856,20 @@ function unlockExecutive(executiveID) {
 		button.classList.add("notify");
 		button.style.display = "";
 	}
+}
+
+function getUnlockLevel(type) {
+	let levels = unlockTree[type].levels;
+	let currentLevel = planet.unlocks[type] || 0;
+	let highest = null;
+	for (let i = 0; i < levels.length; i++) {
+		const levelData = levels[i];
+		if (levelData.level <= currentLevel) {
+			highest = levelData;
+		}
+		else break;
+	}
+	return highest;
 }
 
 
@@ -3813,7 +4025,6 @@ function loadFile() {
 	input.click();
 }
 
-isIOS = ['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
 if (isIOS) {
 	document.getElementById("saveUpload").removeAttribute("accept");
 }
@@ -4648,6 +4859,11 @@ function initExecutive() {
 			// 		["start", true, "Oldest"]
 			// 	]
 			// })
+			if (planet.dead) items.push({
+				text: `{{color:[{{date:${planet.dead}|s}}]|rgba(255,255,0,0.75)}} {{planet}} becomes uninhabited`,
+				func: () => regBrowsePlanet,
+				_day: planet.dead
+			});
 			regToArray("town",true).forEach((town) => {
 				items.push({
 					text: `{{color:[{{date:${town.start}|s}}]|rgba(255,255,0,0.75)}} {{regname:town|${town.id}}} is founded`,
@@ -4881,20 +5097,7 @@ window.addEventListener("load", function(){ //onload
 		{
 			text: "Reset progress",
 			func: () => {
-				doPrompt({
-					type: "confirm",
-					message: "{{people}} look up dreadfully at the sky.\n\nAre you sure you want to DELETE them permanently?",
-					title: "Reset Progress",
-					func: (r) => {
-						if (r) {
-							R74n.del("GenTownSave");
-							delete userSettings.view;
-							saveSettings();
-							location.reload();
-						}
-					},
-					danger: true
-				})
+				resetPlanetPrompt();
 			},
 			notify: planet.dead,
 			danger: true
@@ -4908,6 +5111,23 @@ window.addEventListener("load", function(){ //onload
 		{ text: "About", func: ()=> {
 			doPrompt({ type:"text", message:document.getElementById("blurbAbout").innerText });
 		}, id:"about" },
+		{ text: "Controls", func: ()=>{
+			doPrompt({ type: "text", message: "Loading..." })
+
+			fetch("https://r74n.com/gentown/controls.txt")
+			.then((r) => r.text())
+			.then((text) => {
+				doPrompt({
+					type: "text",
+					message: text,
+					title: "Controls",
+					pre: true
+				})
+			})
+			.catch((error) => {
+				alert(error);
+			})
+		}, id:"controls"},
 		{ text: "Changelog", func: ()=>{
 			doPrompt({ type: "text", message: "Loading..." })
 
@@ -4937,6 +5157,7 @@ window.addEventListener("load", function(){ //onload
 				alert(error);
 			})
 		}, id:"changelog", notify: userSettings.lastVersionCheck && userSettings.lastVersionCheck !== gameVersion },
+		{ text: "Share", func:shareProgress, id:"share" },
 		{ text: "Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform", id:"feedback" },
 		
 		{ text: "To-do", heading: true },
@@ -4952,8 +5173,7 @@ window.addEventListener("load", function(){ //onload
 		{ text: "{{check}} Settings" },
 		{ text: "{{check}} Laws" },
 		{ text: "{{check}} Revolutions" },
-		{ text: "{{x}} Merging" },
-		{ text: "{{x}} Economy / Trade" },
+		{ text: "{{check}} Economy / Trade" },
 		{ text: "{{x}} Diplomacy / Wars" },
 
 		{ spacer: true },
