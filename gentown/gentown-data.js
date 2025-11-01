@@ -337,6 +337,7 @@ actionables = {
 				let inv = target.resources;
 				if (inv[type] === undefined) inv[type] = 0;
 				inv[type] += args.count || 1;
+				if (type === "cash") return;
 				let max = $c.maxResource(target);
 				if (inv[type] > max) inv[type] = max;
 			},
@@ -407,6 +408,37 @@ actionables = {
 						delete target.influencesTemp[key];
 					}
 				}
+
+				return target;
+			},
+			AddRelation: (subject,target,args) => {
+				if (subject.id === target.id) return;
+
+				let amount = args.amount;
+
+				const current = subject.relations[target.id] || 0;
+
+				if (Math.sign(current) === Math.sign(amount)) amount += current * Math.abs(amount);
+
+				let newRelation = current + amount;
+
+				newRelation = Math.min(newRelation, $c.maxInfluence);
+				newRelation = Math.max($c.minInfluence, newRelation);
+
+				subject.relations[target.id] = newRelation;
+				target.relations[subject.id] = newRelation;
+
+				return target;
+			},
+			SetRelation: (subject,target,args) => {
+				if (subject.id === target.id) return;
+				
+				let newRelation = args.amount;
+				newRelation = Math.min(newRelation, $c.maxInfluence);
+				newRelation = Math.max($c.minInfluence, newRelation);
+
+				subject.relations[target.id] = newRelation;
+				target.relations[subject.id] = newRelation;
 
 				return target;
 			},
@@ -551,6 +583,8 @@ actionables = {
 				delete influences.happy;
 				happen("Influence", subject, target, influences);
 
+				happen("AddRelation", subject, target, {amount: 0.25});
+
 			},
 			Unclaim: (subject,target,args) => {
 				const x = args.x;
@@ -606,7 +640,8 @@ actionables = {
 				});
 
 				if (args.name) target.name = args.name;
-				if (subject && subject.id && subject._reg === "town") {
+				if (args.towns) target.towns = args.towns;
+				else if (subject && subject.id && subject._reg === "town") {
 					target.town = subject.id;
 				}
 				if (!isNaN(args.x)) target.x = args.x;
@@ -634,6 +669,9 @@ actionables = {
 				}
 				else if (target.type === "revolution") {
 					
+				}
+				else if (target.type === "war") {
+
 				}
 				
 				return target;
@@ -1035,7 +1073,7 @@ gameEvents = {
 					logMessage(`{{c:Hooray|Yippee|Rejoice|Praise be}}!! {{residents:${subject.id}}} have regained faith in you, and will once again ask for your input.`,"milestone");
 				}
 			}
-			else if (!planet.usurp) {
+			else if (!planet.usurp && planet.day - subject.start > $c.colonyCooldown) {
 				if (subject.influences.faith <= -9.75 && Math.random() < 0.25) {
 					subject.usurp = planet.day;
 
@@ -1138,6 +1176,7 @@ gameEvents = {
 		func: (subject, target, args) => {
 			if (subject.legal["travel.expansion"] === false) return;
 			if (subject.issues.revolution) return;
+			if (subject.issues.war) return;
 
 			let expandRate = addInfluence($c.baseExpandRate + (subject.size/50), subject, "travel");
 			
@@ -1187,11 +1226,12 @@ gameEvents = {
 							let migrateCount = 2;
 							if (subject.influences.happy < 0) {
 								migrateCount = randRange(subject.pop*0.1, subject.pop*0.9);
-								logMessage("Unhappy with life in {{regname:town|"+subject.id+"}}, settlers found {{regname:town|"+newTown.id+"}}.")
+								logMessage("Unhappy with life in {{regname:town|"+subject.id+"}}, settlers found {{regname:town|"+newTown.id+"}}.");
+								happen("SetRelation", subject, newTown, {amount:-3});
 							}
 							else {
 								migrateCount = randRange(subject.pop*0.05, subject.pop*0.25);
-								logMessage("{{c:Settlers|Travelers}} from {{regname:town|"+subject.id+"}} found {{regname:town|"+newTown.id+"}}.")
+								logMessage("{{c:Settlers|Travelers}} from {{regname:town|"+subject.id+"}} found {{regname:town|"+newTown.id+"}}.");
 							}
 							migrateCount = Math.max(Math.round(migrateCount), 2);
 							happen("Migrate", subject, newTown, {count: migrateCount});
@@ -1469,7 +1509,7 @@ gameEvents = {
 			tax = Math.min(tax, subject.wealth);
 
 			subject.wealth -= tax;
-			happen("AddResource", null, subject, { type:"cash", count:subject.wealth });
+			happen("AddResource", null, subject, { type:"cash", count:tax });
 
 			if (!subject.econStart || planet.day - subject.econStart > 20) {
 				let perCapita = Math.round((subject.wealth || 0) / subject.pop);
@@ -1507,7 +1547,7 @@ gameEvents = {
 
 			if (!target.tax) return msg+`introduce a {{percent:${args.value}}} income tax for funding town projects.`;
 
-			if (args.result === 0) return msg+`abolish the town's {{percent:${town.tax}}} income tax.`;
+			if (args.result === 0) return msg+`abolish the town's {{percent:${target.tax}}} income tax.`;
 			
 			return msg+(args.value > 0 ? "increase" : "decrease")+` the town's income tax by {{percent:${args.value}}}, for a total of {{percent:${args.result}}}.`;
 		},
@@ -1534,7 +1574,7 @@ gameEvents = {
 		random: true,
 		auto: true,
 		subject: { reg:"town", random:true },
-		target: { reg:"town", random:true },
+		target: { reg:"town", nearby:true },
 		check: () => planet.unlocks.trade >= 10,
 		func: (subject, target, args) => {
 			let resource = chooseDifferent(Object.keys(target.resources),"cash");
@@ -1567,6 +1607,7 @@ gameEvents = {
 				happen("AddResource", buyer, seller, {type:"cash", count:count});
 				happen("RemoveResource", seller, buyer, {type:"cash", count:count});
 			}
+			happen("AddRelation", seller, buyer, {amount:1});
 
 			args.message = `{{regname:town|${buyer.id}}} ${useCash ? "{{c:purchases|buys}}" : "receives"} ${resource} from {{regname:town|${seller.id}}}.`;
 		},
@@ -1575,6 +1616,91 @@ gameEvents = {
 			trade: 1
 		},
 		weight: $c.COMMON
+	},
+
+	"townDiplomacy": {
+		random: true,
+		auto: true,
+		subject: { reg:"town", random:true },
+		target: { reg:"town", nearby:true },
+		value: (subject, target, args) => {
+			console.log(subject, target);
+
+			args.peace = Math.random() < (subject.influences.military > 8 ? 0.2 : 0.475);
+
+			if (Math.random() < 0.75) {
+				if (args.peace && subject.relations[target.id] < 0) args.peace = false;
+				else if (!args.peace && subject.relations[target.id] > 0) args.peace = true;
+			}
+
+			if (!subject.center) happen("UpdateCenter", null, subject);
+			args.location = nearbyTown(subject.center[0], subject.center[1], (t) => t.id !== subject.id, 5);
+
+		},
+		check: (subject, target) => {
+			if (subject.issues.revolution || target.issues.revolution) return false;
+			console.log(true);
+			return true;
+		},
+		func: (subject, target, args) => {
+
+			happen("AddRelation", subject, target, {amount: args.peace ? 2 : -2});
+
+			let relation = subject.relations[target.id];
+			if (isNaN(relation)) return;
+
+			if (!args.peace && relation < 0) {
+				let warRate = 0.15;
+				warRate *= Math.abs(relation);
+				warRate = addInfluence(warRate, subject, "military");
+				if (subject.issues.war || target.issues.war) warRate = 0;
+				if (!subject.jobs.soldier) warRate = 0;
+
+				if (planet.unlocks.military && Math.random() < warRate) {
+					let process = happen("Create", subject, null, {
+						type: "war",
+						towns: [subject.id, target.id]
+					}, "process");
+					subject.issues.war = process.id;
+					target.issues.war = process.id;
+					args.war = true;
+					logMessage(choose([
+						`War! {{regadj:town|${subject.id}}} {{c:troops|soldiers}} begin an offensive along the {{regadj:town|${target.id}}} border.`,
+						`Fire! {{regname:town|${subject.id}}} declares war on {{regname:town|${target.id}}}.`,
+					]), "warning");
+				}
+			}
+
+		},
+		message: (subject, target, args) => {
+			if (args.war) return;
+			message = null;
+
+			if (args.peace) {
+				message = `Diplomats from {{regname:town|${subject.id}}} `;
+				if (args.location.id === target.id || !args.location) {
+					message += `arrive in {{regname:town|${target.id}}}`;
+				}
+				else message += `and {{regname:town|${target.id}}} meet in {{regname:town|${args.location.id}}}`;
+				if (subject.issues.war && target.issues.war) message += ` to discuss {{c:peace plans|a ceasefire|an end to the war}}.`
+				else message += ` to improve relations.`;
+			}
+			else {
+				message = `Anger erupts following a tense meeting `;
+				if (args.location.id === target.id || !args.location) {
+					message += `with {{regname:town|${subject.id}}} in {{regname:town|${target.id}}}`;
+				}
+				else message += `between {{regname:town|${subject.id}}} and {{regname:town|${target.id}}} in {{regname:town|${args.location.id}}}`;
+				message += ".";
+			}
+
+			if (!message) return false;
+			return message;
+		},
+		influencedBy: {
+			travel: 1
+		},
+		weight: $c.SUPERCOMMON
 	},
 
 
@@ -1796,7 +1922,7 @@ gameEvents = {
 			const both = newDeaths && newInjuries;
 			if ((newDeaths || newInjuries)) {
 				logMessage(
-					`{{regname:process|${subject.id}}} ${newDeaths ? "kills "+newDeaths : ""}${both ? " and " : ""}${newInjuries ? "injures "+newInjuries : ""}.` +
+					`{{regadj:town|${town.id}}} Revolution ${newDeaths ? "kills "+newDeaths : ""}${both ? " and " : ""}${newInjuries ? "injures "+newInjuries : ""}.` +
 					(destroyed.length ? " " + commaList(destroyed.map((id) => `{{regname:marker|${id}}}`)) + " " + (destroyed.length === 1 ? "was" : "were") + " destroyed." : "")
 				, "warning");
 			}
@@ -1809,7 +1935,7 @@ gameEvents = {
 						if (influence === "faith") continue;
 						town.influences[influence] *= 0.75;
 					}
-					logMessage(`{{regname:process|${subject.id}}} comes to an end after being thwarted by {{regadj:town|${town.id}}} military forces.`)
+					logMessage(`{{regadj:town|${town.id}}} Revolution comes to an end after being thwarted by {{regadj:town|${town.id}}} military forces.`)
 					delete town.issues.revolution;
 					happen("Finish", null, subject);
 					return;
@@ -1850,8 +1976,9 @@ gameEvents = {
 					happen("Migrate", town, newTown, {count: Math.round(town.pop * (newTown.size / oldSize))});
 					newTown.influences.happy = 0;
 					newTown.influences.faith = Math.min(0.5, town.influences.faith);
+					happen("SetRelation", town, newTown, {amount:-5});
 
-					logMessage(`{{regname:process|${subject.id}}} comes to an end, and the autonomous ${newTown.gov} of {{regname:town|${newTown.id}}} is formed.`);
+					logMessage(`{{regadj:town|${town.id}}} Revolution comes to an end, and the autonomous ${newTown.gov} of {{regname:town|${newTown.id}}} is formed.`);
 
 				}
 				else {
@@ -1859,7 +1986,10 @@ gameEvents = {
 					town.gov = chooseDifferent(Object.keys(govForms), town.gov);
 					town.legal = {};
 					if (Math.random() < 0.33) {
-						if (town.gov === "dictatorship" && !town.name.includes("egime")) town.suffix = "Regime";
+						if (town.gov === "dictatorship" && !town.name.includes("egime")) {
+							town.prefix = "the";
+							town.suffix = "Regime";
+						}
 						else if (town.gov === "republic" && !town.name.includes("epublic")) {
 							if (Math.random() < 0.5) { town.prefix = "Republic of"; delete town.suffix }
 							else { town.suffix = "Republic"; delete town.prefix; }
@@ -1872,12 +2002,132 @@ gameEvents = {
 					}
 					town.color = colorChange(town.color);
 					town.influences.happy = 0;
-					logMessage(`{{regname:process|${subject.id}}} comes to an end, and {{regname:town|${town.id}}} reorganizes into a ${town.gov}.`);
+					logMessage(`Revolution comes to an end, and {{regname:town|${town.id}}} reorganizes into a ${town.gov}.`);
 				}
 
 				delete town.issues.revolution;
 				happen("Finish", null, subject);
 			}
+		}
+	},
+	"processWar": {
+		meta: true,
+		subject: { reg: "process" },
+		func: (subject, target, args) => {
+			if (!subject.towns || subject.towns.length === 0) {
+				happen("Finish", null, subject);
+				return;
+			}
+
+			let newDeaths = 0;
+			let newInjuries = 0;
+			let destroyed = [];
+
+			for (let i = 0; i < subject.towns.length; i++) {
+				const town1 = regGet("town",subject.towns[i]);
+				for (let j = 0; j < subject.towns.length; j++) {
+					if (i === j) continue;
+					const town2 = regGet("town",subject.towns[j]);
+
+					if (town1.end || town2.end) {
+						happen("Finish", null, subject);
+						return;
+					}
+					if (!town1.center) happen("UpdateCenter", null, town1);
+					if (!town2.center) happen("UpdateCenter", null, town2);
+
+					if (town1.relations[town2.id] >= 0) {
+						logMessage(`Following {{c:deliberations|intense talks}}, {{regname:town|${town1.id}}} and {{regname:town|${town2.id}}} agree to {{c:peace|a ceasefire|a truce|end the war}}.`);
+						delete town1.issues.war;
+						delete town2.issues.war;
+						happen("Finish", null, subject);
+						return;
+					}
+
+					happen("AddRelation", town1, town2, {amount:-0.1});
+					happen("Influence", null, town1, {happy:-0.1, temp:true});
+					happen("Influence", null, town2, {happy:-0.1, temp:true});
+
+					// 0-1
+					let power = (town1.jobs.soldier || 0) / ((town1.jobs.soldier || 0) + (town2.jobs.soldier || 0));
+					console.log("power",power);
+
+					let density = town2.pop / town2.size;
+					
+					let chunkCount = 3 * power;
+					if (chunkCount < 1 && Math.random() < chunkCount) chunkCount = 1;
+					chunkCount = Math.floor(chunkCount);
+					chunkCount = Math.min(chunkCount, town2.size);
+					console.log("chunkCount",chunkCount);
+
+					let kill = 0;
+					for (let i = 0; i < chunkCount; i++) {
+						let chunk = nearestChunk(town1.center[0], town1.center[1], (c) => c.v.s === town2.id);
+						if (!chunk) break;
+
+						if (density < 1 && Math.random() < density) kill += 1;
+						else kill += Math.round(density);
+
+						happen("Unclaim", town1, town2, {x:chunk.x, y:chunk.y});
+
+						if (Math.random() < 0.5) { // take over
+							town1.size ++;
+							chunk.v.s = town1.id;
+							happen("UpdateCenter", null, town1);
+						}
+						happen("UpdateCenter", null, town2);
+					}
+
+					// kill
+					if (kill) {
+						newDeaths += happen("Death", null, town2, {count:kill, cause:"war"}).count;
+					}
+
+					if (power < 0.2 && Math.random() < 0.25) {
+						logMessage(`Surrounded, members of the {{regadj:town|${town1.id}}} government surrender to {{regadj:town|${town2.id}}} soldiers.`);
+						// all territory goes to town2
+						filterChunks((c) => c.v.s === town1.id).forEach((c) => {
+							happen("Unclaim", town1, town2, {x:c.x, y:c.y});
+							c.v.s = town2.id;
+							town2.size ++;
+						})
+						town1.ender = town2.id;
+						subject.winner = town2.id;
+						happen("End", null, town1);
+						happen("UpdateCenter", null, town2);
+						return;
+					}
+					if (town2.end) {
+						town2.ender = town1.id;
+						subject.winner = town2.id;
+						logMessage(`Victory! {{regadj:town|${town1.id}}} soldiers defeat {{regname:town|${town2.id}}}.`)
+						return;
+					}
+
+					// if town2 is ended, end the war with a success message
+					// town1 chance to surrender with low power, all territory goes to town2
+					// town2.ender (ended by town1)
+
+				}
+			}
+
+			if (newDeaths) subject.deaths = (subject.deaths||0) + newDeaths;
+			if (newInjuries) subject.injuries = (subject.injuries||0) + newInjuries;
+			const both = newDeaths && newInjuries;
+			if (newDeaths || newInjuries) {
+				logMessage(
+					`War between ${commaList(subject.towns.map((t) => `{{regname:town|${t}}}`))} ${newDeaths ? "kills "+newDeaths : ""}${both ? " and " : ""}${newInjuries ? "injures "+newInjuries : ""}.` +
+					(destroyed.length ? " " + commaList(destroyed.map((id) => `{{regname:marker|${id}}}`)) + " " + (destroyed.length === 1 ? "was" : "were") + " destroyed." : "")
+				, "warning");
+			}
+
+			// ~if military unlocked, start war
+			// ~influenced by military
+			// ~set both towns issues.war so they don't start another
+			// ~peace talks instead when in war
+			// ~cancel war if relations improve
+				// ~following deliberations, agree to peace/ceasefire/truce
+			// ~each day of war, decrease relations a little
 		}
 	},
 
@@ -2197,6 +2447,7 @@ gameEvents = {
 			let letter = lastWord[0];
 			if (!wordComponents.CURRENCY[letter]) letter = "_";
 			let sign = choose(wordComponents.CURRENCY[letter].split(","));
+			if (specialCurrencies[lastWord]) sign = specialCurrencies[lastWord];
 			target.currencySign = sign;
 		},
 		message: (subject, target, args) => `{{regname:town|${target.id}}} needs a name for their currency.`,
@@ -2894,8 +3145,7 @@ unlockTree = {
 				influences: { military:1, crime:0.25 },
 				messageNo: "The settlements trust each other, for now...",
 				influencesNo: { military:-2 },
-				check: () => regCount("town") > 1,
-				func: () => logTip("betaMilitary", "Militarism hasn't been added yet.") //BETA
+				check: () => regCount("town") > 1
 			},
 			{
 				level: 20,
@@ -3042,9 +3292,10 @@ regBrowserKeys = {
 	"happy": "Mood",
 	"biome": "Biome",
 	"rate": "Efficiency",
-	"economy": "Economy",
+	"econ_": "Economy",
+	"relations_": "Relations",
 	"jobs": "Jobs",
-	"laws": "Laws",
+	"legal_": "Laws",
 	"town.animal": "Town Animal",
 	"biome.crops": "Crops",
 	"biome.livestocks": "Livestock",
@@ -3053,7 +3304,10 @@ regBrowserKeys = {
 	"process.subtype": "Type",
 	"process.deaths": "Deaths",
 	"process.injuries": "Injuries",
-	"towns": "Towns",
+	"duration_": "Duration",
+	"disastertowns": "Towns",
+	"towns_": "Towns",
+	"process.winner": "Winner",
 	"process.done": "Finished",
 	"process.end": "Scrapped",
 	"process.start": "Began",
@@ -3069,8 +3323,9 @@ regBrowserKeys = {
 
 	"continents": "Continents",
 	"landmasses": "Landmasses",
-	"volume": "Total Volume",
-	"landvolume": "Volume (No Water)",
+	"volume": "Total volume",
+	"landvolume": "Land volume",
+	"globalwealth": "Global wealth",
 
 	"farmer":"{{icon:crop}}Farmer",
 	"lumberer":"{{icon:lumber}}Lumberer",
@@ -3081,6 +3336,7 @@ regBrowserKeys = {
 	"town.end": "Fell",
 	"age": "Age",
 	"former": "Formerly",
+	"town.ender": "Defeated by",
 
 	"planet": "Planet",
 
@@ -3088,6 +3344,7 @@ regBrowserKeys = {
 	"stats.death": "Deaths",
 	"stats.deathnatural": "Natural deaths",
 	"stats.deathdisaster": "Disaster deaths",
+	"stats.deathwar": "War deaths",
 	"stats.birth": "Births",
 	"stats.peak": "Peak population",
 	"stats.prompt": "Acts issued",
@@ -3123,6 +3380,8 @@ regBrowserValues = {
 	"law": null,
 	"rate": (value) => `${value}x`,
 	"process.town": (value) => `{{regname:town|${value}}}`,
+	"town.ender": (value) => `{{regname:town|${value}}}`,
+	"process.winner": (value) => `{{regname:town|${value}}}`,
 	"process.subtype": (value) => titleCase(value),
 	"process.cost": (value) => `${value}{{icon:lumber}}{{icon:rock}}`,
 	"injuries": (value, town) => `{{num:${value}}}{{icon:sad}}`,
@@ -3150,6 +3409,9 @@ regBrowserExtra = {
 		"deathdisaster": () => {
 			return planet.stats.deathBy.disaster || 0;
 		},
+		"deathwar": () => {
+			return planet.stats.deathBy.war || 0;
+		},
 		"avgmood": () => {
 			return Math.round(sumArray(regToArray("town").map((t) => (t.influences.happy || 0))) / regCount("town") * 100) / 100;
 		}
@@ -3173,10 +3435,18 @@ regBrowserExtra = {
 			})
 			let volumeInChunks = volume / 1000 / 944000000;
 			return "{{volume:"+volumeInChunks+"}}";
+		},
+		"globalwealth": () => {
+			let wealth = 0;
+			regToArray("town").forEach((t) => {
+				if (t.wealth) wealth += t.wealth;
+				if (t.resources.cash) wealth += t.resources.cash;
+			});
+			return "¤{{num:"+wealth+"|K}}";
 		}
 	},
 	town: {
-		"laws": (town) => {
+		"legal_": (town) => {
 			let laws = {};
 			for (let law in town.legal) {
 				let split = law.split(".");
@@ -3187,20 +3457,45 @@ regBrowserExtra = {
 			if (!Object.keys(laws).length) return;
 			return laws;
 		},
-		"economy": (town) => {
+		"econ_": (town) => {
 			if (!town.econ) return;
 
 			
 			let data = {};
 			
 			if (planet.unlocks.trade >= 30) {
-				data["private wealth"] = `{{currency:${town.id}}}{{num:${Math.round(town.wealth || 0)}|K}}`;
+				if (town.pop) data["private wealth"] = `{{currency:${town.id}}}{{num:${Math.round(town.wealth || 0)}|K}}`;
 				if (town.tax) data["tax rate"] = `{{percent:${town.tax}}}`;
-				data["per capita"] = `{{currency:${town.id}}}{{num:${Math.round((town.wealth || 0) / town.pop)}|K}}`;
+				if (town.pop) data["per capita"] = `{{currency:${town.id}}}{{num:${Math.round((town.wealth || 0) / town.pop)}|K}}`;
 			}
 			
 			data.form = `{{color:${titleCase(wordAdjective(town.econ))}|${econForms[town.econ].color || ""}}}`;
 			if (town.currency) data.currency = `{{color:${town.currency}|rgb(${town.color.join(",")})}}`;
+
+			return data;
+		},
+		"relations_": (town) => {
+			if (!town.relations || !Object.keys(town.relations).length || town.end) return;
+			
+			let data = {};
+
+			let sorted = Object.keys(town.relations);
+			sorted.sort((a, b) => town.relations[b] - town.relations[a]);
+
+			for (let i = 0; i < sorted.length; i++) {
+				const key = sorted[i];
+				let town2 = regGet("town", parseInt(key));
+				if (town2.end) continue;
+
+				let mood = town.relations[key];
+				let icon = "neutral";
+				if (mood >= 2) icon = "happy";
+				if (mood <= -2) icon = "sad";
+
+				let count = Math.min(3,Math.ceil(Math.abs(mood) / 3)) || 1;
+
+				data["{{regname:town|"+key+"}}"] = `{{icon:${icon}|${Math.round(mood)}}}`.repeat(count);
+			}
 
 			return data;
 		},
@@ -3242,12 +3537,16 @@ regBrowserExtra = {
 		}
 	},
 	process: {
-		"towns": (process) => {
+		"disastertowns": (process) => {
 			if (!process.chunks) return;
 			if (!process.chunks.length) return;
 			let towns = [...new Set(process.chunks.map((coords) => chunkAt(coords[0],coords[1])).filter((i) => i).filter((c) => c.v.s).map((chunk) => chunk.v.s))].map((id) => `{{regname:town|${id}}}`);
 			if (!towns.length) return;
 			return towns;
+		},
+		"towns_": (process) => {
+			if (!process.towns) return;
+			return process.towns.map((id) => "{{regname:town|" + id + "}}").join(", ");
 		},
 		"name": (process) => {
 			if (process.name) return process.name;
@@ -3255,6 +3554,10 @@ regBrowserExtra = {
 			if (process.type === "revolution") {
 				let town = regGet("town",process.town);
 				return (town.adj || town.name) + " Revolution";
+			}
+			if (process.type === "war") {
+				if (!process.towns) return "War";
+				return process.towns.map((id) => regGet("town", id).name).join("–") + " War";
 			}
 		},
 		"color": (process) => {
@@ -3270,7 +3573,14 @@ regBrowserExtra = {
 				let town = regGet("town",process.town);
 				return town.color;
 			}
-		}
+			if (process.type === "war") {
+				if (!process.towns) return;
+				return colorMix(regGet("town", process.towns[0]).color, regGet("town", process.towns[1]).color);
+			}
+		},
+		"duration_": (process) => {
+			return `{{duration:${(process.done || planet.day) - process.start}}}` + (process.done ? "" : " (Ongoing)")
+		},
 	},
 	marker: {
 		"name": (process) => {

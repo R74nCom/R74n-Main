@@ -166,6 +166,16 @@ addParserCommand("date",function(args) {
 	}
 	return `{{num:${n}}}`;
 })
+addParserCommand("duration",function(args) {
+	let n = parseFloat(args[0]);
+	if (isNaN(n)) return "Invalid Duration";
+	let unit = "day";
+	if (n && Math.abs(n) < 1) {
+		n *= 24;
+		unit = "hour";
+	}
+	return `{{num:${Math.round(n)}}} ${unit}${Math.abs(n) === 1 ? "" : "s"}`;
+})
 addParserCommand("check",function(args) {
 	return `{{color:${args[0] || "/"}|#00ff00|true}}`;
 })
@@ -411,6 +421,20 @@ function colorChange(rgb) {
 	hsl[2] = Math.max(0.35, Math.min(0.8, hsl[2]));
 	return HSLtoRGB(hsl).map((n) => Math.round(n));
 }
+//colorChannelA and colorChannelB are ints ranging from 0 to 255
+function colorChannelMixer(colorChannelA, colorChannelB, amountToMix){
+    var channelA = colorChannelA*amountToMix;
+    var channelB = colorChannelB*(1-amountToMix);
+    return parseInt(channelA+channelB);
+}
+//rgbA and rgbB are arrays, amountToMix ranges from 0.0 to 1.0
+//example (red): rgbA = [255,0,0]
+function colorMix(rgbA, rgbB, amountToMix=0.5){
+    var r = colorChannelMixer(rgbA[0],rgbB[0],amountToMix);
+    var g = colorChannelMixer(rgbA[1],rgbB[1],amountToMix);
+    var b = colorChannelMixer(rgbA[2],rgbB[2],amountToMix);
+    return [r,g,b];
+}
 
 function generatePerlinNoise(x, y, octaves, persistence) {
 	let total = 0;
@@ -606,6 +630,7 @@ function defaultTown() {
 		},
 		"legal": {},
 		"issues": {},
+		"relations": {},
 		"wealth": 0,
 		"_reg": "town"
 	}
@@ -694,6 +719,12 @@ function readyEvent(eventClass, subject=null, target=null) {
 		}
 		else if (eventInfo.target.id) {
 			target = regGet(regname,eventInfo.target.id)
+			if (!target) return;
+		}
+		else if (eventInfo.target.nearby && regname === "town" && subject && subject._reg === "town") {
+			let chunk = randomChunk((c) => c.v.s === subject.id);
+			if (!chunk) return;
+			target = nearbyTown(chunk.x, chunk.y, (t) => t.id !== subject.id, 5);
 			if (!target) return;
 		}
 	}
@@ -1386,6 +1417,7 @@ currentExecutive = null;
 currentExecutiveButton = null;
 currentExecutiveSorter = null;
 debugTemp = null;
+debugMode = null;
 
 function handleEntityClick(e) {
 	let reg = e.getAttribute("data-reg");
@@ -1432,8 +1464,6 @@ function handleMessageClick(e) {
 	if (elem.querySelector('.logAct span[type="yes"][selected="true"]')) text += " [YES]";
 
 	sharePrompt(text);
-
-	console.log(elem);
 }
 
 function renderCursor() {
@@ -1543,6 +1573,36 @@ function chunkIsNearby(chunkX, chunkY, check, radius=5) {
 		if (chunk && check(chunk)) return true;
 	}
 	return false;
+}
+
+function nearbyTown(chunkX,chunkY,check,optionCount) {
+	let checked = {};
+	let options = [];
+	let chunk = nearestChunk(chunkX, chunkY, (c) => {
+		if (!c.v.s) return false;
+
+		if (checked[c.v.s]) return false;
+		checked[c.v.s] = true;
+		let town = regGet("town", c.v.s);
+		if (!town) return false;
+
+		if (!check || check(town)) {
+			if (optionCount) {
+				options.push(town);
+				if (options.length < optionCount) return false
+			}
+			return true;
+		}
+	})
+	if (optionCount && options.length) {
+		let weights = [];
+		for (let i = 0; i < options.length; i++) {
+			weights.push(options.length - i);
+		}
+		return chooseWeighted(options, weights);
+	}
+	if (!chunk) return null;
+	return regGet("town", chunk.v.s);
 }
 
 function distanceCoords(x1, y1, x2, y2) {
@@ -1947,6 +2007,9 @@ function renderHighlight() {
 	for (let i = 0; i < disasters.length; i++) {
 		const disaster = disasters[i];
 		let color = disaster.color || [255,0,0];
+		if (currentHighlight && currentHighlight[1] === disaster.id && currentHighlight[0] === "process") {
+			color = colorBrightness(color, 1.15);
+		}
 		if (Array.isArray(disaster.chunks)) {
 			let chunks = {};
 			disaster.chunks.forEach((coords) => {
@@ -2203,8 +2266,9 @@ function handleMouseUp(e) {
 		return;
 	}
 	
+	let chunkKey = mousePos.chunkX+","+mousePos.chunkY;
+
 	if (e.button == 0 || e.force !== undefined) { //left click
-		let chunkKey = mousePos.chunkX+","+mousePos.chunkY;
 		if (onMapClick) {
 			onMapClick(e);
 		}
@@ -2339,7 +2403,8 @@ keybinds = {
 		else document.getElementById("actionInfo").click();
 	},
 	"?": () => {
-		populateExecutive([{
+		populateExecutive([
+		{
 			text: "Symbols",
 			func: ()=>{
 				doPrompt({ type: "text", message: "Loading..." })
@@ -2353,7 +2418,8 @@ keybinds = {
 					pre: true
 				})})
 			}
-		}], "Debug")
+		}
+		], "Debug")
 	},
 	"y": (e) => {
 		let button = document.querySelector('#logMessages .logMessage[new="true"] .logAct span[type="yes"]');
@@ -2371,6 +2437,13 @@ keybinds = {
 	"n": () => {
 		let button = document.querySelector('#logMessages .logMessage[new="true"] .logAct span[type="no"]');
 		if (button) button.click();
+	},
+	"c": () => {
+		let link = document.getElementById("screenshotter");
+		link.setAttribute("download",(planet.name||"GenTown")+".png");
+		var dt = mapCanvas.toDataURL('image/png');
+		link.href = dt;
+		link.click();
 	}
 }
 
@@ -2603,6 +2676,7 @@ function openPopup(id) {
 function doPrompt(obj) {
 	if (obj) promptState = obj;
 	else if (!promptState) return;
+	if (!obj) obj = promptState;
 	let type = promptState.type || "text";
 	let message = promptState.message;
 	let popupInput = document.getElementById("popupInput");
@@ -2683,6 +2757,10 @@ function doPrompt(obj) {
 	if (!message && !promptState.title) {
 		promptPopup.classList.add("noContent");
 	}
+	if (obj.danger) promptPopup.classList.add("danger");
+	else promptPopup.classList.remove("danger");
+	if (obj.subtype) promptPopup.setAttribute("data-subtype", obj.subtype);
+	else promptPopup.removeAttribute("data-subtype");
 }
 defaultPromptLimit = 32;
 function handlePrompt(result) {
@@ -3059,6 +3137,7 @@ function reportInfluences(uuid, oldInfluences, newInfluences) {
 	}
 
 	diffs.sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]));
+	diffs = diffs.slice(0,5);
 
 	for (let i = 0; i < diffs.length; i++) {
 		const key = diffs[i][0];
@@ -3171,6 +3250,7 @@ function sharePrompt(text, more) {
 		message: more ? null : text,
 		title: more ? "More..." : null,
 		choices: Object.keys(shareOptions).filter((key) => more ? !shareOptions[key].main : shareOptions[key].main),
+		subtype: "share",
 		func: (r) => {
 			if (!r) return;
 			let share = shareOptions[r];
@@ -3446,10 +3526,12 @@ function nextDay(e) {
 		if (eventCaller.message) eventCaller.logID = logMessage(eventCaller.message);
 		let messageElement = document.getElementById("logMessage-"+eventCaller.logID);
 		recentEvents.push(eventClass);
-		messageElement.setAttribute("data-eventid",eventID)
-		messageElement.setAttribute("data-eventclass",eventClass)
+		if (messageElement) {
+			messageElement.setAttribute("data-eventid",eventID)
+			messageElement.setAttribute("data-eventclass",eventClass)
+		}
 		if (eventInfo.auto) {
-			messageElement.setAttribute("done","true");
+			if (messageElement) messageElement.setAttribute("done","true");
 
 			if (oldInfluences && influencedTown) reportInfluences(eventCaller.logID, oldInfluences, influencedTown.influences)
 		}
@@ -3630,10 +3712,10 @@ function nextDay(e) {
 						logMessage(`{{regname:${eventCaller.target._reg}|${eventCaller.target.id}}} has chosen to be run independently.`, "tip");
 					});
 				}, 100);
-				messageElement.classList.add("usurp");
+				if (messageElement) messageElement.classList.add("usurp");
 			}
 		}
-		if (logAct.innerHTML.length) messageElement.appendChild(logAct);
+		if (messageElement && logAct.innerHTML.length) messageElement.appendChild(logAct);
 	}
 	else if (!planet.dead) {
 		logMessage("An uneventful day.");
@@ -3707,7 +3789,6 @@ function initGame() {
 
 	// create first town prompt
 	if (reg.town._id === 1) {
-		logMessage("GenTown is in early beta. Please report all issues.", "tip");
 		onMapClickMsg = logMessage("Tap on the map to settle your town.");
 		onMapClick = function(e) {
 			let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
@@ -3748,6 +3829,8 @@ function initGame() {
 	}
 	if (planet.usurp) gameDiv.classList.add("usurp");
 	else gameDiv.classList.remove("usurp");
+
+	if (userSettings.overlay === false) document.getElementById("mapOverlay").style.display = "none";
 
 	updateStats();
 	renderMap();
@@ -4780,7 +4863,7 @@ function initExecutive() {
 		text: "Projects",
 		id: "projects",
 		hide: true,
-		keybind: "p",
+		keybind: "j",
 		func: () => {
 			let items = [];
 			regFilter("process", (p) => 
@@ -5006,6 +5089,13 @@ window.addEventListener("load", function(){ //onload
 			func: () => { renderMarkers(); updateCanvas(); }
 		},
 		{
+			text: "Overlay",
+			setting: "overlay",
+			options: { "true": "Enabled", "false": "Disabled" },
+			default: "true",
+			func: () => { document.getElementById("mapOverlay").style.display = userSettings.overlay === false ? "none" : "block"; }
+		},
+		{
 			text: "Desaturate biomes",
 			setting: "desaturate",
 			options: { "true": "Enabled", "false": "Disabled" },
@@ -5041,12 +5131,12 @@ window.addEventListener("load", function(){ //onload
 						document.querySelectorAll("#actionSubList .actionSetting").forEach((button) => {
 							let setting = button.getAttribute("data-setting");
 							delete userSettings[setting];
-							saveSettings();
-							closeExecutive();
-							renderMap();
-							renderHighlight();
-							updateStats();
 						})
+						saveSettings();
+						closeExecutive();
+						renderMap();
+						renderHighlight();
+						updateStats();
 					},
 					danger: true
 				})

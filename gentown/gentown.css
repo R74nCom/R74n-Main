@@ -11,11 +11,12 @@ html, body {
 }
 
 #gameLoading {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'VT323', Arial, Helvetica, sans-serif;
 	position: absolute;
 	left: 50%;
 	top: 50%;
 	transform: translateX(-50%) translateY(-50%);
+	white-space: nowrap;
 }
 
 #gameDiv {
@@ -112,6 +113,37 @@ html, body {
 }
 #mapDiv {
 	border: none;
+	position: relative;
+}
+/* @keyframes sunlight {
+	0% {
+		background-position: 100vw;
+	}
+	100% {
+		background-position: 200vw;
+	}
+} */
+#mapOverlay {
+	-webkit-box-shadow: inset 0px 0px 25px rgba(0,0,0, 0.75);
+	-moz-box-shadow:    inset 0px 0px 25px rgba(0,0,0, 0.75);
+	box-shadow:         inset 0px 0px 25px rgba(0,0,0, 0.75);
+	
+	line-height: 0;         /* ensure no space between bottom */
+	pointer-events: none;
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+
+	/* background: transparent;
+	background-image: radial-gradient(circle,rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 75%);
+	background-size: 100vw;
+	background-position: 100vw;
+	background-repeat: repeat; */
+
+	/* -webkit-animation: sunlight 2s linear forwards infinite;
+	animation: sunlight 2s linear forwards infinite; */
 }
 #underMap {
 	height: 1.75em;
@@ -241,6 +273,9 @@ span.none {
 }
 .usurp .font2 {
 	font-style: normal;
+}
+.entityName.usurp {
+	filter: saturate(0.25);
 }
 
 .logMessage .logAct {
@@ -444,12 +479,18 @@ tr.total {
 	background-color: black;
 	text-align: center;
 	max-width: 7em;
+	border-bottom-width: 3px;
+    border-bottom-color: #3d3d3d;
+    border-top-color: #959595;
 }
 #underStats:hover {
-	border-color: white
+	border-color: white;
+	border-bottom-color: #c4c4c4;
 }
 #underStats:has(#nextDay[disabled="true"]):hover {
-	border-color: gray
+	border-color: gray;
+	border-bottom-color: #3d3d3d;
+	border-top-color: #959595;
 }
 #underStats:active {
 	scale: 0.95;
@@ -459,6 +500,8 @@ tr.total {
 	line-height: 1.75em;
 	padding-left: 15px;
 	padding-right: 15px;
+	border: inset rgba(255, 223, 158, 0.3);
+    box-sizing: border-box;
 }
 #nextDay {
 	-webkit-box-shadow: 0px 0px 96px 10px rgba(255,255,0,0.8);
@@ -716,10 +759,36 @@ tr.total {
 	visibility: visible;
 }
 
+:root {
+	--border-a: hsl(60 0% 50%);
+	--border-b: hsl(60 0% 30%);
+	--border-c: hsl(60 0% 20%);
+	--border-d: hsl(60 0% 10%);
+}
+
+.gamePopup[data-type="ask"] {
+	--border-a: hsl(60 10% 50%);
+	--border-b: hsl(60 10% 30%);
+	--border-c: hsl(60 10% 20%);
+	--border-d: hsl(60 10% 10%);
+}
+.gamePopup.danger {
+	--border-a: hsl(0 10% 50%);
+	--border-b: hsl(0 10% 30%);
+	--border-c: hsl(0 10% 20%);
+	--border-d: hsl(0 10% 10%);
+}
+.gamePopup[data-subtype="share"] {
+	--border-a: hsl(240, 10%, 50%);
+	--border-b: hsl(240 10% 30%);
+	--border-c: hsl(240 10% 20%);
+	--border-d: hsl(240 10% 10%);
+}
+
 .gamePopup {
 	display: flex;
 	flex-direction: column;
-	border: solid 4px gray;
+	border: solid 4px var(--border-a);
 	position: absolute;
 	background:
 	/* Shadow Cover TOP */
@@ -799,7 +868,7 @@ tr.total {
 	flex-grow: 0;
 	display: flex;
 	flex-direction: row;
-	border-top: solid 4px rgb(70, 70, 70);
+	border-top: solid 4px var(--border-b);
 	font-size: 1.3em;
 	height: 2em;
 }
@@ -813,7 +882,7 @@ tr.total {
 	padding-right: 0.75em;
 	border-radius: 0;
 	/* font-size: 1.3em; */
-	background-color: rgb(57, 57, 57);
+	background-color: var(--border-c);
 }
 #popupTextConfirm {
 	flex-basis: 20%;
@@ -824,8 +893,8 @@ tr.total {
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
-	background-color: rgb(42, 42, 42);
-	border-left: solid 4px rgb(70, 70, 70);
+	background-color: var(--border-d);
+	border-left: solid 4px var(--border-b);
 }
 #popupNo {
 	border-left: none;

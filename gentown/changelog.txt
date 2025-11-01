@@ -1,3 +1,38 @@
+[Version 0.9 - 1 Nov 2025 - Prerelease-1]
+ + Relations between towns
+    + Displayed in town info
+    + Diplomatic meetings increase or decrease relations
+    + Trade and migration increase relations
+ + War!
+    + Poor relations can cause towns to wage war
+    + Wars end in a town being destroyed, surrendering, or rarely a truce
+ + Faint vignette around map
+    + Map overlay setting to disable vignette and future effects
+ + Duration is shown in event info
+ + Global private wealth is shown in planet info
+ + Press 'C' to save a map screenshot
+ + Disasters are highlighted when hovered over
+ ~ Cash resource is no longer limited by town size
+ ~ Some currency names result in their real-life symbol
+ ~ Towns are more likely to trade with nearby towns
+ ~ Towns must be at least 25 days old to gain autonomy
+ ~ Autonomous town names are desaturated like their map color
+ ~ Only the 5 largest influence changes are reported in the Chronicle
+ ~ Next Day button has a more 3D look
+ ~ Some popups have a slight semantic tint to their borders
+ ~ Town names are clickable in revolution messages
+ ~ Changed Projects keybind to 'J'
+ ~ Beta tab is now the Info tab
+ - Removed beta messaging
+ ~ Loading text uses pixel font
+ ~ Fixed: Tax profits are too high
+ ~ Fixed: Loading text is off-center on mobile
+ ~ Fixed: Per capita wealth shows Infinity with zero population
+ ~ Fixed: Tax abolishment message is broken
+ ~ Fixed: Uneven spacing in About popup
+ ~ Fixed: 'Reset to defaults' setting is laggy
+ ~ Fixed: 'P' on map no longer works when Projects tab is unlocked
+
 [Version 0.8.1 - 27 Oct 2025]
  + Sharing
     + Progress can be shared to social media
