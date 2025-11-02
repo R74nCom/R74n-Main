@@ -5,6 +5,8 @@
 * Shift to show town names on map
 * Number keys to change view
 * 'C' to save map screenshot
+* Ctrl + 'S' to save planet file
+* Ctrl + 'O' to load planet file
 * 'Y' to select Yes or Act
 * 'N' to select No
 * 'V' to open Select View

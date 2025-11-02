@@ -286,7 +286,7 @@ addParserCommand("residents",function(args) {
 	if (!town) return "{{c:residents|citizens}}";
 	if (town.dems) return `{{regname|town|${args[0]}|${town.dems}}}`;
 	if (args[1]) return `${args[1]} from {{regname|town|${args[0]}}}`;
-	return `{{c:residents|Citizens}} of {{regname|town|${args[0]}}}`;
+	return `{{c:residents|citizens}} of {{regname|town|${args[0]}}}`;
 })
 addParserCommand("face",function(args) {
 	if (args.length === 0) return "{{icon:neutral|Population}}";
@@ -2440,7 +2440,7 @@ keybinds = {
 	},
 	"c": () => {
 		let link = document.getElementById("screenshotter");
-		link.setAttribute("download",(planet.name||"GenTown")+".png");
+		link.setAttribute("download",(planet.name||"GenTown")+"-"+planet.day+".png");
 		var dt = mapCanvas.toDataURL('image/png');
 		link.href = dt;
 		link.click();
@@ -2453,6 +2453,14 @@ window.addEventListener("keydown",(e) => {
 
 	if (meta) {
 		controlState.meta = true;
+		if (key === "s") {
+			saveFile();
+			e.preventDefault();
+		}
+		else if (key === "o") {
+			loadFile();
+			e.preventDefault();
+		}
 		return;
 	}
 	else controlState.meta = false;
@@ -3286,10 +3294,14 @@ function shareProgress() {
 		msg += `${planet.usurp < 50 ? "only" : ""} lasted ${parseText("{{num:"+planet.usurp+"}}")} days before they lost faith in me`;
 	}
 	else {
-		msg += `has lasted ${parseText("{{num:"+planet.day+"}}")} days and has `;
+		if (planet.day === 1) msg += `was just formed`;
+		else msg += `has lasted ${parseText("{{num:"+planet.day+"}}")} days`;
+		msg += ` and has `;
+		let towns = regCount("town");
+		let residents = regToArray("town").reduce((n, {pop}) => n + pop, 0);
 		msg += choose([
-			parseText("{{num:"+regCount("town")+"}}") + " towns",
-			parseText("{{num:"+regToArray("town").reduce((n, {pop}) => n + pop, 0)+"|K}}") + " residents",
+			parseText("{{num:"+towns+"}}") + " town" + (towns === 1 ? "" : "s"),
+			parseText("{{num:"+residents+"|K}}") + " resident" + (residents === 1 ? "" : "s"),
 		])
 	}
 

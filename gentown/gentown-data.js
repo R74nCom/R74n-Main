@@ -340,12 +340,14 @@ actionables = {
 				if (type === "cash") return;
 				let max = $c.maxResource(target);
 				if (inv[type] > max) inv[type] = max;
+				inv[type] = Math.floor(inv[type]);
 			},
 			RemoveResource: (subject,target,args) => {
 				let type = args.type;
 				let inv = target.resources;
 				if (inv[type] === undefined) return;
 				inv[type] -= Math.max(0, args.count || 1);
+				inv[type] = Math.floor(inv[type]);
 				if (inv[type] <= 0) delete inv[type];
 			},
 			Influence: (subject,target,args) => {
@@ -610,6 +612,7 @@ actionables = {
 				return response;
 			},
 			End: (subject,target,args) => {
+				if (target.end) return;
 				logMessage(`{{regname:town|${target.id}}} has fallen.`, "warning");
 				filterChunks((c) => c.v.s === target.id).forEach(c => {
 					delete c.v.s;
@@ -864,7 +867,7 @@ actionables = {
 				
 				deathRate: 1,
 				destroy: true,
-				spread: 1
+				spread: 2
 			},
 			"hurricane": {
 				location: "shore",
@@ -1035,6 +1038,7 @@ gameEvents = {
 				let revolutionRate = (subject.influences.happy / $c.minInfluence) + ($c.minInfluence / 2 / 10);
 				if (!subject.gov || subject.gov === "anarchy") revolutionRate = 0;
 				if (subject.lastRevolution && planet.day-subject.lastRevolution < $c.revolutionCooldown) revolutionRate = 0;
+				if (subject.lastColony && planet.day-subject.lastColony < 10) revolutionRate = 0;
 				
 				if (subject.gov === "dictatorship") revolutionRate *= 0.5;
 
@@ -1597,7 +1601,7 @@ gameEvents = {
 			min = Math.max(min, 1);
 			let max = Math.round(seller.resources[resource] * 0.33);
 			let count = randRange(min, max);
-			if (useCash) count = Math.min(count, buyer.resources.cash);
+			if (useCash) count = Math.min(count, Math.max(Math.floor(buyer.resources.cash), 1));
 
 			if (!count) return;
 
@@ -1624,8 +1628,6 @@ gameEvents = {
 		subject: { reg:"town", random:true },
 		target: { reg:"town", nearby:true },
 		value: (subject, target, args) => {
-			console.log(subject, target);
-
 			args.peace = Math.random() < (subject.influences.military > 8 ? 0.2 : 0.475);
 
 			if (Math.random() < 0.75) {
@@ -1639,7 +1641,6 @@ gameEvents = {
 		},
 		check: (subject, target) => {
 			if (subject.issues.revolution || target.issues.revolution) return false;
-			console.log(true);
 			return true;
 		},
 		func: (subject, target, args) => {
@@ -1655,6 +1656,7 @@ gameEvents = {
 				warRate = addInfluence(warRate, subject, "military");
 				if (subject.issues.war || target.issues.war) warRate = 0;
 				if (!subject.jobs.soldier) warRate = 0;
+				if (planet.day - subject.start < $c.revolutionCooldown) warRate = 0;
 
 				if (planet.unlocks.military && Math.random() < warRate) {
 					let process = happen("Create", subject, null, {
@@ -1976,6 +1978,11 @@ gameEvents = {
 					happen("Migrate", town, newTown, {count: Math.round(town.pop * (newTown.size / oldSize))});
 					newTown.influences.happy = 0;
 					newTown.influences.faith = Math.min(0.5, town.influences.faith);
+					for (let key in town.relations) {
+						let id = parseInt(key);
+						let relation = town.relations[key];
+						happen("SetRelation", town, regGet("town", id), {amount:relation * 0.1});
+					}
 					happen("SetRelation", town, newTown, {amount:-5});
 
 					logMessage(`{{regadj:town|${town.id}}} Revolution comes to an end, and the autonomous ${newTown.gov} of {{regname:town|${newTown.id}}} is formed.`);
@@ -2050,18 +2057,18 @@ gameEvents = {
 
 					// 0-1
 					let power = (town1.jobs.soldier || 0) / ((town1.jobs.soldier || 0) + (town2.jobs.soldier || 0));
-					console.log("power",power);
 
 					let density = town2.pop / town2.size;
 					
-					let chunkCount = 3 * power;
+					let chunkCount = (Math.floor(planet.unlocks.military / 10) + 2 /*3 by default*/) * power;
 					if (chunkCount < 1 && Math.random() < chunkCount) chunkCount = 1;
 					chunkCount = Math.floor(chunkCount);
 					chunkCount = Math.min(chunkCount, town2.size);
-					console.log("chunkCount",chunkCount);
 
 					let kill = 0;
 					for (let i = 0; i < chunkCount; i++) {
+						if (town2.end) break;
+
 						let chunk = nearestChunk(town1.center[0], town1.center[1], (c) => c.v.s === town2.id);
 						if (!chunk) break;
 
@@ -2079,7 +2086,7 @@ gameEvents = {
 					}
 
 					// kill
-					if (kill) {
+					if (kill && !town.end) {
 						newDeaths += happen("Death", null, town2, {count:kill, cause:"war"}).count;
 					}
 
@@ -2093,7 +2100,7 @@ gameEvents = {
 						})
 						town1.ender = town2.id;
 						subject.winner = town2.id;
-						happen("End", null, town1);
+						if (!town1.end) happen("End", null, town1);
 						happen("UpdateCenter", null, town2);
 						return;
 					}
@@ -3115,7 +3122,7 @@ unlockTree = {
 				level: 10,
 				name: "Education",
 				emoji: "🏫",
-				message: "{{people}} want their children to learn a variety skills. {{should}}",
+				message: "{{people}} want their children to learn a variety of skills. {{should}}",
 				messageDone: "Knowledge is passed down through generations.",
 				influences: { education:1 },
 				messageNo: "Children must learn how the world works through trial and error.",

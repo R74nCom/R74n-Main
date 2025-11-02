@@ -1,3 +1,16 @@
+[Version 0.9.1 - 2 Nov 2025 - Prerelease-2]
+ + Each military unlock increases damage in war
+ + Share message for first day of planet
+ + Ctrl+S and Ctrl+O keybinds to save and load files
+ ~ Revolution that restructure governments normalize existing relations
+ ~ Revolutions can't happen immediately after a town forms a colony
+ ~ Colonies can't get into wars immediately after founding
+ ~ Screenshot file names include day number like saves
+ ~ Fixed: Traded resource count isn't rounded when bought with cash
+ ~ Fixed: Next Day button still glows when pressed while disabled
+ ~ Fixed: Typo in education unlock message
+ ~ Fixed: Town fallen message can appear twice when defeated in war
+
 [Version 0.9 - 1 Nov 2025 - Prerelease-1]
  + Relations between towns
     + Displayed in town info
