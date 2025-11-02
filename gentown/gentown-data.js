@@ -1386,7 +1386,7 @@ gameEvents = {
 			}
 		},
 		func: (subject, target, args) => {
-			if (planet.unlocks.farm >= 20) return;
+			if (planet.unlocks.farm < 20) return;
 			if (subject.legal.farm === false) return;
 			if (!args.value) return;
 			args.value = Math.floor(Math.min(subject.pop * (randRange(1,10) / 10), args.value));
@@ -2086,7 +2086,7 @@ gameEvents = {
 					}
 
 					// kill
-					if (kill && !town.end) {
+					if (kill && !town2.end) {
 						newDeaths += happen("Death", null, town2, {count:kill, cause:"war"}).count;
 					}
 
@@ -2106,7 +2106,7 @@ gameEvents = {
 					}
 					if (town2.end) {
 						town2.ender = town1.id;
-						subject.winner = town2.id;
+						subject.winner = town1.id;
 						logMessage(`Victory! {{regadj:town|${town1.id}}} soldiers defeat {{regname:town|${town2.id}}}.`)
 						return;
 					}

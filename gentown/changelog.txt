@@ -1,3 +1,8 @@
+[Version 0.9.2 - 2 Nov 2025 - Prerelease-3]
+ ~ Fixed: War is sometimes broken
+ ~ Fixed: Livestock stops collecting after husbandry is unlocked
+ ~ Fixed: Wrong winner is sometimes displayed in war info
+
 [Version 0.9.1 - 2 Nov 2025 - Prerelease-2]
  + Each military unlock increases damage in war
  + Share message for first day of planet

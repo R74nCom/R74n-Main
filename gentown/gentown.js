@@ -3288,10 +3288,10 @@ function shareProgress() {
 	let msg = `My GenTown planet, ${planet.name}, `;
 
 	if (planet.dead) {
-		msg += `${planet.dead < 50 ? "only" : ""} lasted ${parseText("{{num:"+planet.dead+"}}")} days before societal collapse`;
+		msg += `${planet.dead < 50 ? "only " : ""}lasted ${parseText("{{num:"+planet.dead+"}}")} days before societal collapse`;
 	}
 	else if (planet.usurp) {
-		msg += `${planet.usurp < 50 ? "only" : ""} lasted ${parseText("{{num:"+planet.usurp+"}}")} days before they lost faith in me`;
+		msg += `${planet.usurp < 50 ? "only " : ""}lasted ${parseText("{{num:"+planet.usurp+"}}")} days before they lost faith in me`;
 	}
 	else {
 		if (planet.day === 1) msg += `was just formed`;
