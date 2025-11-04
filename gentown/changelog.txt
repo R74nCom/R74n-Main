@@ -1,3 +1,5 @@
+[Version 1.0 - 4 Nov 2025 - Official Release]
+
 [Version 0.9.2 - 2 Nov 2025 - Prerelease-3]
  ~ Fixed: War is sometimes broken
  ~ Fixed: Livestock stops collecting after husbandry is unlocked

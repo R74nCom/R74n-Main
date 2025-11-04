@@ -5262,22 +5262,6 @@ window.addEventListener("load", function(){ //onload
 		}, id:"changelog", notify: userSettings.lastVersionCheck && userSettings.lastVersionCheck !== gameVersion },
 		{ text: "Share", func:shareProgress, id:"share" },
 		{ text: "Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform", id:"feedback" },
-		
-		{ text: "To-do", heading: true },
-		
-		{ text: "{{check}} Towns" },
-		{ text: "{{check}} Jobs" },
-		{ text: "{{check}} Resources" },
-		{ text: "{{check}} Unlocks" },
-		{ text: "{{check}} Starvation" },
-		{ text: "{{check}} Migration" },
-		
-		{ text: "{{check}} Long Events / Disasters" },
-		{ text: "{{check}} Settings" },
-		{ text: "{{check}} Laws" },
-		{ text: "{{check}} Revolutions" },
-		{ text: "{{check}} Economy / Trade" },
-		{ text: "{{x}} Diplomacy / Wars" },
 
 		{ spacer: true },
 		{ text: "{{color:R74n|#00ffff}} - More projects!", url:"https://r74n.com/" }

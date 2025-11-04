@@ -15,7 +15,8 @@
       "name": "Contact R74n"
     },
     "sameAs": [
-      "https://sandboxels.R74n.com/"
+      "https://sandboxels.R74n.com/",
+      "https://data.r74n.com/entity/Q10"
     ],
     "identifier": [
         "/g/11spmybz10",
@@ -30,6 +31,10 @@
         "name": "Sand",
         "sameAs": "https://data.r74n.com/entity/Q162",
         "identifier": "sand"
+    },
+    "gameLocation": {
+        "@type": "Place",
+        "sameAs": "https://data.r74n.com/entity/Q2806"
     },
     "numberOfPlayers": {
         "@type": "QuantitativeValue",
@@ -47,7 +52,7 @@
         "url": "https://sandboxels.r74n.com/help"
     },
     "softwareRequirements": "HTML5",
-    "softwareVersion": "1.10.2",
+    "softwareVersion": "1.12",
     "archivedAt": "http://web.archive.org/web/https://sandboxels.r74n.com/",
     "author": {
         "@type": "Organization",
@@ -87,7 +92,11 @@
     "genre": "Falling-sand",
     "inLanguage": "en",
     "headline": "Sandboxels - Experiment with Pixels",
-    "isPartOf": "https://R74n.com/",
+    "isPartOf": {
+        "@type": "WebSite",
+        "name": "R74n",
+        "sameAs": "https://R74n.com/schema/R74n.json"
+    },
     "keywords": "falling sand, elements, pixel art, simulator, powder",
     "learningResourceType": "lab",
     "maintainer": {

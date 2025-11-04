@@ -2,10 +2,10 @@
     "@context": "https://schema.org",
     "@type": "VideoGame",
     "additionalType": "WebSite",
-    "name": "Infinite Chef",
-    "description": "Infinite Chef is a cooking simulator that can be played in your browser. With a sophisticated dish name generator that can accept any of hundreds of ingredients, Infinite Chef is the ultimate virtual kitchen.",
-    "url": "https://R74n.com/cook/",
-    "logo": "https://R74n.com/cook/icons/icon.png",
+    "name": "GenTown",
+    "description": "GenTown is a game about guiding civilization - indirectly, through a series of prompts. Inhabitants ask for your input, but have affairs of their own.",
+    "url": "https://R74n.com/gentown/",
+    "logo": "https://R74n.com/gentown/logo-small.png",
     "contactPoint": {
       "@type": "ContactPoint",
       "email": "contact@R74n.com",
@@ -15,15 +15,12 @@
       "name": "Contact R74n"
     },
     "sameAs": [
-      "https://R74n.com/cook/"
+      "https://R74n.com/gentown/",
+      "https://data.r74n.com/entity/Q3530"
     ],
-    "identifier": [
-        "/g/11vx63rh8r",
-        "Q126009787"
-    ],
-    "mobileUrl": "https://R74n.com/cook/",
-    "datePublished": "2024-04-27",
-    "dateCreated": "2024-02-29",
+    "mobileUrl": "https://R74n.com/gentown/",
+    "datePublished": "2025-11-04",
+    "dateCreated": "2025-02-25",
     "gamePlatform": "Web",
     "playMode": "SinglePlayer",
     "numberOfPlayers": {
@@ -32,18 +29,18 @@
         "maxValue": "1"
     },
     "applicationCategory": "Game, Multimedia",
-    "applicationSubCategory": "Cooking Game",
+    "applicationSubCategory": "Simulation Game",
     "applicationSuite": "R74n",
-    "featureList": "https://r74n.com/cook/",
-    "releaseNotes": "https://r74n.com/cook/changelog.txt",
-    "screenshot": "https://r74n.com/cook/screenshots/critter-soup.webp",
+    "featureList": "https://r74n.com/gentown/controls.txt",
+    "releaseNotes": "https://r74n.com/gentown/changelog.txt",
+    "screenshot": "https://r74n.com/gentown/cover-large.png",
     "softwareHelp": {
         "@type": "WebPage",
-        "url": "https://r74n.com/cook/"
+        "url": "https://r74n.com/gentown/controls.txt"
     },
     "softwareRequirements": "HTML5",
-    "softwareVersion": "1.4.1",
-    "archivedAt": "http://web.archive.org/web/https://r74n.com/gentown/",
+    "softwareVersion": "1.0",
+    "archivedAt": "http://web.archive.org/web/https://r74n.com/cook/",
     "author": {
         "@type": "Organization",
         "name": "R74n",
@@ -54,24 +51,24 @@
         "name": "R74n",
         "sameAs": "https://R74n.com/schema/R74n.json"
     },
-    "copyrightYear": 2024,
+    "copyrightYear": 2025,
     "creator": {
         "@type": "Organization",
         "name": "R74n",
         "sameAs": "https://R74n.com/schema/R74n.json"
     },
     "creditText": "R74n",
-    "discussionUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfXx1NWgGz_VJ-796FsmawOzHF1MzAZevCVXFHXtQymWj3ysA/viewform",
+    "discussionUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform",
     "educationalUse": "experimental",
-    "genre": "Cooking",
+    "genre": "Simulation",
     "inLanguage": "en",
-    "headline": "Infinite Chef - Cooking Simulator",
+    "headline": "GenTown - Civilization Simulator",
     "isPartOf": {
         "@type": "WebSite",
         "name": "R74n",
         "sameAs": "https://R74n.com/schema/R74n.json"
     },
-    "keywords": "cooking, crafting, games, game, chef, kitchen",
+    "keywords": "gentown, gen town, genntown, civilization, civilisation, simulator, city, country, nation",
     "learningResourceType": "lab",
     "maintainer": {
         "@type": "Organization",
@@ -81,7 +78,7 @@
     "offers": {
         "@type": "Offer",
         "price": "0",
-        "url": "https://R74n.com/cook/"
+        "url": "https://R74n.com/gentown/"
     },
     "producer": {
         "@type": "Organization",
@@ -95,9 +92,9 @@
     },
     "publication": {
         "@type": "PublicationEvent",
-        "startDate": "2024-04-27",
+        "startDate": "2025-11-04",
         "name": "Version 1.0 - Official Release"
     },
-    "teaches": "Cooking, Spelling",
-    "thumbnailUrl": "https://r74n.com/cook/icons/screenshot.png"
+    "teaches": "History, Spelling",
+    "thumbnailUrl": "https://r74n.com/gentown/cover-large.png"
 }

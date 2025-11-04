@@ -123,3 +123,5 @@ https://r74n.com/gentown/
 https://r74n.com/community/sandboxels-3rd
 https://r74n.com/community/wplace
 https://r74n.com/community.txt
+https://r74n.com/gentown/changelog.txt
+https://r74n.com/gentown/controls.txt

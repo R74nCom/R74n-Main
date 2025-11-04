@@ -39,7 +39,7 @@
   "owns": [
     {
       "@type": "Product",
-      "additionalType": "VideoGame",
+      "additionalType": ["VideoGame", "WebSite"],
       "name": "Sandboxels",
       "url": "https://sandboxels.R74n.com/",
       "logo": "https://sandboxels.R74n.com/icons/icon.png",
@@ -49,6 +49,47 @@
       "productionDate": "2021-12",
       "identifier": "10.5281/zenodo.10044909",
       "sameAs": "https://R74n.com/schema/Sandboxels.json"
+    },
+    {
+      "@type": "Product",
+      "additionalType": ["VideoGame", "WebSite"],
+      "name": "Infinite Chef",
+      "url": "https://R74n.com/cook/",
+      "logo": "https://R74n.com/cook/icons/icon.png",
+      "description": "Infinite Chef is a cooking simulator that can be played in your browser. With a sophisticated dish name generator that can accept any of hundreds of ingredients, Infinite Chef is the ultimate virtual kitchen.",
+      "mobileUrl": "https://R74n.com/cook/",
+      "releaseDate": "2024-04-27",
+      "productionDate": "2024-02-29",
+      "sameAs": "https://R74n.com/schema/InfiniteChef.json"
+    },
+    {
+      "@type": "Product",
+      "additionalType": ["VideoGame", "WebSite"],
+      "name": "GenTown",
+      "url": "https://R74n.com/gentown/",
+      "logo": "https://R74n.com/gentown/logo-small.png",
+      "description": "GenTown is a game about guiding civilization - indirectly, through a series of prompts. Inhabitants ask for your input, but have affairs of their own.",
+      "mobileUrl": "https://R74n.com/gentown/",
+      "releaseDate": "2025-11-04",
+      "productionDate": "2025-02-25",
+      "sameAs": "https://R74n.com/schema/GenTown.json"
+    },
+    {
+      "@type": "Product",
+      "additionalType": "WebSite",
+      "name": "Copy Paste Dump",
+      "url": "https://c.R74n.com/",
+      "logo": "https://c.R74n.com/favicon.png",
+      "description": "A useful collection of text symbols, letters, emojis, ASCII art, and a fancy font generator tool.",
+      "mobileUrl": "https://c.R74n.com/",
+      "releaseDate": "2020-06-03"
+    },
+    {
+      "@type": "Product",
+      "additionalType": ["WebSite", "VideoGame"],
+      "name": "Mix-Up!",
+      "url": "https://R74n.com/mix/",
+      "releaseDate": "2020-11-28"
     }
   ],
   "accessMode": "textual",
