@@ -2418,6 +2418,12 @@ keybinds = {
 					pre: true
 				})})
 			}
+		},
+		{
+			text: "Share",
+			func: ()=>{
+				sharePrompt(`My GenTown planet, ${generateWord(randRange(2,3), true)}, lasted ${randRange(101,342)} days before societal collapse!`)
+			}
 		}
 		], "Debug")
 	},
@@ -5264,7 +5270,8 @@ window.addEventListener("load", function(){ //onload
 		{ text: "Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform", id:"feedback" },
 
 		{ spacer: true },
-		{ text: "{{color:R74n|#00ffff}} - More projects!", url:"https://r74n.com/" }
+		{ text: "{{color:R74n|#00ffff}} - More projects!", url:"https://r74n.com/" },
+		{ text: "Copyright 2025.", url:"https://r74n.com/license.txt" }
 	], "GenTown v"+gameVersion);
 	currentExecutive = "info";
 	})
