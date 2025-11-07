@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-11-06 - Updated Socials page
+2025-11-06 - Updated R74n Commons
+2025-11-06 - Updated Link Dump
 2025-11-04 - GenTown released: Updated homepage, UFBS page, Lore page, Rue commands, Sitemap, Schemas, 404 page
 2025-11-04 - Reordered UFBS page links to match the homepage
 2025-11-04 - Linked schemas with <link/> for R74n (homepage) and Infinite Chef
