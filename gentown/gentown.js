@@ -29,7 +29,8 @@ addParserCommand("num",function(args) {
 		let num = n;
 		if (num < 1000) return num.toString();
 		if (num < 1000000) return Math.floor((num / 1000) * 10) / 10 + "K";
-		return Math.floor((num / 1000000) * 10) / 10 + "M";
+		if (num < 1000000000) return Math.floor((num / 1000000) * 10) / 10 + "M";
+		return Math.floor((num / 1000000000) * 10) / 10 + "B";
 	}
 	let parts = args[0].toString().split(".");
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -236,6 +237,10 @@ addParserCommand("regname",function(args) {
 			color = regBrowserExtra[data._reg].color(data);
 		}
 	}
+	color = color || [127,127,127];
+	let hsl = RGBtoHSL(color);
+	hsl[2] = Math.max(0.65, hsl[2]);
+	color = HSLtoRGB(hsl);
 	if (!name) name = data.subtype || data.type;
 	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${color[0]},${color[1]},${color[2]})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
 })
@@ -342,7 +347,7 @@ function titleCase(str) {
 		/(?:^| )[A-Za-zÀ-ÖØ-öø-ÿ]/g,
 		text => text.toUpperCase()
 	).replace(
-		/ (Of|And|Or|With) /g,
+		/ (Of|And|Or|With|The) /g,
 		text => text.toLowerCase()
 	);
 }
@@ -593,7 +598,8 @@ function defaultPlanet() {
 		nextDayMessages: [],
 		warnings: {},
 		unlockedExecutive: {},
-		stats: {}
+		stats: {},
+		cooldownEvents: {}
 	};
 }
 
@@ -809,6 +815,9 @@ function chooseEvent(step=0,influencingTown) {
 		keys,
 		keys.map((i) => {
 			if (recentEvents.indexOf(i) !== -1) return 0;
+			if (randomEvents[i].cooldown) {
+				if (planet.cooldownEvents[i] && planet.day - planet.cooldownEvents[i] < randomEvents[i].cooldown) return 0;
+			}
 			i = randomEvents[i];
 			if (isNaN(i.weight)) return 1;
 			let weight = i.weight;
@@ -1707,7 +1716,7 @@ wordComponents.flags.EMBLEM = "A,A,A,@,¢,X,₸,₪,≈,―,§,†,‡,∑,®,¤
 
 wordComponents.CURRENCY = {
 	a: "Δ,₳,Ѧ",
-	b: "&,ẞ,ß,Б,Ҕ,Ƀ,ƀ,฿,Ȣ",
+	b: "ẞ,ß,Б,Ҕ,Ƀ,ƀ,฿,Ȣ",
 	c: "©,¢,₵,₠,Ͼ",
 	d: "δ,ԁ",
 	e: "£,€,≡,Ξ,ξ,₤,Ʃ",
@@ -2003,6 +2012,17 @@ function renderHighlight() {
 		// ctx.fillStyle = ((chunk.x * chunk.y) % 2) ? "rgb(255, 55, 55)" : "rgb(255, 255, 55)";
 	}
 
+	if (currentHighlight && currentHighlight[0] === "landmass") {
+		chunks = filterChunks((c) => true);
+		for (let i = 0; i < chunks.length; i++) {
+			const chunk = chunks[i];
+			if (currentHighlight[1] === chunk.v.g) {
+				ctx.fillStyle = "rgba(255,255,255,0.75)";
+				ctx.fillRect(chunk.x*chunkSize, chunk.y*chunkSize, chunkSize, chunkSize);
+			}
+		}
+	}
+
 	const disasters = regFilter("process", (p) => p.done === undefined && p.type === "disaster");
 	for (let i = 0; i < disasters.length; i++) {
 		const disaster = disasters[i];
@@ -2204,10 +2224,10 @@ function handleCursor(e) {
 	}
 
 	if (oldChunkX !== chunkX || oldChunkY !==  chunkY) {
-		updateStats();
 		renderCursor();
 		updateCanvas();
 	}
+	updateStats();
 }
 mapCanvas.addEventListener("mousemove", (e) => {
 	handleCursor(e);
@@ -2524,6 +2544,7 @@ window.addEventListener("blur",(e) => {
 	controlState = {};
 })
 window.addEventListener("focus",(e) => {
+	controlState = {};
 	renderMarkers();
 	updateCanvas();
 })
@@ -2630,6 +2651,9 @@ function updateStats() {
 				localName = "{{biome:"+chunk.b+"}}";
 				if (chunk.v.g) localName += ` of {{regname:landmass|${chunk.v.g}}}`;
 			}
+			let lat = - Math.round((mousePos.y / planetHeight) * 180 - 90);
+			let long = Math.round((mousePos.x / planetWidth) * 360 - 180);
+			let latlong = Math.abs(lat) + "°" + (lat > 0 ? "N" : "S")  +", "+  Math.abs(long) + "°" + (long > 0 ? "E" : "W");
 			html += `<span class="panelSubtitle">${parseText(localName)}</span>`;
 			// html += `<span>Temperature: ${
 			//   Math.round(titleCase(chunk.t)*100)
@@ -2653,6 +2677,7 @@ function updateStats() {
 					`rgb(${255*(1-fertility)},${255*fertility},100)`  + "}}")
 				}</span>`;
 			}
+			html += `<span>${latlong}</span>`;
 
 		}
 	}
@@ -2783,6 +2808,7 @@ function handlePrompt(result) {
 	if (typeof result === "string") {
 		result = result.replace(/[{<]/g, "[");
 		result = result.replace(/[}>]/g, "]");
+		result = result.replace(/\|/g, "l");
 		result = result.substr(0,(promptState.limit || defaultPromptLimit))
 	}
 	if (promptState.map && promptState.map[result]) result = promptState.map[result];
@@ -2822,12 +2848,12 @@ document.getElementById("popupText").addEventListener("input",(e) => {
 	if (promptState.preview) {
 		let preview = document.querySelector("#popupContent .popupPreview");
 		if (!preview) {
-			if (e.target.value.length === 0) return;
+			if (e.target.value.trim().length === 0) return;
 			preview = document.createElement("span");
 			preview.className = "popupPreview";
 			document.getElementById("popupContent").appendChild(preview);
 		}
-		if (e.target.value.length === 0) preview.remove();
+		if (e.target.value.trim().length === 0) preview.remove();
 		else preview.innerHTML = parseText(promptState.preview(e.target.value, promptState.subject, promptState.target));
 	}
 })
@@ -3052,6 +3078,7 @@ function logMessage(text, type, args) {
 	}
 	text = parseText(escapeHTML(text));
 	text = text.replace(/^[a-z]/, (match) => match.toUpperCase());
+	text = text.replace(/[!\.\?] [a-z]/, (match) => match.toUpperCase());
 	let uuid = uuidv4();
 	let html = `<span class="logMessage${type ? ' log'+titleCase(type) : ' logNormal'}" id="logMessage-${uuid}" new="true">
 	<span class="logDay" data-day="${type === "tip" ? "" : planet.day}" title="${type ? titleCase(type) : ""}" onclick="handleMessageClick(this)">${type === "tip" ? "?" : parseText("{{date:"+planet.day+"|s}}")}</span><span class="logText">${text}</span>
@@ -3361,7 +3388,9 @@ function unlockPlanet() {
 function resetPlanetPrompt() {
 	doPrompt({
 		type: "confirm",
-		message: "{{people}} look up dreadfully at the sky.\n\nAre you sure you want to DELETE them permanently?",
+		message: regCount("town") ?
+			"{{people}} look up dreadfully at the sky.\n\nAre you sure you want to DELETE them permanently?" :
+			"Are you sure you want to DELETE Planet {{planet}} permanently?",
 		title: "Reset Progress",
 		func: (r) => {
 			if (r) {
@@ -3410,9 +3439,13 @@ function nextDay(e) {
 			if (eventCaller.logID) {
 				fadeMessage(eventCaller.logID);
 			}
-			if (eventCaller.needsInput) {
+			if (eventCaller.needsInput) { //skipped
 				if (planet.stats.promptstreak <= 0) statsAdd("promptstreak",-1);
 				else planet.stats.promptstreak = 0;
+
+				if (gameEvents[eventCaller.eventClass].skip) {
+					gameEvents[eventCaller.eventClass].skip(eventCaller.subject, eventCaller.target, eventCaller.args, gameEvents[eventCaller.eventClass].func)
+				}
 			}
 		}
 		delete currentEvents[eventID];
@@ -3495,7 +3528,7 @@ function nextDay(e) {
 	}
 
 	// skip events when failing additional checks
-	for (let tries = 0; tries < 10; tries++) {
+	for (let tries = 0; tries < 15; tries++) {
 		let influencingTown = choose(regToArray("town"));
 		let chosenEvent = chooseEvent(undefined,influencingTown);
 		if (!chosenEvent) continue;
@@ -3544,6 +3577,9 @@ function nextDay(e) {
 		if (eventCaller.message) eventCaller.logID = logMessage(eventCaller.message);
 		let messageElement = document.getElementById("logMessage-"+eventCaller.logID);
 		recentEvents.push(eventClass);
+		if (eventInfo.cooldown) {
+			planet.cooldownEvents[eventClass] = planet.day;
+		}
 		if (messageElement) {
 			messageElement.setAttribute("data-eventid",eventID)
 			messageElement.setAttribute("data-eventclass",eventClass)
@@ -3955,7 +3991,7 @@ function unlockExecutive(executiveID) {
 	planet.unlockedExecutive[executiveID] = true;
 	let button = document.getElementById("actionItem-"+executiveID)
 	if (button) {
-		button.classList.add("notify");
+		if (userSettings.notify !== false) button.classList.add("notify");
 		button.style.display = "";
 	}
 }
@@ -4514,7 +4550,7 @@ function populateExecutive(items, title, main=false) {
 		if (item.indent) actionItem.style.marginLeft = item.indent + "em";
 		if (item.opacity) actionItem.style.opacity = item.opacity;
 		if (item.hide && (!item.id || !planet.unlockedExecutive || !planet.unlockedExecutive[item.id])) actionItem.style.display = "none";
-		if (item.notify) actionItem.classList.add("notify");
+		if (item.notify && userSettings.notify !== false) actionItem.classList.add("notify");
 		if (item.danger) actionItem.classList.add("danger");
 		if (item.tip) actionItem.setAttribute("title", item.tip);
 		if (item.heading) {
@@ -5080,6 +5116,18 @@ window.addEventListener("load", function(){ //onload
 				document.querySelectorAll(".logDay").forEach(elem => {
 					let day = elem.getAttribute("data-day");
 					if (day) elem.innerText = parseText("{{date:"+day+"|s}}");
+				})
+			}
+		},
+		{
+			text: "Tab notifications",
+			setting: "notify",
+			options: { "true": "Enabled", "false": "Disabled" },
+			default: "true",
+			tip: "Determines if tabs flash red to notify",
+			func: () => {
+				document.querySelectorAll(".actionItem.notify").forEach(e => {
+					e.classList.remove("notify");
 				})
 			}
 		},

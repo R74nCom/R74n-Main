@@ -62,7 +62,7 @@ actionables = {
 				let levelData = args.value.levelData;
 				planet.unlocks[type] = levelData.level;
 				if (levelData.messageTomorrow) logTomorrow(levelData.messageTomorrow);
-				document.getElementById("actionItem-unlocks").classList.add("notify");
+				if (userSettings.notify !== false) document.getElementById("actionItem-unlocks").classList.add("notify");
 				if (levelData.func) {
 					levelData.func(subject,target,args);
 				}
@@ -246,7 +246,7 @@ actionables = {
 							target.startBiome = chunk.b;
 							// names
 							let prefix = "";
-							if (chunkIsNearby(x, y, (c) => c.b === "mountain", 4)) { //Monte-
+							if (Math.random() < 0.33 && chunkIsNearby(x, y, (c) => c.b === "mountain", 4)) { //Monte-
 								target.name = generateWord($c.townSyllables-1, true);
 								prefix = choose(wordComponents.prefixes.MOUNTAINOUS)[0];
 							}
@@ -627,7 +627,11 @@ actionables = {
 				target.jobs = {};
 				target.influences = {};
 				target.resources = {};
+				target.issues = {};
 				target.type = "ghost "+(target.type || "town");
+				target.wealth = 0;
+				target.tax = 0;
+				delete target.usurp;
 				renderHighlight();
 				updateCanvas();
 			}
@@ -855,6 +859,20 @@ actionables = {
 				needsUnlock: { farm:10 },
 				nameTemplate: "Temple of $"
 			},
+			"hospital": {
+				symbol: "+",
+				color: [204, 82, 82],
+				influences: { disease:-2 },
+				needsUnlock: { smith:20 },
+				nameTemplate: "$ Hospital"
+			},
+			"bank": {
+				symbol: "§",
+				color: [81, 102, 237],
+				influences: { trade:2 },
+				needsUnlock: { trade:30 },
+				nameTemplate: "$ Bank"
+			},
 		},
 		_disasterSubtypes: {
 			"wildfire": {
@@ -867,7 +885,7 @@ actionables = {
 				
 				deathRate: 1,
 				destroy: true,
-				spread: 2
+				spread: 4
 			},
 			"hurricane": {
 				location: "shore",
@@ -1217,7 +1235,7 @@ gameEvents = {
 							newTown.color = colorChange(subject.color);
 							newTown.former = subject.id;
 							newTown.type = newTown.size <= 2 ? "microtown" : "colony";
-							newTown.level = 10;
+							newTown.level = 0;
 							newTown.legal = structuredClone(subject.legal);
 							newTown.influences.faith = subject.influences.faith;
 							if (subject.usurp) newTown.usurp = planet.day;
@@ -1483,9 +1501,9 @@ gameEvents = {
 	},
 	"townAnniversary": {
 		daily: true,
-		subject: { reg:"town", filter: (town) => (planet.day - town.start) % 100 === 0 && (planet.day - town.start) },
+		subject: { reg:"town", filter: (town) => (planet.day - town.start + 1) % 100 === 0 && (planet.day - town.start > 5) },
 		func: (subject) => {
-			logMessage(`{{residents|${subject.id}}} celebrate {{num:${planet.day - subject.start}}} days since their town's founding.`, "milestone");
+			logMessage(`{{residents|${subject.id}}} celebrate {{num:${planet.day - subject.start + 1}}} days since their town's founding.`, "milestone");
 			happen("Influence", null, subject, {temp:true, happy:1})
 		}
 	},
@@ -1513,6 +1531,7 @@ gameEvents = {
 			tax = Math.min(tax, subject.wealth);
 
 			subject.wealth -= tax;
+			subject.wealth = Math.max(0, subject.wealth);
 			happen("AddResource", null, subject, { type:"cash", count:tax });
 
 			if (!subject.econStart || planet.day - subject.econStart > 20) {
@@ -1540,6 +1559,8 @@ gameEvents = {
 			if (diff < 0) diff = Math.max(-target.tax, diff);
 
 			args.result = (target.tax || 0) + diff;
+			args.result = Math.max(0, args.result);
+			if (!args.result) return false;
 			if (Math.abs(args.result) < 0.01) args.result = 0;
 			diff = Math.round(diff * 100) / 100;
 			args.result = Math.round(args.result * 100) / 100;
@@ -1728,7 +1749,7 @@ gameEvents = {
 				return;
 			}
 
-			let cost = randRange(1, Math.ceil(subject.total * 0.2));
+			let cost = randRange(1, Math.ceil(subject.total * 0.5));
 
 			let rock = happen("CountResource", subject, target, {type:"rock"});
 			let lumber = happen("CountResource", subject, target, {type:"lumber"});
@@ -1876,7 +1897,7 @@ gameEvents = {
 		subject: { reg: "process" },
 		func: (subject, target, args) => {
 			let town = regGet("town", subject.town);
-			if (!town) return;
+			if (!town || town.end) return;
 
 			town.lastRevolution = planet.day;
 
@@ -1888,11 +1909,6 @@ gameEvents = {
 
 			let deaths = (town.pop*0.1*(randRange(8,12) / 10))/town.size;
 			deaths = Math.min(town.pop/town.size,deaths);
-			if (Math.random() < deaths) {
-				deaths = Math.ceil(deaths);
-				deaths = happen("Death", subject, town, {count:deaths, cause:"disaster"}).count;
-				newDeaths += deaths;
-			}
 
 			let injuries = deaths*10*(randRange(8,12) / 10);
 			injuries = Math.min(town.pop/town.size,injuries);
@@ -1913,6 +1929,18 @@ gameEvents = {
 				if (!chunk.v.s) return;
 				const unclaimed = happen("Unclaim", subject, town, {x:chunk.x, y:chunk.y});
 				if (unclaimed.marker) destroyed.push(unclaimed.marker);
+				deaths += town.pop / town.size / 2;
+			}
+			if (Math.random() < deaths) {
+				deaths = Math.ceil(deaths);
+				deaths = happen("Death", subject, town, {count:deaths, cause:"disaster"}).count;
+				newDeaths += deaths;
+			}
+
+			if (town.end) {
+				delete town.issues.revolution;
+				happen("Finish", null, subject);
+				return;
 			}
 
 			happen("Influence", subject, town, { happy:-0.2, temp:true });
@@ -1978,6 +2006,7 @@ gameEvents = {
 					happen("Migrate", town, newTown, {count: Math.round(town.pop * (newTown.size / oldSize))});
 					newTown.influences.happy = 0;
 					newTown.influences.faith = Math.min(0.5, town.influences.faith);
+					newTown.former = town.id;
 					for (let key in town.relations) {
 						let id = parseInt(key);
 						let relation = town.relations[key];
@@ -2090,30 +2119,44 @@ gameEvents = {
 						newDeaths += happen("Death", null, town2, {count:kill, cause:"war"}).count;
 					}
 
-					if (power < 0.2 && Math.random() < 0.25) {
-						logMessage(`Surrounded, members of the {{regadj:town|${town1.id}}} government surrender to {{regadj:town|${town2.id}}} soldiers.`);
-						// all territory goes to town2
-						filterChunks((c) => c.v.s === town1.id).forEach((c) => {
-							happen("Unclaim", town1, town2, {x:c.x, y:c.y});
-							c.v.s = town2.id;
-							town2.size ++;
-						})
-						town1.ender = town2.id;
+					if (power < 0.2 && Math.random() < 0.25 && planet.day - subject.start > 5) {
+						if (town1.size > 10 && Math.random() < 0.5) {
+							logMessage(`{{regname:town|${town1.id}}} agrees to cede some territory to {{regname:town|${town2.id}}}, ending the war.`);
+							let chunk = nearestChunk(town2.center[0], town1.center[1], (c) => c.v.s === town1.id);
+							let chunks = splitChunks(filterChunks((c) => c.v.s === town1.id), [chunk.x, chunk.y], 2)[1];
+							happen("Migrate", town1, town2, {count: Math.floor(town1.pop / town1.size * chunks.length)});
+							chunks.forEach((c) => {
+								happen("Unclaim", town1, town2, {x:c.x, y:c.y});
+								c.v.s = town2.id;
+								town2.size ++;
+							});
+							happen("UpdateCenter", null, town1);
+						}
+						else {
+							logMessage(`Surrounded, members of the {{regadj:town|${town1.id}}} government surrender to {{regadj:town|${town2.id}}} soldiers.`);
+							// all territory goes to town2
+							happen("Migrate", town1, town2, {count: town1.pop});
+							filterChunks((c) => c.v.s === town1.id).forEach((c) => {
+								happen("Unclaim", town1, town2, {x:c.x, y:c.y});
+								c.v.s = town2.id;
+								town2.size ++;
+							})
+							town1.ender = town2.id;
+							if (!town1.end) happen("End", null, town1);
+						}
 						subject.winner = town2.id;
-						if (!town1.end) happen("End", null, town1);
+						town2.won = (town2.won||0) + 1;
 						happen("UpdateCenter", null, town2);
+						happen("Finish", null, subject);
 						return;
 					}
 					if (town2.end) {
 						town2.ender = town1.id;
 						subject.winner = town1.id;
+						town1.won = (town1.won||0) + 1;
 						logMessage(`Victory! {{regadj:town|${town1.id}}} soldiers defeat {{regname:town|${town2.id}}}.`)
 						return;
 					}
-
-					// if town2 is ended, end the war with a success message
-					// town1 chance to surrender with low power, all territory goes to town2
-					// town2.ender (ended by town1)
 
 				}
 			}
@@ -2238,6 +2281,9 @@ gameEvents = {
 		// value: {
 		//   random: [ [255,0,0], [0,255,0], [0,0,255] ]
 		// },
+		check: (subject, target) => {
+			return !target.lastColor || planet.day - target.lastColor > 50;
+		},
 		value: (subject, target) => {
 			return colorChange(target.color);
 		},
@@ -2245,6 +2291,7 @@ gameEvents = {
 		//   return planet.day % 5 === 0;
 		// },
 		func: (subject, target, args) => {
+			target.lastColor = planet.day;
 			return happen("Recolor", subject, target, args);
 		},
 		// funcNo: (subject, target, args) => {},
@@ -2267,8 +2314,13 @@ gameEvents = {
 			message: (_, target) => `What should {{regname:town|${target.id}}} be called?`,
 			preview: (text) => `Welcome to {{b:${titleCase(text)}}}.${specialNames[text.toLowerCase().replace(/ +/g,"")] ? " {{color:�|#ffff00|true}}" : ""}`
 		},
+		check: (subject, target) => {
+			return !target.lastRename || planet.day - target.lastRename > 50;
+		},
 		func: (subject, target, args) => {
 			if (!args.value) return false;
+
+			target.lastRename = planet.day;
 
 			let lower = args.value.toLowerCase().replace(/ +/g,"");
 			if (specialNames[lower]) {
@@ -2317,6 +2369,9 @@ gameEvents = {
 
 			return happen("Rename", subject, target, args);
 		},
+		skip: (subject, target, args, func) => {
+			target.lastRename = planet.day;
+		},
 		message: (subject, target, args) => `{{residents|${target.id}}} want you to pick their town's new name.`,
 		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} adopts a new name.`,
 		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} keeps its name.`,
@@ -2330,7 +2385,11 @@ gameEvents = {
 		target: {
 			reg: "town", random: true
 		},
-		check: (subject, target) => target.dem === undefined,
+		check: (subject, target) => {
+			if (!target.lastRename) return false;
+			if (target.lastRename > target.lastDemonym) return true;
+			return target.dem === undefined;
+		},
 		value: {
 			ask: true,
 			message: (_, target) => `What should a person from {{regname:town|${target.id}}} be called?`,
@@ -2338,6 +2397,7 @@ gameEvents = {
 		},
 		func: (subject, target, args) => {
 			if (!args.value) return false;
+			target.lastDemonym = planet.day;
 			args.value = args.value.replace(/^an? /, "");
 			target.dem = titleCase(args.value);
 			target.dems = titleCase(wordPlural(args.value));
@@ -2503,7 +2563,7 @@ gameEvents = {
 			let project = happen("Create", target, null, {
 				type: "project",
 				subtype: args.value,
-				cost: Math.max(20, Math.round(target.pop * 0.5))
+				cost: Math.max(20, Math.round(target.pop))
 			}, "process")
 
 			return project;
@@ -3343,6 +3403,7 @@ regBrowserKeys = {
 	"town.end": "Fell",
 	"age": "Age",
 	"former": "Formerly",
+	"town.won": "Wars won",
 	"town.ender": "Defeated by",
 
 	"planet": "Planet",

@@ -1,3 +1,34 @@
+[Version 1.0.1 - 11 Nov 2025]
+ + Tab notification setting
+ + Town info shows number of wars won
+ + Towns can cede some territory to end a war
+ + Hovering over a landmass name highlights it on map
+ + Hospital construction
+ + Bank construction
+ + Latitude and longitude are shown when hovering over map
+ ~ Towns ask for new names and colors less often
+ ~ Towns can ask for a new demonym after being renamed
+ ~ Towns don't ask for a demonym before asking for a name
+ ~ Dead towns no longer keep wealth, tax rates, issues, and autonomy
+ ~ Towns use Monte- prefix less often
+ ~ Construction projects use more resources
+ ~ Towns cannot immediately surrender in wars
+ ~ Towns take population when taking over land in war
+ ~ Revolutions are slightly more deadly
+ ~ Wildfires spread twice as fast
+ ~ Numbers can abbreviate billions (e.g. 6.7B)
+ ~ Fixed: Bugged ampersand currency symbol
+ ~ Fixed: Towns can adopt negative tax rates
+ ~ Fixed: Town anniversaries are celebrated a day early
+ ~ Fixed: Some name colors are too dark to read well
+ ~ Fixed: "The" is capitalized in the middle of names
+ ~ Fixed: Towns that split off after revolutions aren't given "Formerly" property
+ ~ Fixed: Naming previews show when inputting just spaces
+ ~ Fixed: Improper capitalization in some messages after punctuation
+ ~ Fixed: Private wealth can go into the negatives
+ ~ Fixed: Colonies skip "Town" status
+ ~ Fixed: Reset prompt says "inhabitants" when there are no inhabitants left
+
 [Version 1.0 - 4 Nov 2025 - Official Release]
 
 [Version 0.9.2 - 2 Nov 2025 - Prerelease-3]
