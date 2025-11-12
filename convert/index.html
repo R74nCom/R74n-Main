@@ -128,7 +128,9 @@ This HTML and its contents are property of R74n.com.
         var derive = unitdata[currenttype]["#derive"];
 
         var unsorted = Object.keys(unitdata[currenttype]);
-        if (sorting=="name") {var keys = unsorted.sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());});}
+        if (sorting=="name") {var keys = unsorted.sort((a, b) => {
+          return isFinite(a[0]) - isFinite(b[0]) || a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+        });}
         else if (sorting=="value") {var keys = unsorted.sort(function (a, b) {return Number(unitdata[currenttype][a])-Number(unitdata[currenttype][b])});}
         else if (sorting=="symbol") {var keys = unsorted.sort(function (a, b) {return getSymbol(a).toLowerCase().localeCompare(getSymbol(b).toLowerCase());});}
         else {var keys = unsorted} //"nosort"
@@ -559,7 +561,7 @@ This HTML and its contents are property of R74n.com.
     <style>
       input[type="number"] {width:300px;height:40px;font-size:24px;vertical-align:middle;max-width:90%}
       select {height:60px;font-size:24px;vertical-align:middle;max-width:90%}
-      #TypeSelect {font-size:25px}
+      #TypeSelect {font-size:20px}
       #BoxLeft, #BoxRight, #Arrow {display:block}
       #BoxLeft {margin-top:25px}
       #Arrow {font-size:30px;padding:20px}
@@ -626,13 +628,16 @@ todo:
   <option value="volume">Volume (Cubic Meters, Liters)</option>
   <option value="weight">Weight (Grams, Pounds)</option>
   <option value="speed">Speed (Meters/Second, Miles/Hour)</option>
+  <option value="area">Area (Square Feet, Acres)</option>
   <option value="pressure">Pressure (Pascals, Bars)</option>
   <option value="money">Money (Robux, Minecoins)</option>
   <option value="data">Digital Storage (Bytes, Bits)</option>
   <option value="temperature">Temperature (Fahrenheit, Celsius)</option>
   <option value="angle">Angle (Degrees, Radians)</option>
+  <option value="energy">Energy (Joules)</option>
   <option value="power">Power (Watts, Horsepower)</option>
   <option value="force">Force (Newtons)</option>
+  <option value="torque">Torque (Newton-Meters)</option>
   <option value="density">Density (Kilograms/Cubic Meter)</option>
   <option value="voltage">Voltage (Volts)</option>
   <option value="frequency">Frequency (Hertz, RPM)</option>
@@ -686,13 +691,16 @@ todo:
     <a class="morelink" href="?volume">Volume Conversion</a><br>
     <a class="morelink" href="?weight">Weight Conversion</a><br>
     <a class="morelink" href="?speed">Speed Conversion</a><br>
+    <a class="morelink" href="?area">Area Conversion</a><br>
     <a class="morelink" href="?pressure">Pressure Conversion</a><br>
     <a class="morelink" href="?money">Money Conversion</a><br>
     <a class="morelink" href="?data">Digital Storage Conversion</a><br>
     <a class="morelink" href="?temperature">Temperature Conversion</a><br>
     <a class="morelink" href="?angle">Angle Conversion</a><br>
+    <a class="morelink" href="?energy">Energy Conversion</a><br>
     <a class="morelink" href="?power">Power Conversion</a><br>
     <a class="morelink" href="?force">Force Conversion</a><br>
+    <a class="morelink" href="?torque">Torque Conversion</a><br>
     <a class="morelink" href="?density">Density Conversion</a><br>
     <a class="morelink" href="?voltage">Voltage Conversion</a><br>
     <a class="morelink" href="?frequency">Frequency Conversion</a><br>

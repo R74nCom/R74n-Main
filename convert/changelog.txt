@@ -1,3 +1,22 @@
+[November 2025]
+    + NEW Types: Area, Energy, Torque
+    + Length: cable, smoot, ligne, megapixel, unity unit, minecraft nether block
+    + Time: rontosecond, swatch .beat, sidereal day, kalpa, school year, scaramucci, stardew valley day, blox fruits nychthemeron, gta 5 day, sea of thieves day, hypixel skyblock year, pokémon scarlet-violet day
+    + Volume: pinch, drop, US peck, imperial peck, cubic parsec, minecraft voxel, teardown voxel, cubic roblox stud
+    + Weight/Mass: roblox mass unit
+    + Data: octet, hextet
+    + Money: euro, pound sterling, yen, pence, groat, denarius, valora, discord orb, simoleon, umamusume carat, genesis crystal, dogecoin, ethereum, final fantasy gil, grow a garden sheckle, pokédollar, animal crossing bell
+    + Power: joule per second, duckpower
+    + Speed: minecraft block per second, unity unit per second, roblox stud per hour
+    + Force: roblox rowton
+    + Frequency: beat per minute, revolution per minute, cycle per second
+    + Temperature: dwarf fortress urist
+    + Quantity: quarter, half, ten, minecraft inventory, minecraft double chest
+    + Updated: Many money units
+    ~ Alphabetical sort moves numbers to the end
+    ~ Renamed v bucks to v-bucks
+    - [Money] Removed: mac pro stand, maximum mac pro, apple pie
+
 [March 2025]
     + [Speed] Roblox stud per second 
 

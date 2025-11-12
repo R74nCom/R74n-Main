@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-11-12 - Major Unit Converter update
+2025-11-12 - Added Unit Converter Changelog and Icons Sitemap to Sitemap
 2025-11-06 - Updated Socials page
 2025-11-06 - Updated R74n Commons
 2025-11-06 - Updated Link Dump
