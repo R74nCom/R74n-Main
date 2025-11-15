@@ -3123,6 +3123,7 @@ rueData.subcommands = {
 	date: {text:`(new Date()).toLocaleDateString()`},
 	year: {text:`(new Date()).getFullYear()`},
 	time: {text:`(new Date()).toLocaleTimeString()`},
+	month: {text:`(new Date()).getMonth() + 1`},
 	br: {text:`"\\n"`},
 	arg: {text:`Rue.brain.tempArgs[parseInt(args[0]) < 0 ? Rue.brain.tempArgs.length-Math.abs(parseInt(args[0])) : parseInt(args[0]) || 0]`},
 	args: {text:`Rue.brain.tempArgs.join(args[0]||" ")`},
@@ -3159,7 +3160,32 @@ rueData.subcommands = {
 			text = text.replaceAll(key, value);
 		}
 		return text;
-	} }
+	} },
+	// {{split:input|delim|index}}
+	split: { func:function(args) {
+		if (args.length === 0) return "";
+		let input = args[0];
+		let delim = args[1] || "";
+		
+		let split = input.split(delim);
+		if (!delim) split = [...input];
+
+		let index = parseInt(args[2]);
+		if (!isNaN(index)) return split[index];
+
+		return split.join(",");
+	} },
+	slice: { func:function(args) {
+		if (args.length === 0) return "";
+		let input = args[0];
+
+		let start = parseInt(args[1]);
+		let end = parseInt(args[2]);
+
+		if (isNaN(start)) return "[???]";
+		if (isNaN(end)) return input.slice(start);
+		return input.slice(start,end);
+	} },
 } // subcommands
 rueData.responses = {
 	"[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
