@@ -1686,8 +1686,6 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 
 		let error;
 
-		Rue.loading();
-
 		let callback = function(content) {
 			if (!content || !content.startsWith('"')) {
 				Rue.error("This global tag doesn't exist!!");
@@ -1709,6 +1707,8 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 			callback(Rue.brain.gCache[_tag]);
 			return;
 		}
+
+		Rue.loading();
 
 		fetch(`https://docs.google.com/spreadsheets/d/1HsGYSVA3mebYWfGDI0KYxC5RZXg8hFJtUAIBYwK_H8g/gviz/tq?tqx=out:csv&sheet=Approved&tq=select%20B%20where%20E%20%3D%20'${_tag}'%20limit%201`)
 		.then(response => {
