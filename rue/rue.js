@@ -1673,6 +1673,9 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 				
 				window.location.origin: ${window.location.origin}`)
 	},
+	"g submit": function(args) {
+		Rue.openLink("https://docs.google.com/forms/d/e/1FAIpQLSeU2k1qCp7b58fuKmU8AqErAplFQQHCP6QdWqBbB2kp7B4fFg/viewform?usp=dialog");
+	},
 	"g": function(args) {
 		if (!Rue.brain.gCache) Rue.brain.gCache = {};
 
@@ -3123,6 +3126,40 @@ rueData.subcommands = {
 	br: {text:`"\\n"`},
 	arg: {text:`Rue.brain.tempArgs[parseInt(args[0]) < 0 ? Rue.brain.tempArgs.length-Math.abs(parseInt(args[0])) : parseInt(args[0]) || 0]`},
 	args: {text:`Rue.brain.tempArgs.join(args[0]||" ")`},
+	if: { func:function(args) {
+		if (args.length === 0) return "";
+		let check = args[0].trim();
+		args = args.slice(1);
+		let fallback = "";
+		for (let i = 0; i < args.length; i++) {
+			const arg = args[i];
+			let split = splitOnce(arg, "=");
+			if (split.length < 2) continue;
+
+			let key = split[0].trim();
+			let value = split[1].trim();
+
+			if (key === "else") fallback = value;
+			if (check === key || check.toLowerCase() === key.toLowerCase()) return value;
+		}
+		return fallback;
+	} },
+	replace: { func:function(args) {
+		if (args.length === 0) return "";
+		let text = args[0].trim();
+		args = args.slice(1);
+		for (let i = 0; i < args.length; i++) {
+			const arg = args[i];
+			let split = splitOnce(arg, "=");
+			if (split.length < 2) continue;
+
+			let key = split[0].trim();
+			let value = split[1].trim();
+
+			text = text.replaceAll(key, value);
+		}
+		return text;
+	} }
 } // subcommands
 rueData.responses = {
 	"[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
