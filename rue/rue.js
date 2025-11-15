@@ -1673,6 +1673,51 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 				
 				window.location.origin: ${window.location.origin}`)
 	},
+	"g": function(args) {
+		let _tag = args[0];
+		if (!_tag) {
+			Rue.error("You need to specify a global tag name!!");
+			return;
+		}
+		_tag = _tag.replace(/'/g, "");
+		let _args = args.slice(1);
+
+		let content;
+		let error;
+
+		fetch(`https://docs.google.com/spreadsheets/d/1HsGYSVA3mebYWfGDI0KYxC5RZXg8hFJtUAIBYwK_H8g/gviz/tq?tqx=out:csv&sheet=Approved&tq=select%20B%20where%20E%20%3D%20'${_tag}'%20limit%201`)
+		.then(response => {
+			if (!response.ok) {
+				error = true;
+				Rue.error('Error: Status ' + response.status);
+				return;
+			}
+			return response.text();
+		})
+		.then(text => {
+			content = text;
+		})
+		.catch(error => {
+			error = true;
+			Rue.error('Error: ' + error);
+		});
+		if (error) return;
+
+		if (!content || !content.startsWith('"')) {
+			Rue.error("This global tag doesn't exist!!");
+			return;
+		};
+		content = JSON.parse(content);
+		if (!content) {
+			Rue.error("This global tag has no content!!");
+			return;
+		};
+
+		content = content.replace(/\{\{args\}\}/g, _args.join(" "));
+		content = content.replace(/\{\{arg\|\d+\}\}/g, (r) => _args[parseInt(r.match(/\d+/))]);
+
+		Rue.say(content);
+	},
 
 	"downdetector": function(args) { //partner
 		if (args.length === 0) {
