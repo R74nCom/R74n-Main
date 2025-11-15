@@ -1674,6 +1674,8 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 				window.location.origin: ${window.location.origin}`)
 	},
 	"g": function(args) {
+		if (!Rue.brain.gCache) Rue.brain.gCache = {};
+
 		let _tag = args[0];
 		if (!_tag) {
 			Rue.error("You need to specify a global tag name!!");
@@ -1682,23 +1684,11 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 		_tag = _tag.replace(/'/g, "");
 		let _args = args.slice(1);
 
-		let content;
 		let error;
 
 		Rue.loading();
 
-		fetch(`https://docs.google.com/spreadsheets/d/1HsGYSVA3mebYWfGDI0KYxC5RZXg8hFJtUAIBYwK_H8g/gviz/tq?tqx=out:csv&sheet=Approved&tq=select%20B%20where%20E%20%3D%20'${_tag}'%20limit%201`)
-		.then(response => {
-			if (!response.ok) {
-				error = true;
-				Rue.error('Error: Status ' + response.status);
-				return;
-			}
-			return response.text();
-		})
-		.then(text => {
-			content = text;
-
+		let callback = function(content) {
 			if (!content || !content.startsWith('"')) {
 				Rue.error("This global tag doesn't exist!!");
 				return;
@@ -1713,6 +1703,25 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 			content = content.replace(/\{\{arg\|\d+\}\}/g, (r) => _args[parseInt(r.match(/\d+/))]);
 
 			Rue.say(content);
+		}
+
+		if (Rue.brain.gCache[_tag]) {
+			callback(Rue.brain.gCache[_tag]);
+			return;
+		}
+
+		fetch(`https://docs.google.com/spreadsheets/d/1HsGYSVA3mebYWfGDI0KYxC5RZXg8hFJtUAIBYwK_H8g/gviz/tq?tqx=out:csv&sheet=Approved&tq=select%20B%20where%20E%20%3D%20'${_tag}'%20limit%201`)
+		.then(response => {
+			if (!response.ok) {
+				error = true;
+				Rue.error('Error: Status ' + response.status);
+				return;
+			}
+			return response.text();
+		})
+		.then(text => {
+			Rue.brain.gCache[_tag] = text;
+			callback(text);
 		})
 		.catch(error => {
 			error = true;
