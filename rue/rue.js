@@ -3186,6 +3186,20 @@ rueData.subcommands = {
 		if (isNaN(end)) return input.slice(start);
 		return input.slice(start,end);
 	} },
+	var: { func:function(args) {
+		let key = args[0];
+		let value = args[1];
+
+		if (!key) return "";
+		
+		if (value === undefined) return Rue.userData.user.variables[key] || `{{var:${key}}}`;
+		else if (value === "") delete Rue.userData.user.variables[key];
+		else {
+			Rue.userData.user.variables[key] = value;
+		}
+
+		return "";
+	} },
 } // subcommands
 rueData.responses = {
 	"[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
@@ -5184,6 +5198,13 @@ Rue = {
 		if (Rue.brain.mute) { return; }
 		if (!opt) { opt = {} }
 		message = message.toString();
+		let matches = message.match(/\{\{var ?[:|] ?([^|]+) ?\|/g);
+		if (matches) {
+			matches.forEach(function (m) {
+				let key = m.match(/[:|] ?([^|]+)/)[1];
+				delete Rue.userData.user.variables[key];
+			})
+		}
 		if (opt.parse !== false && message.indexOf("{{") !== -1) {
 			message = parseText(message);
 		}
@@ -5412,7 +5433,8 @@ Rue = {
 			color:"#00ffff",
 			world: "default",
 			n: "You",
-			subtitle: "You"
+			subtitle: "You",
+			variables: {}
 		},
 		env: {
 			worlds: {
