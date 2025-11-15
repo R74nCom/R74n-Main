@@ -1685,6 +1685,8 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 		let content;
 		let error;
 
+		Rue.loading();
+
 		fetch(`https://docs.google.com/spreadsheets/d/1HsGYSVA3mebYWfGDI0KYxC5RZXg8hFJtUAIBYwK_H8g/gviz/tq?tqx=out:csv&sheet=Approved&tq=select%20B%20where%20E%20%3D%20'${_tag}'%20limit%201`)
 		.then(response => {
 			if (!response.ok) {
@@ -1696,27 +1698,26 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 		})
 		.then(text => {
 			content = text;
+
+			if (!content || !content.startsWith('"')) {
+				Rue.error("This global tag doesn't exist!!");
+				return;
+			};
+			content = JSON.parse(content);
+			if (!content) {
+				Rue.error("This global tag has no content!!");
+				return;
+			};
+
+			content = content.replace(/\{\{args\}\}/g, _args.join(" "));
+			content = content.replace(/\{\{arg\|\d+\}\}/g, (r) => _args[parseInt(r.match(/\d+/))]);
+
+			Rue.say(content);
 		})
 		.catch(error => {
 			error = true;
 			Rue.error('Error: ' + error);
 		});
-		if (error) return;
-
-		if (!content || !content.startsWith('"')) {
-			Rue.error("This global tag doesn't exist!!");
-			return;
-		};
-		content = JSON.parse(content);
-		if (!content) {
-			Rue.error("This global tag has no content!!");
-			return;
-		};
-
-		content = content.replace(/\{\{args\}\}/g, _args.join(" "));
-		content = content.replace(/\{\{arg\|\d+\}\}/g, (r) => _args[parseInt(r.match(/\d+/))]);
-
-		Rue.say(content);
 	},
 
 	"downdetector": function(args) { //partner
