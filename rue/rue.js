@@ -37,7 +37,7 @@ rueParent.insertAdjacentHTML("beforeend", rueHTML);
 // add html to the end of the head
 document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
 #rueBox {
-  height: 3em!important; display: table-cell!important; vertical-align: middle!important; padding-right: 1em!important; padding-left: 1em!important; z-index:7474!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important;top: 10px!important
+  height: 3em!important; display: table-cell!important; vertical-align: middle!important; padding-right: 1em!important; padding-left: 1em!important; z-index:7474!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important;top: 10px!important; color-scheme: dark;
 }
 .rueBoxCorner {
   right: 0!important; position: absolute!important
@@ -54,13 +54,13 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
   white-space: nowrap!important;
 }
 #rueInput {
-  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgb(107,107,107)!important;color:white!important;outline: 0;padding: 10px!important;margin:0!important;border-style:none!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important; box-sizing:unset!important
+  vertical-align: middle!important; height: 25px!important; border-radius: 100px!important; border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;background-color: rgba(74, 79, 74)!important;color:white!important;outline: 0;padding: 10px!important;margin:0!important;border-style:none!important;font-size:22px!important;font-family: Arial, Helvetica, sans-serif!important; box-sizing:unset!important
 }
 #rueInput::placeholder {color: lightgray!important;opacity: 1!important;}
 #rueInput:-ms-input-placeholder {color: lightgray!important}
 #rueInput::-ms-input-placeholder {color: lightgray!important}
 #rueButton {
-  vertical-align: middle!important; height: 45px!important; width: 45px; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;border-style:none!important; touch-action:manipulation;
+  vertical-align: middle!important; height: 45px!important; width: 45px; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(53,53,58)!important;border-style:none!important; touch-action:manipulation;
 }
 #rueButton:hover {
   background: url("https://r74n.com/rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
@@ -74,6 +74,11 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
 }
 .rueDisabled:hover {
 	filter: brightness(0.8)!important;
+}
+#rueMessageBox {
+	backdrop-filter: blur(3px);
+	box-shadow: rgba(0, 0, 0, 0.5) 0px 4px 20px 1px;
+	color-scheme: dark;
 }
 #rueMessageBox a {
   color: #00FF00!important;
@@ -132,7 +137,12 @@ rueData.replacements = {
 rueData.commands = {
 	"say": function(args) {
 		if (args.length === 0) { Rue.error("You didn't specify what I should say!"); return }
-		Rue.say(args.join(" ").replaceAll("\\n","\n").replaceAll("\\t","\t").replace(/&lt;\/?br&gt;/g,"\n"));
+		let text = args.join(" ");
+		if (text === "that again" || text === "again") {
+			rueData.commands["[repeat]"]();
+			return;
+		}
+		Rue.say(text.replaceAll("\\n","\n").replaceAll("\\t","\t").replace(/&lt;\/?br&gt;/g,"\n"));
 	},
 	"sticky": function(args) {
 		Rue.sticky();
@@ -253,7 +263,7 @@ rueData.commands = {
 		var seed = normalizeL2(normalize(args.join(" "))) || Rue.getUser("userSeed");
 		Rue.showMedia("https://robohash.org/"+encodeURIComponent(seed)+".png", "This robot is unique to "+(args.join(" ")||"you")+"!", "Brought to you by RoboHash");
 	},
-	"/(repeat( (that|it))?|say( (that|it))? again|come again|what)(\\?+)?$/": function() {
+	"[repeat]": function() {
 		if (Rue.brain.lastMessage) {
 			Rue.say(Rue.brain.lastMessage);
 		}
@@ -261,6 +271,7 @@ rueData.commands = {
 			Rue.say("I didn't say anything!");
 		}
 	},
+	"/(repeat( (that|it))?|say( (that|it))? again|come again|wh?[au]t+|huh+)(\\?+)?$/": "=[repeat]",
 	"copy that": function() {
 		if (Rue.brain.lastMessage) {
 			Rue.say(Rue.brain.lastMessage);
@@ -300,6 +311,13 @@ rueData.commands = {
 	"parse": "=say",
 	"echo": "=say",
 	"repeat after me": "=say",
+	"repeat": function(args) {
+		if (args.length === 0 || args[0] === "that") {
+			rueData.commands["[repeat]"]();
+			return;
+		}
+		rueData.commands["say"](args);
+	},
 	"call": function(args) {
 		var phone = args.join(" ");
 		if (phone.match(/(\+?1[ -]?)?\(?(\d{3})\)?[ -]?(\d{3})[ -]?(\d{4})|\d{3}/)) {
@@ -1781,6 +1799,7 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 } // commands
 rueData.favorites = {
 	"color": "neon lime (<span style='color:#00ff00'>#00ff00</span>)",
+	"colour": "=color",
 	"activity": "talkin' to R74n users",
 }
 rueData.totalities = {
@@ -1802,6 +1821,9 @@ rueData.totalities = {
 	"/(wh?[au]t('?| i)s? )?((yo)?u'?r'?e? )?fav(ou?rite)? ([\\w ]+)/": function(text) {
 		var match = text.match(/(?:wh?[au]t(?:'?| i)s? )?(?:(?:yo)?ur )?fav(?:ou?rite)? ([\w ]+)/i);
 		var key = match[1];
+		if (rueData.favorites[key].match(/^=/)) {
+			key = rueData.favorites[key].slice(1);
+		}
 		Rue.say("My favorite " + key + " is " + (rueData.favorites[key] || "[???]") + "!");
 	},
 	"/https?:\\/\\/.+/": function(text) {
@@ -2825,22 +2847,6 @@ rueData.totalities = {
 				else {
 					mapString += ".";
 				}
-				// if (Rue.getRue("x") === x && Rue.getRue("z") === z) {
-				//     mapString += "&"; continue;
-				// }
-				// if (Rue.getUser("x") === x && Rue.getUser("z") === z) {
-				//     mapString += "@"; continue;
-				// }
-				// newChar = ".";
-				// var chunk = Rue.coordsToChunk(x,z);
-				// if (worldData.chunks[chunk]) {
-				//     worldData.chunks[chunk].forEach(function(item){
-				//         if (item.x === x && item.z === z) {
-				//             newChar = item.i || "?";
-				//         }
-				//     })
-				// }
-				// mapString += newChar;
 			}
 			mapString += "\n";
 		}
@@ -2858,19 +2864,6 @@ rueData.totalities = {
 		else {
 			Rue.openLink("https://downdetector.com/search/?q="+key)
 		}
-	},
-
-	"moss": function() { //patron
-		Rue.showMedia(chooseItem([
-		"https://i.imgur.com/UrzhOOJ.png",
-		"https://i.imgur.com/goYgoYH.png",
-		"https://i.imgur.com/DEPcH6U.png",
-		"https://i.imgur.com/eeGi7oQ.png",
-		"https://i.imgur.com/MFQrbKX.png",
-		"https://i.imgur.com/AhD4sa5.png",
-		"https://i.imgur.com/dC6kmQZ.png",
-		"https://i.imgur.com/JoOTXNr.png"
-		]),"You got...")
 	}
 } // totalities
 rueData.activities = {
@@ -3269,6 +3262,7 @@ rueData.responses = {
 	"[helpbeta]": "Since I'm only in my {{c:open beta|testing}} stage, I haven't {{c:put together|written up}} a help page yet. Sorry!",
 	"help": "{{r:rue help}}\n\nFor help with other projects, try leaving {{link:https://r74n.com/ufbs/|feedback}} or joining our {{link:https://link.r74n.com/discord|Discord}}!",
 	"$$$help,me,please?": "=help",
+	"$$$i,need,help": "=help",
 	"guide": "=help",
 	"readme": "=help",
 	"docs": "=help",
@@ -3409,7 +3403,7 @@ rueData.responses = {
 	"$$$can,we,get married|marry|go out|date": "=date me",
 	"single": "anxious>>>U-um.. They're a chatbot on another website.. You wouldn't know them..",
 	"$$$are,you,single|dating|married|taken": "=single",
-	"$$$do,you,have,a,boyfriend|bf|girlfriend|gf|partner|wife|husband|spouse": "=single",
+	"$$$do,you,have,a,boyfriend|bf|girlfriend|gf|partner|wife|husband|spouse|significant other|sig other": "=single",
 	"$$$do,you,know,any?,other,chatbots": "Yes!! I'm friends with lots!",
 	"why": "=purpose",
 	"sandtiles": "Sandtiles is a top-down pixel art game that is on an indefinite hiatus.",
@@ -3487,6 +3481,16 @@ rueData.responses = {
 	"discussion": "=community",
 	"friends": "=community",
 
+	"rue fact": [
+		"happy>>>I'm 1500x faster than the average AI chatbot!! This is because I'm made of real, human code.",
+		"love>>>Many people make drawings of me, I've been everywhere!!",
+		"sad>>>I released a hit single called 'Rue & U!', it's not great..",
+		"Highlight text on the page and use 'this' as a command argument! For example, {{cmd:shout this}}",
+		"I can solve all sorts of math expressions!!",
+		"official>>>I really exist somewhere out there, according to {{link:https://r74n.com/lore/|the lore}}..",
+	],
+	"rue facts": "=rue fact",
+
 	"zodiac": "My zodiac sign is Cancer! ♋",
 	"zodiac sign": "=zodiac",
 	"rising sign": "My rising sign is Scorpio! ♏",
@@ -3522,6 +3526,7 @@ rueData.responses = {
 	"16 personalities": "=personality type",
 
 	
+	// small talk
 	"/(hello+|ha?i+|he+y+([ao]+)?|ho+la+|a?y+(o+)?|howdy+|halacihae|gm+|g'?mornin[g']?|good ?(morn(in+([g']+)?)?|even(in+[g']+)|after ?noon)|👋|welcome( back)?|salutations?|greetings?|hewwo+|hiya+|oi+|ahoy+) ?(there+)? ?(there+|ru+e+|friend|again|world|matey?)?/": "=intro",
 	"goodbye": "{{c:Come back soon|See ya' later}}, friend!",
 	"/(((good|gud|buh|bye|bai)?([ \\-]+)?(bye|bai))|(see|c) ?(you|ya'?|u) ?(later|l8e?r|soon|again|another time)?) ?(rue|friend)?/": "=goodbye",
@@ -3546,7 +3551,7 @@ rueData.responses = {
 	"$$$who,(made|makes|created|develop(ed|s)|started|invented|came up with),you": "=creator",
 	"/how ?(to|do i|2)? ?(use|ask|talk to)? ?(you|rue|u|this|explore with rue)?/": "Glad ya' want my help! {{r:rue help}}",
 	"[feedback]": "sad>>>I'm not perfect.. Leave me some feedback {{link:https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Rue+/+Explore+with+Rue|here}}!",
-	"/(you|u|rue|that|this|those)? ?(is|are|r|'?re|'?s|was|were)? ?(a|so+|very|really|the)? ?(wrong|incorrect|stupid|dummy|dumbass|dumb|idiot|idiotic|lying|false|[md]isinfo(rmation)?|lie|liar|mistaken|bad|terrible|worse|worst|annoying|stinky?|sucky?|not good|not right|not correct|wrong answer|not true|not the right answer|not helpful|know nothing)/": "=[feedback]",
+	"/(you|u|rue|that|this|those)? ?(is|are|r|'?re|'?s|was|were)? ?(a|so+|very|really|the)? ?(wrong|incorrect|stupid|dummy|dumbass|dumb|idiot|clanker|idiotic|lying|false|[md]isinfo(rmation)?|lie|liar|mistaken|bad|terrible|worse|worst|annoying|stinky?|sucky?|not good|not right|not correct|wrong answer|not true|not the right answer|not helpful|know nothing)/": "=[feedback]",
 	"/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really|the)? ?(nice|amazing|awesome|cool|epic|helpful|good|great|best|better)/": "happy>>>Thanks, friend!! :)",
 	"/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really|the)? ?(cute+|hot|attractive|pretty|handsome|beautiful)/": "love>>>O-oh.. Thank{{c:s| you}}..",
 	"/(you|u|rue)? ?(is|are|r|'?re|'?s)? ?(a|so+|very|really|the)? ?(mean|rude|asshole|bad)/": "sad>>>I apologize if I hurt you.. I didn't mean it!",
@@ -3576,16 +3581,20 @@ rueData.responses = {
 	"$$$oh?,my?,god+|gosh+|goodness|jesus( christ)?|jeez|geez;;omf?g+": "What!!",
 	"$$$y+i+pp+ee+|woo+(hoo+)?|y+a+y+": "happy>>>:)",
 	"$$$where,are,you,from|based": "I'm from {{link:https://r74n.com/|R74n}}, friend!!",
-	"$$$are,you,busy;;can,you,help,me?": "Anything for you, friend!! What do you need?",
+	"$$$are,you,busy;;can,you,help,me?;;excuse,me": "=help",
 	"$$$who,did,you,vote,for": "Chatbots actually don't have the right to vote..",
 	"$$$do,you,know,me": "Of course, you come here {{c:often|all the time}}!!",
 	"$$$do,you,sleep": "Yes!! Just say '{{cmd|sleep}}'.. But don't watch.",
+	"hmm": "What's on your mind, friend?",
+	"/([hu]+)?[mh]+/": "=hmm",
+	"/e+r+m+/": "=hmm",
+	"ehem": "=hmm",
+	"wtf": ["sad>>>Is it something I said..?", "sad>>>Did I say something wrong..?"],
+	"wth": "=wtf",
+	"something": "I always have something for you!",
+	"toki": "=intro",
 
-	
-	"/dirt ?[,+] ?water/": "You made Mud!",
-	"/water ?[,+] ?dirt/": "You made Mud!",
-	"otter": "🦦",
-	"😥": "What's wrong??",
+
 	"amogus": "ꇺ Ꭿ ඞ ඩා 𐐘 𐑀 📮 {{link:https://c.r74n.com/among-us/|More on Copy Paste Dump}}",
 	"among us": "=amogus",
 	"amongus": "=amogus",
@@ -3613,7 +3622,11 @@ rueData.responses = {
 	"qbf": "{{qbf}}",
 	"quick brown fox": "=qbf",
 	":3": ":3333333",
-	"/me+(o+)?w+|ny+a+(n+)?/":"Good kitty!",
+	"meow":"Good kitty!",
+	"/me+(o+)?w+|ny+a+(n+)?|pu?rr+/":"=meow",
+	"woof":"Good {{c:dog|puppy|doggy}}!",
+	"/((woo+f+|ba+r+k+|a+r+f+|w?r+u+ff+) ?)+/":"=woof",
+	"/grr+/":"anxious>>>Woah there.. Watch it!",
 	"true": "tRue",
 	"$$$where,is,waldo": "Hmm.. He must be nearby..",
 
@@ -3953,6 +3966,7 @@ rueData.links = {
 "binary": "https://c.r74n.com/converter/text-to-binary?text=$1",
 "hexadecimal": "https://c.r74n.com/converter/text-to-hexadecimal?text=$1",
 "hex": "=hexadecimal",
+"brainrot": "https://c.r74n.com/converter/gen-alpha",
 "txt": "https://r74n.com/textviewer/?text=$1",
 "textviewer": "=txt",
 "text viewer": "=txt",
@@ -4872,6 +4886,7 @@ rueInput.addEventListener("paste", function(e) {
 	}
 });
 function sendMessage(e,message) { // send message
+	// console.time();
 	if (Rue.brain.sleeping) { // handle sleeping
 		Rue.brain.sleeping--;
 		if (!Rue.brain.sleeping) { Rue.wake(); Rue.say("{{r:[wakeup]}}"); Rue.cooldown(2) }
@@ -5251,6 +5266,8 @@ function sendMessage(e,message) { // send message
 		})
 	}
 
+	// console.timeEnd()
+
 	return done;
 }
 rueButton.onclick = sendMessage;
@@ -5351,6 +5368,15 @@ window.addEventListener("resize", function() {
 	else if (rueBox.classList.contains("rueBoxCorner")) { rueBox.classList.remove("rueBoxCorner"); }
 });
 
+let hexToRGB = function(hex) {
+	let rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	rgb = rgb ? {
+		r: parseInt(rgb[1], 16),
+		g: parseInt(rgb[2], 16),
+		b: parseInt(rgb[3], 16)
+	} : null;
+	return rgb;
+}
 
 Rue = {
 	say: function(message, opt) {
@@ -5391,12 +5417,25 @@ Rue = {
 		rueMessageBox.style.left = (rueBox.offsetLeft) + "px";
 		rueMessageBox.style.width = (rueInput.offsetWidth+20) + "px";
 		rueMessageBox.innerHTML = message;
-		rueMessageBox.style.borderColor = (opt.color || "white");
-		rueMessageBox.style.background = (opt.bg || "#595959");
+		rueMessageBox.style.borderColor = (opt.color || "#b6b6b6ff");
+		let bg = opt.bg;
+		if (!bg) bg = "#3e3e3e";
+		let rgb = hexToRGB(bg);
+		if (rgb) rueMessageBox.style.background = "rgba("+rgb.r+","+rgb.g+","+rgb.b+",0.9)";
+		else rueMessageBox.style.background = bg;
+		if (opt.bg && rgb) {
+			let max = Math.max(rgb.r, rgb.g, rgb.b);
+			let r = Math.max(227,Math.floor(rgb.r / max) * 255);
+			let g = Math.max(227,Math.floor(rgb.g / max) * 255);
+			let b = Math.max(227,Math.floor(rgb.b / max) * 255);
+			rueMessageBox.style.color = "rgb("+r+","+g+","+b+")";
+		}
+		else rueMessageBox.style.color = "white";
 		rueMessageBox.style.display = "block";
 		// set border-radius proportionate to height. more height = less border-radius, min 16px
 		rueMessageBox.style.borderRadius = Math.max((100 - (rueMessageBox.offsetHeight / 1.4)),16) + "px";
 		rueMessageBox.style.borderTopRightRadius = "0";
+		rueMessageBox.style.borderWidth = "2.5px";
 		Rue.brain.speaking = true;
 		// if anywhere else is clicked, Rue.hush()
 		if (!Rue.brain.closeMessageEvent) {
@@ -5430,35 +5469,35 @@ Rue = {
 	},
 	error: function(errorMessage) {
 		if (!errorMessage) { errorMessage = chooseItem(rueData.responses["[error]"]); }
-		Rue.say(errorMessage, {color:"red",bg:"#7b5b5b"});
+		Rue.say(errorMessage, {color:"#cc0000",bg:"#413030"});
 	},
 	success: function(message) {
 		if (!message) { message = chooseItem(rueData.responses["[success]"]); }
-		Rue.say(message, {color:"lime",bg:"#5b7b5b"});
+		Rue.say(message, {color:"#00cc00",bg:"#304130"});
 	},
 	happy: function(message) {
-		Rue.say(message, {color:"lime",bg:"#5b7b5b"});
+		Rue.say(message, {color:"#00cc00",bg:"#304130"});
 	},
 	sad: function(message) {
-		Rue.say(message, {color:"blue",bg:"#5b5b7b"});
+		Rue.say(message, {color:"#0000cc",bg:"#303041"});
 	},
 	angry: function(message) {
-		Rue.say(message, {color:"#ff4400",bg:"#7b645b"});
+		Rue.say(message, {color:"#ff4400",bg:"#413430"});
 	},
 	love: function(message) {
-		Rue.say(message, {color:"#ff00ff",bg:"#7b5b7b"});
+		Rue.say(message, {color:"#cc00cc",bg:"#413041"});
 	},
 	flushed: function(message) {
-		Rue.say(message, {color:"#ffff00",bg:"#7b7b5b"});
+		Rue.say(message, {color:"#cccc00",bg:"#414130"});
 	},
 	anxious: function(message) {
-		Rue.say(message, {color:"#7900b5",bg:"#483b4e"});
+		Rue.say(message, {color:"#7a00b8",bg:"#130f14"});
 	},
 	official: function(message) {
-		Rue.say(message, {color:"#00ffff",bg:"#5b7b7b"});
+		Rue.say(message, {color:"#00cccc",bg:"#304141"});
 	},
 	alert: function(message) {
-		Rue.say("{{b:ALERT: "+message+"}}", {color:"#00ffff",bg:"red"});
+		Rue.say("{{b:ALERT: "+message+"}}", {color:"#00ffff",bg:"#ff0000"});
 	},
 	loading: function() {
 		Rue.say("{{r:[wait]}}");
@@ -5485,19 +5524,19 @@ Rue = {
 	confirm: function(message, func) {
 		Rue.brain.confirming = rueInput.value;
 		Rue.brain.afterConfirm = func;
-		Rue.say(message+"\n\n{{r:[confirm]}}", {color:"#ffff00",bg:"#7b7b5b"});
+		Rue.say(message+"\n\n{{r:[confirm]}}", {color:"#cccc00",bg:"#414130"});
 	},
 	ask: function(message, func) {
 		Rue.brain.asking = message;
 		Rue.brain.afterAsk = func;
 		Rue.sticky();
-		Rue.say(message, {color:"#ffff00",bg:"#7b7b5b"});
+		Rue.say(message, {color:"#cccc00",bg:"#414130"});
 	},
 	repeatQuestion: function(message) {
 		if (!message) { message = Rue.brain.asking; }
 		Rue.brain.asking = message;
 		Rue.brain.repeatingQuestion = true;
-		Rue.say(message, {color:"#ffff00",bg:"#7b7b5b"});
+		Rue.say(message, {color:"#cccc00",bg:"#414130"});
 	},
 	cancelQuestion: function() {
 		Rue.brain.asking = false;
