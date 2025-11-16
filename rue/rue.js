@@ -3202,6 +3202,13 @@ rueData.subcommands = {
 
 		return "";
 	} },
+	calc: { func:function(args) {
+		if (args.length === 0) return "";
+
+		let expression = args.join(" ");
+
+		return Rue.calculate(expression);
+	} },
 } // subcommands
 rueData.responses = {
 	"[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
