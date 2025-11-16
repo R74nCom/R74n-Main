@@ -1676,7 +1676,13 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 				window.location.origin: ${window.location.origin}`)
 	},
 	"g submit": function(args) {
-		Rue.openLink("https://docs.google.com/forms/d/e/1FAIpQLSeU2k1qCp7b58fuKmU8AqErAplFQQHCP6QdWqBbB2kp7B4fFg/viewform?usp=dialog");
+		let name = args[0];
+		let content = args.slice(1).join(" ");
+		let url = "https://docs.google.com/forms/d/e/1FAIpQLSeU2k1qCp7b58fuKmU8AqErAplFQQHCP6QdWqBbB2kp7B4fFg/viewform?usp=pp_url";
+		if (name) url += "&entry.521301964="+encodeURIComponent(name);
+		if (content) url += "&entry.1965533903="+encodeURIComponent(content);
+		if (Rue.userData.user.name) url += "&entry.952548985="+encodeURIComponent(Rue.userData.user.name);
+		Rue.openLink(url);
 	},
 	"g": function(args) {
 		if (!Rue.brain.gCache) Rue.brain.gCache = {};
@@ -1941,36 +1947,45 @@ rueData.totalities = {
 	},
 	"xmr": "=monero",
 	"rainbow": function() {
-		var style = document.createElement("style");
-		style.innerHTML = `@keyframes rueRainbow {
+		Rue.style("filter", `@keyframes rueRainbow {
 			0% { filter: hue-rotate(0deg); }
 			100% { filter: hue-rotate(360deg); }
-		}`;
-		document.head.appendChild(style);
-		document.body.style.animation = "rueRainbow 5s infinite linear";
+		}
+		body { animation: rueRainbow 5s infinite linear }`);
 		Rue.say("Be who you are!\n\n{{red:█}}{{orange:█}}{{yellow:█}}{{green:█}}{{cyan:█}}{{blue:█}}{{purple:█}}");
 	},
 	"black and white": function() {
-		document.body.style.filter = "grayscale(100%)";
+		Rue.style("filter", `html { filter: grayscale(100%) }`);
 	},
 	"grayscale": "=black and white",
 	"greyscale": "=black and white",
 	"black & white": "=black and white",
 	"b&w": "=black and white",
 	"invert colors": function() {
-		document.documentElement.style.filter = "invert(100%)";
+		Rue.style("filter", `html { filter: invert(100%) }`);
 	},
 	"sepia": function() {
-		document.documentElement.style.filter = "sepia(100%)";
+		Rue.style("filter", `html { filter: sepia(100%) }`);
 	},
 	"bad eyesight mode": function() {
-		document.body.style.filter = "blur(5px)";
+		Rue.style("blur", `html { filter: blur(5px) }`);
 	},
 	"take off glasses": "=bad eyesight mode",
 	"blur page": "=bad eyesight mode",
+	"put on glasses": function() {
+		Rue.clearStyle("blur");
+	},
+	"unblur page": "=put on glasses",
 	"go blind": function() {
 		Rue.user.overlay("black",1)
 	},
+	"times new roman": function() { Rue.style("font", `* { font-family:"Times New Roman" }`) },
+	"monospace": function() { Rue.style("font", `* { font-family:"Courier New", monospace }`) },
+	"comic sans": function() { Rue.style("font", `* { font-family:"Comic Sans MS", "Comic Sans", cursive }`) },
+	"cursive": function() { Rue.style("font", `* { font-family:cursive }`) },
+	"arial": function() { Rue.style("font", `* { font-family:"Arial" }`) },
+	"verdana": function() { Rue.style("font", `* { font-family:"Verdana" }`) },
+	"serif": function() { Rue.style("font", `* { font-family:serif }`) },
 	"event": function() {
 		if (typeof currentEvent !== "undefined") {
 			Rue.say("Current event: " + currentEvent);
@@ -5987,6 +6002,34 @@ Rue = {
 			return true;
 		}
 		return false;
+	},
+	style: function(id, css) {
+		let elem = document.getElementById("rueStyle-"+id);
+		if (!elem) {
+			elem = document.createElement("style");
+			elem.className = "rueStyle";
+			elem.id = "rueStyle-"+id;
+		}
+		elem.innerHTML = css;
+		document.head.appendChild(elem);
+	},
+	clearStyle: function(id) {
+		if (id) {
+			const elem = document.getElementById("rueStyle-"+id);
+			if (elem) elem.remove();
+		}
+		const elems = document.getElementsByClassName("rueStyle");
+		if (elems) {
+			for (let i = 0; i < elems.length; i++) {
+				const elem = elems[i];
+				elem.remove();
+			}
+		}
+	},
+	toggleStyle: function(id, css) {
+		let elem = document.getElementById("rueStyle-"+id);
+		if (elem) Rue.clearStyle(id);
+		else Rue.style(id, css);
 	},
 	user: {
 		overlay: function(color,opacity) {
