@@ -154,7 +154,7 @@ solve |EXPR| based on math replacement string, Math.abs(EXPR)
 
 // |(5+3)-6e2/2**2|
 function solveExpression(text) {
-    console.log("----")
+    // console.log("----")
     text = text.trim().toLowerCase();
     if (!text) return;
     text = text.replace(/[\s{}]/g,"");
@@ -229,7 +229,7 @@ function solveExpression(text) {
 
         wrappedMidAnswer.push(answer);
 
-        console.log(answer);
+        // console.log(answer);
         if (!skipFunctions) {
             for (let func in mathFunctions) {
                 var funcRegex = new RegExp(func);
@@ -243,16 +243,16 @@ function solveExpression(text) {
                     })
                 }
                 if (skipFunctions) break;
-                console.log("FUNC0",answer);
+                // console.log("FUNC0",answer);
                 answer = answer.replace(funcRegex,function(match) {
                     var EXPR = funcRegex.exec(match)[1];
                     var results = funcRegex.exec(match).slice(1);
-                    console.log(results);
+                    // console.log(results);
                     try {
                         funcJS = funcJS.replace(/\$\d+/g,function(match2) {
-                            console.log("FUNC1",match2);
+                            // console.log("FUNC1",match2);
                             var index = parseInt(match2.slice(1))-1;
-                            console.log("FUNC2",eval(results[index]))
+                            // console.log("FUNC2",eval(results[index]))
                             if (results[index].charAt(results[index].length-1) === "*") {
                                 results[index] = results[index].slice(0,-1)
                             }
@@ -262,7 +262,7 @@ function solveExpression(text) {
                         match = "("+eval(match)+")";
                     }
                     catch (error) {
-                        console.log(error)
+                        // console.log(error)
                     }
                     return match;
                 })
@@ -278,7 +278,7 @@ function solveExpression(text) {
                 success = true;
             }
             catch (error) {
-                console.log("SEMIFINAL ERROR: "+error)
+                // console.log("SEMIFINAL ERROR: "+error)
             }
         }
         if (mathRegex.LONE_VALUE.test(answer.replace(/[()]/g,""))) {
@@ -287,16 +287,16 @@ function solveExpression(text) {
                 success = true;
             }
             catch (error) {
-                console.log("FINAL ERROR: "+error)
+                // console.log("FINAL ERROR: "+error)
             }
         }
     }
-    return `
-        text = ${text}
-        steps = ${wrappedMidAnswer.join("\n")}
-        answer = ${answer}
-        success = ${success}
-    `;
+    // return `
+    //     text = ${text}
+    //     steps = ${wrappedMidAnswer.join("\n")}
+    //     answer = ${answer}
+    //     success = ${success}
+    // `;
     // raw eval = ${eval(text)}
     return answer;
 }

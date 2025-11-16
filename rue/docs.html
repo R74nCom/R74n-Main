@@ -852,7 +852,71 @@ This HTML and its contents are property of R74n.com.
 </table>
 
 <h3 id="calculations">Calculations</h3>
-<p>Rue can solve some basic math problems. Simply type it in and she'll get you the answer!</p>
+<p>Rue can solve basic and complex math expressions. Simply type it in and she'll get you the answer!</p>
+<p>If she doesn't recognize your expression, use the <em>calc</em> command.</p>
+<p>She can recognize the following operations and elements:</p>
+
+<table class="monotable" id="mathOperations">
+<thead>
+  <tr><th>Input Text</th><th>Replaced With</th></tr>
+</thead>
+<tbody>
+  <tr><td>+</td><td>Addition</td></tr>
+  <tr><td>-</td><td>Subtraction</td></tr>
+  <tr><td>* × * x</td><td>Subtraction</td></tr>
+  <tr><td>/ ÷ ⁄</td><td>Division</td></tr>
+  <tr><td>^ **</td><td>Exponents</td></tr>
+  <tr><td>%</td><td>Modulo</td></tr>
+  <tr><td>( )</td><td>Parentheses</td></tr>
+  <tr><td>0 1 2 3 4 5 6 7 8 9</td><td>Numerals</td></tr>
+  <tr><td>123e0.5<br>123e-0.5</td><td>Scientific notation</td></tr>
+  <tr><td>Infinity</td><td>Infinity</td></tr>
+  <tr><td>NaN</td><td>Not a number</td></tr>
+</tbody>
+</table>
+
+<p>She also recognizes the following functions:</p>
+<table class="monotable" id="mathFunctions">
+<thead>
+  <tr><th>Input Text</th><th>Replaced With</th></tr>
+</thead>
+<tbody>
+  <tr><td>sin(<em>x</em>)<br>sine(<em>x</em>)</td><td>Sine</td></tr>
+  <tr><td>cos(<em>x</em>)</td><td>Cosine</td></tr>
+  <tr><td>tan(<em>x</em>)<br>tangent(<em>x</em>)</td><td>Tangent</td></tr>
+  <tr><td>sec(<em>x</em>)</td><td>Secant</td></tr>
+  <tr><td>cosec(<em>x</em>)</td><td>Cosecant</td></tr>
+  <tr><td>cot(<em>x</em>)</td><td>Cotangent</td></tr>
+  <tr><td>|<em>x</em>|<br>abs(<em>x</em>)</td><td>Absolute value</td></tr>
+  <tr><td>sqrt(<em>x</em>)<br>√(<em>x</em>)<br>√<em>x</em></td><td>Square root</td></tr>
+  <tr><td>cbrt(<em>x</em>)<br>∛(<em>x</em>)<br>∛<em>x</em></td><td>Cube root</td></tr>
+  <tr><td>∜(<em>x</em>)<br>∜<em>x</em></td><td>Fourth root</td></tr>
+  <tr><td><em>x</em>rt(<em>y</em>)<br><em>x</em>√(<em>y</em>)<br><em>x</em>√<em>y</em><br></td><td><em>x</em> root</td></tr>
+  <tr><td>log(<em>x</em>)</td><td>Common logarithm (Base 10)</td></tr>
+  <tr><td>log<em>x</em>(<em>y</em>)</td><td>Logarithm (Base <em>x</em>)</td></tr>
+  <tr><td>random()</td><td>Random value (0-1)</td></tr>
+</tbody>
+</table>
+
+<p>She also recognizes the following special phrases:</p>
+<table class="monotable" id="mathReplacements">
+<thead>
+  <tr><th>Input Text</th><th>Replaced With</th></tr>
+</thead>
+<tbody>
+  <tr><td>_</td><td>(Last calculation result)</td></tr>
+  <tr><td>°<br>deg</td><td>/360</td></tr>
+  <tr><td>∞</td><td>(Infinity)</td></tr>
+  <tr><td>null<br>undefined</td><td>(NaN)</td></tr>
+  <tr><td>π<br>pi</td><td>(3.14159...)</td></tr>
+  <tr><td>τ<br>tau</td><td>(6.28318...)</td></tr>
+  <tr><td>φ</td><td>(1.61803...)</td></tr>
+  <tr><td>⅟ ½ ⅓ ¼ ⅕ ⅙ ⅛ ⅔ ⅖ ⅚ ⅜ ¾ ⅗ ⅝ ⅞ ⅘</td><td>(num/den)</td></tr>
+  <tr><td>⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁱ ⁿ ⁺ ⁻ ⁼ ⁽ ⁾</td><td>^n</td></tr>
+</tbody>
+</table>
+
+<!-- <p>Rue can solve some basic math problems. Simply type it in and she'll get you the answer!</p>
 <p>She is limited to the following symbols: <code>+ - * / ^ . e ( )</code> as well as <code>Infinity</code> and <code>NaN</code>.</p>
 <p>The following are also permitted, and will be converted before calculation.</p>
 <table class="monotable" id="mathReplacements">
@@ -874,7 +938,7 @@ This HTML and its contents are property of R74n.com.
   <tr><td>Divided by</td><td>/</td></tr>
   <tr><td>Null</td><td>0</td></tr>
 </tbody>
-</table>
+</table> -->
 
 <h3 id="replacements">Auto-Capitalization</h3>
 <p>A few phrases will be automatically capitalized when typed into Explore with Rue, in line with <a href="https://r74n.com/lore/old#Capitalize">the R74n Capitalization Standard</a>.</p>

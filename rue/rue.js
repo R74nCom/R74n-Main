@@ -125,6 +125,7 @@ rueData.replacements = {
 	"R74moji": "R74moji",
 	"UniSearch": "UniSearch",
 	"Mix-Up!": "Mix-Up!",
+	"GenTown": "GenTown",
 	"- \\[x\\]": "",
 	"- \\[ \\]": "",
 }
@@ -695,6 +696,7 @@ rueData.commands = {
 	"calculate": function(args) {
 		var result = Rue.calculate(args.join(" "));
 		if (result === null) { Rue.error("I don't understand this expression!"); return }
+		Rue.brain.lastMathResult = result;
 		Rue.say(result);
 	},
 	"calc": "=calculate",
@@ -3694,7 +3696,7 @@ rueData.keywords = {
 	"sexually assault": "=sexual assault",
 	/* /!\ trigger warning /!\ */
 } // keywords
-rueData.mathReplacements = {
+rueData.mathReplacementsOld = {
 	"pi": Math.PI,
 	"π": "=pi",
 	"tau": "6.283185307179586",
@@ -4571,6 +4573,141 @@ rueData.links = {
 "suss": "https://www.youtube.com/@sussdood", //patron
 } // links
 
+// math
+rueData.mathRegex = {};
+mathRegex = rueData.mathRegex;
+mathRegex.VALUE = "([-+]+)?([0-9]+(\\.([0-9]+)?)?|\\.[0-9]+)(e[-+]?[0-9]+)?|([-+]+)?Infinity|NaN";
+/* VALUE
+123
+1.23
+.23
+12.
+0123
+Infinity
+NaN
+1e23
+1.23e45
+1.23e-45
+1.23e+45
+12.e45
+.12e45
+*/
+mathRegex.OPERATOR = "[+\\-\\*\\/%]|\\*\\*";
+
+mathRegex.LONE_VALUE = `^(${mathRegex.VALUE})$`;
+mathRegex.LONE_VALUE_PAREN = `\\((${mathRegex.VALUE})\\)`;
+mathRegex.LONE_VALUE_COMMAL = `,(${mathRegex.VALUE})`;
+mathRegex.LONE_VALUE_COMMAR = `(${mathRegex.VALUE}),`;
+mathRegex.SYMBOL = `[\\(\\),\\|<>]`;
+mathRegex.SYMBOL_NO_PAREN = `[,\\|<>]`;
+mathRegex.LONE_VALUE_SYMBOL = `(${mathRegex.SYMBOL})(${mathRegex.VALUE})(${mathRegex.SYMBOL})?|(${mathRegex.SYMBOL})?(${mathRegex.VALUE})(${mathRegex.SYMBOL})`;
+mathRegex.VALUE_NEXT_TO_WRAPPED = `\\}\\)(${mathRegex.VALUE})`;
+mathRegex.OPERATOR_PAREN_VALUE = `(${mathRegex.OPERATOR}|^|${mathRegex.SYMBOL_NO_PAREN})\\(\\{(${mathRegex.VALUE})\\}\\)`;
+
+mathRegex.SIMPLE_EXP = `(((${mathRegex.VALUE})(${mathRegex.OPERATOR}))+)(${mathRegex.VALUE})`;
+mathRegex.PAREN_EXP = `\\(${mathRegex.SIMPLE_EXP}\\)`
+mathRegex.WRAPPED_EXP = `\\{([^}]*)\\}`
+mathRegex.WRAPPED_LONE_VALUE = `\\{(${mathRegex.VALUE})\\}`
+/* SIMPLE_EXP
+1e23+45
+12/34.567
+*/
+
+rueData.mathReplacements = {
+    "×": "*",
+    "⋅": "*",
+    "x": "*",
+    "÷": "/",
+    "⁄": "/",
+    "^": "**",
+    "--": "-+-",
+    "++": "-+-+",
+    "mod": "%",
+    "°": "/360",
+    "deg": "/360",
+    "∞": "(Infinity)",
+    "infinity": "(Infinity)",
+    "null": "(NaN)",
+    "nan": "(NaN)",
+    "undefined": "(NaN)",
+    "pi": "("+Math.PI+")",
+    "π": "("+Math.PI+")",
+    "tau": "("+6.283185307179586+")",
+    "τ": "("+6.283185307179586+")",
+    "φ": "("+1.618033988749894+")",
+    "⅟":"1/",
+    "½":"(1/2)",
+    "⅓":"(1/3)",
+    "¼":"(1/4)",
+    "⅕":"(1/5)",
+    "⅙":"(1/6)",
+    "⅛":"(1/8)",
+    "⅔":"(2/3)",
+    "⅖":"(2/5)",
+    "⅚":"(5/6)",
+    "⅜":"(3/8)",
+    "¾":"(3/4)",
+    "⅗":"(3/5)",
+    "⅝":"(5/8)",
+    "⅞":"(7/8)",
+    "⅘":"(4/5)",
+    "（":"(",
+    "）":")",
+}
+mathReplacements = rueData.mathReplacements;
+mathExponents = {
+    "⁰":"0","¹":"1","²":"2","³":"3","⁴":"4","⁵":"5","⁶":"6","⁷":"7","⁸":"8","⁹":"9",
+    "ⁱ":"i",
+    "ⁿ":"n",
+    "⁺":"+",
+    "⁻":"-",
+    "⁼":"=",
+    "⁽":"(",
+    "⁾":")"
+}
+mathRegex.EXPONENTS = `\\^?[${Object.keys(mathExponents).join("")}]+`;
+rueData.mathFunctions = {
+    "sine(EXPR)": "Math.sin(EXPR)",
+    "sin(EXPR)": "Math.sin(EXPR)",
+    "cos(EXPR)": "Math.cos(EXPR)",
+    "tan(EXPR)": "Math.tan(EXPR)",
+    "tangent(EXPR)": "Math.tan(EXPR)",
+    "cosec(EXPR)": "1/Math.sin(EXPR)",
+    "sec(EXPR)": "1/Math.cos(EXPR)",
+    "cot(EXPR)": "1/Math.tan(EXPR)",
+    "|EXPR|": "Math.abs(EXPR)",
+    "abs(EXPR)": "Math.abs(EXPR)",
+    "sqrt(EXPR)": "Math.sqrt(EXPR)",
+    "cbrt(EXPR)": "Math.cbrt(EXPR)",
+    "VALrt(EXPR)": "Math.pow($2, 1/$1)",
+    "VAL√(EXPR)": "Math.pow($2, 1/$1)",
+    "∛(EXPR)": "Math.cbrt(EXPR)",
+    "∛VAL": "Math.cbrt(EXPR)",
+    "∜(EXPR)": "Math.pow(EXPR, 1/4)",
+    "∜VAL": "Math.pow(EXPR, 1/4)",
+    "√(EXPR)": "Math.sqrt(EXPR)",
+    "VAL√VAL": "Math.pow($2, 1/$1)",
+    "√VAL": "Math.sqrt($1)",
+    "logVAL(EXPR)": "Math.log($2) / Math.log($1)",
+    "log(EXPR)": "Math.log10(EXPR)",
+    "random()": "Math.random()",
+}
+mathFunctions = rueData.mathFunctions;
+
+mathFunctionsKeys = Object.keys(mathFunctions);
+mathFunctionsKeys.forEach(function(key){
+    mathFunctions[key.replace(/[\(\)\|]/g,(match)=>{return "\\"+match}).replace(/VAL\\\(/,"VAL\\(?").replace(/\\\)/,"\\)?").replace(/EXPR/g,mathRegex.WRAPPED_EXP).replace(/VAL/g,"{?("+mathRegex.VALUE.replace(/\(/g,"(?:")+")}?\\*?")] = mathFunctions[key];
+    delete mathFunctions[key];
+})
+mathFunctionsKeys.sort((a, b) => b.length - a.length);
+mathReplacementsKeys = Object.keys(mathReplacements);
+mathReplacementsKeys.sort((a, b) => b.length - a.length);
+for (let key in mathRegex) {
+    mathRegex[key] = new RegExp(mathRegex[key],"gi")
+}
+// math
+
+
 const whitespaceRegex = /[\s\uFEFF\u200B]+/g;
 const punctuationRegexProto = "[`~!¡¿‼‽⁇⁈⁉！@#$¢£€¥%\\^&\*\\(\\)\\-‐‑‒–—―_\\+×÷=\\[\\]\\{\\}\\|\\\\;:：；'‘’\"“”„＂＇‚‛❛❜❟‟«»<>,\\.…\\/⁄\\?¶⁋❡§†‡°]+"
 const punctuationRegex = new RegExp(punctuationRegexProto,"g");
@@ -4855,6 +4992,16 @@ function sendMessage(e,message) { // send message
 		});
 	}
 
+	if (!done && !text.match(/^\d+\/\d+\/\d+$/)) {
+		// try calculation
+		var mathResult = Rue.calculate(text);
+		if (mathResult !== null && mathResult !== text && (!isNaN(mathResult) || mathResult === "NaN")) {
+			Rue.say(mathResult.toString());
+			done = true;
+			Rue.brain.lastMathResult = mathResult;
+		}
+	}
+
 	// regex totalities
 	if (!done) {
 		done = tryVariants(text, rueData.totalities, function(func) {
@@ -4906,7 +5053,7 @@ function sendMessage(e,message) { // send message
 			commandBase = split[0];
 			argsArray.unshift(split[1]);
 			var lastArg = argsArray[argsArray.length-1];
-			if (lastArg.charAt(lastArg.length-1) === ")") {
+			if (lastArg && lastArg.charAt(lastArg.length-1) === ")") {
 				argsArray[argsArray.length-1] = lastArg.slice(0,lastArg.length-1)
 			}
 			var joinedArgs = argsArray.join(" ");
@@ -4971,17 +5118,9 @@ function sendMessage(e,message) { // send message
 		});
 	}
 	if (!done) {
-		// try calculation
-		var mathResult = Rue.calculate(text);
-		if (mathResult !== null) {
-			Rue.say(mathResult.toString());
-			done = true;
-		}
-	}
-	if (!done) {
 		// display math replacements
 		done = tryVariants(normalized, rueData.mathReplacements, function(text) {
-			Rue.say(text);
+			Rue.say(text.toString().replace(/(^\()|\)$/g, ""));
 		});
 	}
 	if (!done) {
@@ -5061,7 +5200,7 @@ function sendMessage(e,message) { // send message
 		}
 	}
 
-	if (!done) { // date info
+	if (!done && !text.match(/^([^\d]+)?\d+([^\d]+)?$/)) { // date info
 		var tempdate = new Date(text.replace(/(st|th|nd) /g," "));
 		if (!isNaN(tempdate)) {
 			var daysAgo = Math.floor((new Date() - tempdate) / 86400000);
@@ -5468,6 +5607,7 @@ Rue = {
 		if (!data.user.userSeed) { data.user.userSeed = Math.floor(Math.random() * 1000000000); }
 		if (!data.user.userStart) { data.user.userStart = Date.now().toString(); }
 		Rue.userData = data;
+		Rue.userData.user.variables = {};
 	},
 	coordsToChunk: function(x,z) {
 		return Math.floor(x/16)+","+Math.floor(z/16);
@@ -5622,13 +5762,13 @@ Rue = {
 			Rue.brain.auto = false;
 		}
 	},
-	calculate: function(mathExpression) {
+	calculateOld: function(mathExpression) {
 		mathExpression = mathExpression.toLowerCase();
 		// if it is only a number, return it
 		if (/^[\d\.]+$/gi.test(mathExpression)) { return mathExpression; }
 		// loop through rueData.mathReplacements
-		for (var key in rueData.mathReplacements) {
-			mathExpression = mathExpression.replaceAll(key, chooseValue(rueData.mathReplacements,key)[0]);
+		for (var key in rueData.mathReplacementsOld) {
+			mathExpression = mathExpression.replaceAll(key, chooseValue(rueData.mathReplacementsOld,key)[0]);
 		}
 		if (!/^[\d\._ ]+$/gi.test(mathExpression) && /^(([+\-\/\*\d ()\.e_]| Infinity | NaN )+)?(\d| Infinity | NaN |_)(([+\-\/\*\d ()\.e_]| Infinity | NaN )+)?$/gi.test(mathExpression)) {
 			mathExpression = mathExpression.replaceAll(/e{2,}/g, "e")
@@ -5644,6 +5784,155 @@ Rue = {
 			}
 		}
 		return null;
+	},
+	calculate: function(text) {
+		// console.log("----")
+		text = text.trim().toLowerCase();
+		if (!text) return;
+		text = text.replace(/[\s{}]/g,"");
+		text = text.replace(/,(\d{3})/g,"$1"); // comma numbers
+		// add missing trailing parentheses
+		text += ")".repeat((text.match(/\(/g)||[]).length - (text.match(/\)/g)||[]).length)
+		mathReplacementsKeys.forEach(function(key) {
+			text = text.replaceAll(key,mathReplacements[key])
+		})
+		if (Rue.brain.lastMathResult) { text = text.replaceAll(/_+/g, "("+Rue.brain.lastMathResult+")"); }
+		text = text.replace(mathRegex.EXPONENTS, function(match) {
+			// add missing trailing parentheses
+			match += "⁾".repeat((match.match(/⁽/g)||[]).length - (match.match(/⁾/g)||[]).length)
+			for (let key in mathExponents) {
+				match = match.replaceAll(key,mathExponents[key])
+			}
+			return "**("+match+")"
+		})
+		let answer = null;
+		let lastAnswer = null;
+		let wrappedMidAnswer = [];
+		let success = false;
+		while (!lastAnswer || answer !== lastAnswer) {
+			let skipFunctions = false;
+			if (answer) lastAnswer = answer;
+			else answer = text;
+			answer = answer.replace(mathRegex.PAREN_EXP,function(match) {
+				try { match = eval(match).toString() }
+				catch (error) {}
+				if (match.charAt(0) !== "(") match = "("+match;
+				if (match.charAt(match.length-1) !== ")") match = match+")";
+				return match;
+			})
+			answer = answer.replace(mathRegex.SIMPLE_EXP,function(match) {
+				return "{"+match+"}"
+			})
+			answer = answer.replace(mathRegex.LONE_VALUE,function(match) {
+				return "{"+match+"}"
+			})
+			answer = answer.replace(mathRegex.LONE_VALUE_SYMBOL,function(match) {
+				var left = match.charAt(0);
+				left = left.match(mathRegex.SYMBOL) ? left : "";
+				var right = match.charAt(match.length-1)
+				right = right.match(mathRegex.SYMBOL) ? right : "";
+				if (left) match = match.slice(1);
+				if (right) match = match.slice(0,-1);
+				// console.log(left+"{"+match+"}"+right);
+				return left+"{"+match+"}"+right;
+			})
+			answer = answer.replace(mathRegex.VALUE_NEXT_TO_WRAPPED,function(match){
+				return match.replace(/\}\)/,"}){")+"}";
+			})
+			answer = answer.replace(mathRegex.OPERATOR_PAREN_VALUE,function(match){
+				return match.replace(/[()]/g,"");
+			})
+			// console.log(answer)
+
+			// ){-
+			answer = answer.replace(/[)}][({][-+]/g,function(match){
+				return match.charAt(0)+match.charAt(2)+match.charAt(1)
+			});
+			if (answer.indexOf("}(") !== -1) {
+				answer = answer.replace(/\}\(/g,"}*(");
+				skipFunctions = true;
+			}
+			if (answer.indexOf("){") !== -1) {
+				answer = answer.replace(/\)\{/g,")*{");
+				skipFunctions = true;
+			}
+			if (answer.indexOf("}{") !== -1) {
+				answer = answer.replace(/\}\{/g,"}*{");
+				skipFunctions = true;
+			}
+
+			wrappedMidAnswer.push(answer);
+
+			// console.log(answer);
+			if (!skipFunctions) {
+				for (let func in mathFunctions) {
+					var funcRegex = new RegExp(func);
+					var funcJS = mathFunctions[func]; // Math.sin(EXPR)
+					// sine({5+2}) -> Math.sin(EXPR) -> Math.sin(7)
+					var hasVAL = func.indexOf("{?((?:");
+					if (hasVAL > 5 || hasVAL === -1) {
+						answer = answer.replace(new RegExp("\\d"+func),function(match) {
+							skipFunctions = true;
+							return match.slice(0,1)+"*"+match.slice(1);
+						})
+					}
+					if (skipFunctions) break;
+					// console.log("FUNC0",answer);
+					answer = answer.replace(funcRegex,function(match) {
+						var EXPR = funcRegex.exec(match)[1];
+						var results = funcRegex.exec(match).slice(1);
+						// console.log(results);
+						try {
+							funcJS = funcJS.replace(/\$\d+/g,function(match2) {
+								// console.log("FUNC1",match2);
+								var index = parseInt(match2.slice(1))-1;
+								// console.log("FUNC2",eval(results[index]))
+								if (results[index].charAt(results[index].length-1) === "*") {
+									results[index] = results[index].slice(0,-1)
+								}
+								return eval(results[index]);
+							})
+							match = funcJS.replace(/EXPR/g,eval(EXPR));
+							match = "("+eval(match)+")";
+						}
+						catch (error) {
+							// console.log(error)
+						}
+						return match;
+					})
+				}
+			}
+			if (skipFunctions) continue;
+
+			answer = answer.replace(/[{}]/g,"");
+			// console.log(answer);
+			if (mathRegex.SIMPLE_EXP.test(answer.replace(/[()]/g,""))) {
+				try {
+					answer = (Math.round(eval(answer)*1000000000)/1000000000).toString();
+					success = true;
+				}
+				catch (error) {
+					// console.log("SEMIFINAL ERROR: "+error)
+				}
+			}
+			if (mathRegex.LONE_VALUE.test(answer.replace(/[()]/g,""))) {
+				try {
+					answer = (Math.round(eval(answer)*1000000000)/1000000000).toString();
+					success = true;
+				}
+				catch (error) {
+					// console.log("FINAL ERROR: "+error)
+				}
+			}
+		}
+		// return `
+		//     text = ${text}
+		//     steps = ${wrappedMidAnswer.join("\n")}
+		//     answer = ${answer}
+		//     success = ${success}
+		// `;
+		// raw eval = ${eval(text)}
+		return answer;
 	},
 	paginate: function(array, perPage, page) {
 		perPage = perPage || 10;
@@ -5821,7 +6110,7 @@ function relativeToSeconds(text) {
 	var num = text.match(/[\d\.\-\/\*\+]+/)
 	var unit = text.match(/[a-z]+/i);
 	if (!num) { return 0; }
-	num = Rue.calculate(num[0]);
+	num = Rue.calculateOld(num[0]);
 	if (!num) { return 0; }
 	var multiplier = 1;
 	if (unit) {
