@@ -5032,7 +5032,7 @@ function sendMessage(e,message) { // send message
 	if (!done && !text.match(/^\d+\/\d+\/\d+$/)) {
 		// try calculation
 		var mathResult = Rue.calculate(text);
-		if (mathResult !== null && mathResult !== text && (!isNaN(mathResult) || mathResult === "NaN")) {
+		if (mathResult !== null && (mathResult+"").toLowerCase() !== text.toLowerCase() && (!isNaN(mathResult) || mathResult === "NaN")) {
 			Rue.say(mathResult.toString());
 			done = true;
 			Rue.brain.lastMathResult = mathResult;
@@ -5154,12 +5154,12 @@ function sendMessage(e,message) { // send message
 			Rue.say(response);
 		});
 	}
-	if (!done) {
-		// display math replacements
-		done = tryVariants(normalized, rueData.mathReplacements, function(text) {
-			Rue.say(text.toString().replace(/(^\()|\)$/g, ""));
-		});
-	}
+	// if (!done) {
+	// 	// display math replacements
+	// 	done = tryVariants(normalized, rueData.mathReplacements, function(text) {
+	// 		Rue.say(text.toString().replace(/(^\()|\)$/g, ""));
+	// 	});
+	// }
 	if (!done) {
 		// media display
 		done = tryVariants(normalized, rueData.media, function(link) {
