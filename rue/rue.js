@@ -2981,6 +2981,17 @@ rueData.subcommands = {
 			return Math.floor(Math.random()*10);
 		}  
 	},
+	rand: {
+		func: function() {
+			return Math.random();
+		}  
+	},
+	srand: {
+		func: function(args) {
+			if (args.length === 0) {return ""}
+			return seedRandom(args[0]);
+		}  
+	},
 	randchar: {
 		func: function() {
 			// random character including numbers and symbols
@@ -4727,6 +4738,7 @@ rueData.mathFunctions = {
     "logVAL(EXPR)": "Math.log($2) / Math.log($1)",
     "log(EXPR)": "Math.log10(EXPR)",
     "random()": "Math.random()",
+    "floor(EXPR)": "Math.floor(EXPR)",
 }
 mathFunctions = rueData.mathFunctions;
 
