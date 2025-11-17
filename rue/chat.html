@@ -84,7 +84,7 @@ This HTML and its contents are property of R74n.com.
             rueMessage.style.borderColor = color;
           }
           else if (!loading && typeof rueMessageBox !== "undefined") {
-            if (rueMessageBox.style.borderColor !== "white") {
+            if (rueMessageBox.style.borderColor !== "white" && rueMessageBox.style.borderColor !== 'rgb(182, 182, 182)') {
               rueMessage.style.borderColor = rueMessageBox.style.borderColor;
               messageObj.c = rueMessageBox.style.borderColor;
             }
