@@ -1044,10 +1044,12 @@ This HTML and its contents are property of R74n.com.
   <tr><td>{{if:<em>input</em>|<em>value</em>=<em>output</em>|<em class="opt">else</em>=<em class="opt">output</em>}}</td><td>Choose an output based on a set of inputs</td></tr>
   <tr><td>{{replace:<em>text</em>|<em>from</em>=<em>to</em>}}</td><td>Replace string(s) with other(s)</td></tr>
   <tr><td>{{split:<em>text</em>|<em class="opt">splitBy</em>|<em class="opt">index</em>}}</td><td>Split a string by a delimiter, and optionally return by index (starting at 0)</td></tr>
-  <tr><td>{{slice:<em>text</em>|<em>start</em>|<em class="opt">end</em>}}</td><td>Get a section of a string by indexes (starting at 0)</td></tr>
+  <tr><td>{{slice:<em>text</em>|<em>start</em>|<em class="opt">end</em>}}</td><td>Get a section of a string by indexes (starting at 0, can be negative)</td></tr>
+  <tr><td>{{index:<em>text</em>|<em class="opt">index</em>}}</td><td>Get a character of a string by its index (starting at 0, can be negative)</td></tr>
   <tr><td>{{month}}</td><td>The current month number</td></tr>
   <tr><td>{{var:<em>name</em>}}<br>{{var:<em>name</em>|<em class="opt">value</em>}}<br>{{var:<em>name</em>|}}</td><td>Get, set, or delete a user-wide variable</td></tr>
   <tr><td>{{calc:<em>expression</em>}}</td><td>Calculate a math expression</td></tr>
+  <tr><td>{{len:<em class="opt">text</em>}}</td><td>Return the length of a string</td></tr>
   <tr><td>{{rand}}</td><td>Random float between 0 and 1</td></tr>
   <tr><td>{{srand:<em>seed</em>}}</td><td>Seeded random float between 0 and 1</td></tr>
 </tbody>

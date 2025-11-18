@@ -3228,6 +3228,21 @@ rueData.subcommands = {
 
 		return Rue.calculate(expression);
 	} },
+	index: { func:function(args) {
+		if (args.length === 0) return "";
+		let text = args[0];
+		if (args.length === 1) return text[0];
+		let index = parseInt(args[1]);
+		let chars = [...text];
+
+		if (index < 0) index = chars.length + index;
+
+		return chars[index];
+	} },
+	len: { func:function(args) {
+		if (args.length === 0) return "0";
+		return args[0].length.toString();
+	} },
 } // subcommands
 rueData.responses = {
 	"[blank]": ["{{c:Well come on|Come on|What're ya' waiting for}}, {{c:spit it out|say somethin'}}!","{{c:Spit it out|Say somethin'}} already!"],
