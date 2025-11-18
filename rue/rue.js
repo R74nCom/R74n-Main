@@ -5412,13 +5412,16 @@ Rue = {
 		if (Rue.brain.mute) { return; }
 		if (!opt) { opt = {} }
 		message = message.toString();
-		let matches = message.match(/\{\{var ?[:|] ?([^|]+) ?\|/g);
+		// console.log(JSON.stringify(Rue.userData.user.variables));
+		let matches = message.match(/\{\{var ?[:|] ?([^|\}]+) ?\|/g);
 		if (matches) {
 			matches.forEach(function (m) {
+				console.log(m)
 				let key = m.match(/[:|] ?([^|]+)/)[1];
 				delete Rue.userData.user.variables[key];
 			})
 		}
+		// console.log(JSON.stringify(Rue.userData.user.variables));
 		if (opt.parse !== false && message.indexOf("{{") !== -1) {
 			message = parseText(message);
 		}
