@@ -1,8 +1,0 @@
-async function askNano() {
-    const chatSession = await window.ai.createTextSession()
-    const result = await chatSession.prompt(`Combine these concepts into something new and creative. Only say the result’s name (i.e. Gaming + Computer = Video Game Console). Begin:
-
-Apple + Forest =`).then((r) => {
-        console.log(r)
-})
-}
