@@ -1892,6 +1892,9 @@ This HTML and its contents are property of R74n.com.
   }
 
   function generateDishName(ingredients) {
+    if (urlParams.get("override")) {
+      return urlParams.get("override");
+    }
     if (!ingredients) {
       // copy the current view's ingredients
       ingredients = viewData[currentView].total.slice();
