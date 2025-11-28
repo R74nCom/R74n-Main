@@ -7,12 +7,25 @@ textParserCommands = {}
 textParserConfig = {
   escapeHTML: false //escapes HTML in command arguments, often breaks nested commands
 }
+textParserHelpers = {
+  pre: [],
+  post: []
+}
 
 function addParserCommand(key,handler) {
   if (!key || !handler) return;
   textParserCommands[key] = {
     func: handler
   }
+}
+
+function addParserPre(handler) {
+  if (!handler) return;
+  textParserHelpers.pre.push(handler);
+}
+function addParserPost(handler) {
+  if (!handler) return;
+  textParserHelpers.post.push(handler);
 }
 
 addParserCommand("c", function(args) {
@@ -28,6 +41,11 @@ function splitOnce(text,delim) {
 }
 function parseText(text) {
   if (!text) return "";
+  if (textParserHelpers.pre.length) {
+    textParserHelpers.pre.forEach(helper => {
+      text = helper(text);
+    });
+  }
   var tries = 0;
   var count = 0;
   while (text.indexOf("{{") !== -1) {
@@ -69,6 +87,11 @@ function parseText(text) {
     tries++;
     if (tries > 50 || (text.length===newtext.length && text===newtext)) {text = newtext;break}
     text = newtext;
+  }
+  if (textParserHelpers.post.length) {
+    textParserHelpers.post.forEach(helper => {
+      text = helper(text);
+    });
   }
   return text
 }

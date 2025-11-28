@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-11-28 - Custom helper support for Text Viewer Parser - Standalone
 2025-11-20 - Created robots.txt to link to Sitemap
 2025-11-16 - Added Omada button to outlinks
 2025-11-12 - Major Unit Converter update
