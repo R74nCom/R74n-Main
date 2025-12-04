@@ -53,7 +53,7 @@ This HTML and its contents are property of R74n.com.
         // if its a response, add the image
         if (!sent) {
           var rueMessageMoji = document.createElement("img");
-          rueMessageMoji.src = "ruemoji.png";
+          rueMessageMoji.src = Rue.brain.ruemoji || "ruemoji.png";
           rueMessageMoji.classList.add("rueMessageMoji");
           rueMessageMoji.onclick = function(){
             document.getElementById("rueButton").click();

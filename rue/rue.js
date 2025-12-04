@@ -6298,6 +6298,9 @@ let date = new Date();
 if (date.getMonth() === 11) { //temporary solution
 	Rue.setRuemoji("rue-santa.png", "rue-santa-blink.png");
 }
+else {
+	Rue.setRuemoji("ruemoji.png", "rue-blink.png");
+}
 
 // preload blink image
 var img = new Image();
