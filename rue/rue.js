@@ -59,14 +59,20 @@ document.head.insertAdjacentHTML("beforeend", `<style>/* Rue */
 #rueInput::placeholder {color: lightgray!important;opacity: 1!important;}
 #rueInput:-ms-input-placeholder {color: lightgray!important}
 #rueInput::-ms-input-placeholder {color: lightgray!important}
+:root {
+	--ruemoji: url("https://r74n.com/rue/ruemoji.png");
+	--ruemoji-blink: url("https://r74n.com/rue/rue-blink.png");
+}
 #rueButton {
-  vertical-align: middle!important; height: 45px!important; width: 45px; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: url("https://r74n.com/rue/ruemoji.png") no-repeat center; background-size: 30px!important; background-color: rgb(53,53,58)!important;border-style:none!important; touch-action:manipulation;
+  vertical-align: middle!important; height: 45px!important; width: 45px; margin: 0!important; max-height: unset!important; box-shadow: none!important; border-radius: 100px!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important; background: no-repeat center; background-size: 30px!important; background-color: rgb(53,53,58)!important;background-image:var(--ruemoji);border-style:none!important; touch-action:manipulation;
 }
 #rueButton:hover {
-  background: url("https://r74n.com/rue/ruemoji.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  background: no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  background-image: var(--ruemoji)!important;
 }
 #rueButton:active, .rueSleep, #rueButton.rueSleep:hover, .rueBlink {
-  background: url("https://r74n.com/rue/rue-blink.png") no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  background: no-repeat center!important; background-size: 30px!important; background-color: rgb(83, 83, 83)!important;
+  background-image: var(--ruemoji-blink)!important;
 }
 .rueDisabled {
 	filter: brightness(0.5);
@@ -3746,6 +3752,10 @@ rueData.keywords = {
 	"save this conv": "=save chat",
 	"save the conv": "=save chat",
 	"save session": "=save chat",
+	// holidays
+	"christmas": "Did you know I'm friends with Santa? Try {{cmd:santa says yourname}}!",
+	"happy holidays": "=christmas",
+	"santa": "=christmas",
 	/* /!\ trigger warning /!\ */
 	"suicide": "Feeling down? Seek help!\n\nThe emergency suicide hotline is {{link:tel:988|988}} for the US, and {{link:tel:112|112}} for the UK.\n\nThere are also a bunch more for {{link:https://blog.opencounseling.com/suicide-hotlines/|other countries}}.\n\nFor LGBTQ+ youth, you can call the Trevor Hotline at {{link:tel:1-866-488-7386|1-866-488-7386}} or text 'START' to {{link:sms:678-678|678-678}}.",
 	"suicidal": "=suicide","suiciding": "=suicide","crisis hotline": "=suicide",
@@ -6100,6 +6110,18 @@ Rue = {
 		if (elem) Rue.clearStyle(id);
 		else Rue.style(id, css);
 	},
+	setRuemoji: function(normal, blink) {
+		if (!normal.match(/^http/)) {
+			normal = "https://r74n.com/rue/" + normal;
+			blink = "https://r74n.com/rue/" + blink;
+		}
+		Rue.brain.ruemoji = normal;
+		Rue.brain.ruemojiBlink = blink;
+		Rue.style("ruemojis", `:root {
+			--ruemoji: url("${normal}");
+			--ruemoji-blink: url("${blink}");
+		}`);
+	},
 	user: {
 		overlay: function(color,opacity) {
 			if (document.getElementById("rueUserScreenOverlay")) { document.getElementById("rueUserScreenOverlay").remove(); }
@@ -6271,15 +6293,21 @@ for (var i = 0; i < rueLoadFunctions.length; i++) {
 	rueLoadFunctions[i]();
 }
 
+// Check for holidays
+let date = new Date();
+if (date.getMonth() === 11) { //temporary solution
+	Rue.setRuemoji("rue-santa.png", "rue-santa-blink.png");
+}
+
+// preload blink image
+var img = new Image();
+img.src = Rue.brain.ruemojiBlink || "https://r74n.com/rue/rue-blink.png";
+
 console.log("Rue's ready to go! ("+Rue.brain.loadTime+"ms)")
 if (rueParam) { // handle URL parameter
 	Rue.handleRueParam();
 }
 /*end rue load*/}
-
-// preload blink image
-var img = new Image();
-img.src = "https://r74n.com/rue/rue-blink.png";
 
 document.addEventListener("DOMContentLoaded", function(){
 	if (!loadedRue) { initRue() }
