@@ -3584,6 +3584,7 @@ decision: [
 },
 {
 	text: "How much should [town] support small businesses?",
+	no: "Low", yes: "High",
 	check: (town) => planet.unlocks.trade,
 	influences: { trade:3 },
 	influencesNo: { trade:-1 }
