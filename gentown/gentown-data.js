@@ -3470,7 +3470,7 @@ info: [
 	check: (town) => town.influences.crime >= 6
 },
 {
-	text: "\"No Way to Prevent This,\" says [town], the only nation where this regularly happens",
+	text: "\"No Way to Prevent This,\" says [town], the only town where this regularly happens",
 	check: (town) => town.influences.crime >= 8
 },
 {
