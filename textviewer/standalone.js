@@ -43,7 +43,8 @@ function parseText(text) {
   if (!text) return "";
   if (textParserHelpers.pre.length) {
     textParserHelpers.pre.forEach(helper => {
-      text = helper(text);
+      let newtext = helper(text);
+      if (newtext) text = newtext;
     });
   }
   var tries = 0;
@@ -90,7 +91,8 @@ function parseText(text) {
   }
   if (textParserHelpers.post.length) {
     textParserHelpers.post.forEach(helper => {
-      text = helper(text);
+      let newtext = helper(text);
+      if (newtext) text = newtext;
     });
   }
   return text

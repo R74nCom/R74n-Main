@@ -10,27 +10,49 @@ addParserCommand("color",function(args) {
 	if (args.length === 1) {return args[0]}
 	return `<span style='color:${args[1]+ (args[2] && args[2] !== "true" ? ";background-color:"+args[2] : "")}'${ args[2] ? " class='font2'" : "" }>${args[0]}</span>`;
 })
+addParserCommand("colorsdown",function(args) {
+	if (args.length === 0) {return ""}
+	let string = "";
+	let colors = args.slice(2);
+	for (let i = 0; i < colors.length; i++) {
+		const color = colors[i];
+		string += color + " " + (i / colors.length) * 100 + "%,";
+		string += color + " " + ((i+1) / colors.length) * 100 + "%,";
+	}
+	let symbol = args[0].replace(/ /g, "&nbsp;");
+	let symbolColor = args[1].trim() || "#FFFFFF";
+	return `<span style="background:linear-gradient(to bottom,${string.slice(0,-1)})${symbol ? ";color:"+symbolColor : ""}" class="font2">${symbol || "&nbsp;&nbsp;&nbsp;"}</span>`;
+})
 addParserCommand("symbol",function(args) {
 	if (args.length === 0) {return ""}
 	return `<span class="font2"${ args[1] ? ` style="color:`+args[1]+`"` : "" }>${args[0]}</span>`;
 })
 addParserCommand("b",function(args) {
 	if (args.length === 0) {return ""}
-	return "<strong>"+args[0]+"</strong>";
+	return `<strong>${args[0]}</strong>`;
 })
 addParserCommand("i",function(args) {
 	if (args.length === 0) {return ""}
-	return "<em>"+args[0]+"</em>";
+	return `<em>${args[0]}</em>`;
+})
+addParserCommand("p",function(args) {
+	if (args.length === 0) {return ""}
+	return `<span class="previewPart" contenteditable="plaintext-only">${args[0]}</span>`;
+})
+addParserCommand("title",function(args) {
+	if (args.length === 0) {return ""}
+	return titleCase(args[0]);
 })
 addParserCommand("num",function(args) {
 	if (args.length === 0) {return ""}
 	let n = parseFloat(args[0]);
 	if (args[1] === "K") {
 		let num = n;
-		if (num < 1000) return num.toString();
-		if (num < 1000000) return Math.floor((num / 1000) * 10) / 10 + "K";
-		if (num < 1000000000) return Math.floor((num / 1000000) * 10) / 10 + "M";
-		return Math.floor((num / 1000000000) * 10) / 10 + "B";
+		let abs = Math.abs(num);
+		if (abs < 1000) return num.toString();
+		if (abs < 1000000) return Math.floor((num / 1000) * 10) / 10 + "K";
+		if (abs < 1000000000) return Math.floor((num / 1000000) * 10) / 10 + "M";
+		return Math.floor((abs / 1000000000) * 10) / 10 + "B";
 	}
 	let parts = args[0].toString().split(".");
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -206,7 +228,7 @@ addParserCommand("resourcetotal",function(args) {
 	if (total >= $c.maxResource(town)) {
 		return `{{color:{{num:${total}|K}}|#ffff8c}}`
 	}
-	return total;
+	return `{{num:${total}|K}}`;
 })
 addParserCommand("diff",function(args) {
 	if (args.length === 0) {return ""}
@@ -214,7 +236,7 @@ addParserCommand("diff",function(args) {
 	n = Math.round(n) / 100
 	if (n === 0) return '<span style="color:#ffff6e">0</span>';
 	let pos = n > 0;
-	return `<span style="color:${pos ? "#6eff6e" : "#ff6e6e"}">${(pos ? "+" : "") + args[0]}</span>`;
+	return `<span style="color:${pos ? "#6eff6e" : "#ff6e6e"}">${(pos ? "+" : "") + parseText("{{num:"+args[0]+"|K}}")}</span>`;
 })
 addParserCommand("arrow",function(args) {
 	if (args.length < 2) {return ""}
@@ -242,7 +264,7 @@ addParserCommand("regname",function(args) {
 	hsl[2] = Math.max(0.65, hsl[2]);
 	color = HSLtoRGB(hsl);
 	if (!name) name = data.subtype || data.type;
-	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${color[0]},${color[1]},${color[2]})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
+	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${Math.floor(color[0])},${Math.floor(color[1])},${Math.floor(color[2])})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
 })
 addParserCommand("regoldest",function(args) {
 	if (args.length < 1) {return ""}
@@ -293,6 +315,14 @@ addParserCommand("residents",function(args) {
 	if (args[1]) return `${args[1]} from {{regname|town|${args[0]}}}`;
 	return `{{c:residents|citizens}} of {{regname|town|${args[0]}}}`;
 })
+addParserCommand("resident",function(args) {
+	if (args.length === 0) return "resident";
+	let town = regGet("town",args[0]);
+	if (!town) return "{{c:resident|citizen}}";
+	if (town.dem) return `{{regname|town|${args[0]}|${town.dem}}}`;
+	if (args[1]) return `${args[1]} from {{regname|town|${args[0]}}}`;
+	return `{{c:resident|citizen}} {{c:from|of}} {{regname|town|${args[0]}}}`;
+})
 addParserCommand("face",function(args) {
 	if (args.length === 0) return "{{icon:neutral|Population}}";
 	let town = regGet("town", parseInt(args[0]));
@@ -320,6 +350,82 @@ addParserCommand("none",function(args) {
 	return `<span class='none'>None yet..</span>`;
 })
 
+function blurber(text, ctx) {
+	if (typeof text === "object") {
+		if (text.text) text = text.text;
+	}
+	ctx = ctx || {};
+	let oldText = null;
+	let tries = 0;
+	let matched = false;
+	while (text !== oldText) {
+		tries ++;
+		if (tries > 1000) break;
+		oldText = text;
+		text = text.replace(/\[[^\[\]]+\]/g, (match) => {
+			matched = true;
+			match = match.slice(1,-1);
+
+			if (match.includes("/")) {
+				match = match.replace(/\/\/+/g, "/");
+				match = match.replace(/\/$/g, "");
+				match = match.replace(/^\//g, "");
+				match = "[" + choose(match.split("/")) + "]";
+			}
+
+			// console.log(match);
+			
+			if (subBlurbs[match] !== undefined) {
+				let result = subBlurbs[match];
+				if (typeof result === "function") result = result(ctx);
+				if (Array.isArray(result)) result = choose(result);
+
+				let _result = result;
+
+				if (!result) return "[" + match + "]";
+				if (result === true) return "";
+				if (typeof result === "object" && result._reg && result.id) {
+					result = `{{regname:${result._reg}|${result.id}}}`;
+				}
+				if (result.toString) result = result.toString();
+
+				if (!ctx[match]) ctx[match] = [];
+				ctx[match].push(_result);
+
+				match = "[" + result + "]";
+			}
+
+			return match;
+		});
+	}
+	if (matched) {
+		text = text.replace(/=/g, "");
+		text = text.replace(/(^| )a [aeioué]/gi, (match) => {
+			return match.replace(/(a) /i, "$1n ");
+		})
+		if (!text.match(/[.!?]$/)) text += ".";
+		text = text.replace(/a someone/gi, "someone");
+	}
+
+	let fail = false;
+	text.replace(/\[[^\[\]]+\]/g, (match) => {
+		match = match.slice(1,-1);
+		if (subBlurbs[match] !== undefined) {
+			fail = true;
+			return;
+		}
+	});
+	if (fail) return false;
+
+	return text.replace(/[\[\]]/g,"");
+}
+addParserPre(blurber);
+
+// Commas in big numbers
+addParserPost(text => {
+	return text.replace(/[ (]\d{4,}[.!?,) ]/g, m => m[0] + parseText("{{num:"+m.slice(1,-1)+"}}") + m[m.length-1]);
+});
+
 userSettings = {};
 if (R74n.has("GenTownSettings")) {
 	userSettings = JSON.parse(R74n.get("GenTownSettings"));
@@ -341,15 +447,23 @@ function uuidv4() {
 	);
 }
 function titleCase(str) {
+	let prefix;
 	str = str.toString();
+	if (str.match(/^[a-z][A-Z]/)) {
+		prefix = str.slice(0,1);
+		str = str.slice(1);
+	}
 	str = str.replace(/_/g," ");
-	return str.replace(
-		/(?:^| )[A-Za-zÀ-ÖØ-öø-ÿ]/g,
+	str = str.replace(/,(\S)/g,", $1");
+	str = str.replace( //Capitalize letters at start or after spaces/hyphens
+		/(?:^|[ \-–])[A-Za-zÀ-ÖØ-öø-ÿ]/g,
 		text => text.toUpperCase()
-	).replace(
-		/ (Of|And|Or|With|The) /g,
+	).replace( //Uncapitalize prepositions, etc.
+		/([ \-–](Of|And|Or|With|The|An?|N|To|From|By|At|In|Upon|Over|Under|On|Is|Bei|Am|An|De[rn]?|Du|Bij|L[ao]s?|El|Cum|Super|O['‘’]))+[ \-–]/g,
 		text => text.toLowerCase()
 	);
+	if (prefix !== undefined) str = prefix + str;
+	return str;
 }
 function isFunction(obj) {
 	return !!(obj && obj.constructor && obj.call && obj.apply);
@@ -597,6 +711,11 @@ function defaultPlanet() {
 		oneTimeEvents: {},
 		nextDayMessages: [],
 		warnings: {},
+		recentBlurbs: {
+			ambient: [],
+			info: [],
+			decision: []
+		},
 		unlockedExecutive: {},
 		stats: {},
 		cooldownEvents: {}
@@ -619,9 +738,9 @@ extraColors = [
 	[38,38,38],
 	[224,224,224],
 ]
-function defaultTown() {
+function defaultTown(doName=true) {
 	return {
-		"name": generateWord($c.townSyllables,true,wordComponents.prefixes.TOWN),
+		"name": doName ? generateWord($c.townSyllables,true,wordComponents.prefixes.TOWN) : undefined,
 		"pop": 20,
 		"color": choose(townColors),
 		"type": "town",
@@ -637,6 +756,7 @@ function defaultTown() {
 		"legal": {},
 		"issues": {},
 		"relations": {},
+		"research": {},
 		"wealth": 0,
 		"_reg": "town"
 	}
@@ -665,7 +785,9 @@ finalizeEvents();
 
 function happen(action, subject, target, args, targetClass=undefined) {
 	if (!targetClass && target && target._reg) targetClass = target._reg;
+	if (actionables[targetClass] === undefined) return;
 	let actionFunc = actionables[targetClass].asTarget[action];
+	if (actionFunc === undefined) return;
 	let r = actionFunc(subject,target,args||{});
 	if (r === 0) return r;
 	if (r === undefined) return target;
@@ -756,12 +878,14 @@ function readyEvent(eventClass, subject=null, target=null) {
 
 	if (!subject && !target) return undefined;
 
+	args.eventID = uuidv4();
+
 	return {
 		subject: subject,
 		target: target,
 		args: args,
 		message: message,
-		eventID: uuidv4(),
+		eventID: args.eventID,
 		eventClass: eventClass
 	}
 }
@@ -803,6 +927,11 @@ function doEvent(eventClass,eventCaller) {
 	// renderCursor();
 	// updateStats();
 	// updateCanvas();
+
+	if (isFunction(eventInfo.messageDone)) {
+		logChange(eventCaller.logID, eventInfo.messageDone(eventCaller.subject,eventCaller.target,eventCaller.args));
+	}
+	else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
 
 	return r || targets[targets.length-1];
 }
@@ -1253,10 +1382,11 @@ function fitToScreen() {
 	let width = Math.min(700,window.innerWidth-pixelSize);
 	width -= width % pixelSize;
 	mapCanvas.style.maxWidth = width+"px";
-	document.getElementById("mapPanel").style.height = "";
+	let mapPanel = document.getElementById("mapPanel");
+	mapPanel.style.height = "";
 	if (window.innerWidth >= 860) {
-		if (document.getElementById("gameHalf1-1").clientHeight < document.getElementById("mapPanel").clientHeight) {
-			document.getElementById("mapPanel").style.height = document.getElementById("gameHalf1-1").clientHeight + "px";
+		if (document.getElementById("gameHalf1-1").clientHeight < mapPanel.clientHeight) {
+			mapPanel.style.height = document.getElementById("gameHalf1-1").clientHeight + "px";
 		}
 		document.getElementById("statsPanel").style.height = (Math.min(document.getElementById("gameHalf1-1").clientHeight+0.5, document.getElementById("mapPanel").clientHeight + 4.45)) + "px";
 	}
@@ -1552,6 +1682,15 @@ function nearestChunk(chunkX,chunkY,check,stop) {
 function randomChunk(check) {
 	return choose(filterChunks(check));
 }
+function randomChunks(check, count) {
+	let choices = filterChunks(check);
+	let chunks = [];
+	if (!choices.length) return chunks;
+	for (let i = 0; i < count; i++) {
+		chunks.push(choose(choices));
+	}
+	return chunks;
+}
 // function randomChunk(check) {
 // 	let checked = {};
 // 	let tries = 0;
@@ -1579,7 +1718,7 @@ function chunkIsNearby(chunkX, chunkY, check, radius=5) {
 	for (let i = 0; i < coords.length; i++) {
 		const coord = coords[i];
 		const chunk = chunkAt(coord.x, coord.y);
-		if (chunk && check(chunk)) return true;
+		if (chunk && check(chunk)) return chunk;
 	}
 	return false;
 }
@@ -1661,7 +1800,7 @@ wordComponents.C2 = wordComponents.C2.toLowerCase().split(",");
 wordComponents.V = wordComponents.V.toLowerCase().split(",");
 wordComponents.V2 = wordComponents.V2.toLowerCase().split(",");
 
-wordComponents.C0 = {
+wordComponents.C_ = {
 	b: "lr",
 	c: "hlr",
 	d: "rw",
@@ -1674,6 +1813,30 @@ wordComponents.C0 = {
 	v: "lr",
 	w: "hr",
 	z: "hl"
+}
+
+wordComponents._C = {
+	b: "lmsz",
+	c: "lr",
+	d: "lnrs",
+	f: "lrw",
+	g: "lnrw",
+	j: "dl",
+	k: "bfnrsw",
+	l: "rw",
+	m: "lr",
+	n: "lrw",
+	p: "lmrsw",
+	s: "bdgklmnprtvw",
+	t: "cflmnprvwz"
+}
+
+wordComponents.V_ = {
+	a: "lph,dge".split(","),
+	y: "mph".split(","),
+	e: "dge".split(","),
+	o: "dge".split(","),
+	u: "dge".split(","),
 }
 
 wordComponents.prefixes = {};
@@ -1710,7 +1873,7 @@ wordComponents.prefixes.SOUTH = [
 
 wordComponents.flags = {};
 wordComponents.flags.TEMPLATE = [
-	" $ ","($)","/$\\","\\$/","/$/",")$(","[$]","]$[","»$«","«$»","−$−","‖$‖","→$←","←$→","░$░","▒$▒","⏴$⏵","⏵$⏴","▌$▐","▛$▟","▙$▜","≣$≣","⏵$―","+$―","$==","◣$◥","◤$◢","» $","$≣≣","⏸$⏸","█$█"
+	" $ ","($)","/$\\","\\$/","/$/",")$(","]$[","»$«","«$»","−$−","‖$‖","→$←","←$→","░$░","▒$▒","⏴$⏵","⏵$⏴","▌$▐","▛$▟","▙$▜","≣$≣","⏵$―","+$―","$==","◣$◥","◤$◢","» $","$≣≣","⏸$⏸","█$█"
 ];
 wordComponents.flags.EMBLEM = "A,A,A,@,¢,X,₸,₪,≈,―,§,†,‡,∑,®,¤,↕,☼,☻,☺,◦,●,Ξ,Ψ,Ω,ǃ,☮,Ϫ,Ͳ,⏶,⏻,🖤,👽,🥥,🌴,🏆,◆,𝕏,☗,☖,🏠,Ӂ,⏼,⏷".split(",");
 
@@ -1759,23 +1922,42 @@ function generateWord(syllableCount, titled=false, prefixes=null) {
 	}
 
 	let type = Math.random() < 0.5;
-	if (type === false && syllableCount === 1) syllableCount++;
+	// if (type === false && syllableCount === 1) syllableCount++;
 
 	let lastLetter = "";
 	for (let i = 0; i < syllableCount; i++) {
 		let letter;
 		// console.log(lastLetter.length);
 		if (type === true) {
-			letter = choose(i === 0 ? wordComponents.C : wordComponents.C2);
+			if (wordComponents.V_[lastLetter] && Math.random() < 1/26) {
+				letter = choose(wordComponents.V_[lastLetter]);
+				if (letter.slice(-1).match(/[aeiou]/)) {
+					syllableCount--;
+					type = !type;
+				}
+			}
+			else letter = choose(i === 0 ? wordComponents.C : wordComponents.C2);
 			syllableCount++;
 		}
 		else letter = choose(lastLetter.length > 1 ? wordComponents.V : wordComponents.V2);
-		if (wordComponents.C0[letter] !== undefined && Math.random() < 1/26) {
-			letter += choose(wordComponents.C0[letter]);
+		if (wordComponents.C_[letter] !== undefined && Math.random() < 1/26) {
+			letter += choose(wordComponents.C_[letter]);
+		}
+		if (i && wordComponents._C[letter] !== undefined && Math.random() < 1/26) {
+			letter = choose(wordComponents._C[letter]) + letter;
 		}
 		word += letter;
 		type = !type;
 		lastLetter = letter;
+	}
+
+	word = word.replace(/'$/, "");
+
+	if (type === true && (Math.random() < 0.5 || word.length === 1) && word.slice(-1).match(/[aeiou]/)) {
+		word += choose(Math.random() < 0.5 ? wordComponents.C : wordComponents.C2);
+		if (word.slice(-1).match(/[aeiou]/)) {
+			word = word.slice(0,-1);
+		}
 	}
 
 	for (let i = 0; i < badWords.length; i++) {
@@ -1795,11 +1977,69 @@ function generateWord(syllableCount, titled=false, prefixes=null) {
 	return word;
 }
 
+wordComponents.nameSuffixes = {
+	b: "bbie,bby,be,ben,bert,beth,bus,bber,berg,borne,belle",
+	c: "cas,cia,cis,cisca,cisco,colas,cy,cie,city",
+	d: "dan,den,der,do,don,dra,dre,driel,dro,dyn,drew,dder,doc,ddy,dyne,drey",
+	f: "fer,ffany,ffin,fia,ffer,ford",
+	g: "ga,go,gore,gorn,gton,gard,gger",
+	h: "ham,hard,heus,him,hine,his,hua,hyr,hew,hien,hart,han,hon",
+	j: "jah,jamin",
+	k: "ke,kie,ky,ker,kiel",
+	l: "lar,lifa,lina,lius,lix,lot,lyn,lynn,lon,ler,loch,liver,loe,llow,lay,lia,lotte,llie,lee,lle,laire,laide,lla,lie,line,let,lett",
+	m: "mael,mas,mena,miah,mina,mine,mis,mith,mmed,man,mmer,mann,mma,mille,mily",
+	n: "na,nald,ne,niel,nix,nna,nny,nner,nior,nor,nry",
+	p: "patra,peare,per,pher,pian,pton,peng,pper,phia",
+	q: "que,queline,quie,quin,quín",
+	r: "rael,ran,rdo,rett,ria,rie,riet,rion,rles,rra,rris,rtin,rump,ry,rew,rik,rick,rol,rose,riah,rey,rine",
+	s: "sa,se,sef,sha,shi,smith,son,stair,stein,sus,san,sama,sten,sil,stok",
+	t: "tein,tima,tma,ton,tor,totle,tus,tan,ten,tter,thorne,thon,than,tok",
+	v: "van,ver,verie,very,vid,ven,via",
+	w: "win,wen,wan,wson,wyer,well",
+	x: "xander,xel,xon,xson,xton,xy",
+	y: "yah,yra,yatt,ylon,yan,ymer,yr",
+	z: "zel,zo,zie,ziel,za,zah,zon"
+}
+for (let key in wordComponents.nameSuffixes) {
+	wordComponents.nameSuffixes[key] = wordComponents.nameSuffixes[key].split(",");
+}
+
+function generateHumanName() {
+	let syllables = randRange(1,2);
+	let word = generateWord(syllables);
+	// console.log("["+word + " - " + syllables +"]");
+	word = word.replace(/[aeioué]+$/i, "");
+	if (!word.length) return generateHumanName();
+
+	let letter = word.slice(-1);
+	if (!wordComponents.nameSuffixes[letter]) return generateHumanName();
+	word = word.slice(0,-1) + choose(wordComponents.nameSuffixes[letter]);
+	word = word.replace(/[aeioué]+$/i, "");
+	word = word.replace(/^(..)/g, (match) => 
+		match[0] === match[1] ? match[0] : match
+	)
+
+	if (word.length < 2) return generateHumanName();
+
+	return titleCase(word);
+}
+function generateFullName() {
+	let name = generateHumanName();
+	if (Math.random() < 0.05) name += " " + generateWord(1, true)[0] + ".";
+	name += " " + generateHumanName();
+	if (Math.random() < 0.05) name += " " + choose(["Jr.", "Sr.", "Jr.", "Sr.", "II", "III", "IV"]);
+
+	if (Math.random() < 0.01) name = "Dr. " + name;
+
+	return name;
+}
+
 function wordPlural(word) {
 	let suffix = "s";
 	
 	if (word.endsWith("ese")) suffix = "";
 	else if (word.endsWith("ai")) suffix = "";
+	else if (word.endsWith("ois")) suffix = "";
 
 	else if (word.match(/[^aeiou]y$/)) {
 		word = word.substring(0, word.length-1);
@@ -1814,7 +2054,7 @@ function wordPlural(word) {
 		suffix = "people";
 	}
 
-	else if (word.match(/(s|h)$/g)) suffix = "es";
+	else if (word.match(/[shxz]$/g)) suffix = "es";
 	
 	if (suffix) word += suffix;
 	return word;
@@ -1854,7 +2094,17 @@ function wordAdjective(word) {
 		suffix = "ial";
 	}
 	else if (word.endsWith("ublic")) {
-		suffix = "al";
+		suffix = "";
+	}
+	else if (word.endsWith("ville")) {
+		word = word.substring(0, word.length-1);
+		suffix = "ian";
+	}
+	else if (word.endsWith("vill")) {
+		suffix = "ian";
+	}
+	else if (word.match(/(b[eé]c|ourg|euill|ég|quis)$/i)) {
+		suffix = "ois";
 	}
 
 	if (suffix) word += suffix;
@@ -2226,8 +2476,8 @@ function handleCursor(e) {
 	if (oldChunkX !== chunkX || oldChunkY !==  chunkY) {
 		renderCursor();
 		updateCanvas();
+		updateStats();
 	}
-	updateStats();
 }
 mapCanvas.addEventListener("mousemove", (e) => {
 	handleCursor(e);
@@ -2651,13 +2901,11 @@ function updateStats() {
 				localName = "{{biome:"+chunk.b+"}}";
 				if (chunk.v.g) localName += ` of {{regname:landmass|${chunk.v.g}}}`;
 			}
-			let lat = - Math.round((mousePos.y / planetHeight) * 180 - 90);
-			let long = Math.round((mousePos.x / planetWidth) * 360 - 180);
+			let lat = - Math.round((chunk.y * chunkSize / planetHeight) * 180 - 90);
+			let long = Math.round((chunk.x * chunkSize / planetWidth) * 360 - 180);
 			let latlong = Math.abs(lat) + "°" + (lat > 0 ? "N" : "S")  +", "+  Math.abs(long) + "°" + (long > 0 ? "E" : "W");
 			html += `<span class="panelSubtitle">${parseText(localName)}</span>`;
-			// html += `<span>Temperature: ${
-			//   Math.round(titleCase(chunk.t)*100)
-			// }%</span>`;
+			html += `<div class="localStats">`;
 			html += `<span>Temperature: ${
 				parseText("{{color|{{temperature:"+ chunk.t + "}}|" +
 				`rgb(${255*chunk.t},100,${255*(1-chunk.t)})`  + "}}")
@@ -2678,6 +2926,7 @@ function updateStats() {
 				}</span>`;
 			}
 			html += `<span>${latlong}</span>`;
+			html += `</div>`;
 
 		}
 	}
@@ -2739,6 +2988,7 @@ function doPrompt(obj) {
 	}
 	else if (type === "ask") {
 		if (message !== null) message = message || "Enter a value.";
+		if (obj.shuffle !== false) document.getElementById("popupShuffle").style.display = "";
 		let popupText = document.getElementById("popupText");
 		popupText.value = "";
 		popupText.setAttribute("placeholder",(promptState.placeholder || "Answer")+"...");
@@ -2775,6 +3025,7 @@ function doPrompt(obj) {
 	let popupContent = document.getElementById("popupContent");
 	if (message === null) {
 		popupContent.style.display = "none";
+		popupContent.innerHTML = "";
 		popupTitle.style.flexGrow = "0";
 		popupTitle.style.paddingBottom = "0.25em";
 		popupInput.style.flexGrow = "1";
@@ -2819,6 +3070,82 @@ function handlePrompt(result) {
 	}
 	else promptState = null;
 }
+function previewPrompt() {
+	let popupText = document.getElementById("popupText");
+	if (promptState.preview) {
+		let preview = document.querySelector("#popupContent .popupPreview");
+		if (!preview) {
+			if (popupText.value.trim().length === 0) return;
+			preview = document.createElement("span");
+			preview.className = "popupPreview";
+			document.getElementById("popupContent").appendChild(preview);
+		}
+		if (popupText.value.trim().length === 0) preview.remove();
+		else {
+			preview.innerHTML = parseText(promptState.preview(popupText.value, promptState.subject, promptState.target));
+			preview.querySelectorAll(".previewPart").forEach(e => {
+				e.addEventListener("keypress", handlePreviewPart);
+			})
+		}
+	}
+}
+function handlePreviewPart(e) {
+	if (e.key === "Enter") {
+
+		if (e.target.nextElementSibling && e.target.nextElementSibling.classList.contains("previewPart")) {
+			e.target.nextElementSibling.focus();
+			window.setTimeout(function() {
+				var sel, range;
+				if (window.getSelection && document.createRange) {
+					range = document.createRange();
+					range.selectNodeContents(e.target.nextElementSibling);
+					sel = window.getSelection();
+					sel.removeAllRanges();
+					sel.addRange(range);
+				} else if (document.body.createTextRange) {
+					range = document.body.createTextRange();
+					range.moveToElementText(e.target.nextElementSibling);
+					range.select();
+				}
+			}, 1);
+		}
+		else {
+			document.getElementById("popupTextConfirm").click();
+		}
+
+		e.preventDefault();
+		return false;
+	}
+
+	if (e.target.innerText.match(/\n/)) {
+		e.target.innerText = e.target.innerText.replace(/\n/g, " ");
+	}
+	if (e.target.innerText.length > (promptState.limit || defaultPromptLimit)) {
+		e.target.innerText = e.target.innerText.substr(0,(promptState.limit || defaultPromptLimit));
+	}
+}
+function shufflePrompt() {
+	let popupText = document.getElementById("popupText");
+	let syllables = randRange(1, promptState.syllables || 3);
+	let basis = promptState.basis;
+	if (Array.isArray(basis)) basis = choose(basis);
+	if (basis) syllables = 1;
+	let word = generateWord(syllables);
+	if (basis) word = basis + word;
+	word = titleCase(word);
+	if (promptState.suggested) delete promptState.suggested;
+	if (promptState.suggest) {
+		let choice = choose(promptState.suggest);
+		let entity = regGet(choice[0], choice[1]);
+		if (entity.name) {
+			word = entity.name;
+			promptState.suggested = entity;
+		}
+	}
+	popupText.value = word;
+	previewPrompt();
+	popupText.focus();
+}
 function closePopups() {
 	document.getElementById("gamePopupOverlay").classList.remove("overlayShown");
 	let popups = document.getElementsByClassName("gamePopup");
@@ -2845,17 +3172,13 @@ document.getElementById("popupText").addEventListener("input",(e) => {
 		e.target.value = e.target.value.substr(0,(promptState.limit || defaultPromptLimit));
 	}
 
-	if (promptState.preview) {
-		let preview = document.querySelector("#popupContent .popupPreview");
-		if (!preview) {
-			if (e.target.value.trim().length === 0) return;
-			preview = document.createElement("span");
-			preview.className = "popupPreview";
-			document.getElementById("popupContent").appendChild(preview);
+	if (promptState.suggested) {
+		if (!e.target.value.toLowerCase().includes(promptState.suggested.name.toLowerCase())) {
+			delete promptState.suggested;
 		}
-		if (e.target.value.trim().length === 0) preview.remove();
-		else preview.innerHTML = parseText(promptState.preview(e.target.value, promptState.subject, promptState.target));
 	}
+
+	previewPrompt();
 })
 document.getElementById("gamePopupOverlay").addEventListener("click",(e) => {
 	closePopups();
@@ -3029,7 +3352,10 @@ function openRegBrowser(obj,regName) {
 			sectionValue.innerHTML = parseText(value.toString());
 		}
 		
-		if (sectionValue.innerHTML.length === 0) sectionValue.innerHTML = parseText("{{none}}");
+		if (sectionValue.innerHTML.length === 0) {
+			if (!obj.end) sectionValue.innerHTML = parseText("{{none}}");
+			else continue;
+		}
 		section.appendChild(sectionValue);
 		regContent.appendChild(section);
 	}
@@ -3076,6 +3402,7 @@ function logMessage(text, type, args) {
 		logTomorrow(text, type, args);
 		return;
 	}
+	if (text === false) return;
 	text = parseText(escapeHTML(text));
 	text = text.replace(/^[a-z]/, (match) => match.toUpperCase());
 	text = text.replace(/[!\.\?] [a-z]/, (match) => match.toUpperCase());
@@ -3094,14 +3421,15 @@ function logMessage(text, type, args) {
 		logMessages.removeChild(logMessages.lastChild);
 	}
 	if (args) {
-		if (args.buttons) {
+		if (args.buttons && args.buttons.length) {
 			let messageElement = document.getElementById("logMessage-"+uuid);
 			let logAct = document.createElement("span");
 			logAct.className = "logAct";
 			args.buttons.forEach(item => {
 				let logAsk = document.createElement("span");
-				logAsk.setAttribute("type","act");
+				logAsk.setAttribute("type",item.type || "act");
 				logAsk.setAttribute("role","button");
+				if (item.data) logAsk.setAttribute("data",item.data);
 				logAsk.innerText = item.name || "Act";
 				logAsk.addEventListener("click",item.func)
 				logAct.appendChild(logAsk);
@@ -3160,6 +3488,7 @@ function logWarning(type, text) {
 	(sunsetting ? logTomorrow : logMessage)(text, "warning");
 }
 function logTip(type, text) {
+	if (!planet.settled) return;
 	if (!userSettings.shownTips) userSettings.shownTips = [];
 	if (userSettings.shownTips.includes(type)) return false;
 	(sunsetting ? logTomorrow : logMessage)(text, "tip");
@@ -3359,7 +3688,7 @@ function shareProgress() {
 
 function killPlanet() {
 	if (!planet.dead || planet.dead === true) planet.dead = planet.day;
-	logMessage("There are no more settlements on Planet {{planet}}. Your final score was {{percent:"+planet.stats.score+"}}.", undefined, {
+	logMessage("There are no more settlements on Planet {{planet}}." + (planet.stats.score ? " Your final score was {{percent:"+planet.stats.score+"}}." : ""), undefined, {
 	buttons: [
 	{
 		name: "Start Over",
@@ -3429,9 +3758,11 @@ function nextDay(e) {
 	if (recentEvents.length >= 3) recentEvents.shift();
 	// recentEvents.shift();
 
-	let oldMessages = document.querySelectorAll('.logMessage[new="true"]');
+	let oldMessages = document.querySelectorAll('.logMessage[new="true"], .logMessage[changed="true"]');
 	oldMessages.forEach((elem) => {
 		elem.removeAttribute("new");
+		elem.removeAttribute("changed");
+		elem.classList.add("passed");
 	})
 	for (let eventID in currentEvents) {
 		let eventCaller = currentEvents[eventID];
@@ -3440,11 +3771,32 @@ function nextDay(e) {
 				fadeMessage(eventCaller.logID);
 			}
 			if (eventCaller.needsInput) { //skipped
+				let eventInfo = gameEvents[eventCaller.eventClass];
+
 				if (planet.stats.promptstreak <= 0) statsAdd("promptstreak",-1);
 				else planet.stats.promptstreak = 0;
 
-				if (gameEvents[eventCaller.eventClass].skip) {
+				if (eventInfo.skip) {
 					gameEvents[eventCaller.eventClass].skip(eventCaller.subject, eventCaller.target, eventCaller.args, gameEvents[eventCaller.eventClass].func)
+				}
+
+				else if (eventInfo.value && eventInfo.value.skip) {
+					let oldStats = JSON.parse(JSON.stringify(planet.stats));
+
+					if (eventInfo.value.related && eventInfo.func) {
+						let related = happen("Related", eventCaller.subject, eventCaller.target);
+						if (related) {
+							let choice = choose(related);
+							let entity = regGet(choice[0], choice[1]);
+							if (entity && entity.name) {
+								eventCaller.args.value = titleCase(entity.name);
+								eventCaller.args.namer = [entity._reg, entity.id];
+								doEvent(eventCaller.eventClass, eventCaller);
+							}
+						}
+					}
+
+					planet.stats = oldStats;
 				}
 			}
 		}
@@ -3528,7 +3880,7 @@ function nextDay(e) {
 	}
 
 	// skip events when failing additional checks
-	for (let tries = 0; tries < 15; tries++) {
+	for (let tries = 0; tries < $c.dailyEventTries; tries++) {
 		let influencingTown = choose(regToArray("town"));
 		let chosenEvent = chooseEvent(undefined,influencingTown);
 		if (!chosenEvent) continue;
@@ -3539,6 +3891,7 @@ function nextDay(e) {
 		eventCaller = readyEvent(chosenEvent, chosenSubject, chosenTarget);
 		if (eventCaller && eventCaller.eventClass && randomEvents[eventCaller.eventClass].check && !randomEvents[eventCaller.eventClass].check(eventCaller.subject, eventCaller.target, eventCaller.args)) {
 			// recentEvents.push(eventCaller.eventClass);
+			// console.log(randomEvents[eventCaller.eventClass].check(eventCaller.subject, eventCaller.target, eventCaller.args))
 			eventCaller = undefined;
 		}
 		if (eventCaller && planet.dead && !(eventCaller.subject && eventCaller.subject._reg === "nature")) eventCaller = undefined;
@@ -3557,6 +3910,7 @@ function nextDay(e) {
 		currentEvents[eventID] = eventCaller;
 		let oldInfluences;
 		let influencedTown;
+		let buttons = [];
 		if (eventInfo.auto) {
 			if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
 			else if (eventInfo.subject && eventInfo.subject.reg === "town") influencedTown = eventCaller.subject;
@@ -3574,38 +3928,70 @@ function nextDay(e) {
 			}
 			eventCaller.done = true;
 		}
-		if (eventCaller.message) eventCaller.logID = logMessage(eventCaller.message);
-		let messageElement = document.getElementById("logMessage-"+eventCaller.logID);
-		recentEvents.push(eventClass);
-		if (eventInfo.cooldown) {
-			planet.cooldownEvents[eventClass] = planet.day;
-		}
-		if (messageElement) {
-			messageElement.setAttribute("data-eventid",eventID)
-			messageElement.setAttribute("data-eventclass",eventClass)
-		}
-		if (eventInfo.auto) {
-			if (messageElement) messageElement.setAttribute("done","true");
 
-			if (oldInfluences && influencedTown) reportInfluences(eventCaller.logID, oldInfluences, influencedTown.influences)
-		}
-		let logAct = document.createElement("span");
-		logAct.className = "logAct";
-		if (eventInfo.value && eventInfo.value.ask) {
+		let isYesNo = false;
+
+		// logChoices
+		if (eventInfo.value && eventInfo.value.choose) {
 			eventCaller.needsInput = true;
+			eventInfo.value.choose.forEach((r) => {
+				buttons.push({ name: titleCase(r), type:"choice", data:r,
+				func: (e) => {
+					if (messageElement.getAttribute("done")) return;
+					let r = e.target.getAttribute("data");
 
-			let logAsk = document.createElement("span");
-			logAsk.setAttribute("type","act");
-			logAsk.setAttribute("role","button");
-			logAsk.innerText = "Act";
-			logAsk.addEventListener("click",(e) => {
+					let influencedTown;
+					if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
+					else if (eventInfo.subject && eventInfo.subject.reg === "town") influencedTown = eventCaller.subject;
+
+					let oldInfluences;
+					if (influencedTown) {
+						oldInfluences = structuredClone(influencedTown.influences);
+					}
+
+					eventCaller.args.value = r;
+					doEvent(eventClass, currentEvents[eventID]);
+
+					if (oldInfluences) {
+						let newInfluences = influencedTown.influences;
+						reportInfluences(eventCaller.logID, oldInfluences, newInfluences);
+					}
+
+					messageElement.removeAttribute("new");
+					messageElement.setAttribute("done","true");
+					e.target.setAttribute("selected","true");
+					eventCaller.done = true;
+					statsAdd("prompt",1);
+					if (planet.stats.promptstreak < 0) planet.stats.promptstreak = 0;
+					statsAdd("promptstreak",1);
+					updateStats();
+					refreshExecutive();
+					renderMap();
+					renderHighlight();
+					updateCanvas();
+					autosave();
+				}});
+			})
+		}
+
+		// logAct / logAsk
+		else if (eventInfo.value && eventInfo.value.ask) {
+			eventCaller.needsInput = true;
+			buttons.push({ name: titleCase(eventInfo.button || "Act"),
+			func: (e) => {
 				if (messageElement.getAttribute("done")) return;
-
-				promptState = {
+				let _promptState;
+				doPrompt({
 					type: "ask",
-					message: eventInfo.value.message ? eventInfo.value.message(eventCaller.subject, eventCaller.target) : eventCaller.message,
+					shuffle: eventInfo.value.shuffle,
+					basis: eventInfo.value.basis ? eventInfo.value.basis(eventCaller.subject, eventCaller.target, eventCaller.args) : undefined,
+					suggest: eventInfo.value.related ? happen("Related", eventCaller.subject, eventCaller.target) : undefined,
+					message: eventInfo.value.message ? eventInfo.value.message(eventCaller.subject, eventCaller.target, eventCaller.args) : eventCaller.message,
 					func: (r) => {
 						if (!r) return;
+
+						let previewParts = document.querySelectorAll("#popupContent .popupPreview .previewPart");
+						eventCaller.args.previewParts = [...previewParts].map(e => e.textContent);
 
 						let influencedTown;
 						if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
@@ -3615,6 +4001,8 @@ function nextDay(e) {
 						if (influencedTown) {
 							oldInfluences = structuredClone(influencedTown.influences);
 						}
+
+						if (_promptState.suggested) eventCaller.args.namer = [_promptState.suggested._reg, _promptState.suggested.id];
 
 						eventCaller.args.value = r;
 						doEvent(eventClass, currentEvents[eventID]);
@@ -3627,10 +4015,6 @@ function nextDay(e) {
 						messageElement.removeAttribute("new");
 						messageElement.setAttribute("done","true");
 						e.target.setAttribute("selected","true");
-						if (isFunction(eventInfo.messageDone)) {
-							logChange(eventCaller.logID, eventInfo.messageDone(eventCaller.subject,eventCaller.target,eventCaller.args));
-						}
-						else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
 						eventCaller.done = true;
 						statsAdd("prompt",1);
 						if (planet.stats.promptstreak < 0) planet.stats.promptstreak = 0;
@@ -3645,73 +4029,23 @@ function nextDay(e) {
 					preview: eventInfo.value.preview,
 					subject: eventCaller.subject,
 					target: eventCaller.target
-				}
-				doPrompt();
-
-			})
-
-			logAct.appendChild(logAsk);
-
+				});
+				_promptState = promptState;
+			}})
 		}
+
+		// logYes and logNo
 		else if ((eventInfo.func || eventInfo.influences || eventInfo.influencesNo || eventInfo.messageNo) && !eventInfo.auto) {
 			eventCaller.needsInput = true;
+			isYesNo = true;
 			if (eventCaller.target && eventCaller.target.usurp && !eventInfo.noUsurp) {
 				eventCaller.needsInput = false;
 			}
 			if (planet.usurp) eventCaller.needsInput = false;
 
-			let logYes = document.createElement("span");
-			logYes.setAttribute("type","yes");
-			logYes.setAttribute("role","button");
-			logYes.innerText = "Yes";
-			logYes.addEventListener("click",(e) => {
-				if (messageElement.getAttribute("done")) return;
-
-				let influencedTown;
-				if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
-				else if (eventInfo.subject && eventInfo.subject.reg === "town") influencedTown = eventCaller.subject;
-				
-				let oldInfluences;
-				if (influencedTown) {
-					oldInfluences = structuredClone(influencedTown.influences);
-				}
-
-				doEvent(eventClass, currentEvents[eventID]);
-				if (eventInfo.influences) {
-					happen("Influence", null, influencedTown, eventInfo.influences);
-				}
-
-				if (oldInfluences) {
-					let newInfluences = influencedTown.influences;
-					reportInfluences(eventCaller.logID, oldInfluences, newInfluences);
-				}
-
-				messageElement.removeAttribute("new");
-				messageElement.setAttribute("done","true");
-				e.target.setAttribute("selected","true");
-				if (isFunction(eventInfo.messageDone)) {
-					logChange(eventCaller.logID, eventInfo.messageDone(eventCaller.subject,eventCaller.target,eventCaller.args));
-				}
-				else if (eventInfo.messageDone) logChange(eventCaller.logID, eventInfo.messageDone);
-				eventCaller.done = true;
-				if (eventCaller.needsInput) {
-					statsAdd("prompt",1);
-					if (planet.stats.promptstreak < 0) planet.stats.promptstreak = 0;
-					statsAdd("promptstreak",1);
-				}
-				updateStats();
-				refreshExecutive();
-				// renderMap();
-				renderHighlight();
-				updateCanvas();
-				autosave();
-			})
-
-			let logNo = document.createElement("span");
-			logNo.setAttribute("type","no");
-			logNo.setAttribute("role","button");
-			logNo.innerText = "No";
-			logNo.addEventListener("click",(e) => {
+			// logNo
+			buttons.push({ name: titleCase(eventCaller.args.buttonNo || eventInfo.buttonNo || "No"), type:"no",
+			func: (e) => {
 				if (messageElement.getAttribute("done")) return;
 
 				let influencedTown;
@@ -3750,26 +4084,85 @@ function nextDay(e) {
 				}
 				updateStats();
 				refreshExecutive();
-				// renderMap();
 				renderHighlight();
 				updateCanvas();
 				autosave();
-			})
+			}})
 
-			logAct.appendChild(logNo);
-			logAct.appendChild(logYes);
+			// logYes
+			buttons.push({ name: titleCase(eventCaller.args.buttonYes || eventInfo.button || eventInfo.buttonYes || "Yes"), type:"yes",
+			func: (e) => {
+				if (messageElement.getAttribute("done")) return;
 
-			if (!eventCaller.needsInput) { // usurp
-				setTimeout(() => {
-					(Math.random() < 0.5 ? logYes : logNo).click();
-					logAct.addEventListener("click", () => {
-						logMessage(`{{regname:${eventCaller.target._reg}|${eventCaller.target.id}}} has chosen to be run independently.`, "tip");
-					});
-				}, 100);
-				if (messageElement) messageElement.classList.add("usurp");
+				let influencedTown;
+				if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
+				else if (eventInfo.subject && eventInfo.subject.reg === "town") influencedTown = eventCaller.subject;
+				
+				let oldInfluences;
+				if (influencedTown) {
+					oldInfluences = structuredClone(influencedTown.influences);
+				}
+
+				doEvent(eventClass, currentEvents[eventID]);
+				if (eventInfo.influences) {
+					happen("Influence", null, influencedTown, eventInfo.influences);
+				}
+
+				if (oldInfluences) {
+					let newInfluences = influencedTown.influences;
+					reportInfluences(eventCaller.logID, oldInfluences, newInfluences);
+				}
+
+				messageElement.removeAttribute("new");
+				messageElement.setAttribute("done","true");
+				e.target.setAttribute("selected","true");
+				eventCaller.done = true;
+				if (eventCaller.needsInput) {
+					statsAdd("prompt",1);
+					if (planet.stats.promptstreak < 0) planet.stats.promptstreak = 0;
+					statsAdd("promptstreak",1);
+				}
+				updateStats();
+				refreshExecutive();
+				renderHighlight();
+				updateCanvas();
+				autosave();
+			}})
+		}
+
+		if (eventCaller.message) {
+			eventCaller.logID = logMessage(eventCaller.message, eventInfo.messageType, {buttons: buttons});
+			if (eventCaller.args.oldInfluences && (eventCaller.args.influencedTown || influencedTown)) {
+				let town = eventCaller.args.influencedTown || influencedTown;
+				reportInfluences(eventCaller.logID,eventCaller.args.oldInfluences, town.influences);
+				delete eventCaller.args.oldInfluences;
 			}
 		}
-		if (messageElement && logAct.innerHTML.length) messageElement.appendChild(logAct);
+		let messageElement = document.getElementById("logMessage-"+eventCaller.logID);
+		recentEvents.push(eventClass);
+		if (eventInfo.cooldown) {
+			planet.cooldownEvents[eventClass] = planet.day;
+		}
+		if (messageElement) {
+			messageElement.setAttribute("data-eventid",eventID)
+			messageElement.setAttribute("data-eventclass",eventClass)
+		}
+		if (eventInfo.auto) {
+			if (messageElement) messageElement.setAttribute("done","true");
+
+			if (oldInfluences && influencedTown) reportInfluences(eventCaller.logID, oldInfluences, influencedTown.influences)
+		}
+
+		if (isYesNo && !eventCaller.needsInput) { // usurp
+			setTimeout(() => {
+				choose(messageElement.querySelectorAll(".logAct span")).click();
+				messageElement.querySelector(".logAct").addEventListener("click", () => {
+					logMessage(`{{regname:${eventCaller.target._reg}|${eventCaller.target.id}}} has chosen to be run independently.`, "tip");
+				});
+			}, 100);
+			if (messageElement) messageElement.classList.add("usurp");
+		}
+
 	}
 	else if (!planet.dead) {
 		logMessage("An uneventful day.");
@@ -3823,9 +4216,9 @@ function initGame() {
 	})
 	
 	if (reg.resource._id === 1) {
-		happen("Create",null,null,{ type:"raw", name:"lumber" },"resource");
-		happen("Create",null,null,{ type:"raw", name:"rock" },"resource");
-		happen("Create",null,null,{ type:"raw", name:"metal" },"resource");
+		happen("Create",null,null,{ type:"raw", name:"lumber", color:[114, 73, 30] },"resource");
+		happen("Create",null,null,{ type:"raw", name:"rock", color:[173, 166, 160] },"resource");
+		happen("Create",null,null,{ type:"raw", name:"metal", color:[106, 96, 84] },"resource");
 		// happen("Create",null,null,{ type:"crop", biome:"grass" },"resource")
 		for (let biome in biomes) {
 			if (biomes[biome].crop !== null) happen("Create",null,null,{ type:"crop", biome:biome },"resource");
@@ -3843,7 +4236,18 @@ function initGame() {
 
 	// create first town prompt
 	if (reg.town._id === 1) {
-		onMapClickMsg = logMessage("Tap on the map to settle your town.");
+		onMapClickMsg = logMessage("Tap on the map to settle your town.", undefined, {buttons:[
+			{
+				name: "Regenerate",
+				func: () => {
+					planet = generatePlanet();
+					reg = planet.reg;
+					updateBiomes();
+					calculateLandmasses();
+					initGame();
+				}
+			}
+		]});
 		onMapClick = function(e) {
 			let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
 			if (chunk) {
@@ -3854,12 +4258,13 @@ function initGame() {
 					onMapClickMsg = null;
 					let town = happen("Create",currentPlayer,null,{x:chunk.x, y:chunk.y},"town");
 
-					logMessage("The "+(town.type||"town")+" of {{regname|town|"+town.id+"}} is founded.")
+					logMessage(`The small ${town.type||"town"} of {{regname|town|${town.id}}} is founded in the {{biome:${chunk.b}}} of {{regname:landmass|${chunk.v.g}}}.`)
 					if (!planet.locked) {
 						document.getElementById("nextDay").removeAttribute("disabled");
 						document.getElementById("nextDayMobile").removeAttribute("disabled");
 					}
 					townsBefore = JSON.parse(JSON.stringify(reg.town));
+					planet.settled = planet.day;
 
 					setView("territory");
 					autosave();
@@ -3875,6 +4280,9 @@ function initGame() {
 			document.getElementById("nextDayMobile").removeAttribute("disabled");
 		}
 		townsBefore = JSON.parse(JSON.stringify(reg.town));
+		if (!planet.settled) {
+			planet.settled = 1;
+		}
 	}
 
 	let gameDiv = document.getElementById("gameDiv");
@@ -4238,14 +4646,14 @@ function validatePlanet() {
 	}
 
 	regToArray("town", true).forEach((town) => {
-		let _defaultTown = defaultTown();
+		let _defaultTown = defaultTown(false);
 		for (const key in _defaultTown) {
 			if (town[key] === undefined) town[key] = _defaultTown[key];
 		}
 	})
 
 	if (!regSingle("resource", (r) => r.name === "cash")) {
-		happen("Create",null,null,{ type:"raw", name:"cash" },"resource");
+		happen("Create",null,null,{ type:"raw", name:"cash", color:[136, 189, 107] },"resource");
 	}
 
 }
@@ -4501,7 +4909,16 @@ function parseSave(json) {
 		saveSettings();
 	}
 
-	logMessage("The Sun rises on Planet {{planet}}...");
+	let sunriseMsg = "The Sun rises on Planet {{planet}}...";
+	
+	if (planet.day > 1) {
+		let currentIssues = regFilter("process", (p) => (p.type === "disaster" || p.type === "revolution" || p.type === "war") && !p.done);
+		if (currentIssues.length) {
+			sunriseMsg += " Inhabitants are {{c:concerned|worried|irked|anxious}} about "+commaList(currentIssues.map((p) => `{{regname:process|${p.id}}}`))+".";
+		}
+	}
+
+	logMessage(sunriseMsg);
 
 	if (planet.dead) killPlanet();
 }
@@ -5017,7 +5434,7 @@ function initExecutive() {
 						_day: town.end
 					});
 				}
-				if (town.usurp) {
+				if (town.usurp && !isNaN(town.usurp) && town.usurp !== town.start && town.usurp !== planet.usurp) {
 					items.push({
 						text: `{{color:[{{date:${town.usurp}|s}}]|rgba(255,255,0,0.75)}} {{regname:town|${town.id}}} becomes independent`,
 						func: () => regBrowse("town", town.id),
@@ -5053,15 +5470,6 @@ function initExecutive() {
 
 window.addEventListener("load", function(){ //onload
 
-	if (userSettings.lastVersionCheck !== gameVersion && userSettings.view) {
-		document.getElementById("actionInfo").classList.add("notify");
-	}
-	else {
-		userSettings.lastVersionCheck = gameVersion;
-	}
-	userSettings.lastVersion = gameVersion;
-	saveSettings();
-
 	document.getElementById("gameLoading").style.display = "none";
 	document.getElementById("gameDiv").style.display = "flex";
 
@@ -5077,6 +5485,7 @@ window.addEventListener("load", function(){ //onload
 	for (let key in jobInfluences) {
 		allInfluences[jobInfluences[key]] = true;
 	}
+	delete allInfluences["null"];
 	
 	if (R74n.has("GenTownSave")) {
 		autoload();
@@ -5088,6 +5497,16 @@ window.addEventListener("load", function(){ //onload
 		calculateLandmasses();
 		initGame();
 	}
+
+	if (userSettings.lastVersionCheck !== gameVersion && userSettings.view) {
+		document.getElementById("actionInfo").classList.add("notify");
+		logTip("newUpdate", "There's a new update! Maybe try starting a new planet?")
+	}
+	else {
+		userSettings.lastVersionCheck = gameVersion;
+	}
+	userSettings.lastVersion = gameVersion;
+	saveSettings();
 
 	if (userSettings.view) setView(userSettings.view);
 

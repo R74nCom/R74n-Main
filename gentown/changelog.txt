@@ -1,3 +1,69 @@
+[Version 1.1 - 5 Dec 2025]
+ + Research
+    + Towns will ask to prioritize research for particular topics
+    + Research will passively influence the town over time
+    + Highest research topic is shown in town info
+    ~ This replaces the farming research prompt
+ + Blurbs
+    + Ambient blurbs - Random news stories and local events around your towns
+    + Info blurbs - Studies and poll results from your residents
+    + Decision blurbs - One-off prompts that give boosts to towns
+ + Shuffle button for text prompts
+ + Regenerate button when first starting planet
+ + Demonym prompts allow for custom plural and adjective forms
+ + Landmarks are automatically named after relevant town features if skipped
+ + Statue, Tower, and Stadium construction
+ + Town info shows average lifespan of residents
+ ~ Towns lose faith much slower and only after some days since founding
+ ~ Disasters make towns unhappy much less
+ ~ Each smithing level increases max population density and resources
+ ~ Influences can only change a maximum of 5 points at once
+ ~ Revolutions can happen only after some days since founding
+ ~ Hurricanes receive human-sounding names
+ ~ Hurricanes come in varying categories and grow more
+ ~ Eastern hurricanes are called typhoons
+ ~ Earthquakes come in varying magnitudes
+ ~ Name generator has more possible consonant pairs
+ ~ Generated names can end in consonants
+ ~ Generated names can't end with an apostrophe
+ ~ Improved name capitalization (e.g. Barton-upon-Humber, Frankfurt am Main, keeping "iPhone")
+ ~ Words ending with "x" or "z" are pluralized with "-es"
+ ~ Suffix "-villian" for some adjective forms (e.g. Louisvillian)
+ ~ French suffix "-ois" for some adjective forms (e.g. Quebecois)
+ ~ Fallen town info no longer shows empty sections, such as influences or jobs
+ ~ Fallen town info shows peak population and size
+ ~ Global wealth no longer shows in Planet info before currency is unlocked
+ ~ Hover preview for local stats is more compact
+ ~ All messages are faded when proceeding to the next day
+ ~ Republics no longer use the adjective "Republical"
+ ~ Improved town founding message
+ ~ One-time tip for when there is a new update on an old planet
+ ~ Tweaked construction rejection message
+ ~ Tweaked Stone Tools unlock message
+ ~ Jockey unlock message says "Cavalries"
+ ~ Wildfire message includes random things that catch on fire
+ ~ Sunrise message when returning to the game includes current issues
+ ~ Low food warning no longer displays the same day a colony is founded
+ ~ Numbers in sunset message are abbreviated
+ ~ Big numbers in all messages are formatted with commas
+ ~ Tips no longer show before the first town was placed
+ + 60+ new special town names, mostly countries
+ ~ Fixed: Ceding during war doesn't work at all, creates inaccurate territory counts
+ ~ Fixed: "Invalid Date" for town autonomy in timelines
+ ~ Fixed: Towns hire way too many soldiers and barely any farmers
+ ~ Fixed: Skipped prompts when construction is illegal
+ ~ Fixed: Disasters stay as current events one day after ending
+ ~ Fixed: Towns with 10 happiness never found colonies
+ ~ Fixed: Happy towns don't lose all faith due to inactivity
+ ~ Fixed: Some hurricanes can be stationary
+ ~ Fixed: Resource counts in preview panel aren't abbreviated if under maximum
+ ~ Fixed: Console error when hovering out of map while a chunk is pinned
+ ~ Fixed: Autonomy date shows in timeline for colonies that were always autonomous
+ ~ Fixed: Latitude and longitude are inaccurate
+ ~ Fixed: Negative numbers can't be abbreviated
+ ~ Fixed: Polish flag is inverted
+ ~ Technical: Inline multiple-choice prompts
+
 [Version 1.0.1 - 11 Nov 2025]
  + Tab notification setting
  + Town info shows number of wars won

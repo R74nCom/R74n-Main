@@ -81,7 +81,7 @@ This HTML and its contents are property of R74n.com.
     </style>
 
     <script>
-      gameVersion = "1.0.1";
+      gameVersion = "1.1";
       saveVersion = "gt3";
     </script>
 </head>
@@ -186,6 +186,7 @@ This HTML and its contents are property of R74n.com.
       <span class="popupButton" id="popupOk" onclick="handlePrompt(true)" role="button">OK</span>
       <span class="popupButton" id="popupNo" onclick="handlePrompt(false)" role="button">No</span>
       <span class="popupButton" id="popupYes" onclick="handlePrompt(true)" role="button">Yes</span>
+      <span class="popupButton noSelect" id="popupShuffle" onclick="shufflePrompt()" role="button" title="Randomize"><img class="pixelart" src="icons/shuffle.png"></span>
       <input class="popupText" id="popupText" type="text" placeholder="Answer..." value="" autocomplete="off">
       <span class="popupTextConfirm noSelect popupButton" id="popupTextConfirm"  onclick="handlePrompt(document.getElementById('popupText').value)">OK</span>
       <div class="popupButton" id="popupChoices"></div>

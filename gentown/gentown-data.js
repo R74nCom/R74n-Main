@@ -6,7 +6,8 @@ constants = {
 	markerResolution: 2,
 	defaultWaterLevel: 0.4,
 	maxPopulationPerChunk: 20,
-	maxPopulation: (subject) => subject.size * $c.maxPopulationPerChunk,
+	maxPopulation: (subject) => subject.size * $c.maxPopulationPerChunk *
+		Math.pow(2,Math.floor(((planet.unlocks.smith + 20) || 0) / 10)),
 	maxResourcePerChunk: 5,
 	maxResource: (subject) => {
 		let max = 0;
@@ -16,10 +17,14 @@ constants = {
 			size -= 5;
 		}
 		max += size * $c.maxResourcePerChunk;
+		max *= Math.pow(2,Math.floor(((planet.unlocks.smith + 20) || 0) / 10));
 		return max;
 	},
 	baseBirthRate: 0.02,
 	baseDeathRate: 0.008,
+	deathRate: (town) => {
+		return addInfluence($c.baseDeathRate, town, "disease");
+	},
 	baseExpandRate: 0.5,
 	baseColonyRate: 0.05,
 	colonyCooldown: 25,
@@ -38,6 +43,7 @@ constants = {
 	townProjectCooldown: 30,
 	townSyllables: 3,
 	warningCooldown: 30,
+	dailyEventTries: 25,
 
 	RARE: 3,
 	UNCOMMON: 5,
@@ -129,7 +135,7 @@ actionables = {
 				};
 
 				regToArray("town").forEach(town => {
-					town.usurp = true;
+					if (!town.usurp) town.usurp = planet.day;
 					town.influences.faith = $c.minInfluence;
 				});
 
@@ -363,6 +369,9 @@ actionables = {
 
 					let amount = args[key];
 					let change = Math.abs(target.influences[key]) * Math.abs(amount) + Math.abs(amount);
+
+					change = Math.min(change, 5);
+					change = Math.max(change, -5);
 
 					let before = target.influences[key] || 0;
 
@@ -634,6 +643,28 @@ actionables = {
 				delete target.usurp;
 				renderHighlight();
 				updateCanvas();
+			},
+			Related: (subject,target,args) => {
+				let related = [];
+				let done = {};
+
+				related.push([target._reg, target.id]);
+				if (target.animal) related.push(["resource", target.animal]);
+
+				let chunks = randomChunks((c) => c.v.s === target.id, 10);
+				chunks.forEach(chunk => {
+					if (done[chunk.b]) return;
+					done[chunk.b] = true;
+					let biome = biomes[chunk.b];
+					if (biome.crop) related.push(...biome.crop.map((id) => ["resource", id]));
+					if (biome.livestock) related.push(...biome.livestock.map((id) => ["resource", id]));
+				})
+
+				if (args.objects) {
+					related = related.map((r) => regGet(r[0], r[1]));
+				}
+
+				return related;
 			}
 		}
 	},
@@ -690,6 +721,19 @@ actionables = {
 				if (target.town) {
 					let town = regGet("town",target.town);
 					if (town.issues[target.type] === target.id) delete town.issues[target.type];
+				}
+				else if (target.towns) {
+					target.towns.forEach(id => {
+						let town = regGet("town",id);
+						if (town.issues[target.type] === target.id) delete town.issues[target.type];
+					})
+				}
+				else if (target.chunks) {
+					let towns = [...new Set(target.chunks.map((coords) => chunkAt(coords[0],coords[1])).filter((i) => i).filter((c) => c.v.s).map((chunk) => chunk.v.s))];
+					towns.forEach(id => {
+						let town = regGet("town",id);
+						if (town.issues[target.type] === target.id) delete town.issues[target.type];
+					})
 				}
 
 				if (target.subtype && target.type === "project" && target.town) {
@@ -761,6 +805,7 @@ actionables = {
 					}
 
 					delete target.chunks;
+					delete target.towns;
 				}
 
 				delete target.color;
@@ -855,7 +900,7 @@ actionables = {
 			"temple": {
 				symbol: "₳",
 				color: [204, 82, 192],
-				influences: { faith:2 },
+				influences: { faith:3 },
 				needsUnlock: { farm:10 },
 				nameTemplate: "Temple of $"
 			},
@@ -873,12 +918,33 @@ actionables = {
 				needsUnlock: { trade:30 },
 				nameTemplate: "$ Bank"
 			},
+			"statue": {
+				symbol: "☻",
+				color: [130, 130, 130],
+				influences: { faith:3 },
+				needsUnlock: { smith:20 },
+				nameTemplate: "Statue of $"
+			},
+			"tower": {
+				symbol: "⏸",
+				color: [134, 130, 168],
+				influences: { trade:3 },
+				needsUnlock: { smith:30 },
+				nameTemplate: "$ Towers"
+			},
+			"stadium": {
+				symbol: "⏼",
+				color: [130, 163, 168],
+				influences: { happy:3 },
+				needsUnlock: { smith:10 },
+				nameTemplate: "$ Stadium"
+			},
 		},
 		_disasterSubtypes: {
 			"wildfire": {
 				location: "land",
 				radius: 2,
-				message: "Brush catches fire, causing [NAME] $.",
+				message: "{{c:Brush|Bramble|Scrub|A log|A branch|A stick}} catches fire, causing [NAME] $.",
 				messageDone: "[NAME] $ is extinguished.",
 				color: [255, 0, 0],
 				excludeBiome: ["snow"],
@@ -889,27 +955,33 @@ actionables = {
 			},
 			"hurricane": {
 				location: "shore",
-				radius: 3,
-				message: "[NAME] forms $.",
+				radius: 5,
+				scale: ["1","2","3","4","5"],
+				message: "[NAME] forms $ as a Category [SCALE] cylone.",
 				messageDone: "[NAME] $ settles down.",
 				color: [114, 122, 122],
+				name: (d) => {
+					return (d.x / (planetWidth/chunkSize) > 0.5 ? "Typhoon " : "Hurricane ") + generateHumanName()
+				},
 				
 				deathRate: 0.2,
 				destroy: true,
-				spread: 1,
+				spread: 4,
 				move: 1
 			},
 			"earthquake": {
 				location: "any",
-				radius: 5,
+				radius: 7,
+				scale: ["5", "6", "7", "8"],
 				message: "Seismic activity causes [NAME] $.",
 				messageDone: "[NAME] stops rumbling $.",
 				color: [140, 107, 65],
+				name: (d) => "Magnitude " + d.scale + "." + randRange(0,9) + " Earthquake",
 
 				deathRate: 1.5,
 				destroy: true,
 				duration: 1
-			}
+			},
 		}
 	},
 
@@ -940,6 +1012,10 @@ actionables = {
 					delete c.v.m;
 				})
 				if (target.type !== "landmark") regRemove("marker", target.id);
+			},
+			Related: (subject,target) => {
+				if (!target.town) return;
+				return happen("Related", subject, regGet("town", target.town));
 			}
 		}
 	},
@@ -1057,6 +1133,7 @@ gameEvents = {
 				if (!subject.gov || subject.gov === "anarchy") revolutionRate = 0;
 				if (subject.lastRevolution && planet.day-subject.lastRevolution < $c.revolutionCooldown) revolutionRate = 0;
 				if (subject.lastColony && planet.day-subject.lastColony < 10) revolutionRate = 0;
+				if (planet.day-subject.start <= 10) revolutionRate = 0;
 				
 				if (subject.gov === "dictatorship") revolutionRate *= 0.5;
 
@@ -1077,11 +1154,11 @@ gameEvents = {
 				logWarning("unhappy"+subject.id, "{{residents:"+subject.id+"}} are unhappy!");
 			}
 
-			if (subject.influences.happy > 1) {
+			if (subject.influences.happy > 1 && planet.stats.promptstreak > -10) {
 				happen("Influence", null, subject, { faith:0.1 });
 			}
-			else if (subject.influences.happy <= -8.5) {
-				happen("Influence", null, subject, { faith:-0.2 });
+			else if (subject.influences.happy <= -8.5 && planet.day - subject.start >= 10) {
+				happen("Influence", null, subject, { faith:-0.075 });
 			}
 
 			if (!planet.stats.oldesttown || planet.stats.oldesttown < planet.day - subject.start) {
@@ -1148,9 +1225,34 @@ gameEvents = {
 				let process = regGet("process", subject.issues[type]);
 				if (!process || process.done || process.end) delete subject.issues[type];
 			}
+
+			if (!subject.peakpop || subject.peakpop < subject.pop) {
+				subject.peakpop = subject.pop;
+			}
+			if (!subject.peaksize || subject.peaksize < subject.size) {
+				subject.peaksize = subject.size;
+			}
 		}
 	},
 
+	"townDeath": {
+		daily: true,
+		subject: { reg: "town", all: true },
+		func: (subject, target, args) => {
+			let pop = subject.pop;
+			if (pop <= 0) return;
+			let deathRate = $c.deathRate(subject);
+			let popChange = pop*deathRate;
+			if (popChange > pop) {
+				popChange = pop;
+			}
+
+			if (Math.random() < (popChange % 1)) popChange += 1;
+			popChange = Math.floor(popChange);
+
+			if (popChange) happen("Death", null, subject, { count: popChange, cause: "natural" });
+		}
+	},
 	"townBirth": {
 		daily: true,
 		subject: { reg: "town", all: true },
@@ -1172,24 +1274,6 @@ gameEvents = {
 				let count = happen("AddPop", null, subject, {count: popChange}).count;
 				statsAdd("birth", count);
 			}
-		}
-	},
-	"townDeath": {
-		daily: true,
-		subject: { reg: "town", all: true },
-		func: (subject, target, args) => {
-			let pop = subject.pop;
-			if (pop <= 0) return;
-			let deathRate = addInfluence($c.baseDeathRate, subject, "disease");
-			let popChange = pop*deathRate;
-			if (popChange > pop) {
-				popChange = pop;
-			}
-
-			if (Math.random() < (popChange % 1)) popChange += 1;
-			popChange = Math.floor(popChange);
-
-			if (popChange) happen("Death", null, subject, { count: popChange, cause: "natural" });
 		}
 	},
 	"townExpand": {
@@ -1219,6 +1303,7 @@ gameEvents = {
 						else {
 							colonyRate = subtractInfluence(colonyRate, subject, "happy");
 							colonyRate = addInfluence(colonyRate, subject, "travel");
+							colonyRate = Math.max(colonyRate, 0.05)
 							if (chunk.v.g !== newChunk.v.g) colonyRate *= 2;
 						}
 
@@ -1309,7 +1394,8 @@ gameEvents = {
 			let livestocks = happen("CountResource",null,subject,{ type:"livestock" });
 			let foodCount = crops + livestocks;
 
-			if (foodCount < 1) {
+			if (planet.day - subject.start <= 1) {}
+			else if (foodCount < 1) {
 				happen("Influence", null, subject, { "temp":true, "happy": $c.noFoodHappyInfluence });
 				logWarning("noFood"+subject.id, "{{regname:town|"+subject.id+"}} is out of food!");
 				happen("Death", null, subject, { count:randRange(1,foodCost), cause:"starve" });
@@ -1341,12 +1427,12 @@ gameEvents = {
 				defaultJobs.forEach(job => {
 					if (jobNeedsUnlock[job] && planet.unlocks[jobNeedsUnlock[job][0]] >= jobNeedsUnlock[job][1]) {
 						jobs.push(job);
-						weights.push( addInfluence(100, subject, (jobInfluences[job]||0)) );
+						weights.push( Math.floor(addInfluence(100, subject, (jobInfluences[job]||0)) / 10) );
 					}
 				});
 				if (!jobs.length) return;
 				for (let i = 0; i < toEmploy; i++) {
-					const job = chooseWeighted(jobs,weights);
+					const job = chooseWeighted(jobs,weights.slice());
 					if (!subject.jobs[job]) subject.jobs[job] = 0;
 					subject.jobs[job]++;
 				}
@@ -1790,6 +1876,7 @@ gameEvents = {
 			let newDeaths = 0;
 			let newInjuries = 0;
 			let destroyed = [];
+			let doneTowns = {};
 
 			if (subject.chunks !== undefined && !Array.isArray(subject.chunks)) subject.chunks = [];
 
@@ -1811,7 +1898,12 @@ gameEvents = {
 				}
 
 				if (data.move) {
-					if (!subject.dir) subject.dir = [choose([-1,0,1]), choose([-1,0,1])];
+					if (!subject.dir) {
+						subject.dir = [choose([-1,0,1]), choose([-1,0,1])];
+						while (subject.dir[0] === 0 && subject.dir[1] === 0) {
+							subject.dir = [choose([-1,0,1]), choose([-1,0,1])];
+						}
+					}
 					subject.chunks.forEach((coords) => {
 						const chunk = chunkAt(coords[0], coords[1]);
 						if (!chunk) return;
@@ -1828,9 +1920,12 @@ gameEvents = {
 					if (!chunk.v.s) return;
 					const town = regGet("town",chunk.v.s);
 
-					happen("Influence", subject, town, {temp:true, happy:-0.1});
-					town.lastColony = planet.day - 10;
-					if (!subject.done) town.issues.disaster = subject.id;
+					if (!doneTowns[town.id]) {
+						doneTowns[town.id] = true;
+						happen("Influence", subject, town, {temp:true, happy:-0.33});
+						town.lastColony = planet.day - 10;
+						if (!subject.done) town.issues.disaster = subject.id;
+					}
 
 					if (data.deathRate) {
 						let deaths = (town.pop*data.deathRate*(randRange(8,12) / 10))/town.size;
@@ -1859,6 +1954,7 @@ gameEvents = {
 
 			if (subject.duration) subject.duration--;
 			if (subject.duration <= 0 && subject.chunks) {
+				subject.towns = [...new Set(subject.chunks.map((coords) => chunkAt(coords[0],coords[1])).filter((i) => i).filter((c) => c.v.s).map((chunk) => chunk.v.s))];
 				// unclaim chunks, add to destroyed
 				subject.chunks.forEach((coords) => {
 					const chunk = chunkAt(coords[0], coords[1]);
@@ -1883,7 +1979,7 @@ gameEvents = {
 			if (subject.duration <= 0 || (subject.chunks && !subject.chunks.length)) {
 				if (!data) return;
 				if (data.messageDone) {
-					logMessage(data.messageDone.replace(/\$/g, subject.locationDesc || "").replace(/\[NAME\]/g, `{{regname:process|${subject.id}}}`));
+					logMessage(data.messageDone.replace(/\$/g, subject.locationDesc || "").replace(/\[NAME\]/g, `{{regname:process|${subject.id}}}`).replace(/\[SCALE\]/g, subject.scale));
 				}
 
 				happen("Finish", null, subject);
@@ -2126,7 +2222,7 @@ gameEvents = {
 							let chunks = splitChunks(filterChunks((c) => c.v.s === town1.id), [chunk.x, chunk.y], 2)[1];
 							happen("Migrate", town1, town2, {count: Math.floor(town1.pop / town1.size * chunks.length)});
 							chunks.forEach((c) => {
-								happen("Unclaim", town1, town2, {x:c.x, y:c.y});
+								happen("Unclaim", town2, town1, {x:c.x, y:c.y});
 								c.v.s = town2.id;
 								town2.size ++;
 							});
@@ -2311,6 +2407,7 @@ gameEvents = {
 		},
 		value: {
 			ask: true,
+			// choose: ["TestTown", "TestCity", "TestVille"],
 			message: (_, target) => `What should {{regname:town|${target.id}}} be called?`,
 			preview: (text) => `Welcome to {{b:${titleCase(text)}}}.${specialNames[text.toLowerCase().replace(/ +/g,"")] ? " {{color:�|#ffff00|true}}" : ""}`
 		},
@@ -2341,7 +2438,7 @@ gameEvents = {
 					if (target.flag.match(/\$/)) {
 						target.flag = target.flag.replace(/^([^$]+)/, `{{color:$1|${data.foreground || "#000000"}|${data.background || "#ffffff"}}}`)
 							.replace(/([^$]+)$/, `{{color:$1|${data.foreground || "#000000"}|${data.background || "#ffffff"}}}`)
-							.replace(/\$/g, `{{color:${data.emblem || "O"}|${data.emblemColor || "#000000"}|${data.background || "#ffffff"}}}`);
+							.replace(/\$/g, `{{color:${data.emblem || "O"}|${data.emblemColor || data.foreground || "#000000"}|${data.background || "#ffffff"}}}`);
 					}
 					else {
 						target.flag = `{{color:${target.flag}|${data.foreground || "#000000"}|${data.background || "#ffffff"}}}`
@@ -2350,19 +2447,21 @@ gameEvents = {
 				else if (data.emblem) {
 					data.symbol = data.emblem;
 				}
-				if (data.dem) target.dem = data.dem;
-				if (data.dems) target.dems = data.dems;
-				if (data.adj) target.adj = data.adj;
+				if (data.dem) target.dem = titleCase(data.dem);
+				if (data.dems) target.dems = titleCase(data.dems);
+				if (data.adj) target.adj = titleCase(data.adj);
+				else if (data.dem) target.adj = titleCase(data.dem);
 				if (data.gov) target.gov = data.gov;
 				if (data.prefix) target.prefix = data.prefix;
 				if (data.suffix) target.suffix = data.suffix;
 				if (data.gov) target.gov = data.gov;
 				if (data.econ) target.econ = data.econ;
-				let color = data.color || data.emblemColor;
+				let color = data.color || data.emblemColor || data.foreground;
 				if (color) {
 					if (typeof color === "string" && color.match(/^#/)) color = hexToRGB(color);
 					if (Array.isArray(color)) target.color = color;
 				}
+				if (data.end) happen("End", subject, target);
 
 				logTip("specialName","You discovered a special name. Try to find them all!");
 			}
@@ -2393,15 +2492,17 @@ gameEvents = {
 		value: {
 			ask: true,
 			message: (_, target) => `What should a person from {{regname:town|${target.id}}} be called?`,
-			preview: (text) => `This {{b:${titleCase(text)}}}. These ${titleCase(wordPlural(text))}. The ${titleCase(wordAdjective(text))} people.`
+			preview: (text) => `This {{b:${titleCase(text)}}}. These {{p:${titleCase(wordPlural(text))}}}. The {{p:${titleCase(wordAdjective(text))}}} people.`,
+			basis: (_, target) => target.name
 		},
 		func: (subject, target, args) => {
 			if (!args.value) return false;
 			target.lastDemonym = planet.day;
+			target.lastRename = planet.day;
 			args.value = args.value.replace(/^an? /, "");
 			target.dem = titleCase(args.value);
-			target.dems = titleCase(wordPlural(args.value));
-			target.adj = titleCase(wordAdjective(args.value));
+			target.dems = titleCase(args.previewParts[0]);
+			target.adj = titleCase(args.previewParts[1]);
 			happen("Influence", subject, target, { happy: 1 });
 		},
 		message: (subject, target, args) => `{{residents|${target.id}}} need a name for themselves.`,
@@ -2417,14 +2518,15 @@ gameEvents = {
 		value: {
 			ask: true,
 			message: () => `What should a person living on Planet {{planet}} be called?`,
-			preview: (text) => `This {{b:${titleCase(text)}}}. These ${titleCase(wordPlural(text))}. The ${titleCase(wordAdjective(text))} people.`
+			preview: (text) => `This {{b:${titleCase(text)}}}. These {{p:${titleCase(wordPlural(text))}}}. The {{p:${titleCase(wordAdjective(text))}}} people.`,
+			basis: () => planet.name
 		},
 		func: (subject, target, args) => {
 			if (!args.value) return false;
 			args.value = args.value.replace(/^an? /, "");
 			planet.dem = titleCase(args.value);
-			planet.dems = titleCase(wordPlural(args.value));
-			planet.adj = titleCase(wordAdjective(args.value));
+			planet.dems = titleCase(args.previewParts[0]);
+			planet.adj = titleCase(args.previewParts[1]);
 		},
 		message: (subject, target, args) => `{{people}} need a name for themselves.`,
 		messageDone: (subject, target, args) => `{{people}} have an emboldened identity.`,
@@ -2534,7 +2636,7 @@ gameEvents = {
 			reg: "town", random: true
 		},
 		value: (subject, target) => {
-			if (target.legal["travel.construction"] === false) return;
+			if (target.legal["travel.construction"] === false) return false;
 
 			let choices = [];
 			for (let key in actionables.process._projectSubtypes) {
@@ -2549,11 +2651,12 @@ gameEvents = {
 				if (!invalid) choices.push(key);
 			}
 			if (!choices.length) return false;
-			return choose(choices);
+			return choose(choices) || false;
 		},
-		check: (subject, target) => {
+		check: (subject, target, args) => {
 			if (target.size <= 5) return false;
 			if (target.lastProject && planet.day - target.lastProject < $c.townProjectCooldown) return false;
+			if (!args.value) return false;
 			
 			return !regExists("process", (p) => !p.done && p.town === target.id);
 		},
@@ -2570,7 +2673,7 @@ gameEvents = {
 		},
 		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to {{c:begin|start}} {{c:constructing|building|construction of}} a new ${args.value.replace(/_/g," ")}.`,
 		messageDone: (subject, target, args) => `{{residents|${target.id}}} {{c:begin|start}} {{c:constructing|building|construction of}} a ${args.value.replace(/_/g," ")}.`,
-		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} prioritizes other projects.`,
+		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} rejects the construction of a ${args.value.replace(/_/g," ")}.`,
 		weight: $c.COMMON,
 		needsUnlock: {
 			smith: 10
@@ -2592,7 +2695,9 @@ gameEvents = {
 				let name = text +" "+target.subtype;
 				if (data && data.nameTemplate) name = data.nameTemplate.replace(/\$/g, text);
 				return `Welcome to {{b:${titleCase(name)}}}.`
-			}	
+			},
+			related: true,
+			skip: true
 		},
 		check: (subject, target, args) => {
 			if (planet.usurp) return false;
@@ -2608,6 +2713,7 @@ gameEvents = {
 			if (data && data.nameTemplate) name = data.nameTemplate.replace(/\$/g, args.value);
 			target.name = titleCase(name);
 			delete target.named;
+			if (args.namer) target.namer = args.namer;
 		},
 		message: (subject, target, args) => `The new {{regname:marker|${target.id}}} in {{regname:town|${target.town}}} needs a name.`,
 		messageDone: (subject, target, args) => `{{regname:marker|${target.id}}} has been named.`,
@@ -2733,7 +2839,8 @@ gameEvents = {
 			reg: "player", id: 1
 		},
 		value: {
-			ask: true
+			ask: true,
+			shuffle: false
 		},
 		check: (subject, target) => {
 			return userSettings.playerName === undefined;
@@ -2745,6 +2852,7 @@ gameEvents = {
 			return target;
 		},
 		message: (subject, target, args) => `{{people}} want to know your name.`,
+		messageDone: (subject, target, args) => `{{people}} say hello.`,
 		weight: $c.COMMON
 	},
 
@@ -2784,7 +2892,7 @@ gameEvents = {
 		}
 	},
 
-	"increaseFarming": {
+	"increaseResearch": {
 		random: true,
 		subject: {
 			reg: "player", id: 1
@@ -2792,21 +2900,81 @@ gameEvents = {
 		target: {
 			reg: "town", random: true
 		},
-		message: (subject, target, args) => `Motion from {{regname:town|${target.id}}} to encourage farming research.`,
-		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} focuses on new farming methods.`,
-		// messageNo: (subject, target, args) => `{{regname:town|${target.id}}} prefers to stick to their old ways.`,
-		weight: $c.UNCOMMON,
-		influencedBy: {
-			"farm": 1
+		value: (subject, target, args) => {
+			let choices = Object.keys(researchInfluences).filter((r) => {
+				if (target.research[r] === 10) return false;
+				if (influenceNeedsUnlock[r] && !planet.unlocks[influenceNeedsUnlock[r]]) return false;
+				return true;
+			});
+			if (!choices.length) return false;
+			
+			if (Object.keys(target.research).length) {
+				const entries = Object.entries(target.research);
+				entries.sort((a, b) => b[1] - a[1]);
+				if (entries[0]) args.highest = entries[0][0];
+			};
+
+			return choose(choices);
 		},
-		influences: {
-			"farm": 0.1
+		message: (subject, target, args) => `How should {{regname:town|${target.id}}} prioritize ${researchInfluences[args.value]} research?`,
+		messageDone: (subject, target, args) => `{{regname:town|${target.id}}} will prioritize ${researchInfluences[args.value]} research${ args.highest ? " higher than "+researchInfluences[args.highest] : "" }.`,
+		buttonYes: "high",
+		func: (subject, target, args) => {
+			let influences = {};
+			for (let key in target.research) {
+				if (key === args.value) continue;
+				target.research[key] = target.research[key] * 0.5;
+				influences[key] = -0.25;
+				if (target.research[key] <= 1) {
+					delete target.research[key];
+					continue;
+				}
+				target.research[key] = Math.round(target.research[key]);
+			}
+
+			target.research[args.value] = 10;
+			influences[args.value] = 1;
+
+			happen("Influence", subject, target, influences);
 		},
-		influencesNo: {
-			"farm": -0.1
+		messageNo: (subject, target, args) => `{{regname:town|${target.id}}} will ${args.highest ? "keep "+researchInfluences[args.highest]+" research higher than "+researchInfluences[args.value] : "not prioritize "+researchInfluences[args.value]}.`,
+		buttonNo: "low",
+		funcNo: (subject, target, args) => {
+			if (!target.research[args.value]) return;
+			let influences = {};
+
+			for (let key in target.research) {
+				if (key === args.value) continue;
+				target.research[key] += target.research[args.value] * 0.5;
+				influences[key] = 0.1;
+				target.research[key] = Math.round(target.research[key]);
+				target.research[key] = Math.min(10, target.research[key]);
+			}
+
+			target.research[args.value] = target.research[args.value] * 0.25;
+			if (target.research[args.value] <= 1) {
+				delete target.research[args.value];
+			}
+			else target.research[args.value] = Math.round(target.research[args.value]);
+			influences[args.value] = -1;
+
+			happen("Influence", subject, target, influences);
 		},
-		needsUnlock: {
-			"farm": 10
+		weight: $c.COMMON
+	},
+	"doResearch": {
+		daily: true,
+		subject: {
+			reg: "town", all: true
+		},
+		func: (subject) => {
+			let influences = {};
+			for (let key in subject.research) {
+				let value = subject.research[key];
+				value = (value / 10) * 0.05;
+				influences[key] = value;
+			}
+			happen("Influence", null, subject, influences);
 		}
 	},
 
@@ -2875,8 +3043,21 @@ gameEvents = {
 			else locationDesc = "on";
 			locationDesc += " {{regname:landmass|"+landmass+"}}";
 
+			let scale = null;
+			if (data.scale) {
+				scale = randRange(0, data.scale.length-1) + 1;
+			}
+
 			let chunks;
-			if (data.radius) chunks = circleChunks(chunk.x, chunk.y, data.radius, true);
+			if (data.radius) {
+				let radius = data.radius;
+				if (data.scale) {
+					radius *= scale / data.scale.length;
+					radius = Math.ceil(radius);
+				}
+
+				chunks = circleChunks(chunk.x, chunk.y, radius, true);
+			}
 			else chunks = [chunk];
 
 			if (data.location !== "any") chunks = chunks.filter((c) => c.b !== "water");
@@ -2907,12 +3088,16 @@ gameEvents = {
 				duration: duration
 			}, "process")
 			disaster.locationDesc = locationDesc;
-			args.message = args.message.replace(/\[NAME\]/g, `{{regname:process|${disaster.id}}}`);
+			if (data.scale) disaster.scale = data.scale[scale - 1];
+			args.message = args.message.replace(/\[NAME\]/g, `{{regname:process|${disaster.id}}}`).replace(/\[SCALE\]/g, disaster.scale);
 
 			towns.forEach((id) => {
 				let town = regGet("town",id);
 				town.issues.disaster = disaster.id;
 			})
+
+			if (data.name) disaster.name = data.name(disaster);
+			delete disaster.scale;
 
 			return disaster;
 		},
@@ -2920,11 +3105,499 @@ gameEvents = {
 			return args.message;
 		},
 		weight: $c.RARE
-	}
+	},
 
+	"ambientBlurb": {
+		random: true,
+		auto: true,
+		subject: {
+			reg: "nature", id: 1
+		},
+		check: () => !planet.dead,
+		value: (_, __, args) => {
+			if (planet.dead) return false;
+			
+			let choices = [];
+			let weights = [];
+			let max = allBlurbs.ambient.length;
+			for (let i = 0; i < allBlurbs.ambient.length; i++) {
+				let index = planet.recentBlurbs.ambient.indexOf(i);
+				if (index === -1) index = 0;
+				let weight = max - index;
 
+				let blurb = allBlurbs.ambient[i];
+				if (typeof blurb === "object" && blurb.influences) {
+					for (let key in blurb.influences) {
+						if (influenceNeedsUnlock[key] && !planet.unlocks[influenceNeedsUnlock[key]]) weight = 0;
+					}
+				}
+
+				choices.push(i);
+				weights.push(weight);
+			}
+
+			for (let tries = 0; tries < 20; tries++) {
+				let index = chooseWeighted(choices, weights);
+	
+				// remove chosen index from recentBlurbs
+				if (planet.recentBlurbs.ambient.indexOf(index) !== -1) planet.recentBlurbs.ambient.splice( planet.recentBlurbs.ambient.indexOf(index), 1 );
+				// push chosen index to end of recentBlurbs
+				planet.recentBlurbs.ambient.push(index);
+	
+				let blurb = allBlurbs.ambient[index];
+
+				let ctx = {};
+				let result = blurber(blurb, ctx);
+				if (result === false) continue;
+
+				if (typeof blurb === "object") {
+					if (blurb.influences && ctx.town) {
+						args.oldInfluences = structuredClone(ctx.town[0].influences);
+						args.influencedTown = ctx.town[0];
+						happen("Influence", null, ctx.town[0], {...blurb.influences, temp:true});
+					}
+				}
+	
+				return result;
+			}
+
+			return false;
+		},
+		message: (_, __, args) => args.value,
+		weight: $c.COMMON,
+	},
+	
+	"infoBlurb": {
+		random: true,
+		auto: true,
+		subject: {
+			reg: "nature", id: 1
+		},
+		target: {
+			reg:"town", random:true
+		},
+		check: (_, target) => !planet.dead && (!target.lastInfoBlurb || planet.day - target.lastInfoBlurb > 20),
+		value: (_, target, args) => {
+			if (planet.day - target.lastInfoBlurb < 20) return false;
+			let choices = [];
+			let weights = [];
+			let max = allBlurbs.info.length;
+			for (let i = 0; i < allBlurbs.info.length; i++) {
+				let index = planet.recentBlurbs.info.indexOf(i);
+				let blurb = allBlurbs.info[i];
+				if (index === -1) index = 0;
+				let weight = max - index;
+
+				if (blurb.check && !blurb.check(target)) continue;
+
+				choices.push(i);
+				weights.push(weight);
+			}
+
+			if (!choices.length) return false;
+
+			for (let tries = 0; tries < 20; tries++) {
+				let index = chooseWeighted(choices, weights);
+	
+				// remove chosen index from recentBlurbs
+				if (planet.recentBlurbs.info.indexOf(index) !== -1) planet.recentBlurbs.info.splice( planet.recentBlurbs.info.indexOf(index), 1 );
+				// push chosen index to end of recentBlurbs
+				planet.recentBlurbs.info.push(index);
+	
+				let blurb = allBlurbs.info[index];
+
+				let ctx = {
+					town: [target]
+				};
+				let result = blurber(blurb, ctx);
+				if (result === false) continue;
+	
+				return result;
+			}
+
+			return false;
+		},
+		func: (_, target) => {
+			target.lastInfoBlurb = planet.day;
+		},
+		message: (_, __, args) => "{{c:Studies suggest|Studies suggest|Polling suggests|Polls suggest|Reports show|New report}}: " + args.value,
+		weight: $c.SUPERCOMMON,
+	},
+	
+	"decisionBlurb": {
+		random: true,
+		subject: {
+			reg: "nature", id: 1
+		},
+		target: {
+			reg:"town", random:true
+		},
+		check: (_, target) => !planet.dead,
+		value: (_, target, args) => {
+			let choices = [];
+			for (let i = 0; i < allBlurbs.decision.length; i++) {
+				let index = planet.recentBlurbs.decision.indexOf(i);
+				let blurb = allBlurbs.decision[i];
+				if (index !== -1) continue; //skip if already done
+
+				if (blurb.check && !blurb.check(target)) continue;
+
+				choices.push(i);
+			}
+
+			if (!choices.length) return false;
+
+			for (let tries = 0; tries < 20; tries++) {
+				let index = choose(choices);
+	
+				planet.recentBlurbs.decision.push(index);
+	
+				let blurb = allBlurbs.decision[index];
+
+				let ctx = {
+					town: [target]
+				};
+				let result = blurber(blurb, ctx);
+				if (result === false) continue;
+
+				if (typeof blurb === "object") {
+					if (blurb.influences) args.influences = blurb.influences;
+					if (blurb.influencesNo) args.influencesNo = blurb.influencesNo;
+					if (blurb.no) args.buttonNo = blurb.no;
+					if (blurb.yes) args.buttonYes = blurb.yes;
+				}
+	
+				return result;
+			}
+
+			return false;
+		},
+		func: (_, target, args) => {
+			if (args.influences) {
+				happen("Influence", null, target, {...args.influences, temp:true});
+			}
+		},
+		funcNo: (_, target, args) => {
+			if (args.influencesNo) {
+				happen("Influence", null, target, {...args.influencesNo, temp:true});
+			}
+		},
+		message: (_, __, args) => args.value,
+		weight: $c.COMMON,
+	},
 
 }
+
+subBlurbs = {
+	"town": (ctx) => {
+		return ctx.town ? ctx.town[0] : regToArray("town");
+	},
+	"resource": () => regToArray("resource"),
+	"personal emergency": "being trapped in a [tree/well/hole]/carbon monoxide poisoning/a chemical emergency/a flood/a house fire/an illness/a landslide/food poisoning/drowning/a heart attack/a concussion/being stuck in a cave/being struck by debris",
+	"animal": () => regFilter("resource", (r) => r.type === "livestock"),
+	"crop": () => regFilter("resource", (r) => r.type === "crop"),
+	"object": "rare [gemstones/jewels]/equipment/uniforms/a secret stash/[money]/[food]/toiletries",
+	"food": "crop/meat",
+	"money": (ctx) => ctx.town ? (ctx.town[0].currency ? "{{currency:"+ctx.town[0].id+"}} " + ctx.town[0].currency : "") || "cash" : undefined,
+	"landmark": (ctx) => {
+		if (!ctx.town) return "a [building/home]";
+		let landmark = choose(regFilter("marker", (m) => m.town === ctx.town[0].id));
+		if (landmark) return `the {{regname:marker|${landmark.id}}}`;
+		return "a [building/home]";
+	},
+	"town adj": (ctx) => {
+		let town;
+		if (!ctx.town) {
+			town = choose(regToArray("town"));
+			ctx.town = [town];
+		}
+		else town = ctx.town[0];
+		return `{{regadj:town|${town.id}}}`;
+	},
+	"demonym": (ctx) => {
+		let town;
+		if (!ctx.town) {
+			town = choose(regToArray("town"));
+			ctx.town = [town];
+		}
+		else town = ctx.town[0];
+		return town.dem ? `{{resident:${town.id}}}` : "town adult";
+	},
+	"demonyms": (ctx) => {
+		let town;
+		if (!ctx.town) {
+			town = choose(regToArray("town"));
+			ctx.town = [town];
+		}
+		else town = ctx.town[0];
+		return town.dems ? `{{residents:${town.id}}}` : "town people";
+	},
+	"job": (ctx) => {
+		return (ctx.town ? Object.keys(ctx.town[0].jobs) : defaultJobs).join("/");
+	},
+	"adult": (ctx) => {
+		return "man/woman/resident/individual/job/job"
+	},
+	"town adult": "[town adj] [adult]/adult from [town]/demonym",
+	"people": (ctx) => {
+		return "=people=/residents/individuals" + (ctx.town && Object.keys(ctx.town[0].jobs).length ? "/"+wordPlural(choose(Object.keys(ctx.town[0].jobs)) || "") : "");
+	},
+	"town people": "[town adj] [people]/[people] from [town]",
+	"child": "boy/girl/=child=/student",
+	"town child": "[town adj] [child]/[child] from [town]",
+	"person": "adult/adult/child",
+	"town person": "town adult/town child/demonym",
+	"body part": "arm/leg/spine/hip/skull/foot/ankle/neck/elbow/wrist",
+	"injury": "[injured/fractured/broken/sprained/bruised] [body part]",
+	"influence": () => {
+		return Object.keys(allInfluences).map(i => (regBrowserKeys[i] || i).toLowerCase()).filter(i => i !== "mood" && (!influenceNeedsUnlock[i] || planet.unlocks[influenceNeedsUnlock[i]])).join("/");
+	},
+	"law": () => {
+		return Object.keys(allLaws).map(l => l.split(".")[l.split(".").length - 1].replace(/_/g, " ")).map(l => (regBrowserKeys[l] || l).toLowerCase()).join("/");
+	},
+	"crime": (ctx) => {
+		if (!ctx.town || !planet.unlocks.government) return;
+		return Object.keys(ctx.town[0].legal).filter(l => ctx.town[0].legal[l] === false).map(l => l.split(".")[l.split(".").length - 1].replace(/_/g, " ")).map(l => (regBrowserKeys[l] || l).toLowerCase()).join("/");
+	},
+	"activity": "influence/law",
+	"town related": (ctx) => ctx.town ? happen("Related", null, ctx.town[0], {objects:true}) : undefined,
+	"town gov": (ctx) => ctx.town ? ctx.town[0].gov : undefined,
+	"town econ": (ctx) => ctx.town ? ctx.town[0].econ : undefined,
+	"personal goal": "better times/a bountiful harvest/world peace/an end to hunger/a new landmark/a nice meal/a sandwich/a relationship/a new home",
+	"personal adjective": "cooked/at peace/freaking out/an alpha/chopped/cheesed/so sigma/freaking out",
+	"student": () => planet.unlocks.education ? "=student=" : "child",
+	"lawyer": () => planet.unlocks.government ? "=lawyer=" : null,
+	"first name": () => generateHumanName(),
+	"name": () => generateFullName(),
+	"number": (ctx) => {
+		let max = 20;
+		if (ctx.town) max = Math.ceil(ctx.town[0].pop / 100);
+		max = Math.max(max, 5);
+		max = Math.min(max, 100);
+		return `{{num:${randRange(1,max)}}}`;
+	},
+	"disaster": (ctx) => {
+		return choose(regFilter("process", p => p.type === "disaster" && p.deaths && planet.day - p.done <= 20));
+	},
+	"hospital": (ctx) => ctx.town ? regFilter("marker", m => m.town === ctx.town[0].id && m.subtype === "hospital") : undefined,
+	"school": (ctx) => ctx.town ? regFilter("marker", m => m.town === ctx.town[0].id && m.subtype === "school") : undefined,
+	"player": () => userSettings.playerName || undefined,
+	"future": () => "{{date:" + (planet.day + randRange(10,50)) + "}}",
+}
+
+allBlurbs = {
+
+ambient: [
+"A [horde/pack] of [animal] [breaks loose/escapes containment] and [attacks/chases] residents in [town]",
+"A [adult] has stolen [object] from [landmark] in [town]",
+"A [town adult] was rescued after [personal emergency]",
+"A [town adult] [suffered/sustained] a [injury] after [stepping/tripping/slipping] on a [animal/rock/[crop] peel/stick/toy]",
+"Some [town people] were forced to [isolate/evacuate] after an [unknown/undisclosed] incident",
+"A [pro/anti]-[activity] activist is [attacked/arrested] at a [rally/meetup/protest]",
+"Missing [town person] is [found/discovered] safe in [a shed/a storage facility/landmark]",
+"A [town adult] is honored after [rescuing/saving] a [child/animal] from [personal emergency]",
+"A [town person] is arrested [for/after suspected] [crime]",
+"A [town person] has [discovered/developed] a new way to [talk to/attract/train/cook] [animal/resource]",
+"A [town person] has [discovered/found] a [resource/hole/rock/leaf] that [looks like/resembles] a [man/woman/job/town related/town related]",
+"A [town person] is praying for [personal goal]",
+"\"I'm [personal adjective],\" [says a [town person]/a [town person] says]",
+"\"Oh my [player],\" [says a [town person]/a [town person] says]",
+"[town people] attend the funeral of [an honored/a beloved] [job] who died from [personal emergency]",
+"[town adj] hide-and-seek champion, [name], [[is/was] found dead in [landmark]/has gone missing.]",
+"A [town adj] [lawyer] accidentally sues [him/her/them]self",
+"[town] is unsure why [their/its] sewers [smell/stink]",
+"[town adj] officials raid illegal [resource] farm, [number] arrested",
+"Meeting about safety in [town] ends in devastating accident",
+"Report: Homicide victims rarely [talk to/cooperate with] police",
+"[Survivors/Victims] of [disaster] were buried in [town]",
+"A [town person] commits every crime imaginable, sentenced to [number] years",
+"A [town person] is sentenced to [number] years after committing [crime]",
+"A [town person] is conveniently injured at [hospital]",
+"A [town person] arrives at [hospital] with a [injury]",
+"[Parents in [town]/[town adj] parents] keep kids home to protest [school] closure",
+"A [town person] dressed as a [animal] fools onlookers",
+"[name], a [town person], sets [a new/the world] record for [most/least] [activity]",
+"[name], a [town person], is predicting the world will end on [future]",
+"A [town adj] conspiracy theorist is [protesting against/ranting about] Big {{title:[influence]}}",
+"A [town adj] conspiracy theorist denounces [player] as \"fake news\".",
+"A [adult] has fallen into the river in [town]!",
+"A [town person] spots a [animal] eating a [resource]",
+"[town adj] scientists discover [the meaning of [life/the universe]/the cure to all disease], but don't [reveal/release] it",
+"[town adj] [scientists/philosophers] debate [the meaning of [life/the universe]/the nature of reality/ethics and morality/the existence of numbers]",
+"[town] vows to catch unknown individual who committed [crime]",
+"[town adj] archaeologists uncover remains of [ancient/prehistoric] skeleton [civilization/society]",
+"[demonyms] wage \"Great War\" on local [animal] population; Lose shortly thereafter",
+"Local [town person] believes they were a [animal] in a past life",
+"[resource] is \"spiritually [town adj]\", {{people}} are saying",
+{
+	text: "[school] [children/students] are protesting against [schooling/education] in [town]",
+	influences: { education:-1 }
+},
+{
+	text: "[town adj] police officer is [under fire/canceled] after [alleged/allegedly committing] [crime]",
+	influences: { crime:1 }
+},
+{
+	text: "Sales of stuffed [animal] soar in [town] after new youth trend",
+	influences: { trade:1 }
+},
+{
+	text: "[town] mourns the loss of beloved town [animal] named [first name]",
+	influences: { mood:-0.25 }
+},
+{
+	text: "[school] [children/students] celebrate their graduation in [town]",
+	influences: { education:1 }
+},
+{
+	text: "[demonyms] are told to quarantine after rabid [animal] escapes captivity",
+	influences: { travel:-2, disease:2 }
+},
+{
+	text: "[Rising/Falling] temperatures cause decreased crop growth in [town]",
+	influences: { farm:-2 }
+},
+
+],
+
+info: [
+{
+	text: "More [town adj] students than ever are dropping out of school",
+	check: (town) => town.influences.education <= -6 && planet.unlocks.education
+},
+{
+	text: "[town people] are committing more crime than ever",
+	check: (town) => town.influences.crime >= 6
+},
+{
+	text: "\"No Way to Prevent This,\" says [town], the only nation where this regularly happens",
+	check: (town) => town.influences.crime >= 8
+},
+{
+	text: "More and more [town adj] families are going without food",
+	check: (town) => town.influences.hunger >= 8
+},
+{
+	text: "[demonyms] [more often/would rather] worship [related] than [player]",
+	check: (town) => town.influences.faith <= -8 && !town.usurp
+},
+{
+	text: "[demonyms] are questioning the effectiveness of [town gov]",
+	check: (town) => town.gov && (town.influences.faith <= -6 || town.influences.happy <= -6) && !town.usurp
+},
+{
+	text: "[demonyms] are questioning the effectiveness of [town econ]",
+	check: (town) => town.econ && town.influences.trade <= -6
+},
+{
+	text: "[demonyms] avoid potential murderers on the streets",
+	check: (town) => town.legal["crime.murder"]
+},
+{
+	text: "[town adj] farmers are going hungry",
+	check: (town) => town.influences.farming <= -8
+},
+{
+	text: "[town adj] farmers have more food than they know what to do with",
+	check: (town) => town.influences.farming >= 9
+},
+{
+	text: "Rates of depression in [town] reach all-time highs",
+	check: (town) => town.influences.happy <= -8
+},
+{
+	text: "Tourism is booming in [town]",
+	check: (town) => town.influences.travel >= 9
+},
+{
+	text: "The average GPA of [town adj] students is 3.[6/7/8/9]/4",
+	check: (town) => town.influences.education >= 9
+},
+{
+	text: "[demonyms] are enlisting in the military at record rates",
+	check: (town) => town.influences.military >= 9
+},
+{
+	text: "[demonyms] are disgusted at the idea of invading a sovereign town",
+	check: (town) => town.influences.military <= -8
+},
+{
+	text: "[Amount/Frequency] of theft incidents have increased in [town]",
+	check: (town) => town.legal["crime.theft"]
+}
+],
+
+decision: [
+{
+	text: "Motion from [town] to require mandatory military service",
+	check: (town) => planet.unlocks.military,
+	influences: { military:3 }
+},
+{
+	text: "How ambitious should [town] be about exploration?",
+	no: "Low", yes: "High",
+	check: (town) => planet.unlocks.travel,
+	influences: { travel:3 },
+	influencesNo: { travel:-2 }
+},
+{
+	text: "Motion from [town] to [make healthcare free/establish a free healthcare program]",
+	check: (town) => planet.unlocks.trade >= 30,
+	influences: { disease:-3, happy:1, trade:-2 },
+	influencesNo: { disease:-2, happy:-1, trade:2 }
+},
+{
+	text: "Motion from [town] to [make college free/establish a free college program]",
+	check: (town) => planet.unlocks.trade >= 30 && planet.unlocks.education >= 20,
+	influences: { education:3, happy:1 },
+	influencesNo: { education:-2, happy:-1 }
+},
+{
+	text: "Motion from [town] to abolish human rights",
+	influences: { happy:-10 },
+	check: (town) => planet.day > 10
+},
+{
+	text: "Motion from [town] to introduce a guaranteed minimum income",
+	check: (town) => planet.unlocks.trade >= 30,
+	influences: { happy:1, trade:3 },
+	influencesNo: { happy:-0.5, trade:-1 }
+},
+{
+	text: "How [hard/tough] should [town] be on crime?",
+	no: "Lax", yes: "Strict",
+	check: (town) => planet.unlocks.government,
+	influences: { happy:-1, crime:-3 },
+	influencesNo: { happy:1, crime:3 }
+},
+{
+	text: "Motion from [town] to lower the age of military conscription",
+	check: (town) => planet.unlocks.military,
+	influences: { military:3, education:-2 },
+	influencesNo: { happy:1, education:1 }
+},
+{
+	text: "Motion from [town] to invest in renovating [school]",
+	check: (town) => planet.unlocks.education,
+	influences: { education:3 },
+	influencesNo: { education:-1 }
+},
+{
+	text: "How much should [town] support small businesses?",
+	check: (town) => planet.unlocks.trade,
+	influences: { trade:3 },
+	influencesNo: { trade:-1 }
+},
+{
+	text: "Motion from [town] to issue stimulus checks in response to falling economy",
+	check: (town) => planet.unlocks.trade && town.influences.trade <= -5,
+	influences: { trade:3 },
+	influencesNo: { happy:-2, trade:-1 }
+},
+],
+
+}
+
 
 
 unlockTree = {
@@ -3072,7 +3745,7 @@ unlockTree = {
 				name: "Stone Tools",
 				emoji: "⛏️",
 				message: "{{people}} try connecting loose rocks to handles. {{should}}",
-				messageDone: "Tools made of stone increase durability and efficiency.",
+				messageDone: "Pointed stone tools increase durability and efficiency.",
 				messageTomorrow: "{{randreg:town}} begins hiring miners and lumberers.",
 				influences: { farm:2 },
 				messageNo: "Wooden tools prevail.",
@@ -3236,7 +3909,7 @@ unlockTree = {
 				level: 40,
 				name: "Jockeys",
 				message: "Soldiers look to domesticated animals for inspiration. {{should}}",
-				messageDone: "Soldiers are seen practicing on {{randreg:resource|livestock}}back.",
+				messageDone: "Cavalries are seen practicing on {{randreg:resource|livestock}}back.",
 				influences: { military:1 },
 				messageNo: "Soldiers see no use for livestock besides food.",
 				needsUnlock: {
@@ -3270,7 +3943,8 @@ influenceNeedsUnlock = {
 	"farm": "farm",
 	"military": "military",
 	"trade": "trade",
-	"education": "education"
+	"education": "education",
+	// "mine": "smith",
 }
 influenceEffects = {
 	// influence -> effect on other influences
@@ -3314,6 +3988,15 @@ jobNeedsUnlock = {
 	"lumberer": ["smith", 20],
 	"soldier": ["military", 10]
 }
+researchInfluences = {
+	// influence: name
+	"farm": "farming",
+	"military": "military",
+	"trade": "economics",
+	"education": "education",
+	// "mine": "mining",
+	// "lumber": "forestry",
+}
 allLaws = {
 	// key: severity from 0-1
 	// influence.name
@@ -3353,12 +4036,15 @@ regBrowserKeys = {
 	"circumference": "Circumference {{symbol:↔}}",
 	"land": "Land",
 	"influences": "Influences",
+	"research_": "Researching",
 	"birth": "Birth",
 	"smith": "Smithing",
 	"farm": "Farming",
 	"happy": "Mood",
 	"biome": "Biome",
 	"rate": "Efficiency",
+	"mine": "Mining",
+	"lumber": "Lumber",
 	"econ_": "Economy",
 	"relations_": "Relations",
 	"jobs": "Jobs",
@@ -3387,6 +4073,7 @@ regBrowserKeys = {
 	"resource.ancestor": "Evolved from",
 	"platesize": "Plate Size",
 	"elevation": "Elevation",
+	"lifespan": "Average lifespan",
 
 	"continents": "Continents",
 	"landmasses": "Landmasses",
@@ -3402,6 +4089,7 @@ regBrowserKeys = {
 	"town.start": "Founded",
 	"town.end": "Fell",
 	"age": "Age",
+	"namer_": "Named after",
 	"former": "Formerly",
 	"town.won": "Wars won",
 	"town.ender": "Defeated by",
@@ -3425,8 +4113,8 @@ regBrowserKeys = {
 	"stats.oldesttown": "Oldest town",
 }
 regBrowserValues = {
-	"pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}`,
-	"size": (value) => `{{area:${value}}}`,
+	"pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}` + (town.end ? ` ({{num:${town.peakpop}}}{{face:${town.id}}} at peak)` : ""),
+	"size": (value, town) => `{{area:${value}}}` + (town.end ? ` ({{area:${town.peaksize}}} at peak)` : ""),
 	"land": (value) => `{{area:${value}}}`,
 	"platesize": (value) => `{{area:${value}}}`,
 	"circumference": (value) => `{{length:${value}}}`,
@@ -3505,6 +4193,7 @@ regBrowserExtra = {
 			return "{{volume:"+volumeInChunks+"}}";
 		},
 		"globalwealth": () => {
+			if (!planet.unlocks.trade || planet.unlocks.trade < 30) return;
 			let wealth = 0;
 			regToArray("town").forEach((t) => {
 				if (t.wealth) wealth += t.wealth;
@@ -3527,7 +4216,6 @@ regBrowserExtra = {
 		},
 		"econ_": (town) => {
 			if (!town.econ) return;
-
 			
 			let data = {};
 			
@@ -3581,6 +4269,15 @@ regBrowserExtra = {
 			let continents = new Set(filterChunks((c) => c.v.s === town.id).map((c) => c.v.g));
 			continents = Array.from(continents);
 			return continents.map((id) => `{{regname:landmass|${id}}}`);
+		},
+		"research_": (town) => {
+			const entries = Object.entries(town.research);
+			if (!entries.length) return;
+			entries.sort((a, b) => b[1] - a[1]);
+			if (entries[0]) return titleCase(researchInfluences[entries[0][0]]);
+		},
+		"lifespan": (town) => {
+			return `{{num:${Math.round(1 / $c.deathRate(town))}}} days`
 		},
 	},
 	landmass: {
@@ -3663,6 +4360,10 @@ regBrowserExtra = {
 					return actionables.process._disasterSubtypes[process.subtype].color;
 				}
 			}
+		},
+		"namer_": (marker) => {
+			if (!marker.namer) return;
+			return `{{regname:${marker.namer[0]}|${marker.namer[1]}}}`
 		}
 	}
 }

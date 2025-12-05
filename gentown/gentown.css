@@ -304,6 +304,7 @@ span.none {
 .logMessage .logAct span[type="act"]:hover {
 	background-color: rgba(255, 213, 0, 0.5);
 	border-color: rgb(255, 225, 0);
+	color: rgb(255, 250, 211);
 }
 .logMessage .logAct span[type="yes"] {
 	border-color: rgb(0, 176, 79);
@@ -323,11 +324,29 @@ span.none {
 	border-color: rgb(255, 0, 0);
 	color: rgb(255, 199, 230);
 }
+.logMessage .logAct span[type="choice"]:hover, .logMessage .logAct span[type="choice"][selected="true"] {
+	background-color: hsla(50, 100%, 50%, 0.5);
+	border-color: hsl(53, 100%, 50%);
+	color: hsl(53, 100%, 89%);
+}
+.logMessage .logAct span[type="choice"]:nth-of-type(2):hover, .logMessage .logAct span[type="choice"]:nth-of-type(2)[selected="true"] {
+	background-color: hsla(202, 100%, 50%, 0.5);
+	border-color: hsl(205, 100%, 50%);
+	color: hsl(205, 100%, 89%);
+}
+.logMessage .logAct span[type="choice"]:nth-of-type(3):hover, .logMessage .logAct span[type="choice"]:nth-of-type(3)[selected="true"] {
+	background-color: hsla(292, 100%, 50%, 0.5);
+	border-color: hsl(295, 100%, 50%);
+	color: hsl(295, 100%, 89%);
+}
 .logMessage .logAct span:active {
 	/* background-color: rgb(30, 178, 0); */
 	filter: brightness(75%);
 	/* transition: 0s; */
 	scale: 0.9;
+}
+.logMessage.passed {
+	opacity: 0.66;
 }
 .logMessage[done="true"] .logAct span {
 	opacity: 0.5;
@@ -363,8 +382,10 @@ span.none {
 .logMessage[changed="true"] {
 	animation: 0.5s ease-out 0s 1 flashIn;
 }
-.logMessage.faded {
-	opacity: 0.5;
+.logMessage.faded .logText, .logMessage.faded .logText .entityName {
+	/* opacity: 0.5; */
+	/* text-decoration: line-through;
+	text-decoration-color: rgb(218, 116, 116); */
 }
 
 @keyframes slideInFromLeft {
@@ -442,6 +463,10 @@ span.none {
 }
 #statsDiv td:last-of-type {
 	width: fit-content
+}
+#statsDiv .localStats > span {
+	display: block;
+	white-space: pre;
 }
 tr.total {
 	font-style: italic;
@@ -899,6 +924,12 @@ tr.total {
 #popupNo {
 	border-left: none;
 }
+#popupShuffle {
+	background-color: var(--border-c);
+	border-left: none;
+	border-right: solid 4px var(--border-b);
+	width: 3em;
+}
 .popupButton:first-of-type {
 	border-left: none;
 }
@@ -922,7 +953,36 @@ tr.total {
 }
 .popupPreview strong {
 	font-weight: unset;
-    color: lightgoldenrodyellow;
+    color: rgb(250, 250, 210);
+}
+.popupPreview .previewPart {
+	border: rgba(250, 250, 210, 0.5) solid 2px;
+    padding-left: 0.2em;
+    padding-right: 0.3em;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    font-size: 0.9em;
+	transition: 0.25s;
+	transition-property: filter, scale, transform, border-color;
+}
+.popupPreview .previewPart:hover {
+	border-color: rgba(250, 250, 210, 0.8);
+	-webkit-animation: sway 0.5s cubic-bezier(0.25, 0.25, 0.25, 0.5) forwards infinite;
+	animation: sway 0.5s cubic-bezier(0.25, 0.25, 0.25, 0.5) forwards infinite;
+	scale: 1.1;
+}
+.popupPreview .previewPart:active, .popupPreview .previewPart:hover:active {
+	filter: brightness(75%) hue-rotate(-15deg);
+	-webkit-animation: none;
+	animation: none;
+	scale: 0.95;
+}
+.popupPreview .previewPart:focus {
+	-webkit-animation: none;
+	animation: none;
+	scale: 1;
+	border-color: rgba(250, 250, 210, 0.7)
 }
 
 #promptPopup[data-type="choose"] .popupInput {
@@ -1116,6 +1176,12 @@ tr.total {
 	background-color: rgb(8, 62, 0);
 }
 
+@media only screen and (min-width: 600px) { /* Desktop-only Style */
+	#statsDiv .localStats {
+		column-count: 2;
+		text-align: center;
+	}
+}
 @media only screen and (max-width: 600px) { /* Mobile Style */
 	#gameHalf2, #statsPanel {
 		display: none;
