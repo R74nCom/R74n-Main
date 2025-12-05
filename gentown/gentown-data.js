@@ -1155,10 +1155,10 @@ gameEvents = {
 			}
 
 			if (subject.influences.happy > 1 && planet.stats.promptstreak > -10) {
-				happen("Influence", null, subject, { faith:0.1 });
+				happen("Influence", null, subject, { faith:0.2 });
 			}
 			else if (subject.influences.happy <= -8.5 && planet.day - subject.start >= 10) {
-				happen("Influence", null, subject, { faith:-0.075 });
+				happen("Influence", null, subject, { faith:-0.2 });
 			}
 
 			if (!planet.stats.oldesttown || planet.stats.oldesttown < planet.day - subject.start) {
