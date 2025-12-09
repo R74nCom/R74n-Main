@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-12-08 - Added LINE MUSIC and Musixmatch to Music page
+2025-12-08 - Added Japanese for Infinite Chef to Translation Hub
 2025-11-28 - Custom helper support for Text Viewer Parser - Standalone
 2025-11-20 - Created robots.txt to link to Sitemap
 2025-11-16 - Added Omada button to outlinks
