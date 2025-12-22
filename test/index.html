@@ -60,9 +60,13 @@ This HTML and its contents are property of R74n.com.
 <body>
 
 
-<a href="https://R74n.com" class="backbutton">⦉</a>
+<header>
+<a href="/" class="home"></a>
 <h1 class="pagetitle">Testing Zone</h1>
-<div class="content">
+</header>
+
+<main class="content">
+
 <span style="display:block">Here are all the special things (like inputs and stuff) that R74n supports.</span>
 <div class="divblock">
   <dl style="margin-bottom:0px"><dt>List Item</dt><dd>Description</dd><dt class="redbullet">List Item (Red)</dt><dt class="yellowbullet">List Item (Yellow)</dt><dt class="graybullet">List Item (Gray)</dt><dt class="glowbullet">List Item (Glowing)</dt><dt class="cyanbullet">List Item (Cyan)</dt></ul>
@@ -198,11 +202,30 @@ This HTML and its contents are property of R74n.com.
   </details>
 </div>
 
-
-
-
-
+<div class="divblock" style="vertical-align: top;">
+  <ul class="tree">
+    <li><details open>
+      <summary>Collapsible Tree</summary><ul>
+        <li><a href="https://r74n.com"><em>Link</em> Description</a></li>
+        <li><a href="https://r74n.com"><em>Link</em> <em class="news">[NEW]</em> Description</a></li>
+        <li>Item</a></li>
+        <li><details>
+        <summary>Nested Tree</summary><ul>
+          <li><a href="https://r74n.com"><em>Link</em> Description</a></li>
+          <li><a href="https://r74n.com"><em>Link</em> <em class="news">[NEW]</em> Description</a></li>
+          <li>Item</a></li>
+        </ul>
+      </details></li>
+      </ul>
+    </details></li>
+  </ul>
 </div>
+
+
+
+
+
+</main>
 
 
 <script src="../scripts.js"></script>

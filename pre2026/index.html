@@ -20,9 +20,9 @@
 ⠘⠛⠛⠛⠛⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠛⠛⠛⠛⠛⠃⠄⠛⠛⠃⠄⠘⠛⠛⠃
 This HTML and its contents are property of R74n.com.
 -->
-    <meta name="description" content="Collection of web projects, experiences, and tools from the developer of Sandboxels.">
-    <meta name="og:description" content="Collection of web projects, experiences, and tools from the developer of Sandboxels.">
-    <meta name="twitter:description" content="Collection of web projects, experiences, and tools from the developer of Sandboxels.">
+    <meta name="description" content="The main page, the portal to everything else.">
+    <meta name="og:description" content="The main page, the portal to everything else.">
+    <meta name="twitter:description" content="The main page, the portal to everything else.">
     <meta name="keywords" content="R74n, R47n">
     <meta name="author" content="R74n">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +31,7 @@ This HTML and its contents are property of R74n.com.
     <title>R74n</title>
     <script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>
     <meta property="og:title" content="R74n">
-    <link rel="stylesheet" type="text/css" href="normalize.css">
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <link rel="apple-touch-icon" sizes="180x180" href="https://R74n.com/icons/apple-touch-icon.png?v=R74n-2">
     <link rel="icon" type="image/png" sizes="32x32" href="https://R74n.com/icons/favicon-32x32.png?v=R74n-2">
@@ -79,6 +79,10 @@ This HTML and its contents are property of R74n.com.
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="alternate" type="text/html" href="http://web.archive.org/web/https://r74n.com/" hreflang="en" title="Web Archive">
+    <link rel="alternate" type="text/html" href="https://webcache.googleusercontent.com/search?q=cache:https://r74n.com/" hreflang="en" title="Google Cache">
+    <link rel="alternate" type="text/plain" href="http://webcache.googleusercontent.com/search?q=cache:https://r74n.com/&strip=1&vwsrc=0" hreflang="en" title="Google Cache (Text-Only)">
+    <link rel="alternate" type="text/plain" href="http://webcache.googleusercontent.com/search?q=cache:https://r74n.com/&strip=0&vwsrc=1" hreflang="en" title="Google Cache (Source Code)">
+    <link rel="alternate" type="text/html" href="https://r74n-com.translate.goog/?_x_tr_sl=en&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=ajax,elem" hreflang="en" title="Google Translate (English)">
     <link rel="alternate" type="text/html" href="https://r74n-com.translate.goog/?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=en-US&_x_tr_pto=ajax,elem" hreflang="es" title="Google Translate (Spanish)">
     <link rel="alternate" type="text/html" href="https://r74n-com.translate.goog/?_x_tr_sl=en&_x_tr_tl=ja&_x_tr_hl=en-US&_x_tr_pto=ajax,elem" hreflang="ja" title="Google Translate (Japanese)">
     <link rel="alternate" type="text/html" href="https://r74n-com.translate.goog/?_x_tr_sl=en&_x_tr_tl=zh-Hans&_x_tr_hl=en-US&_x_tr_pto=ajax,elem" hreflang="zh-Hans" title="Google Translate (Simplified Chinese)">
@@ -89,7 +93,7 @@ This HTML and its contents are property of R74n.com.
     <!-- <link rel="search" type="text/html" href="https://R74n.com/search" title="Search - R74n"> -->
     <link rel="shortlink" href="https://link.R74n.com/R74n">
     <link rel="shortlink" href="https://purl.org/r74n">
-    <link rel="archives" href="http://web.archive.org/web/https://r74n.com/" title="Web Archive">
+    <link rel="archives" href="http://web.archive.org/web/20251221192140/https://r74n.com/" title="Web Archive">
     <link rel="index" title="R74n" href="https://R74n.com/">
     <meta name="twitter:site" content="R74nCom">
     <meta name="twitter:site:id" content="1436857621827530753">
@@ -134,7 +138,6 @@ function newsFlash(text) {
   document.getElementById("newsheader").innerHTML = text;
   document.getElementById("newsheader").style.display = "block";
   document.getElementById("newsheader").style.backgroundColor = "darkred";
-  document.getElementById("subtitle").style.display = "none";
 }
 function splashText(text) {
   document.getElementById("splashheader").innerHTML = text;
@@ -217,13 +220,13 @@ function setIcon(){
     var newtitle = iconmonths[currentmonth][1];
     eventdata = iconmonths[currentmonth];
   }
-  if (newicon && !["no","false"].includes(urlParams.get("holiday"))) {
+  if (newicon) {
     if (Array.isArray(newicon)) {
       newicon = newicon[Math.floor(Math.random()*newicon.length)];
     }
     // if the newicon doesn't start with http, add "icons/"
     if (!newicon.startsWith("http")) {
-      newicon = "icons/" + newicon;
+      newicon = "../icons/" + newicon;
     }
     R74nicon.src = newicon;
     if (newtitle) {
@@ -233,7 +236,7 @@ function setIcon(){
     }
   }
   else {
-    R74nicon.src = "icons/favicon.png";
+    R74nicon.src = "../icons/favicon.png";
   }
   if (eventdata && eventdata[2]) {
     // https://github.com/loonywizard/js-confetti
@@ -308,118 +311,106 @@ function setIcon(){
       }
     </style>
     <script src="rue/rue.js"></script>
-
-    <style>
-      @font-face {
-        font-family: 'VT323';
-        src: url('cook/fonts/VT323-Regular.ttf') format('truetype');
-      }
-    </style>
 </head>
-<body class="homepage">
+<body>
 
-<header class="homepage">
-<span><a href="#YOU-ARE-ALREADY-HOME." title="The main page, the portal to everything else."><noscript id="iconnoscript"><img src="icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n icon"></noscript><img src="icons/favicon.png" style="display:none" id="R74nicon" class="R74nicon" alt="R74n icon"></a></span>
-<h1 class="pagetitle" title="Homepage" id="pagetitle">R74n</h1>
-<span id="subtitle" class="subtitle">Web collective</span>
-<span id="newsheader" class="alertheader" style="display:none;"></span>
-<script>setIcon();</script>
+<header>
+<a href="#YOU-ARE-ALREADY-HOME."><noscript id="iconnoscript"><img src="../icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n icon"></noscript><img src="../icons/favicon.png" style="display:none" id="R74nicon" class="R74nicon" alt="R74n icon"></a>
+<h1 class="pagetitle" title="Please stay a while!" id="pagetitle">Home</h1>
 
 <div id="rueBox"></div>
 </header>
 
-<header id="splashheader" class="alertheader" style="display:none;"></header>
-
 <main class="content">
+<header id="newsheader" class="alertheader" style="display:none;"></header><header id="splashheader" class="alertheader" style="display:none;"></header><script>setIcon();</script>
 
 <!-- <div class="homefundivtop">Fun stuff could go here!</div> -->
 
-<!-- <p>Hello</p> -->
-
-<!-- <nav id="spotlightGallery" style="display:flex; width: 100%; margin-bottom:1em">
-  <div style="width:25%; height:100px; background:red;"></div>
-</nav> -->
-
-<div class="homedivparent">
-
 <section class="homediv">
-  <ul class="tree">
-    <li><details open>
-      <summary>Spotlight</summary><ul>
-        <li><a href="https://sandboxels.R74n.com/"><em>Sandboxels</em> <em class="news">[UPDATE]</em> Intricate falling-sand simulator</a></li>
-        <li><a href="cook/"><em>Infinite Chef</em> Ultimate virtual kitchen simulator</a></li>
-        <li><a href="gentown/"><em>GenTown</em> <em class="news">[NEW]</em> Influence civilization in this planet simulator</a></li>
-        <li><a href="https://c.R74n.com/"><em>Copy Paste Dump</em> Copy and paste everything this Winter</a></li>
-        <li><a href="rue/"><em>Explore with Rue</em> Learn how to use our cute chatbot</a></li>
-        <li><a href="convert/"><em>Unit Converter</em> Things tend to equal other things</a></li>
-        <li><a href="pixelflags/"><em>PixelFlags</em> 582 tiny pixel art flags & guessing game</a></li>
-        <li><a href="shapes/"><em>Shapes</em> Flexible generic shape and icon set</a></li>
-      </ul>
-    </details></li>
-  </ul>
+<h2 class="linkcategory">== Spotlight ==</h2>
+<dl>
+  <dt class="glowbullet"><a href="https://sandboxels.R74n.com">Sandboxels</a></dt>
+      <dd>Intricate falling-sand simulator</dd>
+  <dt class="glowbullet"><a href="https://c.R74n.com">Copy Paste Dump</a></dt>
+    <dd>Copy and paste everything this Fall</dd>
+  <dt class="glowbullet"><a href="../cook/">Infinite Chef</a></dt>
+    <dd>Ultimate virtual kitchen simulator</dd>
+  <dt class="glowbullet"><a href="../gentown/">GenTown</a></dt>
+    <dd>Influence civilization in this planet simulator</dd>
+  <dt><a href="../hello/">Hello in Every Way</a></dt>
+      <dd>Learn to greet anyone and anything, anytime</dd>
+  <dt><a href="../convert/">Unit Converter</a></dt>
+    <dd>Things tend to equal other things</dd>
+  <dt><a href="../pixelflags/">PixelFlags</a></dt>
+    <dd>582 tiny pixel art flags & guessing game</dd>
+  <dt><a href="../mix/">Mix-Up!</a></dt>
+    <dd>Come up with an answer to endless combinations</dd>
+  <dt><a href="../ants/">Every Ant on Earth</a></dt>
+    <dd>Browse every single individual ant</dd>
+  <dt><a href="../shapes/">Shapes</a></dt>
+    <dd>Flexible generic shape and icon set</dd>
+</dl>
 </section>
 
 <section class="homediv">
-  <ul class="tree">
-    <li><details open>
-      <summary>Connect</summary><ul>
-        <li><a href="https://discord.gg/ejUc6YPQuS"><em>Discord</em> Hang out and stay updated on our projects</a></li>
-        <li><a href="https://news.R74n.com/"><em>Newsletter</em> Get notified when big updates drop</a></li>
-        <li><a href="social/"><em>Socials</em> Follow us literally everywhere</a></li>
-        <li><a href="ufbs/"><em>Send Feedback</em> Suggest features or report bugs</a></li>
-        <li><a href="commons/"><em>Commons</em> Publicly accessible and editable spaces</a></li>
-        <li><a href="community/"><em>Community Projects</em> See what viewers have made</a></li>
-        <li><a href="icons/"><em>Icons</em> Iconic R74n logo in every color and format</a></li>
-        <li>
-          <ul class="tree">
-            <li><details>
-              <summary>More...</summary><ul>
-                <li><a href="id/"><em>Identifiers</em> Identify our projects or request your own</a></li>
-                <li><a href="https://data.R74n.com"><em>Wikibase</em> Structured data about R74n anyone can edit</a></li>
-                <li><a href="translate/"><em>Translation Hub</em> Speak another language?</a></li>
-                <li><a href="meta/"><em>Meta</em> Everything else about R74n, including more pages</a></li>
-              </ul>
-            </details></li>
-          </ul>
-        </li>
-      </ul>
-    </details></li>
-  </ul>
+<h2 class="linkcategory">== R74n ==</h2>
+<dl>
+  <dt class="glowbullet"><a href="https://discord.gg/ejUc6YPQuS" target="_blank">Discord</a></dt>
+    <dd>Discuss and stay up to date on our latest projects</dd>
+  <dt class="glowbullet"><a href="https://news.R74n.com/">Newsletter</a></dt>
+    <dd>Be notified for big R74n and Sandboxels news</dd>
+  <dt><a href="../ufbs/">Send Feedback</a></dt>
+    <dd>Our state-of-the-art Universal Feedback System</dd>
+  <dt><a href="../commons/">Commons</a></dt>
+    <dd>Publicly accessible and editable spaces</dd>
+  <dt><a href="../social/">Socials</a></dt>
+    <dd>Contact us on our many social accounts</dd>
+  <dt><a href="../rue/">Explore with Rue</a></dt>
+    <dd>Learn how to use our cute chatbot</dd>
+  <dt><a href="../icons/">Icons</a></dt>
+    <dd>Iconic R74n logo in every color and format</dd>
+  <dt><a href="../lore/">Lore</a></dt>
+    <dd>Discover the dark secrets of R74n</dd>
+  <dt><a href="../https://data.R74n.com/">Wikibase</a></dt>
+    <dd>Structured data about R74n anyone can edit</dd>
+  <dt><a href="../meta/">Meta</a></dt>
+    <dd>All about R74n, including more pages</dd>
+</dl>
 </section>
+
+<!-- <div class="homefundiv">Fun stuff could go here!</div> -->
 
 <section class="homediv">
-  <ul class="tree">
-    <li><details open>
-      <summary>More Fun</summary><ul>
-        <li><a href="hello/"><em>Hello in Every Way</em> Learn to greet anyone and anything, anytime</a></li>
-        <li><a href="mix/"><em>Mix-Up!</em> Come up with an answer to endless combinations</a></li>
-        <li><a href="ants/"><em>Every Ant on Earth</em> Browse every single individual ant</a></li>
-        <li><a href="halacae/"><em>Halacae</em> Interpretive constructed language with minimal letters</a></li>
-        <li><a href="moji/"><em>R74moji</em> Feel anything. Be anyone.</a></li>
-        <li><a href="lore/"><em>Lore</em> Discover the dark secrets of R74n</a></li>
-      </ul>
-    </details></li>
-  </ul>
+<h2 class="linkcategory">== Miscellaneous ==</h2>
+<dl>
+  <dt><a href="../supporters/">Supporters</a></dt>
+    <dd>View our lovely, generous supporters!</dd>
+  <dt><a href="../id/">Identifiers</a></dt>
+    <dd>Identify our projects or request your own</dd>
+  <dt><a href="../halacae/">Halacae</a></dt>
+    <dd>Interpretive constructed language with minimal letters</dd>
+  <dt><a href="../moji/">R74moji</a></dt>
+    <dd>Feel anything. Be anyone.</dd>
+  <dt><a href="../unisearch/">UniSearch</a></dt>
+    <dd>Type in keywords to get emoji and Unicode symbols</dd>
+  <dt><a href="../words/">Words and Definitions</a></dt>
+    <dd>Learn words from all cultures of the world</dd>
+  <dt><a href="../sequence/">Sequence</a></dt>
+    <dd>Endless streams of various number systems</dd>
+  <dt><a href="https://github.com/R74nCom/Social-Media-Lists" target="_blank">Social Media Lists</a></dt>
+    <dd>Niche lists for social media platforms</dd>
+  <!-- <dt><a href="../mc/">Minecraft Tools</a></dt>
+    <dd>Get help and cool items for your favorite block game</dd> -->
+  <dt><a href="../share/">Share Buttons</a></dt>
+    <dd>Share this site virtually anywhere</dd>
+  <dt><a href="../octopi">Types of Octopi</a></dt>
+    <dd>Very old, very real</dd>
+</dl>
 </section>
 
-<section class="homediv">
-  <ul class="tree">
-    <li><details open>
-      <summary>More Tools</summary><ul>
-        <li><a href="https://c.r74n.com/converter/"><em>Text Converters</em> on the Copy Paste Dump</a></li>
-        <li><a href="unisearch/"><em>UniSearch</em> Type in keywords to get emoji and Unicode symbols</a></li>
-        <li><a href="words/"><em>Words and Definitions</em> Learn words from all cultures of the world</a></li>
-        <li><a href="sequence/"><em>Sequence</em> Endless streams of various number systems</a></li>
-        <li><a href="https://github.com/R74nCom/Social-Media-Lists"><em>Social Media Lists</em> Niche lists for social media platforms</a></li>
-        <li><a href="share/"><em>Share Buttons</em> Share this site virtually anywhere</a></li>
-      </ul>
-    </details></li>
-  </ul>
-</section>
+<!-- <section class="homediv">Fun stuff could go here!</section> -->
 
-</div>
-
-<footer><div class="simplefooter"><a href="outlinks/">Outlinks</a> • <a href="meta/">About</a> • <a href="social/">Contact</a> • <a href="privacy">Privacy</a></div></footer>
+<footer><div class="simplefooter"><a href="../outlinks#Friends">Friends</a> • <a href="../meta/#About">About</a> • <a href="../social/">Contact</a> • <a href="../privacy">Privacy</a></div></footer>
 
 <script> // after content loaded
 // Temporary news flashes
@@ -429,7 +420,6 @@ var newsFlashes = [
   ["11/04-11/14","We released a NEW civilization simulator, called <a href='https://r74n.com/gentown/'>GenTown</a>. Check it out online!"],
   ["12/08-12/12","The R74n 2025 Recap is here! See our <a href='https://news.r74n.com/p/the-r74n-2025-recap' target='_blank'>free newsletter article</a>."],
   ["12/13-12/20","Calling all CREATIVE PEOPLE! Submit an interesting version of our logo to our <a href='https://r74n.com/community/logo'>Community Project</a>."],
-  ["12/23-12/26","Merry Christmas from R74n! <a href='https://store.steampowered.com/app/3664820/Sandboxels/'>Sandboxels is on sale</a> on Steam for your gift cards!"],
 ];
 // loop through newsFlashes, if today is between the start and end dates, display the message
 try {
@@ -448,7 +438,7 @@ try {
     end.setHours(23,59,59);
     // if today is between the start and end dates
     if (today >= start && today <= end) {
-      var message = "<strong>News Flash: </strong>"+newsFlashes[i][1];
+      var message = "NEWS FLASH: "+newsFlashes[i][1];
       newsFlash(message);
       currentNewsFlash = message;
       // 2020-03-17T08:00 format
@@ -576,8 +566,6 @@ youtube: “Did you enjoy the video? leave a like and subscribe!”
     splashText(refsocial);
   }
 }
-
-initRue();
 </script>
 
 

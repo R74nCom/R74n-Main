@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-12-22 - New 'Launch FWD' style for the main site: New homepage, collapsible lists, squarer borders, headers
+2025-12-22 - Added ?holiday=no URL parameter to homepage
+2025-12-22 - Updated Copy Paste Dump season on homepage
 2025-12-13 - Created Logo Community Project page
 2025-12-09 - Added Infinite Chef and GenTown release dates to Calendar
 2025-12-08 - Added LINE MUSIC and Musixmatch to Music page

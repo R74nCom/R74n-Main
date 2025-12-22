@@ -9,17 +9,9 @@ body {
 	word-wrap: break-word;
 }
 .content {
-	margin: 0.25em 1em 0.5em 1em;
-    /* margin-top: 20px; */
-    overflow-wrap: break-word;
-    padding-top: 1em;
-}
-
-*:focus {
-  outline: none;
-}
-*:focus-visible {
-  outline: 2px dashed #00ffff!important;
+	margin:10px;
+	margin-top:20px;
+	overflow-wrap: break-word;
 }
 
 a {color: rgb(255, 0, 255);text-decoration: none;cursor:pointer}
@@ -40,15 +32,12 @@ a.newLink:active::before { filter:brightness(300%);}
 ::selection {background:#00ffff; color:#000000;}
 ::-moz-selection {background:#00ffff; color:#000000;}
 
-.pagetitle, header .back, .R74nicon {
-	display: inline-block;
-	margin: 0px;
-	vertical-align: middle;
-}
-.pagetitle, .R74nicon, header .back {font-size:32pt; }
+.pagetitle, .backbutton, .R74nicon {display: inline-block;margin:0px;vertical-align: middle;margin-left:10px}
+.pagetitle, .R74nicon {font-size:4.5vw; }
+.backbutton {font-size:60px}
 
-.pagetitle {margin-left: 0.5em;}
-.R74nicon, header a.home {width:1.4em;transition:all 3s, outline 0s;}
+.pagetitle {margin-left: 10px;}
+.R74nicon {height:50px;width:50px;transition:3s;}
 .iconimg {height:50px;width:50px;}
 
 b {font-weight:bold;}
@@ -73,10 +62,14 @@ input[type=reset] {background-color: rgb(111, 79, 79)!important;}
 input[type=button], button, input[type=submit], input[type=reset], .checkmark {
 	background-color: rgb(107,107,107);
 	color: rgb(255,255,255);
-	/* box-shadow: 0em -0.1em 0em inset rgb(0,0,0,0.5); */
+	box-shadow: 0em -0.1em 0em inset rgb(0,0,0,0.5);
 	font-size: 20px;
-	padding-left: 0.4em;
-	padding-right: 0.4em;
+	border-radius: 7px;
+	border-style: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 7px;
+	padding-right: 7px;
 	min-width: 30px;
 	max-height: 40px;
 	vertical-align: middle;
@@ -115,7 +108,7 @@ textarea, input[type=text], input[type=number], input[type=date], input[type=dat
 }
 input[type=number] {width:100px}
 textarea:focus {
-	/* box-shadow: 0 0 3pt 2pt rgb(31, 31, 31); */
+	box-shadow: 0 0 3pt 2pt rgb(31, 31, 31);
 }
 textarea {
 	max-width:80%;
@@ -143,47 +136,6 @@ input[type="color"] {
 	vertical-align: middle;
 	height: 1.75em;
 }
-
-input[type=text], input[type=number], input[type=date], input[type=datetime-local], input[type=month], input[type=week], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=time], input[type=url],
-textarea {
-	border-radius: 0;
-	background-color:#3b3b3b;
-	border: solid 3px rgba(255,255,255,0.25);
-	border-right-color: rgba(255,255,255,0.4);
-	border-bottom-color: rgba(255,255,255,0.4);
-	cursor: pointer;
-	padding-top: 0.4em;
-	padding-bottom: 0.4em;
-}
-button,
-a.sb,
-input[type=button], input[type=reset], input[type=submit],
-input[type=file]::file-selector-button,
-select {
-	border-radius: 0;
-	background-color:#3b3b3b;
-	border: solid 3px rgba(255,255,255,0.4);
-	border-right-color: rgba(255,255,255,0.25);
-	border-bottom-color: rgba(255,255,255,0.25);
-	cursor: pointer;
-	padding-top: 0.4em;
-	padding-bottom: 0.4em;
-}
-button,
-a.sb,
-input[type=button], input[type=reset], input[type=submit],
-input[type=file]::file-selector-button {
-	line-height: 0;
-    padding-top: 0.9em;
-    padding-bottom: 0.9em;
-}
-select:focus-visible, textarea:focus-visible, input:focus-visible, button:focus-visible {
-	border-color: rgba(0,255,255,0.5);
-	border-right-color: rgba(0,255,255,0.75);
-	border-bottom-color: rgba(0,255,255,0.75);
-	outline: none!important;
-}
-
 
 
 ul, dl {
@@ -237,19 +189,14 @@ ol li {counter-increment: li}
 	width: 20px;
 	height: 20px;
 	background: rgb(107,107,107);
-	border-radius: 0px;
+	border-radius: 5px;
 	border-style: none;
 }
 .checkbox:hover + label:before {
 	filter: brightness(150%)
 }
 .checkbox:focus + label:before {
-	/* box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12); */
-	filter: brightness(150%)
-}
-.checkbox:checked:focus + label:before {
-	/* box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12); */
-	filter: brightness(80%)
+	box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
 }
 .checkbox:checked + label:before {
 	background: white;
@@ -259,7 +206,7 @@ ol li {counter-increment: li}
 	cursor: auto;
 }
 .checkbox:disabled + label:before {
-	/* box-shadow: none; */
+	box-shadow: none;
 	background: #ddd;
 }
 .checkbox:checked + label:after {
@@ -287,7 +234,7 @@ hr {
 .lidesc, dd {font-style:italic;}
 dd {margin-inline-end: 20px;}
 .lidesc::before, dd::before {content:"↳ "}
-.cw[open="false"] {cursor:pointer;background-color:rgb(39, 39, 39);padding:5px;border-radius:0;line-height:2;}
+.cw[open="false"] {cursor:pointer;background-color:rgb(39, 39, 39);padding:5px;border-radius:20px;line-height:2;}
 .cw[open="false"]:active {background-color:rgb(61, 61, 61);}
 .cw[open="true"] {transition:0.5s;}
 .desc {display:block;margin-left:10px;}
@@ -301,15 +248,7 @@ dd {margin-inline-end: 20px;}
 .toc {margin:0px;}
 
 .divblock {display:inline-block;margin:0.4rem;padding:0.4rem;vertical-align:middle;max-width:500px;}
-.homedivparent {
-	display: flex;
-    flex-wrap: wrap;
-}
-.homediv {
-	display:inline-block;
-	vertical-align:top;
-	flex-grow: 1;
-}
+.homediv {display:inline-block;vertical-align:top;}
 .homefundiv, .homefundivtop {display:block;padding-bottom:1em;padding-top:1em;margin-bottom:1em;text-align: center; border-radius: 30px; border:solid white}
 .homefundivtop {margin-top:1em}
 
@@ -328,27 +267,14 @@ h2.linkcategory, h3.linkcategory {font-size: 1em;margin-block-start: 0;}
 
 .alertheader {
 	padding:0.25em;
-	border-radius:0px;
-    /* margin-block-start: 1em;
-    margin-block-end: 1em; */
+	border-radius:10px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
 }
-#newsheader {
-	color:white;
-	background-color:darkred;
-	border: solid 3px rgba(255,255,255,0.5);
-	border-right-color: rgba(255,255,255,0.33);
-	border-bottom-color: rgba(255,255,255,0.33);
-	flex-shrink: 1;
-	padding-left: 0.5em;
-    padding-right: 0.5em;
-	flex-basis:content;
-}
+#newsheader {color:white;background-color:darkred;}
 #newsheader a {color:lime;}
 #newsheader a:hover {color:rgb(117, 255, 117);}
 #newsheader a:active {color:yellow;}
-#newsheader strong {
-	font-variant: small-caps;
-}
 #splashheader {text-align: center;}
 
 .pixelart, .pixelflag {
@@ -373,7 +299,6 @@ ul ol, ol ul, ul ul, ol ol { /* Nested lists */
 	ul, ol {
 	    padding-left:0.5em;
 	}
-	.pagetitle { font-size:24pt }
 }
 
 .textButton {
@@ -438,292 +363,4 @@ a.qr {
 }
 a.qr:hover, a.qr:active, a.qr:hover:active, a.texticon:hover, a.texticon:active, a.texticon:hover:active {
 	color: rgba(0,0,0,0);
-}
-
-/* 2026 STYLE - LAUNCH FWD  (Not all of it) */
-
-.content {
-	border-top: solid 3px rgba(255,255,255,0.5);
-}
-.homepage .content {
-	border: none;
-	padding-top: 0em;
-}
-
-.content > p:first-child,
-.content > dl:first-child,
-.content > ul:first-child,
-.content > ol:first-child {
-    margin-top: 0em;
-	padding-top: 0em;
-}
-
-body header:first-child {
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	display: flex;
-	align-items: center;
-}
-
-header.homepage {
-	justify-content: space-between;
-}
-header.homepage .pagetitle {
-	display: none
-}
-body header:first-child > * {
-	margin-left: 22px;
-	flex-grow: 1;
-}
-body header:first-child > *:first-child { /* logo image */
-	flex-shrink: 0;
-	flex-grow: 0;
-}
-body header:first-child > *:last-child {
-	margin-right: 1em;
-}
-header.homepage > .subtitle {
-	font-variant: small-caps;
-    font-weight: bold;
-    font-style: italic;
-}
-
-header .back[href="https://R74n.com"],
-header .back[href="https://r74n.com"],
-header .back[href="https://r74n.com/"],
-header .home {
-	font-size:32pt;
-	width: 1.4em;
-	height: 1.4em;
-	color: transparent;
-	background-image: url("https://r74n.com/icons/favicon.png");
-	background-size: contain;
-	background-repeat: no-repeat;
-}
-header .back,
-header .home,
-body header:first-child .back,
-body header:first-child .home {
-	flex-grow: 0
-}
-
-
-@media only screen and (min-width: 1050px) {
-	header.homepage #rueBox {
-		position: relative !important;
-		display: inline !important;
-		top: 0px !important;
-		flex-grow: 0;
-		padding: 0 !important;
-	}
-}
-@media only screen and (max-width: 1050px) {
-	header.homepage #rueBox {
-		top: 0.4em !important;
-		padding-right: 0 !important;
-	}
-}
-
-@media only screen and (max-width: 860px) {
-	header.homepage > .subtitle {
-		display: none;
-	}
-}
-
-@media only screen and (min-width: 1016px) and (max-width: 1799px) {
-	.homediv {
-		width: 46%;
-		max-width: 46%;
-        /* margin-left: 2%; */
-        margin-right: 4%;
-	}
-}
-@media only screen and (max-width: 1016px) {
-	.homediv {
-		width: 100%;
-	}
-	.tree > li > details > ul > li {
-		display: block;
-	}
-}
-@media only screen and (min-width: 1799px) {
-	.homediv {
-        /* margin-left: 2%; */
-        margin-right: 4%;
-		max-width: 750px;
-	}
-}
-
-@media only screen and (max-width: 1050px) {
-	header.homepage {
-		display: block;
-	}
-	header.homepage #rueBox {
-		position: absolute !important;
-		/* right: 0.5em; */
-		right: 0;
-		max-width: 62.5%;
-	}
-	header.homepage #rueBoxIn {
-		margin-left: 0 !important;
-		margin-right: 0 !important;
-	}
-	#newsheader {
-		display: block;
-		margin-top: 1em;
-		margin-left: 1em;
-		margin-right: 1em;
-	}
-}
-
-.tree {
-	padding: 0;
-	margin: 0;
-	margin-bottom: 1em;
-	line-height: 1.25em;
-}
-.tree * {
-	transition: 0.1s opacity, 0.1s border-bottom, 0.1s padding-bottom;
-}
-.tree li::before {
-	content: "";
-	margin: 0;
-	display: none;
-}
-.tree > li {
-
-}
-.tree summary::marker,
-.tree summary::-webkit-details-marker {
-	display: none;
-}
-.tree summary {
-	color: yellow;
-	list-style: none;
-	user-select: none;
-	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-weight: 600;
-}
-.tree details {
-	user-select: none;
-}
-.tree details[open] {
-	user-select:text;
-}
-.tree details > summary {
-	border-bottom: 0px solid rgba(255, 255, 0, 0);
-	padding-bottom: 0em;
-}
-.tree details > summary:active,
-.tree details[open] summary:active {
-	border-bottom: 1.5px solid rgba(255, 255, 0, 0.33);
-	padding-bottom: 0.15em;
-}
-.tree details[open] > summary {
-	border-bottom: 3px solid rgba(255, 255, 0, 0.5);
-	padding-bottom: 0.25em;
-}
-.tree summary::before {
-	content: "+";
-	/* padding-right: 0.25em; */
-	width: 1em;
-	font-family:'Courier New', Courier, monospace;
-	font-weight: bold;
-	display: inline-block;
-	transform: translateY(-0.1em);
-	color: white;
-}
-.tree details > summary:hover:active::before,
-.tree details[open] > summary:hover:active::before {
-	content: "/";
-}
-.tree details[open] > summary::before {
-	content: "-";
-}
-.tree > li > details > ul {
-	padding-left: 0;
-}
-.tree > li > details > ul > li {
-	padding-top: 0.5em;
-	padding-left: 1.5em;
-	position: relative;
-}
-.tree > li > details > ul > li::before {
-	content: "↳";
-	display: inline-block;
-	color: lime;
-	font-family:'Courier New', Courier, monospace;
-	/* transform: translateY(-0.2em); */
-	font-weight: bold;
-	width: 1em;
-	position: absolute;
-	left: 0.5em;
-	top: 0.35em;
-}
-
-.tree details[open] summary:active ~ ul {
-	opacity: 0.5;
-}
-
-.tree details > ul a {
-	font-style: italic;
-	color: unset;
-	display: inline-block;
-	transition: 0.2s color, 0.1s transform;
-}
-.tree details > ul a:active {
-	color: unset;
-}
-.tree details > ul a em {
-	font-style: normal;
-	color: rgb(255, 0, 255);
-	text-decoration: underline;
-	text-underline-offset: 0.2em;
-}
-.tree details > ul a em.news {
-	color: rgb(255, 62, 62);
-	text-decoration: none;
-}
-.tree details > ul a em:last-of-type::after {
-	text-decoration: none;
-	color: white;
-	content: " »";
-	display:inline-block;
-	white-space: pre;
-}
-.tree details > ul a:active em,
-.tree details > ul a:hover:active em {
-	color: rgb(255, 179, 255);
-}
-.tree details > ul a:hover em {
-	color: rgb(255, 121, 255);
-}
-.tree details > ul a:active em.news,
-.tree details > ul a:hover:active em.news {
-	color: rgb(255, 0, 0);
-}
-.tree details > ul a:hover em.news {
-	color: rgb(255, 118, 118);
-}
-.tree details > ul a:hover:only-child {
-	transform: translateX(0.1em);
-}
-.tree details > ul a:active:only-child {
-	transform: scale(98%)
-}
-
-@media only screen and (max-width: 500px) {
-	.tree > li > details > ul > li {
-		padding-left: 1em;
-	}
-	.tree > li > details > ul > li::before {
-		left: 0em;
-	}
-	.tree details > ul a em:last-of-type::after {
-		content: '';
-		display: block;
-	}
-	.tree details > ul a {
-		width: 100%;
-	}
 }

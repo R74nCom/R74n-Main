@@ -345,7 +345,7 @@ if (!(location.search=="")) {
     text = converter.makeHtml(text);
     document.getElementById("textdiv").innerHTML = text
     // set .backbutton href to the same page but without the text in the url
-    document.getElementsByClassName("backbutton")[0].href = "?";
+    document.getElementsByClassName("back")[0].href = "?";
 }
 else {
     document.getElementById("textdiv").innerHTML = ""
@@ -380,9 +380,13 @@ document.getElementById("loadingscreen").style.display = "none";
 <body>
 
 
-<a href="https://R74n.com" class="backbutton">⦉</a>
+<header>
+<a href="/" class="home"></a>
 <h1 class="pagetitle">Text Viewer</h1>
-<div class="content">
+</header>
+
+<main class="content">
+
 <div id="textdiv"></div>
 
 
@@ -404,7 +408,7 @@ document.getElementById("loadingscreen").style.display = "none";
 </div>
 
 
-</div>
+</main>
 
 
 <!-- i like having this but ublock blocks these things anyway -->

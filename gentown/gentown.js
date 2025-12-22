@@ -1982,7 +1982,7 @@ wordComponents.nameSuffixes = {
 	c: "cas,cia,cis,cisca,cisco,colas,cy,cie,city",
 	d: "dan,den,der,do,don,dra,dre,driel,dro,dyn,drew,dder,doc,ddy,dyne,drey",
 	f: "fer,ffany,ffin,fia,ffer,ford",
-	g: "ga,go,gore,gorn,gton,gard,gger",
+	g: "ga,go,gore,gorn,gton,gard",
 	h: "ham,hard,heus,him,hine,his,hua,hyr,hew,hien,hart,han,hon",
 	j: "jah,jamin",
 	k: "ke,kie,ky,ker,kiel",

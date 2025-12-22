@@ -559,8 +559,8 @@ This HTML and its contents are property of R74n.com.
     </script>
     <script src="https://R74n.com/load.js"></script>
     <style>
-      input[type="number"] {width:300px;height:40px;font-size:24px;vertical-align:middle;max-width:90%}
-      select {height:60px;font-size:24px;vertical-align:middle;max-width:90%}
+      input[type="number"] {width:300px;font-size:24px;vertical-align:middle;max-width:90%}
+      select {font-size:24px;vertical-align:middle;max-width:90%}
       #TypeSelect {font-size:20px}
       #BoxLeft, #BoxRight, #Arrow {display:block}
       #BoxLeft {margin-top:25px}
@@ -603,22 +603,13 @@ This HTML and its contents are property of R74n.com.
 </head>
 <body>
 
-<!--
-todo:
-  sorting by:
-    name
-    symbol
-    no order
-    size
-  url paramaters
 
-
--->
-
-
-<a href="https://R74n.com" class="backbutton">⦉</a>
+<header>
+<a href="/" class="home"></a>
 <h1 class="pagetitle">Unit Converter</h1>
-<div class="content">
+</header>
+
+<main class="content">
 
 <select id="TypeSelect" onchange="selectType(this)">
   <option disabled selected>Select a Unit Type</option>
@@ -752,7 +743,7 @@ todo:
 
 
 
-</div>
+</main>
 
 
 <!-- i like having this but ublock blocks these things anyway -->

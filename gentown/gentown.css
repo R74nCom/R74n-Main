@@ -8,6 +8,8 @@ html, body {
 
 .content {
 	margin: 0;
+	border-top: none;
+	padding-top: 0;
 }
 
 #gameLoading {
