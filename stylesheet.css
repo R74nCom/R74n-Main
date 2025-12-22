@@ -556,7 +556,7 @@ body header:first-child .home {
 
 @media only screen and (max-width: 1050px) {
 	header.homepage {
-		display: block;
+		display: block !important;
 	}
 	header.homepage #rueBox {
 		position: absolute !important;
