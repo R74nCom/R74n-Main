@@ -128,3 +128,5 @@ https://r74n.com/community.txt
 https://r74n.com/gentown/changelog.txt
 https://r74n.com/gentown/controls.txt
 https://r74n.com/community/logo
+https://r74n.com/contact
+https://r74n.com/about.txt

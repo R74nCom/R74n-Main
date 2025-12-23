@@ -53,7 +53,7 @@ This HTML and its contents are property of R74n.com.
 
 <main class="content">
 
-<p>Reach out to us for any reason, including questions, partnerships, and education.</p>
+<p>Reach out to <a href="meta/">us</a> for any reason, including questions, partnerships, and education.</p>
 
 <p>To submit feedback, please use our dedicated <a href="/ufbs/">Feedback System</a>.</p>
 
@@ -68,11 +68,18 @@ This HTML and its contents are property of R74n.com.
 </ul>
 
 <form class="form" target="_blank" action="https://formsubmit.co/contact@r74n.com" method="POST">
-  <input type="text" name="name" class="form-control" placeholder="Name..." required>
-  <input type="email" name="email" class="form-control" placeholder="Email... (Optional)">
-  <textarea placeholder="Your message..." class="form-control" name="message" cols="50" rows="8" required></textarea>
-  <button type="submit" class="btn btn-lg btn-dark btn-block">Send Message</button>
+  <div>
+    <input type="text" name="name" placeholder="Name...">
+    <input type="email" name="email" placeholder="Email... (Optional)">
+  </div>
+  <textarea placeholder="Your message..." name="message" cols="50" rows="8" required></textarea>
+  <div>
+    <button type="submit">Send Message</button>
+    <input type="reset">
+  </div>
 </form>
+
+<p>If you prefer to not leave your email address, please provide another way to reach out to you.</p>
 
 
 

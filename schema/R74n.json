@@ -7,14 +7,30 @@
   "description": "Website collective, developer of Sandboxels, the Copy paste Dump, and more.",
   "url": "https://R74n.com/",
   "logo": "https://R74n.com/icons/favicon.png",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "email": "contact@R74n.com",
-    "contactType": "customer service",
-    "availableLanguage": "en",
-    "url": "https://R74n.com/ufbs/",
-    "name": "Contact R74n"
-  },
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "email": "contact@R74n.com",
+      "contactType": "customer service",
+      "availableLanguage": "en",
+      "name": "Email R74n"
+    },
+    {
+      "@type": "ContactPoint",
+      "url": "https://R74n.com/ufbs/",
+      "contactType": "customer service",
+      "availableLanguage": "en",
+      "name": "Contact R74n"
+    },
+    {
+      "@type": "ContactPoint",
+      "email": "contact@R74n.com",
+      "contactType": "feedback",
+      "availableLanguage": "en",
+      "url": "https://R74n.com/ufbs/",
+      "name": "Submit Feedback"
+    }
+  ],
   "sameAs": [
     "https://R74n.com/",
     "https://www.facebook.com/R74n-106371942050914",

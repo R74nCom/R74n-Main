@@ -31,7 +31,7 @@ a[style]:active, a[style]:hover:active, a:active span[style], a:hover:active spa
 }
 a[style]:hover, a:hover span[style], a.qr:hover {
 	color: unset;
-	filter: brightness(1.8)
+	filter: brightness(1.8);
 }
 a.newLink::before {color: red; content: "(NEW) "}
 a.newLink:hover::before { filter:brightness(200%);}
@@ -86,20 +86,22 @@ input[type=button], button, input[type=submit], input[type=reset], .checkmark {
 	margin: 4px 0;
 	line-height: 1;
 	/* color transition */
-	transition: filter 0.2s;
+	transition: filter 0.2s, scale 0.2s;
 }
 input[type=button][selected=true] {
 	filter: brightness(150%);
 }
 input[disabled], textarea[disabled], button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
-input[type=button]:hover, button:hover, input[type=submit]:hover, .checkmark:hover, .clickable:hover {
+input[type=button]:hover, button:hover, input[type=submit]:hover, input[type=reset]:hover, .checkmark:hover, .clickable:hover {
 	filter: brightness(125%);
 }
-input[type=button][disabled]:hover, button[disabled]:hover, input[type=submit][disabled]:hover {
+input[type=button][disabled]:hover, button[disabled]:hover, input[type=submit][disabled]:hover, input[type=reset][disabled]:hover {
 	filter: brightness(75%);
+	scale: 1!important;
 }
-input[type=button]:active, button:active, input[type=submit]:active, .checkmark:active, .clickable:active {
+input[type=button]:active, button:active, input[type=submit]:active, input[type=reset]:active, .checkmark:active, .clickable:active {
 	filter: brightness(50%);
+	scale: 0.98
 }
 .clickable {
 	cursor: pointer
@@ -736,4 +738,34 @@ body header:first-child .home {
 	.tree details > ul a {
 		width: 100%;
 	}
+}
+
+@media only screen and (min-width: 800px) {
+	.tree summary {
+		max-width: 50vw;
+	}
+}
+
+.form {
+
+}
+
+.form input,
+.form textarea,
+.form button,
+.form select {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	display: block;
+}
+
+.form div {
+	display: flex;
+}
+.form div > * {
+	display: inline-block;
+	margin-left: 0.5em;
+}
+.form div > *:first-child {
+	margin-left: 0;
 }
