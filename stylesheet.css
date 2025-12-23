@@ -310,8 +310,18 @@ dd {margin-inline-end: 20px;}
 	vertical-align:top;
 	flex-grow: 1;
 }
-.homefundiv, .homefundivtop {display:block;padding-bottom:1em;padding-top:1em;margin-bottom:1em;text-align: center; border-radius: 30px; border:solid white}
-.homefundivtop {margin-top:1em}
+.homefundiv, .homefundivtop {
+	display:block;
+	margin-bottom:1em;
+	text-align: center;
+	border-radius: 0;
+	border: solid 3px rgba(255,255,255,0.5);
+	border-right-color: rgba(255,255,255,0.33);
+	border-bottom-color: rgba(255,255,255,0.33);
+}
+.homefundivtop {
+	/* margin-top:1em */
+}
 
 .simplefooter {font-size:0.7em;text-align:center;display:block}
 
