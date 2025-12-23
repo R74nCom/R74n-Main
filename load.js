@@ -124,7 +124,7 @@ window.addEventListener("load",function(){
 if (!location.host || location.host === "r74n.com") {
 	// Open external links in new tab
 	[...document.getElementsByTagName("a")].forEach(a => {
-		if (a && !a.hasAttribute("target") && a.href && a.href.startsWith("http") && !a.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) {
+		if (a && !a.hasAttribute("target") && a.href && ((a.href.startsWith("http") && !a.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) || a.href.match(/^mailto:/))) {
 			a.setAttribute("target","_blank");
 		}
 	});
