@@ -326,6 +326,13 @@ dd {margin-inline-end: 20px;}
 }
 
 .simplefooter {font-size:0.7em;text-align:center;display:block}
+.simplefooter > a::after {
+	content: "\A • ";
+	color: white;
+}
+.simplefooter > a:last-child::after {
+	content: ""
+}
 
 table {border-collapse:collapse;margin-left: 0.5em;overflow-wrap: anywhere;}
 td, th {border:0.5px solid gray;padding:5px;padding-left:10px;padding-right:10px}
