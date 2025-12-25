@@ -16,6 +16,7 @@ class R74nClass {
 	constructor() {
 		this.R74n = () => {console.log("R74n")}
 		this.start = new Date();
+		this.state = {};
 	}
 	get(key) {
 		return localStorage.getItem(LSPrefix+key);
@@ -121,7 +122,16 @@ if (!window.getCookie) {
 
 window.addEventListener("load",function(){
 
-if (!location.host || location.host === "r74n.com") {
+if (!location.host) R74n.state.file = true;
+if (location.host === "r74n.com") {
+	R74n.state.main = true;
+	R74n.state.official = true;
+}
+else if (location.href && location.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) {
+	R74n.state.official = true;
+}
+
+if (!R74n.state.file || R74n.state.main) {
 	// Open external links in new tab
 	[...document.getElementsByTagName("a")].forEach(a => {
 		if (a && !a.hasAttribute("target") && a.href && ((a.href.startsWith("http") && !a.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) || a.href.match(/^mailto:/))) {
@@ -130,8 +140,35 @@ if (!location.host || location.host === "r74n.com") {
 	});
 }
 
+if (navigator.userAgentData && navigator.userAgentData.mobile) {
+	R74n.state.mobile = true;
+}
+if (['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)) {
+	R74n.state.mobile = true;
+	R74n.state.ios = true;
+}
+
 if (window.self != window.top) {
+	R74n.state.embedded = true;
 	this.document.body.classList.add("embedded")
+}
+
+let _pageHeader = document.querySelector("body header:first-child");
+if (_pageHeader && _pageHeader.style.display !== "none") {
+	R74n.state.header = true;
+}
+let _pageFooter = document.querySelector("body > footer");
+if (_pageFooter) {
+	R74n.state.footer = true;
+}
+
+// Add footer when necessary
+if (!R74n.state.footer && R74n.state.header) {
+	document.body.insertAdjacentHTML("beforeend", `<footer><nav>
+  <a href="https://r74n.com/" style="color:#00ffff">More Projects</a>
+  <a href="https://r74n.com/contact">Contact</a>
+  <a href="https://r74n.com/privacy">Privacy</a>
+</nav></footer>`);
 }
 
 // Console Watermark

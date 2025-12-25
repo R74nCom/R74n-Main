@@ -330,12 +330,18 @@ dd {margin-inline-end: 20px;}
 	/* margin-top:1em */
 }
 
-.simplefooter {font-size:0.7em;text-align:center;display:block}
-.simplefooter > a::after {
+body > footer {
+	font-size:0.7em;
+	text-align:center;
+	display:block;
+	margin-top: 0.5em;
+	margin-bottom: 1.5em;
+}
+body > footer a::after {
 	content: "\A • ";
 	color: white;
 }
-.simplefooter > a:last-child::after {
+body > footer a:last-child::after {
 	content: ""
 }
 
