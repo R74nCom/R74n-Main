@@ -72,7 +72,8 @@ textarea, button, input, .checkmark {
 	vertical-align: middle;
 	color-scheme: dark;
 }
-input[type=submit] {background-color: rgb(126, 126, 126)!important;}
+/* input[type=submit] {background-color: rgb(72, 85, 74)!important;} */
+input[type=submit] {background-color: rgb(79, 111, 79)!important;}
 input[type=reset] {background-color: rgb(111, 79, 79)!important;}
 input[type=button], button, input[type=submit], input[type=reset], .checkmark {
 	background-color: rgb(107,107,107);
@@ -784,4 +785,7 @@ body header:first-child .home {
 }
 .form div > *:first-child {
 	margin-left: 0;
+}
+.form .response {
+	display: none
 }

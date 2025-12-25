@@ -67,20 +67,57 @@ This HTML and its contents are property of R74n.com.
   </details></li>
 </ul>
 
-<form class="form" target="_blank" action="https://formsubmit.co/contact@r74n.com" method="POST">
+<form class="form" target="_blank" action="https://formsubmit.co/contact@r74n.com" method="POST" id="contactForm" enctype="multipart/form-data">
   <div>
-    <input type="text" name="name" placeholder="Name...">
-    <input type="email" name="email" placeholder="Email... (Optional)">
+    <input type="text" name="name" placeholder="Name..." autocomplete="name">
+    <input type="email" name="email" placeholder="Email... (Optional)" autocomplete="email">
   </div>
-  <textarea placeholder="Your message..." name="message" cols="50" rows="8" required></textarea>
+  <textarea placeholder="Your message..." name="message" cols="50" rows="8" required autocomplete="off"></textarea>
+  <details>
+    <summary>Add more information...</summary>
+    <input type="file" name="attachment">
+  </details>
   <div>
     <input type="submit" value="Send Message">
     <input type="reset">
   </div>
+  <p class="response"></p>
 </form>
 
 <p>If you prefer to not leave your email address, please provide another way to reach out to you.</p>
 
+<script>
+  // contactForm = document.getElementById("contactForm");
+  document.getElementById("contactForm").addEventListener("submit", (e) => {
+    let form = e.target;
+
+    let req = {
+      name: form.elements.name.value,
+      message: form.elements.message.value,
+      email: form.elements.email.value,
+      file: form.elements.file.value,
+    }
+
+    console.log(req)
+    
+    fetch("https://formsubmit.co/ajax/contact@r74n.com", {
+      method: "POST",
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(req)
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
+
+    e.preventDefault();
+    return false;
+  })
+</script>
+
+<!-- temp1.elements.email.value -->
 
 
 
