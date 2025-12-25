@@ -102,6 +102,10 @@ This HTML and its contents are property of R74n.com.
     // }
 
     // console.log(req)
+
+    let response = form.querySelector(".response");
+    response.style.display = "block";
+    response.innerText = "Submitting...";
     
     fetch("https://formsubmit.co/ajax/contact@r74n.com", {
       method: "POST",
@@ -109,11 +113,11 @@ This HTML and its contents are property of R74n.com.
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify(req)
+      body: req
     })
       .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
+      .then(data => response.innerText = data.message)
+      .catch(error => response.innerText = error);
 
     e.preventDefault();
     return false;
