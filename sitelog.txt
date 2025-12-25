@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-12-25 - Improved Contact page: No CAPTCHA, user stays on-page, green submit button, more input fields
 2025-12-24 - More 404 page suggestions
 2025-12-24 - Accessibility improvements
 2025-12-23 - Created Contact page (/contact)

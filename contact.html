@@ -75,7 +75,18 @@ This HTML and its contents are property of R74n.com.
   <textarea placeholder="Your message..." name="message" cols="50" rows="8" required autocomplete="off" aria-label="Message"></textarea>
   <details>
     <summary>Add more information...</summary>
-    <input type="file" name="attachment" aria-label="File attachment">
+    <select name="topic" aria-label="Topic">
+      <option value="" disabled selected>Topic...</option>
+      <option value="question">General Questions</option>
+      <option value="suggestion">Suggestions</option>
+      <option value="report">Report an Issue</option>
+      <option value="personal">Personal</option>
+      <option value="education">Education</option>
+      <option value="business">Business or Advertising</option>
+    </select>
+    <input type="url" name="url" placeholder="Personal URL..." autocomplete="url" aria-label="Personal URL">
+    <input type="text" name="location" placeholder="Location..." autocomplete="country-name" aria-label="Location">
+    <!-- <input type="file" name="attachment" aria-label="File attachment"> -->
   </details>
   <div>
     <input type="submit" value="Send Message">
@@ -83,7 +94,11 @@ This HTML and its contents are property of R74n.com.
   </div>
   <p class="response"></p>
 
+  <input type="hidden" name="_subject" value="Contact Form Message">
+
+  <!-- <input type="hidden" name="_blacklist" value="spammy pattern, banned term, phrase"> -->
   <input type="hidden" name="_captcha" value="false">
+  <input type="text" name="_honey" class="honeypot">
 </form>
 
 <p>If you prefer to not leave your email address, please provide another way to reach out to you.</p>

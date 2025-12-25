@@ -789,3 +789,6 @@ body header:first-child .home {
 .form .response {
 	display: none
 }
+form .honeypot {
+	display: none
+}
