@@ -109,12 +109,6 @@ This HTML and its contents are property of R74n.com.
     let form = e.target;
 
     let req = new FormData(form);
-    // let req = {
-    //   name: form.elements.name.value,
-    //   message: form.elements.message.value,
-    //   email: form.elements.email.value,
-    //   attachment: form.elements.attachment.value,
-    // }
 
     let response = form.querySelector(".response");
     response.style.display = "block";
@@ -129,7 +123,10 @@ This HTML and its contents are property of R74n.com.
       body: req
     })
       .then(response => response.json())
-      .then(data => response.innerText = data.message)
+      .then(data => {
+        response.innerText = data.message
+        if (data.success) form.reset();
+      })
       .catch(error => response.innerText = error);
 
     e.preventDefault();
