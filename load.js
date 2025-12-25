@@ -166,7 +166,7 @@ if (_pageFooter) {
 }
 
 // Add footer when necessary
-if (!R74n.state.footer && R74n.state.header) {
+if (R74n.state.main && !R74n.state.footer && R74n.state.header) {
 	document.body.insertAdjacentHTML("beforeend", `<footer><nav>
   <a href="https://r74n.com/" style="color:#00ffff">More Projects</a>
   <a href="https://r74n.com/contact">Contact</a>

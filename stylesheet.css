@@ -334,7 +334,7 @@ body > footer {
 	font-size:0.7em;
 	text-align:center;
 	display:block;
-	margin-top: 0.5em;
+	margin-top: 1em;
 	margin-bottom: 1.5em;
 }
 body > footer a::after {
