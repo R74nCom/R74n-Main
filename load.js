@@ -120,7 +120,7 @@ if (!window.getCookie) {
 }
 
 window.addEventListener("load",function(){
-	
+
 if (!location.host || location.host === "r74n.com") {
 	// Open external links in new tab
 	[...document.getElementsByTagName("a")].forEach(a => {
@@ -128,6 +128,10 @@ if (!location.host || location.host === "r74n.com") {
 			a.setAttribute("target","_blank");
 		}
 	});
+}
+
+if (window.self != window.top) {
+	this.document.body.classList.add("embedded")
 }
 
 // Console Watermark

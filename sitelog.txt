@@ -1,8 +1,11 @@
 Miscellaneous things that aren't in other changelogs.
 
-2025-12-23 - Created Contact page
+2025-12-24 - More 404 page suggestions
+2025-12-24 - Accessibility improvements
+2025-12-23 - Created Contact page (/contact)
 2025-12-23 - Launch FWD: Buttons get small when pressed down on
 2025-12-23 - 404 URLs with a trailing slash are redirected automatically
+2025-12-22 - Created Pre-2026 page (/pre2026)
 2025-12-22 - New 'Launch FWD' style for the main site: New homepage, collapsible lists, squarer borders, headers
 2025-12-22 - Added ?holiday=no URL parameter to homepage
 2025-12-22 - Updated Copy Paste Dump season on homepage

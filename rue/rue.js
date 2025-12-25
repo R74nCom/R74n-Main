@@ -21,7 +21,7 @@ if (rueParam === "false" || rueParam === "off") {
 }
 
 var rueHTML = `<div id="rueBoxIn">
-  <input type="text" id="rueInput" placeholder="Explore with Rue..." title="Type in your query!" autocomplete="off"><input type="button" id="rueButton" value="&nbsp;" title="Let's go!" aria-label="Search">
+  <input type="text" id="rueInput" placeholder="Explore with Rue..." title="Type in your query!" autocomplete="off" aria-label="Explore with Rue"><input type="button" id="rueButton" value="&nbsp;" title="Let's go!" aria-label="Search">
 </div>`
 var rueParent = document.body;
 if (document.getElementById("rueBox")) {

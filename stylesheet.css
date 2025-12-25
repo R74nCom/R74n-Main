@@ -22,7 +22,11 @@ body {
   outline: 2px dashed #00ffff!important;
 }
 
-a {color: rgb(255, 0, 255);text-decoration: none;cursor:pointer}
+a {
+	color: rgb(255, 0, 255);
+	text-decoration: none;
+	cursor: pointer;
+}
 a:active, a:hover:active {color: rgb(255, 179, 255);}
 a:hover {color: rgb(255, 121, 255);}
 a[style]:active, a[style]:hover:active, a:active span[style], a:hover:active span[style], a.qr:active, a.qr:hover:active {
@@ -362,7 +366,11 @@ h2.linkcategory, h3.linkcategory {font-size: 1em;margin-block-start: 0;}
     padding-right: 0.5em;
 	flex-basis:content;
 }
-#newsheader a {color:lime;}
+#newsheader a {
+	color: lime;
+	text-decoration: underline;
+	text-underline-offset: 0.1em;
+}
 #newsheader a:hover {color:rgb(117, 255, 117);}
 #newsheader a:active {color:yellow;}
 #newsheader strong {
@@ -487,7 +495,7 @@ body header:first-child {
 header.homepage {
 	justify-content: space-between;
 }
-header.homepage .pagetitle {
+header.homepage #pagetitle {
 	display: none
 }
 body header:first-child > * {
@@ -687,6 +695,7 @@ body header:first-child .home {
 .tree details > ul a {
 	font-style: italic;
 	color: unset;
+	text-decoration: none;
 	display: inline-block;
 	transition: 0.2s color, 0.1s transform;
 }

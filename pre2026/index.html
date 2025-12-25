@@ -241,7 +241,7 @@ function setIcon(){
   if (eventdata && eventdata[2]) {
     // https://github.com/loonywizard/js-confetti
     var confettijs = document.createElement("script");
-    confettijs.src = "confetti.js";
+    confettijs.src = "../confetti.js";
     confettijs.onload = function() {
       const jsConfetti = new JSConfetti();
       // make icon and pagetitle hover jsConfetti.addConfetti()
