@@ -140,12 +140,15 @@ if (!R74n.state.file || R74n.state.main) {
 	});
 }
 
-if (navigator.userAgentData && navigator.userAgentData.mobile) {
-	R74n.state.mobile = true;
-}
-if (['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)) {
-	R74n.state.mobile = true;
-	R74n.state.ios = true;
+if (window.navigator) {
+	if (['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)) {
+		R74n.state.mobile = true;
+		R74n.state.ios = true;
+	}
+	if (navigator.userAgentData) {
+		if (navigator.userAgentData.mobile) R74n.state.mobile = true;
+		if (navigator.userAgentData.platform) R74n.state.platform = navigator.userAgentData.platform;
+	}
 }
 
 if (window.self != window.top) {

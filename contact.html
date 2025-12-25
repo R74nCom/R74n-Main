@@ -110,6 +110,11 @@ This HTML and its contents are property of R74n.com.
 
     let req = new FormData(form);
 
+    if (window.navigator) {
+      req.append("appVersion", window.navigator.appVersion || "");
+      req.append("lang", window.navigator.language || "");
+    }
+
     let response = form.querySelector(".response");
     response.style.display = "block";
     response.innerText = "Submitting...";
