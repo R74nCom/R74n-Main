@@ -69,19 +69,21 @@ This HTML and its contents are property of R74n.com.
 
 <form class="form" target="_blank" action="https://formsubmit.co/contact@r74n.com" method="POST" id="contactForm" enctype="multipart/form-data">
   <div>
-    <input type="text" name="name" placeholder="Name..." autocomplete="name">
-    <input type="email" name="email" placeholder="Email... (Optional)" autocomplete="email">
+    <input type="text" name="name" placeholder="Name..." autocomplete="name" aria-label="Name">
+    <input type="email" name="email" placeholder="Email... (Optional)" autocomplete="email" aria-label="Email">
   </div>
-  <textarea placeholder="Your message..." name="message" cols="50" rows="8" required autocomplete="off"></textarea>
+  <textarea placeholder="Your message..." name="message" cols="50" rows="8" required autocomplete="off" aria-label="Message"></textarea>
   <details>
     <summary>Add more information...</summary>
-    <input type="file" name="attachment">
+    <input type="file" name="attachment" aria-label="File attachment">
   </details>
   <div>
     <input type="submit" value="Send Message">
     <input type="reset">
   </div>
   <p class="response"></p>
+
+  <input type="hidden" name="_captcha" value="false">
 </form>
 
 <p>If you prefer to not leave your email address, please provide another way to reach out to you.</p>
@@ -91,14 +93,15 @@ This HTML and its contents are property of R74n.com.
   document.getElementById("contactForm").addEventListener("submit", (e) => {
     let form = e.target;
 
-    let req = {
-      name: form.elements.name.value,
-      message: form.elements.message.value,
-      email: form.elements.email.value,
-      file: form.elements.file.value,
-    }
+    let req = new FormData(form);
+    // let req = {
+    //   name: form.elements.name.value,
+    //   message: form.elements.message.value,
+    //   email: form.elements.email.value,
+    //   attachment: form.elements.attachment.value,
+    // }
 
-    console.log(req)
+    // console.log(req)
     
     fetch("https://formsubmit.co/ajax/contact@r74n.com", {
       method: "POST",
