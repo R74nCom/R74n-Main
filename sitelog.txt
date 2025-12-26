@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-12-25 - Large spotlight buttons on homepage for games
+2025-12-25 - Added Figma file to Icons page
 2025-12-25 - Automatic footers on most content pages
 2025-12-25 - Improved Contact page: No CAPTCHA, user stays on-page, green submit button, more input fields
 2025-12-24 - More 404 page suggestions

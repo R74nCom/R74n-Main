@@ -323,6 +323,78 @@ function setIcon(){
         font-family: 'VT323';
         src: url('cook/fonts/VT323-Regular.ttf') format('truetype');
       }
+
+      #spotlightGallery {
+        display:flex;
+        width: 100%;
+        margin-bottom:1em;
+        justify-content: space-evenly;
+      }
+      #spotlightGallery > a {
+        width:25%; height:100px;
+        background-position: center;
+        background-size: cover;
+        color: white;
+        font-family: 'VT323';
+        text-align: center;
+        line-height: 100px;
+        font-size: 40px;
+        /* -webkit-text-stroke: 4px black;
+        paint-order: stroke fill; */
+        text-shadow:
+    -3px -3px 0 #000,
+     0   -3px 0 #000,
+     3px -3px 0 #000,
+     3px  0   0 #000,
+     3px  3px 0 #000,
+     0    3px 0 #000,
+    -3px  3px 0 #000,
+    -3px  0   0 #000;
+        border: solid 3px #797979;
+        border-right-color: #575757;
+        border-bottom-color: #575757;
+        transition: 0.2s scale, 0.5s border-color, 0.5s border-left-color;
+        overflow: hidden;
+      }
+      #spotlightGallery > a:hover {
+        filter: none;
+        scale: 1.1;
+        border-color: #ece060;
+        border-right-color: #bab36f;
+        border-bottom-color: #bab36f;
+      }
+      #spotlightGallery > a:active {
+        filter: none;
+      }
+      @media only screen and (max-width: 950px) {
+        #spotlightGallery > a {
+          flex-grow: 1;
+          border-left: none;
+          border-left-color: #797979;
+        }
+        #spotlightGallery > a:first-child {
+          border-left: solid 3px #797979;
+        }
+        #spotlightGallery > a:hover {
+          scale: 1.05;
+          z-index: 1000;
+          border-left: solid 3px #ece060;
+        }
+      }
+      @media only screen and (max-width: 700px) {
+        #spotlightGallery {
+          display: block;
+        }
+        #spotlightGallery > a {
+          width: 100%;
+          flex-wrap: wrap;
+          display: block;
+          margin-bottom: 0.2em
+        }
+        #spotlightGallery > a:hover {
+          scale: 1.01;
+        }
+      }
     </style>
 </head>
 <body class="homepage">
@@ -343,9 +415,11 @@ function setIcon(){
 
 <!-- <p>Hello</p> -->
 
-<!-- <nav id="spotlightGallery" style="display:flex; width: 100%; margin-bottom:1em">
-  <div style="width:25%; height:100px; background:red;"></div>
-</nav> -->
+<nav id="spotlightGallery">
+  <a href="https://sandboxels.R74n.com/" style="background-image: url(sandboxels/spotlight.jpg);">Sandboxels</a>
+  <a href="cook/" style="background-image: url(cook/spotlight.jpg);">Infinite Chef</a>
+  <a href="gentown/" style="background-image: url(gentown/spotlight.jpg);">GenTown</a>
+</nav>
 
 <!-- <div class="homefundivtop"></div> -->
 
