@@ -353,7 +353,7 @@ function setIcon(){
         border: solid 3px #797979;
         border-right-color: #575757;
         border-bottom-color: #575757;
-        transition: 0.2s scale, 0.5s border-color, 0.5s border-left-color;
+        transition: 0.2s scale, 0.5s border-color, 0.5s border-left-color, 0.33s color;
         overflow: hidden;
       }
       #spotlightGallery > a:hover {
@@ -362,6 +362,7 @@ function setIcon(){
         border-color: #ece060;
         border-right-color: #bab36f;
         border-bottom-color: #bab36f;
+        color: yellow
       }
       #spotlightGallery > a:active {
         filter: none;
@@ -389,7 +390,8 @@ function setIcon(){
           width: 100%;
           flex-wrap: wrap;
           display: block;
-          margin-bottom: 0.2em
+          margin-bottom: 0.2em;
+          border-left: solid 3px #797979;
         }
         #spotlightGallery > a:hover {
           scale: 1.01;

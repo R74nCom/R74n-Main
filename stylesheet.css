@@ -699,6 +699,14 @@ body header:first-child .home {
 	opacity: 0.5;
 }
 
+.tree details > ul {
+	height: 0;
+	transition: 0.2s height
+}
+.tree details[open] > ul {
+	height: unset;
+}
+
 .tree details > ul a {
 	font-style: italic;
 	color: unset;
