@@ -115,6 +115,25 @@ if (document.referrer) {
 	}
 }
 
+// Global URL Params
+if (this.location.search) {
+	let shareURLs = {
+		archive: "https://web.archive.org/save/[URL]",
+		reddit: "https://www.reddit.com/submit?url=[URL]&title=[TITLE]",
+		pin: "https://www.pinterest.com/pin/create/button/?url=[URL]&media=&description=[TITLE]",
+	}
+	for (let key in shareURLs) {
+		if (urlParams.has(key)) {
+			let url = shareURLs[key];
+			url = url.replace(/\[URL\]/, encodeURIComponent(location.href));
+			url = url.replace(/\[TITLE\]/, encodeURIComponent(document.title));
+			this.location.href = url;
+			break;
+		}
+	}
+	if (urlParams.has("print")) window.print();
+}
+
 
 if (!window.getCookie) {
 	window.getCookie = function (name) {const cookieString = document.cookie;const cookies = cookieString.split(';');for (let i = 0; i < cookies.length; i++) {let cookie = cookies[i].trim();if (cookie.startsWith(name + '=')) {return cookie.substring(name.length + 1);}}return null;}

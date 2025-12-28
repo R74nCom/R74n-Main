@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-12-27 - Global URL parameters: ?archive ?reddit ?pin ?print
+2025-12-27 - Linked to Testing Zone on homepage
 2025-12-25 - Large spotlight buttons on homepage for games
 2025-12-25 - Added Figma file to Icons page
 2025-12-25 - Automatic footers on most content pages
