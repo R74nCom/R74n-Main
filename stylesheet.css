@@ -23,12 +23,12 @@ body {
 }
 
 a {
-	color: rgb(255, 0, 255);
+	color: rgb(255, 90, 255);
 	text-decoration: none;
 	cursor: pointer;
 }
 a:active, a:hover:active {color: rgb(255, 179, 255);}
-a:hover {color: rgb(255, 121, 255);}
+a:hover {color: rgb(255, 130, 255);}
 a[style]:active, a[style]:hover:active, a:active span[style], a:hover:active span[style], a.qr:active, a.qr:hover:active {
 	color: unset;
 	filter: brightness(2.8);
@@ -198,7 +198,7 @@ ul, dl {
 }
 ul li::before, dl dt::before {
 	content: "\003E\00A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-	color: lime; /* Change the color */
+	color: rgb(90, 255, 90); /* Change the color */
 	font-weight: bold; /* If you want it to be bold */
 	display: inline-block; /* Needed to add space between the bullet and the text */
 	/*width: 1em; /* Also needed for space (tweak if needed) */
@@ -210,7 +210,7 @@ li.glowbullet::before, dt.glowbullet::before, .glowtext {text-shadow: 0px 0px 20
 li.graybullet::before, dt.graybullet::before {color:gray;}
 li.yellowbullet::before, dt.yellowbullet::before, li.yel::before, dt.yel::before {color:yellow;}
 ol {list-style: none; counter-reset: li}
-ol li::before {content: counter(li) "."; color: lime;display: inline-block; padding-right: 0.5em; margin-left: -1.25em}
+ol li::before {content: counter(li) "."; color: rgb(90, 255, 90);display: inline-block; padding-right: 0.5em; margin-left: -1.25em}
 ol li {counter-increment: li}
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -320,7 +320,7 @@ dd {margin-inline-end: 20px;}
 .homefundiv, .homefundivtop {
 	display:block;
 	margin-bottom:1em;
-	text-align: center;
+	/* text-align: center; */
 	border-radius: 0;
 	border: solid 3px rgba(255,255,255,0.5);
 	border-right-color: rgba(255,255,255,0.33);
@@ -482,6 +482,7 @@ a.qr:hover, a.qr:active, a.qr:hover:active, a.texticon:hover, a.texticon:active,
 .homepage .content {
 	border: none;
 	padding-top: 0em;
+	margin-top: 0em;
 }
 
 .content > p:first-child,
@@ -632,7 +633,7 @@ body header:first-child .home {
 	display: none;
 }
 .tree summary {
-	color: yellow;
+	color: #ffff87;
 	list-style: none;
 	user-select: none;
 	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -647,6 +648,7 @@ body header:first-child .home {
 .tree details > summary {
 	border-bottom: 0px solid rgba(255, 255, 0, 0);
 	padding-bottom: 0em;
+	margin-bottom: 0.75em;
 }
 .tree details > summary:active,
 .tree details[open] summary:active {
@@ -678,21 +680,27 @@ body header:first-child .home {
 	padding-left: 0;
 }
 .tree > li > details > ul > li {
-	padding-top: 0.5em;
+	padding-top: 0.75em;
 	padding-left: 1.5em;
 	position: relative;
+}
+.tree > li > details > ul > li:first-of-type {
+	padding-top: 0;
 }
 .tree > li > details > ul > li::before {
 	content: "↳";
 	display: inline-block;
-	color: lime;
+	color: rgb(90, 255, 90);
 	font-family:'Courier New', Courier, monospace;
 	/* transform: translateY(-0.2em); */
 	font-weight: bold;
 	width: 1em;
 	position: absolute;
 	left: 0.5em;
-	top: 0.35em;
+	top: 0.66em;
+}
+.tree > li > details > ul > li:first-of-type::before {
+	top: 0em;
 }
 
 .tree details[open] summary:active ~ ul {
@@ -719,7 +727,7 @@ body header:first-child .home {
 }
 .tree details > ul a em {
 	font-style: normal;
-	color: rgb(255, 0, 255);
+	color: rgb(255, 90, 255);
 	text-decoration: underline;
 	text-underline-offset: 0.2em;
 }
@@ -755,9 +763,19 @@ body header:first-child .home {
 	transform: scale(98%)
 }
 
+.tree details summary + * {
+	margin-top: 0
+}
+
+.tree.poll summary {
+	width: 100%;
+	max-width: unset;
+}
+
 @media only screen and (max-width: 500px) {
 	.tree > li > details > ul > li {
 		padding-left: 1em;
+		padding-top: 0.5em;
 	}
 	.tree > li > details > ul > li::before {
 		left: 0em;
@@ -792,17 +810,22 @@ body header:first-child .home {
 
 .form div {
 	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
 }
 .form div > * {
 	display: inline-block;
-	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
-.form div > *:first-child {
-	margin-left: 0;
+.form div > *:last-child {
+	margin-right: 0;
 }
 .form .response {
 	display: none
 }
 form .honeypot {
 	display: none
+}
+.tree .form + p {
+	margin-top: 0;
 }

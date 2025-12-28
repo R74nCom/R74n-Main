@@ -102,6 +102,34 @@ function playSound(url) {
 	audio.play();
 }
 
+window.submitContactForm = function(form) {
+	let req = new FormData(form);
+	if (window.navigator) {
+      req.append("appVersion", window.navigator.appVersion || "");
+      req.append("lang", window.navigator.language || "");
+    }
+	let response = form.querySelector(".response");
+	if (!response) {
+		response = document.createElement("p");
+		form.appendChild(response);
+	}
+    response.style.display = "block";
+    response.innerText = "Submitting...";
+
+	fetch("https://formsubmit.co/ajax/contact@r74n.com", {
+      method: "POST",
+      body: req
+    })
+      .then(response => response.json())
+      .then(data => {
+        response.innerText = data.message;
+        if (data.success) form.reset();
+      })
+      .catch(error => response.innerText = error);
+	
+	return false;
+}
+
 /*R74n Observer
   Don't worry, I'm harmless!*/
 if (document.referrer) {

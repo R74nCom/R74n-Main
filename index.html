@@ -327,7 +327,8 @@ function setIcon(){
       #spotlightGallery {
         display:flex;
         width: 100%;
-        margin-bottom:1em;
+        margin-bottom:1.5em;
+        margin-top: 1em;
         justify-content: space-evenly;
       }
       #spotlightGallery > a {
@@ -385,6 +386,8 @@ function setIcon(){
       @media only screen and (max-width: 700px) {
         #spotlightGallery {
           display: block;
+          margin-top: 0.5em;
+          margin-bottom: 1em;
         }
         #spotlightGallery > a {
           width: 100%;
@@ -402,7 +405,7 @@ function setIcon(){
 <body class="homepage">
 
 <header class="homepage">
-<h1 class="pagetitle"><span><a href="#YOU-ARE-ALREADY-HOME." title="The main page, the portal to everything else."><noscript id="iconnoscript"><img src="icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n" title="R74n" aria-label="R74n"></noscript><img src="icons/favicon.png" style="display:none" id="R74nicon" class="R74nicon" alt="R74n" title="R74n" aria-label="R74n"></a></span></h1>
+<h1 class="pagetitle"><span><span title="The main page, the portal to everything else." id="homeIconLink"><noscript id="iconnoscript"><img src="icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n" title="R74n" aria-label="R74n"></noscript><img src="icons/favicon.png" style="display:none" id="R74nicon" class="R74nicon" alt="R74n" title="R74n" aria-label="R74n"></span></span></h1>
 <h1 class="pagetitle" title="Homepage" id="pagetitle">R74n</h1>
 <span id="subtitle" class="subtitle">Web collective</span>
 <span id="newsheader" class="alertheader" style="display:none;"></span>
@@ -424,6 +427,29 @@ function setIcon(){
 </nav>
 
 <!-- <div class="homefundivtop"></div> -->
+
+<!-- <div class="homefundivtop"></div> -->
+
+<ul class="tree poll">
+  <li><details>
+    <summary>Side Quest ☆ (Tap to View)</summary>
+    <p>We're looking for ideas for <em>simple</em>, in-browser, single-page experiences.</p>
+    <p>• A minigame or other fun experience.</p>
+    <p>• Preferred development time: 1-2 days</p>
+    <p>• Shareable results, similar to Wordle</p>
+    <p>• Engaging to livestream either once or daily</p>
+    <!-- <p>Test</p> -->
+    <form class="form" onsubmit="submitContactForm(this); return false;">
+      <textarea name="message" placeholder="Your Idea..." cols="40"></textarea>
+      <div>
+        <input type="text" name="name" placeholder="Your Name...">
+        <input type="submit" value="Submit" required>
+      </div>
+      <input type="hidden" name="_subject" value="Minigame Idea">
+    </form>
+    <p>Be descriptive! Chosen ideas will be credited by name.</p>
+  </details></li>
+</ul>
 
 <div class="homedivparent">
 
@@ -662,6 +688,10 @@ youtube: “Did you enjoy the video? leave a like and subscribe!”
     splashText(refsocial);
   }
 }
+
+document.getElementById("homeIconLink").addEventListener("click", function() {
+  location.hash = "YOU-ARE-ALREADY-HOME.";
+});
 
 initRue();
 </script>

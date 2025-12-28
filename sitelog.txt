@@ -1,5 +1,10 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-12-28 - Added side quest to homepage
+2025-12-28 - Fixed: Contact form inputs don't wrap on mobile
+2025-12-28 - URL parameters for Contact page
+2025-12-28 - Accessibility improvements
+2025-12-28 - Launch FWD: Lighter link colors, larger padding
 2025-12-27 - Global URL parameters: ?archive ?reddit ?pin ?print
 2025-12-27 - Linked to Testing Zone on homepage
 2025-12-25 - Large spotlight buttons on homepage for games

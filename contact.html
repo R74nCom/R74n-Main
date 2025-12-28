@@ -90,22 +90,23 @@ This HTML and its contents are property of R74n.com.
   </details>
   <div>
     <input type="submit" value="Send Message">
-    <input type="reset">
+    <input type="reset" value="Reset">
   </div>
   <p class="response"></p>
 
-  <input type="hidden" name="_subject" value="Contact Form Message">
+  <input type="hidden" name="_subject" value="Contact Form Message" aria-label="Subject">
 
   <!-- <input type="hidden" name="_blacklist" value="spammy pattern, banned term, phrase"> -->
-  <input type="hidden" name="_captcha" value="false">
-  <input type="text" name="_honey" class="honeypot">
+  <input type="hidden" name="_captcha" value="false" aria-label="A">
+  <input type="text" name="_honey" class="honeypot" aria-label="B">
 </form>
 
 <p>If you prefer to not leave your email address, please provide another way to reach out to you.</p>
 
 <script>
-  // contactForm = document.getElementById("contactForm");
-  document.getElementById("contactForm").addEventListener("submit", (e) => {
+  contactForm = document.getElementById("contactForm");
+
+  contactForm.addEventListener("submit", (e) => {
     let form = e.target;
 
     let req = new FormData(form);
@@ -129,7 +130,7 @@ This HTML and its contents are property of R74n.com.
     })
       .then(response => response.json())
       .then(data => {
-        response.innerText = data.message
+        response.innerText = data.message;
         if (data.success) form.reset();
       })
       .catch(error => response.innerText = error);
@@ -137,6 +138,16 @@ This HTML and its contents are property of R74n.com.
     e.preventDefault();
     return false;
   })
+
+  urlParams.forEach((value,key) => {
+    let elem = contactForm.querySelector(`*[name="${key}"]`);
+    if (elem) {
+      elem.value = value;
+    }
+  })
+  if (urlParams.has("subject")) {
+    contactForm.querySelector(`*[name="_subject"]`).value = urlParams.get("subject");
+  }
 </script>
 
 <!-- temp1.elements.email.value -->
