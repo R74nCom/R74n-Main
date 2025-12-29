@@ -91,7 +91,7 @@ input[type=button], button, input[type=submit], input[type=reset], .checkmark {
 	margin: 4px 0;
 	line-height: 1;
 	/* color transition */
-	transition: filter 0.2s, scale 0.2s;
+	transition: filter 0.2s, scale 0.2s, translate 0.2s;
 }
 input[type=button][selected=true] {
 	filter: brightness(150%);
@@ -121,9 +121,6 @@ textarea, input[type=text], input[type=number], input[type=date], input[type=dat
 	padding: 10px;
 }
 input[type=number] {width:100px}
-textarea:focus {
-	/* box-shadow: 0 0 3pt 2pt rgb(31, 31, 31); */
-}
 textarea {
 	max-width:80%;
 }
@@ -183,6 +180,14 @@ input[type=file]::file-selector-button {
 	line-height: 0;
     padding-top: 0.9em;
     padding-bottom: 0.9em;
+	border-top-width: 2px;
+	border-bottom-width: 4px;
+}
+button:active,
+input[type=button]:active, input[type=reset]:active, input[type=submit]:active,
+input[type=file]:active::file-selector-button {
+	border-bottom-width: 3px;
+	translate: 0px 0.08em;
 }
 select:focus-visible, textarea:focus-visible, input:focus-visible, button:focus-visible {
 	border-color: rgba(0,255,255,0.5);
@@ -325,9 +330,6 @@ dd {margin-inline-end: 20px;}
 	border: solid 3px rgba(255,255,255,0.5);
 	border-right-color: rgba(255,255,255,0.33);
 	border-bottom-color: rgba(255,255,255,0.33);
-}
-.homefundivtop {
-	/* margin-top:1em */
 }
 
 body > footer {
@@ -625,9 +627,6 @@ body header:first-child .home {
 	margin: 0;
 	display: none;
 }
-.tree > li {
-
-}
 .tree summary::marker,
 .tree summary::-webkit-details-marker {
 	display: none;
@@ -652,11 +651,11 @@ body header:first-child .home {
 }
 .tree details > summary:active,
 .tree details[open] summary:active {
-	border-bottom: 1.5px solid rgba(255, 255, 0, 0.33);
+	border-bottom: 1.5px solid rgba(188, 144, 1, 0.75);
 	padding-bottom: 0.15em;
 }
 .tree details[open] > summary {
-	border-bottom: 3px solid rgba(255, 255, 0, 0.5);
+	border-bottom: 3px solid rgba(188, 144, 1, 0.75);
 	padding-bottom: 0.25em;
 }
 .tree summary::before {
@@ -793,10 +792,6 @@ body header:first-child .home {
 	.tree summary {
 		max-width: 50vw;
 	}
-}
-
-.form {
-
 }
 
 .form input,
