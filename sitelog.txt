@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2025-12-29 - Cleaned up HTML of content pages
 2025-12-28 - Added side quest to homepage
 2025-12-28 - Fixed: Contact form inputs don't wrap on mobile
 2025-12-28 - URL parameters for Contact page

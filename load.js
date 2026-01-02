@@ -187,6 +187,19 @@ if (!R74n.state.file || R74n.state.main) {
 	});
 }
 
+if (R74n.state.file) {
+	[...document.querySelectorAll("meta, link")].forEach(a => {
+		if (!a) return;
+
+		if (a.hasAttribute("content") && a.getAttribute("content").startsWith("/")) {
+			a.setAttribute("content", "https://r74n.com" + a.getAttribute("content"));
+		}
+		if (a.hasAttribute("href") && a.getAttribute("href").startsWith("/")) {
+			a.setAttribute("href", "https://r74n.com" + a.getAttribute("href"));
+		}
+	});
+}
+
 if (window.navigator) {
 	if (['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)) {
 		R74n.state.mobile = true;
@@ -220,6 +233,9 @@ if (R74n.state.main && !R74n.state.footer && R74n.state.header) {
   <a href="https://r74n.com/privacy">Privacy</a>
 </nav></footer>`);
 }
+
+// Add R74n schema
+this.document.head.insertAdjacentHTML("beforeend", `<script type="application/ld+json">{"@context" : "http://schema.org","@type" : "Organization","name" : "R74n","url" : "https://r74n.com","sameAs" : ["https://twitter.com/R74nCom","https://twitter.com/CopyPasteDump","https://www.youtube.com/channel/UCzS6ufDfiDxbHVL001GwFeA"], "logo":"https://r74n.com/icons/favicon.png", "email":"contact@r74n.com"}</script>`);
 
 // Console Watermark
 console.log("%c WELCOME TO R74n ","position: absolute; top: 50%; right: 50%; transform: translate(50%,-50%); font-family: Arial; font-size: 3em; font-weight: 700; color: #00ffff; text-shadow: 1px 1px 1px #14c9c9, 1px 2px 1px #14c9c9, 1px 3px 1px #14c9c9, 1px 4px 1px #14c9c9, 1px 5px 1px #14c9c9, 1px 13px 6px rgba(16,16,16,0.4), 1px 22px 10px rgba(16,16,16,0.2), 1px 25px 35px rgba(16,16,16,0.2), 1px 30px 60px rgba(16,16,16,0.4);padding:10px")

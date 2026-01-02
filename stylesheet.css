@@ -9,10 +9,10 @@ body {
 	word-wrap: break-word;
 }
 .content {
-	margin: 0.25em 1em 0.5em 1em;
+	margin: 1em 1em 1em 1em;
     /* margin-top: 20px; */
     overflow-wrap: break-word;
-    padding-top: 1em;
+    /* padding-top: 1em; */
 }
 
 *:focus {
@@ -52,7 +52,7 @@ a.newLink:active::before { filter:brightness(300%);}
 .pagetitle, .R74nicon, header .back {font-size:32pt; }
 
 .pagetitle {margin-left: 0.5em;}
-.R74nicon, header a.home {width:1.4em;transition:all 3s, outline 0s;}
+.R74nicon, header a.home {width:1.4em;transition: filter 3s, outline 0s;}
 .iconimg {height:50px;width:50px;}
 
 b {font-weight:bold;}
@@ -65,7 +65,7 @@ img, audio, video {vertical-align:middle;max-width:100%}
 
 .R74nicon:hover {
 	filter:hue-rotate(3600deg);
-	transition:30s;
+	transition: filter 30s;
 }
 
 textarea, button, input, .checkmark {
@@ -189,10 +189,18 @@ input[type=file]:active::file-selector-button {
 	border-bottom-width: 3px;
 	translate: 0px 0.08em;
 }
-select:focus-visible, textarea:focus-visible, input:focus-visible, button:focus-visible {
+textarea:focus-visible, input:focus-visible {
 	border-color: rgba(0,255,255,0.5);
 	border-right-color: rgba(0,255,255,0.75);
 	border-bottom-color: rgba(0,255,255,0.75);
+	outline: none!important;
+}
+select:focus-visible, button:focus-visible,
+input[type=button]:focus-visible, input[type=reset]:focus-visible, input[type=submit]:focus-visible,
+input[type=file]:focus-visible::file-selector-button {
+	border-color: rgba(0,255,255,0.5);
+	border-left-color: rgba(0,255,255,0.75);
+	border-top-color: rgba(0,255,255,0.75);
 	outline: none!important;
 }
 
@@ -387,7 +395,7 @@ h2.linkcategory, h3.linkcategory {font-size: 1em;margin-block-start: 0;}
 }
 #splashheader {text-align: center;}
 
-.pixelart, .pixelflag {
+.pixelart, .pixelflag, .doodle {
 	image-rendering: pixelated;
 	image-rendering: -moz-crisp-edges;
 	image-rendering: crisp-edges;
@@ -478,8 +486,11 @@ a.qr:hover, a.qr:active, a.qr:hover:active, a.texticon:hover, a.texticon:active,
 
 /* 2026 STYLE - LAUNCH FWD  (Not all of it) */
 
-.content {
-	border-top: solid 3px rgba(255,255,255,0.5);
+body > header:first-child {
+	border-bottom: solid 3px rgba(255,255,255,0.5);
+}
+body.homepage > header:first-child {
+	border: none;
 }
 .homepage .content {
 	border: none;
@@ -500,6 +511,7 @@ body header:first-child {
 	padding-bottom: 0.5em;
 	display: flex;
 	align-items: center;
+	transition: 0.2s padding-top, 0.2s padding-bottom;
 }
 
 header.homepage {
@@ -512,17 +524,38 @@ body header:first-child > * {
 	margin-left: 22px;
 	flex-grow: 1;
 }
-body header:first-child > *:first-child { /* logo image */
+body header:first-child > *:first-child,
+body header:first-child > img { /* logo image */
 	flex-shrink: 0;
 	flex-grow: 0;
 }
 body header:first-child > *:last-child {
 	margin-right: 1em;
 }
+body header.min:first-child {
+	padding-top: 0.1em;
+	padding-bottom: 0.1em;
+}
+body header.min:first-child * {
+	font-size: 30px !important;
+}
+body header:first-child * {
+	transition: 0.2s font-size;
+}
 header.homepage > .subtitle {
 	font-variant: small-caps;
     font-weight: bold;
     font-style: italic;
+}
+img[role="button"] {
+	cursor: pointer;
+	transition: 0.2s scale;
+}
+img[role="button"]:hover {
+	scale: 1.5
+}
+img[role="button"]:active {
+	scale: 1.1
 }
 
 header .back[href="https://R74n.com"],
