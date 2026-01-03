@@ -40,9 +40,11 @@ window.SPA = {
 				// document.body.addEventListener("touchstart", SPA.click);
 				document.body.addEventListener("touchend", (e) => {
 					SPA.click(e);
-					SPA._clicked = false;
 					e.stopPropagation();
 					e.stopImmediatePropagation();
+					setTimeout(() => {
+						SPA._clicked = false;
+					}, 100);
 				});
 			}
 			else {
