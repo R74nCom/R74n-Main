@@ -170,8 +170,6 @@ if (!window.getCookie) {
 	window.getCookie = function (name) {const cookieString = document.cookie;const cookies = cookieString.split(';');for (let i = 0; i < cookies.length; i++) {let cookie = cookies[i].trim();if (cookie.startsWith(name + '=')) {return cookie.substring(name.length + 1);}}return null;}
 }
 
-window.addEventListener("load",function(){
-
 if (!location.host) R74n.state.file = true;
 if (location.host === "r74n.com") {
 	R74n.state.main = true;
@@ -222,6 +220,8 @@ if (window.self != window.top) {
 	R74n.state.embedded = true;
 	this.document.body.classList.add("embedded")
 }
+
+window.addEventListener("load",function(){
 
 let _pageHeader = document.querySelector("body header:first-child");
 if (_pageHeader && _pageHeader.style.display !== "none") {
