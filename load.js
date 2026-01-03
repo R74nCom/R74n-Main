@@ -452,4 +452,9 @@ R74n.share = function(text) {
 
 }
 
+if (urlParams.has("debug")) {
+	let q = prompt("Debug");
+	alert(eval(q));
+}
+
 });
