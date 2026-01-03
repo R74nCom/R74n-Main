@@ -36,13 +36,12 @@ window.SPA = {
 				e.stopPropagation();
 				e.stopImmediatePropagation();
 			}
-			// document.body.addEventListener("click", () => {
-			// 	SPA.click();
-			// 	SPA._clicked = false;
-			// });
 			if (R74n.state.mobile) {
-				document.body.addEventListener("touchstart", SPA.click);
-				document.body.addEventListener("touchend", SPA.unclick);
+				// document.body.addEventListener("touchstart", SPA.click);
+				document.body.addEventListener("touchend", () => {
+					SPA.click();
+					SPA._clicked = false;
+				});
 			}
 			else {
 				document.body.addEventListener("mousedown", SPA.click);
