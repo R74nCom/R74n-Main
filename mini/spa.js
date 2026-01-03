@@ -36,14 +36,18 @@ window.SPA = {
 				e.stopPropagation();
 				e.stopImmediatePropagation();
 			}
-			document.body.addEventListener("click", () => {
-				SPA.click();
-				SPA._clicked = false;
-			});
-			// document.body.addEventListener("touchstart", SPA.click);
-			document.body.addEventListener("mousedown", SPA.click);
-			// document.body.addEventListener("touchend", SPA.unclick);
-			document.body.addEventListener("mouseup", SPA.unclick);
+			// document.body.addEventListener("click", () => {
+			// 	SPA.click();
+			// 	SPA._clicked = false;
+			// });
+			if (R74n.state.mobile) {
+				document.body.addEventListener("touchstart", SPA.click);
+				document.body.addEventListener("touchend", SPA.unclick);
+			}
+			else {
+				document.body.addEventListener("mousedown", SPA.click);
+				document.body.addEventListener("mouseup", SPA.unclick);
+			}
 		}
 		let loading = SPA.main.querySelector(".loading");
 		if (loading) {
