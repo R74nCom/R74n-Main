@@ -36,9 +36,13 @@ window.SPA = {
 				e.stopPropagation();
 				e.stopImmediatePropagation();
 			}
-			document.body.addEventListener("touchstart", SPA.click);
+			document.body.addEventListener("click", () => {
+				SPA.click();
+				SPA._clicked = false;
+			});
+			// document.body.addEventListener("touchstart", SPA.click);
 			document.body.addEventListener("mousedown", SPA.click);
-			document.body.addEventListener("touchend", SPA.unclick);
+			// document.body.addEventListener("touchend", SPA.unclick);
 			document.body.addEventListener("mouseup", SPA.unclick);
 		}
 		let loading = SPA.main.querySelector(".loading");
