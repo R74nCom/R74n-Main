@@ -1,0 +1,78 @@
+.spa {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+}
+.spa .centered {
+    text-align: center;
+}
+.spa > .content {
+	flex-grow: 1;
+	overflow: scroll;
+	margin: 0;
+	scroll-behavior: smooth;
+}
+.spa .page {
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+.spa .page:nth-child(even) {
+	background-color: rgba(255,255,255,0.1);
+}
+.spa .page > div {
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	/* transform: -1000px -50vh; */
+	translate: -50% -50%;
+	display: inline-block;
+    max-height: 85%;
+}
+.spa .page.centered > div {
+    width: 90%;
+}
+.spa .page .controls {
+	position: absolute;
+	top: unset;
+	bottom: 10px;
+	translate: -50% 0%;
+}
+.spa .page .controls img {
+	height: 65px;
+	width: 65px;
+	cursor: pointer;
+	-webkit-user-drag: none;
+    -moz-user-drag: none;
+    user-drag: none;
+	transition: all 0.2s;
+	padding: 20px;
+}
+.spa .page .controls img:hover {
+	scale: 1.5;
+}
+.spa .page .controls img:active {
+	scale: 1.1;
+}
+
+.spa .page .subtitle {
+    font-size: 0.8em;
+    opacity: 0.8;
+    font-style: italic;
+}
+.spa .page .pop {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    font-size: 1.5em;
+}
+.spa .page .extra {
+    margin-top: 1.75em;
+    font-size: 0.8em;
+}
+.spa .page .extra * {
+    opacity: 0.8;
+}
+.spa .page .extra .pop {
+    opacity: 1;
+}

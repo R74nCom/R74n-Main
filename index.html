@@ -324,21 +324,20 @@ function setIcon(){
         src: url('cook/fonts/VT323-Regular.ttf') format('truetype');
       }
 
-      #spotlightGallery {
+      .projectGallery {
         display:flex;
         width: 100%;
         margin-bottom:1.5em;
         margin-top: 1em;
         justify-content: space-evenly;
       }
-      #spotlightGallery > a {
+      .projectGallery > a {
         width:25%; height:100px;
         background-position: center;
         background-size: cover;
         color: white;
         font-family: 'VT323';
         text-align: center;
-        line-height: 100px;
         font-size: 40px;
         /* -webkit-text-stroke: 4px black;
         paint-order: stroke fill; */
@@ -358,8 +357,11 @@ function setIcon(){
         border-bottom-width: 5px;
         transition: 0.2s scale, 0.5s border-color, 0.5s border-left-color, 0.33s color, 0.2s border-bottom-width, 0.2s translate;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      #spotlightGallery > a:hover {
+      .projectGallery > a:hover {
         filter: none;
         scale: 1.1;
         border-color: #ece060;
@@ -367,40 +369,40 @@ function setIcon(){
         border-bottom-color: #bab36f;
         color: yellow
       }
-      #spotlightGallery > a:active {
-        filter: none;
+      .projectGallery > a:active {
+        filter: none!important;
         border-bottom-width: 4px;
         scale: 1.05;
       }
       @media only screen and (max-width: 950px) {
-        #spotlightGallery > a {
+        .projectGallery > a {
           flex-grow: 1;
           border-left: none;
           border-left-color: #797979;
         }
-        #spotlightGallery > a:first-child {
+        .projectGallery > a:first-child {
           border-left: solid 3px #797979;
         }
-        #spotlightGallery > a:hover {
+        .projectGallery > a:hover {
           scale: 1.05;
           z-index: 1000;
           border-left: solid 3px #ece060;
         }
       }
       @media only screen and (max-width: 700px) {
-        #spotlightGallery {
+        .projectGallery {
           display: block;
           margin-top: 0.5em;
           margin-bottom: 1em;
         }
-        #spotlightGallery > a {
+        .projectGallery > a {
           width: 100%;
           flex-wrap: wrap;
           display: block;
           margin-bottom: 0.2em;
           border-left: solid 3px #797979;
         }
-        #spotlightGallery > a:hover {
+        .projectGallery > a:hover {
           scale: 1.01;
         }
       }
@@ -425,17 +427,21 @@ function setIcon(){
 
 <!-- <p>Hello</p> -->
 
-<nav id="spotlightGallery">
+<nav id="spotlightGallery" class="projectGallery">
   <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);">Sandboxels</a>
   <a href="cook/" style="background-image: url(cook/spotlight.jpg);">Infinite Chef</a>
   <a href="gentown/" style="background-image: url(gentown/spotlight.jpg);">GenTown</a>
 </nav>
 
-<!-- <div class="homefundivtop"></div> -->
+<div id="miniGallery" class="projectGallery">
+  <a href="mini/odds" style="background-image: url(mini/spotlight-odds.gif);">What Are The Odds?</a>
+</div>
 
 <!-- <div class="homefundivtop"></div> -->
 
-<ul class="tree poll">
+<!-- <div class="homefundivtop"></div> -->
+
+<!-- <ul class="tree poll">
   <li><details>
     <summary>Side Quest ☆ (Tap to View)</summary>
     <p>We're looking for ideas for <em>simple</em>, in-browser, single-page experiences.</p>
@@ -443,7 +449,6 @@ function setIcon(){
     <p>• Preferred development time: 1-2 days</p>
     <p>• Shareable results, similar to Wordle</p>
     <p>• Engaging to livestream either once or daily</p>
-    <!-- <p>Test</p> -->
     <form class="form" onsubmit="submitContactForm(this); return false;">
       <textarea name="message" placeholder="Your Idea..." cols="40"></textarea>
       <div>
@@ -454,7 +459,7 @@ function setIcon(){
     </form>
     <p>Be descriptive! Chosen ideas will be credited by name.</p>
   </details></li>
-</ul>
+</ul> -->
 
 <div class="homedivparent">
 

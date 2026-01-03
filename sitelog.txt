@@ -1,5 +1,9 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-01-03 - Added the first Mini - What Are The Odds?
+2026-01-03 - Added the first Doodles, a new set of little UI icons
+2026-01-03 - Many site features for the new Minis: Share dialog, single-page applications, minifying header, mobile detection
+
 2025-12-29 - Cleaned up HTML of content pages
 2025-12-28 - Added side quest to homepage
 2025-12-28 - Fixed: Contact form inputs don't wrap on mobile

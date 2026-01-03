@@ -48,6 +48,9 @@ class R74nClass {
 	has(key) {
 		return localStorage.hasOwnProperty(LSPrefix+key);
 	}
+	home() {
+		location.href = "https://r74n.com/";
+	}
 }
 const R74n = new R74nClass();
 
@@ -200,6 +203,7 @@ if (R74n.state.file) {
 	});
 }
 
+R74n.state.mobile = false;
 if (window.navigator) {
 	if (['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)) {
 		R74n.state.mobile = true;
@@ -208,6 +212,9 @@ if (window.navigator) {
 	if (navigator.userAgentData) {
 		if (navigator.userAgentData.mobile) R74n.state.mobile = true;
 		if (navigator.userAgentData.platform) R74n.state.platform = navigator.userAgentData.platform;
+	}
+	else {
+		(function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) R74n.state.mobile = true;})(navigator.userAgent||navigator.vendor||window.opera);
 	}
 }
 
@@ -225,8 +232,12 @@ if (_pageFooter) {
 	R74n.state.footer = true;
 }
 
+if (document.body.classList.contains("spa")) {
+	R74n.state.spa = true;
+}
+
 // Add footer when necessary
-if (R74n.state.main && !R74n.state.footer && R74n.state.header) {
+if (R74n.state.main && !R74n.state.footer && R74n.state.header && !R74n.state.spa) {
 	document.body.insertAdjacentHTML("beforeend", `<footer><nav>
   <a href="https://r74n.com/" style="color:#00ffff">More Projects</a>
   <a href="https://r74n.com/contact">Contact</a>
@@ -283,5 +294,162 @@ window.addEventListener("keydown", function(e) {
 		e.preventDefault();
 	}
 });
+
+R74n.closeDialog = function(id) {
+	let dialog = document.getElementById("globalDialog-"+id);
+	if (dialog) {
+		dialog.classList.remove("open");
+	}
+}
+
+R74n.closeShare = function() {
+	R74n.closeDialog("share");
+}
+
+R74n.sharePoints = {
+	"twitter": {
+		url: "https://twitter.com/intent/tweet?url=[URL]&text=[TEXT]&via=R74nCom&hashtags=[HASHTAG]",
+		mobile: "twitter://post?message=[TEXT]%20[URL]"
+	},
+	"reddit": {
+		url: "https://www.reddit.com/submit?url=[URL]&title=[TITLE]",
+	},
+	"tumblr": {
+		url: "https://www.tumblr.com/widgets/share/tool?canonicalUrl=[URL]&title=[TITLE]&caption=[TEXT]&tags=[HASHTAG]",
+	},
+	"pinterest": {
+		url: "https://pinterest.com/pin/create/link/?url=[URL]&description=[TEXT]%20-%20[TITLE]",
+	},
+	"threads": {
+		url: "https://threads.net/intent/post?text=[TEXT]%20[URL]",
+		mobile: "barcelona://create?text=[TEXT]%20[URL]"
+	},
+	"bluesky": {
+		url: "https://bsky.app/intent/compose?text=[TEXT]%20[URL]",
+		mobile: "bluesky://intent/compose?text=[TEXT]%20[URL]"
+	},
+	"mastodon": {
+		url: "https://s2f.kytta.dev/?text=[TEXT]%20[URL]",
+	},
+	"whatsapp": {
+		url: "https://web.whatsapp.com/send?text=[TEXT]%20[URL]",
+		mobile: "whatsapp://send?text=[TEXT]%20[URL]"
+	},
+	"discord": {
+		url: "https://discord.gg/ejUc6YPQuS",
+	},
+	"hacker-news": {
+		url: "https://news.ycombinator.com/submitlink?u=[URL]&t=[TITLE]",
+	},
+	"sms": {
+		url: "sms:?&body=[TEXT]%20[URL]",
+	},
+	"email": {
+		url: "mailto:?subject=[TITLE]&body=[TEXT]%20[URL]",
+	},
+	"clipboard-copy": {
+		func: (btn) => {
+			const type = "text/plain";
+			const clipboardItemData = {
+				[type]: R74n.state.share.text + " " + location.href,
+			};
+			const clipboardItem = new ClipboardItem(clipboardItemData);
+			navigator.clipboard.write([clipboardItem]);
+			btn.src = btn.src.replace("clipboard-copy", "success");
+			setTimeout(() => {
+				btn.src = btn.src.replace("success", "clipboard-copy");
+			}, 2000);
+		}
+	},
+	"native": {
+		func: (btn) => {
+			navigator.share({
+				text: (R74n.state.share.text || document.title) + " " + location.href
+			})
+		}
+	},
+}
+
+R74n.share = function(text) {
+	R74n.state.share = {
+		text: text || document.title
+	}
+	// create share dialog if not exists
+	// otherwise show it
+
+	let dialog = document.getElementById("globalDialog-share");
+	if (dialog) {
+		dialog.classList.add("open");
+	}
+	else {
+		dialog = document.createElement("div");
+		dialog.className = "globalDialog";
+		dialog.id = "globalDialog-share";
+	
+		let div1 = document.createElement("div");
+		let span1 = document.createElement("span");
+		span1.innerText = "Share to...";
+		let span2 = document.createElement("span");
+		let x = document.createElement("img");
+		x.src = "/doodle/x.gif";
+		x.role = "button";
+		x.alt = "X";
+		x.addEventListener("click", R74n.closeShare);
+		span2.appendChild(x);
+		div1.appendChild(span1);
+		div1.appendChild(span2);
+		dialog.appendChild(div1);
+	
+		let div2 = document.createElement("div");
+		div2.className = "sharePoints";
+		dialog.appendChild(div2);
+	
+		dialog.addEventListener("click", (e) => {
+			if (e.target == dialog) {
+				R74n.closeShare();
+			}
+		})
+	
+		document.body.appendChild(dialog);
+		dialog.classList.add("open");
+	}
+
+	let div2 = dialog.querySelector(".sharePoints");
+	div2.innerHTML = "";
+	for (let key in R74n.sharePoints) {
+		if (key === "native" && !navigator.share) continue;
+
+		let data = R74n.sharePoints[key];
+		let a = document.createElement("a");
+		let img = document.createElement("img");
+		img.className = "doodle";
+		img.src = "/shapes/png/share-buttons/"+key+".png";
+		img.alt = key;
+		img.title = key;
+		img.role = "button";
+		if (data.url || data.mobile) {
+			let url = data.url;
+			if (data.mobile && R74n.state.mobile) url = data.mobile;
+			if (url) {
+				a.href = url
+					.replace(/\[URL\]/g, location.href)
+					.replace(/\[TEXT\]/g, R74n.state.share.text || document.title)
+					.replace(/\[TITLE\]/g, R74n.state.share.title || document.title)
+					.replace(/\[HASHTAG\]/g, R74n.state.share.hashtag || "")
+					.replace(/:(\%20| )+-/g, "%20-");
+				a.target = "_blank";
+			}
+		}
+		if (data.func) {
+			a.addEventListener("click", (e) => {
+				data.func(e.target);
+				return false;
+			})
+		}
+		a.appendChild(img);
+		div2.appendChild(a);
+	}
+
+}
 
 });
