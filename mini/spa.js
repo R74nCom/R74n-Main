@@ -38,9 +38,11 @@ window.SPA = {
 			}
 			if (R74n.state.mobile) {
 				// document.body.addEventListener("touchstart", SPA.click);
-				document.body.addEventListener("touchend", () => {
-					SPA.click();
+				document.body.addEventListener("touchend", (e) => {
+					SPA.click(e);
 					SPA._clicked = false;
+					e.stopPropagation();
+					e.stopImmediatePropagation();
 				});
 			}
 			else {
