@@ -108,6 +108,7 @@ SPA.data = { odds: [
 },
 {
 	name: "Catching a Shiny Pokémon",
+	extra: "before Pokémon X & Y",
 	pool: 8192
 },
 {
@@ -144,6 +145,7 @@ SPA.data = { odds: [
 },
 {
 	name: "Two people meeting each other",
+	extra: "in a lifetime",
 	pool: 100000
 },
 {
@@ -219,6 +221,11 @@ SPA.data = { odds: [
 {
 	name: "Your password being '123456'",
 	pool: 25
+},
+{
+	name: "Reacting severely to a vaccination",
+	extra: "per health.ny.gov",
+	pool: 1000000
 }
 ] }
 
@@ -233,14 +240,13 @@ SPA.onload = () => {
 	for (let i = 0; i < SPA.data.odds.length; i++) {
 		const item = SPA.data.odds[i];
 		item.chance = 1 / item.pool;
+		let pool = (Math.round(item.pool * 10) / 10).toLocaleString();
 		SPA.main.insertAdjacentHTML("beforeend", `
 <section class="page centered" page="${i}">
 	<div>
 		<div class="title">${item.name}</div>
 		${ item.extra ? `<div class="subtitle">${item.extra}</div>` : "" }
-		<div class="pop">1 in ${
-			(Math.round(item.pool * 10) / 10).toLocaleString()
-		}</div>
+		<div class="pop${pool.length > 13 ? " long" : ""}">1 in ${pool}</div>
 		<div class="subtitle">${
 			(item.chance * 100).toString().includes("e") ? item.chance * 100 :
 			(item.chance * 100).toString().match(/^0\.0+[1-9]{1,2}|^\d+(\.\d{1,2})?/)[0]
@@ -298,7 +304,7 @@ SPA.onload = () => {
 		let lastTick = pageElem.getAttribute("last-tick") || 0;
 		pageElem.setAttribute("last-tick", SPA._ticks);
 		let ticks = (SPA._ticks || 0) - lastTick;
-		let add = Math.floor(chance * ticks);
+		let add = Math.round(chance * ticks);
 		elem.innerText = parseInt(elem.innerText) + add;
 	};
 };
