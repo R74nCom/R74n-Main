@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-01-03 - Every Ant on Earth: Added spotlight button to homepage, updated border to be gray instead of white
 2026-01-03 - Added the first Mini - What Are The Odds?
 2026-01-03 - Added the first Doodles, a new set of little UI icons
 2026-01-03 - Many site features for the new Minis: Share dialog, single-page applications, minifying header, mobile detection
