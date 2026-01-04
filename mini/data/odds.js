@@ -291,13 +291,14 @@ SPA.onload = () => {
 	
 	SPA.onpage = () => {
 		let index = SPA._page;
+		let elem = SPA.main.querySelector('.page[page="'+index+'"] .extra > .pop > span');
+		if (!elem) return;
 		let chance = SPA.data.odds[index].chance;
 		let pageElem = SPA.main.querySelector('.page[page="'+index+'"]');
 		let lastTick = pageElem.getAttribute("last-tick") || 0;
 		pageElem.setAttribute("last-tick", SPA._ticks);
 		let ticks = (SPA._ticks || 0) - lastTick;
 		let add = Math.floor(chance * ticks);
-		let elem = SPA.main.querySelector('.page[page="'+index+'"] .extra > .pop > span');
 		elem.innerText = parseInt(elem.innerText) + add;
 	};
 };
