@@ -349,7 +349,12 @@ function setIcon(){
      3px  3px 0 #000,
      0    3px 0 #000,
     -3px  3px 0 #000,
-    -3px  0   0 #000;
+    -3px  0   0 #000,
+    0px 0px 10px rgb(0,0,0),
+    0px 0px 10px rgb(0,0,0),
+    0px 0px 10px rgb(0,0,0),
+    0px 0px 10px rgb(0,0,0),
+    0px 0px 10px rgb(0,0,0);
         border: solid 4px #797979;
         border-right-color: #575757;
         border-bottom-color: #575757;
@@ -360,6 +365,7 @@ function setIcon(){
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
       }
       .projectGallery > a:hover {
         filter: none;
@@ -373,6 +379,19 @@ function setIcon(){
         filter: none!important;
         border-bottom-width: 4px;
         scale: 1.05;
+      }
+      .projectGallery > a.new::after {
+        content: "new";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background-color: #ff4a4a;
+        font-size: 30px;
+        text-shadow: none;
+        color: white;
+        padding-left: 5px;
+        padding-right: 5px;
+        line-height: 1;
       }
       @media only screen and (max-width: 950px) {
         .projectGallery > a {
@@ -432,11 +451,11 @@ function setIcon(){
 <nav id="spotlightGallery" class="projectGallery">
   <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);">Sandboxels</a>
   <a href="cook/" style="background-image: url(cook/spotlight.jpg);">Infinite Chef</a>
-  <a href="gentown/" style="background-image: url(gentown/spotlight.jpg);">GenTown</a>
+  <a href="gentown/" class="new" style="background-image: url(gentown/spotlight.jpg);">GenTown</a>
 </nav>
 
 <div id="miniGallery" class="projectGallery">
-  <a href="mini/odds" style="background-image: url(mini/spotlight-odds.gif);">What Are The Odds?</a>
+  <a href="mini/odds" class="new" style="background-image: url(mini/spotlight-odds.gif);">What Are The Odds?</a>
   <a href="ants/" style="background-image: url(ants/spotlight.jpg);">Every Ant on Earth</a>
 </div>
 
