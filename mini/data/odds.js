@@ -108,7 +108,7 @@ SPA.data = { odds: [
 },
 {
 	name: "Catching a Shiny Pokémon",
-	extra: "before Pokémon X & Y",
+	extra: "in Generations 1–5",
 	pool: 8192
 },
 {
