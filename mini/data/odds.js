@@ -166,7 +166,7 @@ SPA.data = { odds: [
 },
 {
 	name: "Picking the same tree on Earth as someone else",
-	pool: 30400000002
+	pool: 30400000000
 },
 {
 	name: "Picking the same star in the Milky Way as someone else",
@@ -226,7 +226,12 @@ SPA.data = { odds: [
 	name: "Reacting severely to a vaccination",
 	extra: "per health.ny.gov",
 	pool: 1000000
-}
+},
+{
+	name: "Two files having the same SHA-256 has",
+	extra: "known as a collision",
+	pool: 2**256
+},
 ] }
 
 SPA.data.odds.sort((a, b) => a.pool - b.pool)
@@ -246,7 +251,7 @@ SPA.onload = () => {
 	<div>
 		<div class="title">${item.name}</div>
 		${ item.extra ? `<div class="subtitle">${item.extra}</div>` : "" }
-		<div class="pop${pool.length > 13 ? " long" : ""}">1 in ${pool}</div>
+		<div class="pop${pool.length > 40 ? " longest" : pool.length > 20 ? " longer" : pool.length > 13 ? " long" : ""}">1 in ${pool}</div>
 		<div class="subtitle">${
 			(item.chance * 100).toString().includes("e") ? item.chance * 100 :
 			(item.chance * 100).toString().match(/^0\.0+[1-9]{1,2}|^\d+(\.\d{1,2})?/)[0]

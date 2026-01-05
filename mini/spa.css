@@ -79,6 +79,12 @@
 .spa .page .pop.long {
 	font-size: 1.2em;
 }
+.spa .page .pop.longer {
+	font-size: 1em;
+}
+.spa .page .pop.longest {
+	font-size: 0.5em;
+}
 .spa .page .extra {
     margin-top: 1.75em;
     font-size: 0.8em;
