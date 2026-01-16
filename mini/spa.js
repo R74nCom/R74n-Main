@@ -87,6 +87,10 @@ window.SPA = {
 		document.querySelectorAll("img").forEach((img) => {
 			img.setAttribute("draggable","false");
 			img.addEventListener("dragstart", ()=>false)
+			img.addEventListener("contextmenu", (e)=>{
+				e.preventDefault();
+				return false;
+			})
 		})
 		SPA.checkPage();
 	},

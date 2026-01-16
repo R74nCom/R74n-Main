@@ -155,6 +155,7 @@
 
 .spa img {
 	touch-action: manipulation;
+	-webkit-touch-callout: none;
 }
 .page img[data-selected="true"] {
 	border: solid 3px rgba(102, 240, 255, 0.5);
