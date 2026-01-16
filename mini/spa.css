@@ -148,6 +148,21 @@
 	.spa .content > .controls .mobile {
 		display: block;
 	}
+	.spa .page .pop {
+		margin-bottom: 0;
+		padding-top: 0;
+		font-size: 1.3em;
+	}
+	.spa .page .title {
+		font-size: 0.9em;
+	}
+	.spa .page .justify {
+		text-align: justify;
+	}
+	.spa .controls img {
+		height: 55px;
+		width: 55px;
+	}
 }
 .spa .content > .controls .hidden {
 	display: none;
