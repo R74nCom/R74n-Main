@@ -52,11 +52,12 @@ window.SPA = {
 			if (R74n.state.mobile) {
 				document.body.addEventListener("touchstart", (e) => {
 					SPA._clicked = false;
+					SPA.click(e);
 					e.stopPropagation();
 					e.stopImmediatePropagation();
 				})
 				document.body.addEventListener("touchend", (e) => {
-					SPA.click(e);
+					SPA._clicked = false;
 					e.stopPropagation();
 					e.stopImmediatePropagation();
 				});
@@ -64,6 +65,9 @@ window.SPA = {
 			else {
 				document.body.addEventListener("mousedown", SPA.click);
 				document.body.addEventListener("mouseup", SPA.unclick);
+				document.body.addEventListener("contextmenu", (e) => {
+					SPA._clicked = false;
+				});
 			}
 		}
 		let loading = SPA.main.querySelector(".loading");
@@ -80,6 +84,10 @@ window.SPA = {
 				R74n.closeDialog("info");
 			});
 		}
+		document.querySelectorAll("img").forEach((img) => {
+			img.setAttribute("draggable","false");
+			img.addEventListener("dragstart", ()=>false)
+		})
 		SPA.checkPage();
 	},
 	_loaded: false,
