@@ -49,7 +49,7 @@
 	bottom: 10px;
 	translate: -50% 0%;
 }
-.spa .page .controls img {
+.spa .controls img {
 	height: 65px;
 	width: 65px;
 	cursor: pointer;
@@ -58,11 +58,15 @@
     user-drag: none;
 	transition: all 0.2s;
 	padding: 20px;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: crisp-edges;
+	z-index: 1000;
 }
-.spa .page .controls img:hover {
+.spa .controls img:hover {
 	scale: 1.5;
 }
-.spa .page .controls img:active {
+.spa .controls img:active {
 	scale: 1.1;
 }
 
@@ -94,4 +98,66 @@
 }
 .spa .page .extra .pop {
     opacity: 1;
+}
+.spa .page > div {
+	max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.spa.paths .page {
+	display: none;
+}
+.spa.paths .page[data-current="true"] {
+	display: block;
+}
+.spa.paths .page:nth-child(even) {
+	background-color: unset;
+}
+
+.spa .content > .controls img {
+	position: absolute;
+}
+.spa .content > .controls .left {
+	left: 0%;
+	top: 50%;
+	translate: 0% -50%;
+}
+.spa .content > .controls .right {
+	right: 0%;
+	top: 50%;
+	translate: 0% -50%;
+}
+.spa .content > .controls .up {
+	left: 50%;
+	top: 8%;
+	translate: -50% 0%;
+}
+.spa .content > .controls .down {
+	left: 50%;
+	bottom: 0%;
+	translate: -50% 0%;
+}
+.spa .content > .controls .mobile {
+	display: none;
+}
+@media only screen and (max-width: 800px) {
+	.spa .content > .controls img {
+		display: none;
+	}
+	.spa .content > .controls .mobile {
+		display: block;
+	}
+}
+.spa .content > .controls .hidden {
+	display: none;
+}
+
+.spa img {
+	touch-action: manipulation;
+}
+.page img[data-selected="true"] {
+	border: solid 3px rgba(102, 240, 255, 0.5);
+	scale: 1.2;
+	padding: 10px;
 }

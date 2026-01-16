@@ -300,7 +300,7 @@ SPA.onload = () => {
 		};
 	}, 1000 / 100);
 	
-	SPA.onpage = () => {
+	SPA.onPage = () => {
 		let index = SPA._page;
 		let elem = SPA.main.querySelector('.page[page="'+index+'"] .extra > .pop > span');
 		if (!elem) return;

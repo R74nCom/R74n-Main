@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Determine your personality type based on your preferred handwriting styles!">
+    <meta name="keywords" content="R74n, R47n">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="/icons/avatar.png">
+    <title>Handwriting Personality Test - R74n</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00ffff">
+    <link rel="icon" type="image/x-icon" sizes="40x40" href="/icons/favicon.ico">
+    <meta name="theme-color" content="#000000">
+
+    <script src="../load.js"></script>
+
+    <style>
+      @font-face {
+        font-family: 'VT323';
+        src: url('../cook/fonts/VT323-Regular.ttf') format('truetype');
+      }
+
+      body {
+        font-family: 'VT323', 'Courier New', Courier, monospace;
+        font-size: 35px;
+      }
+
+      .page .pop {
+        padding-top: 0.5em;
+        width: 100%;
+      }
+      .page .pop > img {
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+        width: 1.5em;
+        height: 1.5em;
+        cursor: pointer;
+        padding: 10px;
+      }
+      .page .pop > img:hover {
+        scale: 1.2
+      }
+      .page .pop > img:active {
+        scale: 0.9
+      }
+      .page canvas {
+        margin-top: 1em;
+        width: 50%;
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="spa.css">
+    <script src="spa.js"></script>
+    <script src="data/handwriting.js"></script>
+
+</head>
+
+<body class="spa clicky paths">
+
+<header>
+<a href="/" class="home"></a>
+<h1 class="pagetitle">Handwriting Personality</h1>
+<img class="doodle info" src="../doodle/info.gif" role="button">
+</header>
+
+<main class="content">
+
+
+<p class="loading">Loading...<br><br>Ever wondered what your handwriting choices say about your personality? This short test will do just that.</p>
+
+<div class="controls">
+  <img src="../doodle/left.gif" alt="&lt;" class="left" onclick="SPA.prev()">
+  <img src="../doodle/right.gif" alt="&gt;" class="right" onclick="SPA.next()">
+  <img src="../doodle/up.gif" alt="^" class="up mobile" onclick="SPA.prev()">
+  <img src="../doodle/down.gif" alt="v" class="down mobile" onclick="SPA.next()">
+</div>
+
+<div class="page centered" data-name="0" data-current="true">
+  <div>
+    <div class="title">How do you write the number Zero?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/0-1.gif" alt="0" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/0-2.gif" alt="0" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/0-3.gif" alt="0" data-category="quirky">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="1">
+  <div>
+    <div class="title">How do you write the number One?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/1-1.gif" alt="1" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/1-2.gif" alt="1" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/1-3.gif" alt="1" data-category="perfectionist">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="2">
+  <div>
+    <div class="title">How do you write the number Two?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/2-1.gif" alt="2" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/2-2.gif" alt="2" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/2-3.gif" alt="2" data-category="quirky">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="3">
+  <div>
+    <div class="title">How do you write the number Three?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/3-1.gif" alt="3" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/3-2.gif" alt="3" data-category="perfectionist">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="4">
+  <div>
+    <div class="title">How do you write the number Four?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/4-1.gif" alt="4" style="filter:brightness(150%)" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/4-2.gif" alt="4" style="filter:brightness(150%)" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/4-3.gif" alt="4" style="filter:brightness(150%)" data-category="quirky">
+      <img role="button" src="../doodle/handwriting/4-4.gif" alt="4" style="filter:brightness(150%)" data-category="quirky">
+      <img role="button" src="../doodle/handwriting/4-5.gif" alt="4" style="filter:brightness(150%)" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/4-6.gif" alt="4" style="filter:brightness(150%)" data-category="easygoing">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="5">
+  <div>
+    <div class="title">How do you write the number Five?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/5-1.gif" alt="5" style="filter:brightness(150%)" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/5-2.gif" alt="5" style="filter:brightness(150%)" data-category="quirky">
+      <img role="button" src="../doodle/handwriting/5-3.gif" alt="5" style="filter:brightness(150%)" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/5-4.gif" alt="5" style="filter:brightness(150%)" data-category="perfectionist">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="6">
+  <div>
+    <div class="title">How do you write the number Six?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/6-1.gif" alt="6" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/6-2.gif" alt="6" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/6-3.gif" alt="6" data-category="easygoing">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="7">
+  <div>
+    <div class="title">How do you write the number Seven?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/7-1.gif" alt="7" style="filter:invert() sepia(1) hue-rotate(264deg)" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/7-2.gif" alt="7" style="filter:invert() sepia(1) hue-rotate(264deg)" data-category="quirky">
+      <img role="button" src="../doodle/handwriting/7-3.gif" alt="7" style="filter:invert() sepia(1) hue-rotate(264deg)" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/7-4.gif" alt="7" style="filter:invert() sepia(1) hue-rotate(264deg)" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/7-5.gif" alt="7" style="filter:invert() sepia(1) hue-rotate(264deg)" data-category="quirky">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="8">
+  <div>
+    <div class="title">How do you write the number Eight?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/8-1.gif" alt="8" style="filter:sepia(1)" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/8-2.gif" alt="8" style="filter:sepia(1)" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/8-3.gif" alt="8" style="filter:sepia(1)" data-category="quirky">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="9">
+  <div>
+    <div class="title">How do you write the number Nine?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/9-1.gif" alt="9" style="filter:sepia(1) hue-rotate(45deg)" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/9-2.gif" alt="9" style="filter:sepia(1) hue-rotate(45deg)" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/9-3.gif" alt="9" style="filter:sepia(1) hue-rotate(45deg)" data-category="quirky">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="x">
+  <div>
+    <div class="title">How do you write lowercase X?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/x-1.gif" alt="x" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/x-2.gif" alt="x" data-category="quirky">
+      <img role="button" src="../doodle/handwriting/x-3.gif" alt="x" data-category="perfectionist">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="mul">
+  <div>
+    <div class="title">How do you write Multiplication Sign?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/mul-1.gif" alt="×" style="filter:brightness(150%)" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/mul-2.gif" alt="⋅" style="filter:brightness(150%)" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/mul-3.gif" alt="*" style="filter:brightness(150%)" data-category="quirky">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="pi">
+  <div>
+    <div class="title">How do you write Pi?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/pi-1.gif" alt="π" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/pi-2.gif" alt="π" data-category="quirky">
+      <img role="button" src="../doodle/handwriting/pi-3.gif" alt="π" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/pi-4.gif" alt="π" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/pi-5.gif" alt="π" data-category="quirky">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="a">
+  <div>
+    <div class="title">How do you write lowercase A?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/a-1.gif" alt="a" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/a-2.gif" alt="a" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/a-3.gif" alt="a" data-category="perfectionist">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="g">
+  <div>
+    <div class="title">How do you write lowercase G?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/g-1.gif" alt="g" style="filter:hue-rotate(309deg)" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/g-2.gif" alt="g" style="filter:hue-rotate(309deg)" data-category="perfectionist">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="g_">
+  <div>
+    <div class="title">How do you write uppercase G?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/g_-1.gif" alt="G" style="filter:hue-rotate(309deg) brightness(1.5)" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/g_-2.gif" alt="G" style="filter:hue-rotate(309deg) brightness(1.5)" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/g_-3.gif" alt="G" style="filter:hue-rotate(309deg) brightness(1.5)" data-category="easygoing">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="dollar">
+  <div>
+    <div class="title">How do you write Dollar Sign?</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/dollar-1.gif" alt="$" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/dollar-2.gif" alt="$" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/dollar-3.gif" alt="$" data-category="quirky">
+    </div>
+  </div>
+</div>
+
+<div class="page centered" data-name="amp">
+  <div>
+    <div class="title">How do you write Ampersand?</div>
+    <div class="subtitle">It means "And"!</div>
+    <div class="pop options">
+      <img role="button" src="../doodle/handwriting/amp-1.gif" alt="&" data-category="considerate">
+      <img role="button" src="../doodle/handwriting/amp-2.gif" alt="&" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/amp-3.gif" alt="&" data-category="quirky">
+      <img role="button" src="../doodle/handwriting/amp-4.gif" alt="&" data-category="easygoing">
+      <img role="button" src="../doodle/handwriting/amp-5.gif" alt="&" data-category="easygoing">
+    </div>
+  </div>
+</div>
+
+<div class="page centered final">
+  <div>
+    <div class="title">Your personality is...</div>
+    <div class="pop">...</div>
+    <div class="subtitle">Loading...</div>
+    <div>
+      <canvas width="243" height="54"></canvas>
+    </div>
+  </div>
+  <div class="controls">
+    <img class="doodle" src="../doodle/share.gif" role="button" onclick="SPA._handleShare();">
+    <img class="doodle" src="../doodle/reset.gif" role="button" onclick="location.reload();">
+  </div>
+</div>
+
+<script>
+  SPA._skippable = false;
+
+  document.querySelector("main.content").addEventListener("click", (e) => {
+    let elem = e.target;
+    if (elem.tagName.toLowerCase() === "img" && elem.parentNode.classList.contains("options")) {
+      [...elem.parentNode.children].forEach((other) => {
+        other.setAttribute("data-selected", "false");
+      });
+      elem.setAttribute("data-selected", "true");
+      SPA.next();
+    }
+  })
+
+  SPA.onPage = (page) => {
+    if (page.classList.contains("final")) {
+      let scores = {
+        "considerate": 0,
+        "perfectionist": 0,
+        "quirky": 0,
+        "easygoing": 0
+      };
+      let subtitles = {
+        "considerate": "You write with future readers in mind, making sure each character is clearly legible and can't be confused with another.",
+        "perfectionist": "You write with intent, making sure each character is perfectly designed. You are known to erase your letters to correct mistakes.",
+        "quirky": "You stand out from others by writing with a bit of flare. You think outside of the box and always have creative solutions to problems.",
+        "easygoing": "You write quickly and out of necessity, and don't bother with perfection. There are only so many letters, the reader will understand."
+      }
+      let images = SPA.main.querySelectorAll('.pop img[data-selected="true"]');
+      images.forEach(elem => {
+        let category = elem.getAttribute("data-category");
+        scores[category] += 1;
+      });
+      scores["easygoing"] *= 0.5;
+
+      let result = Object.keys(scores).sort((a,b) => {
+        return scores[b] - scores[a]
+      })[0];
+
+      page.querySelector(".pop").innerText = result.substring(0,1).toUpperCase() + result.substring(1);
+      page.querySelector(".subtitle").innerText = subtitles[result];
+
+      let canvas = SPA.main.querySelector("canvas");
+      let ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < images.length; i++) {
+        const elem = images[i];
+        let x = (27 * i) % (27 * 9);
+        let y = 27 * Math.floor(i / 9);
+        console.log(y);
+
+        ctx.drawImage(elem, x, y);
+      }
+    }
+  }
+
+  SPA._handleShare = () => {
+    R74n.share(`My handwriting personality type is ${SPA.main.querySelector(".page.final .pop").innerText}! What's yours?`)
+  }
+</script>
+
+<!--
+easygoing
+perfectionist
+considerate
+quirky
+-->
+
+
+</main>
+
+<div class="globalDialog" id="globalDialog-info">
+  <div>
+    <span>Info...</span>
+    <span><img class="doodle x" src="../doodle/x.gif" alt="X" role="button"></span>
+  </div>
+  <div>
+    <div>
+      <small>Handwriting sprites drawn by <em>nousernamefound</em>.</small>
+      <span>
+        <button onclick="R74n.home()">More Games</button>
+        <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>

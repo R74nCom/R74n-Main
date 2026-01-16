@@ -395,6 +395,11 @@ h2.linkcategory, h3.linkcategory {font-size: 1em;margin-block-start: 0;}
 }
 #splashheader {text-align: center;}
 
+img, canvas {
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: crisp-edges;
+}
 .pixelart, .pixelflag, .doodle {
 	image-rendering: pixelated;
 	image-rendering: -moz-crisp-edges;
@@ -906,6 +911,7 @@ form .honeypot {
 .globalDialog > div > div {
 	display: flex;
     flex-direction: column;
+	width: 100%;
 }
 .globalDialog > div > div > * {
 	margin-bottom: 1em;

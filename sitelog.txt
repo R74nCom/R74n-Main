@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-01-16 - New Mini Project: Handwriting Personality Test
 2026-01-04 - Moved Patreon out of the active Socials section
 2026-01-04 - Updated What Are The Odds in response to user feedback
 2026-01-03 - "New" markers for spotlight buttons on the homepage
