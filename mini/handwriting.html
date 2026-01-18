@@ -193,7 +193,7 @@
     <div class="title">How do you write the number Nine?</div>
     <div class="pop options">
       <img role="button" src="../doodle/handwriting/9-1.gif" alt="9" style="filter:sepia(1) hue-rotate(45deg)" data-category="easygoing">
-      <img role="button" src="../doodle/handwriting/9-2.gif" alt="9" style="filter:sepia(1) hue-rotate(45deg)" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/9-2.gif" alt="9" style="filter:sepia(1) hue-rotate(45deg)" data-category="perfectionist" data-not="considerate">
       <img role="button" src="../doodle/handwriting/9-3.gif" alt="9" style="filter:sepia(1) hue-rotate(45deg)" data-category="quirky">
     </div>
   </div>
@@ -214,8 +214,8 @@
   <div>
     <div class="title">How do you write Multiplication Sign?</div>
     <div class="pop options">
-      <img role="button" src="../doodle/handwriting/mul-1.gif" alt="×" style="filter:brightness(150%)" data-category="considerate">
-      <img role="button" src="../doodle/handwriting/mul-2.gif" alt="⋅" style="filter:brightness(150%)" data-category="perfectionist">
+      <img role="button" src="../doodle/handwriting/mul-1.gif" alt="×" style="filter:brightness(150%)" data-category="easygoing" data-not="considerate">
+      <img role="button" src="../doodle/handwriting/mul-2.gif" alt="⋅" style="filter:brightness(150%)" data-category="considerate">
       <img role="button" src="../doodle/handwriting/mul-3.gif" alt="*" style="filter:brightness(150%)" data-category="quirky">
     </div>
   </div>
@@ -297,7 +297,7 @@
     <div class="pop">...</div>
     <div class="subtitle justify">Loading...</div>
     <div>
-      <canvas width="243" height="54"></canvas>
+      <canvas width="243" height="54" style="display:none"></canvas>
     </div>
   </div>
   <div class="controls">
@@ -338,6 +338,9 @@
       images.forEach(elem => {
         let category = elem.getAttribute("data-category");
         scores[category] += 1;
+        if (elem.hasAttribute("data-not")) {
+          scores[elem.getAttribute("data-not")] -= 10;
+        }
       });
       scores["easygoing"] *= 0.5;
 
@@ -356,10 +359,10 @@
         const elem = images[i];
         let x = (27 * i) % (27 * 9);
         let y = 27 * Math.floor(i / 9);
-        console.log(y);
 
         ctx.drawImage(elem, x, y);
       }
+      canvas.style.display = "";
     }
   }
 
@@ -369,10 +372,10 @@
 </script>
 
 <!--
-easygoing
-perfectionist
-considerate
-quirky
+easygoing: 4
+perfectionist: 3
+considerate: 9
+quirky: 1
 -->
 
 

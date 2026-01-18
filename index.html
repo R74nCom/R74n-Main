@@ -309,12 +309,17 @@ function setIcon(){
       .projectGallery {
         display:flex;
         width: 100%;
-        margin-bottom:1.5em;
-        margin-top: 1em;
+        /* margin-bottom:1.5em;
+        margin-top: 1em; */
         justify-content: space-evenly;
+        flex-wrap: wrap;
+      }
+      #miniGallery {
+        margin-bottom: 1em;
       }
       .projectGallery > a {
         width:25%; height:100px;
+        margin-top: 0.5em;
         background-position: center;
         background-size: cover;
         color: white;
@@ -332,11 +337,18 @@ function setIcon(){
      0    3px 0 #000,
     -3px  3px 0 #000,
     -3px  0   0 #000,
+    0px 0px 4px rgb(0,0,0),
+    0px 0px 5px rgb(0,0,0),
+    0px 0px 6px rgb(0,0,0),
+    0px 0px 7px rgb(0,0,0),
+    0px 0px 8px rgb(0,0,0),
+    0px 0px 9px rgb(0,0,0),
     0px 0px 10px rgb(0,0,0),
-    0px 0px 10px rgb(0,0,0),
-    0px 0px 10px rgb(0,0,0),
-    0px 0px 10px rgb(0,0,0),
-    0px 0px 10px rgb(0,0,0);
+    0px 0px 11px rgb(0,0,0),
+    0px 0px 12px rgb(0,0,0),
+    0px 0px 13px rgb(0,0,0),
+    0px 0px 14px rgb(0,0,0),
+    0px 0px 15px rgb(0,0,0);
         border: solid 4px #797979;
         border-right-color: #575757;
         border-bottom-color: #575757;
@@ -376,6 +388,11 @@ function setIcon(){
         padding-right: 5px;
         line-height: 1;
       }
+      @media only screen and (max-width: 1200px) {
+        .projectGallery > a.new::after {
+          opacity: 0.66
+        }
+      }
       @media only screen and (max-width: 950px) {
         .projectGallery > a {
           flex-grow: 1;
@@ -395,8 +412,8 @@ function setIcon(){
       @media only screen and (max-width: 700px) {
         .projectGallery {
           display: block;
-          margin-top: 0.5em;
-          margin-bottom: 1em;
+          /* margin-top: 0.5em;
+          margin-bottom: 1em; */
         }
         .projectGallery > a {
           width: 100%;
@@ -405,9 +422,14 @@ function setIcon(){
           margin-bottom: 0.2em;
           border-left: solid 3px #797979;
           max-width: 100%;
+          height: 80px;
+          margin-top: 0.25em;
         }
         .projectGallery > a:hover {
           scale: 1.01;
+        }
+        .projectGallery > a.new::after {
+          opacity: 1
         }
       }
     </style>
@@ -440,7 +462,8 @@ function setIcon(){
 <div id="miniGallery" class="projectGallery">
   <a href="mini/odds" class="new" style="background-image: url(mini/spotlight-odds.gif);">What Are The Odds?</a>
   <a href="mini/handwriting" class="new" style="background-image: url(mini/spotlight-handwriting.png);">Handwriting Personality</a>
-  <a href="ants/" style="background-image: url(ants/spotlight.jpg);">Every Ant on Earth</a>
+  <a href="ants/" style="background-image: url(ants/spotlight.png);">Every Ant on Earth</a>
+  <a href="pixelflags/guess" style="background-image: url(pixelflags/spotlight.png);">Guess the Pixel Flag</a>
 </div>
 
 <!-- <div class="homefundivtop"></div> -->

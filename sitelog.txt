@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-01-18 - Tweaked Handwriting Personality Test algorithm
+2026-01-18 - Made spotlight button text clearer
+2026-01-18 - Added Guess The Pixel Flag spotlight button to homepage
 2026-01-16 - New Mini Project: Handwriting Personality Test
 2026-01-04 - Moved Patreon out of the active Socials section
 2026-01-04 - Updated What Are The Odds in response to user feedback
