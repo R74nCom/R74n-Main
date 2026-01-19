@@ -179,15 +179,6 @@ else if (location.href && location.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.co
 	R74n.state.official = true;
 }
 
-if (!R74n.state.file || R74n.state.main) {
-	// Open external links in new tab
-	[...document.getElementsByTagName("a")].forEach(a => {
-		if (a && !a.hasAttribute("target") && a.href && ((a.href.startsWith("http") && !a.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) || a.href.match(/^mailto:/))) {
-			a.setAttribute("target","_blank");
-		}
-	});
-}
-
 if (R74n.state.file) {
 	[...document.querySelectorAll("meta, link")].forEach(a => {
 		if (!a) return;
@@ -222,6 +213,15 @@ if (window.self != window.top) {
 }
 
 window.addEventListener("load",function(){
+
+if (!R74n.state.file || R74n.state.main) {
+	// Open external links in new tab
+	[...document.getElementsByTagName("a")].forEach(a => {
+		if (a && !a.hasAttribute("target") && a.href && ((a.href.startsWith("http") && !a.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) || a.href.match(/^mailto:/))) {
+			a.setAttribute("target","_blank");
+		}
+	});
+}
 
 let _pageHeader = document.querySelector("body header:first-child");
 if (_pageHeader && _pageHeader.style.display !== "none") {
