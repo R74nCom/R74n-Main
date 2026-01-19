@@ -187,7 +187,7 @@ button:active,
 input[type=button]:active, input[type=reset]:active, input[type=submit]:active,
 input[type=file]:active::file-selector-button {
 	border-bottom-width: 3px;
-	translate: 0px 0.08em;
+	translate: 0px 1px;
 }
 textarea:focus-visible, input:focus-visible {
 	border-color: rgba(0,255,255,0.5);

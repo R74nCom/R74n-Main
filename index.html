@@ -314,12 +314,9 @@ function setIcon(){
         justify-content: space-evenly;
         flex-wrap: wrap;
       }
-      #miniGallery {
-        margin-bottom: 1em;
-      }
       .projectGallery > a {
         width:25%; height:100px;
-        margin-top: 0.5em;
+        margin-bottom: 0.5em;
         background-position: center;
         background-size: cover;
         color: white;
@@ -352,6 +349,8 @@ function setIcon(){
         display: flex;
         align-items: center;
         justify-content: center;
+        align-content: center;
+        line-height: 1;
         position: relative;
         image-rendering: pixelated;
       }
@@ -417,6 +416,7 @@ function setIcon(){
           max-width: 100%;
           height: 80px;
           margin-top: 0.25em;
+          line-height: 0.8;
         }
         .projectGallery > a:hover {
           scale: 1.01;
@@ -425,7 +425,99 @@ function setIcon(){
           opacity: 1
         }
       }
+
+      #peakheader {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.8em;
+        flex-wrap: wrap;
+      }
+      #peakheader > div {
+        display: flex;
+        flex-direction: row;
+        height: 2em;
+        margin-left: 1em;
+        margin-right: 1em;
+        flex-wrap: wrap;
+        flex-shrink: 0;
+      }
+      #peakheader div:first-child {
+        flex-grow: 1;
+        flex-shrink: 1;
+        justify-content: flex-start;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+      }
+      #peakheader div a {
+        transition: scale 0.2s;
+      }
+      #peakheader div:first-child a {
+        flex-grow: 0;
+        flex-shrink: 0;
+      }
+      #peakheader div:first-child a:hover {
+        scale: 1.5;
+        z-index: 9999;
+      }
+      #peakheader div:first-child a:active {
+        scale: 1.25;
+      }
+      #peakheader > div * {
+        margin: 0;
+        height: 100%;
+        min-height: unset;
+        max-height: unset;
+        width: unset;
+        display: block;
+        margin-top: 1px;
+        margin-bottom: 1px;
+        margin-right: 2px;
+      }
+      #splashheader {
+        margin-bottom: 0.8em;
+        margin-top: -0.8em;
+      }
+      @media only screen and (min-width: 700px) {
+        #toggleSpotlight::after {
+          content: " Spotlight"
+        }
+      }
+      @media only screen and (max-width: 700px) {
+        #peakheader > div {
+          margin: 0;
+        }
+        #peakheader div:first-child {
+          justify-content:space-evenly;
+          /* margin-left: 0.8em; */
+        }
+        #peakheader div:last-child {
+          margin-right: 0.8em;
+        }
+        #peakheader {
+          justify-content: center;
+        }
+      }
+      #peakheader div:last-child {
+
+      }
     </style>
+    <script>
+      function toggleSpotlight() {
+        let btn = document.getElementById("toggleSpotlight");
+        let div = document.getElementById('allGalleries');
+        if (div.style.display === "none") {
+          btn.innerText = "Hide";
+          div.style.display = "block";
+          R74n.set("HideSpotlight", "0");
+        }
+        else {
+          btn.innerText = "Show";
+          div.style.display = "none";
+          R74n.set("HideSpotlight", "1");
+        }
+      }
+    </script>
 </head>
 
 <body class="homepage">
@@ -440,11 +532,27 @@ function setIcon(){
 <div id="rueBox"></div>
 </header>
 
+<header id="peakheader" class="alertheader">
+  <div>
+    <a href="https://discord.gg/ejUc6YPQuS"><img src="./shapes/png/share-buttons/discord.png" alt="Discord"></a>
+    <a href="https://www.youtube.com/@R74n"><img src="./shapes/png/share-buttons/youtube.png" alt="YouTube"></a>
+    <a href="https://www.tiktok.com/@r74n.com"><img src="./shapes/png/share-buttons/tiktok.png" alt="TikTok"></a>
+    <a href="https://bsky.app/profile/r74n.com"><img src="./shapes/png/share-buttons/bluesky.png" alt="Bluesky"></a>
+    <a href="https://x.com/R74nCom"><img src="./shapes/png/share-buttons/twitter.png"></a>
+    <a href="./contact"><img src="./shapes/png/share-buttons/email.png"></a>
+  </div>
+  <div>
+    <button id="toggleSpotlight" onclick="toggleSpotlight()" style="flex-shrink: 0; overflow-x:visible">Hide</button>
+  </div>
+</header>
+
 <header id="splashheader" class="alertheader" style="display:none;"></header>
 
 <main class="content">
 
 <!-- <p>Hello</p> -->
+
+<div id="allGalleries">
 
 <nav id="spotlightGallery" class="projectGallery">
   <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);">Sandboxels</a>
@@ -457,6 +565,8 @@ function setIcon(){
   <a href="mini/handwriting" class="new" style="background-image: url(mini/spotlight-handwriting.png);">Handwriting Personality</a>
   <a href="ants/" style="background-image: url(ants/spotlight.png);">Every Ant on Earth</a>
   <a href="pixelflags/guess" style="background-image: url(pixelflags/spotlight.png);">Guess the Pixel Flag</a>
+</div>
+
 </div>
 
 <!-- <div class="homefundivtop"></div> -->
@@ -727,6 +837,10 @@ youtube: “Did you enjoy the video? leave a like and subscribe!”
 document.getElementById("homeIconLink").addEventListener("click", function() {
   location.hash = "YOU-ARE-ALREADY-HOME.";
 });
+
+if (R74n.get("HideSpotlight") === "1") {
+  document.getElementById("toggleSpotlight").click();
+}
 
 initRue();
 </script>
