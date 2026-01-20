@@ -456,7 +456,7 @@ abbr {
 	justify-content: center;
 	border:solid white;
 }
-.artgallery div {
+.artgallery > div {
 	text-align: center;
 	padding: 10px;
 	flex-grow: 1;
