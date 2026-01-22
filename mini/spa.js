@@ -1,9 +1,11 @@
 window.SPA = {
-	init: () => {
-		SPA.loaded = true;
+	preinit: () => {
 		SPA.main = document.querySelector(".spa > .content");
 		SPA.header = document.querySelector(".spa > header:first-child");
 		SPA._paths = document.body.classList.contains("paths");
+	},
+	init: () => {
+		SPA._loaded = true;
 		if (!SPA._paths) {
 			SPA.main.addEventListener("scroll", (e) => {
 				if (SPA.main.scrollTop === 0) {
@@ -92,12 +94,58 @@ window.SPA = {
 				return false;
 			})
 		})
+		window.addEventListener("keydown", (e) => {
+			console.log(e.key)
+			if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+			let target = e.target;
+			if (target.tagName === "input" || target.tagName === "textarea" || target.tagName === "select") {
+				return;
+			}
+			let key = e.key;
+			if (SPA.keybinds[key]) {
+				let result = SPA.keybinds[key](e);
+				if (result !== false) e.preventDefault();
+			}
+		})
 		SPA.checkPage();
 	},
 	_loaded: false,
 	_page: 0,
 	_scrollDir: 0,
 	_skippable: true,
+	
+	keybinds: {
+		"ArrowDown": (e) => {
+			if (!SPA.pages.length) return false;
+			let btn = SPA.main.querySelector('.page[data-current="true"] .down');
+			if (btn) {
+				btn.click();
+				return;
+			}
+			btn = SPA.main.querySelector('div.controls .right, div.controls .down');
+			if (btn && !btn.classList.contains("hidden")) {
+				btn.click();
+				return;
+			}
+			if (!SPA._paths) SPA.snap(SPA._page + 1);
+		},
+		"ArrowUp": (e) => {
+			if (!SPA.pages.length) return;
+			let btn = SPA.main.querySelector('.page[data-current="true"] .up');
+			if (btn) {
+				btn.click();
+				return;
+			}
+			btn = SPA.main.querySelector('div.controls .left, div.controls .up');
+			if (btn && !btn.classList.contains("hidden")) {
+				btn.click();
+				return;
+			}
+			if (!SPA._paths) SPA.snap(SPA._page - 1);
+		},
+		"ArrowLeft": (e) => SPA.keybinds["ArrowUp"](e),
+		"ArrowRight": (e) => SPA.keybinds["ArrowDown"](e),
+	},
 
 	tick: (callback, ms) => {
 		setInterval(callback, ms);
@@ -128,9 +176,16 @@ window.SPA = {
 			}, 300);
 			SPA.header.classList.add("min");
 		}
+		pageNumber = Math.max(0, pageNumber);
+		pageNumber = Math.min(SPA.pages.length-1, pageNumber);
 		SPA._page = pageNumber;
 		SPA.main.scrollTop = pageNumber * SPA.main.clientHeight;
 		SPA._scrollDir = 0;
+		SPA.currentPage.setAttribute("data-current","false");
+		let newPage = SPA.main.querySelector('.page[page="'+pageNumber+'"]');
+		SPA.currentPage = newPage;
+		SPA.currentPage.setAttribute("data-current","true");
+		SPA.checkPage();
 		if (fast) {
 			SPA.main.style.scrollBehavior = "smooth";
 		}
@@ -230,16 +285,20 @@ window.SPA = {
 	}
 }
 window.addEventListener("load", () => {
-	if (!SPA._loaded) SPA.init();
+	if (SPA._loaded) return;
+	SPA.preinit();
 	if (SPA.onload) {
 		SPA.onload();
 		SPA.onload = undefined;
 	}
+	SPA.init();
 })
 window.addEventListener("DOMContentLoaded", () => {
-	if (!SPA._loaded) SPA.init();
+	if (SPA._loaded) return;
+	SPA.preinit();
 	if (SPA.onload) {
 		SPA.onload();
 		SPA.onload = undefined;
 	}
+	SPA.init();
 })

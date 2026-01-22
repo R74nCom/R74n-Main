@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-01-21 - Arrow key page navigation for Mini Projects
+2026-01-20 - Updated News Flash Archive
 2026-01-20 - Released R74n Logo Community Project
 2026-01-19 - Added Hide Spotlight button to homepage that retains state on refresh
 2026-01-19 - Added social media buttons to homepage

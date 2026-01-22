@@ -1,0 +1,33 @@
+https://query.wikidata.org/sparql?query={SPARQL_QUERY}
+
+
+
+SELECT ?item ?itemLabel ?statementCount WHERE {
+  {
+    SELECT DISTINCT ?item ?statementCount WHERE {
+      VALUES ?concept { wd:Q101929 } # ADD THIS TO CONCEPT X
+      { # As main statement value
+        ?item ?property ?concept.
+      }
+      UNION
+      { # As qualifier value
+        ?item ?p ?statement.
+        ?statement ?pq ?concept.
+      }
+      
+      #?item ?property wd:Q23722.  # ADD THIS TO CONCEPT X
+      
+      ?item p:P31 ?statement0.
+      ?statement0 ps:P31 wd:Q5.  # CLASS OF CONCEPT X
+      
+      ?item wikibase:statements ?statementCount .
+    }
+    ORDER BY DESC(?statementCount)
+    LIMIT 5
+  }
+
+  SERVICE wikibase:label {
+    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" .
+  }
+}
+ORDER BY DESC(?statementCount)

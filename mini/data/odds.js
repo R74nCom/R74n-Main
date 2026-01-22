@@ -274,7 +274,7 @@ SPA.onload = () => {
 		</div>
 	</div>
 	<div class="controls">
-		${ i < SPA.data.odds.length-1 ? `<img class="doodle" src="../doodle/down.gif" role="button" onclick="SPA.snap(${i + 1})">` : "" }
+		${ i < SPA.data.odds.length-1 ? `<img class="doodle down" src="../doodle/down.gif" role="button" onclick="SPA.snap(${i + 1})">` : "" }
 		<img class="doodle" src="../doodle/share.gif" role="button" id="share-${i}">
 	</div>
 </section>
