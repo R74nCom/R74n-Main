@@ -302,6 +302,7 @@ R74n.closeDialog = function(id) {
 	let dialog = document.getElementById("globalDialog-"+id);
 	if (dialog) {
 		dialog.classList.remove("open");
+		document.documentElement.scrollTop = R74n.preDialogScroll;
 	}
 }
 
@@ -375,7 +376,11 @@ R74n.sharePoints = {
 
 R74n.root = (R74n.state.main && !R74n.state.file) ? "/" : "https://r74n.com/";
 
+R74n.preDialogScroll = 0;
+
 R74n.dialog = function(id, options = {}) {
+	R74n.preDialogScroll = document.documentElement.scrollTop;
+	if (!R74n.state.spa) document.documentElement.scrollTop = 0;
 	let dialog = document.getElementById("globalDialog-"+id);
 	if (dialog) {
 		dialog.classList.add("open");
