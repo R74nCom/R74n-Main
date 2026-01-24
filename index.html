@@ -290,6 +290,10 @@ function setIcon(){
       @media only screen and (max-width: 600px) {
         #rueBox { height:66px }
       }
+      header.homepage #rueBox {
+        max-width: none!important;
+        width: unset!important;
+      }
       #rueBox > #rueBoxIn, #rueBoxIn > #rueInput, #rueBoxIn > #rueButton {
         border-top-left-radius: 0px!important;
         border-top-right-radius: 0px!important;
@@ -432,7 +436,6 @@ function setIcon(){
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 0.8em;
         flex-wrap: wrap;
       }
       #peakheader > div {
@@ -441,6 +444,7 @@ function setIcon(){
         height: 2em;
         margin-left: 1em;
         margin-right: 1em;
+        margin-bottom: 0.8em;
         flex-wrap: wrap;
         flex-shrink: 0;
       }
@@ -488,20 +492,21 @@ function setIcon(){
       @media only screen and (max-width: 700px) {
         #peakheader > div {
           margin: 0;
+          margin-bottom: 0.8em;
         }
         #peakheader div:first-child {
           justify-content:space-evenly;
           /* margin-left: 0.8em; */
         }
         #peakheader div:last-child {
-          margin-right: 0.8em;
+          margin-right: 0em;
         }
         #peakheader {
           justify-content: center;
         }
-      }
-      #peakheader div:last-child {
-
+        #allGalleries {
+          margin-bottom: 1.5em;
+        }
       }
     </style>
     <script>
@@ -791,7 +796,7 @@ if (refdomain) {
     "substack.com":`Welcome, reader! Follow our <a title="R74n Newsletter" href="https://news.r74n.com/">free Newsletter</a> to stay updated! ❤️`,
     "oid-base.com":`Welcome, identifier fan! Check out our massive <a title="Identifiers page" href="https://r74n.com/id/">ID Space</a>, and even get involved! ❤️`,
     "n2t.net":"oid-base.com",
-    "games":`Welcome! Try out <a title="Sandboxels" href="https://sandboxels.r74n.com">Sandboxels</a>, our in-browser experimentation game! 🎮`,
+    "games":`Welcome! Try out our many fun games and pages below! 🎮`,
     "itch.io":"games",
     "steampowered.com":"games",
     "steamcommunity.com":"games",
@@ -807,7 +812,7 @@ if (refdomain) {
     "playlight.dev":"games",
     "kicya.net":"thanks for clicking on my tile!! enjoy your stay :)",
     "webtiles.kicya.net":"kicya.net",
-    "neal.fun":"thanks for visiting the developer of Sandboxels!! enjoy your stay :)",
+    "neal.fun":"thanks for visiting the developer of Sandboxels!! for more info, see <a href='https://sandboxels.r74n.com/new-home'>our Sandboxels FAQ</a>. enjoy your stay :)",
   }
   /*
 youtube: “Did you enjoy the video? leave a like and subscribe!”

@@ -95,7 +95,6 @@ window.SPA = {
 			})
 		})
 		window.addEventListener("keydown", (e) => {
-			console.log(e.key)
 			if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
 			let target = e.target;
 			if (target.tagName === "input" || target.tagName === "textarea" || target.tagName === "select") {
