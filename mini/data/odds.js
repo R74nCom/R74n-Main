@@ -262,7 +262,7 @@ SPA.onload = () => {
 
 			`<div class="title">And yet, here you are!</div>
 			<div class="pop">
-				<button onclick="R74n.home()">More Games</button>
+				<button onclick="R74n.more()">More Games</button>
 				<button onclick="location.href='https://r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
 				<button onclick="SPA.snap(0)">Start Over</button>
 			</div>`

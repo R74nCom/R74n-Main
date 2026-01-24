@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-01-24 - "More Games" dialog for Mini Projects and Infinite Chef
+2026-01-24 - Improvements to global dialogs
 2026-01-23 - Homepage mobile improvements
 2026-01-21 - Arrow key page navigation for Mini Projects
 2026-01-20 - Updated News Flash Archive

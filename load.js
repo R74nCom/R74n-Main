@@ -51,6 +51,9 @@ class R74nClass {
 	home() {
 		location.href = "https://r74n.com/";
 	}
+	more() {
+		
+	}
 }
 const R74n = new R74nClass();
 
@@ -370,6 +373,58 @@ R74n.sharePoints = {
 	},
 }
 
+R74n.root = (R74n.state.main && !R74n.state.file) ? "/" : "https://r74n.com/";
+
+R74n.dialog = function(id, options = {}) {
+	let dialog = document.getElementById("globalDialog-"+id);
+	if (dialog) {
+		dialog.classList.add("open");
+	}
+	else {
+		dialog = document.createElement("div");
+		dialog.classList.add("globalDialog");
+		if (options.wide) dialog.classList.add("wide");
+		dialog.id = "globalDialog-"+id;
+
+		let divparent = document.createElement("div");
+
+		let div1 = document.createElement("div");
+		let span1 = document.createElement("span");
+		span1.innerText = options.title || "Notice...";
+		span1.classList.add("globalDialogTitle");
+		let span2 = document.createElement("span");
+		let x = document.createElement("img");
+		x.src = R74n.root + "doodle/x.gif";
+		x.role = "button";
+		x.alt = "X";
+		x.classList.add("doodle");
+		x.classList.add("globalDialogX");
+		x.addEventListener("click", () => R74n.closeDialog(id));
+		span2.appendChild(x);
+		div1.appendChild(span1);
+		div1.appendChild(span2);
+		divparent.appendChild(div1);
+
+		let div2 = document.createElement("div");
+		div2.classList.add("globalDialogContent");
+		divparent.appendChild(div2);
+
+		dialog.appendChild(divparent);
+	
+		document.body.appendChild(dialog);
+		dialog.classList.add("open");
+	}
+	if (dialog.getAttribute("data-init") !== "true") {
+		dialog.addEventListener("click", (e) => {
+			if (["A","BUTTON","INPUT","TEXTAREA","IMG"].includes(e.target.tagName)) return;
+			// if (e.target == dialog || e.target.parentNode == dialog) {}
+			R74n.closeDialog(id);
+		})
+		dialog.getAttribute("data-init", "true");
+	}
+	return dialog;
+}
+
 R74n.share = function(text) {
 	R74n.state.share = {
 		text: text || document.title
@@ -377,45 +432,14 @@ R74n.share = function(text) {
 	// create share dialog if not exists
 	// otherwise show it
 
-	let dialog = document.getElementById("globalDialog-share");
-	if (dialog) {
-		dialog.classList.add("open");
-	}
-	else {
-		dialog = document.createElement("div");
-		dialog.className = "globalDialog";
-		dialog.id = "globalDialog-share";
-	
-		let div1 = document.createElement("div");
-		let span1 = document.createElement("span");
-		span1.innerText = "Share to...";
-		let span2 = document.createElement("span");
-		let x = document.createElement("img");
-		x.src = "/doodle/x.gif";
-		x.role = "button";
-		x.alt = "X";
-		x.addEventListener("click", R74n.closeShare);
-		span2.appendChild(x);
-		div1.appendChild(span1);
-		div1.appendChild(span2);
-		dialog.appendChild(div1);
-	
-		let div2 = document.createElement("div");
-		div2.className = "sharePoints";
-		dialog.appendChild(div2);
-	
-		dialog.addEventListener("click", (e) => {
-			if (e.target == dialog) {
-				R74n.closeShare();
-			}
-		})
-	
-		document.body.appendChild(dialog);
-		dialog.classList.add("open");
-	}
+	let dialog = R74n.dialog("share", {
+		title: "Share..."
+	});
 
-	let div2 = dialog.querySelector(".sharePoints");
-	div2.innerHTML = "";
+	let content = dialog.querySelector(".globalDialogContent");
+	content.innerHTML = "";
+	let shareContent = document.createElement("div");
+	shareContent.style.display = "block";
 	for (let key in R74n.sharePoints) {
 		if (key === "native" && !navigator.share) continue;
 
@@ -423,7 +447,7 @@ R74n.share = function(text) {
 		let a = document.createElement("a");
 		let img = document.createElement("img");
 		img.className = "doodle";
-		img.src = "/shapes/png/share-buttons/"+key+".png";
+		img.src = R74n.root + "shapes/png/share-buttons/"+key+".png";
 		img.alt = key;
 		img.title = key;
 		img.role = "button";
@@ -447,9 +471,30 @@ R74n.share = function(text) {
 			})
 		}
 		a.appendChild(img);
-		div2.appendChild(a);
+		shareContent.appendChild(a);
 	}
+	content.appendChild(shareContent);
+}
 
+R74n.more = function() {
+	let dialog = R74n.dialog("more", {
+		title: "More games...",
+		wide: true
+	});
+
+	let content = dialog.querySelector(".globalDialogContent");
+
+	content.innerHTML = `
+<div><div class="projectGallery">
+	<a href="https://sandboxels.r74n.com/" style="background-image: url(${R74n.root}sandboxels/spotlight.jpg);">Sandboxels</a>
+	<a href="${R74n.root}cook/" style="background-image: url(${R74n.root}cook/spotlight.jpg);">Infinite Chef</a>
+	<a href="${R74n.root}gentown/" class="new" style="background-image: url(${R74n.root}gentown/spotlight.jpg);">GenTown</a>
+	<a href="${R74n.root}mini/odds" class="new" style="background-image: url(${R74n.root}mini/spotlight-odds.gif);">What Are The Odds?</a>
+	<a href="${R74n.root}mini/handwriting" class="new" style="background-image: url(${R74n.root}mini/spotlight-handwriting.png);">Handwriting Personality</a>
+	<a href="${R74n.root}ants/" style="background-image: url(${R74n.root}ants/spotlight.png);">Every Ant on Earth</a>
+	<a href="${R74n.root}pixelflags/guess" style="background-image: url(${R74n.root}pixelflags/spotlight.png);">Guess the Pixel Flag</a>
+</div></div>
+`
 }
 
 if (urlParams.has("debug")) {

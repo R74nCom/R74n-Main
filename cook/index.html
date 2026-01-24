@@ -3086,13 +3086,15 @@
 
 
 <div id="textualContent">
-  <p id="alertBox" style="display:none">
+  <!-- <p id="alertBox" style="display:none">
     <span style="color:red">NEW UPDATE</span>: <a href="changelog.txt" target="_blank" id="changelogButton">View Changelog</a>
-  </p>
+  </p> -->
+
+  <p style="text-align:center"><button class="moreGames" onclick="R74n.more()">More Games</button> • <span id="versionNumber"></span> • <a href="changelog.txt" target="_blank" id="changelogButton">Changelog<span id="newUpdate" style="color:red; display:none"> [NEW]</span></a></p>
   <script>
     // version check
     if (settings.lastVersion !== currentVersion) {
-        document.getElementById("alertBox").style.display = "block";
+        document.getElementById("newUpdate").style.display = "inline";
     }
     document.getElementById("changelogButton").addEventListener("click", function() {
         setSetting("lastVersion",currentVersion);
@@ -3135,7 +3137,8 @@
 
   <p>Infinite Chef is made by <a href="https://R74n.com/">R74n</a>, the developer of <a href="https://sandboxels.R74n.com/">Sandboxels</a> and <a href="../gentown/">GenTown</a>.</p>
 
-  <p style="text-align:center"><a href="https://R74n.com/"><img src="https://R74n.com/icons/favicon.svg" style="height:1em;vertical-align:top;"></a> • <span id="versionNumber"></span> • <a href="changelog.txt">Changelog</a> • <a href="../license.txt">License</a> • <a href="../privacy">Privacy</a></p>
+  <p style="text-align:center"><a href="https://R74n.com/"><img src="https://R74n.com/icons/favicon.svg" style="height:1em;vertical-align:top;"></a> <a href="../license.txt">License</a> • <a href="../privacy">Privacy</a></p>
+
   <script>
     document.getElementById("versionNumber").innerText = "v"+currentVersion;
   </script>

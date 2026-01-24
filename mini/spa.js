@@ -280,7 +280,9 @@ window.SPA = {
 		let dialog = document.getElementById("globalDialog-info");
 		if (!dialog) return;
 
-		dialog.classList.toggle("open");
+		R74n.dialog("info");
+
+		// dialog.classList.toggle("open");
 	}
 }
 window.addEventListener("load", () => {
