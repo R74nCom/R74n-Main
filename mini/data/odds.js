@@ -260,12 +260,7 @@ SPA.onload = () => {
 		${
 			i === SPA.data.odds.length - 1 ? 
 
-			`<div class="title">And yet, here you are!</div>
-			<div class="pop">
-				<button onclick="R74n.more()">More Games</button>
-				<button onclick="location.href='https://r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
-				<button onclick="SPA.snap(0)">Start Over</button>
-			</div>`
+			`<div class="title">And yet, here you are!</div>`
 
 			: `<div class="title">At 100 tries per second, this has happened</div>
 			<div class="pop"><span>0</span> times</div>
@@ -276,6 +271,8 @@ SPA.onload = () => {
 	<div class="controls">
 		${ i < SPA.data.odds.length-1 ? `<img class="doodle down" src="../doodle/down.gif" role="button" onclick="SPA.snap(${i + 1})">` : "" }
 		<img class="doodle" src="../doodle/share.gif" role="button" id="share-${i}">
+		${ i == SPA.data.odds.length-1 ? `<img class="doodle" src="../doodle/reset.gif" role="button" onclick="SPA.snap(0)">` : "" }
+		${ i == SPA.data.odds.length-1 ? `<img class="doodle" src="../doodle/more.gif" role="button" onclick="R74n.more()">` : "" }
 	</div>
 </section>
 `);
