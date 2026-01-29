@@ -299,6 +299,7 @@ window.addEventListener("keydown", function(e) {
 });
 
 R74n.closeDialog = function(id) {
+	if (R74n.state.dialog === id) R74n.state.dialog = null;
 	let dialog = document.getElementById("globalDialog-"+id);
 	if (dialog) {
 		dialog.classList.remove("open");
@@ -382,6 +383,7 @@ R74n.dialog = function(id, options = {}) {
 	R74n.preDialogScroll = document.documentElement.scrollTop;
 	if (!R74n.state.spa) document.documentElement.scrollTop = 0;
 	let dialog = document.getElementById("globalDialog-"+id);
+	R74n.state.dialog = id;
 	if (dialog) {
 		dialog.classList.add("open");
 	}
@@ -424,6 +426,11 @@ R74n.dialog = function(id, options = {}) {
 			if (["A","BUTTON","INPUT","TEXTAREA","IMG"].includes(e.target.tagName)) return;
 			// if (e.target == dialog || e.target.parentNode == dialog) {}
 			R74n.closeDialog(id);
+		})
+		document.addEventListener("keydown", (e) => {
+			if (e.key === "Escape" && R74n.state.dialog === id) {
+				R74n.closeDialog(id);
+			}
 		})
 		dialog.getAttribute("data-init", "true");
 	}

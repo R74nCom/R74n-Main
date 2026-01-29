@@ -96,6 +96,7 @@ window.SPA = {
 		})
 		window.addEventListener("keydown", (e) => {
 			if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+			if (R74n.state.dialog) return;
 			let target = e.target;
 			if (target.tagName === "input" || target.tagName === "textarea" || target.tagName === "select") {
 				return;
