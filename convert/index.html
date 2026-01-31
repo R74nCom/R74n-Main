@@ -202,10 +202,10 @@
         // if (timezone && timezone.match(/prc|china|singapore|asia\//i)) {
         //   return;
         // }
-        // let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        // if (!timezone || !timezone.match(/America\//i)) {
-        //   return;
-        // }
+        let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (!timezone || !timezone.match(/America\//i)) {
+          return;
+        }
 
         if (isNaN(x)) {x=0}
         var MoreLeft = document.getElementById("MoreLeft");
