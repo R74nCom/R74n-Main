@@ -123,7 +123,7 @@ addParserCommand("elevation",function(args) {
 	}
 
 	let elevation = n*100;
-	let seaLevel = waterLevel*100;
+	let seaLevel = planet.config.waterLevel*100;
 	let seaLevelDiff = elevation - seaLevel;
 
 	if (args[1] === "d") seaLevelDiff = Math.abs(seaLevelDiff);
@@ -301,7 +301,7 @@ addParserCommand("planet",function(args) {
 	return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})">${args[0] || planet.name}</span>`;
 })
 addParserCommand("biome",function(args) {
-	return `<span class='entityName' onclick='regBrowseBiome("${args[0]}")' style="color:rgb(${biomes[args[0]].color.join(",")})">${titleCase(args[1] || biomes[args[0]].name || args[0])}</span>`;
+	return `<span class='entityName' onclick='regBrowseBiome("${args[0]}")' style="color:rgb(${(biomes[args[0]].colorOverride || biomes[args[0]].color).join(",")})">${titleCase(args[1] || biomes[args[0]].name || args[0])}</span>`;
 })
 addParserCommand("people",function(args) {
 	if (planet.dems) return `{{planet|${planet.dems}}}`;
@@ -497,10 +497,10 @@ function sumValues(obj) {
 }
 
 function coordsToChunk(x, y) {
-	return Math.trunc(x/chunkSize)+","+Math.trunc(y/chunkSize);
+	return Math.trunc(x/planet.config.chunkSize)+","+Math.trunc(y/planet.config.chunkSize);
 }
 function chunkCoordsToCoords(cx, cy, x, y) {
-	return [cx*chunkSize + x, cy*chunkSize + y];
+	return [cx*planet.config.chunkSize + x, cy*planet.config.chunkSize + y];
 }
 function chunkAt(x, y) {
 	return planet.chunks[x+","+y];
@@ -508,8 +508,8 @@ function chunkAt(x, y) {
 function pixelAt(x, y) {
 	const chunk = planet.chunks[coordsToChunk(x,y)];
 	if (chunk === undefined) return null;
-	x = x % chunkSize;
-	y = y % chunkSize;
+	x = x % planet.config.chunkSize;
+	y = y % planet.config.chunkSize;
 	return chunk.p[x][y];
 }
 
@@ -574,16 +574,17 @@ function generatePerlinNoise(x, y, octaves, persistence) {
 mapCanvas = document.getElementById("mapCanvas");
 ctx = mapCanvas.getContext("2d");
 
-planetWidth = $c.defaultPlanetWidth;
-planetHeight = $c.defaultPlanetHeight;
-pixelSize = $c.defaultPixelSize;
-chunkSize = $c.defaultChunkSize;
-waterLevel = $c.defaultWaterLevel;
-planetOld = [];
+// planetWidth = $c.defaultPlanetWidth;
+// planetHeight = $c.defaultPlanetHeight;
+// pixelSize = $c.defaultPixelSize;
+// chunkSize = $c.defaultChunkSize;
+// waterLevel = $c.defaultWaterLevel;
 
-// ensure chunks fit into planet
-planetWidth -= (planetWidth % chunkSize);
-planetHeight -= (planetHeight % chunkSize);
+// // ensure chunks fit into planet
+// planetWidth -= (planetWidth % chunkSize);
+// planetHeight -= (planetHeight % chunkSize);
+
+// planetOld = [];
 
 function defaultSubregistry() {
 	return {
@@ -700,6 +701,23 @@ function regExists(subregistryName, check) {
 
 function defaultPlanet() {
 	return {
+		config: {
+			width: $c.defaultPlanetWidth,
+			height: $c.defaultPlanetHeight,
+			pixelSize: $c.defaultPixelSize,
+			chunkSize: $c.defaultChunkSize,
+			waterLevel: $c.defaultWaterLevel,
+			biomeSize: $c.defaultBiomeSize,
+			temp: $c.defaultPlanetTemp,
+			moisture: $c.defaultPlanetMoisture,
+			elevation: $c.defaultPlanetElevation,
+			detail: 5,
+			smooth: 0.5,
+			landmassSize: 40,
+			borderFalloff: 10,
+			landColor: $c.defaultLandColor,
+			waterColor: $c.defaultWaterColor
+		},
 		day: 1,
 		chunks: {},
 		reg: defaultRegistry(),
@@ -718,7 +736,9 @@ function defaultPlanet() {
 		},
 		unlockedExecutive: {},
 		stats: {},
-		cooldownEvents: {}
+		cooldownEvents: {},
+		settled: false,
+		mode: 1
 	};
 }
 
@@ -1006,63 +1026,79 @@ function chanceInfluence(chance, subject, influenceName) {
 	return Math.random() < chance;
 }
 
-function generatePlanet() {
-	let planet = defaultPlanet();
-	// reg = planet.reg;
-	
-	noise.seed(Math.random());
+function generatePlanet(config) {
+	planet = defaultPlanet();
+	if (config) planet.config = config;
+	else config = planet.config;
+	validateConfig(config);
+
+	if (!config.seed) config.seed = Math.random();
+	noise.seed(config.seed);
+
 	noiseMin = -0.3;
 	noiseMax = 0.42;
-	for (let chunkX = 0; chunkX < planetWidth / chunkSize; chunkX++) {
-		for (let chunkY = 0; chunkY < planetHeight / chunkSize; chunkY++) {
+	const waterLevel = planet.config.waterLevel;
+	const biomeSize = planet.config.biomeSize ?? 20;
+	const configTemp = planet.config.temp ?? 0;
+	const configMoisture = planet.config.moisture ?? 0;
+	const configElevation = planet.config.elevation ?? 0;
+	const detail = planet.config.detail ?? 5;
+	const smooth = 1 - (planet.config.smooth ?? 0.5);
+	const landmassSize = planet.config.landmassSize ?? 40;
+	const borderFalloff = 20 - (planet.config.borderFalloff ?? 10);
+	
+	for (let chunkX = 0; chunkX < config.width / config.chunkSize; chunkX++) {
+		for (let chunkY = 0; chunkY < config.height / config.chunkSize; chunkY++) {
 			let chunkKey = chunkX+","+chunkY;
 			let chunk = {
 				v: {},
 				x: chunkX,
 				y: chunkY
 			}
-			
+
 			// chunk temperature
-			chunk.t = noise.perlin2(chunkX / 20, chunkY / 20);
+			chunk.t = noise.perlin2(chunkX / biomeSize, chunkY / biomeSize);
 			// console.log(chunk.t)
-			chunk.t = (chunk.t - -0.5) / (0.3 - -0.5);
+			chunk.t = (chunk.t - -0.5) / (0.3 - -0.5) + configTemp;
 			chunk.t = Math.max(0,Math.min(chunk.t,1))
 			// lower resolution
 			chunk.t = Math.ceil(chunk.t * 10) / 10;
-	
+
 			// chunk moisture
-			chunk.m = noise.perlin2((chunkX+1000) / 20, (chunkY+1000) / 20);
-			chunk.m = (chunk.m - -0.5) / (0.3 - -0.5);
+			chunk.m = noise.perlin2((chunkX+1000) / biomeSize, (chunkY+1000) / biomeSize);
+			chunk.m = (chunk.m - -0.5) / (0.3 - -0.5) + configMoisture;
 			chunk.m = Math.max(0,Math.min(chunk.m,1))
 			// lower resolution
 			chunk.m = Math.ceil(chunk.m * 10) / 10;
-	
+
 			let elevations = 0;
 			let isLand = false;
-	
+
 			// chunk pixels
 			let chunkPixels = [];
-			for (let x0 = 0; x0 < chunkSize; x0++) {
+			for (let x0 = 0; x0 < config.chunkSize; x0++) {
 				chunkPixels.push([]);
-				for (let y0 = 0; y0 < chunkSize; y0++) {
+				for (let y0 = 0; y0 < config.chunkSize; y0++) {
 					let coords = chunkCoordsToCoords(chunkX, chunkY, x0, y0);
 					let x = coords[0];
 					let y = coords[1];
-					let value = generatePerlinNoise(x / 40, y / 40, 5, 0.5);
+					let value = generatePerlinNoise(x / landmassSize, y / landmassSize, detail, smooth);
 					// value = Math.max(0,value);
 					// value = (value+1) / 2;
 	
 					// normalize to 0-1
 					value = (value - noiseMin) / (noiseMax - noiseMin);
-	
+
+					value += configElevation;
+
 					value = Math.max(0,value);
 					value = Math.min(1,value);
-	
+
 					// Calculate distance from the edge of the map
-					let distanceToEdge = Math.min(x+1, y+1, planetWidth - x, planetHeight - y);
-					
+					let distanceToEdge = Math.min(x+1, y+1, config.width - x, config.height - y);
+
 					// Apply a falloff function to make borders low elevation
-					let falloff = distanceToEdge / (Math.min(planetWidth, planetHeight) / 10);  // Distance-based falloff
+					let falloff = distanceToEdge / (Math.min(config.width, config.height) / borderFalloff);  // Distance-based falloff
 					falloff = Math.min(1, falloff);  // Ensure falloff is between 0 and 1
 	
 					// Blend the perlin noise with the falloff
@@ -1070,7 +1106,7 @@ function generatePlanet() {
 	
 					// lower resolution
 					value = Math.ceil(value * 10) / 10;
-	
+
 					// console.log(value);
 					chunkPixels[x0].push(value);
 					elevations += value;
@@ -1078,7 +1114,7 @@ function generatePlanet() {
 				}
 			}
 			chunk.p = chunkPixels;
-			chunk.e = elevations/(chunkSize*chunkSize);
+			chunk.e = elevations/(config.chunkSize*config.chunkSize);
 			// lower resolution
 			chunk.e = Math.ceil(chunk.e * 10) / 10;
 			if (chunk.e <= waterLevel+0.05) chunk.m = 1;
@@ -1086,7 +1122,7 @@ function generatePlanet() {
 			planet.chunks[chunkKey] = chunk;
 		}
 	}
-	
+
 	// bounding pixels for testing
 	// planet.chunks["0,0"].p[0][0] = 0.99;
 	// planet.chunks[(planetWidth / chunkSize - 1)+","+(planetHeight / chunkSize - 1)].p[chunkSize-1][chunkSize-1] = 0.99;
@@ -1107,6 +1143,13 @@ farColors = [
 function calculateLandmasses() {
 	if (!reg.landmass) regCreate("landmass");
 
+	if (reg.landmass._id !== 1) {
+		reg.landmass = defaultSubregistry();
+		for (let chunkKey in planet.chunks) {
+			delete planet.chunks[chunkKey].v.g
+		}
+	}
+
 	// Pre-landmass (Mountains)
 	for (let chunkKey in planet.chunks) {
 		const chunk = planet.chunks[chunkKey];
@@ -1124,13 +1167,15 @@ function calculateLandmasses() {
 		}
 	}
 
+	const waterLevel = planet.config.waterLevel;
+
 	// Main landmasses
 	for (let chunkKey in planet.chunks) {
 		const chunk = planet.chunks[chunkKey];
 		if (chunk.v.g === undefined && chunk.b !== "water") {
 			const parts = floodFill(chunk.x,chunk.y,(c) => c.b !== "water" && c.v.g === undefined, undefined, (c) => {
 				// console.log([].concat(...c.p).filter((p) => p <= waterLevel));
-				return [].concat(...c.p).filter((p) => p <= waterLevel).length > (chunkSize*0.95);
+				return [].concat(...c.p).filter((p) => p <= waterLevel).length > (planet.config.chunkSize*0.95);
 			});
 
 			if (parts.length < 6) continue;
@@ -1142,9 +1187,9 @@ function calculateLandmasses() {
 			let id = landmass.id;
 			landmass.color = farColors[(id-1) % farColors.length];
 
-			landmass.boundLeft   = planetWidth;
+			landmass.boundLeft   = planet.config.width;
 			landmass.boundRight  = 0;
-			landmass.boundTop    = planetHeight;
+			landmass.boundTop    = planet.config.height;
 			landmass.boundBottom = 0;
 
 			// console.log(parts);
@@ -1269,7 +1314,7 @@ biomes = {
 	"water": {
 		noAuto: true,
 		color: [178,202,252], //#b2cafc
-		elevation: waterLevel,
+		elevation: $c.defaultWaterLevel,
 		moisture: 1,
 		temp: 0.5,
 		crop: null,
@@ -1288,6 +1333,10 @@ function updateBiomes() {
 		let chunk = planet.chunks[chunkKey];
 		let closestBiome = null;
 		let closestDiff = Infinity;
+
+		if (chunk.e <= planet.config.waterLevel) {
+			chunk.b = "water";
+		}
 
 		for (let biomeKey in biomes) {
 			let biome = biomes[biomeKey];
@@ -1356,16 +1405,16 @@ function clearCanvasLayers() {
 	resizeCanvases();
 }
 function resizeCanvases() {
-	mapCanvas.width = planetWidth*pixelSize;
-	mapCanvas.height = planetHeight*pixelSize;
+	mapCanvas.width = planet.config.width*planet.config.pixelSize;
+	mapCanvas.height = planet.config.height*planet.config.pixelSize;
 	ctx.webkitImageSmoothingEnabled = false;
 	ctx.mozImageSmoothingEnabled = false;
 	ctx.imageSmoothingEnabled = false;
 	ctx.textRendering = "geometricPrecision";
 	for (let key in canvasLayers) {
 		let ctx = canvasLayersCtx[key];
-		canvasLayers[key].width = planetWidth * (key === "markers" ? pixelSize*$c.markerResolution : 1);
-		canvasLayers[key].height = planetHeight * (key === "markers" ? pixelSize*$c.markerResolution : 1);
+		canvasLayers[key].width = planet.config.width * (key === "markers" ? planet.config.pixelSize*$c.markerResolution : 1);
+		canvasLayers[key].height = planet.config.height * (key === "markers" ? planet.config.pixelSize*$c.markerResolution : 1);
 		ctx.webkitImageSmoothingEnabled = false;
 		ctx.mozImageSmoothingEnabled = false;
 		ctx.imageSmoothingEnabled = false;
@@ -1376,11 +1425,11 @@ addCanvasLayer("terrain");
 addCanvasLayer("highlight");
 addCanvasLayer("markers");
 addCanvasLayer("cursor");
-resizeCanvases();
+// resizeCanvases();
 
 function fitToScreen() {
-	let width = Math.min(700,window.innerWidth-pixelSize);
-	width -= width % pixelSize;
+	let width = Math.min(700,window.innerWidth-planet.config.pixelSize);
+	width -= width % planet.config.pixelSize;
 	mapCanvas.style.maxWidth = width+"px";
 	let mapPanel = document.getElementById("mapPanel");
 	mapPanel.style.height = "";
@@ -1389,15 +1438,17 @@ function fitToScreen() {
 			mapPanel.style.height = document.getElementById("gameHalf1-1").clientHeight + "px";
 		}
 		document.getElementById("statsPanel").style.height = (Math.min(document.getElementById("gameHalf1-1").clientHeight+0.5, document.getElementById("mapPanel").clientHeight + 4.45)) + "px";
+		document.getElementById("mapDiv").style.aspectRatio = `auto ${mapCanvas.width} / ${mapCanvas.height}`;
+		mapCanvas.style.aspectRatio = `auto ${mapCanvas.width} / ${mapCanvas.height}`;
 	}
 }
 window.addEventListener("resize", () => {
 	fitToScreen();
 });
-window.addEventListener("load", () => {
-	fitToScreen();
-});
-fitToScreen();
+// window.addEventListener("load", () => {
+// 	fitToScreen();
+// });
+// fitToScreen();
 
 function choose(array) {
 	return array[Math.floor(Math.random() * array.length)];
@@ -1445,6 +1496,7 @@ waterColors = [
 	[122, 155, 222],
 	[178, 202, 252]
 ];
+waterColorsOld = waterColors;
 // v = 0.34;
 // c = l[Math.min(l.length-1,Math.floor(v*(l.length)))];
 
@@ -1463,12 +1515,14 @@ function setView(view) {
 
 function renderMap() {
 	let ctx = canvasLayersCtx.terrain;
+	const chunkSize = planet.config.chunkSize;
+	const waterLevel = planet.config.waterLevel;
 	for (let chunkKey in planet.chunks) {
 		let chunk = planet.chunks[chunkKey];
 		let biome = biomes[chunk.b];
 		// let biomeElevation = biome.elevation || 0.5;
 
-		let biomeColor = biome.color;
+		let biomeColor = biome.colorOverride || biome.color;
 
 		// console.log(chunk.p)
 		// render chunk pixels
@@ -1488,24 +1542,27 @@ function renderMap() {
 					if (y0 === chunkSize-1 && Math.sin((chunk.x+x0)*167) < 0.5) {
 						let adjacentChunk = planet.chunks[(chunk.x)+","+(chunk.y+1)];
 						if (adjacentChunk) {
-							pixelColor = biomes[adjacentChunk.b].color;
+							pixelColor = biomes[adjacentChunk.b].colorOverride || biomes[adjacentChunk.b].color;
 						}
 					}
 					else if (x0 === chunkSize-1 && Math.sin((chunk.y+y0)*167) < 0.5) {
 						let adjacentChunk = planet.chunks[(chunk.x+1)+","+(chunk.y)];
 						if (adjacentChunk) {
-							pixelColor = biomes[adjacentChunk.b].color;
+							pixelColor = biomes[adjacentChunk.b].colorOverride || biomes[adjacentChunk.b].color;
 						}
 					}
 
 					let color;
 					if (value <= waterLevel) { // water colors
 						value += 1-waterLevel-0.1;
+						value = Math.max(value, 0);
 						color = waterColors[Math.min(waterColors.length-1,Math.floor(value*(waterColors.length)))];
 					}
 					else { // land colors
 
-						color = [pixelColor[0] * value + 50, pixelColor[1] * value + 50, pixelColor[2] * value + 50];
+						let percent = value - (waterLevel - $c.defaultWaterLevel);
+
+						color = [pixelColor[0] * percent + 50, pixelColor[1] * percent + 50, pixelColor[2] * percent + 50];
 
 					}
 					if (userSettings.desaturate) {
@@ -1608,6 +1665,7 @@ function handleMessageClick(e) {
 function renderCursor() {
 	let ctx = canvasLayersCtx.cursor;
 	ctx.clearRect(0, 0, canvasLayers.cursor.width, canvasLayers.cursor.height);
+	const chunkSize = planet.config.chunkSize;
 	if (mousePos) {
 		ctx.fillStyle = "rgba(240,240,240,0.5)";
 		//ctx.fillRect(mousePos.x, mousePos.y, 1, 1);
@@ -1691,20 +1749,6 @@ function randomChunks(check, count) {
 	}
 	return chunks;
 }
-// function randomChunk(check) {
-// 	let checked = {};
-// 	let tries = 0;
-// 	let chunksX = Math.floor(planetWidth/chunkSize);
-// 	let chunksY = Math.floor(planetHeight/chunkSize);
-// 	let maxTries = chunksX*chunksY;
-// 	while (tries < maxTries) {
-// 		tries++;
-// 		let chunkKey = randRange(0,chunksX) + "," + randRange(0,chunksY);
-// 		if (checked[chunkKey] || !planet.chunks[chunkKey]) continue;
-// 		if (check(planet.chunks[chunkKey])) return planet.chunks[chunkKey];
-// 	}
-// 	return null;
-// }
 function filterChunks(check) {
 	let results = [];
 	for (let chunkKey in planet.chunks) {
@@ -1762,8 +1806,8 @@ function distanceCoords(x1, y1, x2, y2) {
 
 function circleCoords(chunkX,chunkY,radius) {
 	let coords = [];
-	for (let i = Math.max(0, chunkX - radius); i <= Math.min(planetWidth, chunkX + radius); i++) {
-		for (let j = Math.max(0, chunkY - radius); j <= Math.min(planetHeight, chunkY + radius); j++) {
+	for (let i = Math.max(0, chunkX - radius); i <= Math.min(planet.config.width, chunkX + radius); i++) {
+		for (let j = Math.max(0, chunkY - radius); j <= Math.min(planet.config.height, chunkY + radius); j++) {
 			if (Math.pow(i - chunkX, 2) + Math.pow(j - chunkY, 2) <= Math.pow(radius, 2)) {
 				coords.push({x: i,y: j});
 			}
@@ -1873,7 +1917,7 @@ wordComponents.prefixes.SOUTH = [
 
 wordComponents.flags = {};
 wordComponents.flags.TEMPLATE = [
-	" $ ","($)","/$\\","\\$/","/$/",")$(","]$[","»$«","«$»","−$−","‖$‖","→$←","←$→","░$░","▒$▒","⏴$⏵","⏵$⏴","▌$▐","▛$▟","▙$▜","≣$≣","⏵$―","+$―","$==","◣$◥","◤$◢","» $","$≣≣","⏸$⏸","█$█"
+	" $ ","($)","/$\\","\\$/","/$/",")$(","⁆$⁅","»$«","«$»","−$−","‖$‖","→$←","←$→","░$░","▒$▒","⏴$⏵","⏵$⏴","▌$▐","▛$▟","▙$▜","≣$≣","⏵$―","+$―","$==","◣$◥","◤$◢","» $","$≣≣","⏸$⏸","█$█"
 ];
 wordComponents.flags.EMBLEM = "A,A,A,@,¢,X,₸,₪,≈,―,§,†,‡,∑,®,¤,↕,☼,☻,☺,◦,●,Ξ,Ψ,Ω,ǃ,☮,Ϫ,Ͳ,⏶,⏻,🖤,👽,🥥,🌴,🏆,◆,𝕏,☗,☖,🏠,Ӂ,⏼,⏷".split(",");
 
@@ -2187,6 +2231,7 @@ function renderHighlight() {
 	ctx.clearRect(0, 0, canvasLayers.highlight.width, canvasLayers.highlight.height);
 
 	let chunks = filterChunks((c) => c.v.s !== undefined);
+	const chunkSize = planet.config.chunkSize;
 	for (let i = 0; i < chunks.length; i++) {
 		const chunk = chunks[i];
 		const town = regGet("town",chunk.v.s);
@@ -2334,7 +2379,7 @@ function renderMarkers() {
 
 	let ctx = canvasLayersCtx.markers;
 	ctx.clearRect(0, 0, canvasLayers.markers.width, canvasLayers.markers.height);
-	const _chunkSize = chunkSize * pixelSize * $c.markerResolution;
+	const _chunkSize = planet.config.chunkSize * planet.config.pixelSize * $c.markerResolution;
 
 	if (ctx.textAlign !== "center") {
 		ctx.textBaseline = "middle";
@@ -2359,11 +2404,11 @@ function renderMarkers() {
 		}
 
 		ctx.strokeStyle = "rgb("+colorBrightness(color, 0.8)+")";
-		ctx.lineWidth = pixelSize*2;
-		ctx.strokeText(symbol, x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
+		ctx.lineWidth = planet.config.pixelSize*2;
+		ctx.strokeText(symbol, x*_chunkSize + _chunkSize/2 + planet.config.pixelSize/1.5, y*_chunkSize + _chunkSize/2 - planet.config.pixelSize/1.5);
 
 		ctx.fillStyle = "rgb("+color.join(",")+")";
-		ctx.fillText(symbol, x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
+		ctx.fillText(symbol, x*_chunkSize + _chunkSize/2 + planet.config.pixelSize/1.5, y*_chunkSize + _chunkSize/2 - planet.config.pixelSize/1.5);
 
 		if (highlight) ctx.font = (_chunkSize)+"px PublicPixel";
 	}
@@ -2390,22 +2435,22 @@ function renderMarkers() {
 			
 			ctx.font = (town.usurp ? "italic " : "") + Math.max(64, Math.round(Math.min(town.size,100)/100 * 96))+"px VT323";
 
-			ctx.lineWidth = pixelSize*2.5;
-			ctx.strokeText(name, x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
-			ctx.fillText(name, x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
+			ctx.lineWidth = planet.config.pixelSize*2.5;
+			ctx.strokeText(name, x*_chunkSize + _chunkSize/2 + planet.config.pixelSize/1.5, y*_chunkSize + _chunkSize/2 - planet.config.pixelSize/1.5);
+			ctx.fillText(name, x*_chunkSize + _chunkSize/2 + planet.config.pixelSize/1.5, y*_chunkSize + _chunkSize/2 - planet.config.pixelSize/1.5);
 			
 			
 		}
 		
 		else if (hasIssue && userSettings.markers !== false) {
-			ctx.lineWidth = pixelSize*3;
+			ctx.lineWidth = planet.config.pixelSize*3;
 			
 			ctx.strokeStyle = "rgb(255, 0, 0)";
 			ctx.fillStyle = "rgb(255, 255, 0)";
 
 			ctx.font = (town.usurp ? "italic " : "") + Math.max(112, Math.round(Math.min(town.size,128)/100 * 96))+"px VT323";
-			ctx.strokeText("!".repeat(hasIssue), x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
-			ctx.fillText("!".repeat(hasIssue), x*_chunkSize + _chunkSize/2 + pixelSize/1.5, y*_chunkSize + _chunkSize/2 - pixelSize/1.5);
+			ctx.strokeText("!".repeat(hasIssue), x*_chunkSize + _chunkSize/2 + planet.config.pixelSize/1.5, y*_chunkSize + _chunkSize/2 - planet.config.pixelSize/1.5);
+			ctx.fillText("!".repeat(hasIssue), x*_chunkSize + _chunkSize/2 + planet.config.pixelSize/1.5, y*_chunkSize + _chunkSize/2 - planet.config.pixelSize/1.5);
 		}
 	})
 }
@@ -2419,10 +2464,10 @@ function handleCursor(e) {
 	
 	let zoom = parseFloat(mapCanvas.style.scale) || 1;
 	
-	x = Math.floor((x / mapCanvas.clientWidth) * planetWidth / zoom);
-	y = Math.floor((y / mapCanvas.clientHeight) * planetHeight / zoom);
-	let chunkX = Math.floor(x / chunkSize);
-	let chunkY = Math.floor(y / chunkSize);
+	x = Math.floor((x / mapCanvas.clientWidth) * planet.config.width / zoom);
+	y = Math.floor((y / mapCanvas.clientHeight) * planet.config.height / zoom);
+	let chunkX = Math.floor(x / planet.config.chunkSize);
+	let chunkY = Math.floor(y / planet.config.chunkSize);
 
 	let oldChunkX;
 	let oldChunkY;
@@ -2694,6 +2739,15 @@ keybinds = {
 			func: ()=>{
 				sharePrompt(`My GenTown planet, ${generateWord(randRange(2,3), true)}, lasted ${randRange(101,342)} days before societal collapse!`)
 			}
+		},
+		{
+			text: "Promo executive",
+			func: () => {
+				let gameDiv = document.getElementById("gameDiv");
+				gameDiv.setAttribute("data-promo", "executive");
+				fitToScreen();
+				closeExecutive();
+			}
 		}
 		], "Debug")
 	},
@@ -2901,8 +2955,8 @@ function updateStats() {
 				localName = "{{biome:"+chunk.b+"}}";
 				if (chunk.v.g) localName += ` of {{regname:landmass|${chunk.v.g}}}`;
 			}
-			let lat = - Math.round((chunk.y * chunkSize / planetHeight) * 180 - 90);
-			let long = Math.round((chunk.x * chunkSize / planetWidth) * 360 - 180);
+			let lat = - Math.round((chunk.y * planet.config.chunkSize / planet.config.height) * 180 - 90);
+			let long = Math.round((chunk.x * planet.config.chunkSize / planet.config.width) * 360 - 180);
 			let latlong = Math.abs(lat) + "°" + (lat > 0 ? "N" : "S")  +", "+  Math.abs(long) + "°" + (long > 0 ? "E" : "W");
 			html += `<span class="panelSubtitle">${parseText(localName)}</span>`;
 			html += `<div class="localStats">`;
@@ -2914,7 +2968,7 @@ function updateStats() {
 				parseText("{{color|"+ Math.round(chunk.m*100) + "%|" +
 				`rgb(0,${255*(chunk.m+0.2)},${255*(chunk.m+0.2)})`  + "}}")
 			}</span>`;
-			html += `<span>${chunk.e <= waterLevel ? "Depth" : "Elevation"}: ${
+			html += `<span>${chunk.e <= planet.config.waterLevel ? "Depth" : "Elevation"}: ${
 				parseText("{{color|{{elevation:"+ chunk.e + "|d}}|" +
 				`rgb(${255*chunk.e},${255*(chunk.e+0.5)},${255*chunk.e})`  + "}}")
 			}</span>`;
@@ -3370,8 +3424,8 @@ function regBrowsePlanet() {
 		start: 0,
 		age: planet.day,
 		land: filterChunks((c) => c.b !== "water").length,
-		size: Math.floor((planetHeight / chunkSize) * (planetWidth / chunkSize)),
-		circumference: planetWidth / chunkSize,
+		size: Math.floor((planet.config.height / planet.config.chunkSize) * (planet.config.width / planet.config.chunkSize)),
+		circumference: planet.config.width / planet.config.chunkSize,
 		continents: regFilter("landmass", (l) => l.size >= 40).map((l) => `{{regname:landmass|${l.id}}}`),
 		dems: planet.dems
 	}, "planet")
@@ -3398,7 +3452,7 @@ function regBrowseBiome(biome) {
 
 
 function logMessage(text, type, args) {
-	if (sunsetting && type !== "sunset") {
+	if (sunsetting && type !== "sunset" && type !== "error") {
 		logTomorrow(text, type, args);
 		return;
 	}
@@ -3430,6 +3484,7 @@ function logMessage(text, type, args) {
 				logAsk.setAttribute("type",item.type || "act");
 				logAsk.setAttribute("role","button");
 				if (item.data) logAsk.setAttribute("data",item.data);
+				if (item.tip) logAsk.setAttribute("title", item.tip);
 				logAsk.innerText = item.name || "Act";
 				logAsk.addEventListener("click",item.func)
 				logAct.appendChild(logAsk);
@@ -3494,6 +3549,28 @@ function logTip(type, text) {
 	(sunsetting ? logTomorrow : logMessage)(text, "tip");
 	userSettings.shownTips.push(type);
 	saveSettings();
+}
+function logException(error, context) {
+	let message = `${error.name}[${context || "?"}]: ${error.message}`
+	logMessage(`An error occurred.`, "error", {buttons:[
+		{
+			name: "Copy",
+			func: async () => {
+				await navigator.clipboard.writeText(message);
+				logMessage("Error copied!", "tip");
+			}
+		},
+		{
+			name: "Report",
+			func: () => {
+				doPrompt({
+					type: "text",
+					message: `Send us this error message via our feedback form with as much info as possible.\n\n${escapeHTML(message)}`
+				})
+				document.getElementById("popupContent").innerHTML = document.getElementById("popupContent").innerHTML.replace("feedback form", `<a href="https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform?usp=pp_url&entry.391765687=Report+an+issue&entry.26107565=Steps%20to%20reproduce:%20%0A%0AError:%20${encodeURIComponent(message)}" target="_blank">feedback form</a>`);
+			}
+		}
+	]})
 }
 
 function reportInfluences(uuid, oldInfluences, newInfluences) {
@@ -3743,6 +3820,8 @@ townsBefore = null;
 sunsetting = false;
 
 function nextDay(e) {
+	try {
+
 	if (e && e.target.getAttribute("disabled") === "true") {
 		if (planet.letter) logTip("letter", "There is an urgent letter you must read before continuing.");
 		return;
@@ -3988,6 +4067,8 @@ function nextDay(e) {
 					suggest: eventInfo.value.related ? happen("Related", eventCaller.subject, eventCaller.target) : undefined,
 					message: eventInfo.value.message ? eventInfo.value.message(eventCaller.subject, eventCaller.target, eventCaller.args) : eventCaller.message,
 					func: (r) => {
+						try {
+						
 						if (!r) return;
 
 						let previewParts = document.querySelectorAll("#popupContent .popupPreview .previewPart");
@@ -4025,6 +4106,12 @@ function nextDay(e) {
 						renderHighlight();
 						updateCanvas();
 						autosave();
+
+						}
+						catch (error) {
+							logException(error, "logAsk");
+							throw error
+						}
 					},
 					preview: eventInfo.value.preview,
 					subject: eventCaller.subject,
@@ -4046,6 +4133,8 @@ function nextDay(e) {
 			// logNo
 			buttons.push({ name: titleCase(eventCaller.args.buttonNo || eventInfo.buttonNo || "No"), type:"no",
 			func: (e) => {
+				try {
+
 				if (messageElement.getAttribute("done")) return;
 
 				let influencedTown;
@@ -4087,11 +4176,19 @@ function nextDay(e) {
 				renderHighlight();
 				updateCanvas();
 				autosave();
+
+				}
+				catch (error) {
+					logException(error, "logNo");
+					throw error
+				}
 			}})
 
 			// logYes
 			buttons.push({ name: titleCase(eventCaller.args.buttonYes || eventInfo.button || eventInfo.buttonYes || "Yes"), type:"yes",
 			func: (e) => {
+				try {
+				
 				if (messageElement.getAttribute("done")) return;
 
 				let influencedTown;
@@ -4127,6 +4224,12 @@ function nextDay(e) {
 				renderHighlight();
 				updateCanvas();
 				autosave();
+
+				}
+				catch (error) {
+					logException(error, "logYes");
+					throw error
+				}
 			}})
 		}
 
@@ -4176,27 +4279,253 @@ function nextDay(e) {
 
 	autosave();
 	updateTitle();
+
+	}
+	catch (error) {
+		logException(error, "nextDay");
+		throw error
+	}
 }
 
 document.getElementById("nextDay").addEventListener("click",nextDay);
 document.getElementById("nextDayMobile").addEventListener("click",nextDay);
 
+function customizePlanet() {
+	let config = planet.config || {};
+	let onchange = (key, value) => {
+		if (key) config[key] = value;
+
+		config.width -= (config.width % config.chunkSize);
+		config.height -= (config.height % config.chunkSize);
+
+		let tempName = planet.name;
+		planet = generatePlanet(config);
+		planet.name = tempName;
+		updateBiomes();
+		initGame(true);
+		reg = planet.reg;
+		calculateLandmasses();
+		renderMap();
+		updateCanvas();
+	};
+
+	populateExecutive([
+		{
+			text: "Water level",
+			slider: "waterLevel",
+			default: $c.defaultWaterLevel,
+			value: config.waterLevel,
+			min: 0,
+			step: 0.1,
+			max: 1,
+			formatter: (value) => `{{elevation:${value}}}`,
+			func: onchange
+		},
+		{
+			text: "Temperature",
+			slider: "temp",
+			default: $c.defaultPlanetTemp,
+			value: config.temp,
+			min: -1,
+			step: 0.1,
+			max: 1,
+			formatter: (value) => `{{percent:${value / 2 + 0.5}}}`,
+			func: onchange
+		},
+		{
+			text: "Moisture",
+			slider: "moisture",
+			default: $c.defaultPlanetMoisture,
+			value: config.moisture,
+			min: -1,
+			step: 0.1,
+			max: 1,
+			formatter: (value) => `{{percent:${value / 2 + 0.5}}}`,
+			func: onchange
+		},
+		{
+			text: "Elevation",
+			slider: "elevation",
+			default: $c.defaultPlanetElevation,
+			value: config.elevation,
+			min: -1,
+			step: 0.1,
+			max: 1,
+			formatter: (value) => `{{percent:${value / 2 + 0.5}}}`,
+			func: onchange
+		},
+		{
+			text: "Smoothness",
+			slider: "smooth",
+			default: 0.5,
+			value: config.smooth,
+			min: 0,
+			step: 0.1,
+			max: 1,
+			formatter: (value) => `{{percent:${(value)}}}`,
+			func: onchange
+		},
+		{
+			text: "Detail",
+			slider: "detail",
+			default: 5,
+			value: config.detail,
+			min: 1,
+			step: 1,
+			max: 10,
+			formatter: (value) => `{{percent:${(value - 1) / 9}}}`,
+			func: onchange
+		},
+		{
+			text: "Landmass size",
+			slider: "landmassSize",
+			default: 40,
+			value: config.landmassSize,
+			min: 5,
+			step: 5,
+			max: 80,
+			formatter: (value) => `{{percent:${(value - 5) / 75}}}`,
+			func: onchange
+		},
+		{
+			text: "Border",
+			slider: "borderFalloff",
+			default: 10,
+			value: config.borderFalloff,
+			min: 0,
+			step: 1,
+			max: 18,
+			formatter: (value) => `{{percent:${value / 18}}}`,
+			func: onchange
+		},
+		{
+			text: "Land color",
+			slider: "landColor",
+			default: $c.defaultLandColor,
+			value: config.landColor,
+			min: 0,
+			step: 5,
+			max: 360,
+			formatter: (value) => `${value}°`,
+			func: onchange
+		},
+		{
+			text: "Water color",
+			slider: "waterColor",
+			default: $c.defaultWaterColor,
+			value: config.waterColor,
+			min: 0,
+			step: 5,
+			max: 360,
+			formatter: (value) => `${value}°`,
+			func: onchange
+		},
+		{
+			text: "Length",
+			slider: "height",
+			default: $c.defaultPlanetHeight,
+			value: config.height,
+			min: 20,
+			step: 20,
+			max: 300,
+			formatter: (value) => `{{length:${value}}}`,
+			func: onchange
+		},
+		{
+			text: "Width",
+			slider: "width",
+			default: $c.defaultPlanetWidth,
+			value: config.width,
+			min: 20,
+			step: 20,
+			max: 300,
+			formatter: (value) => `{{length:${value}}}`,
+			func: onchange
+		},
+		{
+			text: "Biome size",
+			slider: "biomeSize",
+			default: $c.defaultBiomeSize,
+			value: config.biomeSize,
+			min: 2,
+			step: 1,
+			max: 40,
+			formatter: (value) => `{{length:${value-1}}}`,
+			func: onchange
+		},
+
+		{ spacer:true },
+		{
+			text: "Reset defaults",
+			func: () => {
+				let seed = planet.config.seed;
+				planet.config = defaultPlanet().config;
+				planet.config.seed = seed;
+				config = planet.config;
+				onchange();
+				closeExecutive();
+				customizePlanet();
+			}
+		},
+	], "Customize");
+	openExecutive();
+}
 
 
-function initGame() {
+
+let tempReg;
+preButtons = ["customize"];
+function initGame(noReset=false) {
+	resizeCanvases();
+	fitToScreen();
+
 	if (!planet.reg) planet.reg = defaultRegistry();
+	if (tempReg && noReset) {
+		planet.reg = tempReg;
+	}
+	else tempReg = planet.reg;
 	reg = planet.reg;
 	gameLoaded = true;
+
+	if (planet.config.landColor !== $c.defaultLandColor) {
+		let hue = (planet.config.landColor - $c.defaultLandColor) / 360;
+		for (let biome in biomes) {
+			let hsl = RGBtoHSL(biomes[biome].color);
+			hsl[0] += hue;
+			biomes[biome].colorOverride = HSLtoRGB(hsl);
+		}
+	}
+	else {
+		for (let biome in biomes) {
+			delete biomes[biome].colorOverride;
+		}
+	}
+	if (planet.config.waterColor !== $c.defaultWaterColor) {
+		let hue = ($c.defaultWaterColor - planet.config.waterColor) / 360;
+		let hsl = RGBtoHSL(biomes.water.color);
+		hsl[0] += hue;
+		biomes.water.colorOverride = HSLtoRGB(hsl);
+
+		waterColors = [...waterColorsOld];
+		for (let i = 0; i < waterColors.length; i++) {
+			let hsl = RGBtoHSL(waterColors[i]);
+			hsl[0] += hue;
+			waterColors[i] = HSLtoRGB(hsl);
+		}
+	}
+	else waterColors = waterColorsOld;
 	
 	if (parseInt(planet.day) !== planet.day) planet.day = 1;
 	
 	if (!planet.name) planet.name = generateWord(undefined,true);
 	document.getElementById("planetName").innerHTML = parseText("{{planet}}");
 
-	clearLog();
-	closeExecutive();
+	if (!noReset) {
+		clearLog();
+		closeExecutive();
 
-	initExecutive();
+		initExecutive();
+	}
 
 	currentPlayer = regGet("player", 1);
 	if (!currentPlayer) {
@@ -4208,14 +4537,17 @@ function initGame() {
 		})
 	}
 
-	// remove any existing resources from biomes
-	regToArray("resource").forEach((r) => {
-		if (r.biome) {
-			delete biomes[r.biome][r.type];
-		}
-	})
+	if (!noReset) {
+		// remove any existing resources from biomes
+		regToArray("resource").forEach((r) => {
+			if (r.biome) {
+				delete biomes[r.biome][r.type];
+			}
+		})
+	}
 	
-	if (reg.resource._id === 1) {
+	if (noReset) {}
+	else if (reg.resource._id === 1) {
 		happen("Create",null,null,{ type:"raw", name:"lumber", color:[114, 73, 30] },"resource");
 		happen("Create",null,null,{ type:"raw", name:"rock", color:[173, 166, 160] },"resource");
 		happen("Create",null,null,{ type:"raw", name:"metal", color:[106, 96, 84] },"resource");
@@ -4234,43 +4566,74 @@ function initGame() {
 		})
 	}
 
+	if (noReset) {}
 	// create first town prompt
-	if (reg.town._id === 1) {
-		onMapClickMsg = logMessage("Tap on the map to settle your town.", undefined, {buttons:[
-			{
-				name: "Regenerate",
-				func: () => {
-					planet = generatePlanet();
-					reg = planet.reg;
-					updateBiomes();
-					calculateLandmasses();
-					initGame();
-				}
-			}
-		]});
-		onMapClick = function(e) {
-			let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
-			if (chunk) {
-
-				if (chunk.b !== "water" && chunk.b !== "mountain") {
-					onMapClick = null;
-					fadeMessage(onMapClickMsg);
-					onMapClickMsg = null;
-					let town = happen("Create",currentPlayer,null,{x:chunk.x, y:chunk.y},"town");
-
-					logMessage(`The small ${town.type||"town"} of {{regname|town|${town.id}}} is founded in the {{biome:${chunk.b}}} of {{regname:landmass|${chunk.v.g}}}.`)
-					if (!planet.locked) {
-						document.getElementById("nextDay").removeAttribute("disabled");
-						document.getElementById("nextDayMobile").removeAttribute("disabled");
+	else if (reg.town._id === 1) {
+		let modeSelected = false;
+		let afterModeSelect = (mode) => {
+			if (modeSelected) return;
+			modeSelected = true;
+			planet.mode = mode;
+			// fadeMessage(modeSelectMessage);
+			onMapClickMsg = logMessage("Tap on the map to settle your town.", undefined, {buttons:[
+				{
+					name: "Regenerate",
+					func: () => {
+						if (planet.settled) return;
+						delete planet.config.seed;
+						planet = generatePlanet(planet.config);
+						reg = planet.reg;
+						updateBiomes();
+						initGame(true);
+						calculateLandmasses();
+						renderMap();
+						updateCanvas();
 					}
-					townsBefore = JSON.parse(JSON.stringify(reg.town));
-					planet.settled = planet.day;
+				}
+			]});
+			onMapClick = function(e) {
+				let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
+				if (chunk) {
 
-					setView("territory");
-					autosave();
+					if (chunk.b !== "water" && chunk.b !== "mountain") {
+						onMapClick = null;
+						fadeMessage(onMapClickMsg);
+						onMapClickMsg = null;
+						let town = happen("Create",currentPlayer,null,{x:chunk.x, y:chunk.y},"town");
+
+						logMessage(`The small ${town.type||"town"} of {{regname|town|${town.id}}} is founded in the {{biome:${chunk.b}}} of {{regname:landmass|${chunk.v.g}}}.`)
+						if (!planet.locked) {
+							document.getElementById("nextDay").removeAttribute("disabled");
+							document.getElementById("nextDayMobile").removeAttribute("disabled");
+						}
+						townsBefore = JSON.parse(JSON.stringify(reg.town));
+						planet.settled = planet.day;
+
+						preButtons.forEach((id) => {
+							let btn = document.getElementById("actionItem-"+id);
+							btn.style.display = "none";
+						})
+						
+						closeExecutive();
+						setView("territory");
+						autosave();
+					}
 				}
 			}
 		}
+		// let modeSelectMessage = logMessage("Select a play mode.", undefined, {buttons:[
+		// 	{
+		// 		name: "Strategy",
+		// 		func: () => afterModeSelect(1),
+		// 		tip: "Answer prompts from your residents to keep them happy"
+		// 	},
+		// 	{
+		// 		name: "Free Play",
+		// 		func: () => afterModeSelect(2),
+		// 		tip: "Design a scenario and see what happens"
+		// 	}
+		// ]})
+		afterModeSelect(1);
 	}
 	else { // enable "Next Day" buttons if town already exists
 		onMapClick = null;
@@ -4294,8 +4657,16 @@ function initGame() {
 
 	if (userSettings.overlay === false) document.getElementById("mapOverlay").style.display = "none";
 
+	if (!noReset) {
+		preButtons.forEach((id) => {
+			let btn = document.getElementById("actionItem-"+id);
+			if (planet.settled) btn.style.display = "none";
+			else btn.style.display = "";
+		})
+	}
+
 	updateStats();
-	renderMap();
+	if (!noReset) renderMap();
 	renderHighlight();
 	updateCanvas();
 
@@ -4596,6 +4967,16 @@ document.getElementById("saveUpload").addEventListener("change", (e) => {
 	}
 })
 
+function validateConfig(config) {
+	const defaultConfig = defaultPlanet().config;
+
+	for (const key in config) {
+		const value = defaultConfig[key];
+		if (config[key] === undefined) {
+			config[key] = value;
+		}
+	}
+}
 function validatePlanet() {
 
 	// Updating planet with default data
@@ -4702,10 +5083,10 @@ function generateSave() {
 			saved: planet.saved || Date.now(),
 		},
 		planet: JSON.parse(JSON.stringify(planet)),
-		planetWidth: planetWidth,
-		planetHeight: planetHeight,
-		chunkSize: chunkSize,
-		waterLevel: waterLevel
+		// planetWidth: planetWidth,
+		// planetHeight: planetHeight,
+		// chunkSize: chunkSize,
+		// waterLevel: waterLevel
 	};
 
 	delete json.planet.chunks;
@@ -4739,8 +5120,8 @@ function generateSave() {
 	3: (4) [0.1, 0.1, 0.1, 0.1]
 	*/
 
-	for (let chunkX = 0; chunkX < planetWidth / chunkSize; chunkX++) {
-		for (let chunkY = 0; chunkY < planetHeight / chunkSize; chunkY++) {
+	for (let chunkX = 0; chunkX < planet.config.width / planet.config.chunkSize; chunkX++) {
+		for (let chunkY = 0; chunkY < planet.config.height / planet.config.chunkSize; chunkY++) {
 			let chunkKey = chunkX+","+chunkY;
 			let chunk = planet.chunks[chunkKey];
 			if (!chunk) {
@@ -4808,10 +5189,14 @@ function generateSave() {
 
 function parseSave(json) {
 	planet = json.planet;
-	planetHeight = json.planetHeight;
-	planetWidth = json.planetWidth;
-	chunkSize = json.chunkSize;
-	waterLevel = json.waterLevel;
+
+	if (json.planetHeight !== undefined) {
+		planet.config = {};
+		planet.config.height = json.planetHeight;
+		planet.config.width = json.planetWidth;
+		planet.config.chunkSize = json.chunkSize;
+		planet.config.waterLevel = json.waterLevel;
+	}
 
 	planet.created = json.meta.created || json.meta.saved || Date.now();
 	planet.saved = json.meta.saved || json.meta.created || Date.now();
@@ -4829,11 +5214,11 @@ function parseSave(json) {
 
 	let chunks = {};
 
-	let chunkArea = chunkSize*chunkSize;
+	let chunkArea = Math.pow(planet.config.chunkSize, 2);
 
 	let p = [];
 	chunkData.p.match(new RegExp(".{"+chunkArea+"}","g")).forEach(area => {
-		let values = area.match(new RegExp(".{"+chunkSize+"}","g"));
+		let values = area.match(new RegExp(".{"+planet.config.chunkSize+"}","g"));
 		values = values.map(r => [...r].map(v => v === "M" ? 1 : parseInt(v)/10));
 		p.push(values);
 	});
@@ -4848,8 +5233,8 @@ function parseSave(json) {
 	chunkData.v = chunkData.v.replace(/¦/g,"§§§§§§").replace(/§/g,"{}\t").split("\t").map(v => JSON.parse(v));
 
 	let chunkIndex = 0;
-	for (let chunkX = 0; chunkX < planetWidth / chunkSize; chunkX++) {
-		for (let chunkY = 0; chunkY < planetHeight / chunkSize; chunkY++) {
+	for (let chunkX = 0; chunkX < planet.config.width / planet.config.chunkSize; chunkX++) {
+		for (let chunkY = 0; chunkY < planet.config.height / planet.config.chunkSize; chunkY++) {
 			let chunk = {
 				x: chunkX,
 				y: chunkY,
@@ -4954,6 +5339,8 @@ function populateExecutive(items, title, main=false) {
 
 	for (let i = 0; i < items.length; i++) {
 		const item = items[i];
+
+		if (item.mode && planet.mode !== item.mode) continue;
 
 		let actionItem = document.createElement("span");
 		actionItem.classList.add("actionItem");
@@ -5080,6 +5467,93 @@ function populateExecutive(items, title, main=false) {
 			// actionItem.innerHTML = actionItem.innerHTML.replace(new RegExp(item.keybind, "i"), (k) => "<u>"+k+"</u>")
 			actionItem.insertAdjacentHTML("afterbegin", "<u>"+item.keybind.toUpperCase()+"</u> ");
 		}
+		if (item.slider) {
+			let value = item.value || item.default || 0;
+			let valueText = item.formatter ? parseText(item.formatter(value)) : value;
+			actionItem.classList.add("actionSetting");
+			actionItem.classList.add("actionSlider");
+			if (value === item.default) actionItem.classList.add("default");
+			if (item.min === undefined) item.min = 0;
+			if (item.max === undefined) item.max = 1;
+			if (item.step === undefined) item.step = 0.1;
+			actionItem.insertAdjacentHTML("beforeend",`: <span class='settingValue'>${valueText}</span>`);
+			actionItem.setAttribute("data-value", value);
+			actionItem.setAttribute("data-default", item.default);
+			actionItem.setAttribute("data-step", item.step);
+			actionItem.setAttribute("data-min", item.min);
+			actionItem.setAttribute("data-max", item.max);
+			let valueSpan = actionItem.querySelector(".settingValue");
+
+			let timeout;
+
+			let onchange = (initial) => {
+				let value = parseFloat(actionItem.getAttribute("data-value"));
+
+				let percent = (value - item.min) / (item.max - item.min);
+				actionItem.style.background = `linear-gradient(to right, rgba(255, 255, 255, 0.2) ${percent * 100}%, transparent ${percent * 100}%)`;
+
+				if (item.func && !initial) {
+					if (timeout) clearTimeout(timeout);
+					timeout = setTimeout(() => {
+						item.func(item.slider, value);
+					}, 10)
+				}
+
+				let valueText = item.formatter ? parseText(item.formatter(value)) : value;
+				valueSpan.innerHTML = valueText;
+
+				if (value === item.default) actionItem.classList.add("default");
+				else actionItem.classList.remove("default");
+			}
+			onchange(true);
+
+			let mousemove = (e) => {
+				// console.log(e.clientX);
+
+				let oldValue = parseFloat(actionItem.getAttribute("data-value"));
+
+				const leftmost = actionItem.offsetLeft;
+				const rightmost = actionItem.offsetLeft + actionItem.clientWidth;
+
+				let mouseX = e.clientX - leftmost;
+				let percent = mouseX / (rightmost - leftmost);
+				percent = Math.min(percent, 1);
+				percent = Math.max(percent, 0);
+
+				let value = percent * (item.max - item.min) + (item.min);
+				value = Math.round((Math.round((value) / item.step ) * item.step) * 100) / 100
+				value = Math.round(value * 100) / 100;
+
+				value = Math.min(value, item.max);
+				value = Math.max(value, item.min);
+
+				if (value !== oldValue) {
+					actionItem.setAttribute("data-value", value);
+					onchange();
+				}
+			}
+			let mouseup = () => {
+				actionItem.setAttribute("data-changing","false");
+				window.removeEventListener("mouseup", mouseup);
+				window.removeEventListener("touchend", mouseup);
+				window.removeEventListener("mousemove", mousemove);
+			}
+			let mousedown = (e) => {
+				mousemove(e);
+				actionItem.setAttribute("data-changing","true");
+				window.addEventListener("mouseup", mouseup);
+				window.addEventListener("touchend", mouseup);
+				window.addEventListener("mousemove",mousemove)
+			}
+			actionItem.addEventListener("mousedown", mousedown);
+			actionItem.addEventListener("touchstart", (e) => {
+				mousedown(e.touches[0]);
+			});
+			actionItem.addEventListener("dblclick", () => {
+				actionItem.setAttribute("data-value", item.default);
+				onchange();
+			})
+		}
 
 		subpanelList.appendChild(actionItem);
 	}
@@ -5096,6 +5570,12 @@ function closeExecutive() {
 	currentExecutive = null;
 	currentExecutiveButton = null;
 	currentExecutiveSorter = null;
+}
+function openExecutive() {
+	let gameHalf2 = document.getElementById("gameHalf2");
+	if (gameHalf2.offsetParent === null) {
+		openPopup("gameHalf2");
+	}
 }
 function refreshExecutive() {
 	if (!currentExecutiveButton) return;
@@ -5235,6 +5715,16 @@ function initExecutive() {
 		e.remove();
 	})
 	populateExecutive([
+	{
+		text: "Customize",
+		id: "customize",
+		hide: true,
+		keybind: "w",
+		func: () => {
+			if (planet.settled) return;
+			customizePlanet();
+		}
+	},
 	{
 		text: "Towns",
 		id: "towns",
@@ -5470,6 +5960,8 @@ function initExecutive() {
 
 window.addEventListener("load", function(){ //onload
 
+	try {
+
 	document.getElementById("gameLoading").style.display = "none";
 	document.getElementById("gameDiv").style.display = "flex";
 
@@ -5498,7 +5990,7 @@ window.addEventListener("load", function(){ //onload
 		initGame();
 	}
 
-	if (userSettings.lastVersionCheck !== gameVersion && userSettings.view) {
+	if (userSettings.lastVersion !== undefined && userSettings.lastVersionCheck !== gameVersion) {
 		document.getElementById("actionInfo").classList.add("notify");
 		logTip("newUpdate", "There's a new update! Maybe try starting a new planet?")
 	}
@@ -5671,7 +6163,7 @@ window.addEventListener("load", function(){ //onload
 			spacer: true
 		},
 		{
-			text: "Reset progress",
+			text: "Start new planet",
 			func: () => {
 				resetPlanetPrompt();
 			},
@@ -5745,5 +6237,11 @@ window.addEventListener("load", function(){ //onload
 	})
 
 	checkHash();
+
+	}
+	catch (error) {
+		logException(error, "load");
+		throw error
+	}
 
 })

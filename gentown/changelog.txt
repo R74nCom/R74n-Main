@@ -1,3 +1,12 @@
+[Version 1.2 - 30 Jan 2025]
+ + Planet Customization
+    + Select the "Customize" tab before settling your town
+    + Change 13 different parameters and see their effects immediately
+ ~ Regenerate button no longer refreshes Chronicle
+ ~ "Reset progress" button now says "Start new planet"
+ ~ Info popups have smaller text
+ + Message to easily copy or report most errors
+
 [Version 1.1 - 5 Dec 2025]
  + Research
     + Towns will ask to prioritize research for particular topics

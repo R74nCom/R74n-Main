@@ -240,16 +240,16 @@ span.none {
 	color: yellow
 }
 
-.logWarning {
+.logWarning, .logError {
 	color: rgb(255, 83, 83);
 }
-.logWarning .logDay:before {
+.logWarning .logDay:before, .logError .logDay:before {
 	content: "{"
 }
-.logWarning .logDay:after {
+.logWarning .logDay:after, .logError .logDay:after {
 	content: "}"
 }
-.logWarning[new="true"] .logDay {
+.logWarning[new="true"] .logDay, .logError[new="true"] .logDay {
 	color: rgb(255, 0, 0)
 }
 .logMilestone {
@@ -631,7 +631,7 @@ tr.total {
 }
 .actionItem.clickable:active {
 	background-color: rgb(8, 62, 0);
-	transform: scale(97.5%);
+	scale: 0.975;
 	color: yellow
 }
 .actionItem.clickable[disabled]:active {
@@ -694,8 +694,16 @@ tr.total {
 	content: "]";
 	opacity: 0.5;
 }
+.actionItem.clickable.actionSlider:active {
+	scale: none;
+	filter: none
+}
+.actionItem.actionSlider {
+	cursor: ew-resize;
+}
 #actionSubpanelClose:active {
 	transform: translateX(-0.2em);
+	scale: 1;
 }
 #mapDiv {
 	max-height: calc(100% - 1.75em);
@@ -1016,6 +1024,7 @@ tr.total {
 
 #regBrowser {
 	top: 50%;
+	font-size: 22px
 }
 #regBrowser .popupContent {
 	padding: 10px;
@@ -1278,4 +1287,12 @@ tr.total {
 	.actionItem u {
 		display: none;
 	}
+}
+
+
+#gameDiv[data-promo="executive"] #gameHalf1 {
+    width: 33.5%;
+}
+#gameDiv[data-promo="executive"] #statsPanel {
+    display: none;
 }

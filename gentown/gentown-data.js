@@ -3,8 +3,14 @@ constants = {
 	defaultPlanetHeight: 120,
 	defaultPixelSize: 6,
 	defaultChunkSize: 4,
+	defaultBiomeSize: 21,
+	defaultPlanetTemp: 0,
+	defaultPlanetMoisture: 0,
+	defaultPlanetElevation: 0,
 	markerResolution: 2,
 	defaultWaterLevel: 0.4,
+	defaultLandColor: 120,
+	defaultWaterColor: 61.26,
 	maxPopulationPerChunk: 20,
 	maxPopulation: (subject) => subject.size * $c.maxPopulationPerChunk *
 		Math.pow(2,Math.floor(((planet.unlocks.smith + 20) || 0) / 10)),
@@ -961,7 +967,7 @@ actionables = {
 				messageDone: "[NAME] $ settles down.",
 				color: [114, 122, 122],
 				name: (d) => {
-					return (d.x / (planetWidth/chunkSize) > 0.5 ? "Typhoon " : "Hurricane ") + generateHumanName()
+					return (d.x / (planet.config.width/planet.config.chunkSize) > 0.5 ? "Typhoon " : "Hurricane ") + generateHumanName()
 				},
 				
 				deathRate: 0.2,
@@ -4178,7 +4184,7 @@ regBrowserExtra = {
 			let volume = 0;
 			let elevations = Array.prototype.concat.apply([],Array.prototype.concat.apply([], Object.values(planet.chunks).map( (c) => c.p)));
 			elevations.forEach((e) => {
-				if (e <= waterLevel) volume += 200000 * 200000 * ((0.4*10+1) * 1475);
+				if (e <= planet.config.waterLevel) volume += 200000 * 200000 * ((0.4*10+1) * 1475);
 				else volume += 200000 * 200000 * ((e*10+1) * 1475);
 			})
 			let volumeInChunks = volume / 1000 / 944000000;
