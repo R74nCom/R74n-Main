@@ -918,6 +918,7 @@ tr.total {
 	border-radius: 0;
 	/* font-size: 1.3em; */
 	background-color: var(--border-c);
+	border: none;
 }
 #popupTextConfirm {
 	flex-basis: 20%;

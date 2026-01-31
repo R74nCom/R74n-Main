@@ -1,6 +1,7 @@
 [Version 1.2.1 - 31 Jan 2025]
  ~ "New update" tip only appears once per update
  ~ Fixed: "waterLevel is not defined"
+ ~ Fixed: Broken styling for prompt text input
 
 [Version 1.2 - 30 Jan 2025]
  + Planet Customization
