@@ -2232,6 +2232,7 @@ function renderHighlight() {
 
 	let chunks = filterChunks((c) => c.v.s !== undefined);
 	const chunkSize = planet.config.chunkSize;
+	const waterLevel = planet.config.waterLevel;
 	for (let i = 0; i < chunks.length; i++) {
 		const chunk = chunks[i];
 		const town = regGet("town",chunk.v.s);
@@ -4572,7 +4573,7 @@ function initGame(noReset=false) {
 		let modeSelected = false;
 		let afterModeSelect = (mode) => {
 			if (modeSelected) return;
-			modeSelected = true;
+			modeSelected = mode;
 			planet.mode = mode;
 			// fadeMessage(modeSelectMessage);
 			onMapClickMsg = logMessage("Tap on the map to settle your town.", undefined, {buttons:[
@@ -4608,6 +4609,7 @@ function initGame(noReset=false) {
 						}
 						townsBefore = JSON.parse(JSON.stringify(reg.town));
 						planet.settled = planet.day;
+						planet.mode = modeSelected;
 
 						preButtons.forEach((id) => {
 							let btn = document.getElementById("actionItem-"+id);
@@ -5992,7 +5994,7 @@ window.addEventListener("load", function(){ //onload
 
 	if (userSettings.lastVersion !== undefined && userSettings.lastVersionCheck !== gameVersion) {
 		document.getElementById("actionInfo").classList.add("notify");
-		logTip("newUpdate", "There's a new update! Maybe try starting a new planet?")
+		logTip("newUpdate"+gameVersion, "There's a new update! Maybe try starting a new planet?")
 	}
 	else {
 		userSettings.lastVersionCheck = gameVersion;
