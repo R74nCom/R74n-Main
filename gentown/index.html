@@ -92,12 +92,12 @@
         </div>
         <div id="underMap" class="gameSubpanel">
           <span id="planetName">Planet Name</span>
-          <span id="underMapControls" class="noSelect"><span id="viewButton" role="button"><span id="viewArrow" class="font2">▾</span> <span id="viewName">Terrain</span></span></span>
+          <span id="underMapControls" class="noSelect"><span id="viewButton" role="button"><span id="viewArrow" class="font2">⏷</span> <span id="viewName">Terrain</span></span></span>
         </div>
       </div>
       <div class="gamePanel" id="statsPanel">
         <div id="statsMain">
-          <div class="panelX" onclick="handleX(this); closePopups();">X</div>
+          <div class="panelX font2" onclick="handleX(this); closePopups();">X</div>
           <span class="panelTitle"><span id="dayNumber">123</span></span>
           <div id="statsDiv">
             <span class="panelSubtitle">[Global]</span>
@@ -105,27 +105,29 @@
           </div>
         </div>
         <div id="underStats" class="gameSubpanel noSelect">
-            <span id="nextDay" class="nextDay" disabled="true" tabindex="0" role="button">Next Day <span class="font2">▷</span></span>
+            <span id="nextDay" class="nextDay" disabled="true" tabindex="0" role="button"><span>Next Day</span> <span class="font2">▶</span></span>
+            <span id="autoPlay" class="nextDay" disabled="true" tabindex="1" role="button"><span class="font2">⏩</span></span>
           </div>
       </div>
     </div>
     <div id="gameHalf1-2">
       <div class="gamePanel mobileBar noSelect" id="mobileControlBar">
-        <span><span id="dayNumberMobile">123</span></span>
-        <span id="nextDayMobile" class="nextDay" disabled="true" tabindex="0" role="button">Next Day ▷</span>
+        <div><span id="dayNumberMobile">123</span></div>
+        <div id="nextDayMobile" class="nextDay" disabled="true" tabindex="0" role="button"><span>Next Day</span> <span class="font2">▶</span></div>
+        <div id="autoPlayMobile" class="nextDay" disabled="true" tabindex="1" role="button"><span class="font2">⏩</span></div>
       </div>
       <div class="gamePanel" id="logPanel">
         <span class="panelTitle">Chronicle</span>
         <div id="logMessages"></div>
       </div>
       <div class="gamePanel mobileBar" id="mobileBelowBar">
-        <span onclick="openPopup('statsPanel')" role="button">Preview</span>
-        <span onclick="closeExecutive(); openPopup('gameHalf2')" role="button">More</span>
+        <div onclick="openPopup('statsPanel')" role="button">Preview</div>
+        <div onclick="closeExecutive(); openPopup('gameHalf2')" role="button">More</div>
       </div>
     </div>
   </div>
   <div class="gameHalf" id="gameHalf2">
-    <div class="panelX" onclick="handleX(this)">X</div>
+    <div class="panelX font2" onclick="handleX(this)">X</div>
     <div class="gamePanel" id="actionPanel">
       <div class="actionSubpanel" id="actionMain">
         <div id="actionMainList">
@@ -144,7 +146,7 @@
           <span class="actionItem">Subexample</span>
         </div>
         <div>
-          <span class="actionItem clickable" id="actionSubpanelClose" role="button">◁ Go Back</span>
+          <span class="actionItem clickable" id="actionSubpanelClose" role="button"><span class="font2">◀</span> Go Back</span>
         </div>
       </div>
       <input type="file" id="saveUpload" style="display: none;" accept="application/vnd.R74n.gentown+json, application/json, .planet">
@@ -155,7 +157,7 @@
   <div class="gamePopupOverlay" id="gamePopupOverlay"></div>
 
   <div class="gamePopup" id="promptPopup">
-    <div class="panelX" onclick="handleX(this)" role="button">X</div>
+    <div class="panelX font2" onclick="handleX(this)" role="button">X</div>
     <div class="popupTitle" id="popupTitle">
       Prompt title
     </div>
@@ -174,7 +176,8 @@
   </div>
 
   <div class="gamePopup" id="regBrowser">
-    <div class="panelX" onclick="handleX(this)" role="button">X</div>
+    <div class="panelMore" onclick="handleMore(this)" role="button">•••</div>
+    <div class="panelX font2" onclick="handleX(this)" role="button">X</div>
     <div class="popupContent" id="regContent">
       <!-- Registry Browser content -->
       <div class="regSection regTitle"><span class="regTitle">Picheutae</span></div>

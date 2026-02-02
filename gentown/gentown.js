@@ -251,6 +251,7 @@ addParserCommand("regname",function(args) {
 	let name = data.name;
 	if (args[2] && args[2] !== "-") name = args[2];
 	let color = data.color;
+	let icon;
 	if (regBrowserExtra[data._reg]) {
 		if (!name && regBrowserExtra[data._reg].name) {
 			name = regBrowserExtra[data._reg].name(data);
@@ -258,13 +259,16 @@ addParserCommand("regname",function(args) {
 		if (!color && regBrowserExtra[data._reg].color) {
 			color = regBrowserExtra[data._reg].color(data);
 		}
+		if (regBrowserExtra[data._reg].icon) {
+			icon = regBrowserExtra[data._reg].icon(data);
+		}
 	}
 	color = color || [127,127,127];
 	let hsl = RGBtoHSL(color);
 	hsl[2] = Math.max(0.65, hsl[2]);
 	color = HSLtoRGB(hsl);
 	if (!name) name = data.subtype || data.type;
-	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${Math.floor(color[0])},${Math.floor(color[1])},${Math.floor(color[2])})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
+	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${Math.floor(color[0])},${Math.floor(color[1])},${Math.floor(color[2])})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${icon ? parseText("{{icon:"+icon+"}}")+" " : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
 })
 addParserCommand("regoldest",function(args) {
 	if (args.length < 1) {return ""}
@@ -601,7 +605,9 @@ function defaultRegistry() {
 		"process": defaultSubregistry(),
 		"marker": defaultSubregistry(),
 		"nature": defaultSubregistry(),
-		"product": defaultSubregistry()
+		"product": defaultSubregistry(),
+		"species": defaultSubregistry(),
+		"culture": defaultSubregistry()
 	}
 	for (let key in r) {
 		r.registry[key] = r.registry._id;
@@ -1037,6 +1043,9 @@ function generatePlanet(config) {
 
 	noiseMin = -0.3;
 	noiseMax = 0.42;
+	const width = config.width;
+	const height = config.height;
+	const chunkSize = config.chunkSize;
 	const waterLevel = planet.config.waterLevel;
 	const biomeSize = planet.config.biomeSize ?? 20;
 	const configTemp = planet.config.temp ?? 0;
@@ -1046,9 +1055,13 @@ function generatePlanet(config) {
 	const smooth = 1 - (planet.config.smooth ?? 0.5);
 	const landmassSize = planet.config.landmassSize ?? 40;
 	const borderFalloff = 20 - (planet.config.borderFalloff ?? 10);
+	const tuneX = -(planet.config.tuneX ?? 0);
+	const tuneY = -(planet.config.tuneY ?? 0);
+	const tuneXChunk = tuneX / chunkSize;
+	const tuneYChunk = tuneY / chunkSize;
 	
-	for (let chunkX = 0; chunkX < config.width / config.chunkSize; chunkX++) {
-		for (let chunkY = 0; chunkY < config.height / config.chunkSize; chunkY++) {
+	for (let chunkX = 0; chunkX < width / chunkSize; chunkX++) {
+		for (let chunkY = 0; chunkY < height / chunkSize; chunkY++) {
 			let chunkKey = chunkX+","+chunkY;
 			let chunk = {
 				v: {},
@@ -1057,7 +1070,7 @@ function generatePlanet(config) {
 			}
 
 			// chunk temperature
-			chunk.t = noise.perlin2(chunkX / biomeSize, chunkY / biomeSize);
+			chunk.t = noise.perlin2((chunkX + tuneXChunk) / biomeSize, (chunkY + tuneYChunk) / biomeSize);
 			// console.log(chunk.t)
 			chunk.t = (chunk.t - -0.5) / (0.3 - -0.5) + configTemp;
 			chunk.t = Math.max(0,Math.min(chunk.t,1))
@@ -1065,7 +1078,7 @@ function generatePlanet(config) {
 			chunk.t = Math.ceil(chunk.t * 10) / 10;
 
 			// chunk moisture
-			chunk.m = noise.perlin2((chunkX+1000) / biomeSize, (chunkY+1000) / biomeSize);
+			chunk.m = noise.perlin2((chunkX + 1000 + tuneXChunk) / biomeSize, (chunkY + 1000 + tuneYChunk) / biomeSize);
 			chunk.m = (chunk.m - -0.5) / (0.3 - -0.5) + configMoisture;
 			chunk.m = Math.max(0,Math.min(chunk.m,1))
 			// lower resolution
@@ -1076,13 +1089,13 @@ function generatePlanet(config) {
 
 			// chunk pixels
 			let chunkPixels = [];
-			for (let x0 = 0; x0 < config.chunkSize; x0++) {
+			for (let x0 = 0; x0 < chunkSize; x0++) {
 				chunkPixels.push([]);
-				for (let y0 = 0; y0 < config.chunkSize; y0++) {
+				for (let y0 = 0; y0 < chunkSize; y0++) {
 					let coords = chunkCoordsToCoords(chunkX, chunkY, x0, y0);
 					let x = coords[0];
 					let y = coords[1];
-					let value = generatePerlinNoise(x / landmassSize, y / landmassSize, detail, smooth);
+					let value = generatePerlinNoise((x + tuneX) / landmassSize, (y + tuneY) / landmassSize, detail, smooth);
 					// value = Math.max(0,value);
 					// value = (value+1) / 2;
 	
@@ -1095,10 +1108,10 @@ function generatePlanet(config) {
 					value = Math.min(1,value);
 
 					// Calculate distance from the edge of the map
-					let distanceToEdge = Math.min(x+1, y+1, config.width - x, config.height - y);
+					let distanceToEdge = Math.min(x+1, y+1, width - x, height - y);
 
 					// Apply a falloff function to make borders low elevation
-					let falloff = distanceToEdge / (Math.min(config.width, config.height) / borderFalloff);  // Distance-based falloff
+					let falloff = distanceToEdge / (Math.min(width, height) / borderFalloff);  // Distance-based falloff
 					falloff = Math.min(1, falloff);  // Ensure falloff is between 0 and 1
 	
 					// Blend the perlin noise with the falloff
@@ -1114,7 +1127,7 @@ function generatePlanet(config) {
 				}
 			}
 			chunk.p = chunkPixels;
-			chunk.e = elevations/(config.chunkSize*config.chunkSize);
+			chunk.e = elevations/(chunkSize*chunkSize);
 			// lower resolution
 			chunk.e = Math.ceil(chunk.e * 10) / 10;
 			if (chunk.e <= waterLevel+0.05) chunk.m = 1;
@@ -1244,84 +1257,6 @@ function calculateLandmasses() {
 			}
 		}
 	}
-}
-
-biomes = {
-	"grass": {
-		color: [0,255,0],
-		elevation: 0.5,
-		moisture: 0.5,
-		temp: 0.5,
-		hasLumber: true,
-		name: "grassland"
-	},
-	"mountain": {
-		color: [150,150,150],
-		elevation: 1.4,
-		temp: 0.1,
-		moisture: 0.6,
-		crop: null,
-		livestock: null,
-		name: "mountains",
-		adj: ["mountain"]
-	},
-	"snow": {
-		color: [255,255,255],
-		elevation: 0.6,
-		temp: 0.1,
-		moisture: 0.6,
-		crop: null,
-		hasLumber: true,
-		name: "snowscape",
-		adj: ["snowy","arctic","polar"]
-	},
-	"desert": {
-		color: [255,255,0],
-		moisture: 0.3,
-		elevation: 0.4,
-		temp: 0.8,
-		name: "desert",
-		adj: ["desert","warm"]
-	},
-	"badlands": {
-		color: [191, 159, 61],
-		moisture: 0.5,
-		elevation: 0.5,
-		temp: 0.8,
-		crop: null,
-		infertile: true,
-		name: "badlands",
-		adj: ["yellow","brown"]
-	},
-	"tundra": {
-		color: [0, 209, 98],
-		elevation: 0.5,
-		temp: 0.3,
-		moisture: 0.3,
-		hasLumber: true,
-		name: "tundra",
-		adj: ["tundra"]
-	},
-	"wetland": {
-		color: [145, 255, 0],
-		moisture: 0.9,
-		temp: 0.8,
-		elevation: 0.5,
-		hasLumber: true,
-		name: "wetland",
-		adj: ["common"]
-	},
-	"water": {
-		noAuto: true,
-		color: [178,202,252], //#b2cafc
-		elevation: $c.defaultWaterLevel,
-		moisture: 1,
-		temp: 0.5,
-		crop: null,
-		infertile: true,
-		name: "waters",
-		water: true
-	},
 }
 
 planet = null;
@@ -1543,12 +1478,14 @@ function renderMap() {
 						let adjacentChunk = planet.chunks[(chunk.x)+","+(chunk.y+1)];
 						if (adjacentChunk) {
 							pixelColor = biomes[adjacentChunk.b].colorOverride || biomes[adjacentChunk.b].color;
+							value = adjacentChunk.p[x0][0];
 						}
 					}
 					else if (x0 === chunkSize-1 && Math.sin((chunk.y+y0)*167) < 0.5) {
 						let adjacentChunk = planet.chunks[(chunk.x+1)+","+(chunk.y)];
 						if (adjacentChunk) {
 							pixelColor = biomes[adjacentChunk.b].colorOverride || biomes[adjacentChunk.b].color;
+							value = adjacentChunk.p[0][y0];
 						}
 					}
 
@@ -1563,7 +1500,6 @@ function renderMap() {
 						let percent = value - (waterLevel - $c.defaultWaterLevel);
 
 						color = [pixelColor[0] * percent + 50, pixelColor[1] * percent + 50, pixelColor[2] * percent + 50];
-
 					}
 					if (userSettings.desaturate) {
 						let hsl = RGBtoHSL(color);
@@ -1951,7 +1887,7 @@ wordComponents.CURRENCY = {
 	_: "¤"
 }
 
-badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bSxreWtlLGtpa2Usc2V4').split(",");
+badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bSxreWtlLGtpa2Usc2V4LGFzcyxkaWMsZGlrLHBlbmlzLHZhZ2kscGVkbyxwb3Ju').split(",");
 
 function generateWord(syllableCount, titled=false, prefixes=null) {
 	let word = "";
@@ -2064,6 +2000,14 @@ function generateHumanName() {
 	)
 
 	if (word.length < 2) return generateHumanName();
+
+	for (let i = 0; i < badWords.length; i++) {
+		const badWord = badWords[i];
+		if (word.indexOf(badWord) !== -1) {
+			word = generateHumanName();
+			break;
+		}
+	}
 
 	return titleCase(word);
 }
@@ -2237,11 +2181,11 @@ function renderHighlight() {
 		const chunk = chunks[i];
 		const town = regGet("town",chunk.v.s);
 		let color = town.color;
-		let opacity = 0.33;
+		let opacity = userSettings.opacity || 0.5;
 		if (currentHighlight && currentHighlight[1] === chunk.v.s && currentHighlight[0] === "town") {
 			// color = color.map((x) => Math.floor(Math.min(255, x+30)))
 			color = colorBrightness(color, 1.15);
-			opacity = 0.5;
+			opacity *= 1.5;
 		}
 		if (town.usurp) {
 			color = [...color];
@@ -2610,7 +2554,7 @@ function handleMouseUp(e) {
 		}
 		else if (mousePos) {
 			selectedChunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
-			document.querySelector("#statsPanel .panelX").style.display = "block";
+			document.querySelector("#statsPanel .panelX").style.display = "flex";
 		}
 	}
 	
@@ -2696,7 +2640,7 @@ keybinds = {
 	"p": () => {
 		if (mousePos) {
 			selectedChunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
-			document.querySelector("#statsPanel .panelX").style.display = "block";
+			document.querySelector("#statsPanel .panelX").style.display = "flex";
 			renderCursor();
 			updateCanvas();
 		}
@@ -3010,7 +2954,7 @@ function openPopup(id) {
 	if (currentPopup) closePopups();
 	let elem = document.getElementById(id);
 	let X = elem.querySelector(".panelX");
-	if (X) X.style.display = "block";
+	if (X) X.style.display = "flex";
 	elem.style.display = "flex";
 	elem.classList.add("popupShown");
 	document.getElementById("gamePopupOverlay").classList.add("overlayShown");
@@ -3248,7 +3192,9 @@ function regBrowse(subregistryName, id) {
 function openRegBrowser(obj,regName) {
 	let regContent = document.getElementById("regContent")
 	regContent.innerHTML = "";
-	document.getElementById("regBrowser").scrollTop = 0;
+	let regBrowser = document.getElementById("regBrowser");
+	regBrowser.scrollTop = 0;
+	let panelMore = document.querySelector("#regBrowser .panelMore");
 
 	let title = obj.name;
 	if (!title && regBrowserExtra[regName] && regBrowserExtra[regName].name) {
@@ -3268,7 +3214,12 @@ function openRegBrowser(obj,regName) {
 		regContent.appendChild(nameSection);
 	}
 	let subtitle;
+	panelMore.style.display = "none";
 	if (regName && obj.id) {
+		regBrowser.setAttribute("data-reg", regName);
+		regBrowser.setAttribute("data-id", obj.id);
+		panelMore.style.display = "flex";
+
 		subtitle = titleCase(obj.type || regName);
 		// if (obj.type && obj.type !== regName) subtitle += " ("+titleCase(obj.type)+")";
 	}
@@ -3434,11 +3385,11 @@ function regBrowsePlanet() {
 function regBrowseBiome(biome) {
 	let data = biomes[biome];
 
-	let crops = regFilter("resource", (r) => r.type === "crop" && r.biome === biome);
-	crops = crops.map((r) => "{{regname:resource|"+r.id+"}}");
+	let crops = regFilter("species", (r) => r.type === "plant" && r.biome === biome);
+	crops = crops.map((r) => "{{regname:species|"+r.id+"}}");
 	if (!crops.length) crops = undefined;
-	let livestocks = regFilter("resource", (r) => r.type === "livestock" && r.biome === biome);
-	livestocks = livestocks.map((r) => "{{regname:resource|"+r.id+"}}");
+	let livestocks = regFilter("species", (r) => r.type === "animal" && r.biome === biome);
+	livestocks = livestocks.map((r) => "{{regname:species|"+r.id+"}}");
 	if (!livestocks.length) livestocks = undefined;
 	
 	openRegBrowser({
@@ -3448,6 +3399,55 @@ function regBrowseBiome(biome) {
 		crops: crops,
 		livestocks: livestocks
 	})
+}
+
+function handleMore(elem) {
+	let regBrowser = elem.parentNode;
+	console.log(regBrowser);
+
+	let regName = regBrowser.getAttribute("data-reg");
+	let id = regBrowser.getAttribute("data-id");
+
+	if (!regName || !id) {
+		elem.style.display = "none";
+		return;
+	};
+
+	let items = [];
+	let obj = regGet(regName, id);
+
+	if (actionables[regName] && actionables[regName].asTarget && actionables[regName].asTarget.Share) {
+		items.push({
+			text: "{{symbol:📤}} Share",
+			func: () => {
+				sharePrompt(actionables[regName].asTarget.Share(currentPlayer,obj));
+			}
+		})
+	}
+	else {
+		items.push({
+			text: "{{symbol:📤}} Share",
+			func: () => {
+				sharePrompt(`Check out my ${obj.subtype || obj.type || regName} called ${obj.name}!`);
+			}
+		})
+	}
+
+	items.push({
+		text: "{{symbol:📥}} Download",
+		func: () => {
+			downloadJSON(obj, obj.name+".entity", "application/vnd.R74n.gentown-entity+json")
+		}
+	})
+
+	if (!items.length) {
+		elem.style.display = "none";
+		return;
+	}
+
+	closePopups();
+	populateExecutive(items, `{{regname:${regName}|${id}}}`);
+	openExecutive();
 }
 
 
@@ -4163,7 +4163,8 @@ function nextDay(e) {
 				messageElement.setAttribute("done","true");
 				e.target.setAttribute("selected","true");
 				if (isFunction(eventInfo.messageNo)) {
-					logChange(eventCaller.logID, eventInfo.messageNo(eventCaller.subject,eventCaller.target,eventCaller.args));
+					let messageNo = eventInfo.messageNo(eventCaller.subject,eventCaller.target,eventCaller.args);
+					if (messageNo) logChange(eventCaller.logID, messageNo);
 				}
 				else if (eventInfo.messageNo) logChange(eventCaller.logID, eventInfo.messageNo);
 				eventCaller.done = true;
@@ -4389,6 +4390,28 @@ function customizePlanet() {
 			func: onchange
 		},
 		{
+			text: "Tune X",
+			slider: "tuneX",
+			default: 0,
+			value: config.tuneX,
+			min: -100,
+			step: 0.1,
+			max: 100,
+			formatter: (value) => `${Math.round(value)}`,
+			func: onchange
+		},
+		{
+			text: "Tune Y",
+			slider: "tuneY",
+			default: 0,
+			value: config.tuneY,
+			min: -100,
+			step: 0.1,
+			max: 100,
+			formatter: (value) => `${Math.round(value)}`,
+			func: onchange
+		},
+		{
 			text: "Border",
 			slider: "borderFalloff",
 			default: 10,
@@ -4407,7 +4430,7 @@ function customizePlanet() {
 			min: 0,
 			step: 5,
 			max: 360,
-			formatter: (value) => `${value}°`,
+			formatter: (value) => `${Math.round(value)}°`,
 			func: onchange
 		},
 		{
@@ -4418,7 +4441,7 @@ function customizePlanet() {
 			min: 0,
 			step: 5,
 			max: 360,
-			formatter: (value) => `${value}°`,
+			formatter: (value) => `${Math.round(value)}°`,
 			func: onchange
 		},
 		{
@@ -4440,6 +4463,17 @@ function customizePlanet() {
 			min: 20,
 			step: 20,
 			max: 300,
+			formatter: (value) => `{{length:${value}}}`,
+			func: onchange
+		},
+		{
+			text: "Chunk size",
+			slider: "chunkSize",
+			default: $c.defaultChunkSize,
+			value: config.chunkSize,
+			min: 1,
+			step: 1,
+			max: 8,
 			formatter: (value) => `{{length:${value}}}`,
 			func: onchange
 		},
@@ -4549,23 +4583,31 @@ function initGame(noReset=false) {
 	
 	if (noReset) {}
 	else if (reg.resource._id === 1) {
-		happen("Create",null,null,{ type:"raw", name:"lumber", color:[114, 73, 30] },"resource");
-		happen("Create",null,null,{ type:"raw", name:"rock", color:[173, 166, 160] },"resource");
-		happen("Create",null,null,{ type:"raw", name:"metal", color:[106, 96, 84] },"resource");
-		// happen("Create",null,null,{ type:"crop", biome:"grass" },"resource")
+		happen("Create",null,null,{ type:"raw", name:"lumber", color:[114, 73, 30] },"resource").id;
+		happen("Create",null,null,{ type:"raw", name:"rock", color:[173, 166, 160] },"resource").id;
+		happen("Create",null,null,{ type:"raw", name:"metal", color:[106, 96, 84] },"resource").id;
 		for (let biome in biomes) {
-			if (biomes[biome].crop !== null) happen("Create",null,null,{ type:"crop", biome:biome },"resource");
-			if (biomes[biome].livestock !== null) happen("Create",null,null,{ type:"livestock", biome:biome },"resource");
+			if (biomes[biome].plant !== null) happen("Create",null,null,{ type:"plant", biome:biome },"species");
+			if (biomes[biome].animal !== null) happen("Create",null,null,{ type:"animal", biome:biome },"species");
 		}
 	}
 	else {
-		regToArray("resource").forEach((r) => {
+		// regToArray("resource").forEach((r) => {
+		// 	if (r.biome) {
+		// 		if (!biomes[r.biome][r.type]) biomes[r.biome][r.type] = [];
+		// 		biomes[r.biome][r.type].push(r.id);
+		// 	}
+		// })
+		regToArray("species").forEach((r) => {
 			if (r.biome) {
 				if (!biomes[r.biome][r.type]) biomes[r.biome][r.type] = [];
 				biomes[r.biome][r.type].push(r.id);
 			}
 		})
 	}
+	// Move all crops and livestock to .species (plants and animals)
+	// Create "crop" and "livestock" resource
+	// Rock/Lumber/Metal subtypes will go in their own registries (.rock .lumber .metal)
 
 	if (noReset) {}
 	// create first town prompt
@@ -4792,6 +4834,85 @@ function getUnlockLevel(type) {
 }
 
 
+biomes = {
+	"grass": {
+		color: [0,255,0],
+		elevation: 0.5,
+		moisture: 0.5,
+		temp: 0.5,
+		hasLumber: true,
+		name: "grassland"
+	},
+	"mountain": {
+		color: [150,150,150],
+		elevation: 1.4,
+		temp: 0.1,
+		moisture: 0.6,
+		plant: null,
+		animal: null,
+		name: "mountains",
+		adj: ["mountain"]
+	},
+	"snow": {
+		color: [255,255,255],
+		elevation: 0.6,
+		temp: 0.1,
+		moisture: 0.6,
+		plant: null,
+		hasLumber: true,
+		name: "snowscape",
+		adj: ["snowy","arctic","polar"]
+	},
+	"desert": {
+		color: [255,255,0],
+		moisture: 0.3,
+		elevation: 0.4,
+		temp: 0.8,
+		name: "desert",
+		adj: ["desert","warm"]
+	},
+	"badlands": {
+		color: [191, 159, 61],
+		moisture: 0.5,
+		elevation: 0.5,
+		temp: 0.8,
+		plant: null,
+		infertile: true,
+		name: "badlands",
+		adj: ["yellow","brown"]
+	},
+	"tundra": {
+		color: [0, 209, 98],
+		elevation: 0.5,
+		temp: 0.3,
+		moisture: 0.3,
+		hasLumber: true,
+		name: "tundra",
+		adj: ["tundra"]
+	},
+	"wetland": {
+		color: [145, 255, 0],
+		moisture: 0.9,
+		temp: 0.8,
+		elevation: 0.5,
+		hasLumber: true,
+		name: "wetland",
+		adj: ["common"]
+	},
+	"water": {
+		noAuto: true,
+		color: [178,202,252], //#b2cafc
+		elevation: $c.defaultWaterLevel,
+		moisture: 1,
+		temp: 0.5,
+		plant: null,
+		infertile: true,
+		name: "waters",
+		water: true
+	},
+}
+
+
 // Mods
 Mod = {};
 Mod.event = function(id, data) {
@@ -4810,6 +4931,10 @@ Mod.action = function(className, func) {
 	if (!actionables[className]) actionables[className] = {};
 	if (!actionables[className].asTarget) actionables[className].asTarget = {};
 	actionables[className].asTarget = func;
+}
+Mod.afterLoadList = [];
+Mod.afterLoad = function(func) {
+	Mod.afterLoadList.push(func);
 }
 
 function addModPrompt() {
@@ -4923,18 +5048,23 @@ function autoload() {
 	json = JSON.parse(json);
 	parseSave(json);
 }
-function saveFile(btn) {
-	if (btn && btn.getAttribute("disabled")) return;
+function downloadJSON(json, fileName, fileType) {
+	fileName = fileName || json.name || "Unnamed";
 
 	var a = document.createElement("a");
+
+	var file = new Blob([JSON.stringify(json)], {type: fileType || "application/json"});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+}
+function saveFile(btn) {
+	if (btn && btn.getAttribute("disabled")) return;
 
 	let json = generateSave();
 	let fileName = (planet.name||"Planet") + "-" + (planet.day||1);
 
-    var file = new Blob([JSON.stringify(json)], {type: 'application/vnd.R74n.gentown+json'});
-    a.href = URL.createObjectURL(file);
-    a.download = fileName + ".planet";
-    a.click();
+    downloadJSON(json, fileName+".planet", "application/vnd.R74n.gentown+json");
 
 	if (btn) btn.setAttribute("disabled","true");
 }
@@ -5036,9 +5166,21 @@ function validatePlanet() {
 	})
 
 	if (!regSingle("resource", (r) => r.name === "cash")) {
-		happen("Create",null,null,{ type:"raw", name:"cash", color:[136, 189, 107] },"resource");
+		happen("Create",null,null,{ type:"raw", name:"cash", color:[136, 189, 107] },"resource").id;
+	}
+	if (!regSingle("resource", (r) => r.name === "livestock")) {
+		happen("Create",null,null,{ type:"raw", name:"livestock", color:[184,162,109] },"resource").id;
+	}
+	if (!regSingle("resource", (r) => r.name === "crop")) {
+		happen("Create",null,null,{ type:"raw", name:"crop", color:[179,241,73] },"resource").id;
 	}
 
+	// Resource->Species compatibility for old saves
+	regFilter("resource", r => r.type === "livestock" || r.type === "crop").forEach(r => {
+		let s = regAdd("species", structuredClone(r));
+		s.type = r.type === "livestock" ? "animal" : "plant";
+		regRemove("resource", r.id);
+	})
 }
 
 unicodeSkips = {
@@ -5323,7 +5465,7 @@ function populateExecutive(items, title, main=false) {
 
 		let panelTitle = document.createElement("span");
 		panelTitle.className = "panelTitle";
-		panelTitle.innerText = title ? parseText(title) : "Options";
+		panelTitle.innerHTML = title ? parseText(title) : "Options";
 		subpanelList.appendChild(panelTitle);
 
 		if (title) currentExecutive = title.toLowerCase();
@@ -5810,13 +5952,13 @@ function initExecutive() {
 					["name", false],
 				]
 			})
-			regSorted("resource", "rate").forEach((resource) => {
-				if (resource.type !== "crop" && resource.type !== "livestock") return;
-				if (resource.rate === 1 || resource.rate === undefined) return;
+			regSorted("species", "rate").forEach((species) => {
+				if (species.type !== "plant" && species.type !== "animal") return;
+				if (species.rate === 1 || species.rate === undefined) return;
 				items.push({
-					text: `{{icon:${resource.type}}} {{regname:resource|${resource.id}}} (${resource.rate}x)`,
-					func: () => regBrowse("resource", resource.id),
-					entity: resource
+					text: `{{regname:species|${species.id}}} (${species.rate}x)`,
+					func: () => regBrowse("species", species.id),
+					entity: species
 				});
 			})
 			populateExecutive(items, "Almanac ("+(items.length-1)+")");
@@ -5964,6 +6106,12 @@ window.addEventListener("load", function(){ //onload
 
 	try {
 
+	if (Mod.afterLoadList.length) {
+		for (let i = 0; i < Mod.afterLoadList.length; i++) {
+			Mod.afterLoadList[i]();
+		}
+	}
+
 	document.getElementById("gameLoading").style.display = "none";
 	document.getElementById("gameDiv").style.display = "flex";
 
@@ -6081,6 +6229,17 @@ window.addEventListener("load", function(){ //onload
 			default: "false",
 			func: () => { renderMap(); updateCanvas(); }
 		},
+		{
+			text: "Territory opacity",
+			slider: "opacity",
+			default: 0.5,
+			value: userSettings.opacity,
+			min: 0,
+			step: 0.01,
+			max: 1,
+			formatter: (value) => `{{percent:${value}}}`,
+			func: (key, value) => { if (!value) return; userSettings.opacity = value; renderHighlight(); updateCanvas(); saveSettings() }
+		},
 		{ text:"Mods", heading:true },
 		{
 			text: "Enabled mods",
@@ -6150,12 +6309,12 @@ window.addEventListener("load", function(){ //onload
 		// 	spacer: true
 		// },
 		{
-			text: "Save to file",
+			text: "{{symbol:📥}} Save to file",
 			func: saveFile,
 			id: "saveFile"
 		},
 		{
-			text: "Load from file",
+			text: "{{symbol:📂}} Load from file",
 			func: loadFile,
 			id: "loadFile"
 		},
@@ -6165,7 +6324,7 @@ window.addEventListener("load", function(){ //onload
 			spacer: true
 		},
 		{
-			text: "Start new planet",
+			text: "{{symbol:☄}} Start new planet",
 			func: () => {
 				resetPlanetPrompt();
 			},
@@ -6178,10 +6337,10 @@ window.addEventListener("load", function(){ //onload
 	
 	document.getElementById("actionInfo").addEventListener("click",(e) => {
 	populateExecutive([
-		{ text: "About", func: ()=> {
+		{ text: "{{symbol:�}} About", func: ()=> {
 			doPrompt({ type:"text", message:document.getElementById("blurbAbout").innerText });
 		}, id:"about" },
-		{ text: "Controls", func: ()=>{
+		{ text: "{{symbol:⏻}} Controls", func: ()=>{
 			doPrompt({ type: "text", message: "Loading..." })
 
 			fetch("https://r74n.com/gentown/controls.txt")
@@ -6198,7 +6357,7 @@ window.addEventListener("load", function(){ //onload
 				alert(error);
 			})
 		}, id:"controls"},
-		{ text: "Changelog", func: ()=>{
+		{ text: "{{symbol:🏆}} Changelog", func: ()=>{
 			doPrompt({ type: "text", message: "Loading..." })
 
 			fetch("https://r74n.com/gentown/changelog.txt")
@@ -6227,13 +6386,14 @@ window.addEventListener("load", function(){ //onload
 				alert(error);
 			})
 		}, id:"changelog", notify: userSettings.lastVersionCheck && userSettings.lastVersionCheck !== gameVersion },
-		{ text: "Share", func:shareProgress, id:"share" },
-		{ text: "Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform", id:"feedback" },
+		{ text: "{{symbol:📤}} Share", func:shareProgress, id:"share" },
+		{ text: "{{symbol:🗩}} Feedback", url: "https://docs.google.com/forms/d/e/1FAIpQLSeq2TMoKAxJRKXlCmBLeONYLTMCc1j6lYcY5nxBr4lwaRWTpA/viewform", id:"feedback" },
 
 		{ spacer: true },
-		{ text: "Developed by {{color:R74n|#00ffff}}", url:"https://r74n.com/" },
-		{ text: "More games...", func:R74n.more },
-		{ text: "Copyright 2025.", url:"https://r74n.com/license.txt" }
+		{ text: "{{symbol:🤖}} Developed by {{color:R74n|#00ffff}}", url:"https://r74n.com/" },
+		{ text: "{{symbol:👻}} {{color:More games...|#ffff00}}", func:R74n.more },
+		{ spacer: true },
+		{ text: "{{symbol:©}} Copyright 2026.", url:"https://r74n.com/license.txt" }
 	], "GenTown v"+gameVersion);
 	currentExecutive = "info";
 	})

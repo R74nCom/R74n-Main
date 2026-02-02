@@ -205,13 +205,35 @@ actionables = {
 					biomes[target.biome][target.type].push(target.id);
 				}
 
-				if (!args.name && target.type === "livestock" && biomes[target.biome] && biomes[target.biome].adj) {
+				return target;
+			}
+		}
+	},
+	
+	species: {
+		reg: "species",
+		asTarget: {
+			Create: (subject,target,args) => {
+				target = regAdd("species",{
+					name: args.name || generateWord(randRange(1,2),false),
+					type: args.type,
+					biome: args.biome,
+					rate: args.rate || 1
+				});
+				if (args.color) target.color = args.color;
+				else if (args.biome) target.color = biomes[args.biome].color
+				if (target.biome) {
+					if (!biomes[target.biome][target.type]) biomes[target.biome][target.type] = [];
+					biomes[target.biome][target.type].push(target.id);
+				}
+
+				if (!args.name && biomes[target.biome] && biomes[target.biome].adj) {
 					let fromBiome = choose(Object.keys(biomes));
-					if (fromBiome !== target.biome && biomes[fromBiome].livestock) {
-						let fromLivestock = regGet("resource",choose(biomes[fromBiome].livestock));
-						if (fromLivestock && fromLivestock.name) {
-							target.name = choose(biomes[target.biome].adj) + " " + fromLivestock.name;
-							target.ancestor = fromLivestock.id;
+					if (fromBiome !== target.biome && biomes[fromBiome][target.type]) {
+						let fromSpecies = regGet("species",choose(biomes[fromBiome][target.type]));
+						if (fromSpecies && fromSpecies.name) {
+							target.name = choose(biomes[target.biome].adj) + " " + fromSpecies.name;
+							target.ancestor = fromSpecies.id;
 						}
 					}
 				}
@@ -249,7 +271,7 @@ actionables = {
 						if (done) {
 							target.size += chunks.length;
 							chunks.forEach((c) => {
-								if (biomes[c.b].crop) {
+								if (biomes[c.b].plant) {
 									happen("AddResource",null,target,{ type:"crop", count:20 })
 								}
 							});
@@ -470,6 +492,7 @@ actionables = {
 				return target.legal[law];
 			},
 			NameVariant: (subject,target,args) => {
+				if (!target || !target.name) return generateWord(undefined, true);
 				let newName = "";
 				if (Math.random() < $c.colonyNameSuffixRate) {
 					let mainName = target.name.match(/\S+$/)[0].toLowerCase();
@@ -655,15 +678,15 @@ actionables = {
 				let done = {};
 
 				related.push([target._reg, target.id]);
-				if (target.animal) related.push(["resource", target.animal]);
+				if (target.animal) related.push(["species", target.animal]);
 
 				let chunks = randomChunks((c) => c.v.s === target.id, 10);
 				chunks.forEach(chunk => {
 					if (done[chunk.b]) return;
 					done[chunk.b] = true;
 					let biome = biomes[chunk.b];
-					if (biome.crop) related.push(...biome.crop.map((id) => ["resource", id]));
-					if (biome.livestock) related.push(...biome.livestock.map((id) => ["resource", id]));
+					if (biome.plant) related.push(...biome.plant.map((id) => ["species", id]));
+					if (biome.animal) related.push(...biome.animal.map((id) => ["species", id]));
 				})
 
 				if (args.objects) {
@@ -671,6 +694,16 @@ actionables = {
 				}
 
 				return related;
+			},
+			Share: (subject,target) => {
+				const age = (target.end || planet.day) - target.start;
+				let items = [];
+				items.push(`${target.end ? target.peakpop : target.pop} Population`);
+				if (target.start !== 1) items.push(`Founded Day ${target.start}`);
+
+				items = items.map((i) => "• "+i);
+
+				return `My town, ${target.name},${target.end ? "" : " has"} lasted ${age} day${age === 1 ? "" : "s"} on Planet ${planet.name}!\n${items.join("\n")}`;
 			}
 		}
 	},
@@ -930,6 +963,13 @@ actionables = {
 				influences: { faith:3 },
 				needsUnlock: { smith:20 },
 				nameTemplate: "Statue of $"
+			},
+			"flagpole": {
+				symbol: "🚩",
+				color: [130, 130, 130],
+				influences: { faith:1 },
+				needsUnlock: { smith:20 },
+				nameTemplate: "Flag of $"
 			},
 			"tower": {
 				symbol: "⏸",
@@ -1455,13 +1495,13 @@ gameEvents = {
 			fertility = addInfluence(fertility, subject, "farm");
 			if (Math.random() < fertility) {
 				let biome = biomes[chunk.b];
-				if (!biome.crop) return;
-				let cropID = choose(biome.crop);
-				let crop = regGet("resource",cropID);
+				if (!biome.plant) return;
+				let plantID = choose(biome.plant);
+				let plant = regGet("species",plantID);
 
 				let count = 1;
 				if (subject.jobs.farmer) count += randRange(0,subject.jobs.farmer);
-				if (crop.rate > 0) count += randRange(0,Math.floor(crop.rate));
+				if (plant.rate > 0) count += randRange(0,Math.floor(plant.rate));
 
 				args.value += count;
 			}
@@ -1484,13 +1524,13 @@ gameEvents = {
 			fertility = addInfluence(fertility, subject, "farm");
 			if (Math.random() < fertility) {
 				let biome = biomes[chunk.b];
-				if (!biome.livestock) return;
-				let livestockID = choose(biome.livestock);
-				let livestock = regGet("resource",livestockID);
+				if (!biome.animal) return;
+				let animalID = choose(biome.animal);
+				let animal = regGet("species",animalID);
 
 				let count = 1;
 				if (subject.jobs.farmer) count += randRange(0,Math.floor(subject.jobs.farmer/2));
-				if (livestock.rate > 0) count += randRange(0,Math.floor(livestock.rate));
+				if (animal.rate > 0) count += randRange(0,Math.floor(animal.rate));
 
 				args.value += count;
 			}
@@ -2587,15 +2627,15 @@ gameEvents = {
 			let biome = randomChunk((c) => c.v.s === target.id);
 			if (!biome) return false;
 			biome = biome.b;
-			if (!biomes[biome].livestock) return false;
-			return choose(biomes[biome].livestock);
+			if (!biomes[biome].animal) return false;
+			return choose(biomes[biome].animal);
 		},
 		func: (subject, target, args) => {
 			if (!args.value) return false;
 			target.animal = args.value;
 		},
-		message: (subject, target, args) => `Motion to adopt the {{regname:resource|${args.value}}} as {{regname:town|${target.id}}}'s town animal.`,
-		messageDone: (subject, target, args) => `{{residents|${target.id}}} look up to the {{c:courage|bravery|independence|grace|strength|harmony|power}} of the {{regname:resource|${args.value}}}.`,
+		message: (subject, target, args) => `Motion to adopt the {{regname:species|${args.value}}} as {{regname:town|${target.id}}}'s town animal.`,
+		messageDone: (subject, target, args) => `{{residents|${target.id}}} look up to the {{c:courage|bravery|independence|grace|strength|harmony|power}} of the {{regname:species|${args.value}}}.`,
 		messageNo: (subject, target, args) => `{{residents|${target.id}}} look up to historical figures instead of animals.`,
 		weight: $c.UNCOMMON
 	},
@@ -2870,24 +2910,24 @@ gameEvents = {
 		},
 		value: (subject, target, args) => {
 			let chunk = randomChunk((c) => c.v.s === subject.id);
-			args.type = Math.random() < 0.5 ? "crop" : "livestock";
-			if (planet.unlocks.farm < 20) args.type = "crop";
+			args.type = Math.random() < 0.5 ? "plant" : "animal";
+			if (planet.unlocks.farm < 20) args.type = "plant";
 			if (chunk && biomes[chunk.b][args.type]) {
-				args.resourceID = choose(biomes[chunk.b][args.type]);
+				args.speciesID = choose(biomes[chunk.b][args.type]);
 			}
 			return randRange(50,100)/100;
 		},
-		check: (subject, target, args) => args.resourceID !== undefined,
+		check: (subject, target, args) => args.speciesID !== undefined,
 		func: (subject, target, args) => {
-			if (args.resourceID) {
-				let resource = regGet("resource",args.resourceID);
-				if (resource) {
-					happen("Boost",subject,resource,args);
+			if (args.speciesID) {
+				let species = regGet("species",args.speciesID);
+				if (species) {
+					happen("Boost",subject,species,args);
 					unlockExecutive("almanac");
 				}
 			}
 		},
-		message: (subject,target,args) => `New methods in {{regname:resource|${args.resourceID}}} ${args.type === "crop" ? "cultivation" : "breeding"} allow for improved ${args.type === "crop" ? "crop harvest" : "livestock products"}.`,
+		message: (subject,target,args) => `New methods in {{regname:species|${args.speciesID}}} ${args.type === "plant" ? "cultivation" : "breeding"} allow for improved ${args.type === "plant" ? "crop harvest" : "livestock products"}.`,
 		weight: $c.SUPERCOMMON,
 		influencedBy: {
 			"farm": 1
@@ -3298,10 +3338,10 @@ subBlurbs = {
 	"town": (ctx) => {
 		return ctx.town ? ctx.town[0] : regToArray("town");
 	},
-	"resource": () => regToArray("resource"),
+	"resource": () => regToArray("resource").concat(regToArray("species")),
 	"personal emergency": "being trapped in a [tree/well/hole]/carbon monoxide poisoning/a chemical emergency/a flood/a house fire/an illness/a landslide/food poisoning/drowning/a heart attack/a concussion/being stuck in a cave/being struck by debris",
-	"animal": () => regFilter("resource", (r) => r.type === "livestock"),
-	"crop": () => regFilter("resource", (r) => r.type === "crop"),
+	"animal": () => regFilter("species", (r) => r.type === "animal"),
+	"crop": () => regFilter("species", (r) => r.type === "plant"),
 	"object": "rare [gemstones/jewels]/equipment/uniforms/a secret stash/[money]/[food]/toiletries",
 	"food": "crop/meat",
 	"money": (ctx) => ctx.town ? (ctx.town[0].currency ? "{{currency:"+ctx.town[0].id+"}} " + ctx.town[0].currency : "") || "cash" : undefined,
@@ -4057,8 +4097,8 @@ regBrowserKeys = {
 	"jobs": "Jobs",
 	"legal_": "Laws",
 	"town.animal": "Town Animal",
-	"biome.crops": "Crops",
-	"biome.livestocks": "Livestock",
+	"biome.crops": "Plants",
+	"biome.livestocks": "Animals",
 	"domesticated": "Domesticated",
 	"process.town": "Town",
 	"process.subtype": "Type",
@@ -4077,7 +4117,7 @@ regBrowserKeys = {
 	"marker.end": "Destroyed",
 	"landmark.start": "Completed",
 	"landmark.process": "Project",
-	"resource.ancestor": "Evolved from",
+	"species.ancestor": "Evolved from",
 	"platesize": "Plate Size",
 	"elevation": "Elevation",
 	"lifespan": "Average lifespan",
@@ -4132,7 +4172,7 @@ regBrowserValues = {
 	"town.livestock": (value) => `{{num:${value}}}{{icon:livestock}}`,
 	"town.cash": (value, town) => `{{num:${value}}} {{currency:${town.id}}}`,
 	"biome": (value) => `{{biome:${value}}}`,
-	"town.animal": (value) => `{{regname:resource|${value}}}`,
+	"town.animal": (value) => `{{regname:species|${value}}}`,
 	"start": (value) => `{{date:${value}}}`,
 	"end": (value) => `{{date:${value}}}`,
 	"domesticated": (value) => `{{date:${value}}}`,
@@ -4152,7 +4192,7 @@ regBrowserValues = {
 	"marker": (value) => `{{regname:marker|${value}}}`,
 	"marker.town": (value) => `{{regname:town|${value}}}`,
 	"landmark.process": (value) => `{{regname:process|${value}}}`,
-	"resource.ancestor": (value) => `{{regname:resource|${value}}}`,
+	"species.ancestor": (value) => `{{regname:species|${value}}}`,
 	"issues": null,
 	"stats.score": (value) => `{{percent:${value}}}`,
 	"stats.peakscore": (value) => `{{percent:${value}}}`,
@@ -4371,6 +4411,12 @@ regBrowserExtra = {
 		"namer_": (marker) => {
 			if (!marker.namer) return;
 			return `{{regname:${marker.namer[0]}|${marker.namer[1]}}}`
+		}
+	},
+	species: {
+		"icon": (species) => {
+			if (species.type === "animal") return "livestock";
+			if (species.type === "plant") return "crop";
 		}
 	}
 }

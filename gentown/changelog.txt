@@ -1,9 +1,25 @@
-[Version 1.2.1 - 31 Jan 2025]
+[Version 1.2.2 - 2 Feb 2026]
+ + New planet customization parameters
+    + Tune X and Tune Y to finetune position
+    + Chunk size
+ + More (•••) button on certain info panels
+    + Share town information
+    + Download entities
+ + Territory opacity setting
+    ~ Territory is now less translucent by default
+ + Flagpole construction
+ ~ Crops and Livestock are now classified as Plants and Animals
+ ~ Plants and Animals always display with an icon
+ ~ Tweaks to symbols and buttons
+ + Technical: Mod.afterLoad(func) function
+ ~ Technical: Biomes are set before mods are loaded
+
+[Version 1.2.1 - 31 Jan 2026]
  ~ "New update" tip only appears once per update
  ~ Fixed: "waterLevel is not defined"
  ~ Fixed: Broken styling for prompt text input
 
-[Version 1.2 - 30 Jan 2025]
+[Version 1.2 - 30 Jan 2026]
  + Planet Customization
     + Select the "Customize" tab before settling your town
     + Change 13 different parameters and see their effects immediately
