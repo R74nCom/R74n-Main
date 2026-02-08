@@ -1,6 +1,7 @@
 html, body {
 	overscroll-behavior: none;
 	color-scheme: only dark;
+	font-variant-ligatures: no-common-ligatures;
 }
 :root {
 	color-scheme: only dark;
@@ -23,7 +24,7 @@ html, body {
 
 #gameDiv {
 	display: flex;
-	border: 2px solid gray;
+	/* border: 2px solid rgb(87, 87, 87); */
 	max-width: 100%;
 	flex-direction: row;
 	height: 100%;
@@ -56,7 +57,7 @@ html, body {
 			user-select: none;
 }
 .gamePanel {
-	border: 2px solid gray;
+	border: 2px solid rgb(87, 87, 87);
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
@@ -78,7 +79,7 @@ html, body {
 	-ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
 .gameSubpanel {
-	border: 2px solid gray;
+	border: 2px solid rgb(87, 87, 87);
 	padding: 0px;
 	padding-left: 15px;
 	padding-right: 15px;
@@ -109,7 +110,7 @@ html, body {
 	max-width: 25%;
 }
 #mapPanel {
-	border: 2px solid gray;
+	border: 2px solid rgb(87, 87, 87);
 	box-sizing: border-box;
 	/* height: fit-content; */
 	max-height: 100%;
@@ -153,7 +154,7 @@ html, body {
 	justify-content: center;
 	align-items: center;
 	border: none;
-	border-top: 4px solid gray;
+	border-top: 4px solid rgb(87, 87, 87);
 }
 
 .entityName {
@@ -286,7 +287,7 @@ span.none {
 	color: white;
 }
 .logMessage .logAct span {
-	border: solid gray 2px;
+	border: solid rgb(87, 87, 87) 2px;
 	padding-left: 7px;
 	padding-right: 7px;
 	margin-left: 0.1em;
@@ -491,7 +492,7 @@ tr.total {
 }
 #statsMain .panelSubtitle, #statsMain .panelSubtitle span {
 	text-decoration: underline;
-	text-decoration-color: gray;
+	text-decoration-color: rgb(87, 87, 87);
 }
 #underStats {
 	width: 100%;
@@ -528,7 +529,7 @@ tr.total {
 	padding-right: 15px;
     box-sizing: border-box;
 	border: inset rgba(255, 223, 158, 0.3);
-	border: 2px solid gray;
+	border: 2px solid rgb(87, 87, 87);
 	border-bottom-width: 3px;
     border-bottom-color: #3d3d3d;
     border-top-color: #959595;
@@ -561,7 +562,8 @@ tr.total {
 .nextDay:hover {
 	background-color: #1A1A07;
 }
-.nextDay:active {
+.nextDay:active,
+.nextDay[selected="true"] {
 	background-color: #0B3309;
 	transition: 0s background-color, 0.5s box-shadow, 0.5s scale;
 	scale: 0.95;
@@ -608,12 +610,14 @@ tr.total {
 .panelTitle {
 	width: 100%;
 	font-size: 30px;
-	text-decoration: underline;
-	/* text-decoration-style:double; */
-	text-decoration-color: gray;
-	text-decoration-thickness: 4px;
 	color: yellow;
 	padding-bottom: 5px;
+}
+.panelTitle, .panelTitle .entityName {
+	text-decoration: underline;
+	text-decoration-color: rgb(87, 87, 87);
+	text-decoration-thickness: 3px;
+	text-underline-offset: 3px;
 }
 #statsPanel .panelTitle, #actionPanel .panelTitle {
 	text-align: center;
@@ -652,7 +656,7 @@ tr.total {
 	overflow-y: scroll;
 }
 .actionItem {
-	border-bottom: solid 2px gray;
+	border-bottom: solid 2px rgb(87, 87, 87);
 	transition: 0.2s;
 	padding-left: 0.25em;
 	padding-right: 0.25em;
@@ -660,7 +664,7 @@ tr.total {
 .actionItem.clickable {
 	cursor: pointer;
 }
-.actionItem.clickable:hover {
+.actionItem.clickable:hover, .actionItem.selected {
 	background-color: rgb(62, 62, 0);
 }
 .actionItem.clickable:active {
@@ -747,7 +751,7 @@ tr.total {
 	aspect-ratio: auto 600 / 360;
 }
 #mapCanvas {
-	background-color: gray;
+	background-color: rgb(87, 87, 87);
 	width: 100%;
 	aspect-ratio: auto 600 / 360;
 	-webkit-touch-callout: none; /* iOS Safari */
@@ -1065,8 +1069,16 @@ tr.total {
 	padding-top: 0.25em;
 	padding-bottom: 0.25em;
 }
-#popupChoices .popupButton:first-of-type {
+#popupChoices .popupButton:first-of-type,
+.promptLong #popupChoices .popupButton:nth-of-type(2) {
 	border-top: none;
+}
+.promptLong #popupChoices {
+	flex-direction: row;
+    flex-wrap: wrap;
+}
+.promptLong #popupChoices .popupButton {
+	width: 50%;
 }
 
 /* Short screens */
@@ -1089,7 +1101,7 @@ tr.total {
 	justify-content: center;
 }
 .regSection {
-	border-bottom: dashed 3px gray;
+	border-bottom: dashed 3px rgb(87, 87, 87);
 	display: flex;
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -1223,8 +1235,8 @@ span.regTitle {
 	flex-grow: 1;
 	text-align: center;
 	border: none;
-	border-left: 2px solid gray;
-	border-right: 2px solid gray;
+	border-left: 2px solid rgb(87, 87, 87);
+	border-right: 2px solid rgb(87, 87, 87);
 	height: 100%;
 	line-height: 1.75em;
 	display: flex;
@@ -1272,6 +1284,25 @@ span.regTitle {
 		column-count: 2;
 		text-align: center;
 	}
+
+	/* Edge borders */
+	#mapPanel {
+		border-left: none;
+		border-top: none;
+	}
+	#statsPanel {
+		border-top: none;
+		/* box-sizing: content-box; */
+	}
+	#actionPanel {
+		border-top: none;
+		border-right: none;
+		border-bottom: none;
+	}
+	#logPanel {
+		border-left: none;
+		border-bottom: none;
+	}
 }
 @media only screen and (max-width: 600px) { /* Mobile Style */
 	#gameHalf2, #statsPanel {
@@ -1312,7 +1343,7 @@ span.regTitle {
 	}
 	#underMap {
 		border-top: none;
-		border-bottom: 4px solid gray;
+		border-bottom: 4px solid rgb(87, 87, 87);
 	}
 	#gameHalf1-2 {
 		overflow-y: hidden;

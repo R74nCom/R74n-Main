@@ -19,6 +19,7 @@
 * 'J' to open Projects tab if unlocked
 * '/' to open Stats tab if unlocked
 * 'H' to open Timeline if unlocked
+* Shift + Click entity name to open Executive tab
 
 == Technical ==
 * Ctrl + Click entity name to copy ID

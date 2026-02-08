@@ -1,3 +1,23 @@
+[Version 1.3 - 7 Feb 2026]
+ + Free Play mode [BETA]
+    + Create entities, like towns, and place them anywhere
+    + Edit properties
+    + Auto Play
+    + Import downloaded entities
+    + Delete some entities
+    ~ Decision prompts are automatic by default in Free Play
+    ~ Towns don't lose faith in Free Play
+    ~ No Next Day cooldown in Free Play
+    ~ More editable entities will come in the future
+ + Shift + Click entity names to quickly open Executive tab
+ ~ No more borders on the edges of the page
+ ~ Various visual tweaks
+ ~ Fixed: Next Day button can be pressed while disabled
+ ~ Fixed: Gray spots on coasts
+ ~ Fixed: Startup message mentions inhabitants when planet is unpopulated
+ ~ Fixed: Share messages for processes (disasters, etc.) show "undefined"
+ + Technical: Debug Mode setting
+
 [Version 1.2.2 - 2 Feb 2026]
  + New planet customization parameters
     + Tune X and Tune Y to finetune position

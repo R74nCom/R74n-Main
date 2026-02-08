@@ -268,7 +268,7 @@ addParserCommand("regname",function(args) {
 	hsl[2] = Math.max(0.65, hsl[2]);
 	color = HSLtoRGB(hsl);
 	if (!name) name = data.subtype || data.type;
-	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${Math.floor(color[0])},${Math.floor(color[1])},${Math.floor(color[2])})"` : ""} onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${icon ? parseText("{{icon:"+icon+"}}")+" " : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
+	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${Math.floor(color[0])},${Math.floor(color[1])},${Math.floor(color[2])})"` : ""} onmousedown="handleEntityMouseDown(this);" onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${icon ? parseText("{{icon:"+icon+"}}")+" " : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
 })
 addParserCommand("regoldest",function(args) {
 	if (args.length < 1) {return ""}
@@ -302,10 +302,10 @@ addParserCommand("currency",function(args) {
 	return `{{symbol:${symbol}|rgb(${data.color.join(",")})}}`;
 })
 addParserCommand("planet",function(args) {
-	return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})">${args[0] || planet.name}</span>`;
+	return `<span class='entityName' onclick='regBrowsePlanet()' style="color:rgb(${(planet.color||biomes.water.color).join(",")})" title="Planet">${args[0] || planet.name}</span>`;
 })
 addParserCommand("biome",function(args) {
-	return `<span class='entityName' onclick='regBrowseBiome("${args[0]}")' style="color:rgb(${(biomes[args[0]].colorOverride || biomes[args[0]].color).join(",")})">${titleCase(args[1] || biomes[args[0]].name || args[0])}</span>`;
+	return `<span class='entityName' onclick='regBrowseBiome("${args[0]}")' style="color:rgb(${(biomes[args[0]].colorOverride || biomes[args[0]].color).join(",")})" title="Biome">${titleCase(args[1] || biomes[args[0]].name || args[0])}</span>`;
 })
 addParserCommand("people",function(args) {
 	if (planet.dems) return `{{planet|${planet.dems}}}`;
@@ -353,6 +353,26 @@ addParserCommand("bad",function(args) {
 addParserCommand("none",function(args) {
 	return `<span class='none'>None yet..</span>`;
 })
+addParserCommand("executive",function(args) {
+	let id = args[0];
+	let elem = document.getElementById("actionItem-"+id);
+	let title;
+	if (elem) {
+		let keybind = elem.querySelector("u");
+		if (keybind) keybind.style.visibility = "hidden";
+		title = elem.innerText.trim();
+		if (keybind) keybind.style.visibility = "";
+	}
+	else title = titleCase(id);
+	return `<span class='shortcut shortcutExecutive'>${escapeHTML(title)}</span>`;
+})
+addParserCommand("a",function(args) {
+	if (!args[0]) return "a";
+	args[0] = args[0].normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+	if (args[0].match(/^uni/)) return "a";
+	
+	return `a${args[0].match(/^[aeiou8]/) ? "n" : ""}`;
+})
 
 function blurber(text, ctx) {
 	if (typeof text === "object") {
@@ -381,7 +401,12 @@ function blurber(text, ctx) {
 			
 			if (subBlurbs[match] !== undefined) {
 				let result = subBlurbs[match];
-				if (typeof result === "function") result = result(ctx);
+				try {
+					if (typeof result === "function") result = result(ctx);
+				}
+				catch {
+					return false;
+				}
 				if (Array.isArray(result)) result = choose(result);
 
 				let _result = result;
@@ -525,6 +550,9 @@ function hexToRGB(hex) {
 	return result ? [
 		parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16) ]
 	: null;
+}
+function RGBToHex(rgb) {
+  return "#" + (1 << 24 | rgb[0] << 16 | rgb[1] << 8 | rgb[2]).toString(16).slice(1);
 }
 
 colorCache = {};
@@ -1365,16 +1393,27 @@ addCanvasLayer("cursor");
 function fitToScreen() {
 	let width = Math.min(700,window.innerWidth-planet.config.pixelSize);
 	width -= width % planet.config.pixelSize;
-	mapCanvas.style.maxWidth = width+"px";
+	// mapCanvas.style.maxWidth = width+"px";
 	let mapPanel = document.getElementById("mapPanel");
 	mapPanel.style.height = "";
 	if (window.innerWidth >= 860) {
-		if (document.getElementById("gameHalf1-1").clientHeight < mapPanel.clientHeight) {
-			mapPanel.style.height = document.getElementById("gameHalf1-1").clientHeight + "px";
+		let gameHalf1_1 = document.getElementById("gameHalf1-1");
+		if (gameHalf1_1.clientHeight < mapPanel.clientHeight) {
+			mapPanel.style.height = gameHalf1_1.clientHeight + "px";
 		}
-		document.getElementById("statsPanel").style.height = (Math.min(document.getElementById("gameHalf1-1").clientHeight+0.5, document.getElementById("mapPanel").clientHeight + 4.45)) + "px";
-		document.getElementById("mapDiv").style.aspectRatio = `auto ${mapCanvas.width} / ${mapCanvas.height}`;
 		mapCanvas.style.aspectRatio = `auto ${mapCanvas.width} / ${mapCanvas.height}`;
+		let mapDiv = document.getElementById("mapDiv");
+		let underMap = document.getElementById("underMap");
+		let statsMain = document.getElementById("statsMain");
+		statsMain.style.height = mapDiv.clientHeight + "px";
+		// document.getElementById("statsPanel").style.height = (mapDiv.clientHeight + underMap.clientHeight) + "px";
+		document.getElementById("mapDiv").style.aspectRatio = `auto ${mapCanvas.width} / ${mapCanvas.height}`;
+		// document.getElementById("statsPanel").style.height = (document.getElementById("mapPanel").clientHeight + 4.45) + "px";
+		// setTimeout(() => {
+
+		// 	document.getElementById("statsPanel").style.height = mapPanel.clientHeight + "px";
+		// },10)
+		// document.getElementById("statsPanel").style.height = (Math.min(document.getElementById("gameHalf1-1").clientHeight+0.5, document.getElementById("mapPanel").clientHeight + 4.45)) + "px";
 	}
 }
 window.addEventListener("resize", () => {
@@ -1436,7 +1475,7 @@ waterColorsOld = waterColors;
 // c = l[Math.min(l.length-1,Math.floor(v*(l.length)))];
 
 function setView(view) {
-	if (!view) view = reg.town._id === 1 ? "terrain" : "territory";
+	if (!view) view = (reg.town._id === 1 && !planet.settled) ? "terrain" : "territory";
 	currentView = view;
 	document.getElementById("viewName").innerText = titleCase(view);
 	clearCanvasLayers();
@@ -1448,6 +1487,7 @@ function setView(view) {
 	saveSettings();
 }
 
+compareWater = {"water":true}
 function renderMap() {
 	let ctx = canvasLayersCtx.terrain;
 	const chunkSize = planet.config.chunkSize;
@@ -1472,6 +1512,7 @@ function renderMap() {
 				if (viewData[currentView].showTerrain === true) {
 					// let pixelBiome = chunk.b;
 					let pixelColor = biomeColor;
+					let isWater = chunk.b === "water";
 
 					// pixel biome blending
 					if (y0 === chunkSize-1 && Math.sin((chunk.x+x0)*167) < 0.5) {
@@ -1479,6 +1520,7 @@ function renderMap() {
 						if (adjacentChunk) {
 							pixelColor = biomes[adjacentChunk.b].colorOverride || biomes[adjacentChunk.b].color;
 							value = adjacentChunk.p[x0][0];
+							isWater = compareWater[adjacentChunk.b];
 						}
 					}
 					else if (x0 === chunkSize-1 && Math.sin((chunk.y+y0)*167) < 0.5) {
@@ -1486,11 +1528,12 @@ function renderMap() {
 						if (adjacentChunk) {
 							pixelColor = biomes[adjacentChunk.b].colorOverride || biomes[adjacentChunk.b].color;
 							value = adjacentChunk.p[0][y0];
+							isWater = compareWater[adjacentChunk.b];
 						}
 					}
 
 					let color;
-					if (value <= waterLevel) { // water colors
+					if (value <= waterLevel || (isWater && value === 0.5)) { // water colors
 						value += 1-waterLevel-0.1;
 						value = Math.max(value, 0);
 						color = waterColors[Math.min(waterColors.length-1,Math.floor(value*(waterColors.length)))];
@@ -1499,7 +1542,24 @@ function renderMap() {
 
 						let percent = value - (waterLevel - $c.defaultWaterLevel);
 
+						// if (value )
+						
 						color = [pixelColor[0] * percent + 50, pixelColor[1] * percent + 50, pixelColor[2] * percent + 50];
+						
+						// if (chunk.b === "water") {
+						// 	console.log(chunk.b);
+						// }
+						// if (color[0]===63 && color[1]===88 && color[2]===135) {
+						// 	console.log(pixelColor)
+						// }
+						// rgb(63,88,135)
+						// rgb(63,88,135)
+
+						// 59,82,127)
+
+						// color = [255,255,255];
+
+
 					}
 					if (userSettings.desaturate) {
 						let hsl = RGBtoHSL(color);
@@ -1548,22 +1608,20 @@ currentHighlight = null;
 currentExecutive = null;
 currentExecutiveButton = null;
 currentExecutiveSorter = null;
+currentEditing = null;
+autoPlaying = false;
 debugTemp = null;
-debugMode = null;
 
+function handleEntityMouseDown(e) {
+	if (controlState.shift) {
+		if (window.getSelection) {window.getSelection().removeAllRanges();}
+		else if (document.selection) {document.selection.empty();}
+	}
+}
 function handleEntityClick(e) {
 	let reg = e.getAttribute("data-reg");
 	let id = parseInt(e.getAttribute("data-id"));
-	if (controlState.meta) {
-		// navigator.clipboard.writeText(id.toString());
-		navigator.clipboard.writeText(`regGet("${reg}", ${id})`);
-		debugTemp = regGet(reg, id);
-		console.log(debugTemp);
-		logMessage(`Copied ${reg} ID: ${id}`);
-	}
-	else if (reg && id) {
-		regBrowse(reg,id)
-	}
+	regBrowse(reg,id);
 }
 function handleEntityHover(e) {
 	currentHighlight = [e.getAttribute("data-reg"),parseInt(e.getAttribute("data-id"))];
@@ -1571,7 +1629,7 @@ function handleEntityHover(e) {
 	updateCanvas();
 }
 function handleEntityHoverOut(e) {
-	currentHighlight = null;
+	currentHighlight = currentEditing || null;
 	renderHighlight()
 	updateCanvas();
 }
@@ -2588,7 +2646,7 @@ function handleMouseUp(e) {
 mapCanvas.addEventListener("mouseup", handleMouseUp)
 mapCanvas.addEventListener("mouseout", (e) => {
 	mousePos = null;
-	currentHighlight = null;
+	currentHighlight = currentEditing || null;
 	updateStats();
 	renderCursor();
 	renderHighlight();
@@ -2626,6 +2684,10 @@ keybinds = {
 		updateCanvas();
 	},
 	"enter": (e) => {
+		if (autoPlaying) {
+			autoPlay();
+			return;
+		}
 		let btn = document.getElementById("nextDay");
 		if (!btn.getAttribute("disabled")) {
 			btn.click();
@@ -2744,6 +2806,10 @@ window.addEventListener("keydown",(e) => {
 		if (currentPopup) {
 			closePopups();
 			document.getElementById("gameDiv").focus();
+		}
+		else if (onCancel) {
+			onCancel();
+			onCancel = null;
 		}
 		else if (currentExecutive) {
 			closeExecutive();
@@ -2989,11 +3055,12 @@ function doPrompt(obj) {
 		if (message !== null) message = message || "Enter a value.";
 		if (obj.shuffle !== false) document.getElementById("popupShuffle").style.display = "";
 		let popupText = document.getElementById("popupText");
-		popupText.value = "";
+		popupText.value = promptState.default || "";
 		popupText.setAttribute("placeholder",(promptState.placeholder || "Answer")+"...");
 		popupText.style.display = "";
 		document.getElementById("popupTextConfirm").style.display = "";
 		popupText.focus();
+		popupText.select();
 		setTimeout(() => {popupText.focus()}, 100);
 	}
 	else if (type === "choose") {
@@ -3001,6 +3068,9 @@ function doPrompt(obj) {
 		popupChoices.innerHTML = "";
 		if (message !== null) message = message || "Choose one.";
 		if (!promptState.choices) promptState.choices = ["A","B"];
+		if (promptState.choices.length >= 6) {
+			promptPopup.classList.add("promptLong");
+		}
 		promptState.choices.forEach((choice) => {
 			let button = document.createElement("span");
 			button.className = "popupButton";
@@ -3055,14 +3125,14 @@ defaultPromptLimit = 32;
 function handlePrompt(result) {
 	if (!promptState) return;
 	const _promptState = promptState;
+	if (promptState.choiceValues) result = promptState.choiceValues[promptState.choices.indexOf(result)];
+	if (promptState.map && promptState.map[result]) result = promptState.map[result];
 	if (typeof result === "string") {
 		result = result.replace(/[{<]/g, "[");
 		result = result.replace(/[}>]/g, "]");
 		result = result.replace(/\|/g, "l");
 		result = result.substr(0,(promptState.limit || defaultPromptLimit))
 	}
-	if (promptState.map && promptState.map[result]) result = promptState.map[result];
-	if (promptState.choiceValues) result = promptState.choiceValues[promptState.choices.indexOf(result)];
 	handleX(document.querySelector("#promptPopup .panelX"));
 	if (_promptState.func) {
 		_promptState.func(result);
@@ -3187,6 +3257,20 @@ document.getElementById("gamePopupOverlay").addEventListener("click",(e) => {
 function regBrowse(subregistryName, id) {
 	let data = regGet(subregistryName, id);
 	if (data === undefined) return;
+	if (controlState.shift) {
+		handleMore(null, data);
+		if (window.getSelection) {window.getSelection().removeAllRanges();}
+		else if (document.selection) {document.selection.empty();}
+		return;
+	}
+	if (controlState.meta) {
+		let temp = userSettings.debug;
+		userSettings.debug = true;
+		handleMore(null, data);
+		document.getElementById("actionItem-copyID").click();
+		userSettings.debug = temp;
+		return;
+	}
 	openRegBrowser(data, subregistryName);
 }
 function openRegBrowser(obj,regName) {
@@ -3215,6 +3299,8 @@ function openRegBrowser(obj,regName) {
 	}
 	let subtitle;
 	panelMore.style.display = "none";
+	regBrowser.removeAttribute("data-reg");
+	regBrowser.removeAttribute("data-id");
 	if (regName && obj.id) {
 		regBrowser.setAttribute("data-reg", regName);
 		regBrowser.setAttribute("data-id", obj.id);
@@ -3335,6 +3421,8 @@ function openRegBrowser(obj,regName) {
 				else if (regBrowserValues[regName + "." + subkey]) {
 					value2 = regBrowserValues[regName + "." + subkey](value2, obj);
 				}
+				// console.log()
+				if (value2 === null) continue;
 				valueSpan.innerHTML = parseText(value2.toString());
 
 				itemSpan.appendChild(keySpan);
@@ -3401,20 +3489,72 @@ function regBrowseBiome(biome) {
 	})
 }
 
-function handleMore(elem) {
-	let regBrowser = elem.parentNode;
-	console.log(regBrowser);
+function handleMore(elem, entity) {
+	let regName
+	let id
 
-	let regName = regBrowser.getAttribute("data-reg");
-	let id = regBrowser.getAttribute("data-id");
-
-	if (!regName || !id) {
-		elem.style.display = "none";
-		return;
-	};
+	if (elem) {
+		let regBrowser = elem.parentNode;
+	
+		regName = regBrowser.getAttribute("data-reg");
+		id = regBrowser.getAttribute("data-id");
+	
+		if (!regName || !id) {
+			elem.style.display = "none";
+			return;
+		};
+	}
+	else if (entity) {
+		regName = entity._reg;
+		id = entity.id;
+	}
 
 	let items = [];
 	let obj = regGet(regName, id);
+	let type = obj.subtype || obj.type || regName;
+	let name = obj.name;
+	if (regBrowserExtra[regName] && regBrowserExtra[regName].name) {
+		name = regBrowserExtra[regName].name(obj) || name;
+		console.log(name);
+	}
+
+	if (planet.mode === $c.FREEPLAY) {
+		const template = entityTemplates[obj.subtype] || entityTemplates[obj.type] || entityTemplates[obj._reg];
+		if (template) {
+			items.push({
+				text: "{{symbol:📊}} Edit",
+				func: () => {
+					handleEdit(obj);
+				}
+			});
+		}
+	
+		if (actionables[regName] && actionables[regName].asTarget) {
+			if (actionables[regName].asTarget.End || actionables[regName].asTarget.Finish) {
+				items.push({
+					text: "{{symbol:⌧}} Delete",
+					func: () => {
+						doPrompt({
+							type: "confirm",
+							message: `Are you sure you want to delete {{regname:${obj._reg}|${obj.id}}}?`,
+							danger: true,
+							func: (r) => {
+								if (!r) return;
+								happen(actionables[regName].asTarget.Finish ? "Finish" : "End", currentPlayer, obj);
+								renderHighlight();
+								renderMarkers();
+								updateCanvas();
+								autosave();
+								closeExecutive();
+							}
+						})
+					}
+				});
+			}
+		}
+
+		items.push({spacer:true});
+	}
 
 	if (actionables[regName] && actionables[regName].asTarget && actionables[regName].asTarget.Share) {
 		items.push({
@@ -3428,7 +3568,14 @@ function handleMore(elem) {
 		items.push({
 			text: "{{symbol:📤}} Share",
 			func: () => {
-				sharePrompt(`Check out my ${obj.subtype || obj.type || regName} called ${obj.name}!`);
+				let extra;
+				let end = obj.done || obj.end;
+				if (end) extra = `It lasted ${end - obj.start} day${end - obj.start === 1 ? "" : "s"}.`;
+
+				let shareName = name;
+				if (shareName && shareName.toString().toLowerCase() == type) shareName = undefined;
+
+				sharePrompt(`Check out my ${type} in GenTown${shareName ? " called "+shareName : ""}!${extra ? " "+extra : ""}`);
 			}
 		})
 	}
@@ -3436,9 +3583,24 @@ function handleMore(elem) {
 	items.push({
 		text: "{{symbol:📥}} Download",
 		func: () => {
-			downloadJSON(obj, obj.name+".entity", "application/vnd.R74n.gentown-entity+json")
+			downloadJSON(obj, name+".entity", "application/vnd.R74n.gentown-entity+json");
+			logTip("downloadImport", "Some entities can be imported in Free Play mode.")
 		}
 	})
+
+	if (userSettings.debug) {
+		items.push({
+			text: "{{symbol:📄}} Copy ID",
+			id: "copyID",
+			func: () => {
+				navigator.clipboard.writeText(`regGet("${obj._reg}", ${obj.id})`);
+				debugTemp = regGet(obj._reg, obj.id);
+				console.log(debugTemp);
+				logMessage(`Copied ${obj._reg} ID: ${obj.id}`);
+				closeExecutive();
+			}
+		})
+	}
 
 	if (!items.length) {
 		elem.style.display = "none";
@@ -3448,6 +3610,221 @@ function handleMore(elem) {
 	closePopups();
 	populateExecutive(items, `{{regname:${regName}|${id}}}`);
 	openExecutive();
+}
+
+function handleCreate(key, context={}) {
+	const template = entityTemplates[key];
+	if (!template) return;
+	const regName = template.reg;
+	const data = template.data || {};
+	if (!regName) return;
+	const name = template.name || titleCase(key);
+
+	for (const dataKey in data) {
+		context[dataKey] = data[dataKey];
+	}
+
+	if (!actionables[regName] || !actionables[regName].asTarget || !actionables[regName].asTarget["Create"]) return;
+
+	let entity = happen("Create", currentPlayer, null, context, regName);
+
+	// console.log(entity);
+	if (!entity) {
+		if (context.x !== undefined) logMessage(`${name} could not be placed here.`, "error");
+		else logMessage(`${name} could not be created.`, "error");
+		closeExecutive();
+		return false;
+	}
+
+	if (template.validate) template.validate(entity);
+
+	if (context.x !== undefined && template.placeMessage) {
+		const chunk = chunkAt(context.x, context.y);
+		if (template.placeMessage && !importingEntity) {
+			logMessage(template.placeMessage(entity, chunk));
+		}
+	}
+
+	// for (const dataKey in data) {
+	// 	entity[dataKey] = data[dataKey];
+	// }
+
+	logTip("createEdit", `Use the ${name.toLowerCase()}'s Executive menu (•••) to edit its properties.`);
+
+	renderHighlight();
+	updateCanvas();
+	updateStats();
+	handleEdit(entity);
+	autosave();
+
+	return entity;
+}
+function handleEdit(entity) { //Edit Tab
+	const template = entityTemplates[entity.subtype] || entityTemplates[entity.type] || entityTemplates[entity._reg];
+	if (!template) return;
+	if (entity.end) {
+		closeExecutive();
+		return;
+	}
+	const regName = template.reg;
+	const data = template.data;
+	const edit = template.edit;
+	if (!regName || !edit || regName !== entity._reg) return;
+	let items = [];
+
+	renderHighlight();
+	updateCanvas();
+	updateStats();
+
+	for (const editKey in edit) {
+		const editArgs = typeof edit[editKey] === "function" ? edit[editKey]() : edit[editKey];
+
+		let name = regBrowserKeys[regName+"."+editKey] || regBrowserKeys[editKey] || titleCase(editArgs.name || editKey);
+
+		const dataType = editArgs.type;
+
+		let currentValue = entity[editKey];
+		if (editArgs.value) currentValue = editArgs.value(entity);
+		let valueDisplay;
+		if (currentValue === undefined || currentValue === null) valueDisplay = "Unset";
+		else if (dataType === "number") valueDisplay = parseText(`{{num:${Math.round(currentValue * 100) / 100}}}`);
+		else if (dataType === "color") {
+			let color = RGBToHex(currentValue);
+			valueDisplay = parseText(`{{color:${color}|${color}}}`);
+		}
+		else valueDisplay = titleCase(currentValue);
+
+		const finish = (r) => {
+			if (!r) return;
+
+			if (dataType === "number") r = parseInt(r);
+
+			if (editArgs.min !== undefined) r = Math.max(r, editArgs.min);
+			if (editArgs.max !== undefined) r = Math.min(editArgs.max, r);
+
+			if (editArgs.action) {
+				happen(editArgs.action, currentPlayer, entity, {value: r});
+			}
+			else if (editArgs.func) {
+				editArgs.func(entity, r);
+			}
+			else entity[editKey] = r;
+			// else if (!editArgs.noSet) entity[editKey] = r;
+			
+			if (template.validate) template.validate(entity, r);
+
+			if (!editArgs.slider) logMessage(`Set {{regname:${entity._reg}|${entity.id}}}'s ${name.toLowerCase()}${dataType === "color" ? "" : " to " + escapeHTML(r.toString())}.`);
+
+			renderHighlight();
+			updateCanvas();
+			updateStats();
+			if (!editArgs.slider) handleEdit(entity);
+			autosave();
+		};
+
+		// {
+		// 	text: "Territory opacity",
+		// 	slider: "opacity",
+		// 	default: 0.5,
+		// 	value: userSettings.opacity,
+		// 	min: 0,
+		// 	step: 0.01,
+		// 	max: 1,
+		// 	formatter: (value) => `{{percent:${value}}}`,
+		// 	func: (key, value) => { if (!value) return; userSettings.opacity = value; renderHighlight(); updateCanvas(); saveSettings() }
+		// },
+		
+		if (editArgs.slider) {
+			items.push({
+				text: `${name}`,
+				slider: editKey,
+				default: currentValue,
+				value: currentValue,
+				min: editArgs.min || 0,
+				step: editArgs.step || 1,
+				max: editArgs.max || 100,
+				formatter: (value) => `${value}`,
+				func: (key, value) => finish(value)
+			})
+		}
+
+		else items.push({
+			text: `${name}: <span class="settingValue">${valueDisplay}</span>`,
+			func: () => {
+				
+				let prompt = {};
+				let choices = editArgs.choose;
+				if (typeof choices === "function") choices = choices(entity);
+				if (choices) {
+					prompt.type = "choose";
+					prompt.message = `Choose {{a:${name}}} ${name.toLowerCase()} for {{regname:${entity._reg}|${entity.id}}}.`;
+					prompt.choices = choices.map(i => titleCase(i));
+					prompt.choiceValues = choices;
+					prompt.func = (r) => {
+						if (!r) return;
+						finish(r);
+					}
+					doPrompt(prompt);
+					return;
+				}
+				else if (dataType === "color") {
+					prompt.type = "choose";
+					prompt.message = `Choose a ${name.toLowerCase()} for {{regname:${entity._reg}|${entity.id}}}.`;
+					prompt.choices = [...Object.keys(entityTemplateColors).map(i => `{{color:${titleCase(i)}|rgb(${entityTemplateColors[i].join(",")})}}`), "custom..."];
+					prompt.choiceValues = [...Object.values(entityTemplateColors), "custom"];
+					prompt.func = (r) => {
+						if (!r) return;
+						if (r === "custom") {
+							doPrompt({
+								type: "ask",
+								message: `Enter a hexadecimal color code for {{regname:${entity._reg}|${entity.id}}}.`,
+								func: (r) => {
+									if (!r) return;
+									if (!r.match(/^#/)) r = "#"+r;
+									r = hexToRGB(r);
+									if (!r) return;
+									r[0] = Math.max(0,Math.min(r[0], 255));
+									r[1] = Math.max(0,Math.min(r[1], 255));
+									r[2] = Math.max(0,Math.min(r[2], 255));
+									finish(r);
+								}
+							})
+							return;
+						}
+						// r = entityTemplateColors[r];
+						finish(r);
+					}
+					doPrompt(prompt);
+					return;
+				}
+				else if (dataType) {
+					prompt.type = "ask";
+					prompt.shuffle = dataType === "string";
+					prompt.default = entity[editKey];
+				}
+				else return;
+
+				prompt.message = "Enter a ";
+				if (dataType === "number") {
+					prompt.message += "number";
+					if (editArgs.min !== undefined && editArgs.max !== undefined) prompt.message += " from "+editArgs.min+" to "+editArgs.max;
+					else if (editArgs.min !== undefined) prompt.message += " greater than "+editArgs.min;
+					else if (editArgs.max !== undefined) prompt.message += " less than "+editArgs.max;
+				}
+				else {
+					prompt.message += "string";
+				}
+				prompt.message += ` for {{regname:${entity._reg}|${entity.id}}}'s ${name.toLowerCase()}`;
+				prompt.message += ".";
+
+				prompt.func = finish;
+
+				doPrompt(prompt);
+			}
+		})
+	}
+
+	if (items.length) populateExecutive(items, `Edit {{regname:${entity._reg}|${entity.id}}}`);
 }
 
 
@@ -3764,9 +4141,11 @@ function shareProgress() {
 	sharePrompt(msg);
 }
 
+planetDeathMessage = null;
 function killPlanet() {
 	if (!planet.dead || planet.dead === true) planet.dead = planet.day;
-	logMessage("There are no more settlements on Planet {{planet}}." + (planet.stats.score ? " Your final score was {{percent:"+planet.stats.score+"}}." : ""), undefined, {
+	if (planet.mode === $c.FREEPLAY) return;
+	planetDeathMessage = logMessage("There are no more settlements on Planet {{planet}}." + (planet.stats.score ? " Your final score was {{percent:"+planet.stats.score+"}}." : ""), undefined, {
 	buttons: [
 	{
 		name: "Start Over",
@@ -3778,18 +4157,31 @@ function killPlanet() {
 	}
 	]
 	});
-	// logTip("deadPlanet", "You may want to start a new planet.");
 	document.getElementById("actionSaves").classList.add("notify");
+}
+function revivePlanet() {
+	if (!planet.dead) return;
+	planet.dead = false;
+	document.getElementById("actionSaves").classList.remove("notify");
+	if (planetDeathMessage) fadeMessage(planetDeathMessage);
 }
 function lockPlanet() {
 	planet.locked = true;
 	document.getElementById("nextDay").setAttribute("disabled", "true");
 	document.getElementById("nextDayMobile").setAttribute("disabled", "true");
+	if (planet.mode === $c.FREEPLAY) {
+		document.getElementById("autoPlay").setAttribute("disabled", "true");
+		document.getElementById("autoPlayMobile").setAttribute("disabled", "true");
+	}
 }
 function unlockPlanet() {
 	planet.locked = false;
 	document.getElementById("nextDay").removeAttribute("disabled");
 	document.getElementById("nextDayMobile").removeAttribute("disabled");
+	if (planet.mode === $c.FREEPLAY) {
+		document.getElementById("autoPlay").removeAttribute("disabled");
+		document.getElementById("autoPlayMobile").removeAttribute("disabled");
+	}
 }
 
 function resetPlanetPrompt() {
@@ -3819,21 +4211,30 @@ function updateTitle() {
 
 townsBefore = null;
 sunsetting = false;
+onNextDay = null;
 
 function nextDay(e) {
 	try {
 
-	if (e && e.target.getAttribute("disabled") === "true") {
-		if (planet.letter) logTip("letter", "There is an urgent letter you must read before continuing.");
-		return;
+	if (e) {
+		let btn = e.target;
+
+		if (!btn.classList.contains("nextDay")) btn = btn.parentNode;
+
+		if (btn.getAttribute("disabled") === "true") {
+			if (planet.letter) logTip("letter", "There is an urgent letter you must read before continuing.");
+			return;
+		}
+
+		if (planet.mode !== $c.FREEPLAY) {
+			btn.setAttribute("disabled","true");
+			setTimeout(()=>{
+				if (!planet.locked) { btn.removeAttribute("disabled"); }
+			}, 1000)
+		}
 	}
 
-	if (e) {
-		e.target.setAttribute("disabled","true");
-		setTimeout(()=>{
-			if (!planet.locked) { e.target.removeAttribute("disabled"); }
-		}, 1000)
-	}
+	if (onNextDay) onNextDay();
 
 	if (recentEvents.length >= 3) recentEvents.shift();
 	// recentEvents.shift();
@@ -3955,9 +4356,11 @@ function nextDay(e) {
 		planet.nextDayMessages = [];
 	}
 
-	if (!regCount("town") && !planet.dead) {
-		killPlanet();
+	const townCount = regCount("town");
+	if (!townCount) {
+		if (!planet.dead) killPlanet();
 	}
+	else if (planet.dead) revivePlanet();
 
 	// skip events when failing additional checks
 	for (let tries = 0; tries < $c.dailyEventTries; tries++) {
@@ -4258,10 +4661,12 @@ function nextDay(e) {
 			if (oldInfluences && influencedTown) reportInfluences(eventCaller.logID, oldInfluences, influencedTown.influences)
 		}
 
-		if (isYesNo && !eventCaller.needsInput) { // usurp
+		if (isYesNo && (!eventCaller.needsInput || ( // usurp
+			planet.mode === $c.FREEPLAY && userSettings.freeplayDecisions !== true //Free Play
+		))) {
 			setTimeout(() => {
 				choose(messageElement.querySelectorAll(".logAct span")).click();
-				messageElement.querySelector(".logAct").addEventListener("click", () => {
+				if (eventCaller.target.usurp || planet.usurp) messageElement.querySelector(".logAct").addEventListener("click", () => {
 					logMessage(`{{regname:${eventCaller.target._reg}|${eventCaller.target.id}}} has chosen to be run independently.`, "tip");
 				});
 			}, 100);
@@ -4289,8 +4694,33 @@ function nextDay(e) {
 	}
 }
 
+autoPlayInterval = null;
+function autoPlay(skipFirst) {
+	let nextDayButton = document.getElementById("nextDay");
+	if (nextDayButton.getAttribute("disabled") === "true") return;
+
+	let btn = document.getElementById("autoPlay");
+	let btnMobile = document.getElementById("autoPlayMobile");
+	
+	if (autoPlaying) {
+		btn.removeAttribute("selected");
+		btnMobile.removeAttribute("selected");
+		autoPlaying = false;
+		clearInterval(autoPlayInterval);
+	}
+	else {
+		btn.setAttribute("selected", "true");
+		btnMobile.setAttribute("selected", "true");
+		autoPlaying = true;
+		if (skipFirst !== true) nextDay();
+		autoPlayInterval = setInterval(nextDay, userSettings.autoPlaySpeed || 2000);
+	}
+}
+
 document.getElementById("nextDay").addEventListener("click",nextDay);
 document.getElementById("nextDayMobile").addEventListener("click",nextDay);
+document.getElementById("autoPlay").addEventListener("click",autoPlay);
+document.getElementById("autoPlayMobile").addEventListener("click",autoPlay);
 
 function customizePlanet() {
 	let config = planet.config || {};
@@ -4309,6 +4739,7 @@ function customizePlanet() {
 		calculateLandmasses();
 		renderMap();
 		updateCanvas();
+		fitToScreen();
 	};
 
 	populateExecutive([
@@ -4509,7 +4940,7 @@ function customizePlanet() {
 
 
 let tempReg;
-preButtons = ["customize"];
+preButtons = ["customize","customizeSpacer"];
 function initGame(noReset=false) {
 	resizeCanvases();
 	fitToScreen();
@@ -4611,18 +5042,42 @@ function initGame(noReset=false) {
 
 	if (noReset) {}
 	// create first town prompt
-	else if (reg.town._id === 1) {
+	else if (reg.town._id === 1 && planet.day === 1 && !planet.settled) {
 		let modeSelected = false;
 		let afterModeSelect = (mode) => {
 			if (modeSelected) return;
 			modeSelected = mode;
 			planet.mode = mode;
-			// fadeMessage(modeSelectMessage);
-			onMapClickMsg = logMessage("Tap on the map to settle your town.", undefined, {buttons:[
+			fadeMessage(modeSelectMessage);
+			let finished = false;
+			let finish = () => {
+				if (finished) return;
+				finished = true;
+				onMapClick = null;
+				if (onMapClickMsg) fadeMessage(onMapClickMsg);
+				onMapClickMsg = null;
+				onNextDay = null;
+
+				planet.settled = planet.day;
+				planet.mode = modeSelected;
+
+				preButtons.forEach((id) => {
+					let btn = document.getElementById("actionItem-"+id);
+					btn.style.display = "none";
+				})
+				
+				closeExecutive();
+				setView("territory");
+				autosave();
+			}
+
+			let startMessage = logMessage(
+				mode === $c.FREEPLAY ? "Use the {{executive:Create}} tab to settle your town(s)." : "Tap on the map to settle your town.",
+			"tip", {buttons:[
 				{
 					name: "Regenerate",
 					func: () => {
-						if (planet.settled) return;
+						if (planet.settled || planet.day !== 1) return;
 						delete planet.config.seed;
 						planet = generatePlanet(planet.config);
 						reg = planet.reg;
@@ -4634,50 +5089,74 @@ function initGame(noReset=false) {
 					}
 				}
 			]});
-			onMapClick = function(e) {
-				let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
-				if (chunk) {
 
-					if (chunk.b !== "water" && chunk.b !== "mountain") {
-						onMapClick = null;
-						fadeMessage(onMapClickMsg);
-						onMapClickMsg = null;
-						let town = happen("Create",currentPlayer,null,{x:chunk.x, y:chunk.y},"town");
-
-						logMessage(`The small ${town.type||"town"} of {{regname|town|${town.id}}} is founded in the {{biome:${chunk.b}}} of {{regname:landmass|${chunk.v.g}}}.`)
-						if (!planet.locked) {
-							document.getElementById("nextDay").removeAttribute("disabled");
-							document.getElementById("nextDayMobile").removeAttribute("disabled");
+			if (mode === $c.DEFAULT) {
+				onMapClickMsg = startMessage;
+				onMapClick = function(e) {
+					let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
+					if (chunk) {
+	
+						if (chunk.b !== "water" && chunk.b !== "mountain") {
+							let town = happen("Create",currentPlayer,null,{x:chunk.x, y:chunk.y},"town");
+	
+							logMessage(`The small ${town.type||"town"} of {{regname|town|${town.id}}} is founded in the {{biome:${chunk.b}}} of {{regname:landmass|${chunk.v.g}}}.`)
+							if (!planet.locked) {
+								document.getElementById("nextDay").removeAttribute("disabled");
+								document.getElementById("nextDayMobile").removeAttribute("disabled");
+							}
+							townsBefore = JSON.parse(JSON.stringify(reg.town));
 						}
-						townsBefore = JSON.parse(JSON.stringify(reg.town));
-						planet.settled = planet.day;
-						planet.mode = modeSelected;
-
-						preButtons.forEach((id) => {
-							let btn = document.getElementById("actionItem-"+id);
-							btn.style.display = "none";
-						})
-						
-						closeExecutive();
-						setView("territory");
-						autosave();
 					}
+	
+					finish();
 				}
 			}
+			if (mode === $c.FREEPLAY) {
+				unlockPlanet();
+				unlockExecutive("create");
+				unlockExecutive("import");
+				setView("territory");
+				executiveListeners["create"] = () => {
+					planet.settled = true;
+					fadeMessage(startMessage);
+					finish();
+				};
+				executiveListeners["import"] = () => {
+					planet.settled = true;
+					fadeMessage(startMessage);
+					finish();
+				};
+				onNextDay = finish;
+				document.getElementById("autoPlay").style.display = "flex";
+				document.getElementById("autoPlayMobile").style.display = "flex";
+				document.getElementById("nextDay").removeAttribute("disabled");
+				document.getElementById("nextDayMobile").removeAttribute("disabled");
+				document.getElementById("autoPlay").removeAttribute("disabled");
+				document.getElementById("autoPlayMobile").removeAttribute("disabled");
+			}
+
 		}
-		// let modeSelectMessage = logMessage("Select a play mode.", undefined, {buttons:[
-		// 	{
-		// 		name: "Strategy",
-		// 		func: () => afterModeSelect(1),
-		// 		tip: "Answer prompts from your residents to keep them happy"
-		// 	},
-		// 	{
-		// 		name: "Free Play",
-		// 		func: () => afterModeSelect(2),
-		// 		tip: "Design a scenario and see what happens"
-		// 	}
-		// ]})
-		afterModeSelect(1);
+		let modeSelectMessage = logMessage("Select a play mode.", undefined, {buttons:[
+			{
+				name: "Strategy",
+				func: () => afterModeSelect($c.DEFAULT),
+				tip: "Answer prompts from your residents to keep them happy"
+			},
+			{
+				name: "Free Play",
+				func: () => afterModeSelect($c.FREEPLAY),
+				tip: "Design a scenario and see what happens"
+			},
+			{
+				name: "?",
+				func: () => doPrompt({
+					type: "text",
+					message: "Strategy: Answer prompts from your residents to keep them happy\n\nFree Play: Design a scenario and see what happens"
+				}),
+				tip: "Mode info"
+			}
+		]})
+		// afterModeSelect(1);
 	}
 	else { // enable "Next Day" buttons if town already exists
 		onMapClick = null;
@@ -4689,6 +5168,20 @@ function initGame(noReset=false) {
 		townsBefore = JSON.parse(JSON.stringify(reg.town));
 		if (!planet.settled) {
 			planet.settled = 1;
+		}
+		if (planet.mode === $c.FREEPLAY) {
+			document.getElementById("autoPlay").style.display = "flex";
+			document.getElementById("autoPlayMobile").style.display = "flex";
+			document.getElementById("autoPlay").removeAttribute("disabled");
+			document.getElementById("autoPlayMobile").removeAttribute("disabled");
+			unlockExecutive("create");
+			unlockExecutive("import");
+		}
+		else {
+			document.getElementById("autoPlay").style.display = "none";
+			document.getElementById("autoPlayMobile").style.display = "none";
+			document.getElementById("autoPlay").setAttribute("disabled","true");
+			document.getElementById("autoPlayMobile").setAttribute("disabled","true");
 		}
 	}
 
@@ -4814,6 +5307,10 @@ function unlockExecutive(executiveID) {
 	planet.unlockedExecutive[executiveID] = true;
 	let button = document.getElementById("actionItem-"+executiveID)
 	if (button) {
+		let mode = button.getAttribute("data-mode");
+		if (mode && planet.mode !== parseInt(mode)) {
+			return;
+		}
 		if (userSettings.notify !== false) button.classList.add("notify");
 		button.style.display = "";
 	}
@@ -5089,8 +5586,12 @@ document.getElementById("saveUpload").addEventListener("change", (e) => {
 			json = json.replace(/</g, "[");
 			json = json.replace(/>/g, "]");
 			json = JSON.parse(json);
-			console.log(json);
-			parseSave(json);
+			if (json.meta && json.planet) {
+				parseSave(json);
+			}
+			else if (json._reg) {
+				importEntity(json);
+			}
 		}
 		reader.onerror = function (evt) {
 			alert("File '"+file.name+"' could not be read");
@@ -5119,6 +5620,7 @@ function validatePlanet() {
 			planet[key] = value;
 		}
 		else if (Array.isArray(value) && Array.isArray(planet[key])) {
+			if (key.match(/color/gi)) continue;
 			value.forEach((item) => {
 				if (!planet[key].includes(item)) {
 					planet[key].push(item);
@@ -5440,7 +5942,7 @@ function parseSave(json) {
 
 	let sunriseMsg = "The Sun rises on Planet {{planet}}...";
 	
-	if (planet.day > 1) {
+	if (planet.day > 1 && !planet.dead) {
 		let currentIssues = regFilter("process", (p) => (p.type === "disaster" || p.type === "revolution" || p.type === "war") && !p.done);
 		if (currentIssues.length) {
 			sunriseMsg += " Inhabitants are {{c:concerned|worried|irked|anxious}} about "+commaList(currentIssues.map((p) => `{{regname:process|${p.id}}}`))+".";
@@ -5451,24 +5953,181 @@ function parseSave(json) {
 
 	if (planet.dead) killPlanet();
 }
+function doPlaceTemplate(key, context={}) {
+	let template = entityTemplates[key];
+	const name = template.name || titleCase(key);
+	onCancel = () => {
+		if (onMapClickMsg) fadeMessage(onMapClickMsg);
+		onMapClick = null;
+		onMapClickMsg = null;
+		const selected = document.querySelector(".actionItem.selected");
+		if (currentExecutive === "create" && selected) selected.classList.remove("selected");
+	}
+	onMapClickMsg = logMessage(`Tap on the map to place {{a:${name}}} ${name.toLowerCase()}.`, "tip")
+	onMapClick = () => {
+		try {
+			fadeMessage(onMapClickMsg);
+			onCancel = null;
+			onMapClick = null;
+			onMapClickMsg = null;
+			let x = mousePos.chunkX;
+			let y = mousePos.chunkY;
+			if (template.place !== "any" && template.place !== true) {
+				let chunk = nearestChunk(x, y, (c) => c.b !== "mountain" && ((template.place === "land" && c.b !== "water") || (template.place === "water" && c.b === "water")));
+				if (!chunk) return false;
+				x = chunk.x;
+				y = chunk.y;
+			}
+			context.x = x;
+			context.y = y;
+			return handleCreate(key, context);
+		}
+		catch (error) {
+			logException(error, "load");
+			throw error
+		}
+	}
+}
+importingEntity = false;
+function importEntity(obj) {
+	let regName = obj._reg;
+	if (!regName) {
+		// error corrupted entity
+		return;
+	}
+	delete obj.id;
+	delete obj.end;
+	delete obj.done;
+
+	let key;
+	if (entityTemplates[obj.subtype]) key = obj.subtype;
+	else if (entityTemplates[obj.type]) key = obj.type;
+	else key = obj._reg;
+	const template = entityTemplates[key];
+
+	if (template) {
+		let entity;
+		let finish = () => {
+			if (!entity) {
+				logMessage(`${key} could not be imported.`, "error");
+				return false;
+			}
+			let x = entity.x;
+			let y = entity.y;
+			for (let key in entity) {
+				if (key !== "start" && key !== "id") {
+					delete entity[key];
+				}
+			}
+			for (let key in obj) {
+				if (key !== "start") {
+					entity[key] = obj[key];
+				}
+			};
+			if (x !== undefined) {
+				entity.x = x;
+				entity.y = y;
+			}
+			if (entity.size && entity._reg === "town") {
+				happen("UpdateCenter",null,entity);
+				let size = entity.size;
+				filterChunks(c => c.v.s === entity.id).forEach(c => delete c.v.s);
+				let todo = size;
+				for (let i = 0; i < todo; i++) {
+					let chunk = nearestChunk(entity.center[0], entity.center[1], c => c.b !== "water" && c.b !== "mountain" && !c.v.s, c => c.b === "water");
+					if (chunk) {
+						chunk.v.s = entity.id;
+						size --;
+					}
+					else break;
+				}
+				todo = size;
+				for (let i = 0; i < todo; i++) {
+					let chunk = nearestChunk(entity.center[0], entity.center[1], c => c.b !== "water" && c.b !== "mountain" && !c.v.s);
+					if (chunk) {
+						chunk.v.s = entity.id;
+						size --;
+					}
+					else break;
+				}
+				entity.size -= size;
+			}
+			else if (entity.chunks) {
+				let size = entity.chunks.length;
+				entity.chunks = [];
+				let chunks = {};
+				let todo = size;
+				if (entity.x === undefined) {
+					logMessage(`${key} could not be placed.`, "error");
+				}
+				else {
+					for (let i = 0; i < todo; i++) {
+						let chunk = nearestChunk(entity.x, entity.y, c => !chunks[c.x+","+c.y]);
+						if (chunk) {
+							entity.chunks.push([chunk.x, chunk.y]);
+							chunks[chunk.x+","+chunk.y] = true;
+							size --;
+						}
+						else break;
+					}
+				}
+			}
+			if (template.validateImport) {
+				template.validateImport(entity);
+			}
+			renderHighlight();
+			updateCanvas();
+			autosave();
+			closeExecutive();
+		}
+		if (template.place) {
+			doPlaceTemplate(key);
+			let onMapClickOld = onMapClick;
+			onMapClick = () => {
+				importingEntity = true;
+				entity = onMapClickOld();
+				finish();
+				if (!entity) return false;
+				logMessage(`Imported and placed {{regname:${entity._reg}|${entity.id}}}.`);
+				importingEntity = false;
+			}
+		}
+		else {
+			entity = handleCreate(key, obj);
+			finish();
+			if (!entity) return false;
+			logMessage(`Imported {{regname:${entity._reg}|${entity.id}}}.`);
+		}
+	}
+	else if (obj.x !== undefined || obj.y !== undefined || obj.chunks !== undefined || obj.size !== undefined) {
+		logMessage(`${key} could not be placed.`, "error");
+	}
+	else {
+		regAdd(regName, obj);
+	}
+}
 
 
 // Executive Panel
 function populateExecutive(items, title, main=false) {
+	if (title) {
+		currentExecutive = title.toLowerCase();
+		if (executiveListeners[currentExecutive]) executiveListeners[currentExecutive]();
+	}
+
 	if (!main) document.getElementById("actionMain").style.display = "none";
 
 	let subpanel = document.getElementById(main ? "actionMain" : "actionSub");
 	
 	let subpanelList = document.getElementById(main ? "actionMainList" : "actionSubList");
 	if (!main) {
+
 		subpanelList.innerHTML = "";
 
 		let panelTitle = document.createElement("span");
 		panelTitle.className = "panelTitle";
 		panelTitle.innerHTML = title ? parseText(title) : "Options";
 		subpanelList.appendChild(panelTitle);
-
-		if (title) currentExecutive = title.toLowerCase();
 	}
 
 	let sortButton = null;
@@ -5484,11 +6143,16 @@ function populateExecutive(items, title, main=false) {
 	for (let i = 0; i < items.length; i++) {
 		const item = items[i];
 
-		if (item.mode && planet.mode !== item.mode) continue;
-
 		let actionItem = document.createElement("span");
 		actionItem.classList.add("actionItem");
 		actionItem.classList.add("item");
+
+		if (item.mode) {
+			actionItem.setAttribute("data-mode", item.mode);
+			if (planet.mode !== item.mode) {
+				item.hide = true;
+			}
+		};
 
 		let text = "";
 		if (typeof item === "string") text = item;
@@ -5497,7 +6161,7 @@ function populateExecutive(items, title, main=false) {
 		if (item.id) actionItem.id = "actionItem-"+item.id;
 		if (item.indent) actionItem.style.marginLeft = item.indent + "em";
 		if (item.opacity) actionItem.style.opacity = item.opacity;
-		if (item.hide && (!item.id || !planet.unlockedExecutive || !planet.unlockedExecutive[item.id])) actionItem.style.display = "none";
+		if (item.hide && ((!item.id || !planet.unlockedExecutive || !planet.unlockedExecutive[item.id]) || item.spacer)) actionItem.style.display = "none";
 		if (item.notify && userSettings.notify !== false) actionItem.classList.add("notify");
 		if (item.danger) actionItem.classList.add("danger");
 		if (item.tip) actionItem.setAttribute("title", item.tip);
@@ -5714,6 +6378,10 @@ function closeExecutive() {
 	currentExecutive = null;
 	currentExecutiveButton = null;
 	currentExecutiveSorter = null;
+	if (onCancel) {
+		onCancel();
+		onCancel = null;
+	}
 }
 function openExecutive() {
 	let gameHalf2 = document.getElementById("gameHalf2");
@@ -5729,6 +6397,8 @@ function refreshExecutive() {
 		e.click();
 	}
 }
+executiveListeners = {};
+onCancel = null;
 
 function sorterName(sorter, reg) {
 	let sortBy = sorter[0];
@@ -5869,6 +6539,103 @@ function initExecutive() {
 			customizePlanet();
 		}
 	},
+	{
+		spacer: true,
+		id: "customizeSpacer",
+		hide: true,
+	},
+
+	{ //Create Tab
+		text: "Create",
+		mode: $c.FREEPLAY,
+		id: "create",
+		keybind: "n",
+		hide: true,
+		func: () => {
+			let items = [];
+
+			for (const key in entityTemplates) {
+				const template = entityTemplates[key];
+				if (template.create === false) continue;
+				const regName = template.reg;
+				const data = template.data || {};
+				if (!regName) continue;
+
+				const name = template.name || titleCase(key);
+
+				items.push({
+					text: name,
+					id: "create-"+key,
+					func: () => {
+						if (onMapClickMsg) fadeMessage(onMapClickMsg);
+
+						const selected = document.querySelector(".actionItem.selected");
+						if (selected) selected.classList.remove("selected");
+
+						let finish = (context) => {
+							if (template.place) {
+								const btn = document.getElementById("actionItem-create-"+key);
+								if (btn) btn.classList.add("selected");
+								doPlaceTemplate(key, context);
+							}
+							else handleCreate(key, context);
+						}
+
+						if (template.required) {
+							onCancel = null;
+							onMapClickMsg = null;
+							onMapClick = null;
+							let required = Object.keys(template.required);
+							let context = {};
+							let prompts = [];
+							for (let i = 0; i < required.length; i++) {
+								const j = i;
+								const editKey = required[i];
+								let editValue = template.required[editKey];
+								if (typeof editValue === "function") editValue = editValue();
+								let choices = Array.isArray(editValue) ? editValue : null;
+								prompts.push({
+									type: choices ? "choose" : "ask",
+									message: `${choices ? "Choose" : "Enter"} a ${editKey} for your ${key}.`,
+									choices: choices,
+									choiceValues: choices,
+									func: (r) => {
+										if (!r) return;
+										context[editKey] = r;
+										if (j === required.length-1) {
+											finish(context);
+										}
+										else {
+											doPrompt(prompts[j + 1]);
+										}
+									}
+								})
+							}
+							doPrompt(prompts[0]);
+						}
+						else finish();
+					}
+				})
+			}
+
+			if (items.length) populateExecutive(items, "Create");
+		}
+	},
+	{
+		text: "Import",
+		mode: $c.FREEPLAY,
+		id: "import",
+		keybind: "o",
+		hide: true,
+		func: () => {
+			loadFile();
+		}
+	},
+	{
+		spacer: true,
+		mode: $c.FREEPLAY
+	},
+
 	{
 		text: "Towns",
 		id: "towns",
@@ -6115,6 +6882,9 @@ window.addEventListener("load", function(){ //onload
 	document.getElementById("gameLoading").style.display = "none";
 	document.getElementById("gameDiv").style.display = "flex";
 
+	// for (let key in entityTemplates) {
+	// 	entityTemplates[key]._key = key;
+	// }
 	for (let key in influenceModality) {
 		allInfluences[key] = true;
 	}
@@ -6183,7 +6953,7 @@ window.addEventListener("load", function(){ //onload
 		{
 			text: "Tab notifications",
 			setting: "notify",
-			options: { "true": "Enabled", "false": "Disabled" },
+			options: { "true": "ON", "false": "OFF" },
 			default: "true",
 			tip: "Determines if tabs flash red to notify",
 			func: () => {
@@ -6192,18 +6962,43 @@ window.addEventListener("load", function(){ //onload
 				})
 			}
 		},
+		{
+			text: "Free Play decisions",
+			setting: "freeplayDecisions",
+			options: { "true": "ON", "false": "OFF" },
+			default: "false",
+			tip: "Determines if you are given decisions in Free Play mode"
+		},
+		{
+			text: "Auto Play speed",
+			slider: "autoPlaySpeed",
+			default: 2000,
+			value: userSettings.autoPlaySpeed,
+			min: 100,
+			step: 100,
+			max: 10000,
+			formatter: (value) => `${Math.round(value / 100) / 10}s`,
+			func: (key, value) => {
+				userSettings[key] = value;
+				if (autoPlaying) {
+					autoPlay(true);
+					autoPlay(true);
+				}
+				saveSettings();
+			}
+		},
 		{ text:"Map", heading:true },
 		{
 			text: "Town names",
 			setting: "townNames",
-			options: { "true": "Enabled", "false": "Disabled" },
+			options: { "true": "ON", "false": "OFF" },
 			default: "false",
 			func: () => { renderMarkers(); updateCanvas(); }
 		},
 		{
 			text: "Carve borders",
 			setting: "carve",
-			options: { "true": "Enabled", "false": "Disabled" },
+			options: { "true": "ON", "false": "OFF" },
 			default: "false",
 			tip: "Removes square borders along the coastline",
 			func: () => { renderHighlight(); updateCanvas(); }
@@ -6211,21 +7006,21 @@ window.addEventListener("load", function(){ //onload
 		{
 			text: "Markers",
 			setting: "markers",
-			options: { "true": "Enabled", "false": "Disabled" },
+			options: { "true": "ON", "false": "OFF" },
 			default: "true",
 			func: () => { renderMarkers(); updateCanvas(); }
 		},
 		{
 			text: "Overlay",
 			setting: "overlay",
-			options: { "true": "Enabled", "false": "Disabled" },
+			options: { "true": "ON", "false": "OFF" },
 			default: "true",
 			func: () => { document.getElementById("mapOverlay").style.display = userSettings.overlay === false ? "none" : "block"; }
 		},
 		{
 			text: "Desaturate biomes",
 			setting: "desaturate",
-			options: { "true": "Enabled", "false": "Disabled" },
+			options: { "true": "ON", "false": "OFF" },
 			default: "false",
 			func: () => { renderMap(); updateCanvas(); }
 		},
@@ -6240,7 +7035,7 @@ window.addEventListener("load", function(){ //onload
 			formatter: (value) => `{{percent:${value}}}`,
 			func: (key, value) => { if (!value) return; userSettings.opacity = value; renderHighlight(); updateCanvas(); saveSettings() }
 		},
-		{ text:"Mods", heading:true },
+		{ text:"Technical", heading:true },
 		{
 			text: "Enabled mods",
 			id: "enabledMods",
@@ -6254,6 +7049,13 @@ window.addEventListener("load", function(){ //onload
 		{
 			text: "Mod list",
 			url: "https://github.com/R74nCom/GenTown-Mods/"
+		},
+		{
+			text: "Debug mode",
+			setting: "debug",
+			options: { "true": "ON", "false": "OFF" },
+			default: "false",
+			func: () => { updateStats(); }
 		},
 		{ spacer:true },
 		{

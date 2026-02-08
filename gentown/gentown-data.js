@@ -51,6 +51,9 @@ constants = {
 	warningCooldown: 30,
 	dailyEventTries: 25,
 
+	DEFAULT: 1,
+	FREEPLAY: 2,
+
 	RARE: 3,
 	UNCOMMON: 5,
 	COMMON: 10,
@@ -112,6 +115,7 @@ actionables = {
 				return score;
 			},
 			Usurp: (subject,target,args) => {
+				if (planet.mode === $c.FREEPLAY) return;
 				if (!planet.usurp || !planet.letter) {
 					planet.usurp = planet.day;
 
@@ -295,6 +299,7 @@ actionables = {
 							}
 							regAdd("town",target);
 							happen("UpdateCenter", subject, target);
+							if (planet.dead) revivePlanet();
 						}
 						else return false;
 					}
@@ -698,8 +703,18 @@ actionables = {
 			Share: (subject,target) => {
 				const age = (target.end || planet.day) - target.start;
 				let items = [];
-				items.push(`${target.end ? target.peakpop : target.pop} Population`);
+				items.push(`${target.end ? target.peakpop : target.pop} ${target.dems || "Population"}`);
 				if (target.start !== 1) items.push(`Founded Day ${target.start}`);
+
+				if (target.influences) {
+					let highestInfluence;
+					Object.keys(target.influences).forEach(influence => {
+						if (influence === "happy" || influence === "birth") return;
+						if (!highestInfluence) highestInfluence = influence;
+						else if (target.influences[highestInfluence] < target.influences[influence]) highestInfluence = influence;
+					})
+					if (highestInfluence) items.push(`Highest influence: ${regBrowserKeys[highestInfluence] || titleCase(highestInfluence)}`);
+				}
 
 				items = items.map((i) => "• "+i);
 
@@ -864,6 +879,32 @@ actionables = {
 					if (town.issues[target.type] === target.id) delete town.issues[target.type];
 				}
 				return target;
+			},
+			AddSize: (subject,target,args) => {
+				if (!target.chunks) return;
+				let chunks = {};
+				target.chunks.forEach(coords => {
+					chunks[coords[0]+","+coords[1]] = true
+				});
+				for (let i = 0; i < Math.abs(args.count); i++) {
+					let origin = choose(target.chunks);
+					let chunk = nearestChunk(origin[0], origin[1], (c) => !chunks[c.x+","+c.y]);
+					if (chunk) {
+						target.chunks.push([chunk.x,chunk.y]);
+						chunks[chunk.x+","+chunk.y] = true;
+					}
+				}
+			},
+			RemoveSize: (subject,target,args) => {
+				if (!target.chunks) return;
+				let chunks = {};
+				target.chunks.forEach(coords => {
+					chunks[coords[0]+","+coords[1]] = true
+				});
+				for (let i = 0; i < Math.abs(args.count); i++) {
+					if (target.chunks.length) target.chunks.pop();
+					else break;
+				}
 			}
 		},
 		_projectSubtypes: {
@@ -1049,6 +1090,11 @@ actionables = {
 				}
 				if (args.subtype) target.subtype = args.subtype;
 				if (args.named === false) target.named = false;
+				if (target.type === "landmark" && target.subtype) {
+					let data = actionables.process._projectSubtypes[target.subtype] || {};
+					if (data.symbol) target.symbol = data.symbol;
+					if (data.color) target.color = data.color;
+				}
 
 				return target;
 			},
@@ -1132,7 +1178,8 @@ gameEvents = {
 			if (!planet.stats.peak || totalPop > planet.stats.peak) planet.stats.peak = totalPop;
 			if (!planet.stats.peakprompts || planet.stats.promptstreak > planet.stats.peakprompts) planet.stats.peakprompts = planet.stats.promptstreak;
 
-			if (planet.usurp) {
+			if (planet.mode === $c.FREEPLAY) {}
+			else if (planet.usurp) {
 				if (planet.day - planet.usurp > 30 && Math.random() < 0.2) {
 					regToArray("town").forEach((town) => {
 						if (town.influences.faith <= -5) town.influences.faith = 0;
@@ -1200,7 +1247,8 @@ gameEvents = {
 				logWarning("unhappy"+subject.id, "{{residents:"+subject.id+"}} are unhappy!");
 			}
 
-			if (subject.influences.happy > 1 && planet.stats.promptstreak > -10) {
+			if (planet.mode === $c.FREEPLAY) {}
+			else if (subject.influences.happy > 1 && planet.stats.promptstreak > -10) {
 				happen("Influence", null, subject, { faith:0.2 });
 			}
 			else if (subject.influences.happy <= -8.5 && planet.day - subject.start >= 10) {
@@ -1211,7 +1259,8 @@ gameEvents = {
 				planet.stats.oldesttown = planet.day - subject.start;
 			}
 
-			if (subject.usurp) {
+			if (planet.mode === $c.FREEPLAY) {}
+			else if (subject.usurp) {
 				if (subject.influences.faith > 0) {
 					subject.usurp = false;
 					if (planet.usurp) happen("UnUsurp", subject, currentPlayer, {message:false});
@@ -1368,7 +1417,7 @@ gameEvents = {
 							newTown.type = newTown.size <= 2 ? "microtown" : "colony";
 							newTown.level = 0;
 							newTown.legal = structuredClone(subject.legal);
-							newTown.influences.faith = subject.influences.faith;
+							if (planet.mode !== $c.FREEPLAY) newTown.influences.faith = subject.influences.faith;
 							if (subject.usurp) newTown.usurp = planet.day;
 							if (subject.gov) newTown.gov = subject.gov;
 							if (subject.econ) newTown.econ = subject.econ;
@@ -1498,6 +1547,7 @@ gameEvents = {
 				if (!biome.plant) return;
 				let plantID = choose(biome.plant);
 				let plant = regGet("species",plantID);
+				if (!plant) return;
 
 				let count = 1;
 				if (subject.jobs.farmer) count += randRange(0,subject.jobs.farmer);
@@ -1527,6 +1577,7 @@ gameEvents = {
 				if (!biome.animal) return;
 				let animalID = choose(biome.animal);
 				let animal = regGet("species",animalID);
+				if (!animal) return;
 
 				let count = 1;
 				if (subject.jobs.farmer) count += randRange(0,Math.floor(subject.jobs.farmer/2));
@@ -2086,7 +2137,7 @@ gameEvents = {
 			}
 
 			happen("Influence", subject, town, { happy:-0.2, temp:true });
-			happen("Influence", subject, town, { faith:-0.3 });
+			if (planet.mode !== $c.FREEPLAY) happen("Influence", subject, town, { faith:-0.3 });
 
 			if (newDeaths) subject.deaths = (subject.deaths||0) + newDeaths;
 			if (newInjuries) subject.injuries = (subject.injuries||0) + newInjuries;
@@ -2147,7 +2198,7 @@ gameEvents = {
 
 					happen("Migrate", town, newTown, {count: Math.round(town.pop * (newTown.size / oldSize))});
 					newTown.influences.happy = 0;
-					newTown.influences.faith = Math.min(0.5, town.influences.faith);
+					if (planet.mode !== $c.FREEPLAY) newTown.influences.faith = Math.min(0.5, town.influences.faith);
 					newTown.former = town.id;
 					for (let key in town.relations) {
 						let id = parseInt(key);
@@ -4419,4 +4470,152 @@ regBrowserExtra = {
 			if (species.type === "plant") return "crop";
 		}
 	}
+}
+
+entityTemplateColors = {
+	"red": [255, 87, 87],
+	"orange": [255, 116, 51],
+	"yellow": [255, 209, 73],
+	"green": [87, 255, 93],
+	"blue": [87, 87, 255],
+	"purple": [151, 87, 255],
+	"pink": [255, 87, 255],
+	"brown": [136, 50, 0],
+	"white": [255, 255, 255],
+	"black": [0, 0, 0],
+}
+entityTemplates = {
+	"town": {
+		reg: "town",
+		place: "land",
+		placeMessage: (town, chunk) => `The ${town.type||"town"} of {{regname|town|${town.id}}} is founded in the {{biome:${chunk.b}}} of {{regname:landmass|${chunk.v.g}}}.`,
+		data: {
+			// "name": {type: "text"}
+		},
+		edit: {
+			"name": {type:"string", action:"Rename"},
+			"pop": {type:"number", min:0, func:(town, value) => {
+				let change = value - town.pop;
+				if (change) happen(change < 0 ? "RemovePop" : "AddPop", currentPlayer, town, {count:Math.abs(change)});
+			}},
+			"color": {type:"color"},
+			"gov": {name:"Government", choose:Object.keys(govForms)},
+			"econ": {name:"Economy", choose:Object.keys(econForms)},
+			"mood": {slider:true, min:-10, max:10, value: (town) => Math.round(town.influences.happy), func: (town, value) => town.influences.happy = value, type:"number", min:-10, max:10},
+		},
+		validate: (town) => {
+			unlockExecutive("towns");
+		},
+		validateImport: (town) => {
+			town.relations = {};
+			if (town.currency || town.econ) planet.unlocks.trade = 30;
+			if (town.gov || (town.legal && Object.keys(town.legal).length)) planet.unlocks.government = 10;
+		}
+	},
+	"hurricane": {
+		reg: "process",
+		place: "any",
+		data: {
+			"type": "disaster",
+			"subtype": "hurricane",
+			"duration": 15
+		},
+		validate: (entity) => {
+			if (!entity.chunks) entity.chunks = circleChunks(entity.x, entity.y, 5, true).map(c => [c.x,c.y]);
+		},
+		edit: {
+			"name": {type:"string"},
+			"size": {
+				type:"number", slider:true, min: 1, step: 1, max: 100,
+				value: (entity) => entity.chunks.length,
+				func:(entity, value) => {
+					let change = value - entity.chunks.length;
+					if (change) happen(change < 0 ? "RemoveSize" : "AddSize", currentPlayer, entity, {count:Math.abs(change)});
+				},
+			}
+		}
+	},
+	"animal": {
+		reg: "species",
+		data: {
+			"type": "animal"
+		},
+		required: {
+			"biome": () => Object.keys(biomes)
+		},
+		edit: {
+			"name": {type:"string"},
+			"biome": {choose:() => Object.keys(biomes), func:(animal,newValue) => {
+				let oldBiome = biomes[animal.biome];
+				if (oldBiome.animal) {
+					const index = oldBiome.animal.indexOf(animal.id);
+					if (index > -1) {
+						oldBiome.animal.splice(index, 1);
+					}
+				}
+				let newBiome = biomes[newValue];
+				if (!newBiome.animal) newBiome.animal = [];
+				newBiome.animal.push(animal.id);
+				animal.biome = newValue;
+			}},
+			"color": {type:"color"},
+		},
+		validateImport: (animal) => {
+			delete animal.ancestor;
+		}
+	},
+	"plant": {
+		reg: "species",
+		data: {
+			"type": "plant"
+		},
+		required: {
+			"biome": () => Object.keys(biomes)
+		},
+		edit: {
+			"name": {type:"string"},
+			"biome": {choose:() => Object.keys(biomes), func:(plant,newValue) => {
+				let oldBiome = biomes[plant.biome];
+				if (oldBiome.plant) {
+					const index = oldBiome.plant.indexOf(plant.id);
+					if (index > -1) {
+						oldBiome.plant.splice(index, 1);
+					}
+				}
+				let newBiome = biomes[newValue];
+				if (!newBiome.plant) newBiome.plant = [];
+				newBiome.plant.push(plant.id);
+				plant.biome = newValue;
+			}},
+			"color": {type:"color"},
+		},
+		validateImport: (animal) => {
+			delete animal.ancestor;
+		}
+	},
+	"landmark": {
+		reg: "marker",
+		place: "land",
+		data: {
+			"type": "landmark"
+		},
+		required: {
+			"subtype": () => Object.keys(actionables.process._projectSubtypes)
+		},
+		edit: {
+			"name": {type:"string"},
+			"color": {type:"color"},
+		},
+		validate: (entity) => {
+			let chunk = chunkAt(entity.x, entity.y);
+			chunk.v.m = entity.id;
+		},
+	},
+	"landmass": {
+		reg: "landmass",
+		create: false,
+		edit: {
+			"name": {type:"string"}
+		}
+	},
 }
