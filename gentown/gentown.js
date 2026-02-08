@@ -4669,7 +4669,7 @@ function nextDay(e) {
 				if (eventCaller.target.usurp || planet.usurp) messageElement.querySelector(".logAct").addEventListener("click", () => {
 					logMessage(`{{regname:${eventCaller.target._reg}|${eventCaller.target.id}}} has chosen to be run independently.`, "tip");
 				});
-			}, 100);
+			}, 10);
 			if (messageElement) messageElement.classList.add("usurp");
 		}
 
