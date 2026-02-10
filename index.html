@@ -642,7 +642,7 @@ function closeSplash() {
 }
 
 // Referral Splashes
-const refdomain = "neal.fun" || getCookie("R74nRef") || urlParams.get("utm_source");
+const refdomain = getCookie("R74nRef") || urlParams.get("utm_source");
 if (refdomain) {
   // Social Referrals
   const refsocials = {
