@@ -361,8 +361,14 @@ function setIcon(){
         margin-right: 2px;
       }
       #splashheader {
+        margin-bottom: 0.5em;
+      }
+      .projectheader {
         margin-bottom: 0.8em;
-        margin-top: -0.8em;
+      }
+      .projectheader > * {
+        margin-left: 0.2em;
+        margin-right: 0.2em;
       }
       @media only screen and (min-width: 700px) {
         #toggleSpotlight::after {
@@ -433,6 +439,12 @@ function setIcon(){
 </header>
 
 <header id="splashheader" class="alertheader" style="display:none;"></header>
+<header id="sandboxelsHeader" class="alertheader projectheader" style="display:none;">
+  <a href="https://store.steampowered.com/app/3664820/Sandboxels/" class="button">Get on Steam (99¢)</a>
+  <a href="https://news.r74n.com/" class="button">Newsletter</a>
+  <a href="https://discord.gg/ejUc6YPQuS" class="button">Discord</a>
+  <a href="https://www.reddit.com/r/Sandboxels/" class="button">r/Sandboxels</a>
+</header>
 
 <main class="content">
 
@@ -441,12 +453,10 @@ function setIcon(){
 <div id="allGalleries">
 
 <nav id="spotlightGallery" class="projectGallery">
-  <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);">Sandboxels</a>
+  <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);" id="spotlight-sandboxels">Sandboxels</a>
   <a href="cook/" style="background-image: url(cook/spotlight.jpg);">Infinite Chef</a>
   <a href="gentown/" class="new update" style="background-image: url(gentown/spotlight.jpg);">GenTown</a>
-</nav>
 
-<div id="miniGallery" class="projectGallery">
   <a href="mini/odds" class="new" style="background-image: url(mini/spotlight-odds.gif);">What Are The Odds?</a>
   <a href="mini/handwriting" class="new" style="background-image: url(mini/spotlight-handwriting.png);">Handwriting Personality</a>
   <a href="ants/" style="background-image: url(ants/spotlight.png);">Every Ant on Earth</a>
@@ -632,7 +642,7 @@ function closeSplash() {
 }
 
 // Referral Splashes
-const refdomain = getCookie("R74nRef") || urlParams.get("utm_source");
+const refdomain = "neal.fun" || getCookie("R74nRef") || urlParams.get("utm_source");
 if (refdomain) {
   // Social Referrals
   const refsocials = {
@@ -708,8 +718,13 @@ youtube: “Did you enjoy the video? leave a like and subscribe!”
   if (refsocial) {
     if (refsocial.indexOf(" ") === -1 && refsocials[refsocial]) refsocial = refsocials[refsocial];
     refsocial = refsocial.replace(/<a /g,"<a target='_blank' ");
-    refsocial += ` - <span class="clickable noselect" onclick="closeSplash();">❌</span>`
+    refsocial += `&nbsp; <span class="clickable noselect" onclick="closeSplash();">❌</span>`
     splashText(refsocial);
+  }
+  
+  if (refdomain === "neal.fun") {
+    document.getElementById("spotlight-sandboxels").style.display = "none";
+    document.getElementById("sandboxelsHeader").style.display = "flex";
   }
 }
 

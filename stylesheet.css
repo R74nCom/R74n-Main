@@ -80,7 +80,7 @@ textarea, button, input, .checkmark {
 /* input[type=submit] {background-color: rgb(72, 85, 74)!important;} */
 input[type=submit] {background-color: rgb(79, 111, 79)!important;}
 input[type=reset] {background-color: rgb(111, 79, 79)!important;}
-input[type=button], button, input[type=submit], input[type=reset], .checkmark {
+input[type=button], button, .button, input[type=submit], input[type=reset], .checkmark {
 	background-color: rgb(107,107,107);
 	color: rgb(255,255,255);
 	/* box-shadow: 0em -0.1em 0em inset rgb(0,0,0,0.5); */
@@ -98,18 +98,18 @@ input[type=button], button, input[type=submit], input[type=reset], .checkmark {
 	/* color transition */
 	transition: filter 0.2s, scale 0.2s, translate 0.2s;
 }
-input[type=button][selected=true] {
+input[type=button][selected=true], .button[selected=true] {
 	filter: brightness(150%);
 }
-input[disabled], textarea[disabled], button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
-input[type=button]:hover, button:hover, input[type=submit]:hover, input[type=reset]:hover, .checkmark:hover, .clickable:hover {
+input[disabled], textarea[disabled], button[disabled], .button[disabled], select[disabled] {filter:brightness(50%);cursor:not-allowed}
+input[type=button]:hover, button:hover, .button:hover, input[type=submit]:hover, input[type=reset]:hover, .checkmark:hover, .clickable:hover {
 	filter: brightness(125%);
 }
-input[type=button][disabled]:hover, button[disabled]:hover, input[type=submit][disabled]:hover, input[type=reset][disabled]:hover {
+input[type=button][disabled]:hover, button[disabled]:hover, .button[disabled]:hover, input[type=submit][disabled]:hover, input[type=reset][disabled]:hover {
 	filter: brightness(75%);
 	scale: 1!important;
 }
-input[type=button]:active, button:active, input[type=submit]:active, input[type=reset]:active, .checkmark:active, .clickable:active {
+input[type=button]:active, button:active, .button:active, input[type=submit]:active, input[type=reset]:active, .checkmark:active, .clickable:active {
 	filter: brightness(50%);
 	scale: 0.98
 }
@@ -164,7 +164,7 @@ textarea {
 	padding-top: 0.4em;
 	padding-bottom: 0.4em;
 }
-button,
+button, .button,
 a.sb,
 input[type=button], input[type=reset], input[type=submit],
 input[type=file]::file-selector-button,
@@ -178,7 +178,7 @@ select {
 	padding-top: 0.4em;
 	padding-bottom: 0.4em;
 }
-button,
+button, .button,
 a.sb,
 input[type=button], input[type=reset], input[type=submit],
 input[type=file]::file-selector-button {
@@ -188,11 +188,12 @@ input[type=file]::file-selector-button {
 	border-top-width: 2px;
 	border-bottom-width: 4px;
 }
-button:active,
+button:active, .button:active,
 input[type=button]:active, input[type=reset]:active, input[type=submit]:active,
 input[type=file]:active::file-selector-button {
 	border-bottom-width: 3px;
 	translate: 0px 1px;
+	margin-bottom: 5px;
 }
 textarea:focus-visible, input:focus-visible {
 	border-color: rgba(0,255,255,0.5);
@@ -200,7 +201,7 @@ textarea:focus-visible, input:focus-visible {
 	border-bottom-color: rgba(0,255,255,0.75);
 	outline: none!important;
 }
-select:focus-visible, button:focus-visible,
+select:focus-visible, button:focus-visible, .button:focus-visible,
 input[type=button]:focus-visible, input[type=reset]:focus-visible, input[type=submit]:focus-visible,
 input[type=file]:focus-visible::file-selector-button {
 	border-color: rgba(0,255,255,0.5);
@@ -398,7 +399,12 @@ h2.linkcategory, h3.linkcategory {font-size: 1em;margin-block-start: 0;}
 #newsheader strong {
 	font-variant: small-caps;
 }
-#splashheader {text-align: center;}
+#splashheader, .projectheader {text-align: center;}
+.projectheader {
+	display: flex;
+	justify-content: center;
+    flex-wrap: wrap;
+}
 
 img, canvas {
 	image-rendering: pixelated;
