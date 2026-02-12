@@ -505,6 +505,7 @@ R74n.more = function() {
 	<a href="${R74n.root}mini/handwriting" class="new" style="background-image: url(${R74n.root}mini/spotlight-handwriting.png);">Handwriting Personality</a>
 	<a href="${R74n.root}ants/" style="background-image: url(${R74n.root}ants/spotlight.png);">Every Ant on Earth</a>
 	<a href="${R74n.root}pixelflags/guess" style="background-image: url(${R74n.root}pixelflags/spotlight.png);">Guess the Pixel Flag</a>
+	<a href="${R74n.root}mix/" style="background-image: url(${R74n.root}mix/spotlight.png);">Mix-Up!</a>
 </div></div>
 `
 }
