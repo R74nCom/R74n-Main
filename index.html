@@ -191,15 +191,18 @@ function setIcon(){
   var newicon = null;
   var eventdata = null;
   R74nicon = document.getElementById("R74nicon");
-  if (icondates[currentdatestring]) {
-    newicon = (icondates[currentdatestring][0] || "favicon.png");
-    var newtitle = icondates[currentdatestring][1];
+  if (currentdate.getFullYear() === 2026 && currentdate.getMonth() === 1 && currentdate.getDate() === 16) {
+    eventdata = ["avatar-chinese-ramadan-lent.png", "Celebrating Lunar New Year, Ramadan, and Lent"];
+  }
+  else if (icondates[currentdatestring]) {
     eventdata = icondates[currentdatestring];
   }
   else if (iconmonths[currentmonth]) {
-    newicon = (iconmonths[currentmonth][0] || "favicon.png");
-    var newtitle = iconmonths[currentmonth][1];
     eventdata = iconmonths[currentmonth];
+  }
+  if (eventdata) {
+    newicon = (eventdata[0] || "favicon.png");
+    var newtitle = eventdata[1];
   }
   if (newicon && !["no","false"].includes(urlParams.get("holiday"))) {
     if (Array.isArray(newicon)) {
