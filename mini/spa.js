@@ -6,7 +6,16 @@ window.SPA = {
 	},
 	init: () => {
 		SPA._loaded = true;
-		if (!SPA._paths) {
+		SPA.pages = SPA.main.querySelectorAll(".page");
+		if (SPA.pages.length) {
+			SPA.currentPage = SPA.main.querySelector('.page[data-current="true"]');
+			if (!SPA.currentPage) {
+				SPA.currentPage = SPA.pages[0];
+				SPA.currentPage.setAttribute("data-current","true");
+			}
+			SPA.finalPage = SPA.main.querySelector(".page.final");
+		}
+		if (!SPA._paths && SPA.currentPage) {
 			SPA.main.addEventListener("scroll", (e) => {
 				if (SPA.main.scrollTop === 0) {
 					SPA.header.classList.remove("min");
@@ -24,15 +33,6 @@ window.SPA = {
 			window.addEventListener("resize", () => {
 				SPA.snap( SPA._page, true );
 			});
-		}
-		SPA.pages = SPA.main.querySelectorAll(".page");
-		if (SPA.pages.length) {
-			SPA.currentPage = SPA.main.querySelector('.page[data-current="true"]');
-			if (!SPA.currentPage) {
-				SPA.currentPage = SPA.pages[0];
-				SPA.currentPage.setAttribute("data-current","true");
-			}
-			SPA.finalPage = SPA.main.querySelector(".page.final");
 		}
 		SPA.controls = document.querySelector(".spa > .content > .controls");
 		if (document.body.classList.contains("clicky")) {

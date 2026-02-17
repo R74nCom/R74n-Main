@@ -177,3 +177,47 @@
 	scale: 1.2;
 	padding: 10px;
 }
+
+.spa.light {
+	background-color: #e7e7f6;
+	color: #13133b;
+}
+.spa.light > header:first-child {
+	text-shadow: 0 0 5px white;
+	background-color: #b8b8eb;
+	border-color: #CCD1F5;
+	box-shadow: black 0px 0px 5px;
+	z-index: 100;
+}
+.spa.light > header .doodle,
+.spa.light > main .doodle {
+	filter: invert();
+}
+.spa.light > main a {color: rgb(46 60 255);}
+.spa.light > main a:hover {color: rgb(70, 82, 255);}
+.spa.light > main a:active {color: rgb(114, 124, 255);}
+
+.spa .content.cols {
+	display: flex;
+	flex-direction: row;
+}
+.spa .content.cols > section {
+	flex-grow: 1;
+	/* flex-basis: 100%; */
+	overflow: scroll;
+}
+.spa .content.cols > section:last-child {
+	/* flex-basis: 33%; */
+}
+@media only screen and (max-width: 800px) {
+	.spa .content.cols {
+		flex-direction: column;
+	}
+}
+
+header.min .doodle:hover {
+	scale: 1.2
+}
+header.min .doodle:active {
+	scale: 1.1
+}

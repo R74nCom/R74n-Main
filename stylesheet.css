@@ -563,7 +563,7 @@ body header.min:first-child * {
 	font-size: 30px !important;
 }
 body header:first-child > * {
-	transition: 0.2s font-size, 0.2s scale;
+	transition: 0.2s font-size, 0.2s scale, 0.2s width;
 }
 header.homepage > .subtitle {
 	font-variant: small-caps;
@@ -571,7 +571,7 @@ header.homepage > .subtitle {
     font-style: italic;
 }
 header > img[role="button"] {
-	width: 1em
+	width: 42px;
 }
 img[role="button"] {
 	cursor: pointer;
@@ -594,6 +594,11 @@ header .home {
 	height: 1.4em;
 	color: transparent;
 	background-image: url("https://r74n.com/icons/favicon.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+header .home.dark {
+	background-image: url("https://r74n.com/icons/black.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -903,6 +908,7 @@ form .honeypot {
 	font-family: 'VT323', 'Courier New', Courier, monospace;
 	font-size: 35px;
 	text-shadow: 0 0 10px black, 0 0 10px black, 0 0 10px black;
+	color: white;
 }
 .globalDialog.open {
 	display: flex;

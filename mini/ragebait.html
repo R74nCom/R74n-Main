@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Make this streamer mad instead of real ones.">
+    <meta name="keywords" content="R74n, R47n">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="art/ragebait/avatar.png">
+    <title>RageBait Simulator - R74n</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00ffff">
+    <link rel="icon" type="image/x-icon" sizes="40x40" href="/icons/favicon.ico">
+    <meta name="theme-color" content="#000000">
+
+    <script src="../load.js"></script>
+
+    <style>
+      @font-face {
+        font-family: 'VT323';
+        src: url('../cook/fonts/VT323-Regular.ttf') format('truetype');
+      }
+
+      body {
+        font-family: 'VT323', 'Courier New', Courier, monospace;
+        font-size: 35px;
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="spa.css">
+    <script src="spa.js"></script>
+    <script src="data/ragebait.js"></script>
+
+    <style>
+      .spa.light > header:first-child {
+        box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.3);
+      }
+      #mainPanel {
+        display: flex;
+        flex-direction: column;
+      }
+      #mainStream {
+        width: 100%;
+        flex-grow: 1;
+        max-height: 500px;
+        background: url(art/ragebait/background.png);
+        background-position: center;
+        image-rendering: pixelated;
+        background-size: cover;
+        background-repeat: no-repeat;
+        position: relative;
+        z-index: 80;
+      }
+      #img-streamer {
+        image-rendering: pixelated;
+        aspect-ratio: 1 / 1;
+        height: 100%;
+        background: url(art/ragebait/idle.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) translateY(20%);
+        z-index: 81;
+      }
+      #rageMeter {
+        width: 40px;
+        height: 90%;
+        position: absolute;
+        /* background-color: rgba(255,0,0,0.75); */
+        opacity: 0.85;
+        background-image: linear-gradient(to top, #ff0000 0%, #ff0000 5%, #f5f5f5 5%, #f5f5f5 100%);
+        right: 3%;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 4px solid black;
+        z-index: 82;
+      }
+      #mainSub {
+        display: flex;
+        flex-direction: column;
+        padding: 5px 15px;
+        border-top: solid 3px #CCD1F5;
+        box-shadow: 0px -2px 0px 0px rgba(0, 0, 0, 0.3);
+        z-index: 85;
+        background-color: #e7e7f6;
+      }
+      #mainSub > div {
+        display: flex;
+      }
+      #mainSub > div > div:first-child {
+        aspect-ratio: 1 / 1;
+        margin-right: 15px;
+        background-image: url("art/ragebait/avatar.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      #mainSub > div > div:last-child {
+        display: flex;
+        flex-direction: column;
+      }
+      #mainSub > div > div:last-child > span:first-child {
+        font-weight: bold;
+      }
+      #mainSub > span {
+        font-size: 24px;
+      }
+      #mainSub > span:first-of-type {
+        margin-top: 15px;
+      }
+      #chatPanel {
+        flex-basis: 500px;
+        flex-grow: 0;
+        border-left: solid 3px #CCD1F5;
+        box-shadow: -2px 0px 0px 0px rgba(0, 0, 0, 0.3);
+        background-color: #f1f1ff;
+        display: flex;
+        flex-direction: column;
+        z-index: 95;
+      }
+      #chatPanel .message {
+        padding: 10px 20px;
+      }
+      #chatHeader {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        border-bottom: solid 3px #CCD1F5;
+        box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.3);
+      }
+      #chatMessages {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-bottom: 20px;
+        flex-grow: 1;
+        overflow-y: scroll;
+      }
+      #chatInput {
+        padding: 10px 20px 40px 20px;
+        /* border-top: 3px solid #d6d6d6; */
+        /* border-radius: 30px; */
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        background-color: #e3e3ff;
+      }
+      #chatInputText {
+        display: flex;
+        align-items: center;
+      }
+      #chatInputText > span:first-child {
+        flex-grow: 1;
+      }
+      #chatInputCursor {
+        animation: blinker 1s linear infinite;
+      }
+      #chatInputSend {
+        cursor: pointer;
+        border: solid 3px #9f9fee;
+        background-color: #ddddff;
+        padding-left: 5px;
+        padding-right: 5px;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+      }
+      #chatInputSend:hover {
+        background-color: #c7c7f7;
+      }
+      #chatInputSend:active {
+        scale: 0.9
+      }
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+      #chatInputButtons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      #chatPanel button {
+        flex-grow: 1;
+        max-width: 48%;
+        width: 48%;
+        font-size: 32px;
+        line-height: 0.8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        background-color: #a9a9f1;
+        color: black;
+        text-shadow: 0 0 10px #ffffd4;
+        overflow-wrap: anywhere;
+        hyphens: auto;
+      }
+      #chatPanel button:hover {
+        filter: brightness(90%)
+      }
+      #chatPanel button:active {
+        filter: brightness(80%);
+        color: yellow
+      }
+      #sidePanel {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        flex-basis: 60px;
+        max-width: 60px;
+        border-right: solid 3px #CCD1F5;
+        box-shadow: 2px 0px 0px 0px rgba(0, 0, 0, 0.3);
+        background-color: #f1f1ff;
+        z-index: 90;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: scroll;
+      }
+      #sidePanel > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      #sidePanel > div:first-child {
+        flex-grow: 1;
+      }
+      #sidePanel > div:first-child a {
+        border: 2px solid gray;
+        border-top-color: rgb(164, 164, 164);
+        border-left-color: rgb(164, 164, 164);
+        border-radius: 100px;
+        margin-bottom: 10px;
+      }
+      #sidePanel a {
+        aspect-ratio: 1;
+        width: 70%;
+        image-rendering: pixelated;
+        background-size: cover;
+        background-repeat: no-repeat;
+        transition: 0.2s;
+      }
+      #sidePanel a:hover {
+        scale: 1.2;
+        filter: none;
+      }
+      #sidePanel a:active {
+        scale: 1.1;
+        filter: none;
+      }
+      #sidePanel > div:last-child a {
+        filter: invert();
+      }
+      header .home {
+        margin-left: 10px!important
+      }
+
+      #chatBan {
+        display: none;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 1em;
+        text-align: center;
+        flex-direction: column;
+      }
+      #chatBan > div {
+        width: 100%;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+      }
+      #chatBan button {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      @media only screen and (max-width: 800px) {
+        #chatPanel {
+          flex-basis: 300px;
+          border-top: solid 3px #CCD1F5;
+          border-left: none;
+          flex-grow: 1;
+        }
+        #chatHeader, #sidePanel {
+          display: none;
+        }
+        #sidePanel {
+          display: none;
+        }
+        #mainSub {
+          font-size: 25px;
+        }
+        #mainSub > span {
+          display: none;
+        }
+        #mainSub > div > div:last-child {
+          flex-direction: row;
+        }
+        #mainSub > div > div:last-child > span {
+          padding-right: 1em;
+        }
+        #mainPanel {
+          max-height: 200px;
+        }
+        #img-streamer {
+          height: 140%;
+        }
+      }
+
+      @keyframes wiggle {
+        0% { transform: rotate(0deg); }
+        80% { transform: rotate(0deg); }
+        85% { transform: rotate(3deg); }
+        95% { transform: rotate(-3deg); }
+        100% { transform: rotate(0deg); }
+      }
+      #chatInputButtons button {
+        animation: wiggle 2.5s infinite;
+      }
+      #chatInputButtons button:nth-child(1) {
+        animation-delay: 0s
+      }
+      #chatInputButtons button:nth-child(2),
+      #chatInputButtons button:nth-child(3) {
+        animation-delay: 0.1s
+      }
+      #chatInputButtons button:nth-child(4) {
+        animation-delay: 0.2s
+      }
+      #chatInput:hover button {
+        animation: none
+      }
+
+      @keyframes bounceUp {
+        0% { translate: 0px 5%; }
+        50% { translate: 0px -5%; }
+        100% { translate: 0px 0%; }
+      }
+      #img-streamer {
+        transition: 0.1s translate;
+        transform-origin: center;
+      }
+      #img-streamer.downward {
+        translate: 0px 5%;
+      }
+      #img-streamer.upward {
+        animation: bounceUp 0.4s linear;
+      }
+
+      #imageFlash {
+        display: none;
+        position: absolute;
+        width: 256px;
+        z-index: 200;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+      #imageFlash.flash {
+        animation: flash 2.5s ease-in;
+      }
+
+      @keyframes flash {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+      
+      @keyframes shake {
+        0% { translate: 0px 0; }
+        33% { translate: -4px 0; }
+        66% { translate: 0px 0; }
+        100% { translate: 4px 0; }
+      }
+      .shake {
+        animation: shake 0.02s infinite;
+      }
+
+      #mainName, #mainTitle {
+        cursor: pointer;
+      }
+    </style>
+
+</head>
+
+<body class="spa light clicky">
+
+<header class="min">
+<a href="/" class="home dark"></a>
+<h1 class="pagetitle">RageBait Simulator</h1>
+<img class="doodle info" src="../doodle/info.gif" role="button">
+</header>
+
+<main class="content cols">
+
+
+<p class="loading">Loading...<br><br>Make this virtual livestreamer angry instead of annoying a real streamer.</p>
+
+<section id="sidePanel">
+  <div>
+    <a href="https://sandboxels.r74n.com/" style='background-image: url("https://sandboxels.r74n.com/icons/icon.png")'></a>
+    <a href="/gentown/" style='background-image: url("../gentown/logo-small.png")'></a>
+    <a href="/cook/" style='background-image: url("../cook/icons/icon.png")'></a>
+    <a href="/pixelflags/guess" style='background-image: url("../pixelflags/spotlight.png")'></a>
+  </div>
+  <div>
+    <a role="button" onclick="R74n.more(); return false;" style='background-image: url("../doodle/more.gif")'></a>
+  </div>
+</section>
+<section id="mainPanel">
+  <div id="mainStream">
+    <div id="img-streamer"></div>
+    <div id="rageMeter"></div>
+  </div>
+  <div id="mainSub">
+    <div>
+      <div class="pixelart"></div>
+      <div>
+        <span id="mainName">User_name</span>
+        <span id="mainTitle">short early stream</span>
+      </div>
+    </div>
+    <span>Playing <a href="https://sandboxels.r74n.com/" id="mainPlaying">Sandboxels</a></span>
+  </div>
+</section>
+<section id="chatPanel">
+  <div id="chatHeader">
+    Stream Chat
+  </div>
+  <div id="chatMessages">
+    <!-- <div class="message self">
+      <span class="username">you</span>: <span class="text">i hate you</span>
+    </div>
+    <div class="message">
+      <span class="username">username</span>: <span class="text">dude.. not cool.</span>
+    </div> -->
+  </div>
+  <div id="chatInput">
+    <div id="chatInputText">
+      <span id="chatInputMessageBox"><span id="chatInputMessage">i hate you</span> <span style="color:blue" id="chatInputCursor">|</span></span>
+      <span id="chatInputSend" role="button" class="noSelect">Send</span>
+    </div>
+    <div id="chatInputButtons">
+      <button class="noSelect">so</button>
+      <button class="noSelect">love</button>
+      <button class="noSelect">like</button>
+      <button class="noSelect">big word test</button>
+    </div>
+  </div>
+  <div id="chatBan">
+    <div>You were banned from <span id="banName"></span>'s chat in <span id="banMoves"></span> messages.</div>
+    <div>
+      <button class="noSelect" onclick="newRound();">Make an alt</button>
+      <button class="noSelect" onclick="shareScore();">Share score</button>
+      <button class="noSelect" onclick="R74n.more();">More games</button>
+    </div>
+    <div>Personal best: <span id="banHigh"></span> messages</div>
+  </div>
+</section>
+<img id="imageFlash" class="pixelart" style="background-color: red;">
+
+<audio id="player"></audio>
+
+</main>
+
+<div class="globalDialog" id="globalDialog-info">
+  <div>
+    <div>
+      <span>Info...</span>
+      <span><img class="doodle x" src="../doodle/x.gif" alt="X" role="button"></span>
+    </div>
+    <div>
+      <div>
+        <small>RageBait Simulator was made 100% by a human.</small>
+        <span>
+          <button onclick="R74n.more()">More Games</button>
+          <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>
