@@ -501,7 +501,7 @@ R74n.more = function() {
 	<a href="https://sandboxels.r74n.com/" style="background-image: url(${R74n.root}sandboxels/spotlight.jpg);">Sandboxels</a>
 	<a href="${R74n.root}cook/" style="background-image: url(${R74n.root}cook/spotlight.jpg);">Infinite Chef</a>
 	<a href="${R74n.root}gentown/" class="new update" style="background-image: url(${R74n.root}gentown/spotlight.jpg);">GenTown</a>
-	<a href="${R74n.root}mini/odds" class="new" style="background-image: url(${R74n.root}mini/spotlight-odds.gif);">What Are The Odds?</a>
+	<a href="${R74n.root}mini/odds" style="background-image: url(${R74n.root}mini/spotlight-odds.gif);">What Are The Odds?</a>
 	<a href="${R74n.root}mini/handwriting" class="new" style="background-image: url(${R74n.root}mini/spotlight-handwriting.png);">Handwriting Personality</a>
 	<a href="${R74n.root}mini/ragebait" class="new" style="background-image: url(${R74n.root}mini/spotlight-ragebait.png);">RageBait Simulator</a>
 	<a href="${R74n.root}ants/" style="background-image: url(${R74n.root}ants/spotlight.png);">Every Ant on Earth</a>
