@@ -656,8 +656,8 @@ function endRound() {
 	document.getElementById("banName").innerText = document.getElementById("mainName").innerText;
 	document.getElementById("banMoves").innerText = currentMoves;
 	banned = true;
-	let highScore = R74n.get("RageBaitHigh") || 0;
-	if (currentMoves < highScore) {
+	let highScore = R74n.get("RageBaitHigh");
+	if (!highScore || currentMoves < highScore) {
 		R74n.set("RageBaitHigh", currentMoves);
 		highScore = currentMoves;
 	}
