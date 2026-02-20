@@ -1763,6 +1763,13 @@ Wind: ${stats.windspeedMiles}mph / ${stats.windspeedKmph}kmph (${stats.winddir16
 			Rue.error('Error: ' + error);
 		});
 	},
+	// "embed": function(args) {
+	// 	let url = args.join(" ");
+	// 	Rue.say(`
+	// 			<div class="iframely-embed"><div class="iframely-responsive" style="padding-bottom: 33.3333%; padding-top: 120px;"><a href="${url}" data-iframely-url="https://iframely.net/ulenKEoD?theme=dark"></a></div></div><script src="https://iframely.net/embed.js"><`+
+	// 			`/script>
+	// 		`)
+	// },
 
 	"downdetector": function(args) { //partner
 		if (args.length === 0) {

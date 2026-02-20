@@ -1,131 +1,171 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
-    <title>Sandboxels</title>
-    <meta charset="utf-8">
-    <meta name="description" content="A falling sand simulation game.">
-    <meta name="keywords" content="falling sand, elements, pixel art, simulator, powder">
+    <meta name="description" content="Relax or experiment with over 500 materials in this falling sand simulator, featuring heat, chemical reactions, density, burning, explosions.">
+    <meta name="keywords" content="falling sand, elements, pixel art, simulator, powder, toy, chemistry, science, educational">
     <meta name="author" content="R74n">
-    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="/icons/avatar.png">
+    <title>Sandboxels - Experiment with Pixels</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://sandboxels.R74n.com/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://sandboxels.R74n.com/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://sandboxels.R74n.com/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="https://sandboxels.R74n.com/icons/safari-pinned-tab.svg" color="#2167ff">
+    <link rel="shortcut icon" href="https://sandboxels.R74n.com/icons/favicon.ico">
+    <link rel="help" href="https://sandboxels.R74n.com/help">
+    <link rel="search" href="https://R74n.com/search/#gsc.tab=0">
+    <link rel="license" href="https://sandboxels.R74n.com/license.txt">
+    <meta name="msapplication-TileColor" content="#e6d577">
+    <meta name="theme-color" content="#000000">
+
+    <!--OpenGraph-->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sandboxels - Experiment with Pixels">
+    <meta property="og:description" content="Relax or experiment with over 500 materials in this falling sand simulator.">
+    <meta property="og:url" content="https://sandboxels.r74n.com">
+    <meta property="og:site_name" content="Sandboxels">
+    <meta property="og:image" content="https://sandboxels.r74n.com/icons/cover-3840x1240px-text.png">
+    <meta property="og:image:width" content="3840">
+    <meta property="og:image:height" content="1240">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:alt" content="Magma falling into Water, forming Steam and Basalt. Pixel art style.">
+
+    <!--Twitter-->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sandboxels - Experiment with Pixels">
+    <meta name="twitter:description" content="Relax or experiment with over 500 materials in this falling sand simulator.">
+    <meta name="twitter:site:id" content="1436857621827530753">
+    <meta name="twitter:image" content="https://sandboxels.r74n.com/icons/cover-3840x1240px-text.png">
+    <meta name="twitter:image:alt" content="Magma falling into Water, forming Steam and Basalt. Pixel art style.">
+    <meta name="twitter:creator:id" content="1436857621827530753">
+
+    <meta http-equiv="last-modified" content="2026-02-20" />
+
     <script src="https://R74n.com/load.js"></script>
-    
+
     <style>
-        html, body {
-            width:  100%;
-            height: 100%;
-            margin: 0;
-        }
-        body {
-            font-family: 'Press Start 2P';
-            background-color: #000000;
-            color: #ffffff;
-        }
-        h1 {
-            padding: 10px;
-        }
-        a {color: rgb(255, 0, 255);text-decoration: none;}
-        a:hover {color: rgb(255, 121, 255);}
-        a:active, a:hover:active {color: rgb(255, 179, 255);}
-        #gameDiv { /*game canvas*/
-            border: 1px solid #ffffff;
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, -0%);
-            -webkit-touch-callout: none; /* iOS Safari */
-                -webkit-user-select: none; /* Safari */
-                -khtml-user-select: none; /* Konqueror HTML */
-                -moz-user-select: none; /* Old versions of Firefox */
-                    -ms-user-select: none; /* Internet Explorer/Edge */
-                        user-select: none;
-        }
-        button, input[type="submit"], input[type="reset"] {
-            background: none;
-            color: inherit;
-            border: none;
-            padding: 0;
-            font: inherit;
-            cursor: pointer;
-            outline: inherit;
-        }
-        #underBox {
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, -0%);
-            margin-top: 10px;
-            width: 100%;
-        }
-        #controls button {
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 1em;
-            text-shadow: 0.5px 1px 4px #000000;
-            color: rgba(255, 255, 255, 0.75);
-            border: 1px solid #797979;
-            margin: 0px 5px 5px 5px;
-            font-variant: small-caps;
-        }
-        #controls button.bright {
-            text-shadow: 0.5px 1px 4px #ffffff;
-            color: rgba(0, 0, 0, 0.75);   
-        }
-        /*Darken when active*/
-        #controls button:active, #controls button:active:hover {
-            filter: brightness(60%);
-        }
-        #controls button:hover {
-            filter: brightness(90%);
-        }
-        #controls button:disabled {
-            cursor: not-allowed;
-        }
-        #controls button[current="true"], #controls button[on="true"] {
-            border: 1px solid #ffffff;
-            filter: brightness(110%);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, .4);
-            color: rgba(255, 255, 255, 1);
-        }
-        #controls button.bright[current="true"] {
-            color: rgba(0, 0, 0, 1);
-        }
-        #controls button[on="true"] {
-            border-color:lime;
-            color:lime;
-        }
-        #controls div {
-            display:block;
-        }
-        .stat {
-            margin-right: 25px;
-            margin-bottom: 5px;
-            float:right;
-        }
-        #stats {
-            margin: 0px 5px 5px 5px;
-            font-size: 0.75em;
-            height: 2em;
-        }
-        #stat-pos, #stat-pixels, #stat-shift, #stat-tps, #stat-ticks {
-            float:left;
-        }
-        .categoryName {
-            font-size: 0.75em;
-            text-transform: uppercase;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-        #extraInfo {
-            margin:5px
-        }
+      /* header a.home {
+        background-image: url(https://sandboxels.r74n.com/icons/icon.png);
+      } */
+
+      a > img:hover {
+        scale: 1.1
+      }
+      a > img:active {
+        scale: 1.05
+      }
     </style>
 
+</head>
+
 <body>
-    
-    This page has been moved. <a href="https://sandboxels.r74n.com/">Click here for the new link.</a></body>
 
-    <script>
-        location.href = "https://sandboxels.r74n.com/";
-    </script>
+<header>
+<a href="/" class="home"></a>
+<h1 class="pagetitle">Sandboxels</h1>
+</header>
 
+<main class="content">
+
+<p><strong><dfn>Sandboxels</dfn></strong> is a free falling-sand simulator that can be played in your browser. It features heat simulation, electricity, density, chemical reactions, cooking, and fire spread. With over 500 unique elements to play with, Sandboxels is a great way to pass the time and relax.</p>
+
+<p style="text-align: center;"><img src="cover.png" style="width: 900px;"></p>
+
+<p style="display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;">
+  <a href="https://store.steampowered.com/app/3664820/Sandboxels/"><img src="steam.png" style="height:4em"></a>
+  <a href="https://neal.fun/sandboxels/"><img src="nealfun.svg" style="height:2.5em;"></a>
+</p>
+
+<p>There are thousands of interactions between the many materials, plants, animals, fluids, and powders in the game.</p>
+
+<p>Falling-sand games are a genre of sandbox games characterized by falling particles of various types.</p>
+
+<div class="homedivparent">
+
+<section class="homediv">
+  <ul class="tree">
+    <li><details open>
+      <summary>Links</summary><ul>
+        <li class="noArrow"><a href="https://neal.fun/sandboxels/"><em>Play Online</em> on neal.fun</a></li>
+        <li class="noArrow"><a href="https://store.steampowered.com/app/3664820/Sandboxels/"><em>Get on Steam</em> for $0.99</a></li>
+        <li><a href="https://neal.fun/sandboxels/changelog"><em>Changelog</em> See what's new!</a></li>
+        <li><a href="https://sandboxels.r74n.com/feedback"><em>Feedback</em> Suggest new features or report bugs</a></li>
+        <li><a href="https://sandboxels.wiki.gg/"><em>Sandboxels Wiki</em> Read or edit pages about the game</a></li>
+        <li><a href="https://sandboxels.r74n.com/translate"><em>Translate</em> Help bring Sandboxels to new languages</a></li>
+        <li class="noArrow"><a href="https://mods.r74n.com/mod-list"><em>Mod List</em> and Tutorial</a></li>
+        <li><a href="https://sandboxels.r74n.com/mobile-use"><em>Mobile Use</em> Play on mobile without Wi-Fi</a></li>
+        <li><a href="https://sandboxels.r74n.com/presskit"><em>Press Kit</em> For journalists</a></li>
+      </ul>
+    </details></li>
+  </ul>
+</section>
+
+<section class="homediv">
+  <ul class="tree">
+    <li><details open>
+      <summary>Connect</summary><ul>
+        <li><a href="https://discord.gg/ejUc6YPQuS"><em style='color:#2f60ff;'>Discord</em> Hang out and share your creations</a></li>
+        <li><a href="https://news.r74n.com/"><em>Newsletter</em> Get notified when new updates drop</a></li>
+        <li><a href="mailto:contact@R74n.com"><em>Email us</em> contact@R74n.com</a></li>
+        <li>
+          <ul class="tree">
+            <li><details>
+              <summary><span style='color:#FFFFFF'>You</span><span style='background-color:#FF0000;color:#FFFFFF'>Tube</span></summary><ul>
+                <li><a href="https://www.youtube.com/@R74n/shorts"><em>Official Videos</em> @R74n</a></li>
+                <li class="noArrow"><a href="https://www.youtube.com/channel/UCxGUTquZLpgkORw0v-JaWgg/recent"><em>Community Videos</em></a></li>
+                <li class="noArrow"><a href="https://www.youtube.com/@Boxl_/shorts"><em>@Boxl</em></a></li>
+              </ul>
+            </details></li>
+          </ul>
+        </li>
+        <li><a href="https://tiktok.com/@r74n.com"><em style="color:#00f2ea"><span style='color:#00f2ea'>Tik</span><span style='color:#ff0050'>Tok</span></em> @R74n.com</a></li>
+        <li><a href="https://www.instagram.com/r74ndev/reels/"><em style='color:#ff0055'>Instagram</em> @R74ndev</a></li>
+        <li><a href="https://reddit.com/r/Sandboxels"><em style='color:#FF5700'>Reddit</em> r/Sandboxels</a></li>
+        <li><a href="https://x.com/intent/follow?source=followbutton&variant=1.0&screen_name=R74nCom"><em style='color:#1DA1F2'>Twitter</em> @R74nCom</a></li>
+        <li><a href="https://bsky.app/profile/r74n.com"><em style='color:#208BFE'>Bluesky</em> @R74n.com</a></li>
+      </ul>
+    </details></li>
+  </ul>
+</section>
+
+</div>
+
+
+<h2 style="margin-top: 0;">How to Play</h2>
+<p><em>Sandboxels</em> can be downloaded <a href="https://store.steampowered.com/app/3664820/Sandboxels/">on Steam</a> for $0.99, or played online for free <a href="https://neal.fun/sandboxels">on neal.fun</a>!</p>
+
+<p>Simply click or use your touchscreen to select a category, like <strong>Liquids</strong>, then pick an element, like <strong>Water</strong>. Drag on the canvas above to place your pixels, and watch them interact with others!</p>
+
+<p>For more controls, press the "Sandboxels" title in the bottom-left corner of the game.</p>
+
+<p>Sandboxels was moved to neal.fun in February 2026. For more information, including how to transfer data and saves, see <a href="https://sandboxels.r74n.com/new-home">our dedicated page</a>.</p>
+
+
+
+
+
+
+
+
+</main>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
 </html>

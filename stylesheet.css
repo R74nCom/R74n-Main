@@ -806,6 +806,10 @@ body header:first-child .home {
 	display:inline-block;
 	white-space: pre;
 }
+.tree details > ul .noArrow a em:last-of-type::after {
+	content: "";
+	display: none;
+}
 .tree details > ul a:active em,
 .tree details > ul a:hover:active em {
 	color: rgb(255, 179, 255);
@@ -834,6 +838,15 @@ body header:first-child .home {
 .tree.poll summary {
 	width: 100%;
 	max-width: unset;
+}
+.tree .tree {
+	margin-bottom: 0;
+}
+.tree .tree details:not([open]) summary {
+	margin-bottom: 0;
+}
+.tree .tree summary::before {
+	height: 5px
 }
 
 @media only screen and (max-width: 500px) {
