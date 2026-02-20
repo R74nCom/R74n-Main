@@ -29,8 +29,8 @@
           var TagList = document.getElementsByTagName(TagName);
           for (i = 0; i < TagList.length; ++i) {
             var Tag = TagList[i];
-            Tag.setAttribute("title","R74n");
-            Tag.setAttribute("alt","R74n");
+            if (!Tag.getAttribute("title")) Tag.setAttribute("title","R74n");
+            if (!Tag.getAttribute("alt")) Tag.setAttribute("alt","R74n");
 
             var parent = Tag.parentNode;
             var wrapper = document.createElement("a");
@@ -204,12 +204,15 @@ Customize your own R74n logo <a href="https://picrew.me/image_maker/1276358">her
 <img src="warm.png"> <img src="avatar-warm.png"> Warm (November)<br>
 <img src="frozen.png"> <img src="avatar-frozen.png"> Frozen (December)<br>
 <img src="red_black_green.png"> Red Black Green<br>
-<img src="love.png">Love (Valentine's Day)<br>
+<img src="love.png"> <img src="avatar-love.png">Love (Valentine's Day)<br>
 <img src="spring.png">Spring (March)<br>
 <img src="pumpkin2.png"> <img src="pumpkin2-avatar.png"> Pumpkin (October 2024)<br>
 <img src="pride25.png"> <img src="avatar-pride25.png"> Pride 2025<br>
 <img src="avatar-threads-gold.png"> Threads Anniversary<br>
 <img src="avatar-rainbowbg.png"> <img src="avatar-rainbowbg.gif"> Pride 2025 v2<br>
+<img src="avatar-chinese.png" alt="啊74呐"> Chinese / Lunar New Year<br>
+<img src="avatar-chinese-ramadan-lent.png" alt="啊ر٧٤"> Lunar New Year, Ramadan, and Lent 2026<br>
+<img src="black-history-month.png"> <img src="avatar-black-history-month.png"> Lunar New Year, Ramadan, and Lent 2026<br>
 
 <br>
 <img src="thumbnail.png"> Thumbnail<br>
@@ -233,6 +236,7 @@ Customize your own R74n logo <a href="https://picrew.me/image_maker/1276358">her
 <img src="favicon.svg"> SVG<br>
 <img src="safari-pinned-tab.svg"> Safari Pinned Tab Icon<br>
 <img src="qr_code.svg"> QR Code<br>
+<img src="pride25.svg"> Pride 2025<br>
 <br>Characters:<br>
 <img src="R.svg"><img src="7.svg"><img src="4.svg"><img src="n.svg"><br><br>
 <a href="https://www.desmos.com/calculator/r74nr74n69" target="_blank">Desmos Graph</a><br>

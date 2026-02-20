@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-02-19 - Added new holiday logos to Icons page
 2026-02-17 - New Mini Project: RageBait Simulator
 2026-02-17 - Special Lunar New Year-Ramadan-Lent icon on homepage
 2026-02-11 - Mix-Up! spotlight button
