@@ -488,6 +488,64 @@ R74n.share = function(text) {
 	content.appendChild(shareContent);
 }
 
+R74n.projects = [
+	{
+		name: "Sandboxels",
+		url: "https://sandboxels.r74n.com/",
+		image: "sandboxels/spotlight.jpg"
+	},
+	{
+		name: "Infinite Chef",
+		url: "cook/",
+		image: "cook/spotlight.jpg"
+	},
+	{
+		name: "GenTown",
+		url: "gentown/",
+		image: "gentown/spotlight.jpg",
+		update: "2026-02-07"
+	},
+	{
+		name: "Costoflivingdle",
+		url: "mini/cost",
+		image: "mini/spotlight-cost.png",
+		release: "2026-02-24"
+	},
+	{
+		name: "Handwriting Personality",
+		url: "mini/handwriting",
+		image: "mini/spotlight-handwriting.png",
+		release: "2026-01-16"
+	},
+	{
+		name: "RageBait Simulator",
+		url: "mini/ragebait",
+		image: "mini/spotlight-ragebait.png",
+		release: "2026-02-17"
+	},
+	{
+		name: "What Are The Odds?",
+		url: "mini/odds",
+		image: "mini/spotlight-odds.gif",
+		release: "2026-01-03"
+	},
+	{
+		name: "Every Ant on Earth",
+		url: "ants/",
+		image: "ants/spotlight.png"
+	},
+	{
+		name: "Guess the Pixel Flag",
+		url: "pixelflags/guess",
+		image: "pixelflags/spotlight.png"
+	},
+	{
+		name: "Mix-Up!",
+		url: "mix/",
+		image: "mix/spotlight.png"
+	},
+];
+
 R74n.more = function() {
 	let dialog = R74n.dialog("more", {
 		title: "More games...",
@@ -496,19 +554,31 @@ R74n.more = function() {
 
 	let content = dialog.querySelector(".globalDialogContent");
 
-	content.innerHTML = `
-<div><div class="projectGallery">
-	<a href="https://sandboxels.r74n.com/" style="background-image: url(${R74n.root}sandboxels/spotlight.jpg);">Sandboxels</a>
-	<a href="${R74n.root}cook/" style="background-image: url(${R74n.root}cook/spotlight.jpg);">Infinite Chef</a>
-	<a href="${R74n.root}gentown/" class="new update" style="background-image: url(${R74n.root}gentown/spotlight.jpg);">GenTown</a>
-	<a href="${R74n.root}mini/odds" style="background-image: url(${R74n.root}mini/spotlight-odds.gif);">What Are The Odds?</a>
-	<a href="${R74n.root}mini/handwriting" class="new" style="background-image: url(${R74n.root}mini/spotlight-handwriting.png);">Handwriting Personality</a>
-	<a href="${R74n.root}mini/ragebait" class="new" style="background-image: url(${R74n.root}mini/spotlight-ragebait.png);">RageBait Simulator</a>
-	<a href="${R74n.root}ants/" style="background-image: url(${R74n.root}ants/spotlight.png);">Every Ant on Earth</a>
-	<a href="${R74n.root}pixelflags/guess" style="background-image: url(${R74n.root}pixelflags/spotlight.png);">Guess the Pixel Flag</a>
-	<a href="${R74n.root}mix/" style="background-image: url(${R74n.root}mix/spotlight.png);">Mix-Up!</a>
-</div></div>
-`
+	content.innerHTML = `<div><div class="projectGallery"></div></div>`;
+	let gallery = content.querySelector(".projectGallery");
+	let current = "";
+	let match = location.pathname.replace(/\.html/,"").replace(/\/+$/,"").match(/[a-z\-_\.]+$/g);
+	if (match) current = match[0];
+
+	for (let i = 0; i < R74n.projects.length; i++) {
+		const data = R74n.projects[i];
+		if (current === data.url.replace(/\.html/,"").replace(/\/+$/,"").match(/[^/]+$/g)[0]) continue;
+		let a = document.createElement("a");
+		a.href = (data.url.startsWith("http") ? "" : R74n.root) + data.url;
+		a.innerText = data.name;
+		a.style.backgroundImage = `url("${R74n.root}${data.image}")`;
+		let date = data.update || data.release;
+		if (date) {
+			date = new Date(date);
+			let diff = (new Date() - date) / 1000 / 60 / 60 / 24;
+			console.log(diff);
+			if (diff < 30) { 
+				a.classList.add("new");
+				if (data.update) a.classList.add("update");
+			}
+		}
+		gallery.appendChild(a);
+	}
 }
 
 if (urlParams.has("debug")) {

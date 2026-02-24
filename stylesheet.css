@@ -919,6 +919,7 @@ form .honeypot {
 	/* justify-content: center; */
 	flex-direction: column;
 	font-family: 'VT323', 'Courier New', Courier, monospace;
+	font-variant-ligatures: no-common-ligatures;
 	font-size: 35px;
 	text-shadow: 0 0 10px black, 0 0 10px black, 0 0 10px black;
 	color: white;
@@ -1002,6 +1003,7 @@ form .honeypot {
 	background-size: cover;
 	color: white;
 	font-family: 'VT323';
+	font-variant-ligatures: no-common-ligatures;
 	text-align: center;
 	font-size: 40px;
 	/* -webkit-text-stroke: 4px black;

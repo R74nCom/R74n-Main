@@ -3,10 +3,11 @@ window.SPA = {
 		SPA.main = document.querySelector(".spa > .content");
 		SPA.header = document.querySelector(".spa > header:first-child");
 		SPA._paths = document.body.classList.contains("paths");
+		SPA.pages = SPA.main.querySelectorAll(".page");
 	},
 	init: () => {
 		SPA._loaded = true;
-		SPA.pages = SPA.main.querySelectorAll(".page");
+		if (!SPA.pages.length) SPA.pages = SPA.main.querySelectorAll(".page");
 		if (SPA.pages.length) {
 			SPA.currentPage = SPA.main.querySelector('.page[data-current="true"]');
 			if (!SPA.currentPage) {

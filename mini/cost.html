@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Are you in touch with the working class? Test your knowledge of the cost of living.">
+    <meta name="keywords" content="R74n, R47n">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="/icons/avatar.png">
+    <title>Costoflivingdle - R74n</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00ffff">
+    <link rel="icon" type="image/x-icon" sizes="40x40" href="/icons/favicon.ico">
+    <meta name="theme-color" content="#000000">
+
+    <script src="../load.js"></script>
+
+    <style>
+      @font-face {
+        font-family: 'VT323';
+        src: url('../cook/fonts/VT323-Regular.ttf') format('truetype');
+      }
+
+      body {
+        font-family: 'VT323', 'Courier New', Courier, monospace;
+        font-size: 35px;
+        font-variant-ligatures: none;
+      }
+      body > header:first-child {
+        border-bottom: none;
+      }
+
+      #game {
+        display: flex;
+        flex-direction: column;
+      }
+      #game > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+      #game > div:first-of-type {
+        font-size: 40px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        box-shadow: black 0px 5px 25px;
+        z-index: 100;
+      }
+      #game > div:last-of-type {
+        flex-grow: 1;
+      }
+      #game > div > div {
+        overflow-x: hidden;
+        flex-basis: 50%;
+        transition: flex-basis 0.5s;
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        flex-direction: column;
+      }
+      #game > div > div.panelHidden {
+        flex-basis: 0;
+        color: transparent;
+        user-select: none;
+        pointer-events: none;
+      }
+      #game .price {
+        font-size: 45px;
+        padding-top: 20px;
+      }
+      #answerPanels {
+        position: relative;
+      }
+      #answerPanels .result {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+      }
+      @media only screen and (max-width: 800px) {
+        #game > div:last-of-type {
+          flex-direction: column;
+        }
+      }
+      @keyframes wobble {
+        0% { transform: rotate(0deg) scale(1); }
+        33% { transform: rotate(-1deg) scale(1.05); }
+        66% { transform: rotate(1deg) scale(1.025); }
+        100% { transform: rotate(0deg) scale(1); }
+      }
+      #question {
+        animation: wobble 1s infinite;
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="spa.css">
+    <script src="spa.js"></script>
+    <script src="data/cost.js"></script>
+
+</head>
+
+<body class="spa clicky paths">
+
+<header>
+<a href="/" class="home"></a>
+<h1 class="pagetitle">Costoflivingdle</h1>
+<img class="doodle info" src="../doodle/info.gif" role="button">
+</header>
+
+<main class="content">
+
+
+<p class="loading">Loading...<br><br>Are you in touch with the working class? Test your knowledge of the cost of living.</p>
+
+<div class="page" data-current="true">
+  <div id="game" class="full">
+    <div>
+      <span id="question">Which is HIGHER?</span>
+    </div>
+    <div id="answerPanels">
+      <!-- <div style="background: rgb(47, 47, 47)">Test1</div>
+      <div style="background: rgb(68, 68, 68)">Test2</div> -->
+      <!-- <div id="panel3" style="background: rgb(100, 100, 100)" class="panelHidden">Test3</div> -->
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div>
+    <div class="title">Game Over</div>
+    <div class="pop">Your score: <span id="finalScore"></span></div>
+    <div class="subtitle">Highest score: <span id="highScore"></span></div>
+  </div>
+  <div class="controls">
+    <img class="doodle" src="../doodle/share.gif" role="button" onclick="SPA._handleShare();">
+    <img class="doodle" src="../doodle/reset.gif" role="button" onclick="newRound();">
+    <img class="doodle" src="../doodle/more.gif" role="button" onclick="R74n.more();">
+  </div>
+</div>
+
+<script>
+  // document.querySelector("#game > div:nth-child(2)").classList.add("panelHidden");
+  // document.querySelector("#game > div:nth-child(3)").classList.remove("panelHidden");
+
+  let choices = Object.keys(SPA.data);
+  choices.push("Monthly apartment rent");
+  choices.push("Monthly apartment rent");
+  choices.push("Monthly apartment rent");
+  choices.push("Monthly apartment rent");
+  choices.push("Monthly apartment rent");
+  choices.push("Monthly apartment rent");
+  choices.push("Monthly home payment");
+  choices.push("Monthly home payment");
+
+  let colors = [
+    "rgb(47, 47, 47)",
+    "rgb(68, 68, 68)",
+    "rgb(100, 100, 100)",
+  ];
+  let currentColor = 0;
+
+  let currentScore = 0;
+
+  let pickOption = (current) => {
+    let key1;
+    let value1;
+    let location1;
+    if (!current) {
+      key1 = choose(choices);
+      value1 = SPA.data[key1];
+  
+      location1;
+      if (typeof value1 === "object") {
+        location1 = choose(Object.keys(value1));
+        value1 = value1[location1];
+      }
+
+      if (currentScore < 2 && value1 > 5000) {
+        return pickOption();
+      }
+
+      return {key: key1, value: value1, location: location1};
+    }
+
+    key1 = current.key;
+    value1 = current.value;
+    location1 = current.location;
+
+    let key2;
+    let value2;
+    let location2;
+    do {
+      key2 = choose(choices);
+      value2 = SPA.data[key2];
+      location2 = undefined;
+      if (typeof value2 === "object") {
+        location2 = choose(Object.keys(value2));
+        value2 = value2[location2];
+      }
+    }
+    while (
+      (key1 === key2 && location1 === location2)
+    );
+
+    if (currentScore < 2 && Math.max(value1,value2) > 5000) {
+      return pickOption(current);
+    }
+
+    return {key: key2, value: value2, location: location2}
+  }
+  
+  let newRound = () => {
+    let answerPanels = document.getElementById("answerPanels");
+    answerPanels.innerHTML = "";
+    currentScore = 0;
+    currentColor = 0;
+    if (currentOption === null) SPA.snap(0);
+    else SPA.snap(1);
+    currentOption = null;
+    locked = false;
+    nextQuestion();
+  }
+  let endRound = () => {
+    locked = true;
+    let score = currentScore - 1;
+    let high = parseInt(R74n.get("CostoflivingdleHigh"));
+    if (!high || score > high) {
+      R74n.set("CostoflivingdleHigh", score);
+      high = score;
+    }
+    document.getElementById("finalScore").innerText = score;
+    document.getElementById("highScore").innerText = high;
+    SPA.snap(2);
+  }
+
+  let currentOption = null;
+  let locked = false;
+
+  let nextQuestion = () => {
+    if (locked) return;
+    // let options = pickOptions();
+    // console.log(options)
+    let type = Math.random() < 0.5 ? "higher" : "lower";
+    document.getElementById("question").innerHTML = `Which is ${type === "higher" ? "<span style='color:#75ff75'>HIGHER</span>" : "<span style='color:#ff7575'>LOWER</span>"}?`
+    
+    let answerPanels = document.getElementById("answerPanels");
+
+    // panel1.innerText = options[0].key;
+
+    // if (currentScore % 2) {
+    //   panel3.innerText = options[1].key;
+    //   panel3.classList.remove("panelHidden");
+    //   panel2.classList.add("panelHidden");
+    // }
+    // else {
+    //   panel2.innerText = options[1].key;
+    //   panel2.classList.remove("panelHidden");
+    //   panel3.classList.add("panelHidden");
+    // }
+
+    // SET .selected ON CLICK WHEN CORRECT
+    let currentPanel = document.querySelector("#answerPanels .selected");
+    let otherPanel = document.querySelector("#answerPanels .notSelected");
+    console.log(currentPanel,otherPanel);
+
+    let firstPanel = document.querySelector("#answerPanels div:nth-child(1)");
+    let secondPanel = document.querySelector("#answerPanels div:nth-child(2)");
+
+    if (!currentOption) {
+      currentOption = pickOption();
+      currentPanel = document.createElement("div");
+      currentPanel.style.backgroundColor = colors[currentColor % (colors.length)];
+      currentColor++;
+      currentPanel.innerText = currentOption.key;
+      if (currentOption.location) {
+        currentPanel.insertAdjacentHTML("beforeend", `<span class="location">in ${currentOption.location}</span>`)
+      }
+      answerPanels.appendChild(currentPanel);
+    }
+    else {
+      SPA.header.classList.add("min");
+    }
+
+    let newOption = pickOption(currentOption);
+
+    let newPanel = document.createElement("div");
+    newPanel.style.backgroundColor = colors[currentColor % (colors.length)];
+    currentColor++;
+    newPanel.innerText = newOption.key;
+    if (newOption.location) {
+      newPanel.insertAdjacentHTML("beforeend", `<span class="location">in ${newOption.location}</span>`)
+    }
+    newPanel.classList.add("panelHidden");
+    answerPanels.insertAdjacentElement(currentScore === 0 || currentPanel == firstPanel ? "beforeend" : "afterbegin", newPanel);
+    setTimeout(() => {
+      newPanel.classList.remove("panelHidden");
+    }, 10)
+
+    if (otherPanel) {
+      otherPanel.classList.add("panelHidden")
+      setTimeout(() => {
+        otherPanel.remove();
+      }, 510)
+    }
+
+    currentPanel.addEventListener("click", () => {
+      if (locked) return;
+      currentPanel.classList.add("selected");
+      currentPanel.classList.remove("notSelected");
+      newPanel.classList.add("notSelected");
+      newPanel.classList.remove("selected");
+      if (!currentPanel.querySelector(".price")) currentPanel.insertAdjacentHTML("beforeend", `<span class="price">$${currentOption.value}</span>`)
+      if (!newPanel.querySelector(".price")) newPanel.insertAdjacentHTML("beforeend", `<span class="price">$${newOption.value}</span>`)
+
+      
+      if (
+        (type === "higher" && currentOption.value >= newOption.value) ||
+        (type === "lower" && currentOption.value <= newOption.value)
+      ) {
+        // CONTINUE
+        answerPanels.insertAdjacentHTML("beforeend", `<span class="result">✅</span>`);
+
+        setTimeout(() => {
+          answerPanels.querySelector(".result").remove();
+          locked = false;
+          nextQuestion();
+        }, 2000)
+
+        locked = true;
+      }
+      else {
+        answerPanels.insertAdjacentHTML("beforeend", `<span class="result">❌</span>`);
+        
+        setTimeout(() => {
+          answerPanels.querySelector(".result").remove();
+          endRound();
+        }, 2000)
+        locked = true;
+      }
+
+    }, {once:true})
+
+    newPanel.addEventListener("click", () => {
+      if (locked) return;
+      newPanel.classList.add("selected");
+      newPanel.classList.remove("notSelected");
+      currentPanel.classList.add("notSelected");
+      currentPanel.classList.remove("selected");
+      if (!currentPanel.querySelector(".price")) currentPanel.insertAdjacentHTML("beforeend", `<span class="price">$${currentOption.value}</span>`)
+      if (!newPanel.querySelector(".price")) newPanel.insertAdjacentHTML("beforeend", `<span class="price">$${newOption.value}</span>`)
+
+      if (
+        (type === "higher" && newOption.value >= currentOption.value) ||
+        (type === "lower" && newOption.value <= currentOption.value)
+      ) {
+        // CONTINUE
+        answerPanels.insertAdjacentHTML("beforeend", `<span class="result">✅</span>`);
+
+        setTimeout(() => {
+          answerPanels.querySelector(".result").remove();
+          locked = false;
+          nextQuestion();
+        }, 2000)
+
+        locked = true;
+      }
+      else {
+        answerPanels.insertAdjacentHTML("beforeend", `<span class="result">❌</span>`);
+        
+        setTimeout(() => {
+          answerPanels.querySelector(".result").remove();
+          endRound();
+        }, 2000)
+        locked = true;
+      }
+
+    }, {once:true})
+
+
+    currentScore ++;
+  }
+
+  SPA.onload = () => {
+    newRound();
+  }
+  SPA._handleShare = () => {
+    R74n.share(`I got ${currentScore - 1} right in #Costoflivingdle.`)
+  }
+</script>
+
+
+</main>
+
+<div class="globalDialog" id="globalDialog-info">
+  <div>
+    <div>
+      <span>Info...</span>
+      <span><img class="doodle x" src="../doodle/x.gif" alt="X" role="button"></span>
+    </div>
+    <div>
+      <div>
+        <small>All costs are averages, and can vary greatly depending on location, time, insurance, and more. This is just for fun so don't take it too seriously!</small>
+        <span>
+          <button onclick="R74n.more()">More Games</button>
+          <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>
