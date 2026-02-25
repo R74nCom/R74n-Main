@@ -99,6 +99,12 @@
       #question {
         animation: wobble 1s infinite;
       }
+      #game[data-type="higher"] #answerPanels > div:hover {
+        background-color: rgb(51, 90, 44)!important;
+      }
+      #game[data-type="lower"] #answerPanels > div:hover {
+        background-color: rgb(90, 44, 44)!important;
+      }
     </style>
 
     <link rel="stylesheet" type="text/css" href="spa.css">
@@ -249,7 +255,8 @@
     // let options = pickOptions();
     // console.log(options)
     let type = Math.random() < 0.5 ? "higher" : "lower";
-    document.getElementById("question").innerHTML = `Which is ${type === "higher" ? "<span style='color:#75ff75'>HIGHER</span>" : "<span style='color:#ff7575'>LOWER</span>"}?`
+    document.getElementById("game").setAttribute("data-type", type);
+    document.getElementById("question").innerHTML = `Which is ${type === "higher" ? "<span style='color:#75ff75'>HIGHER</span>" : "<span style='color:#ff7575'>LOWER</span>"}?`;
     
     let answerPanels = document.getElementById("answerPanels");
 
@@ -365,6 +372,7 @@
         answerPanels.insertAdjacentHTML("beforeend", `<span class="result">✅</span>`);
 
         setTimeout(() => {
+          currentOption = newOption;
           answerPanels.querySelector(".result").remove();
           locked = false;
           nextQuestion();
