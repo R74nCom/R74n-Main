@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-02-25 - Fixed a bug in Costoflivingdle and added a question indicator on hover
+2026-02-24 - New Mini Project: Costoflivingdle
 2026-02-23 - Reworked "More Games" dialog: Now hides game you're currently on, automatically updates "NEW" marker
 2026-02-23 - Increased click volume in Mini Projects
 2026-02-20 - Created Sandboxels page to restore informational content
