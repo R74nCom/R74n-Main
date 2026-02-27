@@ -381,7 +381,6 @@ R74n.preDialogScroll = 0;
 
 R74n.dialog = function(id, options = {}) {
 	R74n.preDialogScroll = document.documentElement.scrollTop;
-	if (!R74n.state.spa) document.documentElement.scrollTop = 0;
 	let dialog = document.getElementById("globalDialog-"+id);
 	R74n.state.dialog = id;
 	if (dialog) {
