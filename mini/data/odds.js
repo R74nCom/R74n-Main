@@ -228,7 +228,7 @@ SPA.data = { odds: [
 	pool: 1000000
 },
 {
-	name: "Two files having the same SHA-256 has",
+	name: "Two files having the same SHA-256 hash",
 	extra: "known as a collision",
 	pool: 2**256
 },
