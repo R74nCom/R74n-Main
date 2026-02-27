@@ -51,8 +51,71 @@ class R74nClass {
 	home() {
 		location.href = "https://r74n.com/";
 	}
-	more() {
-		
+	DB(name, then) {
+		const DBOpenRequest = window.indexedDB.open(LSPrefix+name, 1);
+
+		DBOpenRequest.onerror = (event) => {
+			console.log("Database error: ", event);
+			alert("Error loading data. Try refreshing?")
+		};
+
+		DBOpenRequest.onupgradeneeded = (event) => {
+			const db = event.target.result;
+			db.onerror = (event) => {
+				console.log("Database error: ", event);
+				alert("Error loading data. Try refreshing?")
+			};
+
+			const objectStore = db.createObjectStore("jsonStore", {
+				keyPath: "key",
+			});
+			objectStore.createIndex("json", "json", { unique: false });
+
+			console.log(objectStore);
+		}
+
+		DBOpenRequest.onsuccess = (event) => {
+			const db = DBOpenRequest.result;
+			let newDB = {};
+
+			newDB.write = (data) => {
+				const transaction = db.transaction(["jsonStore"], "readwrite");
+				const store = transaction.objectStore("jsonStore");
+				store.put({
+					key: 1,
+					json: JSON.stringify(data),
+				});
+			}
+			newDB.read = (then) => {
+				const transaction = db.transaction(["jsonStore"], "readwrite");
+				const store = transaction.objectStore("jsonStore");
+				const objectStoreRequest = store.get(1);
+				objectStoreRequest.onsuccess = (event) => {
+					const myRecord = objectStoreRequest.result;
+					// console.log(myRecord);
+					if (then) then(JSON.parse(myRecord.json));
+				}
+			}
+
+			if (then) then(newDB);
+		};
+
+		/*
+		let db;
+		function init(_db) {
+			db = _db;
+		}
+
+		R74n.DB("Testing7", (db) => {
+			init(db);
+		})
+
+		db.write({test: 123});
+		db.read(data => {
+			console.log(data);
+		});
+		*/
+
 	}
 }
 const R74n = new R74nClass();
