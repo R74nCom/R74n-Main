@@ -191,9 +191,12 @@ function setIcon(){
   var newicon = null;
   var eventdata = null;
   R74nicon = document.getElementById("R74nicon");
-  if (currentdate.getFullYear() === 2026 && currentdate.getMonth() === 1 && currentdate.getDate() >= 17 && currentdate.getDate() <= 21) {
-    eventdata = ["avatar-chinese-ramadan-lent.png", "Celebrating Lunar New Year, Ramadan, and Lent"];
+  if (currentdate.getFullYear() === 2026 && currentdate.getMonth() === 2) {
+    eventdata = ["march-2026.png", "Celebrating Women's History Month, St. Patrick's Day, and Pi Day"];
   }
+  // if (currentdate.getFullYear() === 2026 && currentdate.getMonth() === 1 && currentdate.getDate() >= 17 && currentdate.getDate() <= 21) {
+  //   eventdata = ["avatar-chinese-ramadan-lent.png", "Celebrating Lunar New Year, Ramadan, and Lent"];
+  // }
   else if (icondates[currentdatestring]) {
     eventdata = icondates[currentdatestring];
   }
