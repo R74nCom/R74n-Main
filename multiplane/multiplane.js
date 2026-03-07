@@ -93,6 +93,7 @@ multiplaneEntities = {
 "11E": "R74n Shapes//urn:shapes",
 "11F": "Infinite Chef//urn:cook",
 "120": "GenTown//urn:gentown",
+"121": "R74n Minis//urn:mini",
 "140": "R74n Commons//urn:commons",
 "141": "Universal Feedback System//urn:ufbs",
 "142": "R74n Wikibase//urn:wikibase",
@@ -129,6 +130,10 @@ multiplaneEntities = {
 "184": "Special Items//urn:mc:items",
 "185": "RyanUwU Shulker Boxes//https://r74n.com/box/",
 "190": "All Twitch PogChamps//urn:pogchamps",
+"1A0": "What Are The Odds?//urn:mini:odds",
+"1A1": "Handwriting Personality Test//urn:mini:handwriting",
+"1A2": "RageBait Simulator//urn:mini:ragebait",
+"1A3": "Costoflivingdle//urn:mini:cost",
 "1F0": "R74n Standard Alpha Namespaces//urn:alpha",
 "1F1": "Multiletter Alpha Namespaces//urn:alphamul",
 "1F2": "Two-letter Alpha Namespaces//urn:alphatwo",
@@ -205,6 +210,7 @@ multiplaneEntities = {
 "600": "Ryan, R74n developer",
 // Organizations //
 "700": "R74n Collective//1.3.6.1.4.1.61117",
+"710": "Neal.fun//https://neal.fun/",
 // Domain Names, Addresses //
 "800": "r74n.com//https://r74n.com",
 "801": "185.199.108.153//https://pages.github.com/",
@@ -271,6 +277,11 @@ multiplaneEntities = {
 "2002": "Sandboxels Changelog (TXT)//urn:sandboxels:changelog.txt",
 "2003": "Sandboxels Controls (HTML)//urn:sandboxels:controls",
 "2004": "Sandboxels Changelog (HTML)//urn:sandboxels:changelog",
+"2010": "Sandboxels: Web Edition",
+"2011": "Sandboxels: Discord Edition",
+"2012": "Sandboxels: Steam Edition",
+"2013": "Sandboxels: Demo Edition",
+"2014": "Sandboxels on Neal.fun",
 
 // Languages //
 "3000": "English",

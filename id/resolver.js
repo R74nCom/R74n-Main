@@ -241,6 +241,9 @@ urnResolvers = {
     if (args[0]) { return "https://R74n.com/schema/"+args[0]+".json"}
     return "https://R74n.com/schema/";
 },
+"mini": (args) => {
+    return "https://R74n.com/mini/"+args.join("/");
+},
 
 "twt": (args) => {
     var user = args[0];
