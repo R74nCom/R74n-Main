@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-03-14 - Experimental: Smooth transitions between pages in supported browsers
 2026-03-07 - Updated R74n Identifier Space for new projects
 2026-03-07 - Toki Pona fixes in Translation Hub
 2026-02-28 - Added March 2026 logo to Icons page and homepage
