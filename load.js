@@ -93,7 +93,18 @@ class R74nClass {
 				objectStoreRequest.onsuccess = (event) => {
 					const myRecord = objectStoreRequest.result;
 					// console.log(myRecord);
+					if (!myRecord) return;
 					if (then) then(JSON.parse(myRecord.json));
+				}
+			}
+			newDB.clear = (then) => {
+				const transaction = db.transaction(["jsonStore"], "readwrite");
+				const store = transaction.objectStore("jsonStore");
+				const objectStoreRequest = store.delete(1);
+				objectStoreRequest.onsuccess = (event) => {
+					const myRecord = objectStoreRequest.result;
+					// console.log(myRecord);
+					if (then) then();
 				}
 			}
 

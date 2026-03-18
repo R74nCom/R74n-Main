@@ -200,6 +200,7 @@
 .spa .content.cols {
 	display: flex;
 	flex-direction: row;
+	position: relative;
 }
 .spa .content.cols > section {
 	flex-grow: 1;

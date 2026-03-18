@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="R74n, R47n">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="art/ragebait/avatar.png">
+    <title>ProtoCog - R74n</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00ffff">
+    <link rel="icon" type="image/x-icon" sizes="40x40" href="/icons/favicon.ico">
+    <meta name="theme-color" content="#000000">
+
+    <script src="../load.js"></script>
+
+    <style>
+      @font-face {
+        font-family: 'VT323';
+        src: url('../cook/fonts/VT323-Regular.ttf') format('truetype');
+      }
+
+      body {
+        font-family: 'VT323', 'Courier New', Courier, monospace;
+        font-size: 35px;
+        font-variant-ligatures: none;
+      }
+      body > header:first-child {
+        border-color: rgba(255,255,255,0.15)
+      }
+
+      #panelLeft > div,
+      #panelRight > div {
+        flex-grow: 1;
+      }
+      #panelLeft > div.noGrow,
+      #panelRight > div.noGrow {
+        flex-grow: 0;
+      }
+      #panelLeft, #panelRight {
+        flex-basis: 25%;
+        padding: 20px;
+        font-size: 0.8em;
+        background-color: rgb(12, 12, 12);
+        display: flex;
+        flex-direction: column;
+        color: #d1d1d1;
+      }
+      #panelLeft button {
+        border: none;
+        background-color: #252525;
+        color: #e5e5e5;
+        translate: none;
+      }
+      #panelLeft button:active {
+        translate: none;
+        margin-bottom: 4px;
+      }
+      #panelMain {
+        flex-basis: 50%;
+        display: flex;
+        flex-direction: column-reverse;
+        /* justify-content: flex-end; */
+        padding: 0px 20px 45px 20px;
+        margin-top: auto !important;
+        max-height: calc(100% - 45px);
+        height: calc(100% - 30px);
+        min-height: calc(100% - 45px);
+        overflow: auto;
+        position: relative;
+        background-color: rgb(7, 7, 7);
+      }
+
+      @keyframes hitmarkerRise {
+        from {
+          bottom: 30px;
+          opacity: 1;
+        }
+        to {
+          bottom: 120px;
+          opacity: 0;
+        }
+      }
+      #panelMain .hitmarker {
+        position: absolute;
+        right: 50px;
+        bottom: 30px;
+        animation-name: hitmarkerRise;
+        animation-duration: 4s;
+        z-index: 99;
+      }
+      .pos {
+        color: lime;
+      }
+      .pos::before {
+        content: "+";
+      }
+      .neg {
+        color: red;
+      }
+      .neg::before {
+        content: "-";
+      }
+
+      #panelMain .message {
+        background: none;
+        border: none;
+        padding: 0;
+        caret-color: #00ffff;
+        cursor: text;
+        margin-top: 10px;
+        transition: opacity 0.2s;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+      }
+      #panelMain .message .text {
+        flex-grow: 1;
+      }
+      #panelMain .message > * {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      #panelMain .message::before {
+        content: "> ";
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      #panelMain .message.self:first-child {
+        padding-top: 20px;
+      }
+      #panelMain .message .text[contenteditable="plaintext-only"]:empty::after {
+        content: "Start typing here...";
+        color: rgba(255,255,255,0.5);
+      }
+      #panelMain *:focus-visible {
+        outline: none!important;
+      }
+
+      #panelMain .message.system {
+        color: #96ffff
+      }
+      #panelMain .message.system:before {
+        color: #00ffff
+      }
+      #panelMain .message.self .text[contenteditable="false"] {
+        opacity: 0.6;
+      }
+      #panelMain .message.self:before {
+        font-style: normal!important;
+      }
+      #panelMain .message.placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      #panelMain .message .menu {
+        transform: scaleX(0);
+        transform-origin: right;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: all 0.2s;
+        position: absolute;
+        right: -20px;
+        background-color: rgba(7, 7, 7, 0.8);
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        /* opacity: 0; */
+      }
+      #panelMain .message:hover .menu,
+      #panelMain .message .menu.shown {
+        transform: scaleX(1);
+        opacity: 1;
+        right: 0px;
+        z-index: 100
+      }
+      #panelMain .message .menu span {
+        cursor: pointer;
+        padding-left: 10px;
+      }
+
+      #panelMain .message .text {
+        z-index: 50;
+      }
+      #panelMain .message .highlight {
+        position: absolute;
+        left: 1px;
+        padding: 0;
+        color: rgba(0,0,0,0);
+        z-index: 40;
+      }
+      #panelMain .message .highlight::before {
+        content: "> ";
+        opacity: 0;
+      }
+      #panelMain .message .actions {
+        position: absolute;
+        left: 0;
+        bottom: -1.15em;
+        height: 1em;
+        width: calc(100%);
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 28px;
+        cursor: default;
+      }
+      #panelMain .message .actions > span {
+        margin-right: 0.5em;
+        background-color: rgb(70, 70, 70);
+        cursor: pointer;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      #panelStats > div:has(span:empty) {
+        display: none;
+      }
+
+      #mobileBar {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgb(24, 24, 24);
+        z-index: 70;
+      }
+      #mobileBar div {
+        flex-grow: 1;
+        text-align: center;
+        cursor: pointer;
+      }
+      nav.mobileBack {
+        /* position: absolute;
+        bottom: 0;
+        left: 0; */
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        width: 100%;
+        background-color: rgb(24, 24, 24);
+        cursor: pointer;
+        display: none;
+        margin-top: 10px;
+      }
+      @media only screen and (max-width: 800px) {
+        #panelLeft, #panelRight {
+          display: none;
+        }
+        #mobileBar {
+          display: flex;
+        }
+        nav.mobileBack {
+          display: block;
+        }
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="spa.css">
+    <script src="spa.js"></script>
+    <script src="data/protocog.js"></script>
+
+</head>
+
+<body class="spa">
+
+<header class="min">
+<a href="/" class="home" tabindex="99"></a>
+<h1 class="pagetitle">ProtoCog</h1>
+<img class="doodle info" src="../doodle/info.gif" role="button">
+</header>
+
+<main class="content cols">
+<section id="panelLeft">
+  <div>
+    <div id="stat-name"></div>
+    <div id="stat-age"></div>
+    <button id="chatButton" style="display:none">Chat</button>
+    <button id="qnaButton" style="display:none">Q&A</button>
+    <div>&nbsp;</div>
+    <div id="stat-date"></div>
+    <div id="stat-weekday"></div>
+  </div>
+  <div class="noGrow">
+    <button id="resetButton" style="display:none">Reset</button>
+  </div>
+  <nav class="mobileBack noGrow" onclick="panelMain.style.display = ''; mobileBar.style.display = ''; panelLeft.style.display = ''">back</nav>
+</section>
+<section id="panelMain">
+  <!-- <div class="message">Welcome to ProtoCog.</div> -->
+  <!-- <div class="message self">Thank you.</div> -->
+  <!-- <div class="message self" contenteditable="plaintext-only" oninput="handleKeyInput(this)">Welcome to ProtoCog.</div> -->
+</section>
+<section id="panelRight">
+  <div id="panelStats">
+    <div>Connections: <span id="stat-connections"></span></div>
+    <div>Words: <span id="stat-words"></span></div>
+    <div>Messages: <span id="stat-messages"></span></div>
+    <div>Definitions: <span id="stat-definitions"></span></div>
+    <div>&nbsp;</div>
+    <div>Most used word: <span id="stat-common"></span></div>
+    <div>Longest word: <span id="stat-longest"></span></div>
+  </div>
+  <nav class="mobileBack noGrow" onclick="panelMain.style.display = ''; mobileBar.style.display = ''; panelRight.style.display = ''">back</nav>
+</section>
+<nav id="mobileBar">
+  <div onclick="panelLeft.style.display = 'flex'; panelMain.style.display = 'none'; mobileBar.style.display = 'none'">1</div>
+  <div onclick="panelRight.style.display = 'flex'; panelMain.style.display = 'none'; mobileBar.style.display = 'none'">2</div>
+</nav>
+</main>
+
+<script>
+  let panelLeft = document.getElementById("panelLeft");
+  let panelMain = document.getElementById("panelMain");
+  let panelRight = document.getElementById("panelRight");
+  let mobileBar = document.getElementById("mobileBar");
+  let currentMessage = null;
+
+  function defaultProtocog() {
+    return validateProtocog({
+      brain: {
+        vocab: {/*
+          1: {t: "apple"}
+        */},
+        vocabID: 1,
+        vocabIndex: {/*
+          "apple": 1
+        */},
+        b1: {/*
+          wordID: {
+            nextWordID: 2,
+            nextWordID: 4
+          }
+        */}
+      }
+    });
+  }
+  let db;
+  function init(_db) {
+    db = _db;
+  }
+
+  let protocog = defaultProtocog();
+  let brain = protocog.brain;
+  function loadProtocog(data) {
+    if (typeof data === "string") {
+      data = JSON.parse(data);
+    }
+
+    data.brain.vocabIndex = {};
+    for (const id in data.brain.vocab) {
+      const v = data.brain.vocab[id];
+      const id_ = parseInt(id);
+      v.id = id_;
+      data.brain.vocabIndex[v.t] = id_;
+    }
+
+    // console.log(data);
+    validateProtocog(data);
+    protocog = data;
+    brain = data.brain;
+  }
+  function saveProtocog(data) {
+    if (!db) return;
+    data = JSON.parse(JSON.stringify(data));
+
+    delete data.brain.vocabIndex;
+    for (const id in data.brain.vocab) {
+      delete data.brain.vocab[id].id;
+    }
+
+    // console.log(JSON.stringify(data));
+
+    db.write(data);
+  }
+  function validateProtocog(data) {
+    if (!data.id) data.id = crypto.randomUUID();
+    if (!data.start) data.start = Date.now();
+    return data;
+  }
+  function resetProtocog() {
+    if (!db) return;
+    // console.log(JSON.stringify(protocog));
+
+    db.clear(() => {
+      location.reload();
+    })
+  }
+  function statGet(key) {
+    if (protocog.stats === undefined) protocog.stats = {};
+    return protocog.stats[key] || 0;
+  }
+  function statSet(key, value) {
+    if (protocog.stats === undefined) protocog.stats = {};
+    protocog.stats[key] = value;
+    checkState();
+  }
+  function statAdd(key, value) {
+    if (protocog.stats === undefined) protocog.stats = {};
+    if (protocog.stats[key] === undefined) protocog.stats[key] = value;
+    else protocog.stats[key] += value;
+    checkState();
+  }
+
+  R74n.DB("ProtoCog", (_db) => {
+    db = _db;
+
+    db.read(data => {
+      loadProtocog(data);
+      initGame();
+    });
+
+    initGame();
+  })
+  
+  window.addEventListener("keydown", (e) => {
+    // console.log(e.target.innerHTML)
+    let elem = e.target;
+    if (e.metaKey || e.ctrlKey) return;
+    if (elem.contentEditable === "plaintext-only") return;
+    if (elem.tagName === "INPUT" || elem.tagName === "SELECT" || elem.tagName === "TEXTAREA" || elem.tagName === "BUTTON") return;
+    let key = e.key;
+    if (key === "Alt" || key === "Shift") return;
+    if (currentMessage) currentMessage.querySelector(".text").focus();
+  })
+  window.addEventListener("keyup", (e) => {
+    // console.log(e.target.innerHTML)
+  })
+  window.addEventListener("click", (e) => {
+
+  })
+  highlightTimeout = null;
+  function handleKeyInput(e) {
+    let msg = e.target;
+    if (msg.innerText === "\n") {
+      msg.innerHTML = "";
+    }
+    if (currentHighlight) clearHighlight();
+    if (highlightTimeout) clearTimeout(highlightTimeout);
+    highlightTimeout = setTimeout(() => {
+      updateHighlight();
+    }, 100);
+    // console.log("input",msg.textContent);
+  }
+  function handleKeyDown(e) {
+    let msg = e.target;
+    let key = e.key;
+    if (key === "Enter" && !e.shiftKey) {
+      let text = msg.textContent;
+      e.preventDefault();
+      if (!text.trim().length) return;
+      sendMessage(msg.parentElement);
+    }
+    else if (key === "Escape") {
+      beginMessage();
+    }
+    // console.log("keydown",msg.textContent);
+  }
+  function logMessage(text, opt={}) {
+    let msg = document.createElement("div");
+    let msgText = document.createElement("span");
+    msgText.classList.add("text");
+    msg.classList.add("message");
+    msg.appendChild(msgText);
+    // msg.addEventListener("click", (e) => {
+    //   if (!R74n.state.mobile) return;
+    //   let menu = msg.querySelector(".menu");
+    //   if (menu) menu.classList.toggle("shown");
+    // });
+    if (opt.class) msg.classList.add(opt.class);
+    // msg.innerText = text;
+    if (text) updateMessage(msg, text, opt);
+    else if (opt.placeholder) {
+      msg.classList.add("placeholder");
+      msgText.innerText = opt.placeholder;
+    }
+    panelMain.insertAdjacentElement("afterbegin", msg);
+
+    let userMsg = document.querySelector(`#panelMain .message .text[contenteditable="plaintext-only"]`);
+    if (userMsg) {
+      const range = document.createRange();
+      const selection = window.getSelection();
+      let node = selection.anchorNode;
+      let pos = selection.anchorOffset;
+
+      panelMain.insertAdjacentElement("afterbegin", userMsg.parentElement);
+      userMsg.focus();
+
+      range.setStart(node, pos);
+      range.collapse(true);
+
+      selection.removeAllRanges()
+      selection.addRange(range)
+    }
+    return msg;
+  }
+  function updateMessage(msg, text, opt={}) {
+    let msgText = msg.querySelector(".text")
+    msg.classList.remove("placeholder");
+    msgText.innerText = "";
+    let characters = [...text];
+    let current = "";
+    let next = () => {
+      let char = characters.shift();
+      current += char;
+      msgText.innerText = current;
+
+      if (characters.length) setTimeout(next, Math.random() * (50 / (opt.speed || 1)) + 10);
+      else {
+        if (systemQueue.length) {
+          setTimeout(nextSystemMessage, 500);
+        }
+      }
+    }
+    if (msg.classList.contains("other")) {
+      let menu = msg.querySelector(".menu");
+      if (!menu) {
+        menu = document.createElement("span");
+        menu.classList.add("menu");
+        let minus = document.createElement("span");
+        minus.innerText = "-";
+        minus.onclick = (e) => {
+          teachText(msgText.innerText, "", -1);
+          reportGains();
+          saveProtocog(protocog);
+          minus.remove();
+          plus.remove();
+          e.stopPropagation();
+        }
+        menu.appendChild(minus);
+        let plus = document.createElement("span");
+        plus.innerText = "+";
+        plus.onclick = (e) => {
+          teachText(msgText.innerText);
+          reportGains();
+          saveProtocog(protocog);
+          minus.remove();
+          plus.remove();
+          e.stopPropagation();
+        }
+        menu.appendChild(plus);
+        msg.appendChild(menu);
+      }
+    }
+    setTimeout(next, 1);
+    return msg;
+  }
+  function nextSystemMessage() {
+    if (!systemQueue.length) return;
+    let item = systemQueue.shift();
+    if (typeof item === "function") {
+      if (item() === false) systemQueue.unshift(item);
+      else if (systemQueue.length) {
+          setTimeout(nextSystemMessage, 500);
+      }
+      return;
+    }
+    logMessage(item[0], item[1]);
+  }
+  function beginMessage() {
+    let userMsg = document.querySelector(`#panelMain .message .text[contenteditable="plaintext-only"]`);
+    if (userMsg) userMsg.parentElement.remove();
+
+    let msg = document.createElement("div");
+
+    let highlight = document.createElement("span");
+    highlight.classList.add("highlight");
+    msg.appendChild(highlight);
+
+    let msgText = document.createElement("span");
+    msgText.classList.add("text");
+    msg.classList.add("message");
+    msg.classList.add("self");
+    msg.appendChild(msgText)
+    msgText.contentEditable = "plaintext-only";
+    msgText.tabIndex = 1;
+    msgText.addEventListener("input", handleKeyInput);
+    msgText.addEventListener("keydown", handleKeyDown)
+    msgText.addEventListener("blur", () => {
+      if (!msgText.textContent.trim().length) msgText.innerHTML = "";
+    })
+
+    let actions = document.createElement("div");
+    actions.classList.add("actions");
+    msg.appendChild(actions);
+
+    panelMain.insertAdjacentElement("afterbegin", msg);
+    msgText.focus();
+    currentMessage = msg;
+    return msg;
+  }
+  function sendMessage(msg) {
+    let msgText = msg.querySelector(".text");
+    msgText.removeEventListener("input", handleKeyInput);
+    msgText.removeEventListener("keydown", handleKeyDown);
+    msgText.contentEditable = "false";
+    msgText.removeAttribute("tabindex");
+    let text = msgText.textContent;
+    currentMessage = null;
+    let highlight = msg.querySelector(".highlight");
+    if (highlight) highlight.remove();
+    let actions = msg.querySelector(".actions");
+    if (actions) actions.remove();
+    statAdd("sent", 1);
+    beginMessage();
+    setTimeout(() => {
+      getResponse(text);
+    }, 500);
+  }
+  function reportGains() {
+    if (lastGain.connection) {
+      statAdd("connections", lastGain.connection);
+      let hitmarker = document.createElement("div");
+      hitmarker.classList.add("hitmarker");
+      hitmarker.classList.add(lastGain.connection > 0 ? "pos" : "neg");
+      hitmarker.innerText = Math.abs(lastGain.connection);
+      hitmarker.addEventListener("animationend", () => {
+        hitmarker.remove();
+      })
+      lastGain.connection = 0;
+      panelMain.insertAdjacentElement("beforeend", hitmarker);
+    }
+    
+    let spanConnections = document.getElementById("stat-connections");
+    let lastConnections = parseInt(spanConnections.innerHTML.split(" ")[0] || 0);
+    let newConnections = statGet("connections");
+    spanConnections.innerHTML = newConnections ? `${newConnections} ${(lastConnections && newConnections - lastConnections) ? `<span class="${newConnections - lastConnections > 0 ? "pos" : "neg"}">${Math.abs(newConnections - lastConnections)}</span>` : ""}` : "";
+
+    let spanWords = document.getElementById("stat-words");
+    let lastWords = parseInt(spanWords.innerHTML.split(" ")[0] || 0);
+    let newWords = Object.keys(brain.vocab).length;
+    spanWords.innerHTML = newWords ? `${newWords} ${(lastWords && newWords - lastWords) ? `<span class="${newWords - lastWords > 0 ? "pos" : "neg"}">${Math.abs(newWords - lastWords)}</span>` : ""}` : "";
+
+    let spanMessages = document.getElementById("stat-messages");
+    let lastMessages = parseInt(spanMessages.innerHTML.split(" ")[0] || 0);
+    let newMessages = statGet("sent");
+    spanMessages.innerHTML = newMessages ? `${newMessages} ${(lastMessages && newMessages - lastMessages) ? `<span class="${newMessages - lastMessages > 0 ? "pos" : "neg"}">${Math.abs(newMessages - lastMessages)}</span>` : ""}` : "";
+
+    let spanDefinitions = document.getElementById("stat-definitions");
+    let lastDefinitions = parseInt(spanDefinitions.innerHTML.split(" ")[0] || 0);
+    let newDefinitions = statGet("definitions");
+    spanDefinitions.innerHTML = newDefinitions ? `${newDefinitions} ${(lastDefinitions && newDefinitions - lastDefinitions) ? `<span class="${newDefinitions - lastDefinitions > 0 ? "pos" : "neg"}">${Math.abs(newDefinitions - lastDefinitions)}</span>` : ""}` : "";
+
+    if (newWords > 4) {
+      let spanCommon = document.getElementById("stat-common");
+      let spanLongest = document.getElementById("stat-longest");
+      let uses = {};
+      let longest = "";
+      for (let word in brain.vocabIndex) {
+        uses[brain.vocabIndex[word]] = 0;
+
+        if (!word.startsWith("[")) {
+          if (longest.length < word.length) longest = word;
+        }
+      }
+      for (let key in brain.b1) {
+        key.split(",").forEach(word => {
+          uses[word] = (uses[word]||0) + 1;
+        })
+        Object.keys(brain.b1[key]).forEach(word => {
+          uses[word] = (uses[word]||0) + 1;
+        })
+      }
+      let commonWord = vocab(parseInt(Object.keys(uses).filter(id => !vocab(parseInt(id))?.t.startsWith("[")).sort((a,b) => uses[b] - uses[a])[0]));
+      let totalUses = Object.values(uses).reduce((a,b) => a+b, 0);
+      let commonUses = uses[commonWord.id];
+      spanCommon.innerText = `${commonWord.t} (${Math.round(commonUses / totalUses * 100)}%)`;
+      spanLongest.innerText = `${longest} (${longest.length})`;
+    }
+    
+  }
+  function getResponse(text="") {
+    let oldMsg = panelMain.querySelector(".message.other.response .text");
+    let msg = logMessage("", {placeholder:"Processing...", class:"other"});
+    let response;
+    if (text) {
+      msg.classList.add("response");
+      response = teachText(text, oldMsg ? oldMsg.textContent : undefined) || "...";
+      if (statGet("received") === 0) response = "...";
+    }
+    else {
+      response = generateSentence();
+      response = response.map(id => vocab(id)?.t).join(" ") || "...";
+    }
+    reportGains();
+    saveProtocog(protocog);
+
+    setTimeout(() => {
+      updateMessage(msg, response);
+      statAdd("received", 1);
+    }, 1500);
+  }
+  let punctuationRegex = `[\\.\\?¿!"“”\\*,\\(\\);:]+`;
+  let _punctuationRegex = new RegExp(`^(${punctuationRegex})`, "g");
+  let punctuationRegex_ = new RegExp(`(${punctuationRegex})$`, "g");
+  function normalizeText(text) {
+    text = text.normalize("NFC");
+    text = text.replace(/[“”]/g, "\"");
+    text = text.replace(/[‘’]/g, "'");
+    text = text.replace(/[…]/g, "...");
+    text = text.replace(/[–—]/g, "-");
+
+    return text;
+  }
+  function chooseWeighted(items, weights) {
+    var i;
+
+    for (i = 1; i < weights.length; i++)
+      weights[i] += weights[i - 1];
+    
+    var random = Math.random() * weights[weights.length - 1];
+    
+    for (i = 0; i < weights.length; i++)
+      if (weights[i] > random)
+        break;
+    
+    return items[i];
+  }
+  function vocab(word) {
+    if (word.toFixed !== undefined) {
+      return brain.vocab[word];
+    }
+    if (brain.vocabIndex[word] === undefined) {
+      let id = brain.vocabID;
+      brain.vocabID++;
+      brain.vocabIndex[word] = id;
+      brain.vocab[id] = {t: word, id: id};
+
+      if (protocog.qna !== true && questionWords_all.indexOf(word) !== -1) {
+        protocog.qna = true;
+      }
+
+      return brain.vocab[id];
+    }
+    let id = brain.vocabIndex[word];
+    word = brain.vocab[id];
+    word.id = id;
+    return word;
+  }
+  function vocabAll(text) {
+    if (!text || !text.toString) return;
+    text = text.toString();
+    text = text.trim();
+    text = text.toLowerCase();
+    let split = text.split(/\s+/g);
+    for (let i = 0; i < split.length; i++) {
+      let word = split[i];
+      word = word.replace(_punctuationRegex, "").replace(punctuationRegex_, "").trim();
+      if (word) vocab(word);
+    }
+  }
+  let markovDepth = 3;
+  function teachText(text, context="", multiplier=1) {
+    text = text || "";
+    if (text.toString) text = text.toString();
+    text = text.trim();
+    text = normalizeText(text);
+    text = text.replace(/\s+/g," ");
+    if (!text) return;
+    text = text.toLowerCase();
+    text = text.replace(/.\[(\d+|\w)\]/g, (m) => m.split("[")[0]);
+
+    let words = text.match(/\S+/g);
+    for (let i = 0; i < words.length; i++) {
+      let word = words[i];
+      word = word.replace(_punctuationRegex, "").replace(punctuationRegex_, "");
+      
+      words[i] = word.trim();
+    }
+    words = words.filter(w => w);
+    if (!words.length) return;
+    words.unshift("[start]");
+    words.push("[end]");
+    words = words.map(word => vocab(word).id);
+
+    // console.log("sentence:", words.join(" "));
+
+    let gain = 0;
+    
+    let endID = vocab("[end]").id;
+    let startID = vocab("[start]").id;
+    let contID = vocab("[cont]").id;
+
+    if (context) {
+      context = context.trim();
+      context = normalizeText(context);
+      context = context.replace(/\s+/g," ");
+      context = context.toLowerCase();
+      context = "[start] " + context + " [end]";
+      let split = context.split(" ");
+      split = split.map(word => vocab(word).id);
+      let next = words[1];
+      
+      let contextEnd = split.slice(Math.max(split.length-markovDepth, 0));
+      // console.log("contextEnd:", contextEnd);
+
+      for (let i = 0; i <= markovDepth; i++) {
+        let key = contextEnd.slice(i).join(",");
+        if (!key) break;
+        // console.log("contextEnd["+i+"]:", key);
+        if (brain.b1[key] === undefined) brain.b1[key] = {};
+        if (brain.b1[key][next] === undefined) {
+          if (multiplier < 0) continue;
+          brain.b1[key][next] = 0;
+        }
+        brain.b1[key][next] += multiplier;
+        if (brain.b1[key][next] <= 0) delete brain.b1[key][next];
+        gain += multiplier;
+      }
+
+      let contextStart = split.slice(0, markovDepth);
+      // console.log("contextStart:", contextStart);
+
+      for (let i = 1; i <= markovDepth; i++) {
+        let key = contextStart.slice(0, i).join(",");
+        if (!key) break;
+        key += ","+contID;
+        // console.log("contextStart["+i+"]:", key);
+        if (brain.b1[key] === undefined) brain.b1[key] = {};
+        if (brain.b1[key][next] === undefined) {
+          if (multiplier < 0) continue;
+          brain.b1[key][next] = 0;
+        }
+        brain.b1[key][next] += multiplier;
+        if (brain.b1[key][next] <= 0) delete brain.b1[key][next];
+        gain += multiplier;
+      }
+      
+    }
+
+    for (let i = 0; i < words.length; i++) {
+      const id = words[i];
+      for (let j = 1; j <= markovDepth; j++) {
+        if (i+j >= words.length) break;
+        let next = words[i+j];
+        let key = words.slice(i, i+j).join(",");
+
+        if (brain.b1[key] === undefined) brain.b1[key] = {};
+        if (brain.b1[key][next] === undefined) {
+          if (multiplier < 0) continue;
+          brain.b1[key][next] = 0;
+        }
+        brain.b1[key][next] += multiplier;
+        if (brain.b1[key][next] <= 0) delete brain.b1[key][next];
+        gain += multiplier;
+      }
+    }
+    
+    lastGain.connection += gain;
+
+    let response = generateSentence(words);
+    response = response.map(id => vocab(id)?.t);
+    // console.log(response);
+
+    return response.join(" ");
+
+  }
+  function generateSentence(words=[]) {
+    let response = words.slice();
+    let endID = vocab("[end]").id;
+    let startID = vocab("[start]").id;
+    let contID = vocab("[cont]").id;
+
+    while (true) {
+      let weights = {};
+      // weights[endID] = 1;
+      for (let i = markovDepth; i > 0; i--) {
+        let key = response.slice(response.length-i).join(",");
+        // console.log(key);
+        if (brain.b1[key]) {
+          for (let id in brain.b1[key]) {
+            if (weights[id] === undefined) weights[id] = 0;
+            weights[id] += brain.b1[key][id] * i;
+          }
+        }
+      }
+      if (words.length && response.length-words.length === 0) for (let i = markovDepth; i > 0; i--) {
+        let key = words.slice(0,i).join(",")+","+contID;
+        // console.log("cont:",key);
+        if (brain.b1[key]) {
+          for (let id in brain.b1[key]) {
+            if (weights[id] === undefined) weights[id] = 0;
+            weights[id] += brain.b1[key][id] * i;
+          }
+        }
+      }
+      if (Object.keys(weights).length === 0 && response.length-words.length === 0) {
+        // console.log("startID",startID)
+        if (brain.b1[startID]) {
+          weights = brain.b1[startID];
+          weights[endID] = 1;
+        }
+      }
+      if (Object.keys(weights).length < 4 && !weights[endID]) weights[endID] = 1;
+      // console.log("weights",weights);
+      let nextWord = parseInt(chooseWeighted(Object.keys(weights), Object.values(weights)));
+      // console.log("nextWord",nextWord);
+      let wordText = vocab(nextWord)?.t;
+      if (nextWord === endID) break;
+      if (nextWord === startID) continue;
+      if (nextWord === contID) continue;
+      response.push(nextWord);
+    }
+    response = response.slice(words.length);
+    return response;
+  }
+  function respondIfPossible(text) {
+    let newText = "";
+    let split = text.split(" ");
+    for (let i = 0; i < split.length; i++) {
+      const word = split[i];
+      let choices = [word];
+      if (word.startsWith("[")) {
+        choices = word.slice(1,-1).split("|");
+      }
+      let newChoices = [];
+      for (let j = 0; j < choices.length; j++) {
+        const choice = choices[j];
+        if (brain.vocabIndex[choice]) newChoices.push(choice);
+      }
+      if (!newChoices.length) continue;
+      newText += " "+choose(newChoices);
+    }
+
+    let msg = logMessage("", {placeholder:"Processing...", class:"other"});
+    setTimeout(() => {
+      updateMessage(msg, newText.slice(1));
+      statAdd("received", 1);
+    }, 1500);
+  }
+  let systemQueue = [];
+  function checkState() {
+    if (protocog.state === undefined) protocog.state = {};
+    if (statGet("sent") === 0 && !protocog.state[0]) {
+      protocog.state[0] = true;
+      systemQueue = [
+        ["Welcome to ProtoCog.", {speed:0.5, class:"system"}],
+        ["I have assigned you a coglet.", {speed:0.5, class:"system"}],
+        ["The more you talk to them, the more they will learn to speak.", {speed:0.5, class:"system"}],
+        beginMessage
+      ];
+      nextSystemMessage();
+    }
+    if (statGet("received") === 1 && !protocog.state[1]) {
+      protocog.state[1] = true;
+      saveProtocog(protocog);
+      systemQueue = [
+        ["They may not be able to respond yet, but your message will always be in there somewhere.", {speed:1, class:"system"}],
+        beginMessage
+      ];
+      setTimeout(nextSystemMessage, 1500);
+    }
+    if (statGet("received") > 0) resetButton.style.display = "inline-block";
+    if (statGet("sent") > 5) {
+      document.getElementById("chatButton").style.display = "inline-block";
+      if (protocog.qna) document.getElementById("qnaButton").style.display = "inline-block";
+    }
+  }
+  let lastGain = {
+    connection: 0
+  };
+  function initGame() {
+
+    // console.log(JSON.stringify(protocog.brain))
+
+    panelMain.innerHTML = "";
+    systemQueue = [];
+    if (protocog.brain && protocog.brain.vocabID === 1) {
+      checkState();
+    }
+    else {
+      checkState();
+      getResponse();
+      beginMessage();
+    }
+    updateAge();
+
+    try {
+      let gentown = JSON.parse(R74n.get("GenTownSettings"));
+      if (gentown && gentown.playerName) vocabAll(gentown.playerName);
+    }
+    catch {}
+  }
+  let nameSpan = document.getElementById("stat-name");
+  let ageSpan = document.getElementById("stat-age");
+  let resetButton = document.getElementById("resetButton");
+  resetButton.onclick = () => {
+    resetButton.onclick = () => {};
+    let name = protocog.name || (statGet("connections") > 1000 ? "Protocog" : "Coglet");
+    systemQueue.unshift(() => {
+      resetButton.onclick = resetProtocog;
+    });
+    systemQueue.unshift([`The next time you click 'Reset', you will never see ${name} again.`, {speed:0.5, class:"system"}]);
+    systemQueue.unshift([`Do you really want to abandon ${name}? You've known each other for ${getAge()} and exchanged ${statGet("sent") + statGet("received")} messages.`, {speed:0.5, class:"system"}]);
+    nextSystemMessage();
+  }
+  function getAge() {
+    let age = Date.now() - protocog.start;
+    let seconds = age / 1000;
+
+    if (seconds < 60) return `${Math.round(seconds)} second${Math.round(seconds) === 1 ? "" : "s"}`;
+    else if (seconds <= 60*60) return `${Math.round(seconds / 60)} minute${Math.round(seconds / 60) === 1 ? "" : "s"}`;
+    else if (seconds <= 60*60*60) return `${Math.round(seconds / 60 / 60)} hour${Math.round(seconds / 60 / 60) === 1 ? "" : "s"}`;
+    else if (seconds <= 60*60*60*24) return `${Math.round(seconds / 60 / 60 / 24)} day${Math.round(seconds / 60 / 60 / 24) === 1 ? "" : "s"}`;
+    return `${Math.round(seconds / 60 / 60 / 24 / 7)} week${Math.round(seconds / 60 / 60 / 24 / 7) === 1 ? "" : "s"}`;
+  }
+  function updateAge() {
+    if (statGet("received") < 1) return;
+
+    ageSpan.innerText = getAge() + " old";
+
+    let name = protocog.name || (statGet("connections") > 1000 ? "Protocog" : "Coglet");
+    nameSpan.innerText = name;
+
+    let now = new Date();
+    document.getElementById("stat-date").innerText = now.toLocaleString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+    document.getElementById("stat-weekday").innerText = now.toLocaleString(undefined, {weekday: "long", hour:"numeric", minute:"numeric"});
+  }
+  window.addEventListener("load", () => {
+    setInterval(updateAge, 1000)
+  })
+
+  colorList = [
+    [255, 150, 150], //red
+    [150, 255, 150], //lime
+    [150, 150, 255], //blue
+    [255, 255, 150], //yellow
+    [255, 150, 255], //pink
+    [150, 255, 255], //cyan
+  ]
+  function escapeHTML(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+  function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+  oldHighlight = null;
+  currentHighlight = null;
+  possibleHighlights = null;
+  function clearHighlight(clearActions=false) {
+    let userMsg = document.querySelector(`#panelMain .message .text[contenteditable="plaintext-only"]`);
+    if (!userMsg) return;
+    let highlight = userMsg.parentElement.querySelector(".highlight");
+    highlight.innerText = userMsg.innerText;
+    if (currentHighlight) oldHighlight = currentHighlight;
+    currentHighlight = null;
+    possibleHighlights = null;
+    if (clearActions) {
+      let actions = userMsg.parentElement.querySelector(".actions");
+      actions.innerHTML = "";
+      oldHighlight = null;
+    }
+  }
+  function updateHighlight(newHighlight=null) {
+    if (statGet("received") < 1) return;
+
+    if (oldHighlight) {
+      oldHighlight = null;
+      if (!newHighlight) {
+        newHighlight = oldHighlight;
+      }
+    }
+    currentHighlight = newHighlight;
+    possibleHighlights = [];
+
+    let userMsg = document.querySelector(`#panelMain .message .text[contenteditable="plaintext-only"]`);
+    let text = escapeHTML(userMsg.innerText);
+    let newText = text;
+    let highlight = userMsg.parentElement.querySelector(".highlight");
+    if (!highlight) return;
+    let actions = userMsg.parentElement.querySelector(".actions");
+    if (!actions) return;
+    if (!text.trim()) {
+      highlight.innerText = "";
+      actions.innerHTML = "";
+      return;
+    }
+
+    for (let action in userActions) {
+      if (newHighlight && newHighlight.key !== action) continue;
+      let data = userActions[action];
+      if (data.templates === undefined) continue;
+      let done = false;
+      for (let i = 0; i < data.templates.length; i++) {
+        if (newHighlight && newHighlight.templateIndex !== i) continue;
+        const template = data.templates[i][1];
+
+        let regex = template.replace(/\[[^\[]+\]/g, ";;KEY;;");
+        regex = escapeRegex(regex);
+        regex = regex.replace(/ /g, "\\s{1,}");
+        // regex = regex.replace(/;;KEY;;/g, "(\\w+)");
+        regex = regex.replace(/;;KEY;;/g, "(.+)");
+        regex = new RegExp("^\\s{0,}" + regex + "\\s{0,}$", "i");
+        // console.log(regex);
+        let match = text.match(regex);
+        if (match) {
+          let matches = [...match].slice(1);
+          let keys = template.match(/\[([^\[]+)\]/gi).map(m => m.slice(1,-1));
+          let args = {};
+          let skip = false;
+          for (let j = 0; j < matches.length; j++) {
+            if (questionWords_all.indexOf(matches[j]) !== -1) {
+              skip = true;
+              break
+            };
+            args[keys[j]] = matches[j];
+          }
+          if (skip) continue;
+          // console.log(matches);
+          // console.log(keys);
+          // console.log(args);
+          // console.log(match)
+
+          let colorIndex = 0;
+          newText = text.replace(regex, function(match) {
+            let r = new RegExp("(" + matches.map(m => escapeRegex(m)).join("|") + ")", "g");
+            // console.log(r);
+            match = match.replace(r, m => {
+              m = `<span style="background-color: rgba(${colorList[colorIndex % colorList.length].join(",")}, 0.5)">${m}</span>`;
+              colorIndex ++;
+              return m;
+            })
+            return match;
+            // matches.forEach(m => {
+            //   match = match.replace(m, `<span style="background-color: rgb(${colorList[colorIndex % colorList.length].join(",")})">${m}</span>`);
+            //   colorIndex ++;
+            // })
+            // return match;
+          })
+
+          // done = true;
+          if (currentHighlight) {
+            currentHighlight = { args:args, key:action, newText:newText, templateIndex:i };
+            done = true;
+            break;
+          }
+          else {
+            possibleHighlights.push({ args:args, key:action, newText:newText, templateIndex:i });
+          }
+        }
+      }
+      if (done) break;
+    }
+
+    if (possibleHighlights.length === 0) {
+      possibleHighlights = null;
+      // actions.innerHTML = "";
+    }
+    else {
+      actions.innerHTML = "";
+      let tabIndex = 2;
+      possibleHighlights.forEach(item => {
+        let button = document.createElement("span");
+        button.tabIndex = tabIndex;
+        tabIndex++;
+        button.role = "button";
+        button.onclick = () => {
+          // console.log(currentHighlight)
+
+          let data = userActions[currentHighlight.key];
+          if (data.func) {
+            data.func(currentHighlight.args);
+          }
+
+          sendMessage(currentMessage);
+
+          clearHighlight(true);
+        }
+        button.addEventListener("mouseenter", () => {
+          if (item !== currentHighlight) oldHighlight = currentHighlight;
+          updateHighlight(item);
+        });
+        button.addEventListener("mouseleave", () => {
+          oldHighlight = currentHighlight;
+          clearHighlight();
+          updateHighlight();
+        });
+        button.innerText = item.key;
+        actions.appendChild(button);
+      });
+    }
+
+    if (currentHighlight) highlight.innerHTML = newText;
+  }
+
+  function QnA() {
+    let choices = [];
+    
+    for (let key in protocogQuestions) {
+      let data = protocogQuestions[key];
+      if (data.check && !data.check()) continue;
+      for (let i = 0; i < data.templates.length; i++) {
+        const template = data.templates[i];
+        const text = normalizeText(template[1].toLowerCase());
+        let split = text.split(/\s+/g);
+        let pass = split.length;
+        for (let j = 0; j < split.length; j++) {
+          const word = split[j];
+          if (brain.vocabIndex[word] === undefined && !word.startsWith("[")) {
+            pass --;
+          }
+        }
+        if ((pass / split.length) >= 0.75) {
+          choices.push({text: text, func: data.func});
+        }
+      }
+    }
+
+    let words = [];
+    for (let lang in questionWords) {
+      for (let i = 0; i < questionWords[lang].length; i++) {
+        const word = questionWords[lang][i];
+        if (brain.vocabIndex[word] !== undefined) words.push(word);
+      }
+    }
+    if (words.length) {
+      let word = choose(words);
+      let response = word + " " + generateSentence([vocab("[start]").id, vocab(word).id]).map(id => vocab(id).t).join(" ");
+      if (response) choices.push({text: response});
+    }
+
+    if (!choices.length) return "...";
+
+    let question = choose(choices);
+    let func = question.func;
+    question = question.text;
+
+    question = question.replace(/\[[^\[]+\]/g, (m) => {
+      m = m.slice(1,-1);
+      if (wordTemplates[m]) return wordTemplates[m]();
+      return m;
+    })
+
+    if (func) {
+      systemQueue.unshift(func);
+    }
+
+    return question;
+  }
+  document.getElementById("qnaButton").onclick = () => {
+    let msg = logMessage("", {placeholder:"Processing...", class:"other"});
+    let question = QnA();
+    setTimeout(() => {
+      updateMessage(msg, question);
+      statAdd("received", 1);
+    }, 1500);
+  };
+  document.getElementById("chatButton").onclick = () => {
+    getResponse();
+  };
+
+
+  /*
+let connections = 0;
+for (let key in brain.b1) {
+for (let next in brain.b1[key]) connections += brain.b1[key][next];
+}
+console.log(connections);
+  */
+
+</script>
+
+<div class="globalDialog" id="globalDialog-info">
+  <div>
+    <div>
+      <span>Info...</span>
+      <span><img class="doodle x" src="../doodle/x.gif" alt="X" role="button"></span>
+    </div>
+    <div>
+      <div>
+        <small>ProtoCog uses an enhanced version of Markov chains, a less capable and very early precursor to modern neural networks.</small>
+        <span>
+          <button onclick="R74n.more()">More Games</button>
+          <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>
