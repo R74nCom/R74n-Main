@@ -293,7 +293,7 @@
   <div class="noGrow">
     <button id="resetButton" style="display:none">Reset</button>
   </div>
-  <nav class="mobileBack noGrow" onclick="panelMain.style.display = ''; mobileBar.style.display = ''; panelLeft.style.display = ''">back</nav>
+  <nav class="mobileBack noGrow" id="backLeft" onclick="panelMain.style.display = ''; mobileBar.style.display = ''; panelLeft.style.display = ''">back</nav>
 </section>
 <section id="panelMain">
   <!-- <div class="message">Welcome to ProtoCog.</div> -->
@@ -310,7 +310,7 @@
     <div>Most used word: <span id="stat-common"></span></div>
     <div>Longest word: <span id="stat-longest"></span></div>
   </div>
-  <nav class="mobileBack noGrow" onclick="panelMain.style.display = ''; mobileBar.style.display = ''; panelRight.style.display = ''">back</nav>
+  <nav class="mobileBack noGrow" id="backRight" onclick="panelMain.style.display = ''; mobileBar.style.display = ''; panelRight.style.display = ''">back</nav>
 </section>
 <nav id="mobileBar">
   <div onclick="panelLeft.style.display = 'flex'; panelMain.style.display = 'none'; mobileBar.style.display = 'none'">1</div>
@@ -1262,9 +1262,11 @@
       updateMessage(msg, question);
       statAdd("received", 1);
     }, 1500);
+    if (panelMain.style.display) document.getElementById("backLeft").click();
   };
   document.getElementById("chatButton").onclick = () => {
     getResponse();
+    if (panelMain.style.display) document.getElementById("backLeft").click();
   };
 
 
