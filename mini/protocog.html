@@ -217,6 +217,10 @@
         padding-left: 5px;
         padding-right: 5px;
       }
+      #panelMain, #panelLeft, #panelRight {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
 
       #panelStats > div:has(span:empty) {
         display: none;
@@ -994,6 +998,8 @@
   let ageSpan = document.getElementById("stat-age");
   let resetButton = document.getElementById("resetButton");
   resetButton.onclick = () => {
+    vocab("reset");
+    vocab("abandon");
     resetButton.onclick = () => {};
     let name = protocog.name || (statGet("connections") > 1000 ? "Protocog" : "Coglet");
     systemQueue.unshift(() => {
@@ -1179,6 +1185,7 @@
           if (data.func) {
             data.func(currentHighlight.args);
           }
+          vocab(currentHighlight.key);
 
           sendMessage(currentMessage);
 
@@ -1265,6 +1272,7 @@
     if (panelMain.style.display) document.getElementById("backLeft").click();
   };
   document.getElementById("chatButton").onclick = () => {
+    vocab("chat");
     getResponse();
     if (panelMain.style.display) document.getElementById("backLeft").click();
   };
