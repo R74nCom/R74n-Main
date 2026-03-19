@@ -579,6 +579,12 @@ R74n.projects = [
 		update: "2026-02-07"
 	},
 	{
+		name: "ProtoCog",
+		url: "mini/protocog",
+		image: "mini/spotlight-protocog.png",
+		release: "2026-03-18"
+	},
+	{
 		name: "Costoflivingdle",
 		url: "mini/cost",
 		image: "mini/spotlight-cost.png",

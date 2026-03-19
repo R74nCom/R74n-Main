@@ -133,3 +133,5 @@ https://r74n.com/about.txt
 https://r74n.com/mini/odds
 https://r74n.com/mini/handwriting
 https://r74n.com/mini/ragebait
+https://r74n.com/mini/cost
+https://r74n.com/mini/protocog
