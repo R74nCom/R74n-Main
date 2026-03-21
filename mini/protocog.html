@@ -369,7 +369,7 @@
     <div>&nbsp;</div>
   </div>
   <div id="panelLists">
-    <div id="dictionary">
+    <div id="dictionary" style="display: none;">
       <details>
         <summary class="noSelect">Dictionary</summary>
         <div><span>cat</span><span class="remove">-</span></div>
@@ -1092,6 +1092,8 @@
     if (statGet("sent") > 5) {
       document.getElementById("chatButton").style.display = "inline-block";
       if (protocog.qna) document.getElementById("qnaButton").style.display = "inline-block";
+      let dictionary = document.getElementById("dictionary");
+      if (dictionary.style.display) dictionary.style.display = "";
     }
     if (received > 2 && notepad.style.display) notepad.style.display = "";
   }
