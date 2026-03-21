@@ -935,6 +935,7 @@ form .honeypot {
 	overflow-y: scroll;
 	margin: auto;
 	justify-content: space-around;
+	scrollbar-width: none;
 }
 .globalDialog > div > div {
 	flex-direction: row;

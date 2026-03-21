@@ -157,6 +157,7 @@
       }
       #panelMain .message.placeholder {
         color: rgba(255, 255, 255, 0.5);
+        cursor: progress;
       }
 
       #panelMain .message .menu {
@@ -214,6 +215,7 @@
         margin-right: 0.5em;
         background-color: rgb(70, 70, 70);
         cursor: pointer;
+        cursor: alias;
         padding-left: 5px;
         padding-right: 5px;
       }
@@ -224,6 +226,49 @@
 
       #panelStats > div:has(span:empty) {
         display: none;
+      }
+
+      #panelLeft > div:first-of-type {
+        display: flex;
+        flex-direction: column;
+      }
+      #notepad {
+        resize: none;
+        flex-grow: 1;
+        max-width: 100%;
+        background: none;
+        border: none;
+        padding: 0;
+        color: #bfbfff;
+      }
+
+      #dictionary > details {
+        display: flex;
+        flex-direction: column;
+      }
+      .content summary::marker {
+        content: "+ ";
+      }
+      .content details[open] summary::marker {
+        content: "- ";
+      }
+      #dictionary > details > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      #dictionary > details > div:nth-child(even) {
+        background-color: rgba(255,255,255,0.1);
+      }
+      #dictionary > details > div > span:first-of-type {
+        flex-grow: 1;
+      }
+      #dictionary > details .remove {
+        margin-left: 15px;
+        color: rgb(255, 142, 142);
+        cursor: pointer;
       }
 
       #mobileBar {
@@ -288,14 +333,22 @@
   <div>
     <div id="stat-name"></div>
     <div id="stat-age"></div>
-    <button id="chatButton" style="display:none">Chat</button>
-    <button id="qnaButton" style="display:none">Q&A</button>
+    <div>
+      <button id="chatButton" style="display:none">Chat</button>
+      <button id="qnaButton" style="display:none">Q&A</button>
+    </div>
     <div>&nbsp;</div>
     <div id="stat-date"></div>
     <div id="stat-weekday"></div>
+    <div>&nbsp;</div>
+    <textarea id="notepad" placeholder="Write notes here..." style="display:none"></textarea>
+    <div>&nbsp;</div>
   </div>
   <div class="noGrow">
     <button id="resetButton" style="display:none">Reset</button>
+    <button id="saveButton">Import</button>
+
+    <input type="file" id="saveUpload" style="display: none;" accept="application/vnd.R74n.protocog+json, application/json, .brain, .json">
   </div>
   <nav class="mobileBack noGrow" id="backLeft" onclick="panelMain.style.display = ''; mobileBar.style.display = ''; panelLeft.style.display = ''">back</nav>
 </section>
@@ -305,7 +358,7 @@
   <!-- <div class="message self" contenteditable="plaintext-only" oninput="handleKeyInput(this)">Welcome to ProtoCog.</div> -->
 </section>
 <section id="panelRight">
-  <div id="panelStats">
+  <div id="panelStats" class="noGrow">
     <div>Connections: <span id="stat-connections"></span></div>
     <div>Words: <span id="stat-words"></span></div>
     <div>Messages: <span id="stat-messages"></span></div>
@@ -313,6 +366,16 @@
     <div>&nbsp;</div>
     <div>Most used word: <span id="stat-common"></span></div>
     <div>Longest word: <span id="stat-longest"></span></div>
+    <div>&nbsp;</div>
+  </div>
+  <div id="panelLists">
+    <div id="dictionary">
+      <details>
+        <summary class="noSelect">Dictionary</summary>
+        <div><span>cat</span><span class="remove">-</span></div>
+        <div><span>dog: an animal</span><span class="remove">-</span></div>
+      </details>
+    </div>
   </div>
   <nav class="mobileBack noGrow" id="backRight" onclick="panelMain.style.display = ''; mobileBar.style.display = ''; panelRight.style.display = ''">back</nav>
 </section>
@@ -508,23 +571,32 @@
     return msg;
   }
   function updateMessage(msg, text, opt={}) {
+    text = text.replace(/R74/gi, "R74");
     let msgText = msg.querySelector(".text")
     msg.classList.remove("placeholder");
     msgText.innerText = "";
     let characters = [...text];
     let current = "";
+    let timeout = null;
     let next = () => {
       let char = characters.shift();
       current += char;
       msgText.innerText = current;
 
-      if (characters.length) setTimeout(next, Math.random() * (50 / (opt.speed || 1)) + 10);
+      if (characters.length) timeout = setTimeout(next, Math.random() * (50 / (opt.speed || 1)) + 10);
       else {
         if (systemQueue.length) {
           setTimeout(nextSystemMessage, 500);
         }
       }
     }
+    msgText.addEventListener("click", () => { //skip animation
+      console.log(2);
+      if (timeout) clearTimeout(timeout);
+      msgText.innerText = text;
+      if (systemQueue.length) nextSystemMessage();
+    }, {once:true});
+
     if (msg.classList.contains("other")) {
       let menu = msg.querySelector(".menu");
       if (!menu) {
@@ -695,6 +767,7 @@
       response = generateSentence();
       response = response.map(id => vocab(id)?.t).join(" ") || "...";
     }
+    response = swapPronouns(response);
     reportGains();
     saveProtocog(protocog);
 
@@ -761,6 +834,51 @@
       word = word.replace(_punctuationRegex, "").replace(punctuationRegex_, "").trim();
       if (word) vocab(word);
     }
+  }
+  function swapPronouns(text) {
+    let replacements = {};
+    let key = 0;
+
+    console.log(text)
+    for (let i = 0; i < pronounSwaps_all.length; i++) {
+      const pair = pronounSwaps_all[i];
+      if (pair[0].indexOf(" ") !== -1) {
+        let allExist = true;
+        pair[0].split(" ").forEach((w) => {
+          if (brain.vocabIndex[w.replace("$", "")] === undefined) allExist = false;
+        })
+        if (!allExist) continue;
+      }
+      else if (brain.vocabIndex[pair[0].replace("$", "")] === undefined) continue;
+
+      if (pair[1].indexOf(" ") !== -1) {
+        let allExist = true;
+        pair[1].split(" ").forEach((w) => {
+          if (brain.vocabIndex[w.replace("$", "")] === undefined) allExist = false;
+        })
+        if (!allExist) continue;
+      }
+      else if (brain.vocabIndex[pair[1].replace("$", "")] === undefined) continue;
+
+      text = text.replace(new RegExp(`(^| )(${pair[0]})( |$)`, "gi"), (m) => {
+        let k = key;
+        key ++;
+        replacements[k] = pair[1].replace("$", "");;
+        return m.replace(new RegExp(`${pair[0].replace("$", "")}`, "gi"), "<<<"+k+">>>");
+      });
+      text = text.replace(new RegExp(`(^| )(${pair[1]})( |$)`, "gi"), (m) => {
+        let k = key;
+        key ++;
+        replacements[k] = pair[0].replace("$", "");
+        return m.replace(new RegExp(`${pair[1].replace("$", "")}`, "gi"), "<<<"+k+">>>");
+      });
+    }
+
+    for (let key2 in replacements) {
+      text = text.replace(new RegExp(`<<<${key2}>>>`, "gi"), replacements[key2]);
+    }
+
+    return text;
   }
   let markovDepth = 3;
   function teachText(text, context="", multiplier=1) {
@@ -865,7 +983,7 @@
     response = response.map(id => vocab(id)?.t);
     // console.log(response);
 
-    return response.join(" ");
+    return swapPronouns(response.join(" "));
 
   }
   function generateSentence(words=[]) {
@@ -954,7 +1072,8 @@
       ];
       nextSystemMessage();
     }
-    if (statGet("received") === 1 && !protocog.state[1]) {
+    let received = statGet("received");
+    if (received === 1 && !protocog.state[1]) {
       protocog.state[1] = true;
       saveProtocog(protocog);
       systemQueue = [
@@ -963,11 +1082,18 @@
       ];
       setTimeout(nextSystemMessage, 1500);
     }
-    if (statGet("received") > 0) resetButton.style.display = "inline-block";
+    if (received > 0) {
+      resetButton.style.display = "inline-block";
+      saveButton.innerText = "Export";
+    }
+    else {
+      saveButton.innerText = "Import";
+    }
     if (statGet("sent") > 5) {
       document.getElementById("chatButton").style.display = "inline-block";
       if (protocog.qna) document.getElementById("qnaButton").style.display = "inline-block";
     }
+    if (received > 2 && notepad.style.display) notepad.style.display = "";
   }
   let lastGain = {
     connection: 0
@@ -993,10 +1119,19 @@
       if (gentown && gentown.playerName) vocabAll(gentown.playerName);
     }
     catch {}
+
+    let now = new Date();
+    let month = now.toLocaleString(undefined, {month: "long"});
+    let weekday = now.toLocaleString(undefined, {weekday: "long"});
+    if (month) vocab(month.toLowerCase());
+    if (weekday) vocab(weekday.toLowerCase());
+
+    notepad.value = protocog.notepad || "";
   }
   let nameSpan = document.getElementById("stat-name");
   let ageSpan = document.getElementById("stat-age");
   let resetButton = document.getElementById("resetButton");
+  let saveButton = document.getElementById("saveButton");
   resetButton.onclick = () => {
     vocab("reset");
     vocab("abandon");
@@ -1009,6 +1144,131 @@
     systemQueue.unshift([`Do you really want to abandon ${name}? You've known each other for ${getAge()} and exchanged ${statGet("sent") + statGet("received")} messages.`, {speed:0.5, class:"system"}]);
     nextSystemMessage();
   }
+  saveButton.onclick = () => {
+    if (statGet("received") > 0) { //export
+      let data = JSON.parse(JSON.stringify(protocog));
+
+      delete data.brain.vocabIndex;
+      for (const id in data.brain.vocab) {
+        delete data.brain.vocab[id].id;
+      }
+
+      let name = protocog.name || (statGet("connections") > 1000 ? "Protocog" : "Coglet");
+
+      var a = document.createElement("a");
+
+      var file = new Blob([JSON.stringify(data)], {type: "application/vnd.R74n.protocog+json"});
+      a.href = URL.createObjectURL(file);
+      a.download = name+".brain";
+      a.click();
+
+      logMessage(`A copy of ${name} has been downloaded${protocog.notepad ? ", including notepad contents" : ""}.`, {class: "system"});
+    }
+    else { //import
+      let input = document.getElementById("saveUpload");
+      input.click();
+    }
+  }
+  if (R74n.state.ios) {
+    document.getElementById("saveUpload").removeAttribute("accept");
+  }
+  document.getElementById("saveUpload").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      var reader = new FileReader();
+      reader.readAsText(file, "UTF-8");
+      reader.onload = function (evt) {
+        let json = evt.target.result;
+        json = JSON.parse(json);
+        if (json && json.brain) {
+          loadProtocog(json);
+          initGame();
+        }
+      }
+      reader.onerror = function (evt) {
+        alert("File '"+file.name+"' could not be read");
+      }
+      e.target.value = "";
+    }
+  })
+
+  let notepad = document.getElementById("notepad");
+  let notepadSave = null;
+  notepad.addEventListener("blur", (e) => {
+    if (notepadSave) {
+      clearTimeout(notepadSave);
+      vocabAll(notepad.value);
+      saveProtocog(protocog);
+    }
+  });
+  window.addEventListener("beforeunload", (event) => {
+    if (notepadSave) saveProtocog(protocog);
+  })
+  notepad.addEventListener("input", (e) => {
+    protocog.notepad = notepad.value;
+
+    if (notepadSave) clearTimeout(notepadSave);
+
+    notepadSave = setTimeout(() => {
+      vocabAll(notepad.value);
+      saveProtocog(protocog);
+    }, 1000);
+  })
+
+  document.querySelector("#dictionary summary").addEventListener("click", () => {
+    let defined = [];
+    let notDefined = [];
+
+    let details = document.querySelector("#dictionary details");
+    details.querySelectorAll("div").forEach(div => div.remove());
+
+    for (let word in brain.vocabIndex) {
+      if (word.startsWith("[")) continue;
+      let id = brain.vocabIndex[word];
+      let data = brain.vocab[id];
+      if (data.def !== undefined) defined.push(word);
+      else notDefined.push(word);
+    }
+
+    defined.sort();
+    notDefined.sort();
+
+    let words = defined.concat(notDefined);
+    words.forEach((word) => {
+      let id = brain.vocabIndex[word].toString();
+      let data = brain.vocab[id];
+      let div = document.createElement("div");
+      let span = document.createElement("span");
+      span.innerText = word + (data.def !== undefined ? ": "+data.def : "");
+      let remove = document.createElement("span");
+      remove.className = "remove";
+      remove.innerText = "-";
+      remove.addEventListener("click", () => {
+        if (data.def) {
+          span.innerText = word;
+          delete data.def;
+          statAdd("definitions", -1);
+        }
+        else {
+          Object.keys(brain.b1).forEach(key => {
+            let split = key.split(",");
+            if (split.includes(id)) {
+              lastGain.connection --;
+              delete brain.b1[key];
+            }
+            if (brain.b1[id] !== undefined) delete brain.b1[id];
+          })
+          div.remove();
+        }
+        reportGains();
+        saveProtocog(protocog);
+      })
+      div.appendChild(span);
+      div.appendChild(remove);
+      details.appendChild(div);
+    })
+  })
+  
   function getAge() {
     let age = Date.now() - protocog.start;
     let seconds = age / 1000;
@@ -1033,7 +1293,9 @@
       month: "long",
       day: "numeric"
     });
-    document.getElementById("stat-weekday").innerText = now.toLocaleString(undefined, {weekday: "long", hour:"numeric", minute:"numeric"});
+    let weekday = now.toLocaleString(undefined, {weekday: "long"});
+    let time = now.toLocaleString(undefined, {hour:"numeric", minute:"numeric"});
+    document.getElementById("stat-weekday").innerText = weekday + " " + time;
   }
   window.addEventListener("load", () => {
     setInterval(updateAge, 1000)
@@ -1263,6 +1525,9 @@
     return question;
   }
   document.getElementById("qnaButton").onclick = () => {
+    if (notepad.value) {
+      vocabAll(notepad.value);
+    }
     let msg = logMessage("", {placeholder:"Processing...", class:"other"});
     let question = QnA();
     setTimeout(() => {

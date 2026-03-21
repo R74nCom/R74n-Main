@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-03-20 - Updated ProtoCog and created changelog file
 2026-03-18 - New Mini Project: ProtoCog
 2026-03-14 - Experimental: Smooth transitions between pages in supported browsers
 2026-03-07 - Updated R74n Identifier Space for new projects

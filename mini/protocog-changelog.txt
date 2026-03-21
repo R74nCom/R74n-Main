@@ -1,0 +1,15 @@
+[20 Mar 2026]
+ + Import and Export your Protocogs
+ + Protocogs can be renamed
+ + Notepad: Keep track of discoveries & lore
+ + Dictionary: View and remove definitions & words
+ + Protocog can notice the current month and weekday
+ + Protocogs can interchange the English pronouns "you" and "I"
+ + Click a message to skip its typing animation
+ ~ Equal sign can be used to set definitions
+ ~ Unique cursors when hovering over processing placeholders
+ ~ Protocogs will capitalize "R74n"
+ ~ Fixed: Ugly scrollbars everywhere
+
+[18 Mar 2026]
+ ~ Secret release, with announcement the day after
