@@ -126,6 +126,7 @@ pronounSwaps = {
     ["your's","mine"],
     ["you're","i'm"],
     ["youre","im"],
+    ["you'd","i'd"],
     ["yourself","myself"],
     ["you'll","i'll"],
     ["u","me"],
