@@ -1259,6 +1259,8 @@
             }
             if (brain.b1[id] !== undefined) delete brain.b1[id];
           })
+          delete brain.vocabIndex[word];
+          delete brain.vocab[id];
           div.remove();
         }
         reportGains();
