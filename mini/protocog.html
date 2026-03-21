@@ -1212,7 +1212,6 @@
     if (notepadSave) clearTimeout(notepadSave);
 
     notepadSave = setTimeout(() => {
-      vocabAll(notepad.value);
       saveProtocog(protocog);
     }, 1000);
   })
