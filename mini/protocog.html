@@ -122,6 +122,7 @@
       }
       #panelMain .message .text {
         flex-grow: 1;
+        /* padding-left: 0.66em; */
       }
       #panelMain .message > * {
         padding-left: 15px;
@@ -130,6 +131,49 @@
       #panelMain .message::before {
         content: "> ";
         color: rgba(255, 255, 255, 0.8);
+        align-self: center;
+      }
+
+      :root {
+        --protocogHue: 0deg;
+        --protocogSaturation: 100%;
+        --protocogLightness: 50%;
+      }
+      #panelMain .message.other::before {
+        content: " ";
+        align-self: center;
+        background-image: url(art/protocog/face-1.png);
+        filter: hue-rotate(var(--protocogHue)) saturate(var(--protocogSaturation)) brightness(var(--protocogLightness));
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        translate: 12px 1px;
+        aspect-ratio: 1 / 1;
+        width: 1em;
+        max-width: 1em;
+        min-width: 1em;
+        margin-left: -22px;
+        flex-grow: 1;
+        /* image-rendering: pixelated; */
+      }
+      #panelMain .message.other .text {
+        padding-left: 20px
+      }
+      #panelMain .message.other[data-stage="2"]::before {
+        background-image: url(art/protocog/face-2.png);
+      }
+      #panelMain .message.other[data-stage="3"]::before {
+        background-image: url(art/protocog/face-3.png);
+      }
+      #panelMain .message.other[data-stage="4"]::before {
+        background-image: url(art/protocog/face-4.png);
+      }
+      #panelMain .message.self.sent {
+        text-align: right;
+        flex-direction: row-reverse;
+      }
+      #panelMain .message.self.sent::before {
+        content: "<";
       }
 
       #panelMain .message.self:first-child {
@@ -385,12 +429,34 @@
 </nav>
 </main>
 
+<style id="protocogColoring"></style>
+
 <script>
   let panelLeft = document.getElementById("panelLeft");
   let panelMain = document.getElementById("panelMain");
   let panelRight = document.getElementById("panelRight");
   let mobileBar = document.getElementById("mobileBar");
   let currentMessage = null;
+
+  function updateColoring() {
+    if (protocog.color === undefined) {
+      protocog.color = [ //hsl
+        Math.round(Math.random() * 360),
+        Math.min(80, Math.round(Math.random() * 50) + 50),
+        Math.round(Math.random() * 50) + 50
+      ]
+    }
+    let received = statGet("received");
+    let style = document.getElementById("protocogColoring");
+    style.innerHTML = `:root {
+  --protocogHue: ${protocog.color[0]}deg;
+  --protocogSaturation: ${Math.round(protocog.color[1] * Math.min(received / 40, 1) * 100) / 100}%;
+  --protocogLightness: ${protocog.color[2] + 50}%;
+}
+#stat-name {
+    color: hsl(${protocog.color[0]}deg, ${protocog.color[1] * Math.min(received / 40, 1)}%, ${protocog.color[2]}%)
+}`;
+  }
 
   function defaultProtocog() {
     return validateProtocog({
@@ -543,7 +609,24 @@
     //   let menu = msg.querySelector(".menu");
     //   if (menu) menu.classList.toggle("shown");
     // });
-    if (opt.class) msg.classList.add(opt.class);
+    if (opt.class) {
+      msg.classList.add(opt.class);
+      if (opt.class === "other") {
+        let face = getStage().face;
+        msg.setAttribute("data-stage", face);
+        if (face >= 3) {
+          let blink = () => {
+            msg.setAttribute("data-stage", 2);
+            setTimeout(unblink, 100);
+          }
+          let unblink = () => {
+            msg.setAttribute("data-stage", face);
+            setTimeout(blink, Math.random() * 4*1000);
+          }
+          setTimeout(blink, Math.max(2, Math.random() * 4)*1000);
+        }
+      }
+    }
     // msg.innerText = text;
     if (text) updateMessage(msg, text, opt);
     else if (opt.placeholder) {
@@ -551,6 +634,7 @@
       msgText.innerText = opt.placeholder;
     }
     panelMain.insertAdjacentElement("afterbegin", msg);
+    updateColoring();
 
     let userMsg = document.querySelector(`#panelMain .message .text[contenteditable="plaintext-only"]`);
     if (userMsg) {
@@ -574,7 +658,7 @@
     text = text.replace(/R74/gi, "R74");
     let msgText = msg.querySelector(".text")
     msg.classList.remove("placeholder");
-    msgText.innerText = "";
+    msgText.innerHTML = "&nbsp;";
     let characters = [...text];
     let current = "";
     let timeout = null;
@@ -591,7 +675,6 @@
       }
     }
     msgText.addEventListener("click", () => { //skip animation
-      console.log(2);
       if (timeout) clearTimeout(timeout);
       msgText.innerText = text;
       if (systemQueue.length) nextSystemMessage();
@@ -680,6 +763,7 @@
     msgText.removeEventListener("keydown", handleKeyDown);
     msgText.contentEditable = "false";
     msgText.removeAttribute("tabindex");
+    msgText.parentElement.classList.add("sent");
     let text = msgText.textContent;
     currentMessage = null;
     let highlight = msg.querySelector(".highlight");
@@ -1115,6 +1199,7 @@
       beginMessage();
     }
     updateAge();
+    updateColoring();
 
     try {
       let gentown = JSON.parse(R74n.get("GenTownSettings"));
@@ -1130,6 +1215,12 @@
 
     notepad.value = protocog.notepad || "";
   }
+  function getStage() {
+    return {
+      name: statGet("connections") > 1000 ? "Protocog" : "Coglet",
+      face: Math.min(1 + Math.floor(statGet("received") / 10), 4)
+    }
+  }
   let nameSpan = document.getElementById("stat-name");
   let ageSpan = document.getElementById("stat-age");
   let resetButton = document.getElementById("resetButton");
@@ -1138,7 +1229,7 @@
     vocab("reset");
     vocab("abandon");
     resetButton.onclick = () => {};
-    let name = protocog.name || (statGet("connections") > 1000 ? "Protocog" : "Coglet");
+    let name = protocog.name || getStage().name;
     systemQueue.unshift(() => {
       resetButton.onclick = resetProtocog;
     });
@@ -1155,7 +1246,7 @@
         delete data.brain.vocab[id].id;
       }
 
-      let name = protocog.name || (statGet("connections") > 1000 ? "Protocog" : "Coglet");
+      let name = protocog.name || getStage().name;
 
       var a = document.createElement("a");
 
@@ -1287,7 +1378,7 @@
 
     ageSpan.innerText = getAge() + " old";
 
-    let name = protocog.name || (statGet("connections") > 1000 ? "Protocog" : "Coglet");
+    let name = protocog.name || getStage().name;
     nameSpan.innerText = name;
 
     let now = new Date();
@@ -1299,6 +1390,10 @@
     let weekday = now.toLocaleString(undefined, {weekday: "long"});
     let time = now.toLocaleString(undefined, {hour:"numeric", minute:"numeric"});
     document.getElementById("stat-weekday").innerText = weekday + " " + time;
+  }
+  for (let i = 1; i < 5; i++) { //preload face images
+    var img = new Image();
+    img.src = "art/protocog/face-"+i+".png";
   }
   window.addEventListener("load", () => {
     setInterval(updateAge, 1000)
@@ -1564,7 +1659,7 @@ console.log(connections);
     </div>
     <div>
       <div>
-        <small>ProtoCog uses an enhanced version of Markov chains, a less capable and very early precursor to modern neural networks.</small>
+        <small>ProtoCog uses an enhanced version of Markov chains, a less capable and very early precursor to modern neural networks.<br><br>Portraits drawn by @ac.adapter</small>
         <span>
           <button onclick="R74n.more()">More Games</button>
           <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>

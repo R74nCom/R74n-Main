@@ -1,3 +1,9 @@
+[21 Mar 2026]
+ + Protocogs have a portrait next to their messages
+ + All protocogs are born with a color that is revealed as they grow
+ ~ User's messages are right-aligned
+ ~ Fixed: Q&A message sometimes fails to process after deleting words
+
 [20 Mar 2026]
  + Import and Export your Protocogs
  + Protocogs can be renamed

@@ -102,7 +102,7 @@ wordTemplates = {
       })
     }
 
-    return choose(Object.keys(uses).map(id => parseInt(id)).filter(id => !vocab(id).def && !vocab(id).t.startsWith("[")).sort((a,b) => uses[a] - uses[b]).slice(0,10).map(id => vocab(id).t));
+    return choose(Object.keys(uses).map(id => parseInt(id)).filter(id => vocab(id) && !vocab(id).def && !vocab(id).t.startsWith("[")).sort((a,b) => uses[a] - uses[b]).slice(0,10).map(id => vocab(id).t));
   }
 }
 
