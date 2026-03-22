@@ -399,6 +399,12 @@ function setIcon(){
           margin-bottom: 1.5em;
         }
       }
+
+      #cpdSeason {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        cursor: pointer;
+      }
     </style>
     <script>
       function toggleSpotlight() {
@@ -509,7 +515,7 @@ function setIcon(){
         <li><a href="https://sandboxels.r74n.com/"><em>Sandboxels</em> Intricate falling-sand simulator</a></li>
         <li><a href="cook/"><em>Infinite Chef</em> Ultimate virtual kitchen simulator</a></li>
         <li><a href="gentown/"><em>GenTown</em> <em class="news">[NEW]</em> Influence civilization in this planet simulator</a></li>
-        <li><a href="https://c.r74n.com/"><em>Copy Paste Dump</em> Copy and paste everything this Winter</a></li>
+        <li><a href="https://c.r74n.com/"><em>Copy Paste Dump</em> Copy and paste everything this <span id="cpdSeason" title="Tap to change hemisphere">year</span></a></li>
         <li><a href="rue/"><em>Explore with Rue</em> Learn how to use our cute chatbot</a></li>
         <li><a href="convert/"><em>Unit Converter</em> Things tend to equal other things</a></li>
         <li><a href="pixelflags/"><em>PixelFlags</em> 582 tiny pixel art flags & guessing game</a></li>
@@ -581,13 +587,36 @@ function setIcon(){
 </div>
 
 <script> // after content loaded
+var today = new Date();
+
+// Automatic season detection for CPD description
+let season;
+let month = today.getMonth() + 1;
+let dayOfYear = (function(d) {var onejan = new Date(d.getFullYear(),0,1);var today = new Date(d.getFullYear(),d.getMonth(),d.getDate());return Math.ceil((today - onejan + 86400000)/86400000)})(today);
+if (dayOfYear >= 355) season = "Winter";
+if (dayOfYear >= 265) season = "Fall";
+if (dayOfYear >= 172) season = "Summer";
+if (dayOfYear >= 79) season = "Spring";
+else season = "Winter";
+let hemisphere = R74n.get("Hemi") || "N";
+if (hemisphere === "S") season = {"Winter":"Summer", "Summer":"Winter", "Fall":"Spring", "Spring":"Fall"}[season];
+let cpdSeason = document.getElementById("cpdSeason");
+cpdSeason.innerText = season;
+cpdSeason.addEventListener("click", function(e) {
+  hemisphere = R74n.get("Hemi") === "S" ? "N" : "S";
+  R74n.set("Hemi", hemisphere);
+  season = {"Winter":"Summer", "Summer":"Winter", "Fall":"Spring", "Spring":"Fall"}[season];
+  cpdSeason.innerText = season;
+  e.preventDefault();
+  setTimeout(() => alert("Hemisphere has been changed to "+(hemisphere === "S" ? "South" : "North")+"ern."), 1);
+})
+
 // Temporary news flashes
 var newsFlashes = [
   // ["12/27-12/31","Calling all CREATIVE PEOPLE! Submit an interesting version of our logo to our <a href='https://r74n.com/community/logo'>Community Project</a>. [2 WEEKS LEFT]"],
 ];
 // loop through newsFlashes, if today is between the start and end dates, display the message
 try {
-  var today = new Date();
   for (var i=0; i<newsFlashes.length; i++) {
     var dates = newsFlashes[i][0].split('-');
     var start = new Date(dates[0] + "/"+today.getFullYear());
