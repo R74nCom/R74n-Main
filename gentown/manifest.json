@@ -13,7 +13,7 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-  }
+    }
   ],
   "start_url": "/gentown/?source=pwa",
   "theme_color": "#000000",

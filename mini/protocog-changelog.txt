@@ -1,6 +1,7 @@
 [21 Mar 2026]
  + Protocogs have a portrait next to their messages
  + All protocogs are born with a color that is revealed as they grow
+ + Webpage can be saved to mobile home screen as an app
  ~ User's messages are right-aligned
  ~ Fixed: Q&A message sometimes fails to process after deleting words
 

@@ -1,0 +1,18 @@
+{
+  "short_name": "ProtoCog",
+  "name": "ProtoCog - R74n",
+  "icons": [
+    {
+      "src": "/art/protocog/icon.png",
+      "sizes": "140x140",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/mini/protocog?source=pwa",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "standalone",
+  "scope": "/mini/protocog",
+  "description": "This is the future. Train your very own coglet today!"
+}
