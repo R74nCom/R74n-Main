@@ -988,6 +988,13 @@ form .honeypot {
 	}
 }
 
+@keyframes backgroundSway {
+	0% { background-position: center; }
+	33% { background-position: bottom right; }
+	66% { background-position: top left; }
+	100% { background-position: center; }
+}
+
 /* Project Galleries */
 .projectGallery {
 	display:flex;
@@ -996,12 +1003,13 @@ form .honeypot {
 	margin-top: 1em; */
 	justify-content: space-evenly;
 	flex-wrap: wrap;
-	}
-	.projectGallery > a {
+}
+.projectGallery > a {
 	width:25%; height:100px;
 	margin-bottom: 0.5em;
 	background-position: center;
 	background-size: cover;
+	background-repeat: no-repeat;
 	color: white;
 	font-family: 'VT323';
 	font-variant-ligatures: no-common-ligatures;
@@ -1038,6 +1046,7 @@ form .honeypot {
 	line-height: 1;
 	position: relative;
 	image-rendering: pixelated;
+	/* transition: 0.1s background-position; */
 }
 .projectGallery > a:hover {
 	filter: none;
@@ -1045,7 +1054,9 @@ form .honeypot {
 	border-color: #ece060;
 	border-right-color: #bab36f;
 	border-bottom-color: #bab36f;
-	color: yellow
+	color: yellow;
+	/* background-position: bottom; */
+	animation: backgroundSway 10s ease-in-out infinite;
 }
 .projectGallery > a:active {
 	filter: none!important;

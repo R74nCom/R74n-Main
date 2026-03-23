@@ -285,6 +285,12 @@
         color: #bfbfff;
       }
 
+      #shareButton {
+        height: 30px;
+        width:  30px;
+        cursor: pointer;
+      }
+
       #dictionary > details {
         display: flex;
         flex-direction: column;
@@ -374,7 +380,7 @@
 
 <section id="panelLeft">
   <div>
-    <div id="stat-name"></div>
+    <div style="display:none"><span id="stat-name"></span> <img class="iconimg" src="../doodle/share.gif" id="shareButton" role="button"></div>
     <div id="stat-age"></div>
     <div>
       <button id="chatButton" style="display:none">Chat</button>
@@ -641,15 +647,17 @@
       const selection = window.getSelection();
       let node = selection.anchorNode;
       let pos = selection.anchorOffset;
+      if (node && selection) {
+        panelMain.insertAdjacentElement("afterbegin", userMsg.parentElement);
+        userMsg.focus();
+  
+        range.setStart(node, pos);
+        range.collapse(true);
+  
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
 
-      panelMain.insertAdjacentElement("afterbegin", userMsg.parentElement);
-      userMsg.focus();
-
-      range.setStart(node, pos);
-      range.collapse(true);
-
-      selection.removeAllRanges()
-      selection.addRange(range)
     }
     return msg;
   }
@@ -763,6 +771,7 @@
     msgText.contentEditable = "false";
     msgText.removeAttribute("tabindex");
     msgText.parentElement.classList.add("sent");
+    msgText.textContent = msgText.textContent.trim();
     let text = msgText.textContent;
     currentMessage = null;
     let highlight = msg.querySelector(".highlight");
@@ -1234,6 +1243,7 @@
     });
     systemQueue.unshift([`The next time you click 'Reset', you will never see ${name} again.`, {speed:0.5, class:"system"}]);
     systemQueue.unshift([`Do you really want to abandon ${name}? You've known each other for ${getAge()} and exchanged ${statGet("sent") + statGet("received")} messages.`, {speed:0.5, class:"system"}]);
+    if (panelMain.style.display) document.getElementById("backLeft").click();
     nextSystemMessage();
   }
   saveButton.onclick = () => {
@@ -1254,6 +1264,7 @@
       a.download = name+".brain";
       a.click();
 
+      if (panelMain.style.display) document.getElementById("backLeft").click();
       logMessage(`A copy of ${name} has been downloaded${protocog.notepad ? ", including notepad contents" : ""}.`, {class: "system"});
     }
     else { //import
@@ -1305,6 +1316,10 @@
       saveProtocog(protocog);
     }, 1000);
   })
+
+  document.getElementById("shareButton").addEventListener("click", () => {
+    R74n.share(`At ${getAge()} old, my coglet has learned ${Object.keys(brain.vocab).length} words!`, "ProtoCog");
+  });
 
   document.querySelector("#dictionary summary").addEventListener("click", () => {
     let defined = [];
@@ -1379,6 +1394,7 @@
 
     let name = protocog.name || getStage().name;
     nameSpan.innerText = name;
+    if (nameSpan.parentElement.style.display) nameSpan.parentElement.style.display = "";
 
     let now = new Date();
     document.getElementById("stat-date").innerText = now.toLocaleString(undefined, {
@@ -1599,7 +1615,7 @@
     }
     if (words.length) {
       let word = choose(words);
-      let response = word + " " + generateSentence([vocab("[start]").id, vocab(word).id]).map(id => vocab(id).t).join(" ");
+      let response = word + " " + generateSentence([vocab("[start]").id, vocab(word).id]).map(id => vocab(id).t || "").join(" ");
       if (response) choices.push({text: response});
     }
 

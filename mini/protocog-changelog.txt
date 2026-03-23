@@ -1,3 +1,11 @@
+[22 Mar 2026]
+ + Share button next to protocog name
+ ~ Surrounding spaces are trimmed from sent messages
+ ~ Fixed: Messages sometimes fail to process on mobile Safari
+ ~ Fixed: Q&A message sometimes fails to process after deleting words (again)
+ ~ Fixed: Pressing Reset or Export on mobile doesn't close menu
+ ~ Fixed: Protocogs swap "for you" with "to me" instead of "for me"
+
 [21 Mar 2026]
  + Protocogs have a portrait next to their messages
  + All protocogs are born with a color that is revealed as they grow

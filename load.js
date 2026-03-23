@@ -510,9 +510,10 @@ R74n.dialog = function(id, options = {}) {
 	return dialog;
 }
 
-R74n.share = function(text) {
+R74n.share = function(text, hashtag) {
 	R74n.state.share = {
-		text: text || document.title
+		text: text || document.title,
+		hashtag: hashtag
 	}
 	// create share dialog if not exists
 	// otherwise show it

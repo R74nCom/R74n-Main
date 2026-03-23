@@ -64,6 +64,7 @@ protocogQuestions = {
     ],
     check: () => !protocog.askedCamera,
     func: () => {
+      protocog.askedCamera = true;
       navigator.getUserMedia (
         // constraints
         {
@@ -113,10 +114,10 @@ pronounSwaps = {
     ["u are","i am"],
     ["are u","am i"],
     ["to you","to me"],
-    ["for you","to me"],
+    ["for you","for me"],
     ["with you","with me"],
     ["to u","to me"],
-    ["for u","to me"],
+    ["for u","for me"],
     ["with u","with me"],
     ["you$","me$"],
     ["you","i"],
