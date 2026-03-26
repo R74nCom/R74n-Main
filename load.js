@@ -266,16 +266,28 @@ if (R74n.state.file) { //Fix relative URLs for local files
 	if (R74n.state.fileMain) {
 		window.addEventListener("load", () => {
 			// location.href.replace(/.+\/(R74n-Main|R74n)\//, "https://r74n.com/");
-			
+
 			[...document.querySelectorAll("a")].forEach(a => {
-				console.log(a);
 				if (!a || !a.href || a.href.includes(".")) return;
+
+				let href = a.href;
+				let qual = href.match(/[#?].{0,}/);
+				if (qual) {
+					href = href.replace(qual, "");
+					qual = qual[0];
+				}
 	
-				if (a.href.endsWith("/")) a.href += "index.html";
-				else a.href += ".html";
+				if (href.endsWith("/")) href += "index.html";
+				else href += ".html";
+				if (qual) href += qual;
+				a.href = href;
 			});
 		})
 	}
+}
+
+if (R74n.state.main) { //Track visited projects
+
 }
 
 R74n.state.mobile = false;
@@ -322,6 +334,14 @@ if (location.href) {
 	else if (R74n.state.main && location.hostname) {
 		// https://r74n.com/mini/cost
 		R74n.state.path = location.pathname;
+	}
+	if (R74n.state.path) {
+		R74n.state.path = R74n.state.path
+			.replace(/[#?].{0,}/, "")
+			.replace(/(\/index)?\.html$/, "")
+			.replace(/\/$/, "")
+			|| "/";
+		;
 	}
 }
 
