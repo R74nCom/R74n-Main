@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-03-25 - Relative links now work on local file versions of main site
+2026-03-25 - R74n Observer can detect current page path on both local and web versions
 2026-03-25 - Embed thumbnail improvements
 2026-03-21 - Updated ProtoCog
 2026-03-22 - Backgrounds of homepage buttons sway when hovered over

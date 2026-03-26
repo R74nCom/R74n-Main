@@ -210,18 +210,6 @@ window.submitContactForm = function(form) {
 	return false;
 }
 
-/*R74n Observer
-  Don't worry, I'm harmless!*/
-if (document.referrer) {
-	if (document.referrer.indexOf("r74n.") === -1) {
-		const refdomain = document.referrer.replace(/^https?:\/\//g, "").replace(/^www\./g, "").replace(/\/$/g, "");
-		document.cookie = "R74nRef="+refdomain+";max-age=86400;path=/;domain=r74n.com";
-	}
-	else {
-		const refpath = document.referrer.replace(/^https?:\/\//g, "").replace(/^www\./g, "").replace(/\/$/g, "");
-		document.cookie = "R74nRefLocal="+refpath+";max-age=86400;path=/;domain=r74n.com";
-	}
-}
 
 // Global URL Params
 if (this.location.search) {
@@ -247,7 +235,14 @@ if (!window.getCookie) {
 	window.getCookie = function (name) {const cookieString = document.cookie;const cookies = cookieString.split(';');for (let i = 0; i < cookies.length; i++) {let cookie = cookies[i].trim();if (cookie.startsWith(name + '=')) {return cookie.substring(name.length + 1);}}return null;}
 }
 
-if (!location.host) R74n.state.file = true;
+if (!location.host) {
+	R74n.state.file = true;
+	if (location.href && location.href.match(/\/(R74n-Main|R74n)\//i)) {
+		R74n.state.main = true;
+		R74n.state.fileMain = true;
+		R74n.state.official = true;
+	}
+}
 if (location.host === "r74n.com") {
 	R74n.state.main = true;
 	R74n.state.official = true;
@@ -256,7 +251,7 @@ else if (location.href && location.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.co
 	R74n.state.official = true;
 }
 
-if (R74n.state.file) {
+if (R74n.state.file) { //Fix relative URLs for local files
 	[...document.querySelectorAll("meta, link")].forEach(a => {
 		if (!a) return;
 
@@ -267,6 +262,20 @@ if (R74n.state.file) {
 			a.setAttribute("href", "https://r74n.com" + a.getAttribute("href"));
 		}
 	});
+
+	if (R74n.state.fileMain) {
+		window.addEventListener("load", () => {
+			// location.href.replace(/.+\/(R74n-Main|R74n)\//, "https://r74n.com/");
+			
+			[...document.querySelectorAll("a")].forEach(a => {
+				console.log(a);
+				if (!a || !a.href || a.href.includes(".")) return;
+	
+				if (a.href.endsWith("/")) a.href += "index.html";
+				else a.href += ".html";
+			});
+		})
+	}
 }
 
 R74n.state.mobile = false;
@@ -288,6 +297,34 @@ if (window.self != window.top) {
 	R74n.state.embedded = true;
 	this.document.body.classList.add("embedded")
 }
+
+
+/*R74n Observer
+  Don't worry, I'm harmless!*/
+if (document.referrer) {
+	if (document.referrer.indexOf("r74n.") === -1) {
+		const refdomain = document.referrer.replace(/^https?:\/\//g, "").replace(/^www\./g, "").replace(/\/$/g, "");
+		document.cookie = "R74nRef="+refdomain+";max-age=86400;path=/;domain=r74n.com";
+		if (refdomain === "neal.fun") document.cookie = "R74nRefLocal=sandboxels.r74n.com;max-age=86400;path=/;domain=r74n.com";
+	}
+	else {
+		const refpath = document.referrer.replace(/^https?:\/\//g, "").replace(/^www\./g, "").replace(/\/$/g, "");
+		document.cookie = "R74nRefLocal="+refpath+";max-age=86400;path=/;domain=r74n.com";
+	}
+}
+if (location.href) {
+	// if ((/^(?:https?:\/\/)?(?:www\.)?r74n\.com\/.+$/i).test(location.href)) { //is main URL
+
+	if (R74n.state.fileMain) {
+		// file:///Users/ryan/Desktop/HTML/R74n-Main/mini/cost.html
+		R74n.state.path = "/" + location.href.split(/\/(?:R74n-Main|R74n)\//i)[1];
+	}
+	else if (R74n.state.main && location.hostname) {
+		// https://r74n.com/mini/cost
+		R74n.state.path = location.pathname;
+	}
+}
+
 
 window.addEventListener("load",function(){
 
