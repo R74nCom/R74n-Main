@@ -1212,6 +1212,8 @@
     try {
       let gentown = JSON.parse(R74n.get("GenTownSettings"));
       if (gentown && gentown.playerName) vocabAll(gentown.playerName);
+      let rue = JSON.parse(localStorage.getItem("rueUserData"));
+      if (rue) vocabAll(user.name.toLowerCase());
     }
     catch {}
 
