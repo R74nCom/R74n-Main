@@ -1079,6 +1079,12 @@ form .honeypot {
 .projectGallery > a.new.update::after {
 	content: "update";
 }
+.projectGallery .alertheader {
+	height: fit-content;
+	align-self: center;
+	min-width: 90%;
+	margin: 0!important;
+}
 @media only screen and (max-width: 1200px) {
 	.projectGallery > a.new::after {
 		opacity: 0.66

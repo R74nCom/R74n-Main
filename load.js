@@ -276,8 +276,9 @@ if (R74n.state.file) { //Fix relative URLs for local files
 					href = href.replace(qual, "");
 					qual = qual[0];
 				}
-	
-				if (href.endsWith("/")) href += "index.html";
+				
+				if (href === "file:///") href = location.href.split(/\/(R74n-Main|R74n)\//).slice(0,2).join("/") + "/index.html";
+				else if (href.endsWith("/")) href += "index.html";
 				else href += ".html";
 				if (qual) href += qual;
 				a.href = href;
@@ -716,6 +717,10 @@ R74n.more = function() {
 		}
 		gallery.appendChild(a);
 	}
+
+	gallery.insertAdjacentHTML("beforeend", `<span id="newsheader" class="alertheader">
+    The Grand Census begins NOW. <a href='https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog'>Fill out our form</a> to make your voice heard!
+  </span>`)
 }
 
 if (urlParams.has("debug")) {
