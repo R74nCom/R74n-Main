@@ -4,7 +4,6 @@ https://r74n.com/mc/uuid
 https://r74n.com/mc/heads
 https://r74n.com/mc/items/
 https://r74n.com/hello/
-https://r74n.com/box/
 https://r74n.com/unisearch/
 https://r74n.com/words/
 https://r74n.com/words/twitter
