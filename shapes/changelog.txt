@@ -1,0 +1,93 @@
+[Note: Changelogs below this point were added retroactively in 2026]
+
+[3 Jan 2026]
+- Added many new share buttons for R74n Mini projects
+
+[30 Jun 2024]
+- Added: rectangle_rough, rectangle_round_rough, rectangle_vertical_thinnest, rectangle_vertical_thinnest_tb, square_rough, square_round_rough
+
+[17 Jun 2024]
+- Added: dropper, flower_circle_leaves, handwheel, lens_quad, mallet, pyramid_tiered, skull, spiral_bi, triangle_down, turbine
+
+[28 May 2024]
+- Added: angle_bracket_up_thin_top, beans_some_flat, bowtie, bowtie_l, brain, buds, circle_ms_calyx, circle_ms_leafed, dots_some_flat, drain, droplets_some_flat, fisheye_dark, four_splay, fruit_nubs_rough, fungus_splayed, popsicle, stars_some_flat, tongs, torus_side, triangles_some_flat, wedge_rough, whisk
+- Updated: tree_triangle
+
+[9 May 2024]
+- Added: arrow_outward, arrow_outward_tri, astroid_turned, banner, bar_horizontal_tri, bars_align_center, bars_align_left, bars_align_right, bottle_flask, bottle_ridged, bottle_smooth, bracket_curly_left, bracket_cusp_left_closed, bracket_shell_left, bracket_tack_bi_fused, bracket_tack_left, circle_bevel, crescent_thin, crosshair_x, cube_stack, cusp_circle, cusp_circle_up, cusp_double, cusp_round_up, flower_x_thin, gibbous, hexagon_turned, hexagonal_pyramid_top, hexagonal_pyramid_top_turned, houndstooth, jigsaw, l_top_left_fold, obelus_double, octagon_bevel, octagon_bevel_square, octagonal_pyramid_top, pentagon_bevel, pentagonal_pyramid_top, plus_double, pyramid_top, pyramid_top_turned, rectangle_punched_sides, rectangle_thin_nub, rectangled_punched_sides_hole, rhombus_bevel, rhombus_quad, square_curve_left_top, square_curve_top, square_curve_top_bottom, tack_bi, tack_bi_fused, tack_thick_left, tangent, triangle_bevel, wedge_right, x_thick
+- Updated: angle_left, rectangle_thin, rectangle_thin_round
+- Renamed: bottle_plastic -> bottle_ridged, bottle_glass -> bottle_smooth
+
+[6 May 2024]
+- Added: arrow_clockwise, arrow_clockwise_bi, arrow_counterclockwise, arrow_counterclockwise_bi, arrow_loop_one, arrow_loop_vertical, arrow_shuffle, atom, ball_strung, battery, battery_low, bottle_glass, bottle_handle, bottle_plastic, cane, cane_striped, chain, chart_bar_decrease, chart_bar_increase, chart_bar_random, chart_line_decrease, chart_line_increase, chart_pie, circle_R, circle_ears, cloud_droplets, clover_round, clubs, cone_flat_bottom, cone_flat_bottom_topless, cone_flat_top, cone_flat_top_hole, converge_tri, crystal_tiny, cube_simple, cylinder_disc_stack, dial, die_five, die_four, die_one, die_six, die_three, die_two, ear, elbow_connector_smooth, embryo, envelope, envelope_open, envelope_open_letter, flat_plane, flower_rose, flower_stem, fungus_flared, fungus_flared_tall, fungus_flat, fungus_flat_tall, fungus_flat_wide, fungus_mounted, fungus_pointy, fungus_pointy_porous, fungus_spotted, fungus_tall, fungus_wide, hexagon_bevel, hexagon_hole, hyperboloid, hyperboloid_topless, hypercross, larva, leaf_ginkgo, leaf_maple, microbe, pawn, plus_round, power, push_button, pyramid_flat_bottom, pyramid_flat_top, pyramid_segmented, rectangle_fold_top_right_bi, rectangle_lipped, rectangle_thinnish_round_point, rectangle_vertical_ribbed, rectangular_prism, rectangular_prism_flared, reel, ribbed_hole, ribbon, ribbon_flat, scissors, snowman, spades, square_axes_top_left, star_prism, talon, tooth, triangle_left_bi_bar, triangle_right_bars, triangle_right_bi_bar, triangle_up_bar_below, wavy_sheet_flat_top
+- Updated: arrow_loop, pickaxe, silhouette_hair_long, triangle_left_bi, triangle_right_bi, u
+
+[4 May 2024]
+- Added: bar_vertical_sharp, barrier_circle_forward, barrier_square_forward, circle_quad, circle_three_dots_vertical, circle_xs, circle_xs_tri, circle_xs_tri_vertical, circles_nine, clock, cone_hole, cone_topless, cone_up, crescent_top_right, cube_eighth, cube_fourth, cube_half, cube_six_eighths, cube_three_eighths, cuboid_stairs, cuboid_stairs_corner, cuboid_stairs_corner_inner, cuboid_stairs_top, cuboid_tall, cuboid_tall_topless, cuboid_wireframe, cyclic_rectangle_horizontal, cylinder_flat, cylinder_short_topless, disc_stack, disc_stack_hole, dither_backward, fence, heart_hollow, hexagonal_prism, hexagonal_pyramid, jellyfish, jewel, ladder, lock, lock_open, octagonal_prism, octagonal_pyramid, paw, pentagonal_prism, pentagonal_pyramid, rectangle_handle, rectangle_handle_split, rectangle_round_handle, rectangle_round_handle_split, ribbed_thick, rod_hollow, semicircle_right, semitorus_thick_hollow, silhouette_hair_long, square_handle, square_handle_split, square_three_fourths, square_two_thirds, squares_five, squares_nine, torus_fourth, torus_fourth_full, torus_three_fourths, triangle_left_bi, triangular_prism
+- Updated: cone
+
+[1 May 2024]
+- Added: circle_scored
+
+[29 Apr 2024]
+- Added: a, arachnid, arachnid_venomous, arch, arch_rectangle, arch_rectangle_thick, arch_square, arch_thick, archway, archway_lens, arrow_right_chevron, bar_vertical_bi, bug_winged, cactus, circle_pile, circle_quadrant_negative, comb, crosshair, cuboid_long, cyclic_heart, cyclic_rhombus, fan, flower_clover, flower_lipped, flower_wavy, foliage_cone, fork_down, gear, hearts_bi, hexagon_pyramid, house_chimney, leaf_needle, leaf_stem, leaves_stem, lens_vertical, lobster, multicross, octagon_opu, omnicross, patonce, ribbed, ribbed_sharp, rod_small, rod_tiny, rombus_negative, semioval_left, semioval_thick_left, shield_flat, signpost, signpost_arrow_right, signpost_text, snout, snowflake, speech_oval, square_quad, square_quad_leftward, tag, tree, tree_triangle, twig, x_curved, x_sharp
+- Updated: exclamation, pretzel
+
+[26 Apr 2024]
+- Added: rectangle_thick, rectangle_thick_round, rectangle_thinner_ridged, rectangle_thinner_round_porous, rectangle_thinnest, rectangle_vertical_round, rectangle_vertical_thick, rectangle_vertical_thick_round, square_u_thin_top, trapezoid_full, trapezoid_full_down, wedge_porous
+
+[24 Apr 2024]
+- Added: assorted, oval_thick_hole
+
+[22 Apr 2024]
+- Added: foliage_bar, rectangle_thinner_ring, rectangle_thinner_tablet, squares_some_flat
+- Updated: square_pile
+
+[18 Apr 2024]
+- Added: rods_some, star_tiny, stars_some
+
+[16 Apr 2024]
+- Added: bean_eyed, bulb_down, circle_orbits, circles_five, clover, flower_hex, flower_x, heart_s, honeycomb, liquid_splat, parabolic_curve, plus_circles, rod_flared, rod_flared_leafy, rod_to_thick, rod_to_thin, swirl, triquetra, web, whorl_circle, x_circles, x_square, x_squares
+- Updated: circle_ms, rod_bumpy, shield, spiral_s
+
+[13 Apr 2024]
+- Added: circle_thorny, circle_thorny_ml, fruit_long_thorny, parabola, shield, spike_ball, spike_ball_quad, spike_strip, star_four_point_round, toy_brick, triangle_diagonal, triangle_diagonal_barbed
+
+[12 Apr 2024]
+- Added: book, circle_leafed, circle_shelled, foliage, foliage_s, fork, fork_bi, fruit_bipod_thin, fruit_bipod_thin_stem, leaf_rough, ovoid_scaly, rod_thin_splits, worm
+- Updated: root
+
+[11 Apr 2024]
+- Added: arrow_u_left, arrow_u_right, bulb, chair, circle_rough, clam, decahedron, disc_hole, disc, egg_yolk, fruit_long_stem, fruit_long, fruit_pick_stem, fruit_wide_stem, fruit_wide, hemisphere_core, joystick, nut_cap, octagram_compass, octagram_emblem, octagram_outward, octahedron, oval_horizontal, oval_leafy, oval_thick_horizontal, pick, puddle, rectangle_tab, rectangle_torn_top, rock_ball, rod_circle_flared, rod_circle, rod_flat_top, rod_lip, rod_point, silhouette, speaker, spinny_blade, sun_eclipse, tetrahedron, torus_m, zap_straight
+- Updated: crystal, dodecahedron, rod_thin
+
+[7 Apr 2024]
+- Added the first share buttons for Infinite Chef
+
+[2 Apr 2024]
+- Added: algae, aperture, bar_over, bar_under, bell, blob_pile, blob_short, blob, bouba, bullet, bundt, circle_dot, crystal, cylinder_hole, cylinder_short_hole, cylinder_short, decagon, dodecahedron, fisheye, i_thin, i, kiki, knife, lattice_straight, lotus, pants_short, pickaxe, plus_thick, powder_wavy, R74n, rectangle_fold_top_right, rectangle_vertical, rod_bulbous, snail, square_knob, stripes_diagonal, swirl_pile, sword, triangle_facing_right, wavy_sheet_flat
+- Updated: bar_vertical_circle, bean, sprout, triangle_round, z
+
+[28 Mar 2024]
+- Added: anchor, arrow_loop, asterisk, asterisk_stacked, bar_vertical_circle, beans_some, bone, boomerang, circle_bi, circle_bi_stem, circle_ridged, circle_seared, circle_three_dots, circle_two_dots, cube_topless, cuboid_topless, cup_wrapper, cylinder_topless, double_helix, droplets_some, eye, hat, helix_strand, hemisphere, hemisphere_topless, hook, medal, note_eighth_bi, pants, peace, piano_keyboard, pyramid, rod_bumpy, spheroid_prolate, spiral_s, sprout, square_pile, square_tiny, squares_some, top, triangle_right_bi, triangle_right_hollow, triangle_round_ml, triangle_tiny, triangle_warning, triangles_some, triforce, venn_complement_absolute, venn_complement_relative, venn_difference, venn_intersection, venn_tri, venn_union, z
+- Updated: hourglass, pretzel, spiral, triangle_round
+
+[26 Mar 2024]
+- Added: arrow_diagonal_backward, arrow_diagonal_forward, arrow_down_to_left, arrow_down_to_right, arrow_horizontal, arrow_left_to_down, arrow_left_to_up, arrow_right_to_down, arrow_right_to_up, arrow_up_to_left, arrow_up_to_right, arrow_vertical, bar_horizontal_circle, barrier_circle, barrier_square, circle_chord, connector, crate, cube_wireframe, diagonal_stripe, elbow, elbow_connector, gas_thin, hourglass, l_thick, plus_circle, plus_curved, sail, semitorus_thick_left, speech_balloon, speech_rectangle, square_bevel, square_fold_bottom_right, square_hollow_half, square_ridged, square_round_diagonal, square_round_top_both, square_round_top_both_bottom_left, square_round_top_right, square_snip_diagonal, square_snip_top_both, square_snip_top_both_bottom_left, square_snip_top_right, sun, thought_balloon, unequal, wavy_sheet, x_circle, y, zap
+
+[25 Mar 2024]
+- Added: angle_left, angle_right, arrow_down_left, arrow_down_right, arrow_down, arrow_left, arrow_right, arrow_up_left, arrow_up_right, arrow_up, bar_diagonal_backward, bar_diagonal_forward, bar_horizontal_bi, bar_horizontal, bar_vertical, bottle, circle_arc, circle_quadrant_full, circle_quadrant, circle_sector, coil, cuboid, cursor_full, cylinder, division, exclamation, face_frown, face_smile, face, figure_dress, figure, h_doublestruck, heart_broken, heptagon, hexagram_triangle, icosahedron, nonagon, obelus, octagram_square, peg, pentagon, percent, pointer_up, polygon_irregular, semiheart, semirhombus, semistar, semitriangle, square_round_hollow, square_u_down, square_u_left, square_u_right, square_u_up, stellated_octahedron, taijitu, torus_thick, trefoil, triangle_curved, triangle_hollow, u, wheel
+- Updated: h, octagram, pentagon, window
+
+[24 Mar 2024]
+- Renamed: square_s -> square_ms, square_xs -> square_s
+
+[23 Mar 2024]
+- Added: acute_angle, arbelos, astroid, cap, clumps, cyclic_rectangle, cyclic_square, cyclic_star, cyclic_triangle, dither, flat_bottom, grate_horizontal, grate_vertical, grate, hexagram, house, obtuse_angle, octagram, quatrefoil, rhomboid, right_angle, rod_thin, scoop, semicircle_top, shogi, square_m, square_s, square_xs, star_four_point, t, triangle_m, triangle_round, triangle_s, window
+- Updated: corner_top_left
+
+[10 Mar 2024]
+- Added: dots_some, wedge
+
+[29 Feb 2024]
+- Added: bean_l, bean_tiny, bug, bunch, cephalopod, check, circle, circle_lattice, circle_m, circle_ml, circle_ms, circle_porous, circle_s, circle_three_fourths, cone, corner_top_left, crescent, crossed, crustacean, cube, curve, curve_plump, curve_thick, cutlet, dot, dot_pyramid, dots, figure_eight, fish, flame, flower, fluffy, fruit, fruit_bi, fruit_bipod, fruit_bipod_stem, fruit_extrude, fruit_nub, fruit_nub_thick, fruit_nubs, fruit_stem, fungus, gas, grass, h, heart, hexagon, hook_stem, intersection_left, kite, leaf, leaf_vegetable, lens, liquid, loaf, needle, noodles, octagon, oval, oval_bi, oval_thick, oval_thinner, ovoid, peanut, pentagon, plus, pointer_down, poultry, powder, powder_rough, pretzel, rectangle, rectangle_long, rectangle_round, rectangle_thin, rectangle_thin_round, rectangle_thinner, rectangle_thinner_round, rhombus, rhombus_thin, rock, rod, rod_rough, rod_rough_thin, rod_wavy, root, semicircle_bottom, semicircle_diagonal, semicircle_left, semitorus_thin_left, shrimp, sine, spiral, splat, splat_yolk, square, square_hollow, square_round, stack, star, sus, torus, torus_thin, trapezoid, trapezoid_l, triangle, triangle_right

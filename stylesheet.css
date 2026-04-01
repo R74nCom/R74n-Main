@@ -67,6 +67,12 @@ img, audio, video {vertical-align:middle;max-width:100%}
 
 .vertical {font-family:'Mongolian Baiti','Noto Sans Mongolian',sans-serif;font-size:140%;-webkit-writing-mode:vertical-lr;-moz-writing-mode:vertical-lr;writing-mode:vertical-lr;writing-mode:vertical-ideographic;}
 
+.gradtext {
+	-webkit-background-clip:text!important;
+	background-clip:text;
+	-webkit-text-fill-color:transparent!important;
+}
+
 
 .R74nicon:hover {
 	filter:hue-rotate(3600deg);

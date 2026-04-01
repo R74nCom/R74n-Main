@@ -1,5 +1,15 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-03-31 - Updated Socials page
+2026-03-31 - Updated Link Dump
+2026-03-31 - Updated R74n Commons
+2026-03-31 - Updated Translation Hub
+2026-03-31 - Updated Music page - Colored most links
+2026-03-31 - Created retroactive changelog for R74n Shapes
+2026-03-31 - Universal Feedback System category in the Main R74n Feedback form
+2026-03-31 - Identifiers / Multiplane category in the Main R74n Feedback form
+2026-03-31 - Removed Link Shortener category in the Main R74n Feedback form
+2026-03-31 - Added autism logo and transgender avatar to Icons page
 2026-03-30 - Created a separate feedback form for Explore with Rue
 2026-03-30 - R74n Shapes category in the Main R74n Feedback form
 2026-03-30 - Added feedback link to R74n Shapes and Every Ant on Earth
