@@ -1139,6 +1139,10 @@ form .honeypot {
 .globalDialog .projectGallery {
 	margin-bottom: 0;
 }
+.globalDialog iframe {
+	margin-left: auto;
+    margin-right: auto;
+}
 
 
 

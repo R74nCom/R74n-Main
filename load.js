@@ -352,8 +352,24 @@ window.addEventListener("load",function(){
 if (!R74n.state.file || R74n.state.main) {
 	// Open external links in new tab
 	[...document.getElementsByTagName("a")].forEach(a => {
-		if (a && !a.hasAttribute("target") && a.href && ((a.href.startsWith("http") && !a.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) || a.href.match(/^mailto:/))) {
-			a.setAttribute("target","_blank");
+		if (a && a.href) {
+			if (!a.hasAttribute("target") && ((a.href.startsWith("http") && !a.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) || a.href.match(/^mailto:/))) {
+				a.setAttribute("target","_blank");
+			}
+			const matchForm = a.href.match(/docs\.google\.com\/forms\/(?:d\/)?(?:e\/)?([\w\-]+)/);
+			if (matchForm) a.addEventListener("click", (e) => {
+				if (e.metaKey || e.ctrlKey) return;
+				console.log(e.metaKey || e.ctrlKey);
+				e.preventDefault();
+				const id = matchForm[1];
+				let dialog = R74n.dialog(id, {
+					title: "Form",
+					wide: true
+				});
+				let content = dialog.querySelector(".globalDialogContent");
+				content.innerHTML = `<div><iframe src="https://docs.google.com/forms/d/e/${id}/viewform?embedded=true" width="${Math.min(window.innerWidth, 640)}" height="${window.innerHeight - 200}" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe><p>Not loading? <a class="relocate">Tap to relocate</a></p></div>`;
+				content.querySelector("a.relocate").href = a.href;
+			})
 		}
 	});
 }

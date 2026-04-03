@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-04-02 - Click on a Google Forms link brings up an in-page dialog instead
 2026-03-31 - Updated Socials page
 2026-03-31 - Updated Link Dump
 2026-03-31 - Updated R74n Commons

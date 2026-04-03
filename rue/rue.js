@@ -4136,7 +4136,7 @@ rueData.links = {
 "ical": "https://calendar.google.com/calendar/ical/ladcofi5bc79kluaighvhr817s%40group.calendar.google.com/public/basic.ics",
 "commons:earth": "https://earth.google.com/earth/d/1TaHFhh3mbqMrZCWXA3PGFsIAbVuNQSpO?usp=sharing",
 "google earth": "=commons:earth",
-"commons:form": "https://forms.gle/HsgeY4EuYNRwaoP88",
+"commons:form": "https://docs.google.com/forms/d/e/1FAIpQLScaCmxJWUxsf--mCKwAdSrKTwhqBNeISkn7wxOaVuefs9-8ZQ/viewform",
 "commons:microsoftform": "https://forms.office.com/r/uvUZzNXtJM",
 "commons:sheet": "https://docs.google.com/spreadsheets/d/1y4saOt_ICnP7zxcMNG7E5IqkEAmzH1j2SGTIHGpP5BY/edit?usp=sharing",
 "google sheets": "=commons:sheet",
