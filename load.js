@@ -367,7 +367,7 @@ if (!R74n.state.file || R74n.state.main) {
 					wide: true
 				});
 				let content = dialog.querySelector(".globalDialogContent");
-				content.innerHTML = `<div><iframe src="https://docs.google.com/forms/d/e/${id}/viewform?embedded=true" width="${Math.min(window.innerWidth, 640)}" height="${window.innerHeight - 200}" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe><p>Not loading? <a class="relocate" target="_blank">Tap to relocate</a></p></div>`;
+				content.innerHTML = `<div><iframe src="${a.href + (a.href.includes("?") ? "&" : "?")}embedded=true" width="${Math.min(window.innerWidth, 640)}" height="${window.innerHeight - 200}" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe><p>Not loading? <a class="relocate" target="_blank">Tap to relocate</a></p></div>`;
 				content.querySelector("a.relocate").href = a.href;
 				content.querySelector("a.relocate").onclick = (e) => {
 					R74n.closeDialog(id);
