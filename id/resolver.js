@@ -354,6 +354,10 @@ urnResolvers = {
     if (args[0] === "changelog") { return "https://R74n.com/gentown/changelog.txt"; }
     return "https://R74n.com/gentown/"+args.join("/");
 },
+"archiveorg": (args) => {
+    if (args[0]) { return "https://archive.org/details/"+args[0]; }
+    return "https://archive.org/";
+},
 }
 function resolveURN(urn) {
     var parts = urn.split(":");
@@ -369,6 +373,14 @@ function resolveURN(urn) {
     if (namespace !== "X-R74n") { return false }
     if (parts.length <= 2) { return "https://R74n.com/" }
     var mainPart = parts[2];
+    if (mainPart && !urnResolvers[mainPart] && mainPart.length === 2) {
+        for (let i = 0; i < alphaCodes.length; i++) {
+            if (alphaCodes[i][1] === mainPart) {
+                mainPart = alphaCodes[i][2];
+                break;
+            }
+        }
+    }
     var args = parts.slice(3);
     // console.log(mainPart+"("+args.join(",")+")");
     if (urnResolvers[mainPart]) {

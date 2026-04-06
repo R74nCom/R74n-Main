@@ -104,6 +104,7 @@
 [1056,  "  ",   "mforms",       "on Microsoft Forms"],
 [1057,  "  ",   "mlists",       "on Microsoft Lists"],
 [1058,  "  ",   "mtodo",        "on Microsoft To Do"],
+[1059,  "ia",   "archiveorg",   "on Internet Archive"],
 [47,    "rq",   "requested",    "requested by third party"],
 [41,    "xe",   "example",      "example, for explanation only"],
 [37,    "xm",   "mul",          "multiple namespaces"],

@@ -178,6 +178,7 @@ multiplaneEntities = {
 "420": "Microsoft Form//https://forms.office.com/",
 "421": "Microsoft List//https://lists.live.com/",
 "422": "Microsoft To Do list//https://to-do.microsoft.com/",
+"423": "Internet Archive item//https://archive.org/",
 
 // Actions //
 "510": "mouse event",
