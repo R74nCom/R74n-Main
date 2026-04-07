@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-04-06 - Updated Wplace Gallery
+2026-04-06 - Created Vault Access (/archive) page, work in progress
+2026-04-06 - Updated Alpha-2 codes
 2026-04-06 - ID Resolver accepts Alpha-2 namespace shorthands
 2026-04-02 - Click on a Google Forms link brings up an in-page dialog instead
 2026-03-31 - Updated Socials page
