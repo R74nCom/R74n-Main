@@ -25,19 +25,19 @@ class R74nClass {
 		return localStorage.setItem(LSPrefix+key, value);
 	}
 	add(key, value) {
-		var old = R74n.get(key);
-		if (!old) { return R74n.set(key,value); }
+		var old = this.get(key);
+		if (!old) { return this.set(key,value); }
 		if (isNaN(parseFloat(old))) {
 			try {
 				var parsed = JSON.parse(old);
 				if (Array.isArray(parsed)) {
 					parsed.push(value);
-					return R74n.set(key, JSON.stringify(parsed));
+					return this.set(key, JSON.stringify(parsed));
 				}
 			}
-			catch { return R74n.set(key, old+value); }
+			catch { return this.set(key, old+value); }
 		}
-		return R74n.set(key, parseFloat(old)+value);
+		return this.set(key, parseFloat(old)+value);
 	}
 	del(key) {
 		return localStorage.removeItem(LSPrefix+key);
@@ -71,7 +71,7 @@ class R74nClass {
 			});
 			objectStore.createIndex("json", "json", { unique: false });
 
-			console.log(objectStore);
+			// console.log(objectStore);
 		}
 
 		DBOpenRequest.onsuccess = (event) => {
@@ -129,7 +129,14 @@ class R74nClass {
 
 	}
 }
-const R74n = new R74nClass();
+
+let oldR74n = window.R74n;
+window.R74n = new R74nClass();
+if (oldR74n !== undefined) {
+	for (let key in oldR74n) {
+		window.R74n[key] = oldR74n[key];
+	}
+}
 
 function listLS(prefix) {
 	prefix = prefix || "";
@@ -359,7 +366,6 @@ if (!R74n.state.file || R74n.state.main) {
 			const matchForm = a.href.match(/docs\.google\.com\/forms\/(?:d\/)?(?:e\/)?([\w\-]+)/);
 			if (matchForm) a.addEventListener("click", (e) => {
 				if (e.metaKey || e.ctrlKey) return;
-				console.log(e.metaKey || e.ctrlKey);
 				e.preventDefault();
 				const id = matchForm[1];
 				let dialog = R74n.dialog(id, {
@@ -379,7 +385,10 @@ if (!R74n.state.file || R74n.state.main) {
 
 let _pageHeader = document.querySelector("body header:first-child");
 if (_pageHeader && _pageHeader.style.display !== "none") {
-	R74n.state.header = true;
+	if (R74n.header === null) {
+		_pageHeader.style.display = "none";
+	}
+	else R74n.state.header = true;
 }
 let _pageFooter = document.querySelector("body > footer");
 if (_pageFooter) {
@@ -391,7 +400,7 @@ if (document.body.classList.contains("spa")) {
 }
 
 // Add footer when necessary
-if (R74n.state.main && !R74n.state.footer && R74n.state.header && !R74n.state.spa) {
+if (R74n.state.main && !R74n.state.footer && R74n.state.header && !R74n.state.spa && R74n.footer !== null) {
 	document.body.insertAdjacentHTML("beforeend", `<footer><nav>
   <a href="https://r74n.com/" style="color:#00ffff">More Projects</a>
   <a href="https://r74n.com/contact">Contact</a>
@@ -449,17 +458,17 @@ window.addEventListener("keydown", function(e) {
 	}
 });
 
-R74n.closeDialog = function(id) {
-	if (R74n.state.dialog === id) R74n.state.dialog = null;
+R74nClass.prototype.closeDialog = function(id) {
+	if (this.state.dialog === id) this.state.dialog = null;
 	let dialog = document.getElementById("globalDialog-"+id);
 	if (dialog) {
 		dialog.classList.remove("open");
-		document.documentElement.scrollTop = R74n.preDialogScroll;
+		document.documentElement.scrollTop = this.preDialogScroll;
 	}
 }
 
-R74n.closeShare = function() {
-	R74n.closeDialog("share");
+R74nClass.prototype.closeShare = function() {
+	this.closeDialog("share");
 }
 
 R74n.sharePoints = {
@@ -530,10 +539,10 @@ R74n.root = (R74n.state.main && !R74n.state.file) ? "/" : "https://r74n.com/";
 
 R74n.preDialogScroll = 0;
 
-R74n.dialog = function(id, options = {}) {
-	R74n.preDialogScroll = document.documentElement.scrollTop;
+R74nClass.prototype.dialog = function(id, options = {}) {
+	this.preDialogScroll = document.documentElement.scrollTop;
 	let dialog = document.getElementById("globalDialog-"+id);
-	R74n.state.dialog = id;
+	this.state.dialog = id;
 	if (dialog) {
 		dialog.classList.add("open");
 	}
@@ -551,12 +560,12 @@ R74n.dialog = function(id, options = {}) {
 		span1.classList.add("globalDialogTitle");
 		let span2 = document.createElement("span");
 		let x = document.createElement("img");
-		x.src = R74n.root + "doodle/x.gif";
+		x.src = this.root + "doodle/x.gif";
 		x.role = "button";
 		x.alt = "X";
 		x.classList.add("doodle");
 		x.classList.add("globalDialogX");
-		x.addEventListener("click", () => R74n.closeDialog(id));
+		x.addEventListener("click", () => this.closeDialog(id));
 		span2.appendChild(x);
 		div1.appendChild(span1);
 		div1.appendChild(span2);
@@ -575,11 +584,11 @@ R74n.dialog = function(id, options = {}) {
 		dialog.addEventListener("click", (e) => {
 			if (["A","BUTTON","INPUT","TEXTAREA","IMG"].includes(e.target.tagName)) return;
 			// if (e.target == dialog || e.target.parentNode == dialog) {}
-			R74n.closeDialog(id);
+			this.closeDialog(id);
 		})
 		document.addEventListener("keydown", (e) => {
-			if (e.key === "Escape" && R74n.state.dialog === id) {
-				R74n.closeDialog(id);
+			if (e.key === "Escape" && this.state.dialog === id) {
+				this.closeDialog(id);
 			}
 		})
 		dialog.getAttribute("data-init", "true");
@@ -587,15 +596,15 @@ R74n.dialog = function(id, options = {}) {
 	return dialog;
 }
 
-R74n.share = function(text, hashtag) {
-	R74n.state.share = {
+R74nClass.prototype.share = function(text, hashtag) {
+	this.state.share = {
 		text: text || document.title,
 		hashtag: hashtag
 	}
 	// create share dialog if not exists
 	// otherwise show it
 
-	let dialog = R74n.dialog("share", {
+	let dialog = this.dialog("share", {
 		title: "Share..."
 	});
 
@@ -603,26 +612,26 @@ R74n.share = function(text, hashtag) {
 	content.innerHTML = "";
 	let shareContent = document.createElement("div");
 	shareContent.style.display = "block";
-	for (let key in R74n.sharePoints) {
+	for (let key in this.sharePoints) {
 		if (key === "native" && !navigator.share) continue;
 
-		let data = R74n.sharePoints[key];
+		let data = this.sharePoints[key];
 		let a = document.createElement("a");
 		let img = document.createElement("img");
 		img.className = "doodle";
-		img.src = R74n.root + "shapes/png/share-buttons/"+key+".png";
+		img.src = this.root + "shapes/png/share-buttons/"+key+".png";
 		img.alt = key;
 		img.title = key;
 		img.role = "button";
 		if (data.url || data.mobile) {
 			let url = data.url;
-			if (data.mobile && R74n.state.mobile) url = data.mobile;
+			if (data.mobile && this.state.mobile) url = data.mobile;
 			if (url) {
 				a.href = url
 					.replace(/\[URL\]/g, location.href)
-					.replace(/\[TEXT\]/g, R74n.state.share.text || document.title)
-					.replace(/\[TITLE\]/g, R74n.state.share.title || document.title)
-					.replace(/\[HASHTAG\]/g, R74n.state.share.hashtag || "")
+					.replace(/\[TEXT\]/g, this.state.share.text || document.title)
+					.replace(/\[TITLE\]/g, this.state.share.title || document.title)
+					.replace(/\[HASHTAG\]/g, this.state.share.hashtag || "")
 					.replace(/:(\%20| )+-/g, "%20-");
 				a.target = "_blank";
 			}
@@ -703,8 +712,8 @@ R74n.projects = [
 	},
 ];
 
-R74n.more = function() {
-	let dialog = R74n.dialog("more", {
+R74nClass.prototype.more = function() {
+	let dialog = this.dialog("more", {
 		title: "More games...",
 		wide: true
 	});
@@ -717,18 +726,17 @@ R74n.more = function() {
 	let match = location.pathname.replace(/\.html/,"").replace(/\/+$/,"").match(/[a-z\-_\.]+$/g);
 	if (match) current = match[0];
 
-	for (let i = 0; i < R74n.projects.length; i++) {
-		const data = R74n.projects[i];
+	for (let i = 0; i < this.projects.length; i++) {
+		const data = this.projects[i];
 		if (current === data.url.replace(/\.html/,"").replace(/\/+$/,"").match(/[^/]+$/g)[0]) continue;
 		let a = document.createElement("a");
-		a.href = (data.url.startsWith("http") ? "" : R74n.root) + data.url;
+		a.href = (data.url.startsWith("http") ? "" : this.root) + data.url;
 		a.innerText = data.name;
-		a.style.backgroundImage = `url("${R74n.root}${data.image}")`;
+		a.style.backgroundImage = `url("${this.root}${data.image}")`;
 		let date = data.update || data.release;
 		if (date) {
 			date = new Date(date);
 			let diff = (new Date() - date) / 1000 / 60 / 60 / 24;
-			console.log(diff);
 			if (diff < 30) { 
 				a.classList.add("new");
 				if (data.update) a.classList.add("update");
@@ -737,9 +745,9 @@ R74n.more = function() {
 		gallery.appendChild(a);
 	}
 
-	gallery.insertAdjacentHTML("beforeend", `<span id="newsheader" class="alertheader">
-    The Grand Census begins NOW. <a href='https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog'>Fill out our form</a> to make your voice heard!
-  </span>`)
+// 	gallery.insertAdjacentHTML("beforeend", `<span id="newsheader" class="alertheader">
+//     The Grand Census begins NOW. <a href='https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog'>Fill out our form</a> to make your voice heard!
+//   </span>`)
 }
 
 if (urlParams.has("debug")) {
