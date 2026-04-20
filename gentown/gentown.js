@@ -459,6 +459,9 @@ userSettings = {};
 if (R74n.has("GenTownSettings")) {
 	userSettings = JSON.parse(R74n.get("GenTownSettings"));
 }
+if (!window.structuredClone) {
+	window.structuredClone = (obj) => JSON.parse(JSON.stringify(obj));
+}
 
 function escapeHTML(unsafe) {
 	return unsafe
@@ -537,8 +540,8 @@ function chunkAt(x, y) {
 function pixelAt(x, y) {
 	const chunk = planet.chunks[coordsToChunk(x,y)];
 	if (chunk === undefined) return null;
-	x = x % planet.config.chunkSize;
-	y = y % planet.config.chunkSize;
+	x = Math.abs(x) % planet.config.chunkSize;
+	y = Math.abs(y) % planet.config.chunkSize;
 	return chunk.p[x][y];
 }
 
@@ -838,17 +841,30 @@ function finalizeEvents() {
 finalizeEvents();
 
 function happen(action, subject, target, args, targetClass=undefined) {
+	debugContext.happen = [
+		action,
+		subject ? subject._reg : null,
+		target ? target._reg : null,
+		args,
+		targetClass
+	];
 	if (!targetClass && target && target._reg) targetClass = target._reg;
 	if (actionables[targetClass] === undefined) return;
 	let actionFunc = actionables[targetClass].asTarget[action];
-	if (actionFunc === undefined) return;
+	if (actionFunc === undefined) {
+		delete debugContext.happen;
+		return;
+	}
 	let r = actionFunc(subject,target,args||{});
+	delete debugContext.happen;
 	if (r === 0) return r;
 	if (r === undefined) return target;
 	return r;
 }
 
 function readyEvent(eventClass, subject=null, target=null) {
+	debugContext.trace.push("readyEvent");
+
 	if (!eventClass) return undefined;
 
 	let args = {};
@@ -945,6 +961,7 @@ function readyEvent(eventClass, subject=null, target=null) {
 }
 
 function doEvent(eventClass,eventCaller) {
+	debugContext.trace.push("doEvent");
 	const eventInfo = gameEvents[eventClass];
 
 	if (!eventCaller) eventCaller = readyEvent(eventClass);
@@ -1065,6 +1082,7 @@ function generatePlanet(config) {
 	if (config) planet.config = config;
 	else config = planet.config;
 	validateConfig(config);
+	if (config.mode) planet.mode = config.mode;
 
 	if (!config.seed) config.seed = Math.random();
 	noise.seed(config.seed);
@@ -1194,6 +1212,7 @@ function calculateLandmasses() {
 	// Pre-landmass (Mountains)
 	for (let chunkKey in planet.chunks) {
 		const chunk = planet.chunks[chunkKey];
+		debugContext.clChunk1 = chunk;
 		if (chunk.v.g === undefined && chunk.b === "mountain") {
 			const mountains = floodFill(chunk.x, chunk.y, (c) => c.b === "mountain");
 			const landmass = regAdd("landmass", {
@@ -1207,12 +1226,14 @@ function calculateLandmasses() {
 			})
 		}
 	}
+	delete debugContext.clChunk1;
 
 	const waterLevel = planet.config.waterLevel;
 
 	// Main landmasses
 	for (let chunkKey in planet.chunks) {
 		const chunk = planet.chunks[chunkKey];
+		debugContext.clChunk2 = chunk;
 		if (chunk.v.g === undefined && chunk.b !== "water") {
 			const parts = floodFill(chunk.x,chunk.y,(c) => c.b !== "water" && c.v.g === undefined, undefined, (c) => {
 				// console.log([].concat(...c.p).filter((p) => p <= waterLevel));
@@ -1247,10 +1268,12 @@ function calculateLandmasses() {
 			else landmass.type = "continent";
 		}
 	}
+	delete debugContext.clChunk2;
 
 	// Post-landmass (Edges and islands)
 	for (let chunkKey in planet.chunks) {
 		const chunk = planet.chunks[chunkKey];
+		debugContext.clChunk3 = chunk;
 		if (chunk.v.g === undefined && chunk.b !== "water") {
 			const parts = floodFill(chunk.x,chunk.y,(c) => c.b !== "water" && c.v.g === undefined);
 			if (parts.length > 5) {
@@ -1285,6 +1308,7 @@ function calculateLandmasses() {
 			}
 		}
 	}
+	delete debugContext.clChunk3;
 }
 
 planet = null;
@@ -1294,6 +1318,7 @@ usedNames = {};
 function updateBiomes() {
 	for (let chunkKey in planet.chunks) {
 		let chunk = planet.chunks[chunkKey];
+		debugContext.ubChunk = chunk;
 		let closestBiome = null;
 		let closestDiff = Infinity;
 
@@ -1336,6 +1361,7 @@ function updateBiomes() {
 			chunk.b = closestBiome;
 		}
 	}
+	delete debugContext.ubChunk;
 }
 
 function statsAdd(key, number) {
@@ -3127,15 +3153,18 @@ function handlePrompt(result) {
 	const _promptState = promptState;
 	if (promptState.choiceValues) result = promptState.choiceValues[promptState.choices.indexOf(result)];
 	if (promptState.map && promptState.map[result]) result = promptState.map[result];
+	let fail = false;
 	if (typeof result === "string") {
 		result = result.replace(/[{<]/g, "[");
 		result = result.replace(/[}>]/g, "]");
 		result = result.replace(/\|/g, "l");
 		result = result.substr(0,(promptState.limit || defaultPromptLimit))
+		result = result.trim();
+		if (!result) fail = true;
 	}
 	handleX(document.querySelector("#promptPopup .panelX"));
 	if (_promptState.func) {
-		_promptState.func(result);
+		if (!fail) _promptState.func(result);
 	}
 	else promptState = null;
 }
@@ -3248,6 +3277,9 @@ document.getElementById("popupText").addEventListener("input",(e) => {
 	}
 
 	previewPrompt();
+})
+document.getElementById("popupText").addEventListener("keyup",(e) => {
+	if (!e.target.value.trim()) previewPrompt();
 })
 document.getElementById("gamePopupOverlay").addEventListener("click",(e) => {
 	closePopups();
@@ -3830,12 +3862,14 @@ function handleEdit(entity) { //Edit Tab
 
 
 function logMessage(text, type, args) {
+
 	if (sunsetting && type !== "sunset" && type !== "error") {
 		logTomorrow(text, type, args);
 		return;
 	}
 	if (text === false) return;
 	text = parseText(escapeHTML(text));
+	debugContext.trace.push("logMessage "+text.slice(0,10));
 	text = text.replace(/^[a-z]/, (match) => match.toUpperCase());
 	text = text.replace(/[!\.\?] [a-z]/, (match) => match.toUpperCase());
 	let uuid = uuidv4();
@@ -3928,8 +3962,17 @@ function logTip(type, text) {
 	userSettings.shownTips.push(type);
 	saveSettings();
 }
+debugContext = null;
+function resetDebugContext() {
+	debugContext = { trace:[] }
+}
+resetDebugContext();
 function logException(error, context) {
-	let message = `${error.name}[${context || "?"}]: ${error.message}`
+	if (context) debugContext.break = context;
+	if (debugContext.eventArgs) delete debugContext.eventArgs.eventID;
+	let _context = JSON.stringify(debugContext).replace(/[\{\}"]/g,"").replace(/\[/g,"(").replace(/\]/g,")");
+	let message = `${error.name}: ${error.message}; ${_context}`;
+	console.log("An error occurred. "+message);
 	logMessage(`An error occurred.`, "error", {buttons:[
 		{
 			name: "Copy",
@@ -4214,6 +4257,8 @@ sunsetting = false;
 onNextDay = null;
 
 function nextDay(e) {
+	resetDebugContext();
+	
 	try {
 
 	if (e) {
@@ -4248,6 +4293,8 @@ function nextDay(e) {
 	for (let eventID in currentEvents) {
 		let eventCaller = currentEvents[eventID];
 		if (!eventCaller.done) {
+			debugContext.eventClass = eventCaller.eventClass;
+			debugContext.eventArgs = eventCaller.args;
 			if (eventCaller.logID) {
 				fadeMessage(eventCaller.logID);
 			}
@@ -4283,18 +4330,27 @@ function nextDay(e) {
 		}
 		delete currentEvents[eventID];
 	}
+	debugContext.eventClass = "";
+	debugContext.eventArgs = "";
 
 	let towns = regToArray("town");
 
 	sunsetting = true;
 
 	for (let eventClass in dailyEvents) {
+		debugContext.eventClass = eventClass;
 		let eventCaller = readyEvent(eventClass);
+		debugContext.trace.pop();
 		if (!eventCaller) continue;
+		debugContext.eventArgs = eventCaller.args;
 		if (dailyEvents[eventClass].check && !dailyEvents[eventClass].check(eventCaller.subject, eventCaller.target, eventCaller.args)) continue;
 		doEvent(eventClass,eventCaller);
+		debugContext.trace.pop();
 	}
+	delete debugContext.eventClass;
+	delete debugContext.eventArgs;
 
+	debugContext.trace.push("townsBefore");
 	let sunsetMsg = "The Sun sets... ";
 	// log daily recap of town changes
 	if (townsBefore) {
@@ -4341,6 +4397,7 @@ function nextDay(e) {
 			}
 		}
 	}
+	debugContext.trace.pop();
 	logMessage(sunsetMsg, "sunset");
 	// store previous town values
 	townsBefore = JSON.parse(JSON.stringify(reg.town));
@@ -4363,15 +4420,18 @@ function nextDay(e) {
 	else if (planet.dead) revivePlanet();
 
 	// skip events when failing additional checks
+	debugContext.trace.push("choosingEvents");
 	for (let tries = 0; tries < $c.dailyEventTries; tries++) {
 		let influencingTown = choose(regToArray("town"));
 		let chosenEvent = chooseEvent(undefined,influencingTown);
 		if (!chosenEvent) continue;
 		let chosenSubject;
 		let chosenTarget;
+		debugContext.eventClass = chosenEvent;
 		if (gameEvents[chosenEvent].subject && gameEvents[chosenEvent].subject.reg === "town") chosenSubject = influencingTown;
 		else if (gameEvents[chosenEvent].target && gameEvents[chosenEvent].target.reg === "town" && !gameEvents[chosenEvent].target.random) chosenTarget = influencingTown;
 		eventCaller = readyEvent(chosenEvent, chosenSubject, chosenTarget);
+		if (eventCaller) debugContext.eventArgs = eventCaller.args;
 		if (eventCaller && eventCaller.eventClass && randomEvents[eventCaller.eventClass].check && !randomEvents[eventCaller.eventClass].check(eventCaller.subject, eventCaller.target, eventCaller.args)) {
 			// recentEvents.push(eventCaller.eventClass);
 			// console.log(randomEvents[eventCaller.eventClass].check(eventCaller.subject, eventCaller.target, eventCaller.args))
@@ -4385,11 +4445,15 @@ function nextDay(e) {
 
 		if (eventCaller !== undefined) break;
 	}
+	debugContext.trace.pop();
 
 	if (eventCaller) {
+		debugContext.trace.push("randomEvent");
 		let eventID = eventCaller.eventID;
 		let eventClass = eventCaller.eventClass;
 		let eventInfo = randomEvents[eventClass];
+		debugContext.eventClass = eventClass;
+		debugContext.eventArgs = eventCaller.args;
 		currentEvents[eventID] = eventCaller;
 		let oldInfluences;
 		let influencedTown;
@@ -4420,6 +4484,7 @@ function nextDay(e) {
 			eventInfo.value.choose.forEach((r) => {
 				buttons.push({ name: titleCase(r), type:"choice", data:r,
 				func: (e) => {
+					debugContext.eventClass = eventClass;
 					if (messageElement.getAttribute("done")) return;
 					let r = e.target.getAttribute("data");
 
@@ -4433,6 +4498,7 @@ function nextDay(e) {
 					}
 
 					eventCaller.args.value = r;
+					debugContext.eventArgs = eventCaller.args;
 					doEvent(eventClass, currentEvents[eventID]);
 
 					if (oldInfluences) {
@@ -4462,6 +4528,7 @@ function nextDay(e) {
 			eventCaller.needsInput = true;
 			buttons.push({ name: titleCase(eventInfo.button || "Act"),
 			func: (e) => {
+				debugContext.eventClass = eventClass;
 				if (messageElement.getAttribute("done")) return;
 				let _promptState;
 				doPrompt({
@@ -4490,6 +4557,7 @@ function nextDay(e) {
 						if (_promptState.suggested) eventCaller.args.namer = [_promptState.suggested._reg, _promptState.suggested.id];
 
 						eventCaller.args.value = r;
+						debugContext.eventArgs = eventCaller.args;
 						doEvent(eventClass, currentEvents[eventID]);
 
 						if (oldInfluences) {
@@ -4537,6 +4605,9 @@ function nextDay(e) {
 			// logNo
 			buttons.push({ name: titleCase(eventCaller.args.buttonNo || eventInfo.buttonNo || "No"), type:"no",
 			func: (e) => {
+				debugContext.eventClass = eventClass;
+				debugContext.eventArgs = eventCaller.args;
+
 				try {
 
 				if (messageElement.getAttribute("done")) return;
@@ -4592,6 +4663,9 @@ function nextDay(e) {
 			// logYes
 			buttons.push({ name: titleCase(eventCaller.args.buttonYes || eventInfo.button || eventInfo.buttonYes || "Yes"), type:"yes",
 			func: (e) => {
+				debugContext.eventClass = eventClass;
+				debugContext.eventArgs = eventCaller.args;
+
 				try {
 				
 				if (messageElement.getAttribute("done")) return;
@@ -4665,6 +4739,7 @@ function nextDay(e) {
 			planet.mode === $c.FREEPLAY && userSettings.freeplayDecisions !== true //Free Play
 		))) {
 			setTimeout(() => {
+				debugContext.trace.push("usurpAutoClick");
 				choose(messageElement.querySelectorAll(".logAct span")).click();
 				if (eventCaller.target.usurp || planet.usurp) messageElement.querySelector(".logAct").addEventListener("click", () => {
 					logMessage(`{{regname:${eventCaller.target._reg}|${eventCaller.target.id}}} has chosen to be run independently.`, "tip");
@@ -4673,11 +4748,14 @@ function nextDay(e) {
 			if (messageElement) messageElement.classList.add("usurp");
 		}
 
+		delete debugContext.eventClass;
+		delete debugContext.eventArgs;
 	}
 	else if (!planet.dead) {
 		logMessage("An uneventful day.");
 	}
 
+	debugContext.trace.push("nextDayOthers");
 	updateStats();
 	refreshExecutive();
 	// renderMap();
@@ -4725,24 +4803,58 @@ document.getElementById("autoPlayMobile").addEventListener("click",autoPlay);
 function customizePlanet() {
 	let config = planet.config || {};
 	let onchange = (key, value) => {
-		if (key) config[key] = value;
+		resetDebugContext();
+		debugContext.trace.push("customizeChange");
 
-		config.width -= (config.width % config.chunkSize);
-		config.height -= (config.height % config.chunkSize);
+		try {
+			if (key) {
+				if (typeof key === "string") config[key] = value;
+				else {
+					value = key.getAttribute("data-value");
+					key = key.getAttribute("data-setting");
+					console.log(key,value);
+					if (key === "mode") {
+						config.mode = parseInt(value);
+						if (window.afterModeSelect) window.afterModeSelect(config.mode);
+						delete userSettings.mode;
+						saveSettings();
+					}
+				}
+			}
 
-		let tempName = planet.name;
-		planet = generatePlanet(config);
-		planet.name = tempName;
-		updateBiomes();
-		initGame(true);
-		reg = planet.reg;
-		calculateLandmasses();
-		renderMap();
-		updateCanvas();
-		fitToScreen();
+			debugContext.customizeKey = key;
+			debugContext.customizeValue = value;
+	
+			config.width -= (config.width % config.chunkSize);
+			config.height -= (config.height % config.chunkSize);
+	
+			let tempName = planet.name;
+			planet = generatePlanet(config);
+			planet.name = tempName;
+			updateBiomes();
+			initGame(true);
+			reg = planet.reg;
+			calculateLandmasses();
+			renderMap();
+			updateCanvas();
+			fitToScreen();
+		}
+		catch (error) {
+			logException(error, "customizePlanet");
+			throw error
+		}
+
 	};
 
 	populateExecutive([
+		{
+			text: "Mode",
+			setting: "mode",
+			options: { "1": "Strategy", "2": "Free Play" },
+			default: "1",
+			// formatter: (value) => `{{elevation:${value}}}`,
+			func: onchange
+		},
 		{
 			text: "Water level",
 			slider: "waterLevel",
@@ -4945,6 +5057,8 @@ function initGame(noReset=false) {
 	resizeCanvases();
 	fitToScreen();
 
+	try {
+
 	if (!planet.reg) planet.reg = defaultRegistry();
 	if (tempReg && noReset) {
 		planet.reg = tempReg;
@@ -5044,11 +5158,12 @@ function initGame(noReset=false) {
 	// create first town prompt
 	else if (reg.town._id === 1 && planet.day === 1 && !planet.settled) {
 		let modeSelected = false;
-		let afterModeSelect = (mode) => {
-			if (modeSelected) return;
+		window.afterModeSelect = (mode) => {
+			// if (modeSelected) return;
+			clearLog();
 			modeSelected = mode;
 			planet.mode = mode;
-			fadeMessage(modeSelectMessage);
+			// fadeMessage(modeSelectMessage);
 			let finished = false;
 			let finish = () => {
 				if (finished) return;
@@ -5060,6 +5175,7 @@ function initGame(noReset=false) {
 
 				planet.settled = planet.day;
 				planet.mode = modeSelected;
+				unlockPlanet();
 
 				preButtons.forEach((id) => {
 					let btn = document.getElementById("actionItem-"+id);
@@ -5091,6 +5207,9 @@ function initGame(noReset=false) {
 			]});
 
 			if (mode === $c.DEFAULT) {
+				executiveListeners = {};
+				onNextDay = null;
+				setView("terrain");
 				onMapClickMsg = startMessage;
 				onMapClick = function(e) {
 					let chunk = planet.chunks[mousePos.chunkX+","+mousePos.chunkY];
@@ -5105,13 +5224,20 @@ function initGame(noReset=false) {
 								document.getElementById("nextDayMobile").removeAttribute("disabled");
 							}
 							townsBefore = JSON.parse(JSON.stringify(reg.town));
+							finish();
 						}
 					}
 	
-					finish();
 				}
+				document.getElementById("autoPlay").style.display = "none";
+				document.getElementById("autoPlayMobile").style.display = "none";
+				lockPlanet();
+				document.getElementById("actionItem-create").style.display = "none";
+				document.getElementById("actionItem-import").style.display = "none";
 			}
 			if (mode === $c.FREEPLAY) {
+				onMapClickMsg = null;
+				onMapClick = null;
 				unlockPlanet();
 				unlockExecutive("create");
 				unlockExecutive("import");
@@ -5136,27 +5262,27 @@ function initGame(noReset=false) {
 			}
 
 		}
-		let modeSelectMessage = logMessage("Select a play mode.", undefined, {buttons:[
-			{
-				name: "Strategy",
-				func: () => afterModeSelect($c.DEFAULT),
-				tip: "Answer prompts from your residents to keep them happy"
-			},
-			{
-				name: "Free Play",
-				func: () => afterModeSelect($c.FREEPLAY),
-				tip: "Design a scenario and see what happens"
-			},
-			{
-				name: "?",
-				func: () => doPrompt({
-					type: "text",
-					message: "Strategy: Answer prompts from your residents to keep them happy\n\nFree Play: Design a scenario and see what happens"
-				}),
-				tip: "Mode info"
-			}
-		]})
-		// afterModeSelect(1);
+		// let modeSelectMessage = logMessage("Select a play mode.", undefined, {buttons:[
+		// 	{
+		// 		name: "Strategy",
+		// 		func: () => afterModeSelect($c.DEFAULT),
+		// 		tip: "Answer prompts from your residents to keep them happy"
+		// 	},
+		// 	{
+		// 		name: "Free Play",
+		// 		func: () => afterModeSelect($c.FREEPLAY),
+		// 		tip: "Design a scenario and see what happens"
+		// 	},
+		// 	{
+		// 		name: "?",
+		// 		func: () => doPrompt({
+		// 			type: "text",
+		// 			message: "Strategy: Answer prompts from your residents to keep them happy\n\nFree Play: Design a scenario and see what happens"
+		// 		}),
+		// 		tip: "Mode info"
+		// 	}
+		// ]});
+		afterModeSelect(1);
 	}
 	else { // enable "Next Day" buttons if town already exists
 		onMapClick = null;
@@ -5209,6 +5335,12 @@ function initGame(noReset=false) {
 
 	fitToScreen();
 	updateTitle();
+
+	}
+	catch (error) {
+		logException(error, "initGame");
+		throw error
+	}
 }
 
 
@@ -5954,8 +6086,12 @@ function parseSave(json) {
 	if (planet.dead) killPlanet();
 }
 function doPlaceTemplate(key, context={}) {
+	resetDebugContext();
+	debugContext.templateKey = key;
+	debugContext.v = gameVersion;
 	let template = entityTemplates[key];
 	const name = template.name || titleCase(key);
+	closePopups();
 	onCancel = () => {
 		if (onMapClickMsg) fadeMessage(onMapClickMsg);
 		onMapClick = null;
@@ -6372,9 +6508,6 @@ function populateExecutive(items, title, main=false) {
 }
 
 function closeExecutive() {
-	document.getElementById("actionMain").style.display = "flex";
-	document.getElementById("actionSub").style.display = "none";
-	document.getElementById("actionSubList").innerHTML = "";
 	currentExecutive = null;
 	currentExecutiveButton = null;
 	currentExecutiveSorter = null;
@@ -6382,6 +6515,9 @@ function closeExecutive() {
 		onCancel();
 		onCancel = null;
 	}
+	document.getElementById("actionMain").style.display = "flex";
+	document.getElementById("actionSub").style.display = "none";
+	document.getElementById("actionSubList").innerHTML = "";
 }
 function openExecutive() {
 	let gameHalf2 = document.getElementById("gameHalf2");
@@ -6549,7 +6685,7 @@ function initExecutive() {
 		text: "Create",
 		mode: $c.FREEPLAY,
 		id: "create",
-		keybind: "n",
+		keybind: "=",
 		hide: true,
 		func: () => {
 			let items = [];

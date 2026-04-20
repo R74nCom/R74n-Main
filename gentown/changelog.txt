@@ -1,3 +1,20 @@
+[Version 1.3.1 - 19 Apr 2026]
+ ~ Moved Free Play to the Customize tab
+ + Preview when inputting player's name
+ ~ Improved bug report feature to include more detail
+ ~ Create tab keybind is now the plus/equal sign (+/=)
+ ~ Fixed: Towns are hard to place in Free Play mode
+ ~ Fixed: Revolutions aren't ended after town falls
+ ~ Fixed: Auto Play button appears on top of menus on mobile
+ ~ Fixed: 'N' keybind to choose "No" doesn't work
+ ~ Fixed: Towns can't be placed along the top and left edges
+ ~ Fixed: structuredClone error on some older browsers
+ ~ Fixed: target.name.match error
+ ~ Fixed: Peak town population and size show NaN if immediately deleted
+ ~ Fixed: Town names can be inputted as just whitespace
+ ~ Fixed: Residents stop dying and show infinite lifespan with disease at -10
+ ~ Fixed: Error when a hurricane spawns on a planet with no water
+
 [Version 1.3 - 7 Feb 2026]
  + Free Play mode [BETA]
     + Create entities, like towns, and place them anywhere

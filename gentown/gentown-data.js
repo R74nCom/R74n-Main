@@ -29,7 +29,7 @@ constants = {
 	baseBirthRate: 0.02,
 	baseDeathRate: 0.008,
 	deathRate: (town) => {
-		return addInfluence($c.baseDeathRate, town, "disease");
+		return Math.max(0.0008, addInfluence($c.baseDeathRate, town, "disease"));
 	},
 	baseExpandRate: 0.5,
 	baseColonyRate: 0.05,
@@ -260,7 +260,7 @@ actionables = {
 				target = defaultTown();
 				if (args.pop !== undefined) target.pop = args.pop;
 				target.id = reg.town._id;
-				if (args && args.x && args.y) {
+				if (args && !isNaN(args.x) && !isNaN(args.y)) {
 					let x = args.x; let y = args.y;
 					let chunk = chunkAt(x, y);
 					if (chunk) {
@@ -375,6 +375,7 @@ actionables = {
 				let type = args.type;
 				let inv = target.resources;
 				if (inv[type] === undefined) inv[type] = 0;
+				if (args.count <= 0) return;
 				inv[type] += args.count || 1;
 				if (type === "cash") return;
 				let max = $c.maxResource(target);
@@ -500,7 +501,9 @@ actionables = {
 				if (!target || !target.name) return generateWord(undefined, true);
 				let newName = "";
 				if (Math.random() < $c.colonyNameSuffixRate) {
-					let mainName = target.name.match(/\S+$/)[0].toLowerCase();
+					let match = target.name.match(/\S+$/);
+					if (!match) return generateWord(undefined, true);
+					let mainName = match[0].toLowerCase();
 					if (Math.random() < 0.5 && args.x !== undefined) {
 						let horizontal = args.x - target.center[0];
 						let vertical = args.y - target.center[1];
@@ -1969,6 +1972,9 @@ gameEvents = {
 		subject: { reg: "process" },
 		func: (subject, target, args) => {
 			let data = actionables.process._disasterSubtypes[subject.subtype];
+			if (!data) {
+				happen("Finish", null, subject);
+			}
 
 			let newDeaths = 0;
 			let newInjuries = 0;
@@ -2090,7 +2096,13 @@ gameEvents = {
 		subject: { reg: "process" },
 		func: (subject, target, args) => {
 			let town = regGet("town", subject.town);
-			if (!town || town.end) return;
+			if (!town) return;
+
+			if (town.end) {
+				delete town.issues.revolution;
+				happen("Finish", null, subject);
+				return;
+			}
 
 			town.lastRevolution = planet.day;
 
@@ -2108,12 +2120,6 @@ gameEvents = {
 			if (Math.random() < injuries) {
 				injuries = Math.ceil(injuries);
 				newInjuries += injuries;
-			}
-
-			if (town.end) {
-				delete town.issues.revolution;
-				happen("Finish", null, subject);
-				return;
 			}
 
 			if (Math.random() < 0.5) {
@@ -2937,7 +2943,8 @@ gameEvents = {
 		},
 		value: {
 			ask: true,
-			shuffle: false
+			shuffle: false,
+			preview: (text) => `My name is {{b:${titleCase(text)}}}.`
 		},
 		check: (subject, target) => {
 			return userSettings.playerName === undefined;
@@ -3123,6 +3130,7 @@ gameEvents = {
 			}
 			else if (data.location === "shore") {
 				origChunk = randomChunk((c) => c.b === "water");
+				if (!origChunk) return false;
 				chunk = nearestChunk(origChunk.x, origChunk.y, (c) => c.b !== "water" && (!data.excludeBiome || !data.excludeBiome.includes(c.b)));
 				locationDesc = "on the coast of";
 			}
@@ -4211,8 +4219,8 @@ regBrowserKeys = {
 	"stats.oldesttown": "Oldest town",
 }
 regBrowserValues = {
-	"pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}` + (town.end ? ` ({{num:${town.peakpop}}}{{face:${town.id}}} at peak)` : ""),
-	"size": (value, town) => `{{area:${value}}}` + (town.end ? ` ({{area:${town.peaksize}}} at peak)` : ""),
+	"pop": (value, town) => `{{num:${value}}}{{face:${town.id}}}` + ((town.end && town.peakpop) ? ` ({{num:${town.peakpop}}}{{face:${town.id}}} at peak)` : ""),
+	"size": (value, town) => `{{area:${value}}}` + ((town.end && town.peaksize) ? ` ({{area:${town.peaksize}}} at peak)` : ""),
 	"land": (value) => `{{area:${value}}}`,
 	"platesize": (value) => `{{area:${value}}}`,
 	"circumference": (value) => `{{length:${value}}}`,
