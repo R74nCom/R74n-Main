@@ -37,7 +37,7 @@ addParserCommand("i",function(args) {
 })
 addParserCommand("p",function(args) {
 	if (args.length === 0) {return ""}
-	return `<span class="previewPart" contenteditable="plaintext-only">${args[0]}</span>`;
+	return `<span class="previewPart" contenteditable="plaintext-only" data-original="args[0]">${args[0]}</span>`;
 })
 addParserCommand("title",function(args) {
 	if (args.length === 0) {return ""}
@@ -249,7 +249,6 @@ addParserCommand("regname",function(args) {
 	const data = regGet(args[0],parseInt(args[1]));
 	if (!data) return `<span class='entityName' title='${args[1]}' data-reg='${args[0]}' data-id='${args[1]}'>Invalid Thing</span>`;
 	let name = data.name;
-	if (args[2] && args[2] !== "-") name = args[2];
 	let color = data.color;
 	let icon;
 	if (regBrowserExtra[data._reg]) {
@@ -263,12 +262,17 @@ addParserCommand("regname",function(args) {
 			icon = regBrowserExtra[data._reg].icon(data);
 		}
 	}
+	if (!name) name = data.subtype || data.type;
+	let secret = data.named === false && planet.mode !== $c.FREEPLAY;
+	if (secret && userSettings.hideNames !== false) name = name.replace(/./g, "?").slice(0,5);
+	if (args[2] && args[2] !== "-") {
+		name = args[2] === "?" ? (data.subtype || data.type || args[0]) : args[2];
+	}
 	color = color || [127,127,127];
 	let hsl = RGBtoHSL(color);
 	hsl[2] = Math.max(0.65, hsl[2]);
 	color = HSLtoRGB(hsl);
-	if (!name) name = data.subtype || data.type;
-	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${Math.floor(color[0])},${Math.floor(color[1])},${Math.floor(color[2])})"` : ""} onmousedown="handleEntityMouseDown(this);" onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${icon ? parseText("{{icon:"+icon+"}}")+" " : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
+	return (!args[2] && data.prefix ? "<span class='affix'>" + data.prefix + " </span>" : "") + `<span class='entityName${data.usurp ? " usurp" : ""}${secret ? " secret" : ""}' title='${titleCase(args[0])}' data-reg='${args[0]}' data-id='${data.id}' ${color ? `style="color:rgb(${Math.floor(color[0])},${Math.floor(color[1])},${Math.floor(color[2])})"` : ""} onmousedown="handleEntityMouseDown(this);" onclick="handleEntityClick(this); event.stopPropagation();" onmouseenter='handleEntityHover(this)' onmouseleave='handleEntityHoverOut(this)' role="link">${args[2] !== "-" ? (data.flag||data.symbol) ? parseText(data.flag||"{{symbol:"+data.symbol+"}}")+" " : "" : ""}${icon ? parseText("{{icon:"+icon+"}}")+" " : ""}${name}</span>` + (!args[2] && data.suffix ? "<span class='affix'> " + data.suffix + "</span>" : "");
 })
 addParserCommand("regoldest",function(args) {
 	if (args.length < 1) {return ""}
@@ -494,6 +498,9 @@ function titleCase(str) {
 		/([ \-–](Of|And|Or|With|The|An?|N|To|From|By|At|In|Upon|Over|Under|On|Is|Bei|Am|An|De[rn]?|Du|Bij|L[ao]s?|El|Cum|Super|O['‘’]))+[ \-–]/g,
 		text => text.toLowerCase()
 	);
+	str = str.replace(/(^|\s)m(a?c)(\w)/gi, (m) => { //McDonald
+		return m[0].toUpperCase() + m.slice(1,-1) + m.slice(-1).toUpperCase()
+	});
 	if (prefix !== undefined) str = prefix + str;
 	return str;
 }
@@ -589,6 +596,80 @@ function colorMix(rgbA, rgbB, amountToMix=0.5){
     var b = colorChannelMixer(rgbA[2],rgbB[2],amountToMix);
     return [r,g,b];
 }
+colorRecognitionList = [
+	[255,0,0,"red"],
+	[127,0,0,"red"],
+	[255,127,0,"orange"],
+	[127,63,0,"brown"],
+	[60,20,0,"brown"],
+	[255,255,0,"yellow"],
+	[127,127,0,"yellow"],
+	[127,255,0,"green"],
+	[63,127,0,"green"],
+	[0,255,0,"green"],
+	[0,127,0,"green"],
+	[0,255,127,"teal"],
+	[0,127,63,"teal"],
+	[0,255,255,"blue"],
+	[0,127,127,"blue"],
+	[0,0,255,"blue"],
+	[0,0,127,"blue"],
+	[63,0,127,"violet"],
+	[127,0,255,"purple"],
+	[127,0,127,"magenta"],
+	[255,0,255,"magenta"],
+	[255,127,127,"pink"],
+	[255,127,255,"pink"],
+	[127,255,127,"green"],
+	[127,255,255,"blue"],
+	[127,127,255,"blue"],
+	[255,255,127,"yellow"],
+	[255,200,127,"yellow"],
+	[0,0,0,"black"],
+	[255,255,255,"white"],
+	[200,200,200,"white"],
+	[127,127,127,"gray"],
+	[145,145,145,"gray"],
+	[63,63,63,"gray"],
+	[235,64,52,"red"],
+	[50,168,82,"green"],
+	[195,88,49,"orange"],
+	[66,70,50,"green"],
+	[63,0,0,"red"],
+	[63,27,0,"brown"],
+	[63,63,0,"yellow"],
+	[0,63,0,"green"],
+	[0,63,63,"teal"],
+	[0,0,63,"blue"],
+	[63,0,63,"purple"],
+	[63,0,35,"rose"],
+	[144,70,132,"purple"],
+	[138,77,34,"brown"],
+	[94,71,54,"brown"],
+	[94,54,54,"red"],
+	[94,86,54,"yellow"],
+	[54,94,87,"teal"],
+	[54,54,94,"blue"],
+	[94,54,94,"purple"],
+	[176,176,88,"golden"],
+	[191,164,65,"golden"],
+	[127,181,181,"blue"],
+];
+function colorRecognize(rgb) {
+	let mostSimilar = [1000,"gray"];
+	for (let i = 0; i < colorRecognitionList.length; i++) {
+		const color = colorRecognitionList[i];
+		const distance = Math.abs(color[0] - rgb[0])
+			+ Math.abs(color[1] - rgb[1])
+			+ Math.abs(color[2] - rgb[2]);
+		if (distance < mostSimilar[0]) {
+			mostSimilar[0] = distance;
+			mostSimilar[1] = color[3];
+			if (distance === 0) break;
+		}
+	}
+	return mostSimilar[1];
+}
 
 function generatePerlinNoise(x, y, octaves, persistence) {
 	let total = 0;
@@ -638,7 +719,9 @@ function defaultRegistry() {
 		"nature": defaultSubregistry(),
 		"product": defaultSubregistry(),
 		"species": defaultSubregistry(),
-		"culture": defaultSubregistry()
+		"culture": defaultSubregistry(),
+		"body": defaultSubregistry(),
+		"system": defaultSubregistry()
 	}
 	for (let key in r) {
 		r.registry[key] = r.registry._id;
@@ -797,7 +880,8 @@ extraColors = [
 ]
 function defaultTown(doName=true) {
 	return {
-		"name": doName ? generateWord($c.townSyllables,true,wordComponents.prefixes.TOWN) : undefined,
+		// "name": doName ? generateWord($c.townSyllables,true,wordComponents.prefixes.TOWN) : undefined,
+		"name": doName ? generateWordEndings(wordComponents.townSuffixes, randRange(1,2), true, true, wordComponents.prefixes.TOWN) : undefined,
 		"pop": 20,
 		"color": choose(townColors),
 		"type": "town",
@@ -1079,6 +1163,7 @@ function chanceInfluence(chance, subject, influenceName) {
 
 function generatePlanet(config) {
 	planet = defaultPlanet();
+	reg = planet.reg;
 	if (config) planet.config = config;
 	else config = planet.config;
 	validateConfig(config);
@@ -1185,6 +1270,8 @@ function generatePlanet(config) {
 	// bounding pixels for testing
 	// planet.chunks["0,0"].p[0][0] = 0.99;
 	// planet.chunks[(planetWidth / chunkSize - 1)+","+(planetHeight / chunkSize - 1)].p[chunkSize-1][chunkSize-1] = 0.99;
+
+	generateStarSystem(true);
 
 	return planet;
 }
@@ -1309,6 +1396,101 @@ function calculateLandmasses() {
 		}
 	}
 	delete debugContext.clChunk3;
+}
+function generateStarSystem(force=false) {
+	if (force) {
+		reg.body = defaultSubregistry();
+		reg.system = defaultSubregistry();
+	}
+	else if (reg.body._id !== 1) return; //already generated
+
+	const system = regAdd("system", {
+		name: (planet.name || generateWordEndings(wordComponents.starSuffixes, randRange(1,2), true)).split(" ")[0]
+	});
+	planet.system = system.id;
+
+	const starCount = choose([1,1,1,1,1,1,1,2]);
+	system.subtype = (starCount > 1 ? "binary" : "star") + " system";
+	let stars = [];
+	for (let i = 0; i < starCount; i++) {
+		const star = regAdd("body", {
+			name: system.name + " " + wordComponents.ORDINAL_ALPHA[i],
+			type: "star",
+			system: system.id
+		});
+		stars.push(star);
+
+		let magnitude = randRange(-10, 20);
+		let spectral = randRange(1,9);
+		let spectralT = (spectral - 1) / 8;
+		let lightness = 100-(Math.abs(spectralT - 0.5)*100);
+
+		let rgb = [
+			Math.round(145 + spectralT*(255 - 145) + lightness),
+			Math.round(182 + spectralT*(46 - 182) + lightness),
+			Math.round(255 - spectralT*255 + lightness),
+		]
+		star.color = rgb;
+
+		if (spectral <= 3) star.subtype = "blue";
+		else if (spectral <= 6) star.subtype = magnitude <= 0 ? "bright" : "white";
+		else star.subtype = magnitude <= 15 ? "red" : "brown";
+		
+		if (magnitude <= -5) star.subtype += " supergiant";
+		else if (magnitude <= -5) star.subtype += " supergiant";
+		else if (magnitude <= 0) star.subtype += " giant";
+		else if (magnitude <= 2) star.subtype += " subgiant";
+		else star.subtype += " dwarf";
+
+		star.magnitude = magnitude;
+		star.spectral = spectral;
+	}
+	system.color = stars[0].color;
+
+	const planetCount = randRange(3,9);
+	let homeIndex = randRange(Math.round(planetCount / 3), Math.round(planetCount / 2));
+	homeIndex = Math.max(homeIndex, 2);
+	for (let i = 0; i < planetCount; i++) {
+		let starName = system.name + " ";
+		let star = stars[0];
+		if (starCount > 1) {
+			star = choose(stars);
+			starName = star.name + " ";
+		}
+		const index = i + 1;
+
+		const newPlanet = regAdd("body", {
+			name: starName + wordComponents.ORDINAL_ALPHA[i].toLowerCase(),
+			type: "planet",
+			orbit: star.id,
+			pos:  Math.round((index <= homeIndex   ?   (index) / homeIndex   :   homeIndex ** ((index - homeIndex + 1) * 0.5)) * 100) / 100,
+		})
+		if (index === homeIndex) { //main planet
+			newPlanet.home = true;
+			newPlanet.color = planet.color;
+			star.home = true;
+			planet.name = newPlanet.name;
+			planet.body = newPlanet.id;
+		}
+		else {
+			newPlanet.color = HSLtoRGB([randRange(0,100) / 100, 1, 0.33]);
+			newPlanet.named = false;
+		}
+		const moonCount = randRange((index === homeIndex ? 1 : 0), 3);
+		let centerMoonIndex = randRange(Math.round(moonCount / 3), Math.round(moonCount / 2));
+		centerMoonIndex = Math.max(centerMoonIndex, 2);
+		for (let i = 0; i < moonCount; i++) {
+			const moonIndex = i + 1;
+			let moon = regAdd("body", {
+				name: newPlanet.name + " " + wordComponents.ORDINAL_ROMAN[i],
+				type: "moon",
+				color: HSLtoRGB([randRange(1,360) / 360, 0.21, 0.72]),
+				orbit: newPlanet.id,
+				pos:  Math.round((moonIndex <= centerMoonIndex   ?   (moonIndex) / centerMoonIndex   :   centerMoonIndex ** ((moonIndex - centerMoonIndex + 1) * 0.5)) * 100) / 100,
+			})
+			if (index !== homeIndex) moon.named = false;
+		}
+	}
 }
 
 planet = null;
@@ -1971,6 +2153,11 @@ wordComponents.CURRENCY = {
 	_: "¤"
 }
 
+wordComponents.ORDINAL_ALPHA = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z".split(",");
+wordComponents.ORDINAL_ROMAN = "I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII,XIII,XIV,XV,XVI,XVII,XVIII,XIX,XX,XXI,XXII,XXIII,XXVI,XXV".split(",");
+wordComponents.ORDINAL_GREEK = "Α,Β,Γ,Δ,Ε,Ζ,Η,Θ,Ι,Κ,Λ,Μ,Ν,Ξ,Ο,Π,Ρ,Σ Σ,Τ,Υ,Φ,Χ,Ψ,Ω".split(",");
+wordComponents.ORDINAL_ENGLISH = "1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th".split(",");
+
 badWords = window.atob('ZnVjLGZ1ayxzaGl0LG5pZ2csbmlnZSxmYWcsY29jLGNvayxib29iLGN1bSxreWtlLGtpa2Usc2V4LGFzcyxkaWMsZGlrLHBlbmlzLHZhZ2kscGVkbyxwb3Ju').split(",");
 
 function generateWord(syllableCount, titled=false, prefixes=null) {
@@ -2063,37 +2250,94 @@ wordComponents.nameSuffixes = {
 	x: "xander,xel,xon,xson,xton,xy",
 	y: "yah,yra,yatt,ylon,yan,ymer,yr",
 	z: "zel,zo,zie,ziel,za,zah,zon"
-}
-for (let key in wordComponents.nameSuffixes) {
-	wordComponents.nameSuffixes[key] = wordComponents.nameSuffixes[key].split(",");
-}
+};
 
-function generateHumanName() {
-	let syllables = randRange(1,2);
-	let word = generateWord(syllables);
-	// console.log("["+word + " - " + syllables +"]");
+wordComponents.starSuffixes = {
+	b: "bali,bula",
+	c: "cer,cis,cri,cium,corn",
+	d: "dani,dah,dra",
+	f: "",
+	g: "gnus",
+	h: "hiba",
+	j: "jor,joris",
+	k: "",
+	l: "leo,los,lum,lae",
+	m: "meda,mini,medae",
+	n: "nus,nis,nor,ns,ni,noris,nix",
+	p: "peia,pius,peiae,pii,pens",
+	q: "",
+	r: "rux,rus,rii,rius,ra,rami,rina,ris,rion,rona",
+	s: "san,si,sus,sol",
+	t: "ter,terra",
+	v: "vus",
+	w: "",
+	x: "x",
+	y: "ynx,lyra",
+	z: ""
+};
+
+wordComponents.townSuffixes = {
+	b: "burg,burn,burgh,bia,bourg,bury,borough",
+	c: "cisco,chita",
+	d: "desh,dia,dover,dard",
+	f: "ford,field",
+	g: "gton,gham,guay,gal",
+	h: "haven,hill",
+	j: "",
+	k: "",
+	l: "land",
+	m: "mouth,mark,mala",
+	n: "nia,nesia,nce,nee",
+	p: "polis,phia,pines",
+	q: "",
+	r: "ria,rus",
+	s: "ster,side,stan,stein,sia,son,sing",
+	t: "topia,ton,tia,tania",
+	v: "ville,ver",
+	w: "wick,worth",
+	x: "",
+	y: "",
+	z: ""
+};
+
+[wordComponents.nameSuffixes, wordComponents.starSuffixes, wordComponents.townSuffixes].forEach((suffixes) => {
+	for (let key in suffixes) {
+		if (!suffixes[key]) {
+			delete suffixes[key];
+			continue;
+		}
+		suffixes[key] = suffixes[key].split(",");
+	}
+})
+
+function generateWordEndings(endings, syllables, titled=false, vowelEndings=true, prefixes=null) {
+	syllables = syllables || randRange(1,2);
+	let word = generateWord(syllables, false, prefixes);
 	word = word.replace(/[aeioué]+$/i, "");
-	if (!word.length) return generateHumanName();
+	if (!word.length) return generateWordEndings(syllables, endings, titled);
 
 	let letter = word.slice(-1);
-	if (!wordComponents.nameSuffixes[letter]) return generateHumanName();
-	word = word.slice(0,-1) + choose(wordComponents.nameSuffixes[letter]);
-	word = word.replace(/[aeioué]+$/i, "");
+	if (!endings[letter]) return generateWordEndings(syllables, endings, titled);
+	word = word.slice(0,-1) + choose(endings[letter]);
+	if (!vowelEndings) word = word.replace(/[aeioué]+$/i, "");
 	word = word.replace(/^(..)/g, (match) => 
 		match[0] === match[1] ? match[0] : match
 	)
 
-	if (word.length < 2) return generateHumanName();
+	if (word.length < 2) return generateWordEndings(syllables, endings, titled);
 
 	for (let i = 0; i < badWords.length; i++) {
 		const badWord = badWords[i];
 		if (word.indexOf(badWord) !== -1) {
-			word = generateHumanName();
+			word = generateWordEndings(syllables, endings);
 			break;
 		}
 	}
 
-	return titleCase(word);
+	return titled ? titleCase(word) : word;
+}
+function generateHumanName() {
+	return generateWordEndings(wordComponents.nameSuffixes, randRange(1,2), true, false);
 }
 function generateFullName() {
 	let name = generateHumanName();
@@ -3231,6 +3475,9 @@ function shufflePrompt() {
 	let word = generateWord(syllables);
 	if (basis) word = basis + word;
 	word = titleCase(word);
+	if (typeof promptState.shuffle === "function") {
+		word = promptState.shuffle(promptState.subject, promptState.target, promptState.eventArgs);
+	}
 	if (promptState.suggested) delete promptState.suggested;
 	if (promptState.suggest) {
 		let choice = choose(promptState.suggest);
@@ -3316,6 +3563,7 @@ function openRegBrowser(obj,regName) {
 	if (!title && regBrowserExtra[regName] && regBrowserExtra[regName].name) {
 		title = regBrowserExtra[regName].name(obj);
 	}
+	if (!title && obj.named === false) title = "?????";
 	if (title) {
 		if (regName && obj.id) title = `{{regname:${regName}|${obj.id}}}`;
 		else if (obj.color) title = `{{color:${title}|rgb(${obj.color.join(",")})}}`;
@@ -3338,7 +3586,7 @@ function openRegBrowser(obj,regName) {
 		regBrowser.setAttribute("data-id", obj.id);
 		panelMore.style.display = "flex";
 
-		subtitle = titleCase(obj.type || regName);
+		subtitle = titleCase(obj.subtype || obj.type || regName);
 		// if (obj.type && obj.type !== regName) subtitle += " ("+titleCase(obj.type)+")";
 	}
 	else if (obj.type) subtitle = titleCase(obj.type);
@@ -3454,7 +3702,7 @@ function openRegBrowser(obj,regName) {
 					value2 = regBrowserValues[regName + "." + subkey](value2, obj);
 				}
 				// console.log()
-				if (value2 === null) continue;
+				if (value2 === undefined || value2 === null) continue;
 				valueSpan.innerHTML = parseText(value2.toString());
 
 				itemSpan.appendChild(keySpan);
@@ -3475,11 +3723,15 @@ function openRegBrowser(obj,regName) {
 			else if (regBrowserValues[regName + "." + key]) {
 				value = regBrowserValues[regName + "." + key](value, obj);
 			}
+			if (value === undefined || value === null) continue;
 			sectionValue.innerHTML = parseText(value.toString());
 		}
 		
 		if (sectionValue.innerHTML.length === 0) {
-			if (!obj.end) sectionValue.innerHTML = parseText("{{none}}");
+			if (!obj.end) {
+				sectionValue.innerHTML = parseText("{{none}}");
+				sectionValue.classList.add("none");
+			}
 			else continue;
 		}
 		section.appendChild(sectionValue);
@@ -3489,10 +3741,15 @@ function openRegBrowser(obj,regName) {
 }
 
 function regBrowsePlanet() {
+	let body = regGet("body", planet.body);
 	openRegBrowser({
 		name: planet.name,
 		color: planet.color,
 		type: planet.dems ? "planet" : (!regToArray("town").length ? "uninhabited" : planet.usurp ? "autonomous" : "inhabited") +" planet",
+		orbit: body.orbit,
+		orbited: regFilter("body", b => b.orbit === body.id).map(b => `{{regname:body|${b.id}}}`),
+		pos: body.pos,
+		body: body.id,
 		start: 0,
 		age: planet.day,
 		land: filterChunks((c) => c.b !== "water").length,
@@ -3857,6 +4114,15 @@ function handleEdit(entity) { //Edit Tab
 	}
 
 	if (items.length) populateExecutive(items, `Edit {{regname:${entity._reg}|${entity.id}}}`);
+}
+
+function unhideEntity(entity) {
+	if (!entity || !entity.name) return;
+	delete entity.named;
+	let secrets = document.querySelectorAll(`.entityName.secret[${entity._reg}="${entity.id}"]`);
+	if (secrets) secrets.forEach(span => {
+		span.innerText = entity.name;
+	})
 }
 
 
@@ -4311,17 +4577,34 @@ function nextDay(e) {
 				else if (eventInfo.value && eventInfo.value.skip) {
 					let oldStats = JSON.parse(JSON.stringify(planet.stats));
 
+					let value;
+
 					if (eventInfo.value.related && eventInfo.func) {
 						let related = happen("Related", eventCaller.subject, eventCaller.target);
 						if (related) {
 							let choice = choose(related);
 							let entity = regGet(choice[0], choice[1]);
 							if (entity && entity.name) {
-								eventCaller.args.value = titleCase(entity.name);
+								value = titleCase(entity.name);
 								eventCaller.args.namer = [entity._reg, entity.id];
-								doEvent(eventCaller.eventClass, eventCaller);
 							}
 						}
+					}
+					else if (eventInfo.value.default && eventInfo.func) {
+						value = eventInfo.value.default(eventCaller.subject, eventCaller.target, eventCaller.args);
+					}
+					
+					if (value) {
+						if (eventInfo.value.preview) {
+							let pseudo = document.createElement("span");
+							document.body.appendChild(pseudo);
+							pseudo.innerHTML = parseText(eventInfo.value.preview(value, eventCaller.subject, eventCaller.target));
+							let previewParts = pseudo.querySelectorAll(".previewPart");
+							eventCaller.args.previewParts = [...previewParts].map(e => e.textContent || e.getAttribute("data-original"));
+							pseudo.remove();
+						}
+						eventCaller.args.value = value;
+						doEvent(eventCaller.eventClass, eventCaller);
 					}
 
 					planet.stats = oldStats;
@@ -4421,7 +4704,7 @@ function nextDay(e) {
 
 	// skip events when failing additional checks
 	debugContext.trace.push("choosingEvents");
-	for (let tries = 0; tries < $c.dailyEventTries; tries++) {
+	for (let tries = 0; tries < $c.dailyEventTries; tries++) { //random events
 		let influencingTown = choose(regToArray("town"));
 		let chosenEvent = chooseEvent(undefined,influencingTown);
 		if (!chosenEvent) continue;
@@ -4458,6 +4741,11 @@ function nextDay(e) {
 		let oldInfluences;
 		let influencedTown;
 		let buttons = [];
+
+		if (eventInfo.check && isFunction(eventInfo.message)) {
+			eventCaller.message = eventInfo.message(eventCaller.subject,eventCaller.target,eventCaller.args);
+		}
+
 		if (eventInfo.auto) {
 			if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
 			else if (eventInfo.subject && eventInfo.subject.reg === "town") influencedTown = eventCaller.subject;
@@ -4498,6 +4786,7 @@ function nextDay(e) {
 					}
 
 					eventCaller.args.value = r;
+					debugContext.eventClass = eventClass;
 					debugContext.eventArgs = eventCaller.args;
 					doEvent(eventClass, currentEvents[eventID]);
 
@@ -4543,7 +4832,7 @@ function nextDay(e) {
 						if (!r) return;
 
 						let previewParts = document.querySelectorAll("#popupContent .popupPreview .previewPart");
-						eventCaller.args.previewParts = [...previewParts].map(e => e.textContent);
+						eventCaller.args.previewParts = [...previewParts].map(e => e.textContent || e.getAttribute("data-original"));
 
 						let influencedTown;
 						if (eventInfo.target && eventInfo.target.reg === "town") influencedTown = eventCaller.target;
@@ -4557,6 +4846,7 @@ function nextDay(e) {
 						if (_promptState.suggested) eventCaller.args.namer = [_promptState.suggested._reg, _promptState.suggested.id];
 
 						eventCaller.args.value = r;
+						debugContext.eventClass = eventClass;
 						debugContext.eventArgs = eventCaller.args;
 						doEvent(eventClass, currentEvents[eventID]);
 
@@ -4586,8 +4876,10 @@ function nextDay(e) {
 						}
 					},
 					preview: eventInfo.value.preview,
+					default: eventInfo.value.default ? eventInfo.value.default(eventCaller.subject, eventCaller.target, eventCaller.args) : undefined,
 					subject: eventCaller.subject,
-					target: eventCaller.target
+					target: eventCaller.target,
+					eventArgs: eventCaller.args
 				});
 				_promptState = promptState;
 			}})
@@ -4829,11 +5121,18 @@ function customizePlanet() {
 			config.height -= (config.height % config.chunkSize);
 	
 			let tempName = planet.name;
+			let tempSystems = reg.system;
+			let tempBodies = reg.body;
+			let tempBody = planet.body;
 			planet = generatePlanet(config);
 			planet.name = tempName;
+			planet.reg.system = tempSystems;
+			planet.reg.body = tempBodies;
+			planet.body = tempBody;
 			updateBiomes();
 			initGame(true);
 			reg = planet.reg;
+			generateStarSystem();
 			calculateLandmasses();
 			renderMap();
 			updateCanvas();
@@ -5132,8 +5431,10 @@ function initGame(noReset=false) {
 		happen("Create",null,null,{ type:"raw", name:"rock", color:[173, 166, 160] },"resource").id;
 		happen("Create",null,null,{ type:"raw", name:"metal", color:[106, 96, 84] },"resource").id;
 		for (let biome in biomes) {
-			if (biomes[biome].plant !== null) happen("Create",null,null,{ type:"plant", biome:biome },"species");
-			if (biomes[biome].animal !== null) happen("Create",null,null,{ type:"animal", biome:biome },"species");
+			for (let i = 0; i < 2; i++) {
+				if (biomes[biome].plant !== null) happen("Create",null,null,{ type:"plant", biome:biome, named:false },"species");
+				if (biomes[biome].animal !== null) happen("Create",null,null,{ type:"animal", biome:biome, named:false },"species");
+			}
 		}
 	}
 	else {
@@ -5199,6 +5500,7 @@ function initGame(noReset=false) {
 						reg = planet.reg;
 						updateBiomes();
 						initGame(true);
+						generateStarSystem(true);
 						calculateLandmasses();
 						renderMap();
 						updateCanvas();
@@ -5534,7 +5836,6 @@ biomes = {
 		elevation: $c.defaultWaterLevel,
 		moisture: 1,
 		temp: 0.5,
-		plant: null,
 		infertile: true,
 		name: "waters",
 		water: true
@@ -5815,6 +6116,14 @@ function validatePlanet() {
 		s.type = r.type === "livestock" ? "animal" : "plant";
 		regRemove("resource", r.id);
 	})
+
+	generateStarSystem();
+
+	if (planet.saveVersion < 5) {
+		regFilter("species", s => !s.domesticated).forEach(s => {
+			s.named = false;
+		})
+	}
 }
 
 unicodeSkips = {
@@ -5870,6 +6179,7 @@ function generateSave() {
 	delete json.planet.chunks;
 	delete json.planet.created;
 	delete json.planet.saved;
+	delete json.planet.saveVersion;
 
 	for (const regname in json.planet.reg) {
 		for (const id in json.planet.reg[regname]) {
@@ -5980,6 +6290,7 @@ function parseSave(json) {
 	planet.saved = json.meta.saved || json.meta.created || Date.now();
 	
 	let saveVer = parseInt(json.meta.saveVersion.split("gt")[1]);
+	planet.saveVersion = saveVer;
 
 	let codes = json.codes;
 	let chunkData = json.chunkData;
@@ -6857,9 +7168,9 @@ function initExecutive() {
 			})
 			regSorted("species", "rate").forEach((species) => {
 				if (species.type !== "plant" && species.type !== "animal") return;
-				if (species.rate === 1 || species.rate === undefined) return;
+				if ((species.rate === 1 || species.rate === undefined) && species.named === false) return;
 				items.push({
-					text: `{{regname:species|${species.id}}} (${species.rate}x)`,
+					text: `{{regname:species|${species.id}}}` + (species.rate > 1 ? ` (${species.rate}x)` : ""),
 					func: () => regBrowse("species", species.id),
 					entity: species
 				});
@@ -7095,6 +7406,28 @@ window.addEventListener("load", function(){ //onload
 			func: () => {
 				document.querySelectorAll(".actionItem.notify").forEach(e => {
 					e.classList.remove("notify");
+				})
+			}
+		},
+		{
+			text: "Hide undiscovered",
+			setting: "hideNames",
+			options: { "true": "ON", "false": "OFF" },
+			default: "true",
+			func: () => {
+				let secrets = this.document.querySelectorAll(".entityName.secret");
+				if (secrets) secrets.forEach(span => {
+					let reg = span.getAttribute("data-reg");
+					let id = span.getAttribute("data-id");
+					if (!reg || !id) return;
+					let entity = regGet(reg, parseInt(id));
+					if (!entity || !entity.name) return;
+					if (userSettings.hideNames === false) {
+						span.innerText = entity.name;
+					}
+					else {
+						span.innerText = entity.name.replace(/./g, "?").slice(0,5);
+					}
 				})
 			}
 		},

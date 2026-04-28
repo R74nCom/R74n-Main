@@ -219,28 +219,31 @@ actionables = {
 		asTarget: {
 			Create: (subject,target,args) => {
 				target = regAdd("species",{
-					name: args.name || generateWord(randRange(1,2),false),
 					type: args.type,
 					biome: args.biome,
 					rate: args.rate || 1
 				});
 				if (args.color) target.color = args.color;
-				else if (args.biome) target.color = biomes[args.biome].color
+				else happen("PopulateTraits", subject, target, {traits:["color"]});
+				// else if (args.biome) target.color = biomes[args.biome].color
 				if (target.biome) {
 					if (!biomes[target.biome][target.type]) biomes[target.biome][target.type] = [];
 					biomes[target.biome][target.type].push(target.id);
 				}
 
-				if (!args.name && biomes[target.biome] && biomes[target.biome].adj) {
-					let fromBiome = choose(Object.keys(biomes));
-					if (fromBiome !== target.biome && biomes[fromBiome][target.type]) {
-						let fromSpecies = regGet("species",choose(biomes[fromBiome][target.type]));
-						if (fromSpecies && fromSpecies.name) {
-							target.name = choose(biomes[target.biome].adj) + " " + fromSpecies.name;
-							target.ancestor = fromSpecies.id;
-						}
-					}
-				}
+				if (args.named === false) target.named = false;
+				else target.name = args.name || generateWord(randRange(1,2),false);
+
+				// if (!args.name && biomes[target.biome] && biomes[target.biome].adj) {
+				// 	let fromBiome = choose(Object.keys(biomes));
+				// 	if (fromBiome !== target.biome && biomes[fromBiome][target.type]) {
+				// 		let fromSpecies = regGet("species",choose(biomes[fromBiome][target.type]));
+				// 		if (fromSpecies && fromSpecies.name) {
+				// 			target.name = choose(biomes[target.biome].adj) + " " + fromSpecies.name;
+				// 			target.ancestor = fromSpecies.id;
+				// 		}
+				// 	}
+				// }
 
 				return target;
 			},
@@ -249,8 +252,120 @@ actionables = {
 				target.rate = (target.rate||1) + (args.value||0.5);
 				target.rate = Math.round(target.rate * 100) / 100;
 				return target;
+			},
+			PopulateTraits: (subject,target,args) => {
+				let traits = {};
+				if (!args.traits) {
+					if (target.type === "animal") args.traits = ["color","habitat","sized","time","texture","ability","speed","horns","offspring","diet"];
+					else if (target.type === "plant") args.traits = ["color","subtype","habitat","produce","offspring","diet"];
+					else return target;
+				}
+				else if (!args.traits.length) return target;
+				args.traits.forEach(t => {if (target[t] === undefined) traits[t] = true});
+
+				if (traits.color) {
+					let color = [0,0,0];
+					let amount = randRange(1,4);
+					if (target.type === "plant" && target.biome) {
+						color = [...biomes[target.biome].color];
+					}
+					for (let i = 0; i < amount; i++) {
+						let rgb = hexToRGB(choose(actionables.species[target.type === "plant" ? "_plantColors" : "_animalColors"]));
+						color[0] += rgb[0]; color[1] += rgb[1]; color[2] += rgb[2];
+					}
+					color[0] /= amount; color[1] /= amount; color[2] /= amount;
+					color[0] = Math.floor(color[0]); color[1] = Math.floor(color[1]); color[2] = Math.floor(color[2]);
+					target.color = color;
+				}
+
+				if (traits.habitat) {
+					if (target.type === "plant") {
+						target.habitat = target.biome === "water" ? "water" : "land";
+					}
+					else if (target.biome === "water") target.habitat = choose(["water","water","any"]);
+					else target.habitat = choose(["land","land","land","any"]);
+				}
+				if (traits.time && target.habitat !== "water") {
+					target.time = choose(["day","day","night"]);
+				}
+				if (traits.sized) target.sized = choose(["tiny","small","medium","large","huge"]);
+				if (traits.texture) target.texture = choose(["skin","fur","feather","scale"]);
+				if (traits.ability && Math.random() < 0.5) target.ability = choose(["fly","dig","mimic","smell","camo"]);
+				if (traits.speed && Math.random() < 2/5) target.speed = choose([0.5,2]);
+				if (traits.horns && Math.random() < 2/6) target.horns = choose([1,2]);
+				if (traits.offspring) target.offspring = choose(target.type === "plant" ? ["seed","spore"] : ["egg","birth"]);
+				if (traits.diet) {
+					if (target.type === "plant") {
+						if (Math.random() < 0.05) target.diet = "animal";
+					}
+					else target.diet = choose(["plant","animal","any"]);
+				}
+				if (traits.subtype && target.type === "plant") {
+					if (target.habitat === "water") {
+						if (Math.random() < 0.5) target.subtype = "algae";
+					}
+					else {
+						if (Math.random() < 0.2) target.subtype = choose(["tree","fungus","algae"]);
+					}
+				}
+				if (traits.produce && target.type === "plant") target.produce = choose(["fruit","berry","flower","herb"]);
+			},
+			RandomName: (subject,target,args) => {
+				let prefixes = [];
+				let suffixes = [];
+				prefixes.push(colorRecognize(target.color));
+
+				if (target.habitat === "water") {
+					if (target.type === "plant") suffixes.push("pad");
+					prefixes.push("water");
+				}
+				else if (target.type === "plant") prefixes.push("wild");
+				if (target.type === "animal") {
+					suffixes = suffixes.concat(["pod","ped"])
+				}
+				if (target.type === "plant" && target.subtype !== "tree") suffixes.push("weed");
+				if (target.time === "night") prefixes.push("night");
+				if (target.sized === "huge") prefixes.push("great");
+				if (target.sized === "tiny") {
+					if (target.ability === "flight") suffixes.push("fly");
+					if (target.speed < 1) suffixes.push("slug");
+					if (target.type === "animal") suffixes.push("bug");
+				}
+				if (target.sized === "large") {
+					if (target.type === "animal") suffixes.push("saur");
+				}
+				if (target.texture === "feather" || target.ability === "flight") {
+					prefixes.push("avi");
+					suffixes.push("bird");
+				}
+				if (target.texture === "fur") {
+					prefixes.push("fluffy");
+					suffixes.push("fur");
+				}
+				else if (target.texture === "scale") prefixes.push("sauro");
+				if (target.horns) suffixes.push("horn");
+				if (target.subtype) {
+					if (target.subtype === "tree") suffixes = suffixes.concat(["tree","leaf","wood"]);
+					else if (target.subtype === "fungus") suffixes = suffixes.concat(["room","mold","ball","take"]);
+				}
+				else if (target.type === "plant") suffixes.push("reed");
+				if (target.produce) {
+					if (target.produce === "herb") suffixes = suffixes.concat(["root","mint","wort","grass","cress"]);
+					else if (target.produce === "flower") suffixes = suffixes.concat(["flower","mary","lion","wort","bane","hood","glove","nium","bush","omia","us"]);
+					else if (target.produce === "berry") suffixes = suffixes.concat(["berry","berry","currant","vine"]);
+					else if (target.produce === "fruit") suffixes = suffixes.concat(["fruit","fruit","nut"]);
+					else suffixes.push(target.produce);
+				}
+				if (target.speed === "fast") suffixes.push("runner");
+
+				if (!prefixes.length && !suffixes.length) return generateWord(2);
+				if (!prefixes.length) prefixes.push(generateWord(1));
+				if (!suffixes.length) prefixes.push(generateWord(1));
+				return choose(prefixes) + choose(suffixes);
 			}
-		}
+		},
+		_animalColors: "#BA9587,#8A6E62,#976845,#9C9691,#B58549,#26211B,#E1EFEF,#585D75,#636780,#DED7D4,#828177,#7E6F52,#A89281,#E4E8E9,#3B73D2,#2C2B31,#93937A,#88603D,#CCE5C5,#F55E45,#DAB086,#E16446,#EAAC4B,#CA5802,#DEC584,#EFC901,#798243,#FD8803,#AFF582,#F48EA6,#0D64BA,#5B76E2,#5AC642,#DB3316,#F9613C,#1156D5,#42D1C3,#7F6F5D".split(","),
+		_plantColors: "#4E7A32,#C5DABA,#F8C91E,#FCC9C3,#81CA8E,#8D1997,#3B0C0E,#ECE043,#FF2C1C,#FAA33C,#85431D,#8C9BCD,#FF6D1F".split(",")
 	},
 
 	town: {
@@ -1092,7 +1207,7 @@ actionables = {
 					if (townID) target.town = townID;
 				}
 				if (args.subtype) target.subtype = args.subtype;
-				if (args.named === false) target.named = false;
+				if (args.named === false) target._named = false;
 				if (target.type === "landmark" && target.subtype) {
 					let data = actionables.process._projectSubtypes[target.subtype] || {};
 					if (data.symbol) target.symbol = data.symbol;
@@ -1212,7 +1327,7 @@ gameEvents = {
 			if ((subject.pop === 1 || subject.pop/subject.size <= $c.minPopulationDensity) && Math.random() < $c.baseDecayRate) {
 				logWarning("decay"+subject.id, `{{regname:town|${subject.id}}} is decaying due to underpopulation.`);
 				let chunk = randomChunk((c) => c.v.s === subject.id);
-				happen("Unclaim", null, subject, {x:chunk.x, y:chunk.y});
+				if (chunk) happen("Unclaim", null, subject, {x:chunk.x, y:chunk.y});
 			}
 
 			if (!subject.center) {
@@ -1910,6 +2025,28 @@ gameEvents = {
 			travel: 1
 		},
 		weight: $c.SUPERCOMMON
+	},
+	"townAskDiplomacy": {
+		random: true,
+		subject: {
+			reg: "town", random: true
+		},
+		target: {
+			reg: "town", random: true
+		},
+		check: (subject, target) => regCount("town") > 1 && !planet.usurp && !subject.usurp,
+		buttonYes: "Good",
+		func: (subject, target, args) => {
+			happen("AddRelation", subject, target, {amount: 2});
+		},
+		buttonNo: "Bad",
+		funcNo: (subject, target, args) => {
+			happen("AddRelation", subject, target, {amount: -2});
+		},
+		message: (subject, target, args) => `How should {{regname:town|${subject.id}}} feel about {{regname:town|${target.id}}}?`,
+		messageDone: (subject, target, args) => `{{regname:town|${subject.id}}} invites {{regname:town|${target.id}}} to the table.`,
+		messageNo: (subject, target, args) => `{{regname:town|${subject.id}}} grows wary of {{regname:town|${target.id}}}.`,
+		weight: $c.COMMON
 	},
 
 
@@ -2684,8 +2821,10 @@ gameEvents = {
 			let biome = randomChunk((c) => c.v.s === target.id);
 			if (!biome) return false;
 			biome = biome.b;
-			if (!biomes[biome].animal) return false;
-			return choose(biomes[biome].animal);
+			if (!biomes[biome].animal || !biomes[biome].animal.length) return false;
+			let species = regGet("species", choose(biomes[biome].animal));
+			if (species.named === false) return false;
+			return species.id;
 		},
 		func: (subject, target, args) => {
 			if (!args.value) return false;
@@ -2788,7 +2927,7 @@ gameEvents = {
 			reg: "player", id: 1
 		},
 		target: {
-			reg: "marker", single: (m) => m.named === false && m.subtype && m.town
+			reg: "marker", single: (m) => m._named === false && m.subtype && m.town
 		},
 		value: {
 			ask: true,
@@ -2815,7 +2954,7 @@ gameEvents = {
 			let name = args.value +" "+target.subtype;
 			if (data && data.nameTemplate) name = data.nameTemplate.replace(/\$/g, args.value);
 			target.name = titleCase(name);
-			delete target.named;
+			delete target._named;
 			if (args.namer) target.namer = args.namer;
 		},
 		message: (subject, target, args) => `The new {{regname:marker|${target.id}}} in {{regname:town|${target.town}}} needs a name.`,
@@ -2972,6 +3111,8 @@ gameEvents = {
 			if (planet.unlocks.farm < 20) args.type = "plant";
 			if (chunk && biomes[chunk.b][args.type]) {
 				args.speciesID = choose(biomes[chunk.b][args.type]);
+				let species = regGet("species", args.speciesID);
+				if (species.named === false) return false;
 			}
 			return randRange(50,100)/100;
 		},
@@ -3391,16 +3532,130 @@ gameEvents = {
 		weight: $c.COMMON,
 	},
 
+	// misc worldbuilding
+	"bodyDiscover": {
+		random: true,
+		subject: {
+			reg: "player", id: 1
+		},
+		target: {
+			reg: "body", single: (m) => m.named === false && (m.type === "planet" || (m.type === "moon" && planet.unlocks.astronomy >= 2 && regGet("body",m.orbit).named !== false))
+		},
+		value: {
+			ask: true,
+			message: (_, target) => `What should the {{regname:body|${target.id}|?}}${target.type === "moon" ? ` of {{regname:body|${target.orbit}}}` : ""} be called?`,
+			preview: (text, _, target) => {
+				return `I see {{b:${text}}} in the sky. The {{p:${text}}} surface.`
+			},
+			shuffle: (_, target) => generateWordEndings(wordComponents.starSuffixes, randRange(1,2), true),
+			default: (_, target) => target.name,
+			skip: true
+		},
+		func: (subject, target, args) => {
+			if (!args.value) return false;
+			target.name = args.value;
+			target.adj = args.previewParts[0];
+			unhideEntity(target);
+		},
+		message: (subject, target, args) => `An astronomer from {{randreg:town}} discovered a new {{regname:body|${target.id}|?}}${target.type === "moon" ? ` of {{regname:body|${target.orbit}}}` : ""}.`,
+		messageDone: (subject, target, args) => `{{regname:body|${target.id}}} has been named.`,
+		weight: $c.UNCOMMON,
+		needsUnlock: {
+			astronomy: 10
+		}
+	},
+	"starAskName": {
+		random: true,
+		subject: {
+			reg: "player", id: 1
+		},
+		target: {
+			reg: "body", single: (b) => b.home === true && b.type === "star"
+		},
+		value: {
+			ask: true,
+			preview: (text) => `The {{b:${titleCase(text)}}} sets. The {{p:${titleCase(text)}}} eclipse.`,
+			shuffle: (_, target) => generateWordEndings(wordComponents.starSuffixes, randRange(1,2), true),
+			default: (_, target) => target.name
+		},
+		check: (subject, target) => !target.renamed,
+		func: (subject, target, args) => {
+			if (!args.value) return false;
+			target.name = titleCase(args.value).replace(/^the /i, "");
+			target.adj = args.previewParts[0];
+			target.renamed = true;
+		},
+		message: (subject, target, args) => `See that {{regname:body|${target.id}|bright ${colorRecognize(target.color)} ball}} in the sky? What should onlookers call it?`,
+		messageDone: (subject, target, args) => `Residents burn their eyes staring at their {{regname:body|${target.id}}}`,
+		weight: $c.COMMON
+	},
+
+	"speciesDiscover": {
+		random: true,
+		subject: {
+			reg: "player", id: 1
+		},
+		target: {
+			reg: "town", random: true
+		},
+		value: {
+			ask: true,
+			message: (_, target, args) => `What should the {{regname:species|${args.speciesID}|?}} be called?`,
+			preview: (text, _, target) => {
+				return `A {{b:${text}}}. A {{p:group}} of {{p:${wordPlural(text)}}}. In a {{p:${text}}} way.`
+			},
+			shuffle: (_, target, args) => happen("RandomName", null, regGet("species",args.speciesID)),
+			default: (_, target, args) => happen("RandomName", null, regGet("species",args.speciesID)),
+			skip: true
+		},
+		check: (subject, target, args) => {
+			let chunk = randomChunk((c) => c.v.s === target.id);
+			if (!chunk) return false;
+			let choices = [];
+			if (biomes[chunk.b].plant) choices = choices.concat(biomes[chunk.b].plant);
+			if (biomes[chunk.b].animal) choices = choices.concat(biomes[chunk.b].animal);
+			if (chunk.e < planet.config.waterLevel+1.5) {
+				if (biomes.water.plant) choices = choices.concat(biomes.water.plant);
+				if (biomes.water.animal) choices = choices.concat(biomes.water.animal);
+			}
+			choices = choices.filter(id => {
+				return regGet("species",id).named === false
+			});
+			if (!choices.length) return false;
+			// console.log(target,chunk,choices);
+			args.speciesID = choose(choices);
+			args.biome = regGet("species",args.speciesID).biome;
+			happen("PopulateTraits", subject, regGet("species",args.speciesID));
+			return true;
+		},
+		func: (subject, target, args) => {
+			if (!args.value) return false;
+			let species = regGet("species",args.speciesID);
+			species.name = args.value;
+			if (args.previewParts[0] !== "group") species.collective = args.previewParts[0];
+			species.plural = args.previewParts[1];
+			species.adj = args.previewParts[2];
+			unhideEntity(species);
+			unlockExecutive("almanac");
+		},
+		message: (subject, target, args) => `A {{resident:${target.id}}} encountered a new {{biome:${args.biome}${args.biome === "water" ? "|aquatic" : ""}}} {{regname:species|${args.speciesID}|?}}.`,
+		messageDone: (subject, target, args) => `The {{regname:species|${args.speciesID}}} species has been formally described.`,
+		weight: $c.COMMON,
+		influencedBy: {
+			travel: 1
+		},
+	},
+
 }
 
 subBlurbs = {
 	"town": (ctx) => {
 		return ctx.town ? ctx.town[0] : regToArray("town");
 	},
-	"resource": () => regToArray("resource").concat(regToArray("species")),
+	"resource": () => regToArray("resource").concat(regToArray("species")).filter(r => r.named !== false),
 	"personal emergency": "being trapped in a [tree/well/hole]/carbon monoxide poisoning/a chemical emergency/a flood/a house fire/an illness/a landslide/food poisoning/drowning/a heart attack/a concussion/being stuck in a cave/being struck by debris",
-	"animal": () => regFilter("species", (r) => r.type === "animal"),
-	"crop": () => regFilter("species", (r) => r.type === "plant"),
+	"animal": () => regFilter("species", (r) => r.type === "animal" && r.named !== false),
+	"crop": () => regFilter("species", (r) => r.type === "plant" && r.named !== false),
 	"object": "rare [gemstones/jewels]/equipment/uniforms/a secret stash/[money]/[food]/toiletries",
 	"food": "crop/meat",
 	"money": (ctx) => ctx.town ? (ctx.town[0].currency ? "{{currency:"+ctx.town[0].id+"}} " + ctx.town[0].currency : "") || "cash" : undefined,
@@ -3498,7 +3753,7 @@ ambient: [
 "A [town adult] was rescued after [personal emergency]",
 "A [town adult] [suffered/sustained] a [injury] after [stepping/tripping/slipping] on a [animal/rock/[crop] peel/stick/toy]",
 "Some [town people] were forced to [isolate/evacuate] after an [unknown/undisclosed] incident",
-"A [pro/anti]-[activity] activist is [attacked/arrested] at a [rally/meetup/protest]",
+"A [pro/anti]-[activity] activist is [attacked/arrested] at a [rally/meetup/protest] in [town]",
 "Missing [town person] is [found/discovered] safe in [a shed/a storage facility/landmark]",
 "A [town adult] is honored after [rescuing/saving] a [child/animal] from [personal emergency]",
 "A [town person] is arrested [for/after suspected] [crime]",
@@ -4014,6 +4269,7 @@ unlockTree = {
 			{
 				level: 40,
 				name: "Jockeys",
+				emoji: "🏇",
 				message: "Soldiers look to domesticated animals for inspiration. {{should}}",
 				messageDone: "Cavalries are seen practicing on {{randreg:resource|livestock}}back.",
 				influences: { military:1 },
@@ -4031,6 +4287,37 @@ unlockTree = {
 				messageNo: "Soldiers see no use for the wheel outside of trade.",
 				needsUnlock: {
 					"travel": 40
+				}
+			}
+		]
+	},
+	"astronomy": {
+		levels: [
+			{
+				level: 10,
+				name: "Astronomy",
+				emoji: "✨",
+				message: "{{people}} look up at the stars for guidance on their journeys. {{should}}",
+				messageDone: "Bright dots in the sky lead adventurers back home.",
+				func: () => logMessage("Curious residents can now spot neighboring planets.", "tip"),
+				influences: { travel:2, education:1 },
+				messageNo: "Travelers rely on landmarks to find their way.",
+				influencesNo: { travel:-1 },
+				needsUnlock: {
+					"travel": 10
+				}
+			},
+			{
+				level: 20,
+				name: "Telescopes",
+				emoji: "🔭",
+				message: "{{people}} try bending reflective surfaces. {{should}}",
+				messageDone: "Curved mirrors allow for telescopic devices to see far away.",
+				func: () => logMessage("Curious residents can now spot extraterrestrial moons.", "tip"),
+				influences: { education:1 },
+				influencesNo: { education:-0.5 },
+				needsUnlock: {
+					"smith": 30
 				}
 			}
 		]
@@ -4137,10 +4424,19 @@ regBrowserKeys = {
 	"raw": "Material",
 	"town.crop": "Crop",
 	"town.livestock": "Livestock",
+	
+	"system": "Part of",
+	"magnitude": "Magnitude",
+	"spectral": "Spectral type",
+	"orbit": "Orbits",
+	"stars": "Stars",
+	"planets": "Planets",
+	"orbited": "Orbited by",
 	"planet.start": "Formed",
 	"size": "Size",
 	"circumference": "Circumference {{symbol:↔}}",
 	"land": "Land",
+	
 	"influences": "Influences",
 	"research_": "Researching",
 	"birth": "Birth",
@@ -4176,10 +4472,22 @@ regBrowserKeys = {
 	"marker.end": "Destroyed",
 	"landmark.start": "Completed",
 	"landmark.process": "Project",
-	"species.ancestor": "Evolved from",
 	"platesize": "Plate Size",
 	"elevation": "Elevation",
 	"lifespan": "Average lifespan",
+
+	"species.ancestor": "Evolved from",
+	"species.habitat": "Habitat",
+	"species.texture": "Texture",
+	"species.ability": "Abilities",
+	"species.sized": "Size",
+	"species.time": "Active",
+	"species.speed": "Speed",
+	"species.horns": "Horns",
+	"species.offspring": "Offspring",
+	"species.diet": "Diet",
+	"species.produce": "Produces",
+	"species.collective": "Plural",
 
 	"continents": "Continents",
 	"landmasses": "Landmasses",
@@ -4240,7 +4548,7 @@ regBrowserValues = {
 	"town.former": (value) => `{{regname:town|${value}}}`,
 	"birth": null,
 	"law": null,
-	"rate": (value) => `${value}x`,
+	"rate": (value) => (value && value !== 1) ? `${value}x` : undefined,
 	"process.town": (value) => `{{regname:town|${value}}}`,
 	"town.ender": (value) => `{{regname:town|${value}}}`,
 	"process.winner": (value) => `{{regname:town|${value}}}`,
@@ -4251,11 +4559,35 @@ regBrowserValues = {
 	"marker": (value) => `{{regname:marker|${value}}}`,
 	"marker.town": (value) => `{{regname:town|${value}}}`,
 	"landmark.process": (value) => `{{regname:process|${value}}}`,
-	"species.ancestor": (value) => `{{regname:species|${value}}}`,
 	"issues": null,
 	"stats.score": (value) => `{{percent:${value}}}`,
 	"stats.peakscore": (value) => `{{percent:${value}}}`,
 	"stats.oldesttown": (value) => `{{num:${value}}} days`,
+	"orbit": (value, body) => {
+		let orbit = regGet("body",value);
+		if (body.body) body = regGet("body", body.body);
+		let neighbors = regFilter("body", b => b.orbit === value);
+		neighbors.sort((a, b) => a.pos - b.pos);
+		let index = neighbors.indexOf(body) + 1;
+		return (index ? wordComponents.ORDINAL_ENGLISH[index-1]+" from " : "") + `{{regname:body|${value}}}`
+	},
+	"system": (value) => `{{regname:system|${value}}}`,
+	"spectral": (value) => `${"OBAFGKMLT"[value-1]} (${Math.round(value/9*100)}%)`,
+	"body.magnitude": (value) => `{{diff:${value}}}`,
+	"body.subtype": (value) => titleCase(value),
+
+	"species.sized": (value) => titleCase(value),
+	"species.ancestor": (value) => `{{regname:species|${value}}}`,
+	"species.habitat": (value) => ({"land":"{{color:Terrestrial|#00ff00}}", "water":"{{color:Aquatic|#00ffff}}", "any":"{{color:Amphibious|#00ff88}}"})[value],
+	"species.texture": (value) => titleCase(value),
+	"species.time": (value) => ({"day":"{{symbol:☼|#ffff00}} Diurnal", "night":"{{symbol:⏺|#00ffff}} Nocturnal"})[value],
+	"species.texture": (value) => ({"skin":"Bare", "fur":"Furry", "feather":"Feathered", "scale":"Scaled"})[value],
+	"species.ability": (value) => ({"fly":"Flight", "dig":"Digging", "mimic":"Mimicry", "smell":"Scent", "camo":"Camouflage"})[value],
+	"species.speed": (value) => (value > 1 ? "Fast" : value < 1 ? "Slow" : "Normal"),
+	"species.offspring": (value) => titleCase(value),
+	"species.diet": (value) => ({"plant":"Herbivore", "animal":"Carnivore", "any":"Omnivore"})[value],
+	"species.produce": (value) => titleCase(value),
+	"species.collective": (value, species) => `${value} of ${species.plural || wordPlural(species.name)}`,
 }
 regBrowserExtra = {
 	stats: {
@@ -4476,6 +4808,29 @@ regBrowserExtra = {
 		"icon": (species) => {
 			if (species.type === "animal") return "livestock";
 			if (species.type === "plant") return "crop";
+		}
+	},
+	body: {
+		"orbited": (body) => {
+			if (body.home && body.type === "planet") {
+				regBrowsePlanet();
+				return;
+			}
+
+			const orbited = regFilter("body", b => b.orbit === body.id).map(b => `{{regname:body|${b.id}}}`);
+			return orbited.length ? orbited : undefined;
+		}
+	},
+	system: {
+		"stars": (system) => {
+			const stars = regFilter("body", b => b.system === system.id && b.type === "star").map(b => `{{regname:body|${b.id}}}`);
+			return stars.length ? stars : undefined;
+		},
+		"planets": (system) => {
+			const stars = regFilter("body", b => b.system === system.id && b.type === "star").map(b => b.id);
+
+			const planets = regFilter("body", b => stars.includes(b.orbit) && b.type === "planet").map(b => `{{regname:body|${b.id}}}`);
+			return planets.length ? planets : undefined;
 		}
 	}
 }

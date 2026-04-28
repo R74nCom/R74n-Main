@@ -1,3 +1,36 @@
+[Version 1.4 - 28 Apr 2026]
+ + Info for the following celestial objects:
+    + Star system
+    + Star(s)
+    + Neighboring planets
+    + Moons
+ + Hidden names
+    + Names of plants and animals are hidden until discovery
+    + Names of neighboring planets and moons are initially hidden
+    + Hide undiscovered setting
+    + Hidden names are shown in Free Play mode
+ + Astronomy unlock
+    + Residents can discover planets and ask you to name them
+    + Telecopes unlock for extraterrestrial moons
+ ~ Species rework
+    + Upon discovery, plants and animals can be named
+    + Species are given unique traits when discovered
+    + Aquatic plants
+    + Plant subtypes (Tree, Algae, Fungus)
+    ~ Species are given unique colors
+    ~ Biomes now have double the species
+    ~ Only discovered species can be domesticated
+ + Realistic names
+    ~ Towns are given suffixes based on real locations
+    ~ Planets are named based on their star and orbital position
+ + Towns can ask for diplomatic advice
+ + Residents can ask to name their star
+ ~ Proper name capitalization for Mc- and Mac- prefixes (e.g. McDonald)
+ ~ Removed extra spacing for empty properties (e.g. Jobs: None yet..)
+ ~ Leaving a naming preview input blank will now use the original value
+ ~ Disaster info shows type instead of "Disaster"
+ ~ Fixed: Cannot read properties of undefined (reading '0')
+
 [Version 1.3.1 - 19 Apr 2026]
  ~ Moved Free Play to the Customize tab
  + Preview when inputting player's name
