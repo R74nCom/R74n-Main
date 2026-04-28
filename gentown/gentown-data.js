@@ -2823,7 +2823,7 @@ gameEvents = {
 			biome = biome.b;
 			if (!biomes[biome].animal || !biomes[biome].animal.length) return false;
 			let species = regGet("species", choose(biomes[biome].animal));
-			if (species.named === false) return false;
+			if (!species || species.named === false) return false;
 			return species.id;
 		},
 		func: (subject, target, args) => {
