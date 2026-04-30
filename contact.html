@@ -87,8 +87,12 @@
 
   contactForm.addEventListener("submit", (e) => {
     let form = e.target;
-
+    
     let req = new FormData(form);
+    if (!req.get("email") && !confirm("Submit without an email address? We can't respond if you do.")) {
+      e.preventDefault();
+      return false;
+    }
 
     if (window.navigator) {
       req.append("appVersion", window.navigator.appVersion || "");
