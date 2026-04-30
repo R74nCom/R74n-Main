@@ -10,9 +10,7 @@ body {
 }
 .content {
 	margin: 1em 1em 1em 1em;
-    /* margin-top: 20px; */
     overflow-wrap: break-word;
-    /* padding-top: 1em; */
 }
 
 @font-face {
@@ -32,15 +30,15 @@ a {
 	text-decoration: none;
 	cursor: pointer;
 }
-a:active, a:hover:active {color: rgb(255, 179, 255);}
 a:hover {color: rgb(255, 130, 255);}
-a[style]:active, a[style]:hover:active, a:active span[style], a:hover:active span[style], a.qr:active, a.qr:hover:active {
-	color: unset;
-	filter: brightness(2.8);
-}
+a:active {color: rgb(255, 179, 255);}
 a[style]:hover, a:hover span[style], a.qr:hover {
 	color: unset;
 	filter: brightness(1.8);
+}
+a[style]:active, a:active span[style], a.qr:active {
+	color: unset;
+	filter: brightness(2.8);
 }
 a.newLink::before {color: red; content: "(NEW) "}
 a.newLink:hover::before { filter:brightness(200%);}
@@ -357,7 +355,7 @@ body > footer {
 	text-align:center;
 	display:block;
 	margin-top: 1em;
-	margin-bottom: 1.5em;
+	padding-bottom: 1.5em;
 }
 body > footer a::after {
 	content: "\A • ";
@@ -391,9 +389,15 @@ h2.linkcategory, h3.linkcategory {font-size: 1em;margin-block-start: 0;}
 	border-right-color: rgba(255,255,255,0.33);
 	border-bottom-color: rgba(255,255,255,0.33);
 	flex-shrink: 1;
-	padding-left: 0.5em;
-    padding-right: 0.5em;
+	padding-left: 0.75em;
+    padding-right: 0.75em;
 	flex-basis:content;
+	flex-grow: 0;
+    text-align: justify;
+	margin-right: 1em;
+	font-family: 'VT323', Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    line-height: 0.9;
 }
 #newsheader a {
 	color: lime;
@@ -640,10 +644,10 @@ body header:first-child .home {
 
 @media only screen and (min-width: 1016px) and (max-width: 1799px) {
 	.homediv {
-		width: 46%;
-		max-width: 46%;
+		width: 50%;
+		max-width: 50%;
         /* margin-left: 2%; */
-        margin-right: 4%;
+        /* margin-right: 4%; */
 	}
 }
 @media only screen and (max-width: 1016px) {
@@ -678,9 +682,9 @@ body header:first-child .home {
 	}
 	#newsheader {
 		display: block;
-		margin-top: 1em;
-		margin-left: 1em;
-		margin-right: 1em;
+		margin-top: 0.5em;
+		margin-left: 0.5em;
+		margin-right: 0.5em;
 	}
 }
 
@@ -719,6 +723,8 @@ body header:first-child .home {
 	border-bottom: 0px solid rgba(255, 255, 0, 0);
 	padding-bottom: 0em;
 	margin-bottom: 0.75em;
+	width: 98%;
+    transform: translateX(1%);
 }
 .tree details > summary:active,
 .tree details[open] summary:active {
@@ -787,19 +793,25 @@ body header:first-child .home {
 
 .tree details > ul a {
 	font-style: italic;
-	color: unset;
+	color: #ececec;
 	text-decoration: none;
 	display: inline-block;
 	transition: 0.2s color, 0.1s transform;
+	padding-right: 10px;
+	font-family: Helvetica, Arial, sans-serif;
+    font-size: 22px;
 }
 .tree details > ul a:active {
 	color: unset;
 }
 .tree details > ul a em {
 	font-style: normal;
-	color: rgb(255, 90, 255);
+	color: rgb(255, 130, 255);
 	text-decoration: underline;
 	text-underline-offset: 0.2em;
+	text-decoration-thickness: 2px;
+	font-family: 'VT323', Helvetica, Arial, sans-serif;
+	font-size: 30px;
 }
 .tree details > ul a em.news {
 	color: rgb(255, 62, 62);
@@ -816,19 +828,17 @@ body header:first-child .home {
 	content: "";
 	display: none;
 }
-.tree details > ul a:active em,
-.tree details > ul a:hover:active em {
-	color: rgb(255, 179, 255);
-}
 .tree details > ul a:hover em {
-	color: rgb(255, 121, 255);
+	color: rgb(255, 160, 255);
 }
-.tree details > ul a:active em.news,
-.tree details > ul a:hover:active em.news {
-	color: rgb(255, 0, 0);
+.tree details > ul a:active em {
+	color: rgb(255, 200, 255);
 }
 .tree details > ul a:hover em.news {
 	color: rgb(255, 118, 118);
+}
+.tree details > ul a:active em.news {
+	color: rgb(255, 0, 0);
 }
 .tree details > ul a:hover:only-child {
 	transform: translateX(0.1em);
@@ -1011,7 +1021,7 @@ form .honeypot {
 	flex-wrap: wrap;
 }
 .projectGallery > a {
-	width:25%; height:100px;
+	width:30%; height:100px;
 	margin-bottom: 0.5em;
 	background-position: center;
 	background-size: cover;
@@ -1043,7 +1053,7 @@ form .honeypot {
 	border-top-width: 3px;
 	border-bottom-width: 5px;
 	/* transition: 0.2s scale, 0.5s border-color, 0.5s border-left-color, 0.33s color, 0.2s border-bottom-width, 0.2s translate; */
-	overflow: hidden;
+	/* overflow: hidden; */
 	display: flex;
 	flex-direction: row!important;
 	align-items: center;
@@ -1063,6 +1073,7 @@ form .honeypot {
 	color: yellow;
 	/* background-position: bottom; */
 	animation: backgroundSway 10s ease-in-out infinite;
+	z-index: 200;
 }
 .projectGallery > a:active {
 	filter: none!important;
@@ -1091,6 +1102,43 @@ form .honeypot {
 	min-width: 90%;
 	margin: 0!important;
 }
+.projectGallery > a > span {
+	display: none;
+	overflow-y:hidden
+}
+@media only screen and (min-width: 700px) {
+	.projectGallery > a.new:hover::after {
+		content: "";
+	}
+	.projectGallery > a > span {
+		position: absolute;
+		background: rgba(0,0,0,0.5);
+		backdrop-filter: blur(10px);
+		bottom: calc(-50% + 16px);
+		z-index: 205;
+		width: 100%;
+		border: solid 4px #797979;
+		border-right-color: #575757;
+		border-bottom-color: #575757;
+		border-top: none;
+		border-bottom-width: 5px;
+		font-size: 24px;
+		text-shadow: none;
+		color: white;
+		pointer-events: none;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	.projectGallery > a:hover > span {
+		display: block;
+		border-color: #ece060;
+		border-right-color: #bab36f;
+		border-bottom-color: #bab36f;
+	}
+	.projectGallery > a:has(span):hover {
+		border-bottom: none;
+	}
+}
 @media only screen and (max-width: 1200px) {
 	.projectGallery > a.new::after {
 		opacity: 0.66
@@ -1114,20 +1162,26 @@ form .honeypot {
 }
 @media only screen and (max-width: 700px) {
 	.projectGallery {
-		display: block;
+		/* display: block; */
+		gap: 8px;
 		/* margin-top: 0.5em;
 		margin-bottom: 1em; */
 	}
 	.projectGallery > a {
-		width: 100%;
+		width: 45%;
 		flex-wrap: wrap;
 		display: flex;
-		margin-bottom: 0.2em;
 		border-left: solid 3px #797979;
 		max-width: 100%;
 		height: 80px;
-		margin-top: 0.25em;
+		margin-top: 0;
+		margin-bottom: 0;
 		line-height: 0.8;
+		font-size: 30px;
+		-webkit-hyphens: auto;
+		-moz-hyphens: auto;
+		-ms-hyphens: auto;
+		hyphens: auto;
 	}
 	.projectGallery > a:hover {
 		scale: 1.01;

@@ -248,7 +248,8 @@ function setIcon(){
     var pagetitle = document.getElementById("pagetitle");
     pagetitle.innerHTML = pagetitle.innerHTML + " 🎉";
     pagetitle.title = "Happy Birthday R74n!";
-    newsFlash("R74n has gained a year of age! See this year's <a href='https://r74n.com/community/birthday2024'>Community Art Gallery</a>!");
+    newsFlash("The R74n website turns " + ((new Date()).getYear() - 117) + " years old today!");
+    // newsFlash("R74n has gained a year of age! See this year's <a href='https://r74n.com/community/birthday2024'>Community Art Gallery</a>!");
     // https://github.com/loonywizard/js-confetti
     var confettijs = document.createElement("script");
     confettijs.src = "confetti.js";
@@ -294,12 +295,15 @@ function setIcon(){
     </script>
 
     <style>
-      @media only screen and (max-width: 600px) {
-        #rueBox { height:66px }
+      @media only screen and (min-width: 600px) {
+        /* #rueBox { margin-left: 0; } */
       }
       header.homepage #rueBox {
         max-width: none!important;
         width: unset!important;
+      }
+      @media only screen and (max-width: 600px) {
+        header.homepage #rueBox { height:66px; width: 60%!important; }
       }
       #rueBox > #rueBoxIn, #rueBoxIn > #rueInput, #rueBoxIn > #rueButton {
         border-top-left-radius: 0px!important;
@@ -310,6 +314,16 @@ function setIcon(){
       #rueBox > #rueBoxIn {
         padding: 3px!important;
       }
+      #rueMessageBox {
+        corner-shape: bevel;
+        transform: translatex(-40px);
+        box-shadow: rgba(0, 0, 0, 0.8) 0px 4px 20px 5px!important;
+        /* padding-top: 0.8em;
+        padding-bottom: 0.8em;
+        padding-left: 1em;
+        padding-right: 1em; */
+        padding: 0.8em 1em!important;
+      }
     </style>
     <script src="rue/rue.js"></script>
 
@@ -318,12 +332,27 @@ function setIcon(){
         font-family: 'VT323';
         src: url('cook/fonts/VT323-Regular.ttf') format('truetype');
       }
+      @media only screen and (min-width: 900px) {
+        .content {
+          margin: 1em 3em 1em 3em;
+        }
+      }
+      .content {
+        font-family: 'VT323', Arial, Helvetica, sans-serif;
+        font-size: 25px;
+      }
+      body > footer {
+        font-size: 1em;
+        font-family: 'VT323', Arial, Helvetica, sans-serif;
+      }
 
       #peakheader {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         flex-wrap: wrap;
+        margin-left: 2em;
+        margin-right: 2em;
       }
       #peakheader > div {
         display: flex;
@@ -368,7 +397,7 @@ function setIcon(){
         margin-right: 2px;
       }
       #splashheader {
-        margin-bottom: 0.5em;
+        margin-bottom: 0.75em;
       }
       .projectheader {
         margin-bottom: 0.8em;
@@ -377,6 +406,39 @@ function setIcon(){
         margin-left: 0.2em;
         margin-right: 0.2em;
       }
+
+      #socialheader {
+        margin-left: 0;
+        flex-grow: 1;
+        display: flex;
+        justify-content: space-evenly;
+      }
+      #socialheader img {
+        width: 1.1em;
+        margin-left: 0.05em;
+        margin-right: 0.05em;
+      }
+
+      #spotlightGallery {
+        justify-content: space-between;
+      }
+      #underSpotlight {
+        height: 0;
+        overflow: visible;
+        text-align: right;
+        position: relative;
+        margin-bottom: 5px;
+      }
+      #underSpotlight > button {
+        z-index: 100;
+        position: absolute;
+        right: 0;
+        transform: translateY(-12px);
+      }
+      .homediv summary {
+        z-index: 90;
+      }
+      
       @media only screen and (min-width: 700px) {
         #toggleSpotlight::after {
           content: " Spotlight"
@@ -398,6 +460,14 @@ function setIcon(){
         }
         #allGalleries {
           margin-bottom: 1.5em;
+        }
+      }
+      @media only screen and (max-width: 1050px) {
+        #socialheader {
+          display: flex;
+          justify-content: space-evenly;
+          width: 100%;
+          margin-top: 0.5em;
         }
       }
 
@@ -432,29 +502,30 @@ function setIcon(){
 <h1 class="pagetitle" title="Homepage" id="pagetitle">R74n</h1>
 <span id="subtitle" class="subtitle">Web collective</span>
 <span id="newsheader" class="alertheader" style="display:none;"></span>
+<div id="socialheader">
+  <a href="https://discord.gg/ejUc6YPQuS"><img src="./shapes/png/share-buttons/discord.png" alt="Discord"></a>
+  <a href="https://www.youtube.com/@R74n"><img src="./shapes/png/share-buttons/youtube.png" alt="YouTube"></a>
+  <a href="https://www.tiktok.com/@r74n.com"><img src="./shapes/png/share-buttons/tiktok.png" alt="TikTok"></a>
+  <a href="https://bsky.app/profile/r74n.com"><img src="./shapes/png/share-buttons/bluesky.png" alt="Bluesky"></a>
+  <a href="https://x.com/R74nCom"><img src="./shapes/png/share-buttons/twitter.png"></a>
+  <a href="./contact"><img src="./shapes/png/share-buttons/email.png"></a>
+</div>
 <script>setIcon();</script>
 
 <div id="rueBox"></div>
 </header>
 
-<header id="peakheader" class="alertheader">
-  <div>
-    <a href="https://discord.gg/ejUc6YPQuS"><img src="./shapes/png/share-buttons/discord.png" alt="Discord"></a>
-    <a href="https://www.youtube.com/@R74n"><img src="./shapes/png/share-buttons/youtube.png" alt="YouTube"></a>
-    <a href="https://www.tiktok.com/@r74n.com"><img src="./shapes/png/share-buttons/tiktok.png" alt="TikTok"></a>
-    <a href="https://bsky.app/profile/r74n.com"><img src="./shapes/png/share-buttons/bluesky.png" alt="Bluesky"></a>
-    <a href="https://x.com/R74nCom"><img src="./shapes/png/share-buttons/twitter.png"></a>
-    <a href="./contact"><img src="./shapes/png/share-buttons/email.png"></a>
-  </div>
+<!-- <header id="peakheader" class="alertheader">
+  
   <div>
     <button id="toggleSpotlight" onclick="toggleSpotlight()" style="flex-shrink: 0; overflow-x:visible">Hide</button>
   </div>
-</header>
+</header> -->
 
 <header id="splashheader" class="alertheader" style="display:none;"></header>
 <header id="sandboxelsHeader" class="alertheader projectheader" style="display:none;">
   <a href="https://store.steampowered.com/app/3664820/Sandboxels/" class="button">Get on Steam (99¢)</a>
-  <a href="https://news.r74n.com/" class="button">Newsletter</a>
+  <a href="https://news.r74n.com/" class="button">Free Newsletter</a>
   <a href="https://discord.gg/ejUc6YPQuS" class="button">Discord</a>
   <a href="https://www.reddit.com/r/Sandboxels/" class="button">r/Sandboxels</a>
   <a href="/sandboxels/" class="button">More Sandboxels</a>
@@ -467,20 +538,25 @@ function setIcon(){
 <div id="allGalleries">
 
 <nav id="spotlightGallery" class="projectGallery">
-  <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);" id="spotlight-sandboxels">Sandboxels</a>
-  <a href="cook/?test" style="background-image: url(cook/spotlight.jpg);">Infinite Chef</a>
-  <a href="gentown/" class="new update" style="background-image: url(gentown/spotlight.jpg);">GenTown</a>
+  <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);" id="spotlight-sandboxels">Sandboxels<span>Falling-sand & chemistry simulator</span></a>
+  <a href="cook/?test" style="background-image: url(cook/spotlight.jpg);">Infinite Chef <span>Ultimate kitchen simulator</span></a>
+  <a href="gentown/" class="new update" style="background-image: url(gentown/spotlight.jpg);">GenTown <span>Civilization & planet simulator</span></a>
 
-  <a href="mini/protocog" class="new" style="background-image: url(mini/spotlight-protocog.png);">ProtoCog</a>
-  <a href="mini/cost" class="new" style="background-image: url(mini/spotlight-cost.png);">Costoflivingdle</a>
-  <a href="mini/handwriting" style="background-image: url(mini/spotlight-handwriting.png);">Handwriting Personality</a>
-  <a href="mini/ragebait" style="background-image: url(mini/spotlight-ragebait.png);">RageBait Simulator</a>
-  <a href="mini/odds" style="background-image: url(mini/spotlight-odds.gif);">What Are The Odds?</a>
-  <a href="ants/" style="background-image: url(ants/spotlight.png);">Every Ant on Earth</a>
-  <a href="pixelflags/guess" style="background-image: url(pixelflags/spotlight.png);">Guess the Pixel Flag</a>
-  <a href="mix/" style="background-image: url(mix/spotlight.png);">Mix-Up!</a>
+  <a href="mini/protocog" class="new" style="background-image: url(mini/spotlight-protocog.png);">ProtoCog <span>Teach a thing to talk</span></a>
+  <a href="mini/cost" style="background-image: url(mini/spotlight-cost.png);">Cost<wbr>of<wbr>livingdle <span>Guess everyday expenses</span></a>
+  <a href="mini/handwriting" style="background-image: url(mini/spotlight-handwriting.png);">Handwriting Personality <span>Fun writing quiz</span></a>
+  <a href="mini/ragebait" style="background-image: url(mini/spotlight-ragebait.png);">RageBait Simulator <span>Make a streamer angry</span></a>
+  <a href="mini/odds" style="background-image: url(mini/spotlight-odds.gif);">What Are The Odds? <span>Explore decreasing probabilities</span></a>
+  <a href="ants/" style="background-image: url(ants/spotlight.png);">Every Ant on Earth <span>Explore each individual ant</span></a>
+  <a href="pixelflags/guess" style="background-image: url(pixelflags/spotlight.png);">Guess the Pixel Flag <span>Do you know your flags?</span></a>
+  <a href="mix/" style="background-image: url(mix/spotlight.png);">Mix-Up! <span>Decide results for random combos</span></a>
+  <a href="convert/" style="background-image: url(convert/spotlight.png);">Unit Converter <span>Translate any unit imaginable</span></a>
+</nav>
+
 </div>
 
+<div id="underSpotlight">
+  <button id="toggleSpotlight" onclick="toggleSpotlight()" style="flex-shrink: 0; overflow-x:visible">Hide</button>
 </div>
 
 <!-- <div class="homefundivtop"></div> -->
@@ -512,7 +588,7 @@ function setIcon(){
 <section class="homediv">
   <ul class="tree">
     <li><details open>
-      <summary>Spotlight</summary><ul>
+      <summary>Main</summary><ul>
         <li><a href="https://sandboxels.r74n.com/"><em>Sandboxels</em> Intricate falling-sand simulator</a></li>
         <li><a href="cook/"><em>Infinite Chef</em> Ultimate virtual kitchen simulator</a></li>
         <li><a href="gentown/"><em>GenTown</em> Influence civilization in this planet simulator</a></li>
