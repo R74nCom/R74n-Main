@@ -323,6 +323,7 @@ function setIcon(){
         padding-left: 1em;
         padding-right: 1em; */
         padding: 0.8em 1em!important;
+        border-radius: 20px 0px 20px 20px!important;
       }
     </style>
     <script src="rue/rue.js"></script>
@@ -331,6 +332,7 @@ function setIcon(){
       @font-face {
         font-family: 'VT323';
         src: url('cook/fonts/VT323-Regular.ttf') format('truetype');
+        font-feature-settings: "liga" 0;
       }
       @media only screen and (min-width: 900px) {
         .content {
@@ -346,55 +348,15 @@ function setIcon(){
         font-family: 'VT323', Arial, Helvetica, sans-serif;
       }
 
-      #peakheader {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        margin-left: 2em;
-        margin-right: 2em;
-      }
-      #peakheader > div {
-        display: flex;
-        flex-direction: row;
-        height: 2em;
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-bottom: 0.8em;
-        flex-wrap: wrap;
-        flex-shrink: 0;
-      }
-      #peakheader div:first-child {
-        flex-grow: 1;
-        flex-shrink: 1;
-        justify-content: flex-start;
-        white-space: nowrap;
-        flex-wrap: nowrap;
-      }
-      #peakheader div a {
+      #socialheader a {
         transition: scale 0.2s;
       }
-      #peakheader div:first-child a {
-        flex-grow: 0;
-        flex-shrink: 0;
-      }
-      #peakheader div:first-child a:hover {
-        scale: 1.5;
+      #socialheader a:hover {
+        scale: 1.3;
         z-index: 9999;
       }
-      #peakheader div:first-child a:active {
-        scale: 1.25;
-      }
-      #peakheader > div * {
-        margin: 0;
-        height: 100%;
-        min-height: unset;
-        max-height: unset;
-        width: unset;
-        display: block;
-        margin-top: 1px;
-        margin-bottom: 1px;
-        margin-right: 2px;
+      #socialheader a:active {
+        scale: 1.15;
       }
       #splashheader {
         margin-bottom: 0.75em;
@@ -445,19 +407,6 @@ function setIcon(){
         }
       }
       @media only screen and (max-width: 700px) {
-        #peakheader > div {
-          margin: 0;
-          margin-bottom: 0.8em;
-        }
-        #peakheader div:first-child {
-          justify-content:space-evenly;
-        }
-        #peakheader div:last-child {
-          margin-right: 0em;
-        }
-        #peakheader {
-          justify-content: center;
-        }
         #allGalleries {
           margin-bottom: 1.5em;
         }
@@ -468,6 +417,21 @@ function setIcon(){
           justify-content: space-evenly;
           width: 100%;
           margin-top: 0.5em;
+        }
+      }
+      @media only screen and (min-width: 1800px) { /*wide-screen monitors*/
+        #socialheader {
+          justify-content: right;
+        }
+      }
+      @media only screen and (min-width: 3000px) {
+        .projectGallery > a {
+          width: 24%;
+        }
+      }
+      @media only screen and (min-width: 4000px) {
+        .projectGallery > a {
+          width: 12%;
         }
       }
 
@@ -498,7 +462,7 @@ function setIcon(){
 <body class="homepage">
 
 <header class="homepage">
-<h1 class="pagetitle"><span><span title="The main page, the portal to everything else." id="homeIconLink"><noscript id="iconnoscript"><img src="icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n" title="R74n" aria-label="R74n"></noscript><img src="icons/favicon.png" style="display:none" id="R74nicon" class="R74nicon" alt="R74n" title="R74n" aria-label="R74n"></span></span></h1>
+<h1 class="pagetitle"><span><span title="The main page, the portal to everything else." id="homeIconLink"><noscript id="iconnoscript"><img src="icons/favicon.png" id="R74niconFB" class="R74nicon" alt="R74n" aria-label="R74n"></noscript><img src="icons/favicon.png" style="display:none" id="R74nicon" class="R74nicon" alt="R74n" title="R74n" aria-label="R74n"></span></span></h1>
 <h1 class="pagetitle" title="Homepage" id="pagetitle">R74n</h1>
 <span id="subtitle" class="subtitle">Web collective</span>
 <span id="newsheader" class="alertheader" style="display:none;"></span>
@@ -507,23 +471,16 @@ function setIcon(){
   <a href="https://www.youtube.com/@R74n"><img src="./shapes/png/share-buttons/youtube.png" alt="YouTube"></a>
   <a href="https://www.tiktok.com/@r74n.com"><img src="./shapes/png/share-buttons/tiktok.png" alt="TikTok"></a>
   <a href="https://bsky.app/profile/r74n.com"><img src="./shapes/png/share-buttons/bluesky.png" alt="Bluesky"></a>
-  <a href="https://x.com/R74nCom"><img src="./shapes/png/share-buttons/twitter.png"></a>
-  <a href="./contact"><img src="./shapes/png/share-buttons/email.png"></a>
+  <a href="https://x.com/R74nCom"><img src="./shapes/png/share-buttons/twitter.png" alt="Twitter"></a>
+  <a href="./contact"><img src="./shapes/png/share-buttons/email.png" alt="Email"></a>
 </div>
 <script>setIcon();</script>
 
 <div id="rueBox"></div>
 </header>
 
-<!-- <header id="peakheader" class="alertheader">
-  
-  <div>
-    <button id="toggleSpotlight" onclick="toggleSpotlight()" style="flex-shrink: 0; overflow-x:visible">Hide</button>
-  </div>
-</header> -->
-
-<header id="splashheader" class="alertheader" style="display:none;"></header>
-<header id="sandboxelsHeader" class="alertheader projectheader" style="display:none;">
+<header id="splashheader" class="alertheader" style="display:none;" aria-label="Splash text"></header>
+<header id="sandboxelsHeader" class="alertheader projectheader" style="display:none;" aria-label="Sandboxels info">
   <a href="https://store.steampowered.com/app/3664820/Sandboxels/" class="button">Get on Steam (99¢)</a>
   <a href="https://news.r74n.com/" class="button">Free Newsletter</a>
   <a href="https://discord.gg/ejUc6YPQuS" class="button">Discord</a>
@@ -537,7 +494,7 @@ function setIcon(){
 
 <div id="allGalleries">
 
-<nav id="spotlightGallery" class="projectGallery">
+<nav id="spotlightGallery" class="projectGallery" aria-label="Spotlight">
   <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);" id="spotlight-sandboxels">Sandboxels<span>Falling-sand & chemistry simulator</span></a>
   <a href="cook/?test" style="background-image: url(cook/spotlight.jpg);">Infinite Chef <span>Ultimate kitchen simulator</span></a>
   <a href="gentown/" class="new update" style="background-image: url(gentown/spotlight.jpg);">GenTown <span>Civilization & planet simulator</span></a>

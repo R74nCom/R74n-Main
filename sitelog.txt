@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-04-30 - Homepage fixes and improvements
 2026-04-29 - Updated homepage: Optimized layout space usage, pixel font for News Flashes and links, "Main" section instead of "Spotlight", spotlight project descriptions on hover
 2026-04-29 - Experimental browser feature: Rue responses have beveled corners on the homepage
 2026-04-29 - Unit Converter spotlight button

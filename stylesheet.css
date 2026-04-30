@@ -16,6 +16,7 @@ body {
 @font-face {
 	font-family: 'VT323';
 	src: url('https://r74n.com/cook/fonts/VT323-Regular.ttf') format('truetype');
+	font-feature-settings: "liga" 0;
 }
 
 *:focus {
