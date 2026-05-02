@@ -384,14 +384,14 @@ function setIcon(){
       #spotlightGallery {
         justify-content: space-between;
       }
-      #underSpotlight {
+      .underSpotlight {
         height: 0;
         overflow: visible;
         text-align: right;
         position: relative;
         margin-bottom: 5px;
       }
-      #underSpotlight > button {
+      .underSpotlight > button {
         z-index: 100;
         position: absolute;
         right: 0;
@@ -440,6 +440,32 @@ function setIcon(){
         text-decoration-style: dotted;
         cursor: help;
       }
+
+      #newsFeed {
+        line-height: 25px;
+        /* height: 25px; */
+        /* overflow: hidden; */
+        /* margin-bottom: 1em; */
+        /* margin-left: 22px; */
+        /* margin-right: 22px; */
+        margin-bottom: 1em;
+        font-family: 'VT323';
+        position: relative;
+      }
+      #newsFeed .expand {
+        position: absolute;
+      }
+      #newsFeed article {
+        display: none;
+        text-align: justify;
+      }
+      #newsFeed article:first-of-type,
+      #newsFeed.expanded article {
+        display: block;
+      }
+      #underFeed {
+        display: none;
+      }
     </style>
     <script>
       function toggleSpotlight() {
@@ -457,6 +483,7 @@ function setIcon(){
         }
       }
     </script>
+
 </head>
 
 <body class="homepage">
@@ -512,7 +539,7 @@ function setIcon(){
 
 </div>
 
-<div id="underSpotlight">
+<div class="underSpotlight">
   <button id="toggleSpotlight" onclick="toggleSpotlight()" style="flex-shrink: 0; overflow-x:visible">Hide</button>
 </div>
 
@@ -588,6 +615,14 @@ function setIcon(){
     </details></li>
   </ul>
 </section>
+
+<!-- <section id="newsFeed">
+  <span>Loading feed...</span>
+</section>
+
+<div class="underSpotlight" id="underFeed">
+  <button id="expandFeed" onclick="toggleSpotlight()" style="flex-shrink: 0; overflow-x:visible">Hide</button>
+</div> -->
 
 <section class="homediv">
   <ul class="tree">
@@ -814,6 +849,31 @@ if (R74n.get("HideSpotlight") === "1") {
 }
 
 initRue();
+
+/*let newsFeed = document.getElementById("newsFeed");
+fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=did:plc:kig7dt37e6tjzxn2jyjourhl&limit=10&filter=posts_no_replies&includePins=false`)
+.then(response => response.json())
+.then(data => {
+  let blueskyPosts = data.feed;
+  if (!blueskyPosts) return;
+  newsFeed.innerHTML = "";
+  let underFeed = document.getElementById("underFeed");
+  underFeed.style.display = "block";
+
+  blueskyPosts.forEach(post => {
+    post = post.post;
+    let text = post.record.text;
+    let article = document.createElement("article");
+
+    article.innerText = text;
+
+    newsFeed.appendChild(article);
+  })
+})
+.catch(error => {
+  console.log("News Feed Error: "+error);
+  newsFeed.innerText = "Failed to load feed.";
+});*/
 </script>
 
 
