@@ -1179,16 +1179,17 @@ form .honeypot {
 		margin-bottom: 0;
 		line-height: 0.8;
 		font-size: 30px;
-		-webkit-hyphens: auto;
-		-moz-hyphens: auto;
+		/* -webkit-hyphens: auto; */
+		/* -moz-hyphens: auto;
 		-ms-hyphens: auto;
-		hyphens: auto;
+		hyphens: auto; */
 	}
 	.projectGallery > a:hover {
 		scale: 1.01;
 	}
 	.projectGallery > a.new::after {
-		opacity: 1
+		opacity: 1;
+		font-size: 24px;
 	}
 }
 .globalDialog .projectGallery {

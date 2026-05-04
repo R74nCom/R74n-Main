@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-05-02 - Added Bluesky feed to homepage
+2026-05-02 - Homepage mobile improvements
+2026-05-02 - Sandboxels links on homepage now go to Neal.fun
 2026-05-02 - Fixed Every Ant on Earth scrolling
 2026-04-30 - Homepage fixes and improvements
 2026-04-29 - Updated homepage: Optimized layout space usage, pixel font for News Flashes and links, "Main" section instead of "Spotlight", spotlight project descriptions on hover

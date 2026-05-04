@@ -115,7 +115,7 @@
 R74n.state.main = true;
 
 function newsFlash(text) {
-  if (urlParams.get("newsflash") === "no") return false;
+  if (["no","false"].includes(urlParams.get("newsflash"))) return false;
   document.getElementById("newsheader").innerHTML = text;
   document.getElementById("newsheader").style.display = "block";
   document.getElementById("newsheader").style.backgroundColor = "darkred";
@@ -301,9 +301,11 @@ function setIcon(){
       header.homepage #rueBox {
         max-width: none!important;
         width: unset!important;
+        height: 3em;
+        width: 300px;
       }
       @media only screen and (max-width: 600px) {
-        header.homepage #rueBox { height:66px; width: 60%!important; }
+        header.homepage #rueBox { height:66px; width: 70%!important; }
       }
       #rueBox > #rueBoxIn, #rueBoxIn > #rueInput, #rueBoxIn > #rueButton {
         border-top-left-radius: 0px!important;
@@ -337,6 +339,11 @@ function setIcon(){
       @media only screen and (min-width: 900px) {
         .content {
           margin: 1em 3em 1em 3em;
+        }
+      }
+      @media only screen and (max-width: 345px) { /*ULTRA NARROW SCREEN*/
+        .content {
+          margin: 0
         }
       }
       .content {
@@ -386,6 +393,7 @@ function setIcon(){
       }
       .underSpotlight {
         height: 0;
+        width: 100%;
         overflow: visible;
         text-align: right;
         position: relative;
@@ -396,6 +404,8 @@ function setIcon(){
         position: absolute;
         right: 0;
         transform: translateY(-12px);
+        flex-shrink: 0;
+        overflow-x: visible
       }
       .homediv summary {
         z-index: 90;
@@ -409,6 +419,15 @@ function setIcon(){
       @media only screen and (max-width: 700px) {
         #allGalleries {
           margin-bottom: 1.5em;
+        }
+        #newsFeed article {
+          text-align: left;
+        }
+        #newsFeed article:first-of-type {
+          padding-right: 1em;
+        }
+        #newsFeed.expanded article:first-of-type {
+          padding-right: unset;
         }
       }
       @media only screen and (max-width: 1050px) {
@@ -438,33 +457,64 @@ function setIcon(){
       #cpdSeason {
         text-decoration: underline;
         text-decoration-style: dotted;
+        text-underline-offset: 0.2em;
         cursor: help;
       }
 
       #newsFeed {
-        line-height: 25px;
-        /* height: 25px; */
-        /* overflow: hidden; */
+        width: 100%;
         /* margin-bottom: 1em; */
         /* margin-left: 22px; */
         /* margin-right: 22px; */
         margin-bottom: 1em;
         font-family: 'VT323';
         position: relative;
+        display: flex;
+        align-items: center;
+        border: 3px solid rgba(1, 118, 188, 0.75);
+        padding: 10px;
       }
-      #newsFeed .expand {
-        position: absolute;
+      #newsFeed .articles {
+        line-height: 25px;
+        height: 25px;
+        overflow: hidden;
+        flex-grow: 1;
+      }
+      #newsFeed.expanded .articles {
+        height: unset;
       }
       #newsFeed article {
         display: none;
         text-align: justify;
+        border-bottom: solid 2px #856f6f;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      #newsFeed article:first-of-type {
+        padding-top: 0;
+      }
+      #newsFeed article:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
       }
       #newsFeed article:first-of-type,
       #newsFeed.expanded article {
         display: block;
       }
-      #underFeed {
+      #newsFeed.loading .controls {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #newsFeed .controls button {
+        margin: 0;
+      }
+      #newsFeed.expanded .controls {
         display: none;
+      }
+      #newsFeed .iconimg {
+        height: 0.9em;
+        width: 0.9em;
+        margin-right: 10px;
       }
     </style>
     <script>
@@ -522,12 +572,12 @@ function setIcon(){
 <div id="allGalleries">
 
 <nav id="spotlightGallery" class="projectGallery" aria-label="Spotlight">
-  <a href="https://sandboxels.r74n.com/" style="background-image: url(sandboxels/spotlight.jpg);" id="spotlight-sandboxels">Sandboxels<span>Falling-sand & chemistry simulator</span></a>
+  <a href="https://neal.fun/sandboxels/" style="background-image: url(sandboxels/spotlight.jpg);" id="spotlight-sandboxels">Sandboxels<span>Falling-sand & chemistry simulator</span></a>
   <a href="cook/?test" style="background-image: url(cook/spotlight.jpg);">Infinite Chef <span>Ultimate kitchen simulator</span></a>
   <a href="gentown/" class="new update" style="background-image: url(gentown/spotlight.jpg);">GenTown <span>Civilization & planet simulator</span></a>
 
   <a href="mini/protocog" class="new" style="background-image: url(mini/spotlight-protocog.png);">ProtoCog <span>Teach a thing to talk</span></a>
-  <a href="mini/cost" style="background-image: url(mini/spotlight-cost.png);">Cost<wbr>of<wbr>livingdle <span>Guess everyday expenses</span></a>
+  <a href="mini/cost" style="background-image: url(mini/spotlight-cost.png);">Cost&shy;of&shy;livingdle <span>Guess everyday expenses</span></a>
   <a href="mini/handwriting" style="background-image: url(mini/spotlight-handwriting.png);">Handwriting Personality <span>Fun writing quiz</span></a>
   <a href="mini/ragebait" style="background-image: url(mini/spotlight-ragebait.png);">RageBait Simulator <span>Make a streamer angry</span></a>
   <a href="mini/odds" style="background-image: url(mini/spotlight-odds.gif);">What Are The Odds? <span>Explore decreasing probabilities</span></a>
@@ -540,7 +590,7 @@ function setIcon(){
 </div>
 
 <div class="underSpotlight">
-  <button id="toggleSpotlight" onclick="toggleSpotlight()" style="flex-shrink: 0; overflow-x:visible">Hide</button>
+  <button id="toggleSpotlight" onclick="toggleSpotlight()">Hide</button>
 </div>
 
 <!-- <div class="homefundivtop"></div> -->
@@ -573,7 +623,7 @@ function setIcon(){
   <ul class="tree">
     <li><details open>
       <summary>Main</summary><ul>
-        <li><a href="https://sandboxels.r74n.com/"><em>Sandboxels</em> Intricate falling-sand simulator</a></li>
+        <li><a href="https://neal.fun/sandboxels/"><em>Sandboxels</em> Intricate falling-sand simulator</a></li>
         <li><a href="cook/"><em>Infinite Chef</em> Ultimate virtual kitchen simulator</a></li>
         <li><a href="gentown/"><em>GenTown</em> Influence civilization in this planet simulator</a></li>
         <li><a href="https://c.r74n.com/"><em>Copy Paste Dump</em> Copy and paste everything this <span id="cpdSeason" title="Tap to change hemisphere">year</span></a></li>
@@ -616,13 +666,14 @@ function setIcon(){
   </ul>
 </section>
 
-<!-- <section id="newsFeed">
-  <span>Loading feed...</span>
+<section id="newsFeed" class="loading">
+  <div class="articles">
+    <span>Loading feed...</span>
+  </div>
+  <div class="controls">
+    <button id="expandFeed">Expand</button>
+  </div>
 </section>
-
-<div class="underSpotlight" id="underFeed">
-  <button id="expandFeed" onclick="toggleSpotlight()" style="flex-shrink: 0; overflow-x:visible">Hide</button>
-</div> -->
 
 <section class="homediv">
   <ul class="tree">
@@ -850,30 +901,70 @@ if (R74n.get("HideSpotlight") === "1") {
 
 initRue();
 
-/*let newsFeed = document.getElementById("newsFeed");
-fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=did:plc:kig7dt37e6tjzxn2jyjourhl&limit=10&filter=posts_no_replies&includePins=false`)
+let newsFeed = document.getElementById("newsFeed");
+if (["no","false"].includes(urlParams.get("feed"))) newsFeed.style.display = "none";
+else fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=did:plc:kig7dt37e6tjzxn2jyjourhl&limit=10&filter=posts_no_replies&includePins=false`)
 .then(response => response.json())
 .then(data => {
+  let articles = newsFeed.querySelector(".articles");
   let blueskyPosts = data.feed;
   if (!blueskyPosts) return;
-  newsFeed.innerHTML = "";
-  let underFeed = document.getElementById("underFeed");
-  underFeed.style.display = "block";
+  articles.innerHTML = "";
+  newsFeed.classList.remove("loading");
+  let expandButton = document.getElementById("expandFeed");
+  expandButton.addEventListener("click", () => {
+    if (newsFeed.classList.contains("expanded")) {
+      newsFeed.classList.remove("expanded");
+      expandButton.innerText = "Expand";
+    }
+    else {
+      newsFeed.classList.add("expanded");
+      expandButton.innerText = "Collapse";
+    }
+  })
 
   blueskyPosts.forEach(post => {
     post = post.post;
     let text = post.record.text;
+    if (post.author.handle !== "r74n.com") return;
+    let id = post.uri.match(/\w+$/g)[0];
+    let date = new Date(post.record.createdAt);
+    let diff = (today.getTime() - date.getTime()) / (24*60*60*1000);
+    let dateText;
+    if (diff < 1) {
+      if (today.getDate() === date.getDate()) dateText = "today";
+      else dateText = "yesterday";
+    }
+    else if (diff < 2) dateText = "yesterday";
+    else dateText = Math.round(diff) + "d";
     let article = document.createElement("article");
 
     article.innerText = text;
+    if (!text) {
+      if (post.record.embed) {
+        if (post.record.embed.video) text = "R74n posted a new video.";
+        if (post.record.embed.images) text = "R74n posted a new image.";
+      }
+      if (!text) return;
+      article.innerText = text;
+    };
 
-    newsFeed.appendChild(article);
+    article.insertAdjacentHTML("afterbegin", `<a href="https://bsky.app/profile/r74n.com/post/${id}" target="_blank" style="margin-right:0.15em">↗</a> `);
+
+    if (post.record.embed && !text.match(/video|image|photo/)) {
+      if (post.record.embed.video) article.insertAdjacentText("beforeend", " [video]");
+      if (post.record.embed.images) article.insertAdjacentText("beforeend", ` [image${post.record.embed.images.length > 1 ? "s" : ""}]`);
+    }
+    article.insertAdjacentHTML("beforeend", `<span style="opacity:0.5; padding-left:0.5em; font-style:italic;">${dateText}</span>`);
+
+    articles.appendChild(article);
   })
 })
 .catch(error => {
   console.log("News Feed Error: "+error);
   newsFeed.innerText = "Failed to load feed.";
-});*/
+});
+
 </script>
 
 
