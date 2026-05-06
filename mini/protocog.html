@@ -75,6 +75,10 @@
         position: relative;
         background-color: rgb(7, 7, 7);
       }
+      .rig #panelMain {
+        padding: 0px 20px 100px 20px;
+        max-height: calc(100% - 100px);
+      }
 
       @keyframes hitmarkerRise {
         from {
@@ -860,6 +864,9 @@
       response = response.map(id => vocab(id)?.t).join(" ") || "...";
     }
     response = swapPronouns(response);
+    if (rigQueue.length) {
+      response = rigQueue.shift();
+    }
     reportGains();
     saveProtocog(protocog);
 
@@ -931,7 +938,6 @@
     let replacements = {};
     let key = 0;
 
-    console.log(text)
     for (let i = 0; i < pronounSwaps_all.length; i++) {
       const pair = pronounSwaps_all[i];
       if (pair[0].indexOf(" ") !== -1) {
@@ -1152,6 +1158,17 @@
     }, 1500);
   }
   let systemQueue = [];
+  let rigQueue = [];
+  function rig(messages, autostart=false) {
+    if (messages) {
+      rigQueue = messages;
+      if (autostart) {
+        panelMain.querySelectorAll(".message.other").forEach(e => e.remove());
+        getResponse();
+      }
+    }
+    SPA.main.classList.add("rig");
+  }
   function checkState() {
     if (protocog.state === undefined) protocog.state = {};
     if (statGet("sent") === 0 && !protocog.state[0]) {

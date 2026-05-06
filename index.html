@@ -952,8 +952,9 @@ else fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=d
     article.insertAdjacentHTML("afterbegin", `<a href="https://bsky.app/profile/r74n.com/post/${id}" target="_blank" style="margin-right:0.15em">↗</a> `);
 
     if (post.record.embed && !text.match(/video|image|photo/)) {
-      if (post.record.embed.video) article.insertAdjacentText("beforeend", " [video]");
-      if (post.record.embed.images) article.insertAdjacentText("beforeend", ` [image${post.record.embed.images.length > 1 ? "s" : ""}]`);
+      if (post.record.embed.media && post.record.embed.media.presentation === "gif") article.insertAdjacentText("beforeend", " [GIF]");
+      else if (post.record.embed.video) article.insertAdjacentText("beforeend", " [video]");
+      else if (post.record.embed.images) article.insertAdjacentText("beforeend", ` [image${post.record.embed.images.length > 1 ? "s" : ""}]`);
     }
     article.insertAdjacentHTML("beforeend", `<span style="opacity:0.5; padding-left:0.5em; font-style:italic;">${dateText}</span>`);
 
