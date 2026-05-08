@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-05-07 - Homepage Bluesky feed can use media alt text
+2026-05-07 - Cleaned up CSS to make way for dynamic themes
 2026-05-02 - Added Bluesky feed to homepage
 2026-05-02 - Homepage mobile improvements
 2026-05-02 - Sandboxels links on homepage now go to Neal.fun

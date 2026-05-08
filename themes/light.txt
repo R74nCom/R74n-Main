@@ -1,0 +1,42 @@
+:root {
+/*
+  --(t)heme
+	(o)verlay
+	(h)over
+	(a)ctive
+	(l)ight
+	(d)ark
+*/
+	--t-scheme: light;
+	--t-back: rgb(223, 223, 223); /*#000d15*/
+	--t-back-l: rgb(212, 212, 212);
+	--t-back-readable: transparent;
+	--t-text: rgb(20, 20, 20);
+	--t-text-d: rgb(53, 53, 53);
+	--t-brand: rgb(0, 255, 255);
+	--t-brand-filter: brightness(0.5);
+	--t-brand-o: rgb(0, 0, 0);
+	--t-brand-l: rgba(0,255,255,0.75);
+	--t-brand-d: rgba(0,255,255,0.5);
+	--t-link: rgb(69, 55, 255);
+	--t-link-h: rgb(95, 74, 255);
+	--t-link-a: rgb(227, 114, 255);
+	--t-input: rgb(165, 165, 165);
+	--t-input-good: rgb(59, 111, 59);
+	--t-input-bad: rgb(111, 59, 59);
+	--t-input-placeholder: rgb(161, 161, 161);
+	--t-border-l: rgba(255,255,255,0.4);
+	--t-border-d: rgba(255,255,255,0.25);
+	--t-border-opaque-l: rgb(121, 121, 121);
+	--t-border-opaque-d: rgb(87, 87, 87);
+	--t-deco: rgb(66, 141, 0);
+	--t-deco-l: rgb(83, 177, 0);
+	--t-defunct: rgb(255, 70, 70);
+	--t-dull: rgb(127, 127, 127);
+	--t-semi: rgb(255, 255, 90);
+	--t-heading: rgb(66, 0, 90);
+	--t-heading-d: rgba(97, 0, 110, 0.75);
+	--t-news: rgb(255, 70, 70);
+	--t-news-l: rgb(255, 127, 127);
+	--t-alert-back: darkred;
+}

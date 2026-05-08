@@ -95,3 +95,9 @@ function highlightHash() {
   }
   window.addEventListener("hashchange", highlightHash, false);
   window.onload = function(){location.hash=location.hash;highlightHash()}
+
+document.head.insertAdjacentHTML("beforeend", `<style>.wordsep {color:rgb(85, 85, 85); color:var(--t-input)}
+.wordcom {opacity:0.8;}
+.worddef {opacity:0.8; font-style:italic;}
+.wordlist {white-space:pre-wrap; margin-left:10px; margin-left:40px;}
+.wordline {margin-left: -20px; text-indent: 10px;}</style>`)

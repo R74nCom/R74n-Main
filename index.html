@@ -367,9 +367,14 @@ function setIcon(){
       }
       #splashheader {
         margin-bottom: 0.75em;
+        text-align: center;
       }
       .projectheader {
         margin-bottom: 0.8em;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
       }
       .projectheader > * {
         margin-left: 0.2em;
@@ -942,8 +947,10 @@ else fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=d
     article.innerText = text;
     if (!text) {
       if (post.record.embed) {
-        if (post.record.embed.video) text = "R74n posted a new video.";
-        if (post.record.embed.images) text = "R74n posted a new image.";
+        let alt = post.record.embed.alt;
+        if (post.record.embed.media && post.record.embed.media.presentation === "gif") text = !alt ? "R74n posted a new GIF." : "GIF: "+alt;
+        else if (post.record.embed.video) text = !alt ? "R74n posted a new video." : "Video: "+alt;
+        else if (post.record.embed.images) text = !alt ? "R74n posted a new image." : "Image:"+alt;
       }
       if (!text) return;
       article.innerText = text;
@@ -951,7 +958,7 @@ else fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=d
 
     article.insertAdjacentHTML("afterbegin", `<a href="https://bsky.app/profile/r74n.com/post/${id}" target="_blank" style="margin-right:0.15em">↗</a> `);
 
-    if (post.record.embed && !text.match(/video|image|photo/)) {
+    if (post.record.embed && !text.match(/video|image|photo/i)) {
       if (post.record.embed.media && post.record.embed.media.presentation === "gif") article.insertAdjacentText("beforeend", " [GIF]");
       else if (post.record.embed.video) article.insertAdjacentText("beforeend", " [video]");
       else if (post.record.embed.images) article.insertAdjacentText("beforeend", ` [image${post.record.embed.images.length > 1 ? "s" : ""}]`);
