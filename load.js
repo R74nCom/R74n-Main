@@ -672,10 +672,10 @@ R74n.projects = [
 		release: "2026-03-18"
 	},
 	{
-		name: "Costoflivingdle",
-		url: "mini/cost",
-		image: "mini/spotlight-cost.png",
-		release: "2026-02-24"
+		name: "RageBait Simulator",
+		url: "mini/ragebait",
+		image: "mini/spotlight-ragebait.png",
+		release: "2026-02-17"
 	},
 	{
 		name: "Handwriting Personality",
@@ -684,10 +684,10 @@ R74n.projects = [
 		release: "2026-01-16"
 	},
 	{
-		name: "RageBait Simulator",
-		url: "mini/ragebait",
-		image: "mini/spotlight-ragebait.png",
-		release: "2026-02-17"
+		name: "Costoflivingdle",
+		url: "mini/cost",
+		image: "mini/spotlight-cost.png",
+		release: "2026-02-24"
 	},
 	{
 		name: "What Are The Odds?",
