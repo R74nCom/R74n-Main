@@ -81,6 +81,16 @@ window.SPA = {
 		if (infoButton) {
 			infoButton.addEventListener("click", SPA.info);
 		}
+		let muteButton = document.querySelector(".spa > header .mute");
+		if (muteButton) {
+			muteButton.addEventListener("click", () => {
+				let src = muteButton.getAttribute("src");
+				let other = muteButton.getAttribute("src-other");
+				muteButton.setAttribute("src", other);
+				muteButton.setAttribute("src-other", src);
+				SPA.muted = !SPA.muted;
+			});
+		}
 		let infoX = document.querySelector(".spa #globalDialog-info");
 		if (infoX) {
 			infoX.addEventListener("click", () => {
@@ -131,7 +141,7 @@ window.SPA = {
 			if (!SPA._paths) SPA.snap(SPA._page + 1);
 		},
 		"ArrowUp": (e) => {
-			if (!SPA.pages.length) return;
+			if (!SPA.pages.length) return false;
 			let btn = SPA.main.querySelector('.page[data-current="true"] .up');
 			if (btn) {
 				btn.click();

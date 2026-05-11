@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-05-10 - Rearranged some spotlight buttons
 2026-05-07 - Homepage Bluesky feed can use media alt text
 2026-05-07 - Cleaned up CSS to make way for dynamic themes
 2026-05-02 - Added Bluesky feed to homepage
