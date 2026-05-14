@@ -1,1 +1,10 @@
 Sitemap: https://r74n.com/sitemap.txt
+
+User-agent: Googlebot
+Allow: /
+
+User-Agent: Verity/1.1 (https://gumgum.com/verity; verity-support@gumgum.com)
+Allow: /
+
+User-agent: AmazonAdBot
+Allow: /
