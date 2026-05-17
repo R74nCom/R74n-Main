@@ -1,0 +1,779 @@
+[Version 1.4.1  - May 8, 2025 - Infinite Share]
+     + When sharing a dish, the ingredients are embedded in the URL
+     + Players that open the URL will be presented with your ingredients
+     + Pondiverse support
+
+[Version 1.4  - February 7, 2025 - Infinite Drink]
+     + Cup Mode
+     + Meat and more can be fried with Oil and heat
+     + Mixable Dye ingredients
+    [Ingredients]
+     + Acid (Hidden)
+     + Ackee
+     + Air
+     + American Cheese
+     + Blue Dye
+     + Breadfruit
+     + Cheese Wheel
+     + Chicken Nugget
+     + Corn Syrup
+     + Cupcake Wrapper
+     + Frog Leg
+     + Gingerbread Man
+     + Green Dye
+     + Indigo Dye
+     + Jackfruit
+     + Liquors (Rum, Whiskey)
+     + Maggot
+     + Meatball
+     + Mochi
+     + Straw
+     + Yellow Dye
+     + Yellow Tomato
+    [Recipes]
+     + Banana Pudding
+     + Bloody Mary (Cocktail)
+     + Casu Marzu
+     + Cupcake
+     + Dango
+     + Diet Soda
+     + Focaccia
+     + Poutine
+    [Silly Recipes]
+     + Pou
+     + Charlie the Steak
+     + Gadagadigadagado
+     + Bill Cipher
+     + Cheese Orb (BFDI)
+     + Orange Joe (Omori)
+     + Krabby Patty
+     ~ Yoyleberries turn Dolls into metal
+    [Changes]
+     + Notification below game for new updates
+     + Version number below page
+     + Gallium now gives "Metallic" adjective
+     ~ Placed ingredients can hold adjectives on their own
+     + Special 'Unknown' ingredient
+     + Color adjectives are mixed in dish name
+     ~ Tweaked Dye behavior
+     + Fries can be made by heating Potatoes in Oil
+     + Sakura Petals can be shredded
+     + Mushrooms blend into powder
+     ~ Worms are placed in random rotation
+     ~ Lychee Juice is white
+     ~ Strawberries are smaller
+    [Bug Fixes]
+     ~ Fixed: Ingredients can be easily flung with Tongs on mobile
+     ~ Fixed: Invalid ingredients crash the game
+     ~ Fixed: Sandwiches cannot be made
+     ~ Fixed: Batter can make Omelettes
+     ~ Fixed: Sand from broken Boulders is gray
+     ~ Fixed: Vanilla doesn't give adjective
+     ~ Fixed: Pizza can be made with Taco Shells
+     ~ Fixed: Cheese Sauce makes Lasagna instead of Mac & Cheese
+     ~ Fixed: View hitbox is sometimes not applied
+
+[Version 1.3.1 - October 11, 2024 - Halloween Special]
+    [Halloween]
+     + Pumpkin Pot during October
+    [Bug Fixes]
+     ~ Fixed: Blending Potato Chips crashes the game
+
+[Version 1.3 - June 30, 2024]
+    + Served dish name can be edited by double clicking
+    + Ingredient rotation keybinds (; and ')
+   [Ingredients]
+    + Skewer
+    + Almond Milk
+    + Apple Juice
+    + Baking Powder
+    + Beef Tongue
+    + Broccolini
+    + Bubblegum
+    + Buttermilk
+    + Cloudberry
+    + Corn Chip
+    + Cornstarch
+    + Crouton
+    + Dark Chocolate
+    + Eel
+    + Feta
+    + Fish Roe
+    + French Fry
+    + Granola
+    + Ground Almond
+    + Gumball
+    + Gumdrop
+    + Gummy Worm
+    + Mangosteen
+    + Plant Patty
+    + Potato Chip
+    + Pretzel
+    + Rice Flour
+    + Rice Noodles
+    + Rose Apple
+    + Tapioca Pearl
+    + Truffle
+    + Vanilla Extract
+    + Worcestershire Sauce
+    + Yeast
+    + Bug Juice, from blending bugs
+   [Recipes]
+    + Boba / Milk Tea
+    + Borscht
+    + Caviar
+    + Fettuccine Alfredo
+    + Fish and Chips
+    + Fried Fish
+    + Kebab, Lollipop, Cake Pop, and Popsicle
+    + Laksa
+    + Latte
+    + Mud Pie
+    + Nachos
+    + Pho
+    + Ramen
+    + Root Beer Float
+    + Slushie
+    + Many fun Easter egg recipes
+   [Changes]
+    + Bacteria can boil away
+    + Bacteria can ferment Juice
+    + Ice Cube will lower the temperature of the bowl
+    + Knife ingredient blends anything it touches
+    + Many search aliases
+    + Marshmallow changes color when roasted
+    + Sakura Petal is randomly rotated
+    ~ Adjusted Flatbread hitbox
+    ~ Baguette is larger
+    ~ Brussels Sprout is smaller
+    ~ Dashes are ignored when searching
+    ~ Googly Eye has larger hitbox
+    ~ Marshmallow has a flatter shape in Stack Mode
+    ~ Random places a different ingredient each time
+    ~ Updated Cream Cheese shape
+   [Bug Fixes]
+    ~ Fixed: Apostrophe variants can't be used to search
+    ~ Fixed: Blended ingredients airborne by Tongs appear in dish name
+    ~ Fixed: Cheese and Cabbage makes Sauerkraut
+    ~ Fixed: Cheeseburger with Sauce considered Pizza
+    ~ Fixed: Darkening Melted Butter when thrown out with Tongs
+    ~ Fixed: Donuts can make Sandwiches
+    ~ Fixed: Ghost liquid when mixing powders and liquids
+    ~ Fixed: Juice can make Salad
+    ~ Fixed: Recipe modifiers (=) don't work when view is required
+    ~ Fixed: Some melted liquids couldn't be grabbed by Tongs
+    ~ Fixed: View changes when pressing arrow keys while searching
+    ~ Fixed: Whipped Butter doesn't place with correct shape
+    ~ Fixed: "Pizza Pepproni" and similar misordered names
+    ~ Fixed: "Pizza Sandwich"
+    ~ Fixed: "Snow Waffle Cone"
+   [Technical]
+    + Ingredient 'onCollide' event
+    + Ingredient 'props' property
+    + currentIngredientProps object, applied on placement
+
+[Version 1.2 - May 28, 2024 - Infinite Tongs]
+    + Tongs tool
+        + Grab food, even throw it!
+        + Move ingredients between views by dragging over buttons
+        + Pick up liquids from pot
+    + Whisk tool
+        + Mix ingredients around
+        + Whip Cream and Butter
+    + So many ingredient requests!
+    + Liquids in pot can be removed or picked
+    + Temperature unit setting
+    ~ Temperature controls are exponential
+   [Ingredients]
+    + Anchovy
+    + Bacteria
+    + Bagel
+    + Balut
+    + Brownie
+    + Buddha's Hand
+    + Butterscotch
+    + Calf Brain
+    + Cheese Sauce
+    + Cheeseball
+    + Chicken Foot
+    + Chocolate Chip
+    + Chocolate Cup
+    + Citron
+    + Cocoa Bean
+    + Donut
+    + Enoki
+    + Googly Eye
+    + Graham Cracker
+    + Hoisin Sauce
+    + Huckleberry
+    + Hummus
+    + Insect
+    + Jelly
+    + Jelly Bean
+    + Lime Juice
+    + Mandarin Orange
+    + Margarine
+    + Marmalade
+    + Oat
+    + Oat Seed
+    + Pancake
+    + Peppermint
+    + Root Beer
+    + Rye
+    + Sardine
+    + Soy Milk
+    + Spam
+    + Spider
+    + Sweet and Sour
+    + Tangerine
+    + Tofu
+    + Top Hat
+    + Ube
+    + Vodka
+    + Waffle
+    + Whipped Butter
+    + Whipped Cream
+    + Worm
+    + Yoyleberry
+    + Many secret ingredients
+   [Recipes]
+    + Cheese from Milk
+    + Ice Cream from freezing Cream
+    + Angel Milk
+    + California Roll
+    + Cheese Platter
+    + Cheesecake
+    + Fairy Bread
+    + Fondue
+    + Mushroom Stew
+    + Oatmeal
+    + Shepherd's Pie
+    + Snow Cone
+    + Many more unique recipes
+    + Many fun/joke recipes
+   [Changes]
+    + Beef is named Steak when cooked
+    + Bread is named Toast when cooked
+    + Butter and Fat can be spread with Blend tool
+    + Cake can break into crumbs
+    + Corn Flakes are randomly rotated
+    + Pineapples are bigger
+    + Vinegar and Baking Soda reaction
+    ~ All Thick Liquids now dissolve
+    ~ Beans, Rice, Chocolate, Pork, Poultry have flatter shape in Stack Mode
+    ~ Black Pepper now gives "Peppered" adjective
+    ~ Butter is now a rectangle
+    ~ Candy is smaller
+    ~ Dissolvables change color when placed prior to liquid
+    ~ Improved Artichoke shape
+    ~ Liquids no longer change shape when changing in Stack Mode
+    ~ Shellfish is hidden
+    ~ Tweaked search slightly
+    ~ Updated Crayfish shape
+    ~ Renamed Red Dye to Red 40
+   [Bug Fixes]
+    ~ Fixed: Blank ingredients (Oil) cause adjective-only dishes (i.e. Soggy)
+    ~ Fixed: Some ingredients (i.e. Utensil) create a blank dish name when alone
+    ~ Fixed: Yolk from Ostrich Egg floats mid-air when broken from dropping
+    ~ Fixed: Egg variants blend into colored Yolk
+    ~ Fixed: Changing back to Bowl Mode doesn't reset food scale
+    ~ Fixed: Heating certain ingredients cause them to fall through plate
+    ~ Fixed: Bowl liquid is still solid after re-melting
+    ~ Fixed: Wet Chili Powder turns Water black
+    ~ Fixed: "Milk Cereal"
+    ~ Fixed: "Cherries Juice"
+    ~ Fixed: "Black Rice Brown" (Last words are now prioritized)
+    ~ Fixed: Bun hitbox too big in Stack Mode
+    ~ Fixed: Asparagus, Celery, and Sugar Cane hitboxes too big
+    ~ Fixed: Ground Meat doesn't use flatter shape in Stack Mode
+    ~ Fixed: Cheese Powder doesn't retain color when melting
+    ~ Fixed: Modded recipes don't work if added with console
+    ~ Fixed: Eggnog can't be made
+   [Technical]
+    + Ingredient 'onLand' property
+    + Ingredient 'cookName' property
+    + Ingredient 'whipped' property for Whisk tool
+    + Ingredient 'movable' property (default true)
+    + Ingredient 'temp' property to add heat when landed
+    + Tools support 'color' property (hex)
+    + Tool functions can target liquids in pot
+    + Tool 'onMouseUp' event
+    + Tool 'sway' property (true/false)
+    + Tool 'offsetX' and 'offsetY' properties (0-1)
+    + Tool 'hidden' property (true/false)
+    + Reaction 'shape1' and 'shape2' properties
+    + Reaction 'color1' and 'color2' properties (hex)
+
+[Version 1.1 - May 1, 2024 - Infinite Possibility]
+    + Mod support
+        + More info: https://R74ncom.github.io/InfiniteChef-Mods/
+    + Chicken Patty
+    + Blue Lobster
+    ~ Updated Lobster sprite
+    + Pepper X
+    + Cake ingredient
+    + Candy
+    + Hard-Boiled Egg
+    + Brown and Black Rice
+    + Rambutan
+    + Pandan Extract
+    + Citric Acid
+    + Quince
+    + Bouillon Cube
+    + Solidified liquids become opaque in the pot
+    + Oil can be searched as "Cooking Oil"
+    ~ Default Utensil now points downwards
+    ~ Reactions now require contact in Stack Mode
+    ~ Eggplants blend into proper color
+    ~ Improved "Juice" dish naming
+    + Settings menu, only used for mods right now
+   [Recipes]
+    + Le Fishe Au Chocolate
+    + Many joke recipes and improvements
+   [Bug Fixes]
+    ~ Fixed: Liquids can't freeze in the pot
+    ~ Fixed: Blending can cause floating Juice in Stack Mode
+    ~ Fixed: PB (Peanut Butter) isn't capitalized
+   [Technical]
+    + Example mod: https://R74n.com/cook/example_mod.js
+    + Many new modding abilities:
+    + onDeselect, onPlace, and onMouseDown ingredient events
+    + 'desc' ingredient property
+    + addRecipe(recipe, result) function
+    + addTool(name, data) function
+    + onSelect, whileOn, onDeselect, and onClick tool events
+    + Names can retain capitalization like =THIS=
+
+[Version 1.0 - April 27, 2024 - Official Release]
+    + Azuki Bean can be searched as "Adzuki" and "Red Bean"
+    ~ Squid Ink no longer deletes on landing
+    ~ Sandwiches can only be made in Stack Mode
+    ~ Fixed: Tacos can't be made with Cheese
+    ~ Fixed: Sweetened Water boils into Caramel
+    ~ Fixed: Ground Fish is blue
+    ~ Fixed: Corn hitbox is too big
+
+[Pre-release 0.26 - April 26, 2024 - Infinite Prep]
+    + Seaweed
+    + Flatbread
+    + Swiss, Parmesan, and Cheddar Cheese
+    + Chili Sauce
+    + Salsa
+    + Pesto
+    + Meat Sauce
+    + Roux
+    + Gravy
+    + Miso
+    + Squid Ink
+    + Ranch Dressing
+    + Jam
+    + Maple Syrup
+    + Icing / Frosting
+    + Chocolate Icing
+    + Buttercream
+    + Caramel
+    + Sprinkles
+    + Sour Cream
+    + Wine
+    + Saké
+    + Beer
+    + Pine Nut
+    + Ginseng
+    + Frozen Yogurt
+    + Orange Juice
+    + Coconut Milk
+    + Matcha Powder
+    + Barley
+    + Sunflower Seed
+    + Baguette
+    + Ham
+    + Ostrich Egg
+    + Quail Egg
+    + Blue Crab
+    + White Chocolate
+    + Bone and Gelatin
+    + Marshmallow and Fluff
+    + Corn Flake
+    + Cracker
+    + Taco Shell
+    + Chocolate Wafer
+    + Waffle Cone
+    + Recipes for Sushi, Stew, Chili, Curry, Chowder, Sandwich, Cheesesteak, Grilled Cheese, Hotdog, Omelette, Ganache, Sundae, Custard, Coleslaw, and more
+    + Tea can now be brewed with any Herb and heat
+    + Broth can be made from boiling Vegetables in Water or Wine
+    + Tomato Sauce can be searched as "Marinara"
+    + Chocolate Milk can be searched as "Choccy Milk"
+    + Yogurt can be searched as spelling variants
+    + Corn can be blended into Flour
+    ~ Wheat no longer turns to Flour when dropped
+    ~ Rice now places as correct shape
+    ~ Rice can be blended into Flour
+    ~ Honey now dissolves in liquid
+    ~ Some Eggs spawn brown
+    ~ Updated Cookie and Bread shape in Stack Mode
+    ~ Share Buttons have been enabled
+    ~ Pinned Fish
+    ~ Dish name generator improvements
+    ~ Fixed: Blended powders can sometimes stay mid-air
+    ~ Fixed: Searching parent types doesn't show unhidden subtypes
+    ~ Fixed: Lemon Juice isn't classed as Fruit Juice
+    ~ Fixed: Game sometimes freezes when serving
+    ~ Fixed: Ingredients keep translucency when changing
+
+[Pre-release 0.25 - April 24, 2024 - Infinite Variety]
+    + Soy Sauce
+    + Olive and Olive Oil
+    + Salami
+    + Pepperoni
+    + Portabella, Shiitake, and White Button Mushrooms
+    + Herring
+    + Ghost Pepper
+    + Sakura (Decor)
+    + "Random" ingredient
+    + Nothing Burger recipe
+    + Any meat can be used in a burger
+    ~ Serve popup now takes up more space on mobile
+    ~ Dish name generator improvements
+    ~ Salads can only be made in Bowl Mode
+    ~ Alcohol has lower dish name priority
+    ~ Ingredients support randomized shapes
+    ~ Hidden ingredients appear in search if you search their parent type
+    ~ Fixed: Salad can be made from Juices
+
+[Pre-release 0.24 - April 23, 2024 - Infinite Blend II]
+    + Many ground/blended versions of ingredients
+    + Peanut Butter
+    + Cookie and Cookie Butter
+    + Shaved Ice
+    + Pumpkin Seed and Mash
+    + Guacamole
+    + Mashed Potato
+    + Kohlrabi
+    + Bamboo Shoot
+    + Blue Corn
+    + Purple Potato
+    + Himalayan Salt
+    + Cream Cheese
+    + Honey
+    + Goose Meat
+    + Pork Liver
+    ~ Herbs will all place as powders in Stack Mode
+    ~ Dish name generator improvements
+    ~ Fixed: Liquids disappear when frozen
+
+[Pre-release 0.23 - April 22, 2024 - Infinite Stack II]
+    + Breadcrumbs
+    + Bacon
+    + Snail
+    + Octopus
+    + Crayfish
+    + Shellfish type
+    ~ Many improvements with Stack Mode
+    ~ Some ingredients (i.e. Cheese, Powders) now have a special shape in Stack Mode
+    ~ Dish name generator improvements
+    ~ Mobile improvements for Blend tool
+    + Right click to deselect tool
+    + Middle click to select placed ingredient
+    ~ Fixed: Ingredient cursor is shown when serving dish
+    ~ Fixed: Cheese Powder hitbox is too large
+    ~ Fixed: Some ingredients disappear when melting in Stack Mode
+    ~ Fixed: Ingredients stay mid-air when others melt below
+
+[Pre-release 0.22 - April 21, 2024 - Infinite Stack]
+    + Stack mode (Work in progress)
+    + Coffee, Coffee Ground, and Coffee Bean
+    + Tea and Tea Leaf
+    + Cassava
+    + Sorghum
+    + Recipes for Eggnog and Milkshake
+    ~ Powders and thick liquids (sauces) can stack up
+    ~ Deleting now prioritizes ingredients in front
+    ~ Broth can now boil away
+    ~ Improved reaction colors (i.e. Lemonade, Soup)
+    ~ Fixed: Some ingredients turn black when blended
+    ~ Fixed: Ingredients don't use their outer color when blended into liquid
+
+[Pre-release 0.21 - April 19, 2024 - Infinite Blend]
+    + Blend tool (Work in progress)
+    + Right click to remove ingredients
+    ~ Redesigned bowl, now a pot
+    ~ Fixed: Ingredients don't simmer if heat is off
+
+[Pre-release 0.20 - April 18, 2024 - Infinite Meat]
+    + Many meats
+    + Many herbs
+    + Many spices
+    + Almond
+    + Blue Raspberry
+    + Seltzer
+    + Soda
+    + Baking Soda
+    + Alcohol
+    + Pickle
+    + Brown Sugar
+    + Molasses
+    + Sugar Beet
+    + Sugar Cane
+    + Pilk recipe
+    ~ Improved temperature controls
+        ~ Dish returns to room temperature much slower
+        ~ Temperature shows always if far from room temperature
+        ~ Temperature moves rapidly if opposite control is on
+    ~ Oil no longer appears in dish names
+    ~ Pinned Milk and Butter
+    ~ Ingredients can now melt, boil, and freeze into randomized states
+    ~ Dish name generator improvements
+    ~ Fixed: For example, Dragonfruit + Durian makes Dragonfruit Salad, ignoring Durian
+    ~ Fixed: Uncracked Eggs don't appear in dish names
+    ~ Fixed: Lemon Water and Juice don't boil
+
+[Pre-release 0.19 - April 16, 2024 - Infinite Veggies]
+    + Many vegetables
+    + Many beans
+    + Many nuts
+    + Vinegar
+    + Hot Sauce
+    + Wasabi
+    + Paprika
+    + Cream
+    + Grease
+    + Popcorn
+        + Corn will pop at over 180°C
+    + Salad and Fruit Salad recipes
+    + Blue Cheese can be searched as "Bleu Cheese"
+    ~ Updated sprites for Durian, Dragonfruit, Root Vegetable, and Herb
+    ~ Placed thick liquids (i.e. Ketchup) have a special shape when landed
+    ~ Cursor ingredient preview now shows placed shape
+    ~ Reduced spawn rate of gas when boiling
+    ~ Reduced bounciness of gases
+    + Dissolvables (i.e. Salt) will dissolve if liquid is placed after
+    ~ Tomato Sauce now fills the bowl
+    ~ Liquids and Gases no longer rotate
+    ~ Ice Cream melts into Cream
+    ~ Fat melts into Grease
+    ~ Tweaked Carrot hitbox
+    ~ Dish name generator improvements
+    ~ Shared messages are randomized (Still locked)
+    ~ Placed ingredients can change shape (i.e. when they land)
+    ~ Fixed: Tapping on canvas doesn't close search on mobile
+
+[Pre-release 0.18 - April 11, 2024 - Infinite Fruit]
+    + Many fruits
+    + Tomato (Vegetable)
+        ~ Infinite Chef will use culinary definitions as a cooking game
+    + Tomato Sauce
+        + Ketchup recipe
+    + Lemon, Lemon Juice, Lemon Water, Lemonade
+    + Raisin
+    + Prune
+    ~ Updated sprites of Watermelon, Egg Yolk, and Garlic
+    ~ Tweaked Watermelon color
+    ~ Hid Poultry
+    + Forward slash (/) to focus on search bar
+    ~ Ingredients of same length are sorted alphabetically
+    ~ Fixed: Ground Meat and Cheese Powder don't bounce
+    ~ Fixed: All ingredients spawn at 1° rotation
+    ~ Fixed: Bowl doesn't cool to complete room temperature
+    ~ Fixed: Top controls unclear when enabled and hovered over
+
+[Pre-release 0.17 - April 10, 2024 - Infinite Cooking]
+    + Functional temperature controls
+    + Red or blue glow depending on bowl temperature
+    + Some ingredients can be cooked
+    + Ingredients can melt, boil, and freeze
+        + Ingredients melt into liquid that fills bowl (i.e. Cheese)
+        + Ingredients boil into gas that floats away (i.e. Water)
+        ~ Liquids that freeze currently don't have a visual effect
+    + Ingredient angular velocity (rotation)
+    + Ingredient glow effect (unused)
+    + Chicken
+    + Mushroom
+    + Cheese Powder
+    + Ground Meat
+    + Syrup
+    + Rising Gas behavior
+    + Right click to deselect ingredient
+    ~ Improved search behavior
+        + Typing whole ingredient name will show subtypes (i.e Meat)
+    ~ Words can no longer appear twice in dish names
+    ~ Unsettled ingredients are no longer used in dish names
+    ~ Ingredients no longer disappear immediately after edge of screen
+    ~ Fixed: Flicker when dyeing ingredients
+    ~ Fixed: Liquids turn black when mixed with Dye
+    ~ Fixed: Ingredients don't inherit translucency
+
+[Pre-release 0.16 - April 8, 2024]
+    + Important ingredients are shown when search is empty
+    + Top control bar (Not yet functional)
+    ~ Oil is no longer translucent
+    ~ Slightly tweaked liquid icon shape
+    ~ Fixed: Issue with spots on ingredients in Brave and Firefox
+    ~ Fixed: Search bar not deselected when placing ingredients
+
+[Pre-release 0.15 - April 7, 2024]
+    + Watermelon
+    + Egg Yolk
+        ~ Both of these ingredients will receive better sprites
+        + Eggs will break into Yolks when dropped from high enough
+    + Batter
+        + Many basic Batter recipes
+    + Dough
+        + Basic Bread recipe
+    + Wheat
+    + Chocolate Milk
+    + Mustard
+    + Black Pepper
+    + Rice
+    + Garlic
+    + Garlic Powder
+    + Peanut
+    + Share buttons on serve screen
+        ~ These are currently disabled until release
+    + Some ingredients can be scaled up or down
+    + Some ingredients can break into another on impact
+    + Recipes can have optional ingredients
+    ~ Start Over button now glows when hovered
+    ~ Improved dish name label
+    ~ Page title and textual content use pixel font
+    ~ Bowl liquid now updates when ingredients are removed
+    ~ Ingredients now have a terminal velocity
+    ~ Indescribable dish name generation changes
+    ~ Ingredients no longer react more than once
+    + Text for shared embeds
+    ~ Fixed: Short forms of ingredient names aren't used
+    ~ Fixed: Canceled-out adjectives don't fall back to custom dish name
+
+[Pre-release 0.14 - April 6, 2024]
+    + Mobile support
+    + Carrot
+    + Chocolate
+    + Many hidden 'structural' ingredients (i.e. Fruit, Nut, Plant)
+        ~ They can still be selected by searching their whole names!
+    ~ Hid Leaf Vegetable, Herb
+    ~ Ingredients in dish names are sorted by English adjective order
+        ~ This makes dish names sound more natural
+    ~ Fixed: Ingredients with name weights ignore their dish name
+    ~ Fixed: Easter Eggs aren't considered Eggs
+    + Textual content underneath
+
+[Pre-release 0.13 - April 5, 2024]
+    ~ Improved collision, reduced stacking
+    ~ Ingredients can fill up higher in bowl
+
+[Pre-release 0.12 - April 3, 2024]
+    + Red Dye
+    + Ice Cube
+    + Broth
+    + Crab and Squid
+    ~ Hid Meat, Crustacean, and Cephalopod
+    + Basic Soup recipe
+    + Live ingredient reactions (Try Water + any Meat)
+    + Some ingredients can stain liquid in bowl or other ingredients
+    + Ingredients can have translucency
+    + Some ingredients will dissolve in liquid (i.e. Salt)
+    + Some ingredients can be named differently when served (i.e. Broth)
+    + Some ingredients can have custom weights for dish name generation
+    + Alternative names will be checked when searching
+    + Hidden ingredients can be searched if typed completely
+    + Some ingredients can have a custom Shape when placed
+        ~ Liquids and powders now use this behind the scenes
+    ~ Ketchup and Mayonnaise no longer fill up bowl
+    ~ Keyboard controls no longer activate when Cmd/Ctrl is held
+
+[Pre-release 0.11 - April 2, 2024]
+    + Liquids use unique droplet particles
+    + Powders use squares for particles
+    + Ingredients can have randomized colors (i.e. Apple)
+    ~ Improved mobile behavior
+    ~ Improved search behavior
+    + Search will now autofocus when letters and numbers are typed
+    + Search results that start with query are prioritized
+        + These best results will be sorted by length
+    + Ingredients can have keywords (i.e. search aliases)
+    ~ Spaces are now ignored in search queries
+    ~ Searching no longer deselects ingredient
+    + Enter key selects first search result
+    + Enter key serves dish
+    + Escape key can close search or dialog and deselect ingredient
+    + Start Over button closes dialog
+    + Left/Right arrow keys to change views (Unused)
+    ~ Ingredient no longer placed when clicking out of dialog
+    ~ Ingredient collision is more predictable
+        + Short ingredients (i.e. Beef Patty) have a shorter hitbox
+    ~ Tweaked ingredient bouncing
+    ~ Fixed: Dish name can exceed dialog width
+    ~ Fixed: Single-ingredient dishes named only an adjective
+    + Easter Egg
+    + Technical: addIngredient(name, data) function
+
+[Pre-release 0.10 - April 1, 2024]
+    + Provolone and Blue Cheese
+    + Buns, Beef, and Beef Patty
+        ~ Known issue: Hitbox is too large
+        ~ Stack Mode will come in the future
+    + Mayonnaise
+    + Hamburger and Cheeseburger recipes
+    + Ingredients can provide adjectives for the start of a dish's name (i.e. Soggy for Water)
+    + Ingredients with parts of a dish's name can be inserted within it
+        ~ For Example:
+        ~ Mac and Cheese -> Mac and Blue Cheese
+        ~ Cheeseburger -> Blue Cheeseburger
+    + Ingredient subtypes can also be inserted into dish names
+        ~ Mac and Cheese -> Mac and Provolone
+    + 'short' ingredient attribute used in long dish names
+        ~ Mayonnaise -> Mayo
+    + 'name' ingredient attribute overrides ID
+    + New custom cursors
+    + Serve and Clear buttons
+    + Serve menu
+    ~ Ingredients don't fall through bowl edges as much
+    ~ Ingredients bounce off each other less
+    ~ Search result content can no longer be dragged or highlighted
+
+[Pre-release 0.9 - March 30, 2024]
+    + Pasta and Macaroni
+    + Beginning of food name generator
+    + Dish recipe support
+        + Test dishes: Mac and Cheese, Breaded Mac
+    + Ingredients inherit type's color
+    + Ingredient subtype checking support
+    ~ Dropped liquids are now hidden instead of deleted
+
+[Pre-release 0.8 - March 28, 2024]
+    ~ Search results darken when clicked on
+    ~ Tweaked search result image shadow
+    ~ Tweaked ingredient collision rate
+
+[Pre-release 0.7 - March 27, 2024]
+    ~ Tweaked colorization
+
+[Pre-release 0.6 - March 16, 2024]
+    + Powders can affect existing liquid color
+
+[Pre-release 0.5 - March 10, 2024]
+    ~ Improved ingredient physics
+
+[Pre-release 0.4 - March 7, 2024]
+    + Ingredient placing and physics
+    + Liquids can fill bowl with dynamic colorization
+
+[Pre-release 0.3 - March 5, 2024]
+    + Some basic ingredients
+    + Established ingredient attributes and groups
+    + Ingredient data loading and inheritance
+    + Transparent liquid
+    + View changing ability
+
+[Pre-release 0.2 - March 4, 2024]
+    + Ingredient search
+    + Placeholder ingredients
+    ~ Improved art
+    ~ Improved GUI
+    + Multiple view rendering support
+
+[Pre-release 0.1 - March 1, 2024]
+    + Dyanmic colorization
+    + Placeholder GUI
+
+[February 29, 2024]
+    ~ Began development.

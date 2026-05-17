@@ -1,0 +1,44 @@
+{
+    "short_name": "Infinite Chef",
+    "name": "Infinite Chef - R74n",
+    "icons": [
+      {
+        "src": "icons/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/cook/?source=pwa",
+    "background_color": "#000000",
+    "display": "standalone",
+    "scope": "/cook/",
+    "theme_color": "#000000",
+    "shortcuts": [
+      {
+        "name": "Start Cooking",
+        "short_name": "Cook",
+        "description": "Begin a new dish in Infinite Chef",
+        "url": "/cook/?source=pwa",
+        "icons": [{ "src": "icons/apple-touch-icon.png", "sizes": "180x180" }]
+      }
+    ],
+    "description": "Cooking simulator playable in your browser with hundreds of ingredients and a smart dish name generator.",
+    "screenshots": [
+      {
+        "src": "icons/icon_zoomout.png",
+        "type": "image/png",
+        "sizes": "778x778"
+      },
+      {
+        "src": "icons/screenshot.png",
+        "type": "image/png",
+        "sizes": "1228x778",
+        "form_factor": "wide"
+      }
+    ]
+  }

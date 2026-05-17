@@ -1,0 +1,66 @@
+function imageGen(id,h,s,l) {
+    if (h === undefined) { h = ingredients[id].h; s = ingredients[id].s; l = ingredients[id].l; }
+    var img = colorizeStandard("../shapes/png/"+ingredientAttr(id,"shape")+".png",h,s,l);
+    document.body.appendChild(img);
+    return img;
+}
+
+function imageGen(shape,h,s,l) {
+    var img = colorizeStandard("../shapes/png/"+shape+".png",h,s,l);
+    document.body.appendChild(img);
+    return img;
+}
+
+
+
+
+Pre-release when finalized
+/- Enable share buttons
+/- Logo
+    /- Update logo in manifest.json
+    /- Page favicon
+/- Promotional screenshots
+    /- on page
+
+Release:
+- Newsletter article [written]
+- Discord announcement and channel
+OPEN CHANNEL FIRST
+FIX LINKS AND FORMATTING
+
+We're releasing a NEW GAME... **Infinite Chef**! 🍳🎉
+
+* PLAY HERE: https://R74n.com/cook/
+* Discuss and share your dishes in <#1228906164247597128>
+* For now, all updates will be under @All News Ping in <id:customize>
+
+Remember: This is just Phase 1! There will be many issues and things missing, so just have fun and mess around. Report bugs and suggest ingredients, recipes, and more in the [Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLSfXx1NWgGz_VJ-796FsmawOzHF1MzAZevCVXFHXtQymWj3ysA/viewform).
+
+[images]
+
+\n
+[newsletter]
+
+- Text crosspost
+We're releasing a NEW GAME... Infinite Chef! 🍳🎉
+
+• PLAY HERE: https://R74n.com/cook/
+
+[images]
+
+\n
+[newsletter]
+
+/- Update R74n main page and UFBS page (move UniSearch to More section)
+/- Add Rue command (cook)
+/- Link on Sandboxels
+- Video crosspost
+/- itch.io [https://r74n.itch.io/infinite-chef]
+/- r/InternetIsBeautiful
+/- r/WebGames
+- r/74n
+/- ProduntHunt
+/- HackerNews
+/- GameFAQs (for Metacritic)
+/- PointlessSites.com
+- https://www.gamedev.net/
