@@ -89,6 +89,7 @@ window.SPA = {
 				muteButton.setAttribute("src", other);
 				muteButton.setAttribute("src-other", src);
 				SPA.muted = !SPA.muted;
+				muteButton.setAttribute("on", SPA.muted);
 			});
 		}
 		let infoX = document.querySelector(".spa #globalDialog-info");
