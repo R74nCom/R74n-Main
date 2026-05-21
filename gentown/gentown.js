@@ -7666,7 +7666,7 @@ window.addEventListener("load", function(){ //onload
 		{ spacer: true },
 		{ text: "{{symbol:🤖}} Developed by {{color:R74n|#00ffff}}", url:"https://r74n.com/" },
 		// { text: "{{symbol:!}} {{color:GRAND CENSUS|#ff0000}} BEGINS", url:"https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog" },
-		{ text: "{{symbol:👻}} {{color:More games...|#ffff00}}", func:R74n.more },
+		{ text: "{{symbol:👻}} {{color:More games...|#ffff00}}", func:() => R74n.more() },
 		{ spacer: true },
 		{ text: "{{symbol:©}} Copyright 2026.", url:"https://r74n.com/license.txt" }
 	], "GenTown v"+gameVersion);
