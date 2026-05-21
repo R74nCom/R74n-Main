@@ -555,6 +555,10 @@ R74nClass.prototype.dialog = function(id, options = {}) {
 		let divparent = document.createElement("div");
 
 		let div1 = document.createElement("div");
+		let spanHome = document.createElement("a");
+		spanHome.innerHTML = `<img src="${this.root}icons/favicon.svg">`;
+		spanHome.href = this.root;
+		spanHome.classList.add("globalDialogHome");
 		let span1 = document.createElement("span");
 		span1.innerText = options.title || "Notice...";
 		span1.classList.add("globalDialogTitle");
@@ -567,6 +571,7 @@ R74nClass.prototype.dialog = function(id, options = {}) {
 		x.classList.add("globalDialogX");
 		x.addEventListener("click", () => this.closeDialog(id));
 		span2.appendChild(x);
+		div1.appendChild(spanHome);
 		div1.appendChild(span1);
 		div1.appendChild(span2);
 		divparent.appendChild(div1);

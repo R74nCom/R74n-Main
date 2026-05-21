@@ -1147,6 +1147,15 @@ form .honeypot {
 .globalDialogContent * {
 	flex-grow: 0;
 }
+.globalDialogTitle {
+	flex-grow: 1;
+	text-align: left;
+}
+.globalDialogHome img {
+	height: 0.9em;
+    margin-right: 0.5em;
+    translate: 0px -3px;
+}
 
 @media only screen and (max-width: 900px) {
 	.globalDialog > div {
