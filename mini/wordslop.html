@@ -96,13 +96,6 @@
 
 
 <style>
-  /* #panel4 {background:#d8709399}
-  #panel6 {background:#ffa07a99}
-  #panel3 {background:#add8e699}
-  #panel1 {background:#ffc0cb99}
-  #panel2 {background:#90ee9099}
-  #panel5 {background:#adff2f99} */
-
   @font-face {
     font-family: "Comic";
     src: url("fonts/ComicRelief-Regular.ttf");
@@ -126,9 +119,6 @@
     color: black;
     background: white;
     font-family: "Comic", Verdana, Geneva, Tahoma, sans-serif;
-  }
-  .spa.light > header:first-child {
-    
   }
   .content {
     display: flex;
@@ -178,15 +168,11 @@
   }
   #panel3 {
     padding-bottom: 0.5em;
-    /* justify-content: flex-end; */
     margin-top: auto;
     overflow-y: scroll;
     align-items: flex-end;
     height: 37%;
     flex-direction: column-reverse
-  }
-  #panel5 {
-
   }
   #panel7 {
     justify-content: flex-end;
@@ -230,7 +216,6 @@
     pointer-events: none;
   }
   #mainInput, #inputOverlay {
-    /* flex-grow: 0; */
     text-align: center;
     padding: 1em;
     font-weight: bold;
@@ -241,7 +226,6 @@
     height: calc(100% - 2em);
   }
   #inputOverlay {
-    /* background-color: red; */
     color: rgb(111, 0, 128);
   }
   #panel6 button {
@@ -329,16 +313,10 @@
     }
     #panel2 {
       flex-grow: 1;
-      /* flex-basis: 25%; */
-      /* justify-content: flex-end; */
     }
     #panel3 {
       flex-grow: 0;
       max-height: 25%;
-      /* justify-content: flex-start; */
-    }
-    #col1 {
-      /* flex-flow: column-reverse; */
     }
     .mobileBack {
       display: flex;
@@ -369,6 +347,7 @@
     if (SPA.muted === true) return;
     const audio = new Audio("audio/"+name+".wav");
     audio.volume = 0.5;
+    audio.currentTime = 0;
     audio.play();
   }
 
