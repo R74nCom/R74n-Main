@@ -1329,6 +1329,8 @@ form .honeypot {
 		gap: 8px;
 		/* margin-top: 0.5em;
 		margin-bottom: 1em; */
+		margin-left: -15px;
+		width: calc(100% + 30px);
 	}
 	.projectGallery > a {
 		width: 45%;
