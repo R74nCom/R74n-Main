@@ -1,0 +1,18 @@
+{
+  "short_name": "Wordslop",
+  "name": "Wordslop: Just Type Things",
+  "icons": [
+    {
+      "src": "/art/wordslop/icon.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/mini/wordslop?source=pwa",
+  "theme_color": "#b9b9ce",
+  "background_color": "#b9b9ce",
+  "display": "standalone",
+  "scope": "/mini/wordslop",
+  "description": "The endless categorical puzzle nightmare of the decade."
+}

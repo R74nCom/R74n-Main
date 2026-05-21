@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="The endless categorical puzzle nightmare of the decade.">
+    <meta name="keywords" content="R74n, R47n, word slop, word game, word games, word puzzle">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <meta name="twitter:image:alt" content="Wordslop">
+    <meta name="twitter:image" content="/mini/art/wordslop/icon.png">
+    <title>Wordslop: Just Type Things</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="apple-touch-icon" sizes="196x196" href="art/wordslop/icon.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="art/wordslop/favicon.ico">
+    <link rel="manifest" href="wordslop-manifest.json">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00ffff">
+    <link rel="icon" type="image/x-icon" sizes="48x48" href="art/wordslop/favicon.ico">
+    <meta name="theme-color" content="#000000">
+
+    <script>R74n = {footer:false}</script>
+    <script src="https://R74n.com/load.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="spa.css">
+    <script src="spa.js"></script>
+    <script src="data/wordslop.js"></script>
+
+</head>
+
+<body class="spa light">
+
+<header class="min">
+<a href="/" class="home dark"></a>
+<h1 class="pagetitle">wordslop</h1>
+<img class="doodle mute" src="../doodle/sound.gif" src-other="../doodle/mute.gif" role="button">
+<img class="doodle info" src="../doodle/info.gif" role="button">
+</header>
+
+<main class="content">
+
+<p class="loading">Loading...<br><br>The endless categorical puzzle nightmare of the decade. Type words of different kinds.</p>
+
+
+
+<div id="col2">
+  <div id="panel4">
+    <div class="clickable mobileBack">back --&gt;</div>
+    <span class="title">progress</span>
+    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 0%, rgba(0,255,0,0.5) 0%)"><span>animals</span> <span>done</span></span>
+    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 30%, rgba(0,255,0,0.5) 30%)"><span>animals</span> <span>70%</span></span>
+    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 67%, rgba(0,255,0,0.5) 67%)"><span>animals but a longer title</span> <span>33%</span></span>
+    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 75%, rgba(0,255,0,0.5) 75%)"><span>animals</span> <span>25%</span></span>
+    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 90%, rgba(0,255,0,0.5) 90%)"><span>animals</span> <span>10%</span></span>
+    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 98%, rgba(0,255,0,0.5) 98%)"><span>animals</span> <span>2%</span></span>
+    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 99%, rgba(0,255,0,0.5) 99%)"><span>animals</span> <span>1%</span></span>
+    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 99.9%, rgba(0,255,0,0.5) 99.9%); font-style: italic;"><span>total</span> <span>0.1%</span></span>
+    <span class="clickable noSelect"><span>unrecognized</span> <span>123</span></span>
+  </div>
+</div>
+<div id="col1">
+  <div id="panel6">
+    <button id="progressButton">progress</button>
+    <button id="moreButton">more</button>
+  </div>
+  <div id="panel3">
+    <!-- <span style="opacity: 0.4;"><strong>rock</strong> is new</span> -->
+    <!-- <span style="color: rgb(0, 145, 60); opacity: 0.4;">+natural objects <strong>[NEW]</strong></span> -->
+    <!-- <span style="color: rgb(0, 145, 60); opacity: 0.4;">+music genres</span> -->
+    <!-- <span style="opacity: 0.6;"><strong>rock</strong> already said</span> -->
+    <!-- <span style=""><strong>stone</strong> is new</span> -->
+    <!-- <span style="color: rgb(142, 116, 0);">~natural objects</span> -->
+  </div>
+  <div id="panel1">
+    <span id="inputSpacer">Type something..</span>
+    <span id="inputOverlay" class="noSelect"></span>
+    <input type="text" id="mainInput" value="" autofocus placeholder="type something..">
+  </div>
+  <div id="panel2">
+    <span>Enter a thing or concept, like <strong>bat</strong> or <strong>rock</strong>.</span>
+    <span style="opacity: 0.6;">Other narrative blurbs go here.</span>
+    <span style="opacity: 0.4;">Other narrative blurbs go here.</span>
+    <span style="opacity: 0.2;">Other narrative blurbs go here.</span>
+    <span style="opacity: 0.1;">Other narrative blurbs go here.</span>
+  </div>
+</div>
+<div id="col3">
+  <div id="panel5">
+    <div class="clickable mobileBack">&lt;-- back</div>
+    <span class="title">stats</span>
+    <span class="noSelect"><span>score</span> <span>123</span></span>
+  </div>
+  <div id="panel7">
+    <!-- <span>settings</span> -->
+  </div>
+</div>
+
+
+<style>
+  /* #panel4 {background:#d8709399}
+  #panel6 {background:#ffa07a99}
+  #panel3 {background:#add8e699}
+  #panel1 {background:#ffc0cb99}
+  #panel2 {background:#90ee9099}
+  #panel5 {background:#adff2f99} */
+
+  @font-face {
+    font-family: "Comic";
+    src: url("fonts/ComicRelief-Regular.ttf");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "Comic";
+    src: url("fonts/ComicRelief-Bold.ttf");
+    font-weight: 600;
+  }
+
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  body, html {
+    color: black;
+    background: white;
+    font-family: "Comic", Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .spa.light > header:first-child {
+    
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+  }
+  .content > div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .content > div > div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  #col1 {
+    flex-basis: 33%;
+    z-index: 100;
+  }
+  #panel1 {
+    flex-grow: 0;
+    flex-direction: row;
+    padding: 0;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    position: relative;
+  }
+  #panel2 {
+    padding-top: 0.5em;
+    flex-grow: 1;
+    height: 30%;
+    overflow-y: scroll;
+  }
+  #panel2 > span,
+  #panel3 > span {
+    padding: 0.5em 1em;
+    transition: 0.5s;
+  }
+  #panel2 > span.new,
+  #panel3 > span.new {
+    height: 0;
+    opacity: 0;
+    line-height: 0;
+  }
+  #panel3 > span {
+    padding-top: 0;
+  }
+  #panel3 {
+    padding-bottom: 0.5em;
+    /* justify-content: flex-end; */
+    margin-top: auto;
+    overflow-y: scroll;
+    align-items: flex-end;
+    height: 37%;
+    flex-direction: column-reverse
+  }
+  #panel5 {
+
+  }
+  #panel7 {
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-grow: 0;
+  }
+  #panel6 {
+    display: none;
+    visibility: hidden;
+    flex-grow: 0;
+    flex-direction: row;
+    padding: 0;
+  }
+  #col2, #col3 {
+    background: rgba(0, 0, 50, 0.2);
+    box-shadow: 0px 0 5px #21253d;
+    z-index: 110;
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+  .content input, .content button, #inputOverlay {
+    background: none;
+    color: inherit;
+    border: 0;
+    flex-grow: 1;
+  }
+  #mainInput {
+    color: transparent;
+    caret-color: rgb(25, 0, 255);
+    caret-shape: bar;
+  }
+  #mainInput:placeholder-shown {
+    color: black;
+    caret-color: transparent;
+  }
+  #inputSpacer {
+    color: transparent;
+    opacity: 0;
+    font-weight: bold;
+    padding: 1em;
+    pointer-events: none;
+  }
+  #mainInput, #inputOverlay {
+    /* flex-grow: 0; */
+    text-align: center;
+    padding: 1em;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 2em);
+    height: calc(100% - 2em);
+  }
+  #inputOverlay {
+    /* background-color: red; */
+    color: rgb(111, 0, 128);
+  }
+  #panel6 button {
+    padding: 1em;
+  }
+  #panel4, #panel5 {
+    padding: 0;
+    overflow: scroll;
+  }
+  #panel4 > span,
+  #panel5 > span {
+    display: flex;
+    padding: 5px 10px;
+    word-break: break-word;
+  }
+  #panel4 > span.title,
+  #panel5 > span.title {
+    justify-content: center;
+    text-decoration: underline;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+  #panel4 > span.title.group {
+    text-decoration: none;
+  }
+  #panel4 > span.title.group > span:nth-child(2) {
+    text-decoration: underline;
+  }
+  #panel4 > span > span:first-child,
+  #panel5 > span > span:first-child {
+    flex-grow: 1;
+  }
+  #panel4 > span.changed {
+    background: rgba(255,255,0,0.5);
+  }
+  #panel4 .iconimg {
+    filter: invert(1);
+    height: 1em;
+    width: 1em;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  .mobileBack {
+    display: none;
+  }
+  #panel7 > span {
+    text-align: right;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+    margin-right: 1em;
+  }
+
+  @media only screen and (min-width: 900px) {
+    #panel3 {
+      flex-grow: 0;
+    }
+    #panel2, #panel3 {
+      padding-right: 0.5em;
+      padding-left: 0.5em;
+    }
+  }
+  @media only screen and (max-width: 900px) {
+    .spa.light > header:first-child {
+      border-bottom: none;
+    }
+    #col2, #col3 {
+      display: none;
+      flex-basis: unset;
+      max-width: unset;
+      position: absolute;
+      background: rgb(185,185,206);
+      width: 100%;
+      height: 100%;
+      padding-top: 2em;
+    }
+    #col2.shown, #col3.shown {
+      display: flex;
+    }
+    #panel6 {
+      display: flex;
+      visibility: unset;
+      background: rgb(185,185,206);
+      z-index: 120;
+      box-shadow: 0px 0 5px #21253d;
+    }
+    #panel2 {
+      flex-grow: 1;
+      /* flex-basis: 25%; */
+      /* justify-content: flex-end; */
+    }
+    #panel3 {
+      flex-grow: 0;
+      max-height: 25%;
+      /* justify-content: flex-start; */
+    }
+    #col1 {
+      /* flex-flow: column-reverse; */
+    }
+    .mobileBack {
+      display: flex;
+      justify-content: center;
+      background: rgba(0, 0, 50, 0.2);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+  }
+</style>
+
+<script>
+  
+  let audios = [
+    "audio/type1.wav", "audio/type2.wav", "audio/type3.wav", "audio/mouse1.wav", "audio/mouse2.wav",
+    "audio/success.wav", "audio/error.wav", "audio/yay.wav"
+  ];
+  audios.forEach((url) => {
+    const audio = new Audio();
+    audio.src = url;
+  });
+
+  function playAudio(name) {
+    if (SPA.muted === true) return;
+    const audio = new Audio("audio/"+name+".wav");
+    audio.volume = 0.5;
+    audio.play();
+  }
+
+  const mainInput = document.getElementById("mainInput");
+  const inputOverlay = document.getElementById("inputOverlay");
+  const panel2 = document.getElementById("panel2");
+  const panel3 = document.getElementById("panel3");
+  const panel4 = document.getElementById("panel4");
+  const panel5 = document.getElementById("panel5");
+
+  function escapeHTML(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+  function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  let lastInput = "";
+  function updateInputOverlay() {
+    if (mainInput.value === lastInput) return;
+    lastInput = mainInput.value;
+
+    inputOverlay.innerText = lastInput;
+  }
+
+  let db;
+
+  saveData = null;
+  function saveState() {
+    let data = JSON.parse(JSON.stringify(saveData));
+
+    data.muted = SPA.muted;
+
+    db.write(data);
+  }
+  function loadState(data) {
+    saveData = data;
+
+    let mute = document.querySelector(".spa > header .mute");
+    if (data.muted && mute.getAttribute("on") !== "true") {
+      mute.click();
+    }
+
+    for (const group in saveData.found) {
+      if (!SPA.data.groups[group]) delete saveData.found[group];
+    }
+
+    initGame();
+  }
+
+  function getGroupTotal(group) {
+    let total = 0;
+    total += Object.keys(SPA.data.groups[group].words).length;
+    if (SPA.data.groups[group].subsets) SPA.data.groups[group].subsets.forEach(subset => {
+      total += getGroupTotal(subset);
+    });
+    return total;
+  }
+  function getGroupFound(group) {
+    let found = 0;
+    if (saveData.found[group]) found += Object.keys(saveData.found[group]).length;
+    if (SPA.data.groups[group].subsets) SPA.data.groups[group].subsets.forEach(subset => {
+      found += getGroupFound(subset);
+    });
+    return found;
+  }
+  function getGroupFoundList(group, done) {
+    done = done || {};
+    let found = [];
+    if (saveData.found[group]) for (const word in saveData.found[group]) {
+      const value = saveData.found[group][word];
+      let display = word;
+      if (value === true) {}
+      else if (Array.isArray(value)) {
+        if (value.includes("_main")) display += " / ";
+        else display = "";
+        display += value.filter(v => v !== "_main").join(" / ");
+      }
+      if (done[word] === true || done[display] === true) continue;
+      found.push([word, display]);
+      done[word] = true;
+      done[display] = true;
+    };
+    if (SPA.data.groups[group].subsets) SPA.data.groups[group].subsets.forEach(subset => {
+      found = found.concat(getGroupFoundList(subset, done));
+    });
+    return found;
+  }
+  function getGroupProgress(group) {
+    const percent = getGroupFound(group) / getGroupTotal(group);
+    if (percent === 0) return 0;
+    if (percent < 0.01) return Math.max(Math.ceil(percent * 10) / 10, 0.1);
+    return Math.floor(percent * 100);
+  }
+  function getSupersets(group) {
+    let supersets = SPA.data.groups[group].supersets || [];
+    for (let i = 0; i < supersets.length; i++) {
+      const superset = supersets[i];
+      supersets = supersets.concat(getSupersets(superset));
+    }
+    return supersets;
+  }
+  function getSubsets(group) {
+    let subsets = SPA.data.groups[group].subsets || [];
+    for (let i = 0; i < subsets.length; i++) {
+      const subset = subsets[i];
+      subsets = subsets.concat(getSubsets(subset));
+    }
+    return subsets;
+  }
+  function submitUnrecognized() {
+    let url = `https://docs.google.com/forms/d/e/1FAIpQLScd_L5yel09xzSzIQbvj1-4LSE3DxyChxhkWVpibTnHBbIkSA/viewform?usp=pp_url&entry.2104458136=%5Bword%5D:+%5Bsuggested+group%5D`;
+    for (const word in saveData.unrecognized) {
+      url += "%0A"+encodeURIComponent(word)+":+";
+    }
+    window.open(url, '_blank').focus();
+    narrate("submitted", "thanks for submitting your words! if added, you'll be given them on your next visit");
+  }
+  function isOfGroup(group, inGroup) {
+    if (group === inGroup) return true;
+    if (getSupersets(group).includes(inGroup)) return true;
+    return false;
+  }
+
+  function stripQualifier(word, qualifier) {
+    qualifier = escapeRegex(qualifier);
+    word = word.replace(new RegExp(`( ${qualifier} )`, "g"), "...");
+    return word.replace(new RegExp(`(^${qualifier}) | (${qualifier}$)`, "g"), "");
+  }
+
+  function statGet(key) {
+    return saveData.stats[key] || 0;
+  }
+  function statSet(key, value) {
+    saveData.stats[key] = value;
+  }
+  function statAdd(key, value=1) {
+    if (saveData.stats[key] === undefined) saveData.stats[key] = value;
+    else saveData.stats[key] += value;
+  }
+
+  selectedGroup = null;
+  panel4Scroll = 0;
+  function updateStats() {
+    let spans = document.querySelectorAll("#panel4 > span, #panel5 > span");
+    if (spans) spans.forEach(e => e.remove());
+
+    if (!saveData.stats.score) return;
+
+    // progress
+    let title = document.createElement("span");
+    if (selectedGroup) {
+      let num = 0;
+      if (selectedGroup === "all") {
+        for (const group in saveData.found) {
+          num += Object.keys(saveData.found[group]).length;
+        }
+      }
+      else if (selectedGroup === "unrecognized") {
+        num = Object.keys(saveData.unrecognized).length;
+      }
+      else num = getGroupProgress(selectedGroup) + "%";
+      title.innerHTML = `<span class="back">◀</span><span>${selectedGroup} (${num})</span>`;
+      title.addEventListener("click", () => {
+        selectedGroup = null;
+        updateStats();
+        panel4.scrollTop = panel4Scroll;
+      });
+      title.classList.add("group");
+    }
+    else {
+      title.innerText = "progress";
+
+      let share = document.createElement("img");
+      share.classList.add("doodle");
+      share.classList.add("clickable");
+      share.src = "../doodle/share.gif";
+      share.style.marginLeft = "10px";
+      share.addEventListener("click", () => {
+        let text = "after #wordslop​ping all day, i've found:\n";
+
+        let groups = {};
+        for (const group in saveData.found) {
+          let percent = getGroupProgress(group);
+          if (percent || percent === 0) groups[group] = percent;
+        }
+        let sorted = Object.keys(groups).sort((a, b) => groups[b] - groups[a]).slice(0,5);
+        sorted.forEach(group => {
+          text += group + " (" + getGroupProgress(group) + "%)\n";
+        });
+        text += "\n⌨️";
+
+        R74n.share(text);
+      });
+      title.appendChild(share);
+    }
+    title.classList.add("title");
+    title.classList.add("noSelect");
+    panel4.appendChild(title);
+
+    if (selectedGroup === null) {
+      let html = ``;
+      let groups0 = {};
+      for (const group in saveData.found) {
+        groups0[group] = true;
+        // console.log(group)
+        if (SPA.data.groups[group].supersets) {
+          SPA.data.groups[group].supersets.forEach(g => groups0[g] = true);
+        }
+      }
+      let groups = {};
+      for (const group in groups0) {
+        let percent = getGroupProgress(group);
+        if (percent || percent === 0) groups[group] = percent;
+      }
+      let sorted = Object.keys(groups).sort((a, b) => groups[b] - groups[a]);
+      if (!saveData.changedGroups) saveData.changedGroups = {};
+      sorted.forEach(group => {
+        const percent = groups[group];
+        html += `<span class="clickable noSelect${saveData.changedGroups[group] ? " changed" : ""}" data-group="${group}" style="background: linear-gradient(to right, ${saveData.changedGroups[group] ? "rgba(255,255,0,0.5)" : "transparent"} ${100-percent}%, ${saveData.changedGroups[group] ? "rgba(170,255,0,0.5)" : "rgba(0,255,0,0.5)"} ${100-percent}%)"><span>${escapeHTML(group)}</span><span>${percent < 100 ? percent+"%" : "done"}</span></span>`
+      })
+      let foundCount = 0;
+      for (const group in saveData.found) {
+        foundCount += Object.keys(saveData.found[group]).length;
+      }
+      let foundPercent = Math.floor(foundCount / SPA.data.total * 100);
+      if (foundPercent < 0.1) foundPercent = 0.1;
+      html += `<span class="clickable noSelect" data-group="all" style="font-style:italic; background: linear-gradient(to right, transparent ${100-foundPercent}%, rgba(0,255,0,0.5) ${100-foundPercent}%)"><span>total</span><span>${foundPercent < 100 ? foundPercent+"%" : "done"}</span></span>`
+      if (Object.keys(saveData.unrecognized).length) html += `<span class="clickable noSelect${saveData.changedGroups["unrecognized"] === true ? " changed" : ""}" data-group="unrecognized" style="font-style:italic${saveData.changedGroups["unrecognized"] === true ? ';background:rgba(255,255,0,0.5)' : ''}"><span>unrecognized</span><span>${Object.keys(saveData.unrecognized).length}</span></span>`
+      // console.log(groups)
+      panel4.insertAdjacentHTML("beforeend", html);
+      panel4.querySelectorAll("span.clickable.noSelect").forEach(b => b.addEventListener("click", () => {
+        panel4Scroll = panel4.scrollTop;
+        selectedGroup = b.getAttribute("data-group");
+        updateStats();
+        panel4.scrollTop = 0;
+      }));
+    }
+    else {
+      title.classList.add("clickable");
+      let html = ``;
+      let items;
+      if (selectedGroup === "unrecognized") items = Object.keys(saveData.unrecognized).map(i => [i,i]);
+      else if (selectedGroup === "all") {
+        let done = {};
+        items = [];
+        for (const group in saveData.found) {
+          getGroupFoundList(group).forEach(i => {
+            if (done[i[1]]) return;
+            done[i[1]] = true;
+            items.push(i);
+          });
+        }
+      }
+      else items = getGroupFoundList(selectedGroup);
+      items.sort();
+      items.forEach(i => html += `<span${(saveData.changedWords[i[0]] === true || i[0] === saveData.lastUnrecognized) ? ' class="changed"' : ""}><span>${escapeHTML(i[1])}</span></span>`);
+      if (selectedGroup === "unrecognized") html += `<span style="height:0">&nbsp;</span><span class="clickable" onclick="submitUnrecognized()" style="justify-content: flex-end">submit words &nbsp;❥</span>`
+      panel4.insertAdjacentHTML("beforeend", html);
+    }
+
+    // stats
+    title = document.createElement("span");
+    title.innerText = "stats";
+    title.classList.add("title");
+    title.classList.add("noSelect");
+    panel5.appendChild(title);
+
+    let html = ``;
+    let stats = Object.keys(saveData.stats).sort((a, b) => saveData.stats[b] - saveData.stats[a]);
+    stats.forEach(key => {
+      const value = saveData.stats[key];
+      html += `<span class="noSelect"><span>${escapeHTML(key)}</span> <span>${escapeHTML(value+"")}</span></span>`;
+    })
+    html += `<span class="clickable noSelect daily" style="${saveData.lastDaily !== dailyGroup ? "background:rgba(255,255,0,0.5)" : ""}"><span>DAILY:</span> <span>${dailyGroup}</span></span>`;
+    panel5.insertAdjacentHTML("beforeend", html);
+    let daily = panel5.querySelector("span.daily");
+    daily.addEventListener("click", () => {
+      let r = narrate("daily", "words in the **DAILY GROUP** are worth double points!");
+      saveData.lastDaily = dailyGroup;
+      if (saveData.found[dailyGroup] !== undefined) selectedGroup = selectedGroup===dailyGroup ? null : dailyGroup;
+      else if (r === false) narrate("dailyno", "you haven't found **"+dailyGroup+"** yet, try typing one!");
+      updateStats();
+    })
+  }
+
+  function narrate(step, text) {
+    if (saveData.messaged[step] === true) return false;
+    const msg = logMessage(text);
+    saveData.messaged[step] = true;
+    saveState();
+    return msg;
+  }
+  function logMessage(text, type=1, saved=false, args={}) {
+    if (saved === false) saveData.messages.push([text, type, statGet("tries")]);
+    
+    if (type === 1 && text.match(/\w$/)) text += ".";
+
+    let html = escapeHTML(text);
+    html = html.replace(/\*\*new\*\*/g, (m) => "<strong style='color:darkred;font-style:italic'>[new]</strong>");
+    html = html.replace(/\*\*[^\*]+\*\*/g, (m) => "<strong>"+m.slice(2,-2)+"</strong>");
+    let msg = document.createElement("span");
+    msg.setAttribute("data-age", "0");
+
+    if (type === 1) {}
+    else if (text.startsWith("+")) msg.style.color = "rgb(0, 145, 60)";
+    else if (text.startsWith("~")) msg.style.color = "rgb(142, 116, 0)";
+
+    if (args.group) {
+      msg.classList.add("clickable");
+      msg.addEventListener("click", () => {
+        selectedGroup = args.group;
+        updateStats();
+        panel4.scrollTop = 0;
+        panel4Scroll = 0;
+      })
+    }
+
+    msg.innerHTML = html;
+    if (saved === false) {
+      msg.classList.add("new");
+      setTimeout(() => {
+        msg.classList.remove("new");
+      }, 10);
+    }
+    
+    if (type === 1) {
+      panel2.insertAdjacentElement("afterbegin", msg);
+      if (saved === false) panel2.scrollTop = 0
+    }
+    else if (type === 2) {
+      panel3.insertAdjacentElement("afterbegin", msg);
+      if (saved === false) panel3.scrollTop = 0
+    }
+    (type === 1 ? panel2 : panel3).insertAdjacentElement("afterbegin", msg);
+    return msg;
+  }
+
+  function updateMessages() {
+    document.querySelectorAll("span[data-age]").forEach(m => {
+      let age = parseInt(m.getAttribute("data-age"));
+      if (age > 4) m.remove();
+      else m.style.opacity = [1,0.6,0.4,0.2,0.1][age];
+    })
+    for (let i = 0; i < saveData.messages.length; i++) {
+      const m = saveData.messages[i];
+      let start = m[2];
+      let age = statGet("tries") - start;
+      if (age > 4) {
+        saveData.messages.splice(i, 1);
+        i --;
+      }
+    }
+  }
+
+  // Math.seedrandom https://github.com/davidbau/seedrandom
+  !function(f,a,c){var s,l=256,p="random",d=c.pow(l,6),g=c.pow(2,52),y=2*g,h=l-1;function n(n,t,r){function e(){for(var n=u.g(6),t=d,r=0;n<g;)n=(n+r)*l,t*=l,r=u.g(1);for(;y<=n;)n/=2,t/=2,r>>>=1;return(n+r)/t}var o=[],i=j(function n(t,r){var e,o=[],i=typeof t;if(r&&"object"==i)for(e in t)try{o.push(n(t[e],r-1))}catch(n){}return o.length?o:"string"==i?t:t+"\0"}((t=1==t?{entropy:!0}:t||{}).entropy?[n,S(a)]:null==n?function(){try{var n;return s&&(n=s.randomBytes)?n=n(l):(n=new Uint8Array(l),(f.crypto||f.msCrypto).getRandomValues(n)),S(n)}catch(n){var t=f.navigator,r=t&&t.plugins;return[+new Date,f,r,f.screen,S(a)]}}():n,3),o),u=new m(o);return e.int32=function(){return 0|u.g(4)},e.quick=function(){return u.g(4)/4294967296},e.double=e,j(S(u.S),a),(t.pass||r||function(n,t,r,e){return e&&(e.S&&v(e,u),n.state=function(){return v(u,{})}),r?(c[p]=n,t):n})(e,i,"global"in t?t.global:this==c,t.state)}function m(n){var t,r=n.length,u=this,e=0,o=u.i=u.j=0,i=u.S=[];for(r||(n=[r++]);e<l;)i[e]=e++;for(e=0;e<l;e++)i[e]=i[o=h&o+n[e%r]+(t=i[e])],i[o]=t;(u.g=function(n){for(var t,r=0,e=u.i,o=u.j,i=u.S;n--;)t=i[e=h&e+1],r=r*l+i[h&(i[e]=i[o=h&o+t])+(i[o]=t)];return u.i=e,u.j=o,r})(l)}function v(n,t){return t.i=n.i,t.j=n.j,t.S=n.S.slice(),t}function j(n,t){for(var r,e=n+"",o=0;o<e.length;)t[h&o]=h&(r^=19*t[h&o])+e.charCodeAt(o++);return S(t)}function S(n){return String.fromCharCode.apply(0,n)}if(j(c.random(),a),"object"==typeof module&&module.exports){module.exports=n;try{s=require("crypto")}catch(n){}}else"function"==typeof define&&define.amd?define(function(){return n}):c["seed"+p]=n}("undefined"!=typeof self?self:this,[],Math);
+  function seedRandom(seed) {
+    var rng = new Math.seedrandom(seed);
+    return rng();
+  }
+  function seedChoose(choices, seed) {
+    return choices[Math.floor(seedRandom(seed) * choices.length)];
+  }
+
+  const dailyStart = new Date(2026, 4, 19);
+  let dailyGroup = "animals";
+  function updateDaily() {
+    const date = new Date();
+    let dailyToday = Math.floor((date - dailyStart) / 1000 / 86400 + 1);
+    dailyGroup = seedChoose(dailyChoices, dailyToday + 605);
+  }
+  let dailyChoices = [];
+
+  function initGame() {
+    if (saveData === null) saveData = {
+      found: {},
+      stats: {},
+      messages: [],
+      unrecognized: {},
+      messaged: {}
+    }
+    document.getElementById("panel2").innerHTML = "";
+    document.getElementById("panel3").innerHTML = "";
+    updateStats();
+    if (saveData.messages.length) {
+      saveData.messages.forEach(m => {
+        let text = m[0];
+        let age = statGet("tries") - m[2];
+        logMessage(text, m[1], true).setAttribute("data-age", age);
+      });
+      updateMessages();
+    }
+    else if (statGet("tries") === 0) {
+      logMessage("ready to make wordslop? try entering **bat** or **rock**.", 1);
+    }
+    updateDaily();
+
+    let givenWords = 0;
+    for (const word in saveData.unrecognized) {
+      if (SPA.data.wordIndex[word] !== undefined) {
+        let r = sendWord(word, true);
+        if (r === false) continue;
+        if (givenWords === 0) logMessage("JUST ADDED:", 2);
+        givenWords ++;
+        for (const group in SPA.data.wordIndex[word] ) {
+          logMessage(`+${group} (${word})`, 2);
+        }
+        delete saveData.unrecognized[word];
+      }
+    }
+    if (givenWords !== 0) {
+      logMessage(`news flash! **${{1:"one", 2:"two", 3:"three", 4:"four", 5:"five", 6:"six", 7:"seven", 8:"eight", 9:"nine", 10:"ten", 11:"eleven", 12:"twelve"}[givenWords] || givenWords}** of your unrecognized words were added - i moved them to your list :)`, 1);
+    }
+    if (givenWords) saveState();
+  }
+
+  function normalizeWord(word) {
+    word = word.trim().toLowerCase();
+    word = word.replace(/\s+/g, " ");
+    word = word.replace(/[–—]/g, "-");
+    word = word.replace(/[“”]/g, "\"");
+    word = word.replace(/[‘’]/g, "'");
+    word = word.replace(/…/g, "...");
+    return word;
+  }
+  function sendWord(word, skipMessage) {
+    word = word || normalizeWord(mainInput.value);
+    mainInput.value = "";
+    if (!word) {
+      playAudio("error");
+      return false;
+    }
+
+    statAdd("tries", 1);
+    document.querySelectorAll("span[data-age]").forEach(m => {
+      let age = parseInt(m.getAttribute("data-age"));
+      age ++;
+      m.setAttribute("data-age", age);
+    });
+    updateMessages();
+
+    updateInputOverlay();
+    if (!word) {
+      playAudio("error");
+      return false;
+    }
+
+    let mainForms = [word];
+    let formsToCheck = [];
+
+    let split = word.split(" ");
+    let baseLength = split.length;
+    if (baseLength >= 4) {
+      narrate("single", "one at a time, please!");
+    }
+    for (let targetLength = 1; targetLength <= baseLength; targetLength++) {
+      let formCount = baseLength;
+
+      for (let i = 0; i < formCount; i++) {
+        let form = split.slice(i, targetLength+i);
+        if (form.length !== targetLength) break;
+        form = form.join(" ");
+        mainForms.push(form);
+        formsToCheck.push(form);
+
+        if (form.length < 4) {}
+        else if (form.endsWith("s")) {
+          if (form.endsWith("es")) {
+            if (form.endsWith("ies")) formsToCheck.push(form.slice(0,-3)+"y");
+            if (form.endsWith("ves")) formsToCheck.push(form.slice(0,-3)+"fe");
+            formsToCheck.push(form.slice(0,-2));
+          }
+          formsToCheck.push(form.slice(0,-1));
+        }
+        else if (form.endsWith("ed")) {
+          if (form.endsWith("ied")) formsToCheck.push(form.slice(0,-3)+"y");
+          formsToCheck.push(form.slice(0,-3));
+          formsToCheck.push(form.slice(0,-2));
+          formsToCheck.push(form.slice(0,-1));
+        }
+        if (form.match(/[shx]$/)) formsToCheck.push(form+"es");
+        formsToCheck.push(form+"s");
+        if (form.length >= 5) {
+          formsToCheck.push(form.replace(/i$/g, "us"));
+          formsToCheck.push(form.replace(/us$/g, "i"));
+          formsToCheck.push(form.replace(/ing$/g, ""));
+          formsToCheck.push(form.replace(/er$/g, ""));
+        }
+        formsToCheck.push(form.replace(/ice$/g, "ouse"));
+        formsToCheck.push(form.replace(/ouse$/g, "ice"));
+        formsToCheck.push(form.replace(/oose$/g, "eese"));
+        formsToCheck.push(form.replace(/eese$/g, "oose"));
+        formsToCheck.push(form.replace(/'s/g, "s"));
+        formsToCheck.push(form.replace(/'s/g, ""));
+        formsToCheck.push(form.replace(/'/g, ""));
+        formsToCheck.push(form.replace(/s /g, "'s"));
+        formsToCheck.push(form.replace(/s$/g, "'s"));
+        formsToCheck.push(form.replace(/-/g, " "));
+        formsToCheck.push(form.replace(/-/g, ""));
+        formsToCheck.push(form.replace(/^(an?|the) +/g, ""));
+        if (form.length >= 3) formsToCheck.push("the "+form);
+        formsToCheck.push(form.replace(/[,\.]/g, ""));
+        
+        formsToCheck.push(form.replace(/ /g, ""));
+      }
+    }
+
+    let forms = {};
+    mainForms.forEach(f => {
+      if (!f) return;
+      forms[f] = true;
+    })
+    formsToCheck.sort((a,b) => b.length - a.length).forEach(f => {
+      if (!f) return;
+      forms[f] = true;
+      forms[f.replace(/ /g, "")] = true;
+    });
+    console.log(forms);
+
+    let doneGroups = {};
+    let results = {};
+    let resultCount = 0;
+    let duplicate = false;
+    let duplicateGroup = false;
+    let base;
+    let groupAlias;
+    saveData.newGroups = {};
+    saveData.changedGroups = {};
+    saveData.changedWords = {};
+    for (const form in forms) {
+      const groups = SPA.data.wordIndex[form];
+      if (SPA.data.groups[form] !== undefined) {
+        if (saveData.found[form] === undefined && results[form] === undefined) {
+          saveData.found[form] = {};
+          results[form] = true;
+          saveData.newGroups[form] = true;
+          saveData.changedGroups[form] = true;
+          statAdd("score", isOfGroup(form, dailyGroup) ? 10 : 5);
+          narrate("group0", "that's actually an entire group, wow");
+        }
+        else {
+          duplicateGroup = form;
+        }
+      }
+      else if (SPA.data.groupAliases[form] !== undefined) {
+        const group = SPA.data.groupAliases[form];
+        groupAlias = form;
+        if (saveData.found[group] === undefined && results[group] === undefined) {
+          saveData.found[group] = {};
+          results[group] = true;
+          saveData.newGroups[group] = true;
+          saveData.changedGroups[group] = true;
+          statAdd("score", isOfGroup(group, dailyGroup) ? 10 : 5);
+          narrate("group0", "that's actually an entire group, wow");
+        }
+        else {
+          duplicateGroup = group;
+        }
+      }
+      if (groups === undefined) continue;
+
+      for (const group in groups) {
+        let hasFoundGroup = saveData.found[group] !== undefined;
+
+        if (doneGroups[group] === true) continue;
+        doneGroups[group] = true;
+
+        if (!saveData.found[group]) saveData.found[group] = {};
+        const found = saveData.found[group];
+
+        let match = groups[group];
+
+        let word;
+        let alias;
+        let isNewAlias = false;
+        if (match === true) { //is main word
+          word = form;
+        }
+        else {
+          word = match;
+          if (Array.isArray(word)) { //is pseudo-alias (i.e. spaces removed)
+            alias = word[1];
+            word = word[0];
+          }
+          else { //is alias
+            alias = form;
+          }
+        }
+
+        if (!alias && Array.isArray(found[word])) {
+          if (found[word].includes("_main")) {
+            if (!duplicate || duplicate.length < word.length) duplicate = word;
+            continue;
+          };
+          found[word].push("_main");
+          isNewAlias = true;
+        }
+        else if (!found[word]) {
+          found[word] = true;
+          if (alias) {
+            found[word] = [alias];
+          }
+        }
+        else if (alias) {
+          if (found[word] === true) {
+            found[word] = ["_main"];
+            isNewAlias = true;
+          }
+          else if (found[word] === undefined) {
+            found[word] = [];
+          }
+          if (found[word].includes(alias)) {
+            if (!duplicate || duplicate.length < word.length) duplicate = alias;
+            continue;
+          }
+          found[word].push(alias);
+          isNewAlias = true;
+        }
+        else {
+          if (!duplicate || duplicate.length < word.length) duplicate = word;
+          continue;
+        };
+
+        results[group] = [word,alias,isNewAlias];
+        if (base === undefined || base.length < (alias || word).length) base = alias || word;
+        if (isNewAlias) {
+          statAdd("synonyms", 1);
+          statAdd("score", isOfGroup(group, dailyGroup) ? 10 : 5);
+        }
+        else statAdd("score", isOfGroup(group, dailyGroup) ? 20 : 10);
+        resultCount ++;
+        saveData.changedWords[word] = true;
+
+        if (!hasFoundGroup && Object.keys(found).length === 1 && (found[Object.keys(found)[0]] === true || found[Object.keys(found)[0]].length === 1)) saveData.newGroups[group] = true;
+        // saveData.newGroups[group] = !hasFoundGroup;
+        saveData.changedGroups[group] = true;
+        getSupersets(group).forEach(g => saveData.changedGroups[g] = true);
+      }
+
+    }
+
+    console.log(results);
+    // console.log(JSON.stringify(saveData));
+    let messages = [];
+    let hasNewGroup = false;
+    let hasAlias = false;
+    let lostStreak = false;
+    if (skipMessage) {}
+    else if (Object.keys(results).length) {
+      logMessage(`**${word}** is new!`, 2); //use first form
+      statAdd("forms", 1);
+      statAdd("streak", 1);
+      if ((!statGet("top streak") || statGet("streak") > statGet("top streak")) && statGet("streak") > 1) statSet("top streak", statGet("streak"));
+      for (const group in results) {
+        const match = results[group];
+        if (saveData.newGroups[group] === true) {
+          hasNewGroup = true;
+          if (SPA.data.groups[group].desc) logMessage(SPA.data.groups[group].desc, 1);
+        }
+        // console.log(match)
+        let isAlias = match !== true && match[2];
+        if (isAlias) hasAlias = true;
+        const msg = logMessage(
+          (isAlias ? "~" : "+") + 
+          group +
+          (match !== true && word !== (match[1] || match[0]) ? " ("+ (match[1] || match[0]) +")" : "") + //word spelling not the same
+          (saveData.newGroups[group] ? " **new**" : "")
+        , 2, false, {group:group});
+
+        if (!isAlias && match !== true && SPA.data.groups[group].wordDesc && SPA.data.groups[group].wordDesc[match[0]]) {
+          let desc = SPA.data.groups[group].wordDesc[match[0]];
+          if ((match[1] || match[0]).match(/^[aeiou]/)) desc = desc.replace(/(^a \^)|( a \^)/g, "an ^");
+          logMessage(desc.replace(/\^/, (match[1] || match[0])), 1);
+        };
+
+        // saveData.foundGroups[group] = true;
+        getSupersets(group).forEach(g => { if (saveData.found[g] === undefined) saveData.found[g] = {}; });
+
+        if (getGroupProgress(group) === 100) {
+          narrate("group100", "you completed a group. are you proud?");
+        }
+        if (dailyGroup === group) {
+          narrate("daily", "you got a word in the **DAILY GROUP**, so you get double points!")
+          saveData.lastDaily = dailyGroup;
+        }
+      }
+      if (hasAlias) narrate("alias", "you found a synonym of a previous word.");
+      playAudio(hasNewGroup ? "yay" : "success");
+    }
+    else if (duplicate || saveData.unrecognized[word] || saveData.unrecognized[base]) {
+      logMessage(`**${duplicate || word || base}**${(duplicate || base) && (duplicate || base) !== word ? " ("+stripQualifier(word, duplicate || base)+")" : ""} already said`, 2);
+      statAdd("repeats", 1);
+      playAudio("error");
+      lostStreak = true;
+    }
+    else if (duplicateGroup) {
+      logMessage(`**${duplicateGroup || word || base}** ${(groupAlias || word) !== duplicateGroup ? " ("+stripQualifier(word || groupAlias, duplicateGroup || base)+")" : ""} already found`, 2, false, {group: duplicateGroup});
+      statAdd("repeats", 1);
+      playAudio("error");
+      lostStreak = true;
+    }
+    else {
+      logMessage(`**${word}** not recognized :(`, 2);
+      narrate("unrecognized", "not all words will be recognized. that's okay.");
+      if (saveData.unrecognized[word] !== true) {
+        saveData.unrecognized[word] = true;
+        saveData.changedGroups["unrecognized"] = true;
+        saveData.lastUnrecognized = word;
+      }
+      playAudio("error");
+      lostStreak = true;
+    }
+
+    if (!skipMessage) {
+      if (statGet("tries") >= 2) {
+        if (resultCount > 4) narrate("slop4", "UBERSLOP! that word had SO MANY meanings!");
+        else if (resultCount > 3) narrate("slop3", "SUPERSLOP! that word had a quadruple meaning!");
+        else if (resultCount > 2) narrate("slop2", "MEGASLOP! that word had a triple meaning!");
+        else if (resultCount > 1) narrate("slop1", "SLOP! that word had a double meaning!");
+      }
+  
+      const streak = Math.floor(statGet("streak") / 10) * 10;
+      if (lostStreak) {
+        if (streak >= 20) narrate("streaklost", "yikes.. that's a major streak to fumble.");
+        delete saveData.stats["streak"];
+      }
+      else if (streak >= 40) narrate("streak"+streak, streak+" in a row! i can't handle this anymore!");
+      else if (streak === 30) narrate("streak30", "30 in a row! you're unstoppable.");
+      else if (streak === 20) narrate("streak20", "20 in a row! keep it up.");
+      else if (streak === 10) narrate("streak10", "10 in a row! you're on a roll.");
+  
+      const unrecognized = Object.keys(saveData.unrecognized).length;
+      if (!saveData.stats.score && unrecognized >= 4) {
+        narrate("plea", "please, just try **bat** or **rock**..")
+      }
+      if (unrecognized >= 20) {
+        narrate("submit", "you have a lot of unrecognized words.. try using the 'submit' button!");
+      }
+    }
+
+    updateStats();
+    if (!skipMessage) {
+      let changedItem = panel4.querySelector("span.changed");
+      if (changedItem) changedItem.scrollIntoViewIfNeeded();
+    }
+    saveState();
+
+    updateDaily();
+
+    return Object.keys(results).length ? true : false;
+
+    // console.log(formsToCheck);
+  }
+  
+  SPA.onload = () => {
+    SPA.data.groups = {};
+    SPA.data.groupAliases = {};
+    SPA.data.wordIndex = {};
+    let wordIndex = SPA.data.wordIndex;
+    let text = SPA.data.groupsText.replace(/[ \t]+/g, " ");
+    text = text.replace(/\n\[[^\[]+\] +/g, m => m.split(/\] +/)[0]+"]\n");
+    text = text.replace(/\|\|/g, "ESCAPE-6");
+    text = text.replace(/\s{0,}\|\s{0,}/g, "\n");
+    let lines = text.split("\n");
+    let comment = false;
+    let group = null;
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i].trim();
+      if (!line) continue;
+
+      line = line.replace(/\[\[/g, "ESCAPE-1");
+      line = line.replace(/\]\]/g, "ESCAPE-2");
+      line = line.replace(/&&/g, "ESCAPE-3");
+      line = line.replace(/\/\//g, "ESCAPE-4");
+      line = line.replace(/==/g, "ESCAPE-7");
+      line = line.replace(/""/g, "ESCAPE-8");
+
+      if (line[0] === "#") { //#comments
+        if (line[1] === "#") {
+          if (line[2] === "#") { //multiline comment
+            comment = !comment;
+            continue;
+          }
+        }
+        else continue;
+      }
+      if (line.endsWith("###")) {
+        comment = false;
+        continue;
+      }
+      if (comment) continue;
+      line = line.replace(/##/g, "ESCAPE-5");
+      line = line.replace(/\s{0,}#.+/, "");
+      line = line.replace(/ESCAPE-5/g, "#");
+
+      if (line[0] === "[" && line[line.length-1] === "]") { //[group name]
+        group = line.slice(1,-1).trim().toLowerCase();
+        if (!group) continue;
+        SPA.data.groups[group] = SPA.data.groups[group] || {words: {}};
+        continue;
+      }
+
+      if (line[0] === "&") { //&subset
+        if (!group) continue;
+        SPA.data.groups[group].subsets = SPA.data.groups[group].subsets || [];
+        SPA.data.groups[group].subsets.push(line.slice(1).trim().toLowerCase());
+        continue;
+      }
+      if (line[0] === "=") { //=group alias
+        if (!group) continue;
+        line.slice(1).trim().toLowerCase().split(/\s{0,}\/\s{0,}/g).forEach(alias => {
+          SPA.data.groupAliases[alias] = group;
+        })
+        continue;
+      }
+
+      if (line[0] === "\"" && line[line.length-1] === "\"") {
+        if (!group) continue;
+        SPA.data.groups[group].desc = line.slice(1,-1).trim();
+        continue;
+      }
+
+      line = line.replace(/ESCAPE-1/g, "[");
+      line = line.replace(/ESCAPE-2/g, "]");
+      line = line.replace(/ESCAPE-3/g, "&");
+      line = line.replace(/ESCAPE-6/g, "|");
+      line = line.replace(/ESCAPE-7/g, "=");
+      
+      let word = line;
+      let desc;
+      
+      if (word.match(/ "/)) {
+        const split = word.split(/\s+"/);
+        word = split[0];
+        desc = split[1].slice(0,-1);
+      }
+      line = line.replace(/ESCAPE-8/g, "\"");
+      
+      word = word.toLowerCase().split(/\s{0,}\/\s{0,}/g); // word/alias
+      for (let i = 0; i < word.length; i++) {
+        const form = word[i];
+        word[i] = form.replace(/escape-4/g, "/");
+      }
+      let aliases = word.slice(1);
+      word = word[0];
+      if (!word || group === null) continue;
+      if (desc) {
+        if (!SPA.data.groups[group].wordDesc) SPA.data.groups[group].wordDesc = {};
+        SPA.data.groups[group].wordDesc[word] = desc;
+      }
+      
+      SPA.data.groups[group].words[word] = aliases.length ? aliases : true;
+
+      if (wordIndex[word] === undefined) wordIndex[word] = {};
+      wordIndex[word][group] = true;
+      if (word.match(/ /)) {
+        const form = word.replace(/ /g,"");
+        if (wordIndex[form] === undefined) wordIndex[form] = {};
+        wordIndex[form][group] = [word];
+      }
+      let nfd = word.normalize("NFD");
+      if (nfd !== word) {
+        const form = nfd.replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
+        if (wordIndex[form] === undefined) wordIndex[form] = {};
+        wordIndex[form][group] = [word];
+      }
+      if (word.match(/-/)) {
+        const form = word.replace(/-/g," ");
+        if (wordIndex[form] === undefined) wordIndex[form] = {};
+        wordIndex[form][group] = [word];
+      }
+      if (word.match(/'/)) {
+        const form = word.replace(/'/g,"");
+        if (wordIndex[form] === undefined) wordIndex[form] = {};
+        wordIndex[form][group] = [word];
+      }
+      aliases.forEach(alias => {
+        if (wordIndex[alias] === undefined) wordIndex[alias] = {};
+        wordIndex[alias][group] = word;
+        if (alias.match(/ /)) {
+          const form = alias.replace(/ /g,"");
+          if (wordIndex[form] === undefined) wordIndex[form] = {};
+          wordIndex[form][group] = [word, alias];
+        }
+        if (alias.match(/-/)) {
+          const form = alias.replace(/-/g," ");
+          if (wordIndex[form] === undefined) wordIndex[form] = {};
+          wordIndex[form][group] = [word, alias];
+        }
+        if (alias.match(/'/)) {
+          const form = alias.replace(/'/g,"");
+          if (wordIndex[form] === undefined) wordIndex[form] = {};
+          wordIndex[form][group] = [word, alias];
+        }
+      })
+
+    }
+
+    SPA.data.total = 0;
+    for (const group in SPA.data.groups) {
+      const length = Object.keys(SPA.data.groups[group].words).length;
+      SPA.data.total += length;
+
+      // console.log(group+": "+length)
+
+      if (length >= 20) {
+        dailyChoices.push(group);
+      }
+
+      // inverse subsets to supersets
+      if (!SPA.data.groups[group].subsets) continue;
+      SPA.data.groups[group].subsets.forEach(subset => {
+        if (!SPA.data.groups[subset].supersets) SPA.data.groups[subset].supersets = [];
+        SPA.data.groups[subset].supersets.push(group);
+      });
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.metaKey || e.ctrlKey) return;
+
+      // console.log(e.key)
+      // if (e.key === "Escape") {
+      //   mainInput.value = "";
+      //   updateInputOverlay();
+      //   return;
+      // }
+      if (e.key === "Enter" && (e.target.tagName !== "INPUT" || e.target === mainInput)) {
+        sendWord();
+        // playAudio("type3");
+        return;
+      }
+      if (e.target.tagName === "INPUT") {
+        return;
+      }
+      let key = e.key;
+      if (key.trim().length !== 1 && key !== "Backspace") return;
+      mainInput.focus();
+    })
+
+    mainInput.addEventListener("keydown", (e) => {
+      updateInputOverlay();
+    })
+    mainInput.addEventListener("change", (e) => {
+      updateInputOverlay();
+    })
+    mainInput.addEventListener("input", (e) => {
+      if (R74n.state.mobile) {
+        playAudio("type" + randRange(1,3));
+      }
+      if (mainInput.value.length > 50) {
+        mainInput.value = mainInput.value.slice(0,50);
+        narrate("long", "i know the typing sounds good, but control yourself.");
+      }
+      updateInputOverlay();
+    })
+    mainInput.addEventListener("click", (e) => {
+      if (!R74n.state.mobile) narrate("inputclick", "just start typing, we'll handle the rest.");
+    })
+
+    document.getElementById("progressButton").addEventListener("click", () => {
+      document.getElementById("col2").classList.add("shown");
+    })
+    document.getElementById("moreButton").addEventListener("click", () => {
+      document.getElementById("col3").classList.add("shown");
+    })
+    document.querySelectorAll(".mobileBack").forEach(btn => btn.addEventListener("click", (e) => {
+      e.target.parentNode.parentNode.classList.remove("shown");
+    }));
+
+    let keyIsDown = {};
+    let mouseIsDown = false;
+    window.addEventListener("keydown", (e) => {
+      if (e.target === mainInput) {
+        if (e.key === "Escape" && !selectedGroup && mainInput.value) {
+          mainInput.value = "";
+          updateInputOverlay();
+          playAudio("type3");
+          return;
+        }
+      }
+      else if (selectedGroup && (e.key === "Escape" || e.key === "Backspace")) {
+        selectedGroup = null;
+        updateStats();
+        panel4.scrollTop = 0;
+        if (e.key === "Escape") playAudio("type" + randRange(1,3));
+        mainInput.focus();
+        return;
+      }
+
+      if ((e.metaKey && e.key !== "Backspace") || e.ctrlKey) return;
+      if (e.key.length !== 1 && e.key !== "Backspace") return;
+
+      if (keyIsDown[e.key] && e.key !== "Backspace") return;
+      keyIsDown[e.key] = Date.now();
+
+      if (!R74n.state.mobile) playAudio("type" + randRange(1,3));
+      // console.log(e);
+    });
+    window.addEventListener("keyup", (e) => {
+      if (e.metaKey || e.ctrlKey) return;
+      if (e.key.length !== 1 && e.key !== "Backspace") return;
+
+      if (!R74n.state.mobile && Date.now() - keyIsDown[e.key] > 500) {
+        // do another click if down long enough
+        playAudio("type3");
+      };
+      keyIsDown[e.key] = false;
+    });
+    document.querySelector(".doodle.mute").addEventListener("click", () => {
+      setTimeout(() => {
+        saveState();
+        playAudio("mouse1");
+      }, 10);
+    })
+    window.addEventListener("mousedown", (e) => {
+      mouseIsDown = Date.now();
+
+      let elem = e.target;
+      // console.log(e.target);
+      if (elem.classList.contains("clickable")
+       || elem.parentNode.classList.contains("clickable")
+       || elem.tagName === "INPUT"
+       || elem.tagName === "BUTTON"
+       || elem.tagName === "A"
+       || elem.classList.contains("doodle")
+      ) {
+
+        playAudio(Math.random() < 0.5 ? "mouse1" : "mouse2");
+      }
+    });
+    window.addEventListener("mouseup", (e) => {
+      if (Date.now() - mouseIsDown > 250) {
+        playAudio(Math.random() < 0.5 ? "mouse1" : "mouse2");
+        // do another click if down long enough
+      };
+      mouseIsDown = false;
+    })
+
+
+    saveData = null;
+    initGame();
+
+    R74n.DB("Wordslop", (_db) => {
+      db = _db;
+
+      db.read(data => {
+        loadState(data);
+      });
+
+      saveData = null;
+      initGame();
+    })
+  }
+</script>
+
+
+
+</main>
+
+<div class="globalDialog" id="globalDialog-info">
+  <div>
+    <div>
+      <span>Info...</span>
+      <span><img class="doodle x" src="../doodle/x.gif" alt="X" role="button"></span>
+    </div>
+    <div>
+      <div>
+        <small>Type things (objects or concepts) to discover and complete categories to your heart's content.</small>
+        <small>Sound effects by Andrea Baroni.</small>
+        <span>
+          <button onclick="R74n.more()">More Games</button>
+          <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>
