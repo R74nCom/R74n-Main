@@ -629,9 +629,9 @@ R74nClass.prototype.share = function(text, hashtag) {
 			if (url) {
 				a.href = url
 					.replace(/\[URL\]/g, location.href)
-					.replace(/\[TEXT\]/g, this.state.share.text || document.title)
-					.replace(/\[TITLE\]/g, this.state.share.title || document.title)
-					.replace(/\[HASHTAG\]/g, this.state.share.hashtag || "")
+					.replace(/\[TEXT\]/g, encodeURIComponent(this.state.share.text || document.title))
+					.replace(/\[TITLE\]/g, encodeURIComponent(this.state.share.title || document.title))
+					.replace(/\[HASHTAG\]/g, encodeURIComponent(this.state.share.hashtag || ""))
 					.replace(/:(\%20| )+-/g, "%20-");
 				a.target = "_blank";
 			}
