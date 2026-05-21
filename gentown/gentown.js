@@ -2994,6 +2994,9 @@ keybinds = {
 		if (currentExecutive === "info") closeExecutive();
 		else document.getElementById("actionInfo").click();
 	},
+	"m": () => {
+		document.getElementById("actionMore").click();
+	},
 	"?": () => {
 		populateExecutive([
 		{
@@ -7668,7 +7671,11 @@ window.addEventListener("load", function(){ //onload
 		{ text: "{{symbol:©}} Copyright 2026.", url:"https://r74n.com/license.txt" }
 	], "GenTown v"+gameVersion);
 	currentExecutive = "info";
-	})
+	});
+
+	document.getElementById("actionMore").addEventListener("click",(e) => {
+		R74n.more();
+	});
 
 	checkHash();
 
