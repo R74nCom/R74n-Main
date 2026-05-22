@@ -1347,7 +1347,7 @@
       }
 
       if ((e.metaKey && e.key !== "Backspace") || e.ctrlKey) return;
-      if (e.key.length !== 1 && e.key !== "Backspace") return;
+      if (e.key.length !== 1 && (e.key !== "Backspace" || !mainInput.value.length)) return;
 
       if (keyIsDown[e.key] && e.key !== "Backspace") return;
       keyIsDown[e.key] = Date.now();

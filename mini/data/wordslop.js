@@ -567,6 +567,22 @@ january | february | march | april | may | june | july | august | september | oc
 
 [seasons] summer | winter | spring | autumn / fall
 
+[directions]
+north
+south
+east
+west
+northeast
+northwest
+southeast
+southwest
+left / leftward
+right / rightward
+forward / front / frontward
+backward / back
+up / upward / top
+down / downward / bottom
+
 [shapes]
 = geometry
 arrow
@@ -1453,7 +1469,7 @@ clay
 egg
 roe / caviar
 mound
-poop / poo / poopy / crap / shit / dookie
+poop / poo / poopy / crap / shit / dookie / poopie / doodoo
 pee / urine
 blood
 slime
@@ -1492,6 +1508,7 @@ carbonatite
 cataclasite
 chalk
 charnockite
+fossil
 chert
 claystone
 coal
@@ -3168,6 +3185,8 @@ chair / seat
 charger
 clipper
 clock
+cupboard
+drawer
 clothes
 coin
 comb
@@ -3295,7 +3314,14 @@ blood
 bone
 brain
 breast / boob / tit / teet / mammary
-butt / ass / butthole / buttocks
+butt / ass / butthole / buttocks / anus
+rectum
+scalp
+appendix
+bronchi
+bronchus
+bronchiole
+lymph node
 calf
 cartilage
 cell
@@ -3375,7 +3401,7 @@ skeleton
 skin
 skull
 sole
-spine
+spine / spinal cord
 spleen
 sternum
 stomach
@@ -3806,6 +3832,9 @@ benin
 bermuda
 bhutan
 bolivia
+england
+scotland
+wales
 bosnia and herzegovina / bosnia / herzegovina
 botswana
 bouvet island
@@ -4356,6 +4385,12 @@ duala
 dutch
 english
 estonian
+basque
+occitan
+welsh
+scots
+gaelic / scottish
+esperanto
 ewe
 fante
 farsi / persian
@@ -4767,6 +4802,18 @@ tennessine
 oganesson
 ununennium
 
+[states of matter]
+= state of matter
+solid
+liquid / fluid
+gas
+plasma
+bose einstein
+fermionic
+superfluid
+supersolid
+degenerate
+
 
 [morbidities]
 = morbid
@@ -4890,6 +4937,7 @@ fourty-two / 42 "the answer to the ultimate question of life, the universe, and 
 666 "gulp..."
 nine thousand / 9000 / 9001 / over 9000 "my power level"
 twenty-three / 23 skidoo / 23
+69420 "wow, two in one"
 
 [letters] q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m
 
@@ -4927,6 +4975,8 @@ grimace shake
 gurt "yo"
 gyatt / gyat
 hantavirus "not again.."
+ragebait "grrrrrr!!!!!"
+doge "so word very wow"
 hate "HATE. LET ME TELL YOU HOW MUCH I'VE COME TO HATE YOU SINCE I BEGAN TO LIVE"
 hawk tuah / tuah "spit on that thing!"
 huzz
