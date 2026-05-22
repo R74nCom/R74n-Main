@@ -773,6 +773,9 @@
     if (givenWords) saveState();
   }
 
+  let sameCount = 0;
+  let lastSent = null;
+
   function normalizeWord(word) {
     word = word.trim().toLowerCase();
     word = word.replace(/\s+/g, " ");
@@ -802,6 +805,25 @@
     if (!word) {
       playAudio("boo");
       return false;
+    }
+
+    if (lastSent === word) {
+      sameCount ++;
+      if (sameCount === 5) logMessage("how original..", 1);
+      if (sameCount === 10) logMessage("ENOUGH!!!!!", 1);
+      if (sameCount === 20) logMessage("i'm warning you..", 1);
+      if (sameCount === 30) {
+        logMessage("i. told you.. to STOP", 1);
+        document.body.style.filter = "invert(1)";
+        document.head.insertAdjacentHTML("beforeend", `<style>
+          body {transition: 1s; filter: invert(1)}
+          body * {transition: 20s!important; scale: 0!important}
+        </style>`)
+      }
+    }
+    else {
+      lastSent = word;
+      sameCount = 0;
     }
 
     let mainForms = [word];
@@ -1204,6 +1226,7 @@
       word = word[0];
       if (!word || group === null) continue;
       if (desc) {
+        desc = desc.replace(/ESCAPE-4/g, "/");
         if (!SPA.data.groups[group].wordDesc) SPA.data.groups[group].wordDesc = {};
         SPA.data.groups[group].wordDesc[word] = desc;
       }

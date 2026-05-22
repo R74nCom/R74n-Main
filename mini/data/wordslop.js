@@ -400,7 +400,7 @@ hiccup / hiccough
 hiss / rattle
 honk
 hoofbeats
-hoot
+hoot / hoo
 howl / awoo / woo
 hum
 laugh / laughter
@@ -419,7 +419,7 @@ purr
 quack
 roar
 rumble
-scream
+scream / yell / shout / holler
 screech
 shriek
 sigh
@@ -483,7 +483,9 @@ maybe
 end
 start
 never
-no
+no / nope / nah
+go / going / gone
+went
 none
 nor
 not
@@ -520,8 +522,10 @@ is
 was
 were
 when
+later
 whence
 whenever
+where
 whereby
 while
 whilst
@@ -531,7 +535,7 @@ with / w//
 within
 without / w//o
 would
-yes
+yes / yep / ya
 yet
 something "very funny.."
 
@@ -541,6 +545,7 @@ goodbye / bye / bye-bye "see u later"
 see you later / see u later "alligator"
 idk / i don't know "me neither tbh"
 thanks / thank you / thx "you're welcome!"
+holy
 
 [pronouns]
 each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody|everyone / everybody|nobody / no one|whoever / whomever
@@ -582,6 +587,8 @@ forward / front / frontward
 backward / back
 up / upward / top
 down / downward / bottom
+horizontal / latitude
+vertical / longitude
 
 [shapes]
 = geometry
@@ -607,6 +614,7 @@ ellipsoid / ovoid
 flexagon
 heart
 helix / helical
+spiral
 heptagon / septagon / heptagonal / septagonal
 hexaflexagon
 hexagon / hexagonal
@@ -774,12 +782,12 @@ binturong / bearcat "the bearcat is not a bear, nor a cat"
 "good kitty!"
 bobcat / bobkitten
 bombay
-caracal
+caracal / floppa
 cheetah
 cougar / mountain lion
 jaguar
 leopard
-lion / leo
+lion / leo "pretty much all lions live in **Africa**"
 lynx
 ocelot / ozelot
 oncilla / tiger cat / tigrillo
@@ -2446,6 +2454,7 @@ frog leg
 gizzards
 ham
 kidney
+drumstick
 kielbasa
 lamb
 liver
@@ -2538,6 +2547,7 @@ cappuccino
 champagne
 chartreuse
 cider
+honey
 cocktail
 coffee
 cream
@@ -3060,9 +3070,11 @@ descant
 dhime
 didgeridoo
 dizi
+microphone / mic
 dobro
 dombra
 drum
+drumstick
 bugle
 dulcimer
 eigenharp
@@ -3184,13 +3196,15 @@ cellphone / smartphone / iphone / android
 chair / seat
 charger
 clipper
-clock
+clock / clockwork
+fridge / refrigerator
 cupboard
 drawer
 clothes
 coin
 comb
-computer
+computer / pc
+microphone / mic
 corer
 curtain / blinds / shades
 desk
@@ -3205,6 +3219,8 @@ fork
 furniture / furnishing
 glass / cup
 hanger
+kettle
+pot
 holder
 iron
 key
@@ -3240,6 +3256,9 @@ soap
 spatula
 sponge
 spoon
+stand
+rack
+counter
 stapler
 table
 television / tv / monitor
@@ -3402,6 +3421,7 @@ skin
 skull
 sole
 spine / spinal cord
+femur
 spleen
 sternum
 stomach
@@ -3521,6 +3541,7 @@ channel
 coast
 cove
 creek
+dam
 delta
 distributary
 estuary
@@ -3600,6 +3621,7 @@ archaeology
 architecture
 archiving / archive / preservation
 astrobiology
+astronomy
 astrophysics
 biology
 botany
@@ -3794,6 +3816,9 @@ visa
 volkswagen
 walmart
 wells fargo
+discord "we have one! **discord.gg/R74n**"
+amd
+intel
 
 
 [continents]
@@ -3900,11 +3925,11 @@ haiti
 european union / eu
 honduras
 hong kong
-hungary
+hungary / magyar
 iceland
 india / bharat
 indonesia
-iran
+iran / persia
 iraq
 ireland
 israel
@@ -4625,17 +4650,22 @@ wormhole
 alien
 supernova
 quasar
+galaxy
+universe
+multiverse
 
 [celestial bodies]
 & planets
 earth / terra
-sun / star / sol
+sun / star / sol / solar
 moon
 pluto
 ceres
 haumea
 makemake
 eris
+charon
+exoplanet
 
 [planets]
 mercury
@@ -4856,6 +4886,8 @@ theft / stealing / thief
 drugs
 addiction / addict
 mean / rude
+trash / junk / garbage / debris
+rifle
 
 [blissfuls]
 = bliss
@@ -4881,6 +4913,10 @@ peace / peaceful / pacifist
 beauty / beautiful / pretty / handsome
 birth
 pride / proud
+amazing / wonderful
+excellent
+fun
+depression / depressed
 
 
 [numbers]
@@ -4938,6 +4974,8 @@ fourty-two / 42 "the answer to the ultimate question of life, the universe, and 
 nine thousand / 9000 / 9001 / over 9000 "my power level"
 twenty-three / 23 skidoo / 23
 69420 "wow, two in one"
+66 "execute order 66"
+25 / twenty-five "you know what's funnier than twenty-four?"
 
 [letters] q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m
 
@@ -5069,6 +5107,39 @@ forms "these are your unique word spellings"
 group
 daily "words in the **DAILY GROUP** give double points!"
 test "success!"
+easter egg "it can't be that easy.."
+
+### TODO
+
+[cities]
+las vegas / vegas
+los angeles
+
+[units of time]
+
+[emotions]
+panic / panicked
+fear / scared
+anxiety / anxious
+anger / angry
+sadness / sad
+depression / depressed
+joy / happy / joyful / happiness
+
+[occupation]
+police / cop
+firefighter / fireman
+engineer
+architect
+accountant
+scientist
+electrician
+astronaut
+
+[holidays]
+halloween
+
+###
 
 `;
 
