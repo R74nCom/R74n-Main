@@ -37,6 +37,7 @@
     <script data-cfasync="false">
       window.ramp = window.ramp || {};
       window.ramp.que = window.ramp.que || [];
+      window.ramp.passiveMode = true;
     </script>
 
     <style>
@@ -3081,6 +3082,10 @@
     // script.setAttribute("crossorigin","anonymous");
     document.head.appendChild(script);
 
+    window.ramp.que.push(()=>{
+      ramp.spaNewPage("cook/");
+    })
+
     if (location.hostname !== "r74n.com") {
       document.querySelector(".content").insertAdjacentHTML("afterbegin", `
         <p style="color:red; text-align:center"><strong>Warning: You're playing on an unofficial embed! Please visit the real version at <a href="https://r74n.com/cook/" style="text-decoration:underline">R74n.com</a> :) Enjoy!</strong></p>
@@ -3099,6 +3104,8 @@
   <!-- <p style="text-align: center;"><span id="newsheader" class="alertheader">
     The Grand Census begins NOW. <a href='https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog'>Fill out our form</a> to make your voice heard!
   </span></p> -->
+
+  <p style="text-align:center"><a href="test2">Navigation test</a></p>
 
   <p style="text-align:center"><button class="moreGames" onclick="R74n.more()">More Games</button> • <span id="versionNumber"></span> • <a href="changelog.txt" target="_blank" id="changelogButton">Changelog<span id="newUpdate" style="color:red; display:none"> [NEW]</span></a></p>
   <script>
