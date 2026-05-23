@@ -35,25 +35,27 @@ function randomChoice(l) {
   }
 
 var InputsDiv = document.getElementById("InputsDiv");
-InputsDiv.style.paddingBottom = "20px";
-InputsDiv.innerHTML = "<form onsubmit='search();return false' style='padding-bottom:20px;'> \
-<input type='text' placeholder='Search...' id='SearchBox' list='AllWordsDatalist'> \
-<datalist id='AllWordsDatalist'></datalist>\
-<input id='SearchButton' type='submit' value='Search'> \
-</form> \
-<span id='NoResults' style='display:none;padding-bottom:20px;'>No results found. If this term should be here, let me know!</span>\
-<input id='LuckyButton' type='button' value='I‘m Feeling Lucky' onclick='var word=randomChoice(allwords);location.hash=word;''> \
-"+InputsDiv.innerHTML;
-var AllWordsDataList = document.getElementById("AllWordsDatalist");
-allwords.sort(function (a, b) {
-    return a.replaceAll(/[\-_\/\.,'"]|an? /g,"").toLowerCase().localeCompare(b.replaceAll(/[\-_\/\.,'"]|an? /g,"").toLowerCase());
-});
-var temphtml = "";
-for (var i in allwords) {
-    var tempword = allwords[i];
-    temphtml += "<option value='"+tempword.replaceAll("'","&apos;")+"'>"
+if (InputsDiv) {
+    InputsDiv.style.paddingBottom = "20px";
+    InputsDiv.innerHTML = "<form onsubmit='search();return false' style='padding-bottom:20px;'> \
+    <input type='text' placeholder='Search...' id='SearchBox' list='AllWordsDatalist'> \
+    <datalist id='AllWordsDatalist'></datalist>\
+    <input id='SearchButton' type='submit' value='Search'> \
+    </form> \
+    <span id='NoResults' style='display:none;padding-bottom:20px;'>No results found. If this term should be here, let me know!</span>\
+    <input id='LuckyButton' type='button' value='I‘m Feeling Lucky' onclick='var word=randomChoice(allwords);location.hash=word;''> \
+    "+InputsDiv.innerHTML;
+    var AllWordsDataList = document.getElementById("AllWordsDatalist");
+    allwords.sort(function (a, b) {
+        return a.replaceAll(/[\-_\/\.,'"]|an? /g,"").toLowerCase().localeCompare(b.replaceAll(/[\-_\/\.,'"]|an? /g,"").toLowerCase());
+    });
+    var temphtml = "";
+    for (var i in allwords) {
+        var tempword = allwords[i];
+        temphtml += "<option value='"+tempword.replaceAll("'","&apos;")+"'>"
+    }
+    AllWordsDataList.innerHTML = temphtml;
 }
-AllWordsDataList.innerHTML = temphtml;
 document.getElementsByTagName("html")[0].style.scrollBehavior="smooth";
 
 function search() {
