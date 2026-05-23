@@ -1,5 +1,6 @@
 SPA.data = {}
 SPA.data.news = [
+   "thank you for beta testing **wordslop** :)",
    "totals are now shown when opening a group",
    "we added changelogs that show up automatically"
 ]
@@ -109,6 +110,7 @@ multiple | members | in | one line
 = colours
 acorn
 almond
+amaranth
 amber
 amethyst
 apricot
@@ -119,13 +121,17 @@ beige / khaki
 black
 blue
 blue-violet
-blush
 blurple
+blush
 bronze
 brown
+buff
 burgundy
 carmine
 carnelian
+celadon
+celeste
+cerise
 cerulean
 champagne
 charcoal
@@ -166,24 +172,32 @@ lilac
 lime
 magenta
 maroon / dark red
+mauve
+moss
 navy / navy blue
+ochre
 olive
 orange
-periwinkle
 peach
-plum
+periwinkle
 pink
+plum
 purple / violet
 rainbow
 red
 rose
+russet
 salmon
+scarlet
 sepia
+sienna
 silver / light gray / light grey
 skin tone / skin color / skin colour
 sky blue / light blue / baby blue
+tan
 teal
-vermilion / red-orange / orange-red
+umber
+vermilion / vermillion / red-orange / orange-red
 white
 yellow
 
@@ -194,6 +208,8 @@ array
 assembly / assemblage
 band
 batch
+waddle
+raft
 bike
 body
 brood
@@ -715,7 +731,7 @@ antelope
 armadillo
 badger
 honey badger
-bat
+bat "the only mammal that can truly fly!"
 bison
 boar
 buffalo "'Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo' is a valid English sentence"
@@ -755,6 +771,8 @@ moose
 mountain goat
 muskox
 otter / sea otter
+mustelid
+fisher / fishercat "these creatures sound like screaming babies, very scary"
 ox / oxen
 pangolin "their cool scales have caused them to be widely trafficked"
 peccary / javelina / skunk pig
@@ -807,7 +825,7 @@ saber-toothed tiger / smilodon / saber-toothed cat / saber-tooth
 sand cat
 serval
 snow leopard
-tiger / tigress
+tiger / tigress "their skin is also striped, much like their fur"
 wildcat
 shorthair
 longhair
@@ -1491,6 +1509,7 @@ pee / urine
 vomit / puke / throwup
 blood
 slime
+web / cobweb
 
 [stones]
 = rock
@@ -2039,7 +2058,7 @@ fig
 gac
 goji
 gooseberry
-grape / raisin
+grape / raisin "grapes are the perfect fruit to practice surgery on"
 grapefruit
 guava
 guarana
@@ -2244,6 +2263,7 @@ onion sprout
 paprika
 parsnip
 peanut
+groundnut
 peas
 pinto bean / pinto
 potato
@@ -2970,6 +2990,7 @@ cab / taxi
 cabriolet
 camion
 parachute
+raft
 hummer
 camper / rv
 canoe
@@ -3198,74 +3219,71 @@ zither
 bag
 balloon
 basket
+bathtub / tub
 bed
+blanket / sheet / bedsheet
 block
 book
 bottle
-clasp
-oven
-stove / stovetop
-frier
 broom
-shelf
 brush
 bucket
 carpet
-rubber band
 carton
 ceiling
 cellphone / smartphone / iphone / android
 chair / seat
 charger
+clasp
 clipper
 clock / clockwork
-fridge / refrigerator
-cupboard
-drawer
 clothes
 coin
 comb
 computer / pc
-microphone / mic
 corer
+counter
+cupboard
 curtain / blinds / shades
+cushion
 desk
 dictionary
 door
+drawer
 envelope
-lego
 fan
+fastener
 flag
 flashlight
 floor
 fork
+fridge / refrigerator
+frier
 furniture / furnishing
 glass / cup
 hanger
-kettle
-pot
 holder
 iron
+kettle
 key
 keyboard
 keychain
 knife
 lamp
-toothpaste
-toothbrush
-bathtub / tub
-shower
 laptop
+lego
 letter / mail
 lock
 luggage
 map
 marker
 mat / placemat
+microphone / mic
 mirror
 money / cash / bill / banknote
 mop
 opener
+oven
 painting
 paper / document
 pen
@@ -3273,26 +3291,32 @@ pencil
 phone
 phone / telephone
 pillow
-blanket / sheet / bedsheet
+pin
+pot
 quilt
 rack
 remote
 roll
 roof
+rubber band
 scissors
+sharpener
+shelf
+shower
 sign
 soap
 spatula
 sponge
 spoon
 stand
-rack
-counter
 stapler
+stove / stovetop
 table
 television / tv / monitor
 tissue
 toilet
+toothbrush
+toothpaste
 towel
 vacuum
 wall
@@ -3344,6 +3368,150 @@ velvet
 wood
 wood
 wool
+
+[structures]
+= buildings
+apartment / flats
+attic
+bakery
+balcony
+ballroom
+bank
+bar / pub
+barn
+basilica
+bathroom / restroom
+bedroom
+bridge
+castle
+cell
+mine
+cellar / basement
+chimney
+church
+conservatory
+facility
+factory
+fort / fortification
+garage
+hall
+hallway
+highway / freeway
+hospital
+hotel
+house / home
+infrastructure
+kitchen
+mall
+memorial
+monument
+mosque
+motel
+nursery
+observatory
+pagoda
+palace
+park
+pavilion
+pizzeria / pizzaria
+pool
+prison / jail
+pylon
+rail
+restaurant
+road / street
+room
+school
+shed
+shelter
+skyscraper
+stadium
+stage
+station
+statue
+store / shop
+synagogue
+taqueria
+temple
+theater / theatre
+tower
+tunnel
+turbine
+venue
+windmill
+workshop
+zoo
+
+[weapons]
+= arms
+ak-47
+ar-15
+arrow
+artillery
+axe
+bolt
+bomb / explosive
+boomerang
+bow
+brass knuckles
+bullet
+cannon
+claymore
+club
+colt
+crossbow
+cutlass
+dagger
+dao
+desert eagle / deagle
+dirk
+flail
+gladius
+glaive
+glock
+greatsword
+gun / firearm
+halberd
+handgun
+karambit
+katana
+katar
+knife
+kris
+lance
+longsword
+mace
+machete
+mameluke
+mine / landmine
+missile
+nuke
+nunchaku / nunchuku / nunchuks / nunchucks / chainsticks
+pike
+pistol
+polearm
+poleaxe
+quarterstaff
+rapier
+revolver
+rifle
+rocket / rpg
+saber
+scimitar
+shotgun
+shuriken
+sickle
+slingshot
+sniper
+spear
+staff
+stiletto
+sword
+tomahawk
+torpedo
+wand
+warhammer
+yan
 
 [body parts]
 = body / human body
@@ -4689,7 +4857,153 @@ yen
 złoty
 nickel
 quarter
-dime
+dime "this coin has exactly 118 ridges around its edge"
+
+[jobs]
+= occupations / workers / laborers
+accountant
+actor / actress
+architect
+artist
+assistant
+astronaut / cosmonaut / taikonaut / spationaut / vyomanaut "most countries with a space program have their own name for ^s"
+astronomer
+athlete / player
+attendant
+auctioneer
+author / writer
+babysitter
+baker
+biologist
+boss
+businessman / businessperson / businesswoman
+butcher
+carpenter
+cashier
+ceo
+chef / cook
+chemist
+cleaner
+clown
+conductor
+congressperson / congressman / congresswoman
+consultant
+cosmetologist
+delivery
+dentist
+designer
+detective / investigator
+director
+doctor
+dogsitter / petsitter / dog walker
+driver
+drycleaner
+ecologist
+editor
+electrician
+engineer
+executive
+farmer / farmhand
+firefighter / fireman / firewoman
+fisher / fisherman / fisherwoman
+florist
+freelancer
+garbage person / garbage man / garbage woman
+gardener
+grocer
+guard / security
+hairdresser / barber
+handyman
+host
+interpreter / translator
+investor
+jailer / bailiff
+janitor / custodian
+journalist
+judge
+lawyer
+librarian
+lifeguard
+mail carrier / mailman / mailperson / mailwoman
+manager
+mechanic / repairman
+messenger
+miner
+musician
+nun
+nurse
+nutritionist
+painter
+paramedic
+pharmacist
+photographer
+physician
+pilot
+planner
+plumber
+police / cop / policeman / policewoman / officer / popo
+politician
+president
+priest
+professor / teacher
+radiologist
+ranger
+sales
+scientist
+senator
+server / waiter / waitress
+soldier / military
+stenographer
+surgeon
+tailor / seamstress
+trader
+typist
+vet / veterinarian
+videographer / cinematographer
+
+[family]
+= relatives
+aunt
+boyfriend / bf
+brother / bro
+brother-in-law
+child / kid / children
+child-in-law
+cousin
+dad / father / papa / pa / daddy / dada
+daughter
+daughter-in-law
+ex
+father-in-law
+girlfriend / gf
+grandchild / grandchildren / grandkid
+granddaughter
+grandfather / grandpa
+grandmother / grandma / granny
+grandson
+half-brother
+half-sibling
+half-sister
+husband
+in-law
+mom / mother / mama / ma / mommy
+mother-in-law
+nephew
+niece
+partner
+sibling
+sister / sis
+sister-in-law
+son
+son-in-law
+spouse
+step-child / step-children
+step-daughter
+step-son
+stepdad / stepfather
+stepmom / stepmother
+uncle
+wife
 
 [space]
 = cosmos
@@ -4901,16 +5215,13 @@ degenerate
 
 [morbidities]
 = morbid
+& weapons
 death / die / dying / dead
-gun
-knife
 war
 void
 hell
 demon / devil / imp
 stinky / smelly / gross / disgusting / nasty
-nuke
-bomb / explosive
 explosion
 nightmare
 monster
@@ -4941,7 +5252,6 @@ drugs
 addiction / addict
 mean / rude
 trash / junk / garbage / debris
-rifle
 horror
 zombie
 skeleton
@@ -4981,6 +5291,61 @@ excellent
 fun
 leisure
 
+[emotions]
+admiration / admire / admiring
+aggression / aggressive / aggressiveness
+alert
+amazed / amazing / amaze / awe
+anger / angry / furious / irate / mad / rage
+annoyed / annoying / annoy / annoyance
+anxiety / anxious
+apprehension / apprehensive
+approval
+aroused / arousal
+bored / boredom
+calm
+confused / confusion
+contempt
+content
+delighted / delight / delightful
+depression / depressed
+disapproval
+disgust / disgusted
+disinterest / disinterested
+dissatisfied
+distracted / distraction
+distrust
+dread
+ecstatic
+envy / envious / jealousy / jealous
+excited
+fear / scared / terrified / terror / scary / trembling
+gloomy
+grateful / thankful
+grief / grieving
+guilt / guilty
+hope / hopeful / optimistic / optimist / optimism
+interest / interested
+joy / happy / joyful / happiness / gleeful / glee
+loathe / loathing / loathed
+love
+miserable
+panic / panicked / panicking
+peace / peaceful
+pensive / pensiveness
+pleased / satisfied
+pride / proud
+regret / remorse / remorseful
+relaxed / relax / relaxing
+sadness / sad / blue
+serenity
+shock / shocked / stunned / surprise / surprised
+sorrow
+stressed / stress / stressful / tense / distress / distressed
+trust
+understanding
+valence
+vigilance / ready / readiness / vigilant
 
 [numbers]
 & funny numbers
@@ -5181,6 +5546,8 @@ easter egg "it can't be that easy.."
 mix-up "you like typing games?"
 neal "sounds like a fun guy!"
 
+
+
 ### TODO
 
 [cities]
@@ -5189,52 +5556,8 @@ los angeles "also known as El Pueblo de Nuestra Senora la Reina de los Angeles d
 
 [units of time]
 
-[emotions]
-panic / panicked
-fear / scared
-anxiety / anxious
-anger / angry
-sadness / sad
-depression / depressed
-joy / happy / joyful / happiness
-
-[occupation]
-police / cop
-firefighter / fireman
-engineer
-architect
-accountant
-scientist
-electrician
-astronaut
-
 [holidays]
 halloween
-
-[structures]
-= buildings
-tower
-house
-zoo
-
-[weapons]
-slingshot
-bow
-gun
-pistol
-rifle
-sword
-knife
-dagger
-spear
-cannon
-axe
-crossbow
-
-[family]
-mom / mother / mama / ma / mommy
-dad / father / papa / pa / daddy / dada
-
 
 estrogen
 game

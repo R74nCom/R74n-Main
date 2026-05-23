@@ -721,7 +721,7 @@
     return choices[Math.floor(seedRandom(seed) * choices.length)];
   }
 
-  const dailyStart = new Date(2026, 4, 19);
+  const dailyStart = new Date(2026, 4, 24);
   let dailyGroup = "animals";
   function updateDaily() {
     const date = new Date();
@@ -762,6 +762,7 @@
         if (r === false) continue;
         if (givenWords === 0) logMessage("JUST ADDED:", 2);
         givenWords ++;
+        statAdd("rescued", 1);
         for (const group in SPA.data.wordIndex[word] ) {
           logMessage(`+${group} (${word})`, 2);
         }
@@ -897,7 +898,7 @@
           formsToCheck.push(form.slice(0,-1));
         }
         if (form.match(/[shx]$/)) formsToCheck.push(form+"es");
-        formsToCheck.push(form+"s");
+        if (form.length >= 3) formsToCheck.push(form+"s");
         if (form.length >= 5) {
           formsToCheck.push(form.replace(/i$/g, "us"));
           formsToCheck.push(form.replace(/us$/g, "i"));
