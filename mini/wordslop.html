@@ -1105,7 +1105,7 @@
       if (hasAlias) narrate("alias", "you found a synonym of a previous word.");
       playAudio(hasNewGroup ? "yay" : "success");
     }
-    else if (duplicate || saveData.unrecognized[word] || saveData.unrecognized[base]) {
+    else if (duplicate || saveData.unrecognized[word] || (base && saveData.unrecognized[base])) {
       logMessage(`**${duplicate || word || base}**${(duplicate || base) && (duplicate || base) !== word ? " ("+stripQualifier(word, duplicate || base)+")" : ""} already said`, 2);
       statAdd("repeats", 1);
       playAudio("boo");
