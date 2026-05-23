@@ -517,7 +517,7 @@
       else if (selectedGroup === "unrecognized") {
         num = Object.keys(saveData.unrecognized).length;
       }
-      else num = getGroupProgress(selectedGroup) + "%";
+      else num = getGroupFound(selectedGroup);
       title.innerHTML = `<span class="back">◀</span><span>${selectedGroup} (${num})</span>`;
       title.addEventListener("click", () => {
         selectedGroup = null;
@@ -652,7 +652,7 @@
   function logMessage(text, type=1, saved=false, args={}) {
     if (saved === false) saveData.messages.push([text, type, statGet("tries")]);
     
-    if (type === 1 && text.match(/\w$/)) text += ".";
+    if (type === 1 && text.match(/[\w\*]$/)) text += ".";
 
     let html = escapeHTML(text);
     html = html.replace(/\*\*new\*\*/g, (m) => "<strong style='color:darkred;font-style:italic'>[new]</strong>");
@@ -754,6 +754,7 @@
     }
     updateDaily();
 
+    let news = [];
     let givenWords = 0;
     for (const word in saveData.unrecognized) {
       if (SPA.data.wordIndex[word] !== undefined) {
@@ -767,10 +768,46 @@
         delete saveData.unrecognized[word];
       }
     }
+    const currentVersion = SPA.data.news.length;
     if (givenWords !== 0) {
-      logMessage(`news flash! **${{1:"one", 2:"two", 3:"three", 4:"four", 5:"five", 6:"six", 7:"seven", 8:"eight", 9:"nine", 10:"ten", 11:"eleven", 12:"twelve"}[givenWords] || givenWords}** of your unrecognized words were added - i moved them to your list :)`, 1);
+      news.push(`**${{1:"one", 2:"two", 3:"three", 4:"four", 5:"five", 6:"six", 7:"seven", 8:"eight", 9:"nine", 10:"ten", 11:"eleven", 12:"twelve"}[givenWords] || givenWords}** of your unrecognized words were added - i moved them to your list :)`);
     }
-    if (givenWords) saveState();
+    const wordTotal = SPA.data.total;
+    const groupTotal = Object.keys(SPA.data.groups).length;
+    if (saveData.version === undefined) {
+      if (saveData.stats.score) saveData.version = 0;
+      else saveData.version = currentVersion;
+
+      if (!saveData.lastWordTotal) saveData.lastWordTotal = wordTotal;
+      if (!saveData.lastGroupTotal) saveData.lastGroupTotal = groupTotal;
+    }
+    if (currentVersion > saveData.version) {
+      const diff = currentVersion - saveData.version;
+      news = SPA.data.news.slice(0, diff).concat(news);
+      console.log(news);
+      saveData.version = currentVersion;
+    }
+    let addedMessage = "";
+    const diffWords = wordTotal-saveData.lastWordTotal-givenWords;
+    if (diffWords > 0) {
+      const diffGroups = groupTotal-saveData.lastGroupTotal;
+      addedMessage += `**${diffWords}${givenWords ? " other" : ""} word${diffWords > 1 ? "s" : ""}**`;
+      if (diffGroups > 0) addedMessage += ` and **${diffGroups} group${diffGroups > 1 ? "s" : ""}**`;
+    }
+    saveData.lastWordTotal = wordTotal;
+    saveData.lastGroupTotal = groupTotal;
+    if (addedMessage) news.push("since you last played, we added " + addedMessage);
+    if (news.length) {
+      if (news.length === 1) logMessage(`news flash! `+news[0], 1);
+      else {
+        news.reverse().slice(0,-1).forEach(n => {
+          if (!n) return;
+          logMessage("& " + n, 1);
+        });
+        logMessage(`news flash: `+news[news.length-1], 1);
+      }
+      saveState();
+    }
   }
 
   let sameCount = 0;
@@ -845,7 +882,7 @@
         formsToCheck.push(form);
 
         if (form.length < 4) {}
-        else if (form.endsWith("s")) {
+        else if (form.endsWith("s") && !form.endsWith("ss")) {
           if (form.endsWith("es")) {
             if (form.endsWith("ies")) formsToCheck.push(form.slice(0,-3)+"y");
             if (form.endsWith("ves")) formsToCheck.push(form.slice(0,-3)+"fe");
@@ -853,7 +890,7 @@
           }
           formsToCheck.push(form.slice(0,-1));
         }
-        else if (form.endsWith("ed")) {
+        else if (form.endsWith("ed") && form.length > 4) {
           if (form.endsWith("ied")) formsToCheck.push(form.slice(0,-3)+"y");
           formsToCheck.push(form.slice(0,-3));
           formsToCheck.push(form.slice(0,-2));
@@ -865,7 +902,7 @@
           formsToCheck.push(form.replace(/i$/g, "us"));
           formsToCheck.push(form.replace(/us$/g, "i"));
           formsToCheck.push(form.replace(/ing$/g, ""));
-          formsToCheck.push(form.replace(/er$/g, ""));
+          if (form.endsWith("er")) formsToCheck.push(form.replace(/er$/g, "")+"ing");
         }
         formsToCheck.push(form.replace(/ice$/g, "ouse"));
         formsToCheck.push(form.replace(/ouse$/g, "ice"));
@@ -1235,6 +1272,7 @@
 
       if (wordIndex[word] === undefined) wordIndex[word] = {};
       wordIndex[word][group] = true;
+      // pseudo-aliases
       if (word.match(/ /)) {
         const form = word.replace(/ /g,"");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
@@ -1253,6 +1291,11 @@
       }
       if (word.match(/'/)) {
         const form = word.replace(/'/g,"");
+        if (wordIndex[form] === undefined) wordIndex[form] = {};
+        wordIndex[form][group] = [word];
+      }
+      if (word.match(/\. /)) {
+        const form = word.replace(/\. /g,"");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
         wordIndex[form][group] = [word];
       }

@@ -1,4 +1,8 @@
 SPA.data = {}
+SPA.data.news = [
+   "totals are now shown when opening a group",
+   "we added changelogs that show up automatically"
+]
 
 /*
  ██╗       ██╗  █████╗  ██╗ ████████╗
@@ -227,6 +231,7 @@ flock
 flutter
 formation
 gam
+gaggle
 gang
 gaze
 group
@@ -475,6 +480,7 @@ from
 have
 how
 however
+about
 if
 in
 into
@@ -485,6 +491,8 @@ start
 never
 no / nope / nah
 go / going / gone
+are
+be
 went
 none
 nor
@@ -493,6 +501,7 @@ now
 of / o'
 off
 on
+let
 once
 onto
 or
@@ -573,14 +582,14 @@ january | february | march | april | may | june | july | august | september | oc
 [seasons] summer | winter | spring | autumn / fall
 
 [directions]
-north
-south
-east
-west
-northeast
-northwest
-southeast
-southwest
+north / northern
+south / southern
+east / eastern
+west / western
+northeast / northeastern
+northwest / northwestern
+southeast / southeastern
+southwest / southwestern
 left / leftward
 right / rightward
 forward / front / frontward
@@ -718,7 +727,7 @@ coati
 deer / buck / doe / stag / hart / hind / fawn
 dik-dik
 dugong / sea pig
-echidna / spiny anteater / puggle
+echidna / spiny anteater / puggle "the other mammal that lays eggs"
 elephant "these are the world's largest land animals"
 elephant seal
 elk / wapiti
@@ -749,8 +758,8 @@ otter / sea otter
 ox / oxen
 pangolin "their cool scales have caused them to be widely trafficked"
 peccary / javelina / skunk pig
-pig / hog / swine / piggy / piglet / sow
-platypus / duckbill / duck-billed
+pig / hog / swine / piggy / piglet / sow "a ^ physically can't look up at the sky"
+platypus / duckbill / duck-billed "one of the only mammals that lay eggs"
 polecat / zorilla / zorille / zoril
 rabbit / bunny "rabbits only blink 10-15 times in an hour"
 raccoon / racoon / trash panda
@@ -982,7 +991,7 @@ bluebird
 bobolink
 booby
 buzzard
-canary
+canary "these birds were used in coal mines to warn miners of toxic gases"
 cardinal
 catbird
 chickadee / tit / titmouse
@@ -1002,7 +1011,7 @@ eagle / erne / eaglet "bald eagles use the same nest across many years"
 emu
 falcon / peregrine / kestrel
 finch / goldfinch
-flamingo
+flamingo "while beautiful, they aren't born pink like that"
 flycatcher
 rhea
 fowl / landfowl / galliform / waterfowl / gamefowl
@@ -1042,7 +1051,7 @@ nightingale
 nuthatch
 oriole
 osprey
-ostrich
+ostrich "these flightless birds have the largest eggs of any living species"
 owl "who?"
 parakeet / budgie
 parrot / eclectus
@@ -1061,13 +1070,13 @@ quelea
 quetzal
 rail
 raven
-roadrunner
+roadrunner "they're not just cartoon characters!"
 robin
 rook
 rosefinch
 sandpiper
 sapsucker
-shoebill stork / shoebill
+shoebill stork / shoebill "they sound scary.."
 shrike
 snipe
 songbird
@@ -1112,7 +1121,7 @@ caiman
 chameleon
 cobra
 cornsnake
-crocodile / crocodilian / croc
+crocodile / crocodilian / croc "their tongue is held in place by a membrane, making it immovable"
 dinosaur
 dragon / komodo dragon
 gecko "all members of the **mourning gecko** species are female"
@@ -1123,7 +1132,7 @@ iguana
 kingsnake
 lizard
 monitor lizard / monitor
-python
+python "one once swallowed a woman whole"
 rattlesnake / rattler
 sea turtle
 skink
@@ -1171,7 +1180,7 @@ plateosaurus
 plesiosaurus / plesiosaur
 protoceratops
 pteranodon
-pterosaur / pterodactyl / pterodactylus
+pterosaur / pterodactyl / pterodactylus "they technically aren't dinosaurs!"
 quetzalcoatlus
 spinosaurus / spinosaur
 stegosaurus / stegosaur
@@ -1180,12 +1189,12 @@ tarbosaurus
 therizinosaurus
 triceratops
 troodon
-tyrannosaurus / tyrannosaurus rex / t-rex / trex / t rex / rex
+tyrannosaurus / tyrannosaurus rex / t-rex / trex / t rex / rex "these dinos stood up to 12 feet high, and were as long as 40 feet!"
 utahraptor
 velociraptor / raptor
 
 [amphibians]
-axolotl
+axolotl "these salamanders have the remarkable ability to regenerate lost legs"
 bullfrog
 caecilian
 dart frog
@@ -1196,7 +1205,7 @@ olm / proteus
 peeper
 salamander
 spadefoot / spadefoot toad
-tadpole / polliwog
+tadpole / polliwog "baby amphibians go through **metamorphosis**, most famously seen in frog tadpoles"
 toad
 tree frog
 
@@ -1286,7 +1295,7 @@ danio
 & arachnids
 centipede
 millipede
-earthworm / worm / nightcrawler
+earthworm / worm / nightcrawler "they can regenerate when cut in half"
 
 [insects]
 alderfly
@@ -1464,7 +1473,7 @@ coal
 charcoal
 nest
 hive / beehive / bee nest
-water / rain
+water / rain "is it wet? who can say.."
 ice
 snow
 lava
@@ -1479,6 +1488,7 @@ roe / caviar
 mound
 poop / poo / poopy / crap / shit / dookie / poopie / doodoo
 pee / urine
+vomit / puke / throwup
 blood
 slime
 
@@ -1524,6 +1534,7 @@ comendite
 conglomerate
 coquina
 dacite
+geode
 diabase / dolerite
 diamictite
 diatomite
@@ -1805,6 +1816,7 @@ zultanite
 # & trees
 seed
 seedling / sapling / sprout
+spore
 bush / shrub
 grass
 cereal
@@ -1830,7 +1842,7 @@ cress
 bittercress / popping cress / wood-cress / pepperweed / shotweed / snapweed
 alder
 aloe vera / aloe
-cactus
+cactus / succulent
 
 [flowers]
 "awww, you got this for me?"
@@ -2343,7 +2355,7 @@ old bay
 [nuts]
 "nuts, and similar.."
 acorn
-almond
+almond "not actually a nut, but part of the **peach** family"
 beech
 bopple / red nut
 brazil nut / brazil
@@ -2388,7 +2400,7 @@ chestnut
 christmas
 conifer
 cottonwood
-cucumber "yes, there's a tree called that too"
+cucumber "yes, there's a **tree** called that too"
 cypress
 sycamore
 deciduous
@@ -2414,13 +2426,13 @@ magnolia
 maple
 mountain-ash
 oak
-palm "palm trees technically aren't trees but i'll let it slide"
-pando "pando is a massive single organism made up of thousands of trees"
+palm "palm trees technically aren't **tree**s but i'll let it slide"
+pando "pando is a massive single organism made up of thousands of **tree**s"
 pine
 poplar
 redbud
 redcedar
-redwood / sequoia "the tallest tree, a ^, in the world is over 380 feet tall"
+redwood / sequoia "the tallest **tree**, a ^, in the world is over 380 feet tall"
 sakura / cherry blossom / cherry
 sassafras
 shadbush
@@ -2465,7 +2477,7 @@ pastrami
 pâté
 pepperoni
 pork / porkchop
-ribs
+ribs "these could be fractured if you sneeze too hard. be careful!"
 salami
 sausage / frankfurter / hotdog / glizzy
 scrapple
@@ -2490,6 +2502,7 @@ millet
 rye
 quinoa
 buckwheat
+butter
 
 bacon
 bagel
@@ -2645,6 +2658,7 @@ beret
 boa
 bow / bowtie
 bracelet
+braces
 buckle
 burqa
 button
@@ -2670,6 +2684,8 @@ hat
 hazmat
 headphones
 headscarf
+thong
+speedo
 helmet
 hijab
 jewelry / jewels / ice
@@ -2959,6 +2975,7 @@ camper / rv
 canoe
 car / automobile
 caravan
+wheel
 carriage
 cart
 caterpillar
@@ -2973,6 +2990,7 @@ dump truck
 ev / electric vehicle / electric car
 firetruck / fire engine
 ford
+minecart
 forklift
 wheelchair
 go kart / kart
@@ -3184,12 +3202,16 @@ bed
 block
 book
 bottle
+clasp
+oven
+stove / stovetop
+frier
 broom
 shelf
 brush
 bucket
 carpet
-carpet
+rubber band
 carton
 ceiling
 cellphone / smartphone / iphone / android
@@ -3211,6 +3233,7 @@ desk
 dictionary
 door
 envelope
+lego
 fan
 flag
 flashlight
@@ -3228,6 +3251,10 @@ keyboard
 keychain
 knife
 lamp
+toothpaste
+toothbrush
+bathtub / tub
+shower
 laptop
 letter / mail
 lock
@@ -3246,6 +3273,8 @@ pencil
 phone
 phone / telephone
 pillow
+blanket / sheet / bedsheet
+quilt
 rack
 remote
 roll
@@ -3317,34 +3346,36 @@ wood
 wool
 
 [body parts]
-= body
+= body / human body
 abdomen
 ankle
+appendix "this organ has no use to modern humans"
 arch
 arm
 armpit
 artery
+adenoid
+thyroid
 back
+beak
 beard
-belly
+belly / tummy
 biceps
 bladder
 blood
 bone
-brain
-breast / boob / tit / teet / mammary
-butt / ass / butthole / buttocks / anus
-rectum
-scalp
-appendix
+brain / mind
+breast / boob / tit / teet / mammary / booby
 bronchi
-bronchus
 bronchiole
-lymph node
+bronchus
+butt / ass / butthole / buttocks / anus
 calf
+canine
 cartilage
-cell
-cheek
+cavity "please take care of your teeth"
+cell "you have about thirty-six trillion of these"
+cheek "no other animal can blush like us"
 chest
 chin
 circulation
@@ -3353,33 +3384,40 @@ collarbone / collar
 diaphragm
 dimple
 ear
-earlobe
+earlobe "we aren't sure what the purpose of them is"
 ears
 elbow
-esophagus
+esophagus / throat
 eye
+eyebag
 eyebrow
 eyelash
 eyelid
 face
 fat
+feather
+femur
 fiber
+fibula
 fin
-finger
-fingertip
+fin
+finger "fingerprints are so unique, even identicial twins don't share them"
+fingertip / fingerprint
 fist
 flesh
 foot / feet
 forearm
 forehead
 freckle
+funny bone "it's actually a **nerve**"
 gallbladder
 gland
+goosebump "every mammal gets these!"
 hair
 hamstring
 hand
 head
-heart
+heart "yours will beat more than three billion times in your life"
 heel
 hip
 instep
@@ -3392,57 +3430,68 @@ kneecap
 knuckle
 leg
 ligament
-lips
+limb
+lips "some of the most sensitive parts of the body"
 liver
 lungs
+lunula
+lymph node
 marrow
 membrane
-mouth
-muscle
+molar
+mouth / frown
+muscle "this word comes from latin for **little mouse**"
 mustache
 nail / toenail / fingernail
 nails
-navel
+navel / belly button
+neck
 nerve
-nose
+nose / nasal
 nostril
 organ
+ossicle
 palm
 pancreas
+pelvis
 pinky
 pulse
+rectum
 ribs
 saliva
+scale
+scalp
 shin
 shoulder
 side
 skeleton
-skin
+skin "this is your largest organ"
 skull
 sole
 spine / spinal cord
-femur
 spleen
 sternum
 stomach
 sweat
+tail
 tear
-tooth / teeth
 temple
 tendon
 tentacle
 thigh
-throat
 thumb
+tibia
 tissue
 toe
 toenail
 tongue
+tooth / teeth / smile "yours are just as strong as a **shark**'s!"
 torso
 trachea
 triceps
 trunk
 udder
+uterus / womb
 vein
 waist
 wing
@@ -3454,7 +3503,7 @@ acid / acid rain
 allergies
 avalanche
 blizzard
-clouds / cloudy / cloudiness
+clouds / cloudy / cloudiness "a **cloud** weighs over a million tons"
 cold / cool / frigid / chilly
 cyclone / vortex
 dew
@@ -3479,7 +3528,7 @@ lightning
 mist / misty
 monsoon
 overcast
-rain / rainy / rainstorm / rain storm
+rain / rainy / rainstorm / rain storm / wet
 rainbow
 sandstorm
 shower
@@ -3556,7 +3605,7 @@ levee
 marsh
 moat
 oasis
-ocean
+ocean "we aren't even close to exploring 1% of earth's ocean"
 pond
 pool
 puddle
@@ -3731,7 +3780,7 @@ alibaba
 allianz
 amazon
 american express
-apple
+apple "former apple CEO Steve Jobs would only eat apples and carrots for weeks at a time"
 astrazeneca
 at&t / att
 axa
@@ -3745,6 +3794,7 @@ byd
 chevron
 china mobile
 cisco
+kia
 citigroup
 cnooc
 coca cola
@@ -3773,7 +3823,7 @@ louis vuitton / lvmh
 mastercard
 mercedes-benz / mercedes
 meta / facebook
-microsoft
+microsoft "more like microSLOP!"
 mitsubishi
 mizuho
 morgan stanley
@@ -3817,8 +3867,11 @@ volkswagen
 walmart
 wells fargo
 discord "we have one! **discord.gg/R74n**"
+reddit "share this on R/74n!"
 amd
 intel
+ea
+popcap
 
 
 [continents]
@@ -3901,7 +3954,7 @@ ethiopia
 falkland islands / islas malvinas / falkland
 faroe islands / faeroes / faroes
 fiji
-finland
+finland "according to the **World Happiness Report**, this is the happiest country"
 france
 french polynesia
 gabon
@@ -4003,9 +4056,9 @@ republic of the congo / congo republic
 romania
 russia
 rwanda
-saint kitts and nevis / saint kitts / nevis
-saint lucia
-saint vincent and the grenadines
+saint kitts and nevis / saint kitts / nevis / st. kitts and nevis / st. kitts
+saint lucia / st. lucia
+saint vincent and the grenadines / st. vincent and the grenadines
 samoa
 san marino
 são tomé and príncipe / sao tome and principe
@@ -4078,7 +4131,7 @@ Iowa / IA
 Kansas / KS
 Kentucky / KY
 Louisiana / LA
-Maine / ME
+Maine / ME "the only state with a one-syllable name"
 Maryland / MD
 Massachusetts / MA
 Michigan / MI
@@ -4267,8 +4320,8 @@ riga
 riyadh
 rome
 roseau
-saint george's
-saint john's
+saint george's / st. george's
+saint john's / st. john's
 san jose
 san marino
 san salvador
@@ -4361,7 +4414,7 @@ salem
 salt lake city / salt lake
 santa fe
 springfield
-st. paul
+st. paul / saint paul
 tallahassee
 topeka
 trenton
@@ -4653,12 +4706,13 @@ quasar
 galaxy
 universe
 multiverse
+galaxy
+milky way
 
 [celestial bodies]
 & planets
-earth / terra
 sun / star / sol / solar
-moon
+moon "humans have seen the exact same spot of the moon for all of history"
 pluto
 ceres
 haumea
@@ -4670,7 +4724,7 @@ exoplanet
 [planets]
 mercury
 venus
-earth
+earth / terra
 mars
 jupiter
 saturn
@@ -4888,6 +4942,15 @@ addiction / addict
 mean / rude
 trash / junk / garbage / debris
 rifle
+horror
+zombie
+skeleton
+creepy / scary / eerie
+dread
+guilt
+depression / depressed
+fool / idiot
+dumb / stupid
 
 [blissfuls]
 = bliss
@@ -4916,22 +4979,22 @@ pride / proud
 amazing / wonderful
 excellent
 fun
-depression / depressed
+leisure
 
 
 [numbers]
 & funny numbers
 zero / 0
-one / 1
-two / 2
-three / 3
-four / 4
-five / 5
-six / 6
-seven / 7
-eight / 8
-nine / 9
-ten / 10
+one / 1 / first / 1st
+two / 2 / second / 2nd
+three / 3 / third / 3rd
+four / 4 / fourth / 4th
+five / 5 / fifth / 5th
+six / 6 / sixth / 6th
+seven / 7 / seventh / 7th
+eight / 8 / eighth / 8th
+nine / 9 / ninth / 9th
+ten / 10 / tenth / 10th
 eleven / 11
 twelve / 12
 hundred / 100
@@ -4958,9 +5021,10 @@ graham's number
 1234567890
 0987654321
 987654321
+74 "say that again.."
 
 [funny numbers]
-six-seven / sixty-seven / 67 / 6 7 / 6-7 "six seeeeven"
+six-seven / sixty-seven / 67 / 6 7 / 6-7 / 6767 "six seeeeven"
 sixty-nine / 69 "nice"
 four-one / 41 "four ooooone"
 four-twenty / 420 / 4//20
@@ -4971,11 +5035,14 @@ fourty-two / 42 "the answer to the ultimate question of life, the universe, and 
 1984 "literally"
 1337
 666 "gulp..."
+777
 nine thousand / 9000 / 9001 / over 9000 "my power level"
 twenty-three / 23 skidoo / 23
 69420 "wow, two in one"
 66 "execute order 66"
 25 / twenty-five "you know what's funnier than twenty-four?"
+404 "word not found.. or was it?"
+2763 "bfdi reference"
 
 [letters] q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m
 
@@ -5046,6 +5113,8 @@ tung tung / sahur / triple t
 W "W for wordslop"
 yap / yapping
 your mom / ur mom "leave her alone!"
+loss / is this loss "|| |||| |||| ||_"
+job application "AHHHHH!"
 
 [long words]
 pneumonoultramicroscopicsilicovolcanoconiosis
@@ -5054,7 +5123,7 @@ chargoggagoggmanchauggagoggchaubunagungamaugg
 honorificabilitudinitatibus
 supercalifragilisticexpialidocious
 floccinaucinihilipilification
-hippopotomonstrosesquippedaliophobia / hippopotomonstrosesquipedaliophobia
+hippopotomonstrosesquippedaliophobia / hippopotomonstrosesquipedaliophobia "what does that mean AHHHHHHH"
 pseudohypoparathyroidism / pseudopseudohypoparathyroidism
 methylenedioxymethamphetamine
 electroencephalographically
@@ -5062,6 +5131,7 @@ radioimmunoelectrophoresis
 immunoelectrophoretically
 
 [typing]
+asdf
 qwerty
 qwertyuiop
 qwertyuiopasdfghjklzxcvbnm
@@ -5108,12 +5178,14 @@ group
 daily "words in the **DAILY GROUP** give double points!"
 test "success!"
 easter egg "it can't be that easy.."
+mix-up "you like typing games?"
+neal "sounds like a fun guy!"
 
 ### TODO
 
 [cities]
 las vegas / vegas
-los angeles
+los angeles "also known as El Pueblo de Nuestra Senora la Reina de los Angeles de Porciuncula"
 
 [units of time]
 
@@ -5138,6 +5210,35 @@ astronaut
 
 [holidays]
 halloween
+
+[structures]
+= buildings
+tower
+house
+zoo
+
+[weapons]
+slingshot
+bow
+gun
+pistol
+rifle
+sword
+knife
+dagger
+spear
+cannon
+axe
+crossbow
+
+[family]
+mom / mother / mama / ma / mommy
+dad / father / papa / pa / daddy / dada
+
+
+estrogen
+game
+video
 
 ###
 
