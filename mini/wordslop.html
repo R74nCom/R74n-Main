@@ -766,7 +766,7 @@
         givenWords ++;
         statAdd("rescued", 1);
         for (const group in SPA.data.wordIndex[word] ) {
-          logMessage(`+${group} (${word})`, 2);
+          logMessage(`+${group} (${word})`, 2, undefined, {fade: false});
         }
         delete saveData.unrecognized[word];
       }
@@ -833,13 +833,15 @@
       return false;
     }
 
-    statAdd("tries", 1);
-    document.querySelectorAll("span[data-age]").forEach(m => {
-      let age = parseInt(m.getAttribute("data-age"));
-      age ++;
-      m.setAttribute("data-age", age);
-    });
-    updateMessages();
+    if (!skipMessage) {
+      statAdd("tries", 1);
+      document.querySelectorAll("span[data-age]").forEach(m => {
+        let age = parseInt(m.getAttribute("data-age"));
+        age ++;
+        m.setAttribute("data-age", age);
+      });
+      updateMessages();
+    }
 
     updateInputOverlay();
     if (!word) {

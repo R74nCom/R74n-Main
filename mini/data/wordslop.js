@@ -586,6 +586,9 @@ yippee
 yahoo
 wow
 woah
+oh / ohh / ohhh / ohhhh
+ah / ahh / ahhh / ahhhh
+ay / aye
 
 [pronouns]
 each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody|everyone / everybody|nobody / no one|whoever / whomever
@@ -943,6 +946,7 @@ cattle dog
 kelpie
 basenji
 klee kai
+hokkaido / ainu / ainu-ken / seta
 
 [rodents]
 agouti
@@ -1065,7 +1069,9 @@ falcon / peregrine / kestrel
 finch / goldfinch
 flamingo "while beautiful, they aren't born pink like that"
 flycatcher
+tyrant
 rhea
+bullfinch
 fowl / landfowl / galliform / waterfowl / gamefowl
 goose / gosling
 goshawk
@@ -1125,8 +1131,12 @@ quelea
 quetzal
 rail
 raven
+lorikeet
+myna / mynah
+conure
 creeper / treecreeper "they aren't just exploding leaf things!"
 woodcreeper
+honeycreeper
 ovenbird
 bittern
 stonechat
@@ -1176,6 +1186,8 @@ umbrellabird
 vulture
 wader
 warbler
+hoopoe
+kakapo
 potoo
 siskin
 tinamou
@@ -1578,6 +1590,8 @@ hive / beehive / bee nest
 water / rain "is it wet? who can say.."
 ice
 snow
+wax / beeswax
+gum
 lava
 magma
 fire
@@ -1794,6 +1808,8 @@ alexandrite
 amber
 amethyst
 ametrine
+jet
+kyawthuite
 ammolite / ammonite
 anatase
 andalusite
@@ -2194,8 +2210,8 @@ nance
 nectarine
 orange
 blood orange
+mandarin / mandarin orange / mandarine
 clementine
-mandarine
 tangerine
 papaya
 passionfruit
@@ -2408,6 +2424,7 @@ chicory
 chives
 cicely
 cilantro
+sugar
 cinnamon
 clove
 coriander
@@ -3003,7 +3020,7 @@ kayaking
 kempo
 krav maga
 kung fu
-esports
+esports / gaming
 chess
 lacrosse
 martial arts / combat / fighting
@@ -3085,6 +3102,7 @@ bicycle / bike / cycle
 boat
 bulldozer / dozer
 bumper car
+jet
 bus / shuttle / omnibus
 cab / taxi
 cabriolet
@@ -3347,6 +3365,7 @@ bed
 couch
 sofa
 mug
+candle
 radio
 printer
 blanket / sheet / bedsheet
@@ -3354,6 +3373,7 @@ block
 book
 bottle
 broom
+mouse
 brush
 bucket
 carpet
@@ -3456,15 +3476,16 @@ window
 [materials]
 asphalt
 brick
-brick
 cardboard
 cement
 ceramic
+foil
 chiffon
 asbestos / asbestus
 clay
+brass
+wax
 cloth
-concrete
 concrete
 cotton
 denim
@@ -3477,14 +3498,13 @@ hair
 hemp
 hide
 jersey
+terracotta
 leather
 linen
 nail
 nylon
 paint
-paint
 paper
-plastic
 plastic
 polyester
 porcelain
@@ -3494,8 +3514,9 @@ screw
 silk
 skin
 steel
+stainless steel
+galvanized steel
 velvet
-wood
 wood
 wool
 
@@ -4771,10 +4792,21 @@ bambara
 belarusian
 bengali
 bosnian
+ainu
+rohingya
+monegasque
+jeju / jejueo / jejuan
+valyrian
+cherokee
+dungan
+fuzhounese
 bulgarian
 burmese
 cambodian / khmer
 cantonese
+irish
+bokmål / norwegian
+nynorsk
 cape verdean / portuguese creole
 catalan
 cebuano
@@ -4918,6 +4950,7 @@ toishanese
 toki pona "kama pona!"
 tongan
 turkish
+turkmen
 twi
 tzotzil
 ukrainian
@@ -4930,6 +4963,21 @@ yoruba
 yup'ik
 zarma
 zulu
+uzbek
+lojban
+loglan
+abkhaz
+bashkir
+taa
+uyghur
+kazakh
+karakalpak
+assamese
+ithkuil
+klingon
+gilbertese
+palauan
+malaylam
 
 [money]
 = currency / cash / coin / bill / banknote
@@ -5405,7 +5453,7 @@ sad / sadness
 fart
 vampire
 ghost / ghoul
-disease / virus
+disease / virus / plague
 bad / evil / terrible / horrible
 mortality / mortal
 darkness / dark / shadow
@@ -5442,6 +5490,11 @@ uranium
 plutonium
 mort
 wrath
+tyrant
+dictator / fascist
+dictatorship / fascism
+assault
+pestilence
 
 [blissfuls]
 = bliss
@@ -5596,11 +5649,14 @@ twenty-three / 23 skidoo / 23
 25 / twenty-five "you know what's funnier than twenty-four?"
 404 "word not found.. or was it?"
 2763 "bfdi reference"
+six-one / sixty-one / 61 "six ooooone"
+thirty-eight / 38 "is this a secret trend?"
 
 [letters] q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m
-å|ä|ö
+å|ä|ö|ñ
 
 [memes]
+& funny numbers
 ahh
 among us / amogus / sussy / sus / crewmate / imposter / impostor
 aura / aurafarming "wordslopping gives a huge aura boost"
@@ -5768,13 +5824,25 @@ estrogen
 game
 video
 autism
+mitochondrion
 
-lgbtq stuff
+[lgbtq stuff]
+male
+female
+non-binary / enby / nb
+gay
+
+[fandoms]
+geometry dash / gd "holy gd reference"
 
 [minerals]
-augite, gypsum, graphite, calcite, aragonite, and asbestos all not recognized
+augite, gypsum, graphite, calcite, aragonite, asbestos / asbestus
+silica
 
 kaolin / kaolinite (type of clay)
+thermite
+
+[greek-roman gods]
 
 [math]
 radius
