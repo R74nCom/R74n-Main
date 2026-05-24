@@ -207,6 +207,7 @@ army
 array
 assembly / assemblage
 band
+embarrassment "a group of pandas"
 batch
 waddle
 raft
@@ -307,6 +308,8 @@ cub
 duckling "this one doesn't seem so ugly"
 eaglet
 eyas
+cygnet "a baby swan"
+owlet
 farrow
 fawn
 fingerling
@@ -647,6 +650,8 @@ decagon
 diamond / lozenge
 disc / disk
 dodecagon
+undecagon
+hendecagon
 dodecahedron
 dot / point
 ellipse
@@ -679,6 +684,7 @@ pyramid
 quadrilateral
 quatrefoil
 rectangle / rectangular
+cuboctahedron
 rhomboid
 rhombus
 semicircle
@@ -761,6 +767,7 @@ dugong / sea pig
 echidna / spiny anteater / puggle "the other mammal that lays eggs"
 elephant "these are the world's largest land animals"
 elephant seal
+civet
 elk / wapiti
 ferret
 gazelle
@@ -785,6 +792,7 @@ mongoose
 moose
 mountain goat
 muskox
+hyena / hyaena
 otter / sea otter
 mustelid
 fisher / fishercat "these creatures sound like screaming babies, very scary"
@@ -872,6 +880,7 @@ spirit bear / kermode bear / spirit / kermode
 "dogs, in the broadest sense"
 aardwolf / maanhaarjakkals
 arctic fox
+barbet
 boxer
 bush dog
 chihuahua
@@ -886,7 +895,6 @@ fennec fox
 fox / vixen "the **Scandinavian red fox** has the scientific name 'Vulpes vulpes vulpes'"
 hound
 husky
-hyena / hyaena
 affenpinscher
 aidi
 akita
@@ -1042,9 +1050,11 @@ cockatiel
 cockatoo
 condor
 cormorant
+secretary / secretary bird
 crane
 crow / corvid "some crows are able to use tools"
 cuckoo
+lyrebird
 curlew
 dodo
 dove
@@ -1078,10 +1088,13 @@ kingbird
 kingfisher
 kinglet / crest
 kite
+siva
+minla
 kiwi / kiwibird
 kookaburra
 lapwing
 lark / meadowlark
+spurfowl
 loon
 macaw
 magpie
@@ -1112,8 +1125,26 @@ quelea
 quetzal
 rail
 raven
+creeper / treecreeper "they aren't just exploding leaf things!"
+woodcreeper
+ovenbird
+bittern
+stonechat
+crake
+openbill
+bee-eater
+martin
+swamphen
+chaffinch
+broadbill
+shima enaga / japanese snow fairy
+weaver
+pipit
+snowcock
+nightjar
 roadrunner "they're not just cartoon characters!"
 robin
+birds-of-paradise
 rook
 rosefinch
 sandpiper
@@ -1123,12 +1154,15 @@ shrike
 snipe
 songbird
 sparrow
+phoebe
 spoonbill
 starling
 stork
 sunbird
 swallow
-swan
+swan / cygnet
+galah
+ratite
 swift "chimney swifts rely on human structures, like chimneys, to nest in"
 swiftlet
 teal "yes, the color is named after the bird"
@@ -1142,9 +1176,24 @@ umbrellabird
 vulture
 wader
 warbler
+potoo
+siskin
+tinamou
+solitaire
+emerald
+treepie
+flowerpecker
+coucal
+waxbill
+barbet
+tapaculo
+avocet
+bushtit
+coot
 waxwing
 wigeon
 woodcock
+yellowthroat
 woodpecker "these birds wrap their tongues around their skulls to prevent concussions"
 wren
 
@@ -1198,6 +1247,7 @@ apatosaurus / apatosaur
 archaeopteryx
 brachiosaurus / brachiosaur
 carnotaurus
+microraptor
 ceratosaurus
 coelophysis
 corythosaurus
@@ -1256,7 +1306,11 @@ angelfish
 anglerfish / angler "the glowy ones are female - the males are tiny and latch onto mates forever"
 barracuda
 bass / seabass
-beta / beta fish
+asp
+betta
+bluegill
+arowana
+crappie
 blowfish / pufferfish / puffer
 blobfish
 boxfish / cofferfish / cowfish / trunkfish
@@ -1280,7 +1334,10 @@ haddock
 halibut
 mullet
 hammerhead / hammerhead shark
+chimaera / chimera / spookfish / rat fish / rabbit fish
+rattail / grenadier
 herring
+cisco
 lamprey
 lionfish
 lungfish
@@ -1301,6 +1358,9 @@ placoderm
 ray / stingray / manta ray
 sailfish
 salmon / coho / sockeye
+walleye
+sardine
+anchovy
 sawfish
 seahorse
 shark
@@ -1529,7 +1589,7 @@ egg
 roe / caviar
 mound
 poop / poo / poopy / crap / shit / dookie / poopie / doodoo
-pee / urine
+pee / urine / piss
 vomit / puke / throwup
 blood
 slime
@@ -2503,6 +2563,7 @@ calamari
 cervelat
 chicken / poultry
 chorizo
+breast
 duck
 fish
 tuna
@@ -2942,6 +3003,8 @@ kayaking
 kempo
 krav maga
 kung fu
+esports
+chess
 lacrosse
 martial arts / combat / fighting
 mma
@@ -2957,7 +3020,7 @@ running / racing / race / run
 silat
 skating / skateboarding
 skiing
-soccer / association football
+soccer / association football / fútbol
 softball
 squash
 surfing
@@ -3028,6 +3091,7 @@ cabriolet
 biplane
 camion
 parachute
+crane
 raft
 hummer
 camper / rv
@@ -3253,6 +3317,8 @@ triangle
 trombone
 trumpet
 tuba
+sousaphone
+saxhorn
 tubax
 u-bass
 ukubass
@@ -3346,6 +3412,7 @@ money / cash / bill / banknote
 mop
 opener
 oven
+rope
 painting
 paper / document
 pen
@@ -3394,6 +3461,7 @@ cardboard
 cement
 ceramic
 chiffon
+asbestos / asbestus
 clay
 cloth
 concrete
@@ -3687,6 +3755,7 @@ molar
 mouth / frown
 muscle "this word comes from latin for **little mouse**"
 mustache
+mullet
 nail / toenail / fingernail
 nails
 navel / belly button
@@ -4341,7 +4410,7 @@ sri lanka
 sudan
 south sudan
 suriname
-swaziland
+eswatini / swaziland
 sweden
 switzerland
 syria
@@ -4516,7 +4585,7 @@ kingstown
 kinshasa
 kuala lumpur
 kuwait city
-kyiv or kiev
+kyiv / kiev
 la paz
 libreville
 lilongwe
@@ -4956,7 +5025,7 @@ quarter
 dime "this coin has exactly 118 ridges around its edge"
 
 [jobs]
-= occupations / workers / laborers
+= occupations / workers / laborers / positions
 accountant
 actor / actress
 architect
@@ -4969,7 +5038,10 @@ attendant
 auctioneer
 author / writer
 babysitter
+secretary
 baker
+youtuber / content creator
+streamer / livestreamer
 biologist
 boss
 businessman / businessperson / businesswoman
@@ -5078,6 +5150,8 @@ grandchild / grandchildren / grandkid
 granddaughter
 grandfather / grandpa
 grandmother / grandma / granny
+parent
+grandparent
 grandson
 half-brother
 half-sibling
@@ -5132,6 +5206,7 @@ makemake
 eris
 charon
 sedna
+quaoar
 exoplanet
 planet nine
 
@@ -5364,6 +5439,7 @@ fool / idiot
 dumb / stupid
 gore / gorey / gory
 uranium
+plutonium
 mort
 wrath
 
@@ -5411,6 +5487,7 @@ approval
 aroused / arousal
 bored / boredom
 calm
+embarrassment / embarrassed / embarrass / shame / shameful / shamed
 confused / confusion
 dizzy / dizziness
 contempt
@@ -5479,6 +5556,7 @@ quadrillion
 quintillion
 pi / 3.14 / π / 3.14159 / 3.1415 / 3.141
 tau / τ
+phi / φ
 euler's number / e
 golden ratio / φ
 infinity / infinite
@@ -5542,6 +5620,7 @@ cortisol "wordslop players have low cortisol levels"
 crash out / crashing out
 crine / son / sonion "sonion 😭😭😭"
 delulu
+dih
 domer
 doomscrolling / doomscroll
 driving in my car / after a beer / asgore
@@ -5556,6 +5635,7 @@ grimace shake
 gurt "yo"
 gyatt / gyat
 hantavirus "not again.."
+тoтя / totya
 ragebait "grrrrrr!!!!!"
 doge "so word very wow"
 hate "HATE. LET ME TELL YOU HOW MUCH I'VE COME TO HATE YOU SINCE I BEGAN TO LIVE"
@@ -5601,6 +5681,8 @@ deadass / deadahh
 vro
 rickroll "we're no strangers to love"
 dank "in the big 2026?"
+cornball
+mustard "mustaaaaard"
 
 [long words]
 pneumonoultramicroscopicsilicovolcanoconiosis
@@ -5666,6 +5748,8 @@ test "success!"
 easter egg "it can't be that easy.."
 mix-up "you like typing games?"
 neal "sounds like a fun guy!"
+halacae
+rue "so you've met the other R74n project that talks back to you"
 
 
 
@@ -5683,8 +5767,14 @@ halloween
 estrogen
 game
 video
+autism
 
 lgbtq stuff
+
+[minerals]
+augite, gypsum, graphite, calcite, aragonite, and asbestos all not recognized
+
+kaolin / kaolinite (type of clay)
 
 [math]
 radius
@@ -5704,6 +5794,18 @@ boson
 quark
 positron
 antiproton
+
+[condiments]
+mustard
+ketchup
+relish
+
+[canadian provinces]
+[australian states]
+[oceans]
+[seas]
+[programming languages]
+= computer languages
 
 ###
 
