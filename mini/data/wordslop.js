@@ -1,5 +1,6 @@
 SPA.data = {}
 SPA.data.news = [
+   "thank you all for being some of the wordsloppers! we are slowly going through all the HUNDREDS of submissions, it's a huge help!",
    "thank you for beta testing **wordslop** :)",
    "totals are now shown when opening a group",
    "we added changelogs that show up automatically"
