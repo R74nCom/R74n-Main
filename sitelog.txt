@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-05-24 - New Mini Project: Wordslop
+2026-05-22 - Fixed Tone Indicator List
 2026-05-10 - Rearranged some spotlight buttons
 2026-05-07 - Homepage Bluesky feed can use media alt text
 2026-05-07 - Cleaned up CSS to make way for dynamic themes

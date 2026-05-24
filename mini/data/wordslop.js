@@ -487,6 +487,7 @@ cannot / can't
 could
 did
 do
+okay / ok
 does
 else
 every
@@ -3826,7 +3827,8 @@ fintech
 metaverse
 
 [fields of study]
-= arts / field of work / field of study / fields of work / studies / ology / science
+= arts / field of work / field of study / fields of work / studies / ology
+science
 accounting
 aeronautics
 agriculture / agronomy / farming

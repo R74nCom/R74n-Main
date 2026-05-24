@@ -425,13 +425,13 @@ function setIcon(){
         #allGalleries {
           margin-bottom: 1.5em;
         }
-        #newsFeed article {
+        #newsFeed .article {
           text-align: left;
         }
-        #newsFeed article:first-of-type {
+        #newsFeed .article:first-of-type {
           padding-right: 1em;
         }
-        #newsFeed.expanded article:first-of-type {
+        #newsFeed.expanded .article:first-of-type {
           padding-right: unset;
         }
       }
@@ -488,22 +488,23 @@ function setIcon(){
       #newsFeed.expanded .articles {
         height: unset;
       }
-      #newsFeed article {
+      #newsFeed .article {
         display: none;
         text-align: justify;
         border-bottom: solid 2px #856f6f;
         padding-top: 10px;
         padding-bottom: 10px;
+        color: white;
       }
-      #newsFeed article:first-of-type {
+      #newsFeed .article:first-of-type {
         padding-top: 0;
       }
-      #newsFeed article:last-of-type {
+      #newsFeed .article:last-of-type {
         border-bottom: none;
         padding-bottom: 0;
       }
-      #newsFeed article:first-of-type,
-      #newsFeed.expanded article {
+      #newsFeed .article:first-of-type,
+      #newsFeed.expanded .article {
         display: block;
       }
       #newsFeed.loading .controls {
@@ -520,6 +521,11 @@ function setIcon(){
         height: 0.9em;
         width: 0.9em;
         margin-right: 10px;
+      }
+
+      @font-face {
+        font-family: "Comic";
+        src: url("mini/fonts/ComicRelief-Regular.ttf");
       }
     </style>
     <script>
@@ -581,6 +587,7 @@ function setIcon(){
   <a href="cook/?test" style="background-image: url(cook/spotlight.jpg);">Infinite Chef <span>Ultimate kitchen simulator</span></a>
   <a href="gentown/" class="new update" style="background-image: url(gentown/spotlight.jpg);">GenTown <span>Civilization & planet simulator</span></a>
 
+  <a href="mini/wordslop" class="new" style="background-image: url(mini/spotlight-wordslop.png); font-size: 35px; font-family: Comic">wordslop <span>Endless categorical word puzzle</span></a>
   <a href="mini/protocog" style="background-image: url(mini/spotlight-protocog.png);">ProtoCog <span>Teach a thing to talk</span></a>
   <a href="mini/ragebait" style="background-image: url(mini/spotlight-ragebait.png);">RageBait Simulator <span>Make a streamer angry</span></a>
   <a href="mini/handwriting" style="background-image: url(mini/spotlight-handwriting.png);">Handwriting Personality <span>Fun writing quiz</span></a>
@@ -589,7 +596,7 @@ function setIcon(){
   <a href="ants/" style="background-image: url(ants/spotlight.png);">Every Ant on Earth <span>Explore each individual ant</span></a>
   <a href="pixelflags/guess" style="background-image: url(pixelflags/spotlight.png);">Guess the Pixel Flag <span>Do you know your flags?</span></a>
   <a href="mix/" style="background-image: url(mix/spotlight.png);">Mix-Up! <span>Decide results for random combos</span></a>
-  <a href="convert/" style="background-image: url(convert/spotlight.png);">Unit Converter <span>Translate any unit imaginable</span></a>
+  <!-- <a href="convert/" style="background-image: url(convert/spotlight.png);">Unit Converter <span>Translate any unit imaginable</span></a> -->
 </nav>
 
 </div>
@@ -743,6 +750,7 @@ var newsFlashes = [
   ["4/3-4/6","Help us get painted on a street! You can <a href='https://paintastreet.com/#tile-019d5089-1fe1-7cbf-ad33-22d4e1075fb5'>vote on our tile</a> 10 times every 10 minutes!"],
   ["4/7-4/11","The Grand Census begins NOW. <a href='https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog'>Fill out our form</a> to make your voice heard!"],
   ["5/10-5/13","Help with an upcoming project by filling out <a href='https://docs.google.com/forms/d/e/1FAIpQLSe8fXy9LjKh0S2SBUaj3BgAWbr6rgQrF-gleq8baW4sgOdg0w/viewform?usp=dialog'>this quick form</a>!"],
+  ["5/24-5/31","<a href='/mini/wordslop'>Wordslop: Just Type Things</a> - Try our brand new word game!"],
 ];
 // loop through newsFlashes, if today is between the start and end dates, display the message
 try {
@@ -943,7 +951,11 @@ else fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=d
     }
     else if (diff < 2) dateText = "yesterday";
     else dateText = Math.round(diff) + "d";
-    let article = document.createElement("article");
+    let article = document.createElement("a");
+    article.role = "article";
+    article.className = "article";
+    article.href = `https://bsky.app/profile/r74n.com/post/${id}`;
+    article.target = "_blank";
 
     article.innerText = text;
     if (!text) {

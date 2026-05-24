@@ -339,7 +339,7 @@ if (location.href) {
 		// file:///Users/ryan/Desktop/HTML/R74n-Main/mini/cost.html
 		R74n.state.path = "/" + location.href.split(/\/(?:R74n-Main|R74n)\//i)[1];
 	}
-	else if (R74n.state.main && location.hostname) {
+	else if ((R74n.state.main || location.hostname === "127.0.0.1") && location.hostname) {
 		// https://r74n.com/mini/cost
 		R74n.state.path = location.pathname;
 	}
@@ -671,6 +671,12 @@ R74n.projects = [
 		url: "gentown/",
 		image: "gentown/spotlight.jpg",
 		update: "2026-02-07"
+	},
+	{
+		name: "wordslop",
+		url: "mini/wordslop",
+		image: "mini/spotlight-wordslop.png",
+		release: "2026-05-24"
 	},
 	{
 		name: "ProtoCog",
