@@ -654,6 +654,7 @@
     if (saved === false) saveData.messages.push([text, type, statGet("tries")]);
     
     if (type === 1 && text.match(/[\w\*]$/)) text += ".";
+    text = text.replace(/r74/g, "R74");
 
     let html = escapeHTML(text);
     html = html.replace(/\*\*new\*\*/g, (m) => "<strong style='color:darkred;font-style:italic'>[new]</strong>");
@@ -1153,7 +1154,7 @@
       if (!saveData.stats.score && unrecognized >= 4) {
         narrate("plea", "please, just try **bat** or **rock**..")
       }
-      if (unrecognized >= 20) {
+      if (unrecognized >= 10) {
         narrate("submit", "you have a lot of unrecognized words.. try using the 'submit' button!");
       }
     }
@@ -1278,28 +1279,28 @@
       if (word.match(/ /)) {
         const form = word.replace(/ /g,"");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
-        wordIndex[form][group] = [word];
+        if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
       let nfd = word.normalize("NFD");
       if (nfd !== word) {
         const form = nfd.replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
-        wordIndex[form][group] = [word];
+        if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
       if (word.match(/-/)) {
         const form = word.replace(/-/g," ");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
-        wordIndex[form][group] = [word];
+        if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
       if (word.match(/'/)) {
         const form = word.replace(/'/g,"");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
-        wordIndex[form][group] = [word];
+        if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
       if (word.match(/\. /)) {
         const form = word.replace(/\. /g,"");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
-        wordIndex[form][group] = [word];
+        if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
       aliases.forEach(alias => {
         if (wordIndex[alias] === undefined) wordIndex[alias] = {};
@@ -1307,17 +1308,17 @@
         if (alias.match(/ /)) {
           const form = alias.replace(/ /g,"");
           if (wordIndex[form] === undefined) wordIndex[form] = {};
-          wordIndex[form][group] = [word, alias];
+          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
         }
         if (alias.match(/-/)) {
           const form = alias.replace(/-/g," ");
           if (wordIndex[form] === undefined) wordIndex[form] = {};
-          wordIndex[form][group] = [word, alias];
+          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
         }
         if (alias.match(/'/)) {
           const form = alias.replace(/'/g,"");
           if (wordIndex[form] === undefined) wordIndex[form] = {};
-          wordIndex[form][group] = [word, alias];
+          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
         }
       })
 

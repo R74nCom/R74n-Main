@@ -224,6 +224,7 @@ cloud
 clowder
 cluster
 clutch
+flamboyance "a group of **flamingo**s"
 clutter
 coalition
 coffle
@@ -313,7 +314,7 @@ fledgling / fledgeling
 foal
 froglet
 fry
-gosling
+gosling "a baby goose"
 grub
 hatchling
 hoglet
@@ -327,6 +328,9 @@ larva / larval
 navy
 nestling
 nymph
+embryo
+zygote
+fetus
 piglet
 polliwog
 polyp
@@ -355,7 +359,7 @@ bonk
 thunder
 burp
 pop
-bang / bam / pow / boom
+bang / bam / pow / boom / kaboom
 ching / cha-ching
 chomp
 choo / choo choo
@@ -381,7 +385,7 @@ fah / fahh / fahhh / fahhhh / fahhhhh
 
 [animal sounds]
 baa / bah / baah
-bark / woof / arf / boof
+bark / woof / arf / boof / ruff
 bay
 bell
 blow
@@ -572,9 +576,17 @@ see you later / see u later "alligator"
 idk / i don't know "me neither tbh"
 thanks / thank you / thx "you're welcome!"
 holy
+yo "yo"
+what's up / wassup / wazzup / 'sup "nothing much, you?"
+yay
+yippee
+yahoo
+wow
+woah
 
 [pronouns]
 each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody|everyone / everybody|nobody / no one|whoever / whomever
+ze|zir|xe|xim
 
 [honorifics]
 mr / mister
@@ -599,10 +611,10 @@ january | february | march | april | may | june | july | august | september | oc
 [seasons] summer | winter | spring | autumn / fall
 
 [directions]
-north / northern
-south / southern
-east / eastern
-west / western
+north / northern / northward
+south / southern / southward
+east / eastern / eastward
+west / western / westward
 northeast / northeastern
 northwest / northwestern
 southeast / southeastern
@@ -613,8 +625,10 @@ forward / front / frontward
 backward / back
 up / upward / top
 down / downward / bottom
-horizontal / latitude
-vertical / longitude
+horizontal / horizontally / latitude
+vertical / vertically / longitude
+diagonal / diagonally
+sideways
 
 [shapes]
 = geometry
@@ -836,6 +850,10 @@ siamese
 ragdoll
 persian
 sphynx
+tabby
+calico
+birman
+
 
 [bears]
 = ursids
@@ -976,6 +994,7 @@ tamarin
 tarsier
 uakari
 vervet
+colugo "technically not a primate, but it looks like one, also very funny"
 
 [marsupials]
 bandicoot
@@ -1515,6 +1534,8 @@ vomit / puke / throwup
 blood
 slime
 web / cobweb
+bubble
+foam
 
 [stones]
 = rock
@@ -2528,7 +2549,9 @@ rye
 quinoa
 buckwheat
 butter
-
+sauce
+dessert
+pastry
 bacon
 bagel
 baguette
@@ -2571,6 +2594,7 @@ sandwich / sub
 soup
 sushi
 taco
+taquito
 toast
 tofu
 waffle
@@ -2787,6 +2811,11 @@ jeans
 jersey
 jodhpurs
 jorts
+áo dài
+hanbok
+dirac
+lederhosen
+qipao / qi pao / cheongsam
 jumper
 jumpsuit
 kaftan / caftan
@@ -2890,6 +2919,9 @@ baseball
 basketball
 bowling
 boxing
+tag
+hopscotch
+four square
 canoeing
 capoeira
 climbing
@@ -2993,6 +3025,7 @@ bumper car
 bus / shuttle / omnibus
 cab / taxi
 cabriolet
+biplane
 camion
 parachute
 raft
@@ -3091,14 +3124,17 @@ accordion
 alghoza
 alphorn
 alto
+aquaphone
 autoharp
 bagpipes
 banjo
+baritone
 bass
 basset
 bassoon
 berimbau
 bongo
+bugle
 calliope
 cello
 chimta
@@ -3107,19 +3143,17 @@ clarinet / clarinette
 clarsach
 clavichord
 cornet
-keyboard
+crash
 crwth
 cymbal
 descant
 dhime
 didgeridoo
 dizi
-microphone / mic
 dobro
 dombra
 drum
 drumstick
-bugle
 dulcimer
 eigenharp
 ektara
@@ -3142,11 +3176,14 @@ harmonica
 harmonium
 harp
 harpsichord
+hi-hat
 horn
 hulusi
 hurdy gurdy
 kalimba
 kantele
+keyboard
+keytar
 koto
 lili'u
 lute
@@ -3155,9 +3192,13 @@ mando-bass
 mandocello
 mandola
 mandolin
+maracas
 marimba
 mayonnaise / mayo
+mellophone
 melodica
+metronome
+microphone / mic
 nyckelharpa
 oboe
 ocarina
@@ -3165,17 +3206,21 @@ octobass
 organ
 otamatone
 oud
+pan
 panduri
 pennywhistle
 piano
 pianola
 piccolo
 pipa
+planks
 psaltery / sawtry
 pungi
+rainsticks
 rebab
 rebec
 recorder
+ride
 santoor
 sarangi
 sarinda
@@ -3184,13 +3229,16 @@ saxophone / sax
 shehnai
 sheng
 sitar
+slapstick
+slinky
+snare
 sopranino
 steelpan
 stylophone
 suona
 suroz
 sursingar
-synthesizer
+synthesizer / synth
 tabla
 tambourine
 tenor
@@ -3198,6 +3246,7 @@ tenoroon
 theremin
 thundertube
 timpani
+tom / tom-tom
 treble
 tremoloa
 triangle
@@ -3206,6 +3255,7 @@ trumpet
 tuba
 tubax
 u-bass
+ukubass
 ukulele
 veena
 venova
@@ -3213,8 +3263,10 @@ vibraphone
 viola
 violin
 vocaloid / utauloid / utau / miku / hatsune miku / miku hatsune / hatsune / teto / kasane teto / teto kasane / kasane
+voice
 whamola
 whistle
+wineglass
 xaphoon
 xylophone
 yotar
@@ -3226,6 +3278,11 @@ balloon
 basket
 bathtub / tub
 bed
+couch
+sofa
+mug
+radio
+printer
 blanket / sheet / bedsheet
 block
 book
@@ -3387,6 +3444,7 @@ barn
 basilica
 bathroom / restroom
 bedroom
+playground
 bridge
 castle
 cell
@@ -3503,6 +3561,7 @@ rapier
 revolver
 rifle
 rocket / rpg
+bazooka
 saber
 scimitar
 shotgun
@@ -3523,14 +3582,16 @@ yan
 [body parts]
 = body / human body
 abdomen
+adenoid
+afro
 ankle
 appendix "this organ has no use to modern humans"
 arch
+uvula
+gill
 arm
 armpit
 artery
-adenoid
-thyroid
 back
 beak
 beard
@@ -3546,6 +3607,7 @@ bronchiole
 bronchus
 butt / ass / butthole / buttocks / anus
 calf
+canal
 canine
 cartilage
 cavity "please take care of your teeth"
@@ -3556,12 +3618,16 @@ chin
 circulation
 clavicle
 collarbone / collar
+colon
 diaphragm
 dimple
+duodenum
 ear
+eardrum
 earlobe "we aren't sure what the purpose of them is"
 ears
 elbow
+epiglottis
 esophagus / throat
 eye
 eyebag
@@ -3595,14 +3661,18 @@ head
 heart "yours will beat more than three billion times in your life"
 heel
 hip
+ileum
 instep
 intestine
+jaw
 jawline
+jejunum
 joint
 kidney
 knee
 kneecap
 knuckle
+larynx
 leg
 ligament
 limb
@@ -3629,8 +3699,10 @@ ossicle
 palm
 pancreas
 pelvis
+pharynx
 pinky
 pulse
+radius
 rectum
 ribs
 saliva
@@ -3655,6 +3727,7 @@ tendon
 tentacle
 thigh
 thumb
+thyroid
 tibia
 tissue
 toe
@@ -3666,6 +3739,7 @@ trachea
 triceps
 trunk
 udder
+ulna
 uterus / womb
 vein
 waist
@@ -3831,6 +3905,8 @@ web3
 virtual reality / vr / extended reality / xr / mixed reality / mr
 fintech
 metaverse
+problematic "wordslop is.. problematic media?"
+lost media "wordslop is.. lost media?"
 
 [fields of study]
 = arts / field of work / field of study / fields of work / studies / ology
@@ -3843,6 +3919,7 @@ anatomy
 animation
 anthropology
 archaeology
+volcanology
 architecture
 archiving / archive / preservation
 astrobiology
@@ -3991,6 +4068,15 @@ home depot
 hsbc
 huawei
 ibm
+mojang
+nintendo
+game freak
+nickelodeon
+kellogg
+mcdonald's
+wendy's
+bbc
+cnn
 icbc
 intesa sanpaolo
 johnson & johnson / j&j
@@ -4108,7 +4194,7 @@ chile
 china
 colombia
 comoros
-congo / drc
+congo / drc / democratic republic of the congo
 cook islands
 costa rica
 côte d'ivoire / cote d'ivoire / ivory coast
@@ -4253,6 +4339,7 @@ south korea / korea
 spain
 sri lanka
 sudan
+south sudan
 suriname
 swaziland
 sweden
@@ -4262,7 +4349,7 @@ taiwan
 tajikistan
 tanzania
 thailand
-timor-leste
+timor-leste / timor
 togo
 tokelau
 tonga
@@ -4630,6 +4717,7 @@ chuukese / trukese
 creole
 croatian
 czech
+latin
 danish
 dari
 dene
@@ -4910,6 +4998,8 @@ ecologist
 editor
 electrician
 engineer
+singer
+welder
 executive
 farmer / farmhand
 firefighter / fireman / firewoman
@@ -5041,7 +5131,9 @@ haumea
 makemake
 eris
 charon
+sedna
 exoplanet
+planet nine
 
 [planets]
 mercury
@@ -5229,6 +5321,7 @@ war
 void
 hell
 demon / devil / imp
+satan / lucifer
 stinky / smelly / gross / disgusting / nasty
 explosion
 nightmare
@@ -5269,6 +5362,10 @@ guilt
 depression / depressed
 fool / idiot
 dumb / stupid
+gore / gorey / gory
+uranium
+mort
+wrath
 
 [blissfuls]
 = bliss
@@ -5277,6 +5374,7 @@ democracy
 justice
 happy / happiness
 god
+demigod
 silence
 life / alive / living
 heaven
@@ -5298,13 +5396,14 @@ amazing / wonderful
 excellent
 fun
 leisure
+whimsy / whimsical
 
 [emotions]
 admiration / admire / admiring
 aggression / aggressive / aggressiveness
 alert
 amazed / amazing / amaze / awe
-anger / angry / furious / irate / mad / rage
+anger / angry / furious / irate / mad / rage / wrath
 annoyed / annoying / annoy / annoyance
 anxiety / anxious
 apprehension / apprehensive
@@ -5313,6 +5412,7 @@ aroused / arousal
 bored / boredom
 calm
 confused / confusion
+dizzy / dizziness
 contempt
 content
 delighted / delight / delightful
@@ -5334,7 +5434,7 @@ grief / grieving
 guilt / guilty
 hope / hopeful / optimistic / optimist / optimism
 interest / interested
-joy / happy / joyful / happiness / gleeful / glee
+joy / happy / joyful / happiness / gleeful / glee / glad
 loathe / loathing / loathed
 love
 miserable
@@ -5342,7 +5442,7 @@ panic / panicked / panicking
 peace / peaceful
 pensive / pensiveness
 pleased / satisfied
-pride / proud
+pride / proud / prideful
 regret / remorse / remorseful
 relaxed / relax / relaxing
 sadness / sad / blue
@@ -5395,6 +5495,8 @@ graham's number
 0987654321
 987654321
 74 "say that again.."
+lakh
+crore
 
 [funny numbers]
 six-seven / sixty-seven / 67 / 6 7 / 6-7 / 6767 "six seeeeven"
@@ -5418,6 +5520,7 @@ twenty-three / 23 skidoo / 23
 2763 "bfdi reference"
 
 [letters] q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m
+å|ä|ö
 
 [memes]
 ahh
@@ -5480,7 +5583,7 @@ skibidi
 slop
 speed / ishowspeed / kinda homeless / kind of homeless / i need this
 sybau / syfm "not nice!"
-the big 26 / the big 25
+the big 26 / the big 25 / the big 2026
 ts
 tung tung / sahur / triple t
 W "W for wordslop"
@@ -5491,6 +5594,13 @@ job application "AHHHHH!"
 bruh "this is a bruh moment"
 troll / trollface
 unc
+deez / deez nuts "got em.."
+morbius / morbillion "HOW many tickets?!"
+nyan cat "nyannyannyannyan nyannyannyannyannyan nyannyan"
+deadass / deadahh
+vro
+rickroll "we're no strangers to love"
+dank "in the big 2026?"
 
 [long words]
 pneumonoultramicroscopicsilicovolcanoconiosis
@@ -5573,6 +5683,27 @@ halloween
 estrogen
 game
 video
+
+lgbtq stuff
+
+[math]
+radius
+
+[particles]
+& periodic table
+atom
+muon
+tau
+proton
+neutron
+electron
+neutrino
+photon
+gluon
+boson
+quark
+positron
+antiproton
 
 ###
 
