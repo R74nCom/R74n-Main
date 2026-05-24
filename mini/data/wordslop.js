@@ -847,6 +847,7 @@ polar bear / polar
 sloth bear / indian bear
 spectacled bear / andean bear
 sun bear
+spirit bear / kermode bear / spirit / kermode
 
 [dogs]
 = dog / doggy / puppy / doggo / pupper / canine / canid / pooch / canis / pup
@@ -868,6 +869,9 @@ fox / vixen "the **Scandinavian red fox** has the scientific name 'Vulpes vulpes
 hound
 husky
 hyena / hyaena
+affenpinscher
+aidi
+akita
 jackal
 mastiff
 mutt
@@ -3452,6 +3456,8 @@ artillery
 axe
 bolt
 bomb / explosive
+tnt
+grenade
 boomerang
 bow
 brass knuckles
@@ -5482,6 +5488,9 @@ yap / yapping
 your mom / ur mom "leave her alone!"
 loss / is this loss "|| |||| |||| ||_"
 job application "AHHHHH!"
+bruh "this is a bruh moment"
+troll / trollface
+unc
 
 [long words]
 pneumonoultramicroscopicsilicovolcanoconiosis
