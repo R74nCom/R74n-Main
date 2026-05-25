@@ -906,8 +906,16 @@
         if (form.length >= 5) {
           formsToCheck.push(form.replace(/i$/g, "us"));
           formsToCheck.push(form.replace(/us$/g, "i"));
-          formsToCheck.push(form.replace(/ing$/g, ""));
           if (form.endsWith("er")) formsToCheck.push(form.replace(/er$/g, "")+"ing");
+        }
+        if (form.length >= 6 && form.endsWith("ing")) {
+          formsToCheck.push(form.replace(/ing$/g, ""));
+          formsToCheck.push(form.replace(/ing$/g, "")+"e");
+        }
+        if (form.length >= 4) {
+          formsToCheck.push(form + "ing");
+          formsToCheck.push(form + form.slice(-1) + "ing");
+          if (form.endsWith("e")) formsToCheck.push(form.slice(0,-1) + "ing");
         }
         formsToCheck.push(form.replace(/ice$/g, "ouse"));
         formsToCheck.push(form.replace(/ouse$/g, "ice"));
@@ -920,6 +928,14 @@
         formsToCheck.push(form.replace(/s$/g, "'s"));
         formsToCheck.push(form.replace(/-/g, " "));
         formsToCheck.push(form.replace(/-/g, ""));
+        if (form.match(/[\/\-]/)) {
+          formsToCheck.push(form.replace(/[\/\-]/g, " "));
+          formsToCheck = formsToCheck.concat(form.split(/[\/\-]/g));
+        }
+        formsToCheck.push(form.replace(/ze/g, "se"));
+        formsToCheck.push(form.replace(/zing/g, "sing"));
+        formsToCheck.push(form.replace(/se/g, "ze"));
+        formsToCheck.push(form.replace(/sing/g, "zing"));
         formsToCheck.push(form.replace(/^(an?|the) +/g, ""));
         if (form.length >= 3) formsToCheck.push("the "+form);
         formsToCheck.push(form.replace(/[,\.]/g, ""));
