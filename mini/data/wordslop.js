@@ -965,6 +965,12 @@ ripple
 rise
 rob
 run / sprint / jog / ran
+fill
+empty
+chore
+check
+list
+print
 sail
 saw
 say / speak / talk / communicate / tell / converse / conversation / speech / said
@@ -1369,6 +1375,7 @@ dalmatian
 boxer
 bush dog
 chihuahua
+griffon
 collie / border collie
 coyote
 dachshund / weiner dog / hotdog / dacshund / sausage dog
@@ -1469,6 +1476,7 @@ unicorn / pegasus / alicorn "we'll count this one"
 [primates]
 ape
 aye-aye
+capuchin
 baboon
 bonobo
 chimpanzee / chimp "random chimp event"
@@ -1524,56 +1532,74 @@ cachalot / sperm whale
 
 [birds]
 = bird / birdy / avian / birb
+accipiter
 albatross
+anhinga
+ani
+auk
+avocet
+barbet
+bee-eater
+bellbird
+birds-of-paradise
+bittern
 blackbird
 bluebird
 bobolink
 booby
+broadbill
+bufflehead
+bullfinch
+bushtit
 buzzard
+cahow
 canary "these birds were used in coal mines to warn miners of toxic gases"
+capercaillie
+capuchinbird
 cardinal
 catbird
-cowbird
+chaffinch
 chickadee / tit / titmouse
 chicken / rooster / hen / cock / chick / chook / pullet / poultry "chickens can see ultraviolet (we can't)"
 cockatiel
 cockatoo
 condor
+conure
+coot
 cormorant
-secretary / secretary bird
+coucal
+cowbird
+crake
 crane
-rockhopper
-gentoo
-ani
-cahow
-macaroni "yes, there's a **penguin** called ^"
+creeper / treecreeper "they aren't just exploding leaf things!"
 crow / corvid "some crows are able to use tools"
 cuckoo
-lyrebird
 curlew
 dodo
-jackdaw
-skylark
-piper
-sparrowhawk
-smew
-parrotlet
 dove
+dovekie
 duck / drake / mallard / duckling
 eagle / erne / eaglet "bald eagles use the same nest across many years"
+eider
+emerald
 emu
 falcon / peregrine / kestrel
 finch / goldfinch
+flameback
 flamingo "while beautiful, they aren't born pink like that"
+flowerpecker
+flowerpiercer
 flycatcher
-tyrant
-rhea
-bullfinch
 fowl / landfowl / galliform / waterfowl / gamefowl
+galah
+gentoo
+gnatcatcher
+godwit
+goldeneye
 goose / gosling
 goshawk
-gnatcatcher
 grackle
+griffon
 grosbeak
 grouse
 guan
@@ -1582,130 +1608,146 @@ gull / seagull
 harrier
 hawk / eyas
 heron / egret
+hoatzin
+honeycreeper
+hoopoe
 hornbill
 hummingbird / hummer "a species called bee hummingbirds are the smallest birds on earth"
 ibis
+jabiru
+jackdaw
 jay / blue jay
 junglefowl
+kakapo
 kingbird
 kingfisher
 kinglet / crest
 kite
-siva
-minla
 kiwi / kiwibird
 kookaburra
 lapwing
 lark / meadowlark
-spurfowl
+liwi
 loon
+lorikeet
+lyrebird
+macaroni "yes, there's a **penguin** called ^"
 macaw
 magpie
+magpie-jay
+martin
 merganser / goosander
+minla
 mockingbird
+moli
 motmot
 mourning dove
+myna / mynah
 nightingale
+nightjar
 nuthatch
+openbill
 oriole
+orpendola
 osprey
 ostrich "these flightless birds have the largest eggs of any living species"
+ovenbird
 owl "who?"
 parakeet / budgie
 parrot / eclectus
+parrotlet
 partridge
 peafowl / peacock / peahen "peacocks are actually the male peafowls"
 pelican
 penguin "flightless, but they make up for it by being excellent swimmers"
 petrel
+phalarope
 pheasant
+phoebe
+picathartes / finfoot / bald crow
 pigeon / rockdove "did you know pigeons produce milk?"
+piper
+pipit
+pitohui
 plover / lapwing / dotterel
+potoo
 ptarmigan
 puffin
+purpletuft
 quail
 quelea
 quetzal
 rail
+ratite
 raven
-lorikeet
-myna / mynah
-conure
-creeper / treecreeper "they aren't just exploding leaf things!"
-woodcreeper
-honeycreeper
-ovenbird
-bittern
-stonechat
-crake
-openbill
-bee-eater
-martin
-swamphen
-chaffinch
-broadbill
-shima enaga / japanese snow fairy
-weaver
-pipit
-snowcock
-nightjar
+rhea
 roadrunner "they're not just cartoon characters!"
 robin
-birds-of-paradise
+rockfowl
+rockhopper
 rook
 rosefinch
 sandpiper
 sapsucker
+scaup
+scoter
+screamer
+secretary / secretary bird
+shelduck
+shima enaga / japanese snow fairy
 shoebill stork / shoebill "they sound scary.."
 shrike
+siskin
+siva
+skylark
+smew
 snipe
+snowcock
+solitaire
 songbird
 sparrow
-phoebe
+sparrowhawk
 spoonbill
+spurfowl
 starling
+stonechat
 stork
 sunbird
 swallow
+swamphen
 swan / cygnet
-galah
-ratite
 swift / sweep / colly "chimney swifts rely on human structures, like chimneys, to nest in"
 swiftlet
+tapaculo
 teal "yes, the color is named after the bird"
 tern
 thrush
+tinamou
 toucan
+toucanet
 towhee
+tragopan
+treepie
+turaco
 turkey
 turkey vulture
+tyrant
 umbrellabird
 vulture
 wader
 warbler
-hoopoe
-kakapo
-potoo
-siskin
-tinamou
-solitaire
-emerald
-treepie
-flowerpecker
-coucal
 waxbill
-barbet
-tapaculo
-avocet
-bushtit
-coot
 waxwing
+weaver
+whistling-duck
+widowbird
 wigeon
 woodcock "they walk really funny!"
-hoatzin
-yellowthroat
+woodcreeper
 woodpecker "these birds wrap their tongues around their skulls to prevent concussions"
 wren
+yellowhammer
+yellowthroat
 
 [reptiles]
 = reptile / reptillian
@@ -1758,6 +1800,8 @@ apatosaurus / apatosaur
 archaeopteryx
 brachiosaurus / brachiosaur
 carnotaurus
+yutyrannus
+sinosauropteryx
 microraptor
 ceratosaurus
 archaeopteryx
@@ -3437,6 +3481,7 @@ venison
 wagyu
 
 [food]
+= foods
 & fruits
 & vegetables
 & nuts
@@ -3495,6 +3540,26 @@ lays
 doughnut / donut
 egg / yolk
 fajita
+kimchi
+gimbap
+mandu
+tteokbokki
+bibimbap
+gochujang
+ramyeon
+anpan
+pho
+banh mi
+pad thai
+coleslaw
+stroopwafel
+naan
+biryani
+nasi goreng
+chop suey
+chow mein
+lo mein
+dim sum
 falafel
 fries "put the words in the bag lil bro"
 chips
@@ -3543,6 +3608,12 @@ waffle
 [drinks]
 = beverages / liquids
 alcohol
+bourbon
+ale
+mead
+brandy
+tequila
+liqueur
 cognac
 americano
 martini
@@ -3550,6 +3621,8 @@ piña colada
 beer
 sprite
 fanta
+pog
+hug
 fresca
 grenadine
 dr pepper / doctor pepper
@@ -3868,6 +3941,7 @@ ballet
 boot / booty
 brogan
 brogue
+stiletto
 buskin
 cleat
 clog
@@ -4732,6 +4806,7 @@ boxcutter
 brass knuckles / knuckleduster
 broadsword
 bullet
+taser
 cannon
 claymore
 club
@@ -6077,6 +6152,7 @@ ainu
 akan
 akateko
 ossetian
+cuneiform
 ngunnawal
 akkadian
 albanian
@@ -6913,7 +6989,7 @@ sad / sadness
 fart / brap
 vampire / dracula
 ghost / ghoul / specter / spectre / phantom
-decay
+decay / decayed
 grim
 disease / virus / plague / sickness / ailment / sick
 asthma
@@ -7202,6 +7278,8 @@ aura / aurafarming "wordslopping gives a huge aura boost"
 baby gronk / livvy dunne
 blud
 brainrot
+pog / pogchamp / poggers
+retro
 brr patapim
 oof
 bruh "this is a bruh moment"
@@ -7479,6 +7557,8 @@ queer
 estrogen
 yaoi
 yuri
+femboy
+tomboy
 
 [fandoms]
 geometry dash / gd "holy gd reference"
@@ -7492,6 +7572,7 @@ deadlock
 osu! / osu
 demon slayer
 attack on titan
+banban
 hellsing
 payday
 pokémon
