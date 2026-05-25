@@ -480,11 +480,32 @@
     if (getSupersets(group).includes(inGroup)) return true;
     return false;
   }
+  function copyGroup(group) {
+    if (selectedGroup !== group) {
+      selectedGroup = group;
+      updateStats();
+    }
+    let text = "";
+    let spans = panel4.querySelectorAll(".word");
+    spans.forEach(span => {
+      text += span.childNodes[0].innerText + "\n";
+    })
+    text = text.slice(0,-1);
+    navigator.clipboard.write([new ClipboardItem({
+      "text/plain": text,
+    })]);
+
+    let btn = panel4.querySelector(".copy");
+    if (btn) btn.innerText = "copied!~";
+  }
 
   function stripQualifier(word, qualifier) {
     qualifier = escapeRegex(qualifier);
     word = word.replace(new RegExp(`( ${qualifier} )`, "g"), "...");
     return word.replace(new RegExp(`(^${qualifier}) | (${qualifier}$)`, "g"), "");
+  }
+  function formatNumber(num) {
+    return {1:"one", 2:"two", 3:"three", 4:"four", 5:"five", 6:"six", 7:"seven", 8:"eight", 9:"nine", 10:"ten", 11:"eleven", 12:"twelve"}[num] || num;
   }
 
   function statGet(key) {
@@ -613,8 +634,9 @@
       }
       else items = getGroupFoundList(selectedGroup);
       items.sort();
-      items.forEach(i => html += `<span${(saveData.changedWords[i[0]] === true || i[0] === saveData.lastUnrecognized) ? ' class="changed"' : ""}><span>${escapeHTML(i[1])}</span></span>`);
+      items.forEach(i => html += `<span class="word${(saveData.changedWords[i[0]] === true || i[0] === saveData.lastUnrecognized) ? ' changed' : ''}"><span>${escapeHTML(i[1])}</span></span>`);
       if (selectedGroup === "unrecognized") html += `<span style="height:0">&nbsp;</span><span class="clickable" onclick="submitUnrecognized()" style="justify-content: flex-end">submit words &nbsp;❥</span>`
+      else html += `<span style="height:0">&nbsp;</span><span class="clickable copy" onclick='copyGroup("${selectedGroup}")' style="justify-content: flex-end">copy words</span>`
       panel4.insertAdjacentHTML("beforeend", html);
     }
 
@@ -773,7 +795,7 @@
     }
     const currentVersion = SPA.data.news.length;
     if (givenWords !== 0) {
-      news.push(`**${{1:"one", 2:"two", 3:"three", 4:"four", 5:"five", 6:"six", 7:"seven", 8:"eight", 9:"nine", 10:"ten", 11:"eleven", 12:"twelve"}[givenWords] || givenWords}** of your unrecognized words were added - i moved them to your list :)`);
+      news.push(`**${formatNumber(givenWords)}** of your unrecognized words were added - i moved ${givenWords > 1 ? "them" : "it"} to your list :)`);
     }
     const wordTotal = SPA.data.total;
     const groupTotal = Object.keys(SPA.data.groups).length;
@@ -794,8 +816,8 @@
     const diffWords = wordTotal-saveData.lastWordTotal-givenWords;
     if (diffWords > 0) {
       const diffGroups = groupTotal-saveData.lastGroupTotal;
-      addedMessage += `**${diffWords}${givenWords ? " other" : ""} word${diffWords > 1 ? "s" : ""}**`;
-      if (diffGroups > 0) addedMessage += ` and **${diffGroups} group${diffGroups > 1 ? "s" : ""}**`;
+      addedMessage += `**${formatNumber(diffWords)}${givenWords ? " other" : ""} word${diffWords > 1 ? "s" : ""}**`;
+      if (diffGroups > 0) addedMessage += ` and **${formatNumber(diffGroups)} group${diffGroups > 1 ? "s" : ""}**`;
     }
     saveData.lastWordTotal = wordTotal;
     saveData.lastGroupTotal = groupTotal;

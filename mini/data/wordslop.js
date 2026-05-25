@@ -1,5 +1,6 @@
 SPA.data = {}
 SPA.data.news = [
+   "u can now copy word lists from a group",
    "thank u all for being some of the wordsloppers! we are slowly going through all the HUNDREDS of submissions, it's a huge help!",
    "thank you for beta testing **wordslop** :)",
    "totals are now shown when opening a group",
@@ -399,6 +400,7 @@ blow
 bray
 brrp / burp
 buck
+speech / speaking / talking
 bugle
 buzz / bzz
 call / sing / song
@@ -468,7 +470,7 @@ trumpet
 tweet / twitter
 warble
 wheek
-whine / whimper
+whine / whimper / mewl
 whistle
 whoop
 yip / yap / yelp
@@ -637,10 +639,10 @@ january | february | march | april | may | june | july | august | september | oc
 [seasons] summer | winter | spring | autumn / fall
 
 [directions]
-north / northern / northward
-south / southern / southward
-east / eastern / eastward
-west / western / westward
+north / northern / northward / northbound
+south / southern / southward / southbound
+east / eastern / eastward / eastbound
+west / western / westward / westbound
 northeast / northeastern
 northwest / northwestern
 southeast / southeastern
@@ -658,6 +660,206 @@ sideways
 below
 above
 behind
+port
+starboard
+inward / in / middle / center
+outward / out
+
+[actions]
+= verbs
+act
+act
+age
+agree
+annoy
+answer
+repeat
+approve
+explode
+arrange
+arrive
+rant
+ask
+bake
+bake
+ban
+barbecue
+bathe
+beat / thrash
+beg
+blink
+borrow
+bow
+break
+break
+bring
+bring
+build / construct
+buy
+call
+chop / axe
+clap
+claw
+clean
+climb
+close
+coach
+code / develop
+color / colour
+come
+come
+complete
+cook
+cook
+cough
+crawl
+create
+create
+cry
+cut / slice
+dance
+describe
+dig
+dig
+dive
+draw
+draw
+dream
+drink
+drink
+eat
+eat
+edit
+end
+enter
+erase
+exit
+fall
+fall
+fight
+fight
+fix / repair
+float
+fly
+fry
+gag
+game
+giggle
+give
+go
+go
+grab
+hammer
+happen
+heal
+help
+hop
+hug
+hurt
+imitate
+insult
+invent
+jiggle
+joke
+jump
+jump
+kick
+kick
+kiss
+knit
+laugh / chortle / cackle
+leave
+lie
+lift
+listen
+lose
+lunge
+make
+march
+measure
+mine
+move
+nod
+observe / watch
+open
+paint
+plan
+play
+play
+punch / hit
+punish
+push
+quest / adventure / journey
+read
+recognize
+relay
+replace
+rescue / save
+ride
+ripple
+rise
+rob
+run / sprint / jog
+saw
+say / speak / talk / communicate / tell / converse / conversation / speech
+scream
+screw
+see
+send
+set
+sew
+shake
+shop
+shout
+shred
+sing
+sit
+sit
+ski
+skip
+sleep
+sleep
+smile
+sneeze
+sniff / smell
+snore
+solve
+spend
+sport
+stack
+stand
+stand
+stare
+start / begin
+steam
+stop
+study
+submit
+sweep
+swim
+task
+teach
+think
+throw
+touch
+transfer
+trip
+try
+turn
+visit
+vote
+wait
+walk / step
+wash
+whistle
+win
+win
+wobble
+write
+yank
+yell
+zip
+remember
 
 [shapes]
 = geometry
@@ -894,6 +1096,7 @@ sphynx
 tabby
 calico
 birman
+turkish van
 
 
 [bears]
@@ -1738,7 +1941,7 @@ clay
 egg
 roe / caviar
 mound
-poop / poo / poopy / crap / shit / dookie / poopie / doodoo
+poop / poo / poopy / crap / shit / dookie / poopie / doodoo / guano
 pee / urine / piss
 vomit / puke / throwup
 blood
@@ -1756,6 +1959,8 @@ dust
 = rock
 & gemstones
 ashlar
+stalactite
+stalagmite
 pebble
 bauxite
 igneous
@@ -2385,7 +2590,7 @@ sarguelas
 saskatoon berry / saskatoon serviceberry / serviceberry / saskatoon
 satsuma
 sloe
-soursop
+soursop / guyabano / graviola / guanábana
 star apple
 carambola / star fruit
 strawberry
@@ -2789,6 +2994,12 @@ candy
 gummy
 casserole
 cheese
+pickle
+dinner
+lunch
+breakfast
+brunch
+strudel
 cheesecake
 chia
 chocolate
@@ -2892,6 +3103,7 @@ classical / classic
 country
 cumbia
 dance
+polka
 dancehall
 disco
 dubstep
@@ -3217,6 +3429,7 @@ basketball
 bat
 bicycle / bike / cycle
 bow
+target
 bowling pin / pin
 canoe
 cleat
@@ -3263,6 +3476,7 @@ bulldozer / dozer
 bumper car
 jet
 bus / shuttle / omnibus
+penny-farthing / high wheel / high wheeler / ordinary
 cab / taxi
 cabriolet
 mech / mecha
@@ -3369,6 +3583,7 @@ alto
 aquaphone
 autoharp
 bagpipes
+cowbell
 banjo
 baritone
 bass
@@ -3524,9 +3739,11 @@ bag
 balloon
 basket
 bathtub / tub
+plush / stuffed animal / teddy bear
 lotion
 shampoo
 vase
+ruler
 ink
 shovel
 saw
@@ -3683,7 +3900,8 @@ toothbrush
 toothpaste
 towel
 toy
-vacuum
+vacuum / hoover
+duster
 vent
 wall
 wallet
@@ -3701,6 +3919,7 @@ foil / tinfoil
 cork
 chiffon
 asbestos / asbestus
+gravel
 clay
 straw
 alloy
@@ -3750,6 +3969,8 @@ apartment / flats
 attic
 fence
 bakery
+port
+dock / pier
 satellite
 balcony
 den
@@ -4208,6 +4429,7 @@ grassland
 jungle
 mangrove
 mesa
+meadow
 plains
 polar
 prairie
@@ -4379,6 +4601,7 @@ bank of america / bofa
 berkshire hathaway
 bmo
 bmw
+target
 bnp
 fox
 abc
@@ -4468,8 +4691,8 @@ sumitomo mitsui
 taiwan semiconductor / tsmc
 td bank / td
 tencent
-tesla
-tesla / spacex / x
+tesla "tesla was founded by Martin Eberhard and Marc Tarpenning"
+spacex / x
 toyota
 ubs
 unitedhealth
@@ -5345,10 +5568,11 @@ artist
 assistant
 smith
 blacksmith
+technician
 programmer / developer / coder
 hacker
 barista
-monarch / queen / king
+monarch / queen / king / ruler
 sorcerer / sorceress / witch / wizard
 astronaut / cosmonaut / taikonaut / spationaut / vyomanaut "most countries with a space program have their own name for ^s"
 astronomer
@@ -5826,8 +6050,12 @@ whimsy / whimsical
 funny / hilarious
 silly
 gift / present
+health / healing
+mercy / merciful
+determination "seeing this word fills you with determination"
 
 [emotions]
+= feelings / moods / emotional
 admiration / admire / admiring
 aggression / aggressive / aggressiveness
 alert
@@ -6032,7 +6260,7 @@ speed / ishowspeed / kinda homeless / kind of homeless / i need this
 sybau / syfm "not nice!"
 the big 26 / the big 25 / the big 2026
 ts
-tung tung / sahur / triple t
+tung tung / tung / sahur / triple t
 W "W for wordslop"
 yap / yapping
 your mom / ur mom "leave her alone!"
@@ -6056,9 +6284,11 @@ sisyphus "sisyphus but instead of a boulder he types words all day"
 forgor "i forgor 💀"
 stonks "$SLOPCOIN TO THE MOON"
 dab "you did NOT just hit that in the big 2026"
-floater "it's a floater!"
-steamed hams "wordslop? at this time of year? at this time of day?"
+floater "it's a **^**!"
+steamed hams "**wordslop**? at this time of year? at this time of day?"
 shrek
+hat man / benadryl
+coco "i didn't even know a **^** went to our school"
 
 [long words]
 pneumonoultramicroscopicsilicovolcanoconiosis
@@ -6136,6 +6366,7 @@ halacae
 rue "so you've met the other R74n project that talks back to you"
 new / is new
 submit "you can submit your words in the **unrecognized** tab!"
+rescue
 
 
 
@@ -6167,6 +6398,7 @@ hyperfixation / hyperfixate / hyperfix
 adhd
 linux
 mitochondrion / mitochondria "mitochondria is plural, **mitochondrion** is singular"
+ibuprofen
 
 [lgbtq stuff]
 = sexuality / gender / identity
@@ -6178,6 +6410,8 @@ lesbian
 transgender / trans
 queer
 estrogen
+yaoi
+yuri
 
 [fandoms]
 geometry dash / gd "holy gd reference"
@@ -6190,6 +6424,8 @@ splatoon "woomy!"
 fortnite
 sonic / sanic "gotta go fast!"
 anime
+invincible "are you sure?"
+bfdi
 
 [minerals]
 augite, gypsum, graphite, calcite, aragonite, asbestos / asbestus
@@ -6215,9 +6451,12 @@ radius
 number
 graph
 homeomorphism
+positive
+negative
 
 [particles]
 & periodic table
+molecule
 atom
 muon
 tau
@@ -6237,6 +6476,7 @@ mustard
 ketchup
 relish
 barbecue / bbq
+icing
 
 [flavors]
 = flavours
@@ -6262,84 +6502,24 @@ arctic
 [programming languages]
 = computer languages
 
-Holidays, Greek Letters (alpha+unicode), Film Genres, and Parts of Speech (plural/singular)
+Holidays, Greek Letters (alpha+unicode), Film Genres, and Parts of Speech (plural/singular/synonym)
+
+[symbols]
+= punctuation, special characters
+period / .
+semicolon / ;
+asterisk / *
 
 king, queen, bishop, and knight
 
-[actions]
-= verbs
-act
-jiggle
-wobble
-ripple
-laugh / chortle / cackle
-giggle
-jump
-trip
-lunge
-recognize
-float
-swim
-walk / step
-stand
-sit
-sleep
-go
-hurt
-beat / thrash
-punch / hit
-hammer
-screw
-drink
-dig
-mine
-chop / axe
-eat
-run / sprint / jog
-measure
-ban
-kick
-quest / adventure / journey
-task
-code / develop
-bring
-borrow
-cook
-bake
-barbecue
-fry
-steam
-transfer
-say / speak / talk / communicate / tell
-relay
-sniff / smell
-observe / watch
-blink
-claw
-age
-stare
-come
-submit
-try
-fight
-play
-game
-sport
-set
-rise
-fall
-sweep
-clean
-draw
-erase
-saw
-cut / slice
-shred
-break
-fix / repair
-
 big
 little
+large
+small / smol
+medium
+gigantic
+miniature / mini
+tiny / teeny
 
 [homophones]
 "say both **homophone**s to complete their set!"
