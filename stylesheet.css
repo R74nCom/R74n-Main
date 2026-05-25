@@ -1226,6 +1226,9 @@ form .honeypot {
 	image-rendering: pixelated;
 	/* transition: 0.1s background-position; */
 }
+.projectGallery > a.small {
+	font-size: 35px
+}
 .projectGallery > a:hover {
 	filter: none;
 	scale: 1.1;
@@ -1357,6 +1360,9 @@ form .honeypot {
 		/* -moz-hyphens: auto;
 		-ms-hyphens: auto;
 		hyphens: auto; */
+	}
+	.projectGallery > a.small {
+		font-size: 25px
 	}
 	.projectGallery > a:hover {
 		scale: 1.01;

@@ -521,8 +521,12 @@
 
   selectedGroup = null;
   panel4Scroll = 0;
+  function showProgress() {
+    const btn = document.getElementById("progressButton");
+    if (btn.checkVisibility() && !panel4.checkVisibility()) btn.click();
+  }
   function updateStats() {
-    let spans = document.querySelectorAll("#panel4 > span, #panel5 > span");
+    const spans = document.querySelectorAll("#panel4 > span, #panel5 > span");
     if (spans) spans.forEach(e => e.remove());
 
     if (!saveData.stats.score) return;
@@ -693,6 +697,7 @@
       msg.addEventListener("click", () => {
         selectedGroup = args.group;
         updateStats();
+        showProgress();
         panel4.scrollTop = 0;
         panel4Scroll = 0;
       })
@@ -919,12 +924,12 @@
         }
         else if (form.endsWith("ed") && form.length > 4) {
           if (form.endsWith("ied")) formsToCheck.push(form.slice(0,-3)+"y");
-          formsToCheck.push(form.slice(0,-3));
+          if (form.length > 5) formsToCheck.push(form.slice(0,-3));
           formsToCheck.push(form.slice(0,-2));
           formsToCheck.push(form.slice(0,-1));
         }
         if (form.match(/[shx]$/)) formsToCheck.push(form+"es");
-        if (form.length >= 3) formsToCheck.push(form+"s");
+        else if (form.length >= 3) formsToCheck.push(form+"s");
         if (form.length >= 5) {
           formsToCheck.push(form.replace(/i$/g, "us"));
           formsToCheck.push(form.replace(/us$/g, "i"));
@@ -959,7 +964,6 @@
         formsToCheck.push(form.replace(/se/g, "ze"));
         formsToCheck.push(form.replace(/sing/g, "zing"));
         formsToCheck.push(form.replace(/^(an?|the) +/g, ""));
-        if (form.length >= 3) formsToCheck.push("the "+form);
         formsToCheck.push(form.replace(/[,\.]/g, ""));
         
         formsToCheck.push(form.replace(/ /g, ""));
@@ -975,6 +979,7 @@
       if (!f) return;
       forms[f] = true;
       forms[f.replace(/ /g, "")] = true;
+      forms["the "+f] = true;
     });
     console.log(forms);
 
