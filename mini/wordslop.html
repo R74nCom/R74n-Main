@@ -828,6 +828,7 @@
     saveData.lastGroupTotal = groupTotal;
     if (addedMessage) news.push("since you last played, we added " + addedMessage);
     if (news.length) {
+      updateMessages();
       if (news.length === 1) logMessage(`news flash! `+news[0], 1);
       else {
         news.reverse().slice(0,-1).forEach(n => {
