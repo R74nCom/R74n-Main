@@ -116,7 +116,9 @@ amaranth
 taupe
 camouflage / camo
 ultraviolet / uv
+ultramarine
 infrared / ir
+mustard
 viridian
 mahogany
 amber
@@ -219,7 +221,10 @@ band
 embarrassment "a group of pandas"
 mischief "a group of magpies"
 batch
+squad
+squadron
 waddle
+platoon
 raft
 clique
 parliament "a group of owls"
@@ -309,8 +314,11 @@ troop
 baby
 bobkitten
 calf
+babe
 caterpillar
 chick
+boy
+girl
 child
 filly / fillie
 juvenile
@@ -506,6 +514,8 @@ a
 about
 after
 all
+also
+although
 along
 already
 beneath
@@ -633,7 +643,7 @@ would
 yet
 
 [interjections]
-hello / hi / hey / greetings / aloha / hola / howdy / hai / haii / haiii / hallo "hi there :)"
+hello / hi / hey / greetings / aloha / hola / howdy / hai / haii / haiii / hallo / 'ello "hi there :)"
 salutations
 welcome
 goodbye / bye / bye-bye "see u later"
@@ -686,12 +696,17 @@ huh / huhh / huhhh
 rofl
 dude
 bro / bruh / brah
+sorry "it's okay, friend :)"
+zzz / zzzz / mimi / mimimi / mimimimi "goodnight!"
 
 [pronouns]
-each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody|everyone / everybody|nobody / no one|whoever / whomever
-ze|zir|xe|xim|xer|xem|zem|xyr|xyrs|xemself|zemself
-fae|faer|faeself
+each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody|everyone / everybody|nobody / no one|whoever / whomever|ye
+ze|zir|xe|xim|xer|xem|zem|xyr|xyrs|xemself|zemself|xemselves|zemselves|zirself
+fae|faer|faeself / faerself
 this|that|these|those
+ae|aer|aerself|aers
+eir|eirs|emself
+hir|hirs|hirself
 
 [honorifics]
 mr / mister
@@ -725,13 +740,13 @@ january | february | march | april | may | june | july | august | september | oc
 
 [moon phases]
 new
-waxing crescent / crescent
+waxing crescent / crescent / waxing
 first quarter / quarter
 waxing gibbous / gibbous
 full
 waning gibbous
 last quarter
-waning crescent
+waning crescent / waning
 
 [directions]
 north / northern / northward / northbound
@@ -752,65 +767,88 @@ horizontal / horizontally / latitude
 vertical / vertically / longitude
 diagonal / diagonally
 sideways
-below
 above
-behind
-port
-starboard
-inward / in / middle / center / inside
-outward / out / outside
-kata
 ana
-far
-near
+behind
+below
 beneath
 beyond
+caudal
+cranial / cephalic
+distal / outward / out / outside
+dorsal
+far
+kata
+near
+palmar
+port
+proximal / inward / in / middle / center / inside
+radial
+rostral
 skyward
+starboard
 
 [actions]
 = verbs
 accelerate
 accept
-defend / defense / defence
+acquire
 act
 add
 age
-message / text
-smash
-bash
 agree
+aim
+annihilate
 annoy
 answer
 approve
 arrange
 arrive
 ask
-cruise
+assert
 attack
+attract
+bait
 bake
+balance
 ban
 barbecue
+bash
 bathe
-beat / thrash
-defeat
-wheeze
+beat / thrash / strike
 beg
+bend
+bid
 bite
+blame
+bleed
 blink
+block
 blow
+boast
 borrow
+bounce
 bow
+brag
+brake
 brand
+breach
 break
 breath
-breathe
 breathe / breath
 bring
+broach
+broadcast
 build / construct
 buy
 call
 carry
+catch
+check
+choke
 chop / axe
+chore
+claim
 clap
 claw
 clean
@@ -818,58 +856,97 @@ climb
 close / shut
 coach
 code / develop
+collaborate / collab
 color / colour
 come
-complete
+complete / finish
+consume
+contemplate
 control
 cook
+cope
 copy
+correct
 cough
 crack
+cram
 crawl
 create
+crouch
+cruise
 crumble
 crush
 cry
-wail
-pant
 cut / slice
 damage
 dance
+dash
+deal
+decide
+decline
+defeat
+defend / defense / defence
 deny
 describe
+desire
+despair
+despise
+destroy / destruct / wreck
 dig
+disguise
+dislike
 dive
 divide
+divorce
+donate
 drag
+drain
 draw
 dream
 drink
+drive
 drool
 drop
+dug
 eat
 edit
+emancipate
+empty
 end
+enslave
 enter
+eradicate
 erase
 errand
+escape
+execute
+exfoliate
 exit
 explode
 fail
+fake
 fall
-slip
-slide
-flip
-flop
+feed
 feel
 fight / fought
+fill
 find
+fine
+finish
 fix / repair
 flee
 flick
+flip
+flitter
 float
+flop
 fly / flew / flight
+force
+forget
 form
+free
+freeze
+frighten
 fry
 gag
 gamble
@@ -878,8 +955,11 @@ get
 get / got / gotten
 giggle
 give
+glide
 go
 grab / grip
+grind
+groom
 halt
 hammer
 handle
@@ -888,89 +968,137 @@ heal
 hear
 help
 hide
+hire
+hobby
 hold
+hook
 hop
 hug
 hunt
+hurdle
 hurt
 imitate
+implode
+infiltrate
+inflame
 insult
+interrupt
 invent
 itch
 jab
 jeer
 jiggle
 joke
-jump
+jump / leap
+jumping
 kick
 kiss
 knit
+lack
 laugh / chortle / cackle
+launch
 lay
+lean
+learn
+lease
 leave
 lick
 lie
 lift
+list
 listen
 lose
 lunge
+lure
 make
+manage
 march
+marry
+mash
 measure
+merge
+message / text
+milk
+mimic / mimicking
+mince
 mine
 minus / subtract
 mix
 move
+mow
 multiply
+name
 nod
+obfuscate
 observe / watch
 offend
 open
+operate
 ostracize
 own
 paint
+pant
 part
 paste
 pat
 pause
+pay
 peel
 pet
 pick
+pitch
 place
 plan
 play
 pluck
+poison
 poke
+ponder
 pour
+practice
 prance
 prank / mischief
 pray / prayer
+press
+pretend
+print
 produce
+protest
+prowl
 punch / hit
 punish
+purchase
 push
+put
 quest / adventure / journey
+question
 quit
+raise
 rant
 read
+reap
 recognize
 redo
+refresh
 relay
 remember
+remove
 repeat
 replace
+require
 rescue / save
+research
+rest
+resume
 ride
 ripple
 rise
 rob
+rotate
+row
+ruin
 run / sprint / jog / ran
-fill
-empty
-chore
-check
-list
-print
+sack
 sail
 saw
 say / speak / talk / communicate / tell / converse / conversation / speech / said
@@ -979,49 +1107,73 @@ scare
 scream
 screw
 scroll / swipe
+sear
+search
 see / sight / vision / seen
 seek / sought
+select
+sell
 send
 set
 sew
 shake
+share
 shop
 shout
+shove
 show / present
 shred
+sign
 sing / sang / sung
 sit
 ski
 skip
 slam
 slap
-flick
-pluck
+slash
 sleep
+slide
+slip
+slouch
+slur
+smash
 smile
+smirk
+smoothe
 snap
 sneeze
 sniff / smell / scent
 snore
 sob
 solve
+sow
+spare
 spell
 spend
+spill
 spin
 spit
+split
 sport
 spot / notice
+stab
 stack
+stalk
 stand
 stare
 start / begin
+steal
 steam
+sting
 stop
+strip
+stroke
 study
 submit
 suck
 sue
 swap
+swear
 sweep
 swell
 swim
@@ -1030,9 +1182,12 @@ take
 tap
 task
 taste
+tax
 teach
 think
 throw
+tickle
+toss
 touch
 transfer
 transform
@@ -1041,70 +1196,87 @@ trigger
 trip
 try
 turn
+tussle
 undo
 update
 visit
 vote
+wail
 wait
+wake / awake / awaken / awoken
 walk / step
+want
 wash
+wear
+wed
+wheeze
 whip
 whistle
 win
+wink
+wish
 wobble
+work
 write
 yank
 yell
 yield
-sow
 zip
-mimic / mimicking
-free
-stroke
-spill
-sell
-reap
-stab
-slur
-slouch
-crouch
-prowl
-tickle
-dug
-leap
 
 [size]
+ample
 big
+broad
+capacious
 colossal
+compact
+deep
 diminutive
 enormous
 epic
 fast
 fat
+gargantuan
 giant
 gigantic
+ginormous
 hefty
+high
 huge
 immense
+infinitesimal
 itty bitty / itty / bitty
 jumbo
 large
 little
 long
 macroscopic / macro
+mammoth
 massive
+meagre
 medium
 mega
 microscopic / micro
 miniature / mini
-miniscule
+miniscule / minuscule
+minute
+monstrous
 narrow
+shallow
 short
-sizable
+sizable / sizeable
+slim
 small / smol
+substantial
 tall
+thin
 tiny / teeny / teeny tiny
+titanic
 tremendous
+undersized
+vast
+voluminous
+wee
 wide
 
 [shapes]
@@ -1114,6 +1286,7 @@ bipyramid
 cardioid
 circle / round
 cone
+rhombicuboctahedron
 crescent / moon
 cross / plus / +
 angle
@@ -1202,6 +1375,7 @@ zooplankton / plankton
 lancelet / amphioxus
 leech
 hydrozoan / hydrozoa
+hydra
 man o' war / man-of-war / man-o'-war / man o war / man of war
 siphonophore
 coral / polyp
@@ -1228,19 +1402,21 @@ parasite
 & cetaceans
 aardvark / antbear
 aardwolf
+treeshrew / banxring
 alpaca
 anteater
 tenrec
 antelope
+saiga
+sitatunga / marshbuck
 armadillo
 badger
 honey badger
-bat "the only mammal that can truly fly!"
+bat / flittermouse "the only mammal that can truly fly!"
 bison
 boar
 buffalo "'Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo' is a valid English sentence"
 camel / dromedary / bactrian
-caribou
 cattle / cow / bull / bovine / kine / calf
 chinchilla
 coati
@@ -1257,7 +1433,14 @@ gazelle
 giraffe / camelopard
 okapi / forest giraffe / zebra giraffe
 goat / billy
+fossa
+gaur / indian bison
+gayal / mithun / drung ox
+mouflon / moufflon
+aoudad / barbary sheep
+banteng / tembadau
 ibex
+chevrotain / mouse-deer
 guanaco
 hare / jackrabbit / leveret
 hedgehog / hedgie / hoglet "hedgehogs are lactose intolerant"
@@ -1289,7 +1472,7 @@ polecat / zorilla / zorille / zoril
 rabbit / bunny "rabbits only blink 10-15 times in an hour"
 raccoon / racoon / trash panda
 red panda "red pandas are technically not pandas, nor bears!"
-reindeer
+reindeer / caribou
 rhinoceros / rhino
 seal / pinniped
 sea lion
@@ -1330,7 +1513,7 @@ pallas's cat / pallas cat / pallas
 panther
 puma
 himalayan
-saber-toothed tiger / smilodon / saber-toothed cat / saber-tooth
+saber-toothed tiger / smilodon / saber-toothed cat / saber-tooth / sabertooth
 sand cat
 serval
 snow leopard
@@ -1378,6 +1561,7 @@ chihuahua
 griffon
 collie / border collie
 coyote
+dire wolf
 dachshund / weiner dog / hotdog / dacshund / sausage dog
 dalmation
 dhole
@@ -1407,6 +1591,7 @@ bulldog
 retriever / labrador retriever / lab / labrador / golden retriever
 beagle
 poodle
+labradoodle
 bulldog / frenchie
 staffordshire / staffie
 pitbull
@@ -1420,7 +1605,7 @@ pyrenees
 rottweiler
 great dane / dane
 cane corso
-afghan hound
+afghan hound / afghan
 malamute
 shiba inu / shibe
 bichon frisé / bichon frise / bichon
@@ -1464,13 +1649,15 @@ viscacha
 vole
 
 [equines]
-horse / steed / mare / stallion / colt / foal / jack / jenny / filly / fillie
+horse / steed / mare / stallion / colt / foal / jack / jenny / filly / fillie / gelding
 donkey / ass / jackass
 mule / hinny
 pony
 quagga
 tarpan
 zebra
+onager / hemione
+kiang
 unicorn / pegasus / alicorn "we'll count this one"
 
 [primates]
@@ -1490,6 +1677,7 @@ mandrill
 marmoset
 monkey / simian
 neanderthal
+silverback
 orangutan "yes, there's no 'g' at the end"
 proboscis monkey
 spider monkey
@@ -1498,6 +1686,9 @@ tarsier
 uakari
 vervet
 colugo "technically not a primate, but it looks like one, also very funny"
+australopithecus
+homo habilis
+homo erectus
 
 [marsupials]
 bandicoot
@@ -1529,6 +1720,7 @@ vaquita
 tucuxi
 whale "the **blue whale** is the largest animal still alive"
 cachalot / sperm whale
+baiji "sadly, we aren't sure if these dolphins are still around"
 
 [birds]
 = bird / birdy / avian / birb
@@ -1538,7 +1730,10 @@ anhinga
 ani
 auk
 avocet
+awlbill
 barbet
+barbthroat
+baza
 bee-eater
 bellbird
 birds-of-paradise
@@ -1546,6 +1741,7 @@ bittern
 blackbird
 bluebird
 bobolink
+boobook
 booby
 broadbill
 bufflehead
@@ -1557,16 +1753,23 @@ canary "these birds were used in coal mines to warn miners of toxic gases"
 capercaillie
 capuchinbird
 cardinal
+carib
 catbird
+chachalaca
 chaffinch
 chickadee / tit / titmouse
 chicken / rooster / hen / cock / chick / chook / pullet / poultry "chickens can see ultraviolet (we can't)"
 cockatiel
 cockatoo
+comet
 condor
 conure
 coot
+coquette
+cordonbleu
 cormorant
+coronet
+coua
 coucal
 cowbird
 crake
@@ -1574,6 +1777,7 @@ crane
 creeper / treecreeper "they aren't just exploding leaf things!"
 crow / corvid "some crows are able to use tools"
 cuckoo
+curassow
 curlew
 dodo
 dove
@@ -1585,18 +1789,27 @@ emerald
 emu
 falcon / peregrine / kestrel
 finch / goldfinch
+firecrown
 flameback
 flamingo "while beautiful, they aren't born pink like that"
 flowerpecker
 flowerpiercer
+flufftail
 flycatcher
 fowl / landfowl / galliform / waterfowl / gamefowl
+francolin
+cassowary
+fody
+gadwall
+gamebird
+gyrfalcon
 galah
 gentoo
 gnatcatcher
+go-away-bird
 godwit
 goldeneye
-goose / gosling
+goose / gosling "**canada geese** mate for life!"
 goshawk
 grackle
 griffon
@@ -1607,13 +1820,17 @@ guineafowl
 gull / seagull
 harrier
 hawk / eyas
+hermit
 heron / egret
 hoatzin
+hobby
 honeycreeper
 hoopoe
 hornbill
+houbara
 hummingbird / hummer "a species called bee hummingbirds are the smallest birds on earth"
 ibis
+inca
 jabiru
 jackdaw
 jay / blue jay
@@ -1630,22 +1847,31 @@ lark / meadowlark
 liwi
 loon
 lorikeet
+lovebird
 lyrebird
 macaroni "yes, there's a **penguin** called ^"
 macaw
 magpie
 magpie-jay
+maileefowl
+malkoha
+maloe
 martin
+megapode
 merganser / goosander
+mesite
 minla
 mockingbird
 moli
+moorhen
 motmot
 mourning dove
 myna / mynah
+nativehen
 nightingale
 nightjar
 nuthatch
+oilbird
 openbill
 oriole
 orpendola
@@ -1657,6 +1883,7 @@ parakeet / budgie
 parrot / eclectus
 parrotlet
 partridge
+pauraque
 peafowl / peacock / peahen "peacocks are actually the male peafowls"
 pelican
 penguin "flightless, but they make up for it by being excellent swimmers"
@@ -1669,7 +1896,10 @@ pigeon / rockdove "did you know pigeons produce milk?"
 piper
 pipit
 pitohui
+plains-wanderer
+plantain-eater
 plover / lapwing / dotterel
+poorwill
 potoo
 ptarmigan
 puffin
@@ -1680,6 +1910,7 @@ quetzal
 rail
 ratite
 raven
+rayadito
 rhea
 roadrunner "they're not just cartoon characters!"
 robin
@@ -1687,16 +1918,20 @@ rockfowl
 rockhopper
 rook
 rosefinch
+sandgrouse
 sandpiper
 sapsucker
 scaup
 scoter
 screamer
 secretary / secretary bird
+seriema
+sheathbill
 shelduck
 shima enaga / japanese snow fairy
 shoebill stork / shoebill "they sound scary.."
 shrike
+sicklebill
 siskin
 siva
 skylark
@@ -1707,12 +1942,18 @@ solitaire
 songbird
 sparrow
 sparrowhawk
+spatuletail
 spoonbill
 spurfowl
 starling
+stilt
 stonechat
 stork
+sunangel
+sunbeam
 sunbird
+sungem
+surfbird
 swallow
 swamphen
 swan / cygnet
@@ -1721,29 +1962,41 @@ swiftlet
 tapaculo
 teal "yes, the color is named after the bird"
 tern
+thick-knee
 thrush
 tinamou
+tinkerbird
 toucan
 toucanet
 towhee
 tragopan
 treepie
+treerunner
+treeswift
+trumpter
+tui
 turaco
 turkey
 turkey vulture
 tyrant
 umbrellabird
+velvetbreast
+violetear
 vulture
 wader
 warbler
+waterhen
 waxbill
 waxwing
 weaver
+whimbrel
 whistling-duck
 widowbird
 wigeon
 woodcock "they walk really funny!"
 woodcreeper
+woodhaunter
+woodnypmh
 woodpecker "these birds wrap their tongues around their skulls to prevent concussions"
 wren
 yellowhammer
@@ -1761,6 +2014,8 @@ tuatara
 adder
 basilisk
 boa / constrictor
+goanna
+whiptail
 caiman
 chameleon
 cobra
@@ -1904,9 +2159,11 @@ buffalofish
 burbot
 butterflyfish
 capelin
+grouper
 cardinalfish
 carp
 catfish
+candiru
 catshark
 char / charr
 chimaera / chimera / spookfish / rat fish / rabbit fish
@@ -2000,8 +2257,7 @@ monkfish
 moray
 mudskipper
 mullet
-muskie / musky / ski / lunge
-muskullunge
+muskullunge / muskie / musky / ski / lunge
 napoleonfish
 needlefish
 oarfish
@@ -2011,7 +2267,8 @@ opaleye
 oscar
 pacu
 paddlefish
-panfish
+panfish / pumpkinseed
+wolffish / seawolf
 parrotfish
 payara
 pellonuline
@@ -2128,8 +2385,13 @@ beetle "beetles make up 40% of all arthropod species"
 scarab
 blowfly / greenbottle / bluebottle / carrion fly
 bookworm
-butterfly / monarch "butterflies will drink blood when given the option"
+butterfly "butterflies will drink blood when given the option"
+monarch
+admiral
+wood nypmh
 horsefly / deer fly
+ringlet
+water strider / waterskipper
 midge
 lepidoptera / lepidopteran
 caddisfly
@@ -2156,7 +2418,7 @@ fruit fly
 gnat / nat
 grasshopper
 glowworm
-hornet
+hornet "SHAW!"
 housefly
 botfly / warble fly / heel fly / gadfly
 hoverfly
@@ -2207,7 +2469,7 @@ clover mite
 [crustaceans]
 = decapod
 crab
-hermit crab
+hermit crab / hermit
 barnacle
 crayfish / crawfish / crawdad
 krill
@@ -2256,8 +2518,9 @@ cuttlefish / cuttle
 ammonite
 
 [hybrid animals]
-= hybrid
+= hybrid / crossbreed / crossbred
 leopon
+kunga
 mule / hinny
 tigon / tiglon
 dzo
@@ -2285,35 +2548,52 @@ beefalo
 jackalope "that's not even real"
 meowl "i guess i'll allow it"
 cabbit "i guess i'll allow it"
+cama "a **llama** crossed with a **camel**"
+chausie
+huarizo
+llapaca
+mangalica
+mulard
+rackelhahn / rackelwild
+zony
+zubron
 
 [ancient animals]
 = extinct
 & dinosaurs
-trilobite
-megalodon
-mammoth
-mastodon
-anomalocaris
-opabinia
-hallucigenia
 ammonite
-sarotrocercus
-titanoboa
-tiktaalik
-xiphactinus
+anomalocaris
 arandaspis
+dire wolf
+dodo
 dunkleosteus
 haikouichthys
-dodo
+hallucigenia
+australopithecus
+homo habilis
+neanderthal
+homo erectus
+mammoth
+mastodon
+megalodon
+opabinia
+sarotrocercus
 thylacine / tasmanian tiger / tasmanian wolf
+tiktaalik
+titanoboa
+trilobite
+xiphactinus
 
 [mythical creatures]
-= creatures / fantasy creatures / fictional creatures / beings
+= creatures / fantasy creatures / fictional creatures / beings / legendary creatures / mythological creatures
 angel
 aqrabuamelu
+nymph
 banshee
+giant
 basilisk
 bogeyman / boogeyman
+kobold
 catdog
 centaur
 chimera
@@ -2338,6 +2618,7 @@ grim reaper
 harpy
 hydra
 kraken / kracken
+cthulhu
 leprechaun
 loch ness
 mermaid / merman
@@ -2345,7 +2626,7 @@ minotaur
 mrs claus / miss claus / ms claus
 ogre
 oni
-orc
+orc / ork
 phoenix
 pixie
 pontianak
@@ -2375,6 +2656,7 @@ charcoal
 clay
 coal
 den
+lichen
 deoxyribonucleic acid / dna
 diarrhea
 dirt / earth / soil
@@ -2406,6 +2688,7 @@ seaweed
 slime / goo
 snow
 stick / twig / branch "one of the many things that can break bones"
+blossom
 stump
 vomit / puke / throwup
 water "is it wet? who can say.."
@@ -2777,9 +3060,20 @@ seed
 seedling / sapling / sprout
 spore
 bush / shrub
+coca
+agave
+peyote
+moss
+reed
+wheatgrass
+flytrap
+pitcher plant
+liverwort
 grass "touch this instead of typing words all day"
 cereal
 wheat
+tumbleweed
+thistle
 oats
 hay / crop
 barley
@@ -2821,6 +3115,7 @@ amaryllis
 anemone
 anthurium / laceleaf
 aster
+rhododendron
 belladonna
 squill
 poinsetta
@@ -3030,7 +3325,7 @@ kiwano / horned melon
 kiwifruit / kiwi
 kumquat
 lanzones / langsat
-lemon
+lemon "easy peasy!"
 lime
 loganberry
 longan
@@ -3051,6 +3346,7 @@ honeydew
 mouse melon
 muskmelon
 watermelon
+monkfruit
 miracle fruit
 mohsina
 momordica
@@ -3134,11 +3430,12 @@ ginseng
 olive
 pea
 pumpkin
+watercress
 gourd
 squash
 tomato
 zucchini
-corn
+corn / maize
 root
 
 acorn squash
@@ -3158,7 +3455,7 @@ bok choy
 broad bean
 broccoflower
 broccoli
-brussels sprouts / brussel sprout
+brussels sprouts / brussel sprout / brussels
 butter bean
 butternut squash
 cabbage
@@ -3256,15 +3553,17 @@ water chestnut
 yam
 
 [seasonings]
-= spices / herbs / flavorings / flavourings
+= spices / herbs / flavorings / flavourings / garnish
 allspice
 angelica
+stevia
 anise
 asafoetida
 basil
 zest
 bay leaf
 bergamot
+cajun
 borage
 burnet
 caraway
@@ -3337,7 +3636,7 @@ beech
 bopple / red nut
 brazil nut / brazil
 breadnut
-candlenut
+candlenut / kukui nut / kukui
 cashew
 chestnut
 coconut
@@ -3363,6 +3662,8 @@ applewood / apple
 alder
 arborvitae / thuja
 ash
+rowan
+kukui / candlenut
 aspen
 azalea
 basswood
@@ -3437,6 +3738,9 @@ braunschweiger
 breast
 tripe
 brisket
+canadian bacon
+ribeye
+t-bone
 burger / hamburger / cheeseburger
 calamari
 cervelat
@@ -3464,7 +3768,7 @@ pastrami
 pâté
 pepperoni
 pork / porkchop
-ribs "these could be fractured if you sneeze too hard. be careful!"
+ribs
 salami
 salmon
 sausage / frankfurter / hotdog / glizzy
@@ -3486,6 +3790,7 @@ wagyu
 & vegetables
 & nuts
 & meats
+& condiments
 wheat
 oats
 barley
@@ -3496,19 +3801,21 @@ rye
 quinoa
 buckwheat
 butter
-sauce
-dressing
 dessert
 pastry
 bacon
 bagel
 baguette
-bread / bun / loaf
+bread / bun / loaf / roll
+gingerbread
 crust
 bruschetta
 burrito
 cake
-candy
+candy / sweet
+batter
+borscht
+chimichanga
 lollipop / lollypop / lolly
 gummy
 trail mix
@@ -3529,6 +3836,13 @@ curry
 dough
 flour
 snack / treat
+pumpkin seed
+garam masala
+dumpling
+guacamole / guac
+cracker
+saltine
+popsicle
 granola
 wafer
 oreo
@@ -3551,7 +3865,6 @@ anpan
 pho
 banh mi
 pad thai
-coleslaw
 stroopwafel
 naan
 biryani
@@ -3567,11 +3880,24 @@ gnocchi
 gyro / wrap
 ice cream
 lasagna
+ravioli
+sherbet
+sorbet
+stew
+supper
 muffin
 scone
 tart
 cookie
 biscuit
+hummus
+cobbler
+creamsicle
+gelatin / jell-o
+marshmallow
+mulligatawny
+gelato
+afghan
 cupcake
 pretzel
 noodle
@@ -3605,6 +3931,24 @@ toast
 tofu
 waffle
 
+[condiments]
+mustard
+ketchup
+chimichurri
+mayochup
+relish
+barbecue / bbq
+icing
+ranch
+dressing
+sauce
+syrup
+gravy
+mayonnaise / mayo
+caramel
+hot sauce
+coleslaw
+
 [drinks]
 = beverages / liquids
 alcohol
@@ -3618,6 +3962,14 @@ cognac
 americano
 martini
 piña colada
+ipa
+lager
+nectar
+sake
+soju
+tequila
+matcha
+boba
 beer
 sprite
 fanta
@@ -3649,6 +4001,7 @@ hot chocolate / hot cocoa
 juice
 kombucha
 latte
+chai
 lemonade
 limeade
 mai tai
@@ -3684,25 +4037,31 @@ wine
 alt-rock
 alternative / alt
 ambient
+ballad
 baroque
 blues
 bossa nova
 breakcore
+city pop
 classical / classic
 country
 cumbia
+grunge
 dance
 dancehall
+dirge
 disco
 dubstep
 edm / electronic dance music
 electronic / electric / electro
 emo
+flamenco
 folk
 funk
 hardstyle
 hip-hop
 house
+hula
 hyperpop
 indie
 j-pop / jpop / japanese pop
@@ -3714,7 +4073,9 @@ lullaby
 mambo
 metal
 metalcore
+moombahton
 nerdcore
+nightcore
 noise
 nu / nu metal
 opera
@@ -3723,6 +4084,7 @@ parody
 phonk
 polka
 pop / popular
+psychedelia
 punk
 r&&b / rhythm and blues / rhythm && blues / rnb
 rap
@@ -3731,48 +4093,49 @@ reggae
 reggaeton
 remix
 rock
+rumba
 salsa
 samba
 shoegaze
 ska
 soul
+swing
 symphony
 tango
 techno
 trap
+trot
+vallenato
+vaporwave
 vocaloid / utauloid / utau / miku / hatsune miku / miku hatsune / hatsune / teto / kasane teto / teto kasane / kasane
 
 [accessories]
 = fashion
 & clothing
 & footwear
+amulet
+anklet
 armor
-horseshoe
-choker
 beanie
 belt
-mask / facemask
 beret
-cane
-charm
-pendant
-medal
 boa
 bow / bowtie
-goggles
 bracelet
 braces
+brooch / broach
 buckle
 burqa
 button
+cane
 cap
 chainmail
+charm
 chestplate
+choker
 collar
 crown / tiara
 cuff
-headband
-monocle
 earbuds / earphones / airpods
 earmuffs
 earring / piercing
@@ -3783,43 +4146,57 @@ garter
 girdle
 glasses / eyeglasses / brille
 glove
+goggles
 handbag / purse / pocketbook
 handkerchief / kerchief
+harabah
 hat
 hazmat
+headband
 headphones
 headscarf
-thong
-speedo
 helmet
 hijab
+horseshoe
 jewelry / jewels / ice
 keffiyeh / hattah / ghutrah / shemagh
 kippah
 lapel
 lei
+locket
 loincloth
+mask / facemask
+medal / medallion
 mitten
+monocle
 muffler
 neckerchief
 necklace
+necktie
 pad
+pendant
+pin
 pocket
+pocketwatch
 ribbon
 ring
 scarf
+shoelace
 sleeve
 snorkel
 sombrero
+stilt
 sun hat
 sunglasses
 suspenders
+thong
 tie
 top hat
 turban
 umbrella
 velcro
 visor
+watch / wristwatch
 wig
 zipper
 
@@ -3827,7 +4204,9 @@ zipper
 = garment / clothes / apparel / attire / garb / wear
 abaya
 anorak
+áo dài
 apron
+fursuit
 balaclava
 bandana / bandanna
 bib
@@ -3852,14 +4231,17 @@ cravat
 culottes
 dashiki
 diaper
+dirac
 dirndl
 dress / frock
+fishnet
 flannel
 gabardine
 getup
 gilet
 gown / ballgown
 greca
+hanbok
 hoodie
 housecoat
 jacket
@@ -3867,11 +4249,10 @@ jeans
 jersey
 jodhpurs
 jorts
-áo dài
-hanbok
-dirac
-lederhosen
-qipao / qi pao / cheongsam
+skort
+slacks
+jeggings
+gi
 jumper
 jumpsuit
 kaftan / caftan
@@ -3880,11 +4261,13 @@ kilt
 kimono
 knickers
 leather
+lederhosen
 leggings
 lingerie
 miniskirt
 muumuu
 nightgown / nightclothes / nightshirt
+niqab
 onesie
 outerwear
 outfit
@@ -3900,6 +4283,7 @@ pinafore
 polo
 poncho
 pullover
+qipao / qi pao / cheongsam
 raincoat / rain jacket
 robe
 sari
@@ -3910,6 +4294,7 @@ shirt / top
 shorts
 skirt
 spacesuit
+speedo
 suit
 sundress
 sweater
@@ -3971,19 +4356,16 @@ zori
 
 [sports]
 american football / football
-badminton
-wiffle ball
 archery
-snowboarding
+badminton
 baseball
 basketball
 bowling
 boxing
-tag
-hopscotch
-four square
 canoeing
 capoeira
+cheerleading / cheer
+chess
 climbing
 cricket
 curling
@@ -3991,51 +4373,66 @@ cycling / biking / bicycling
 darts
 disc golf / disk golf
 diving
+esports / gaming
+fencing
+four square
+futsal
 golf
 handball
 hockey
+hopscotch
 horseback riding / equestrian / horse racing / horses
+jai alai
 jiu jitsu
+jousting
 judo
 karate
 kayaking
 kempo
 krav maga
 kung fu
-esports / gaming
-chess
 lacrosse
+marathon
 martial arts / combat / fighting
 mma
 motorsport / cars / motor racing / motor
 muay thai
 netball
 olympics
+parasailing
 pentathlon
 pickleball
+ping pong
+pole vaulting
+rafting
 rowing
 rugby
 running / racing / race / run
 silat
 skating / skateboarding
 skiing
+snowboarding
 soccer / association football / fútbol
 softball
 squash
 surfing
 swimming
-pole vaulting
+table tennis
 taekwondo
+tag
 tennis
 volleyball
+wakeboarding
 water polo / polo
 weightlifting / lifting
+wiffle ball
 wrestling
 
 [sports equipment]
 = sport equipment
 arrow
 ball
+gi
 snowboard
 base / plate
 mallet
@@ -4044,6 +4441,9 @@ trampoline
 dumbbell
 pole
 baseball
+oar
+paddleboard
+tee
 basketball
 goggles
 bat
@@ -4089,67 +4489,69 @@ rowboat
 = craft / vessel
 airplane / plane / aircraft / aeroplane / aerocraft
 ambulance
+backhoe
 barrow
 bicycle / bike / cycle
+biplane
+blimp
 boat
 bulldozer / dozer
 bumper car
-submarine
-suburban
-sled
-ferry
-cruise ship
-jet
 bus / shuttle / omnibus
-ute
-penny-farthing / high wheel / high wheeler / ordinary
 cab / taxi
 cabriolet
-mech / mecha
-biplane
 camion
-parachute
-crane
-raft
-hummer
 camper / rv
 canoe
 car / automobile
 caravan
-wheel
 carriage
 cart
 caterpillar
 chaise
 chariot
+coach
 coach charabanc
+convertible
 coupé / coupe
+crane
+cruise ship
 cruiser / police car
 cybertruck
 drone
 dump truck
 ev / electric vehicle / electric car
+ferry
 firetruck / fire engine
 ford
-minecart
 forklift
-wheelchair
+glider
 go kart / kart
+gondola
+hangglider
 hansom
 hatchback / hatch
+hearse
 helicopter
 honda
+hot air balloon
 hoverboard
 hovercraft
+hummer
 humvee / hummer
+hyundai
 jeep
+jet
 jetski
 jinricksha / jinrickshaw / jinrikisha / jinriksha
 kayak
 komatik
 landaulet / landaulette
+lexus
 limousine / limo
 locomotive
+mech / mecha
+minecart
 minibus
 minivan
 monowheel
@@ -4158,9 +4560,13 @@ motorboat / speedboat
 motorbus
 motorcycle / motorbike / motorbicycle
 nissan
+parachute
+penny-farthing / high wheel / high wheeler / ordinary
 plough / plow
 racecar / racing car / sports car
+raft
 rickshaw
+roadster
 rowboat
 sailboat
 scooter
@@ -4168,10 +4574,13 @@ segway
 semitruck
 ship
 skateboard
+sled
 sleigh
 snowmobile
 spaceship / rocket
 steamroller
+submarine
+suburban
 subway
 suv
 sweeper
@@ -4180,25 +4589,34 @@ tank
 tanker
 telega
 tesla
+titanic
 toboggan
 tonga
 tow truck
-train
 toyota
 tractor
 trailer
+train
 tram / tramcar / streetcar / trolley car
+trolley
 tricycle
 truck / lorry
 tuk-tuk
+uber / lyft
+ufo / uap
 unicycle / monocycle
+ute
 van
 wagon / waggon
 wagonette / waggonette
-warship
+warship / battleship
+wheel
 wheelbarrow
+wheelchair
 wheeler
 wildcat
+yacht
+zeppelin
 
 [instruments]
 = music / musical
@@ -4206,6 +4624,7 @@ accordion
 alghoza
 alphorn
 alto
+kora
 aquaphone
 autoharp
 bagpipes
@@ -4363,40 +4782,33 @@ cajón
 saxtuba
 flageolet
 fife
-djembe
-conga
+djembe / jembe / jenbe
+conga / tumbadora
 
 [household objects]
 = objects
+afghan
+amphora
+anvil
 appliance
 backpack
-calendar
-lantern
-crib
-anvil
-bassinet / stroller / pram
-lanyard
+sack
 bag
-compass
-razor / shaver
 balloon
 bandage / dressing / bandaid / gauze
 basket
+bassinet / stroller / pram
 bath / bathtub / tub
+battery
 bed
-device
+bedframe
 bench
 bin
-record
-cassette
-boombox
 blanket / sheet / bedsheet
 block
-keg
-doll / dolly
-figure / figurine
 book
 bookshelf
+boombox
 bottle
 bowl
 boxcutter
@@ -4405,26 +4817,36 @@ brush
 bucket
 cabinet
 cable
+cage
 calculator / calc
+calendar
 candle
+candlestick
 canvas
 card
 carpet / rug
 carton
+cassette / videocassette
+tape
 ceiling
 cellphone / smartphone / iphone / android
 chair / seat
+chalice
 charger
+check
+check / checkbook
 cigar
 cigarette
 clasp
+clipboard
 clipper
 clock / clockwork
 clothes
+coaster
 coin
 comb
+compass
 computer / pc
-pickaxe
 console / xbox / playstation
 controller
 cooler
@@ -4434,18 +4856,23 @@ corkscrew
 couch
 counter
 crayon / crayola
+crib
 cupboard
 curtain / blinds / shades
 cushion
+deodorant
 desk
-dice
+device
+diary
 dictionary
-die / dice
+die / dice / d20
 dishwasher
 dispenser
+doll / dolly
+dongle
 door
-knob / doorknob
 drawer
+drawing
 dreamcatcher
 dresser
 dryer
@@ -4455,39 +4882,54 @@ eraser
 fan
 fastener
 faucet / tap
+figure / figurine
 fireplace
 flag
 flashlight
+flask
 floor
 folder
+footstool / footrest
 fork
 freezer
 fridge / refrigerator
 frier
 furniture / furnishing
+futon
 gauge
 glass / cup
+goblet
 grill / grille / barbie / barbecue / bbq
 hammer
-mallet
 hamper
 handle
 hanger
+hassock
 heater
+hinge
 hoe
 holder
 hose
 ink
 iron
+keg
 kettle
 key
 keyboard
 keychain
 knife
+knob / doorknob
+ladder
+ladle
 lamp
+landline
+lantern
+lanyard
 laptop
 laser / lazer / pointer
+laser pointer
 laundry
+lawnmower
 lego
 letter / mail
 light / lightbulb / bulb
@@ -4496,12 +4938,15 @@ lotion
 luggage
 machine
 magnet
+mallet
 mantle
 map
 marker
 mat / placemat
 match / matchstick
 mattress
+measuring tape
+menorah
 microphone / mic
 microwave
 mirror
@@ -4518,6 +4963,7 @@ note / sticky note / post-it
 notebook
 opener
 ornament
+ottoman
 outlet
 oven
 painting
@@ -4525,9 +4971,11 @@ paper / document
 pen
 pencil
 phone / telephone
+pickaxe
 pillow
 pillowcase
 pin / pushpin / tack / thumbtack
+pitcher
 plaque
 plug / usb
 plunger
@@ -4539,7 +4987,10 @@ processor
 quilt
 rack
 radio
+rake
+razor / shaver
 recliner
+record
 remote
 roll
 roof
@@ -4556,6 +5007,7 @@ shovel
 shower
 showerhead
 sign
+sill / windowsill
 sink / basin / washbasin
 soap
 sofa
@@ -4566,6 +5018,7 @@ stairs
 stand
 stapler
 step / stair
+stepladder / step stool
 sticker
 stool
 stove / stovetop / cooktop
@@ -4574,24 +5027,29 @@ stud
 switch / lightswitch
 table
 tablet / ipad
+tape
 television / tv / telly
 thermos
 tissue
 toaster
+toaster oven
 toilet
 tool
 toothbrush
 toothpaste
 towel
 toy
+trash can / dustbin / garbage can / garbage bin
 vacuum / hoover
 vase
 vent
 wall
 wallet
 wallpaper
+whisk
 window
 wire / cable
+wok
 wrench
 
 [materials]
@@ -4603,6 +5061,10 @@ brass
 brick
 cardboard
 cement
+bronze
+invar
+nichrome
+aerogel
 rubber
 silicone
 latex
@@ -4629,7 +5091,8 @@ gravel
 grout
 hair
 hemp
-hide
+hide / fur
+cashmere
 invar
 jersey
 kaolinite / kaolin
@@ -4671,34 +5134,47 @@ mythril
 = buildings
 airport
 apartment / flats
+aqueduct
 attic
 bakery
 balcony
+ruins / wreck
 ballroom
 bank
-slide
-tent
-trampoline
-bouncy house / bounce house / bouncy castle / bounce castle
 bar / pub
+barbershop
 barn
+barracks
 basilica
+bastion
 bathroom / restroom
 bedroom
+bouncy house / bounce house / bouncy castle / bounce castle
 bridge
 bungalow
 bunker
 cabin
+cafeteria
+campus
 casino
 castle
+cathedral
 cell
 cellar / basement
+chamber
 chimney
 church
+circus
+citadel
 city
+clinic
 closet
 conservatory
+coop
+crypt
+data center / data centre
 den
+diner
 dock / pier
 dome
 facility
@@ -4706,39 +5182,58 @@ factory
 farm
 fence
 fort / fortification
+fortress
 foundation
 fountain
 garage
 garden
 gate
+gazebo
 grave / tomb
-gym
+greenhouse
+gymnasium / gym
 hall
 hallway
+headquarters
 helipad
+helter-skelter
 highway / freeway
 hospital
+hostel
 hotel
 house / home
 hut
 infrastructure
+inn
+institute
+institution
 jungle gym
+kennel
 kitchen
+laboratory
 library
 mall
+manor
+mansion
 market
+mausoleum
 memorial
+metropolis / metropolitan area
 mine
+monorail
 monument
 mosque
 motel
+museum
 nursery
+obelisk
 observatory
 office
 pagoda
 palace
 park
 path
+patio
 pavilion
 pedestal
 pharmacy
@@ -4747,22 +5242,27 @@ pizzeria / pizzaria
 playground
 pole / rod / shaft
 pool
+porch
 port
 porta-potty / porta john / portable toilet
+post office
 prison / jail / gaol
 pylon
-rail / railway
-coop
+rail / railway / railroad
 ramp
 restaurant
 road / street / way
+rollercoaster
 room
+salon
 satellite
 scarecrow
 school
 shed
 shelter
+silo
 skyscraper
+slide
 stadium
 stage
 station
@@ -4773,28 +5273,37 @@ swing / swingset
 synagogue
 taqueria
 tarp
+tavern
+teepee
 temple
+tent
 theater / theatre / cinema
 tower
 town
 track
+trampoline
 tunnel
 turbine
 university / college
 venue
 village
+warehouse
 well
 windmill
+workplace
 workshop
 zoo
 
 [weapons]
 = arms / armament
+agent orange
 ak-47
+anthrax
 ar-15
 arrow
 artillery
-axe
+axe / ax
+battleaxe / battleax
 bayonet
 bazooka
 blade
@@ -4806,8 +5315,11 @@ boxcutter
 brass knuckles / knuckleduster
 broadsword
 bullet
-taser
+candlestick
 cannon
+chainsaw
+chisel
+chloroform
 claymore
 club
 colt
@@ -4818,8 +5330,10 @@ dao
 desert eagle / deagle
 dirk
 dynamite
+épée
 flail
 flamethrower
+fork
 gladius
 glaive
 glock
@@ -4831,6 +5345,8 @@ gunpowder
 halberd
 handgun
 harpoon
+hatchet
+jackhammer
 karambit
 katana
 katar
@@ -4841,13 +5357,20 @@ lance
 longsword
 mace / morningstar
 machete
+pipe bomb / mailbomb
+mallet
 mameluke
 mine / landmine
 missile
+musket
+mustard gas
+napalm
 nuke
 nunchaku / nunchuku / nunchuks / nunchucks / chainsticks
 pike
 pistol
+pitchfork
+poison
 polearm
 poleaxe
 quarterstaff
@@ -4856,6 +5379,7 @@ revolver
 rifle
 rocket / rpg
 saber
+scalpel
 scepter
 scimitar
 scythe
@@ -4871,11 +5395,15 @@ spear
 staff
 stiletto
 sword
+taser
 tnt
 tomahawk
 torpedo
+trident
+venom
 wand
 warhammer
+water balloon
 yan
 
 [body parts]
@@ -4883,14 +5411,17 @@ yan
 abdomen
 adenoid
 afro
+alveolar ridge
 ankle
+aorta
 appendix "this organ has no use to modern humans"
 arch
 arm
 armpit
-nape
 artery
+auricle / pinna
 back
+backhair
 beak / bill
 beard
 belly / tummy
@@ -4907,7 +5438,6 @@ bronchus
 bruise
 butt / ass / butthole / buttocks / anus / bum / arse
 calf
-calves
 canal
 canine
 capillary
@@ -4915,7 +5445,10 @@ carpals
 cartilage
 cavity "please take care of your teeth"
 cell "you have about thirty-six trillion of these"
+cerebellum
+chamber
 cheek "no other animal can blush like us"
+chelidon / elbowpit / cubital fossa / wagina / cough-into
 chest
 chin
 circulation
@@ -4923,9 +5456,15 @@ clavicle
 claw
 collarbone / collar
 colon
+cone
+cornea
+corpus callosum
+cortex
+cuticle
 deltoid / musculus deltoideus
 diaphragm
 dimple
+dorsal fin / dorsal
 duodenum
 ear
 eardrum
@@ -4951,19 +5490,23 @@ finger "fingerprints are so unique, even identicial twins don't share them"
 fingertip / fingerprint
 fist
 flesh
+flipper
 follicle
 foot / feet
 forearm
 forehead
 freckle
+frontal lobe
 funny bone "it's actually a **nerve**"
 gallbladder
 gill
 gland
 glottis
 goosebump "every mammal gets these!"
+gullet
 gut
 hair
+hairline
 hamstring
 hand
 head
@@ -4973,7 +5516,7 @@ hip
 humerus
 ileum
 incisor
-incus
+incus / anvil / incudes
 instep
 intestine
 iris
@@ -4985,13 +5528,17 @@ joint
 kidney
 knee
 kneecap
+kneepit / hough / popliteal fossa
 knuckle
+labia
 larynx
 leg
+lens
 ligament
 limb
 lips "some of the most sensitive parts of the body"
 liver
+lobe
 lungs
 lunula
 lymph node
@@ -5007,24 +5554,30 @@ muscle "this word comes from latin for **little mouse**"
 mustache
 nail / toenail / fingernail
 nails
+nape
 navel / belly button
 neck
 nerve
 nipple
 nose / nasal
+nosehair
 nostril
+occipital lobe
 organ
 ossicle
 palate
 palm
 pancreas
+parietal lobe
 patella
 paw
 pelvis
 penis / cock / dick / dih
 phalanges
 pharynx
+philtrum
 pinky
+pouch
 privates
 proboscis
 pube
@@ -5034,20 +5587,24 @@ pupil
 quadriceps
 radius
 rectum
-ribs
+ribs "these could be fractured if you sneeze too hard. be careful!"
+rod
 saliva
 scale
 scalp
+scapula
 scar
 sclera
 shin
 shoulder
+shoulder blade
 side
 skeleton
 skin "this is your largest organ"
 skull / cranium
 snout
 sole
+sphincter
 spine / spinal cord
 spleen
 sternum
@@ -5055,6 +5612,8 @@ stirrup / stapes
 stomach
 sweat
 tail
+tailbone
+talon
 tear
 temple
 tendon
@@ -5081,6 +5640,7 @@ uvula
 vagina / pussy
 vein
 velum
+vertebra
 vessel
 waist
 wenis / weenus / weenis
@@ -5089,10 +5649,13 @@ wrinkle
 wrist
 
 [weather]
+= meteorology
+& clouds
 acid / acid rain
 allergies
 avalanche
 blizzard
+mudslide
 aurora / borealis / northern lights "at this time of year? at this time of day?"
 clouds / cloudy / cloudiness "a **cloud** weighs over a million tons"
 cold / cool / frigid / chilly
@@ -5100,6 +5663,7 @@ cyclone / vortex
 dew
 drizzle
 drought / dry
+sharknado
 dust storm / dust devil / sand whirl
 earthquake
 eruption
@@ -5141,20 +5705,69 @@ waterspout
 wildfire / smoke / smoky
 wind / windy / windstorm / gust
 
+[clouds]
+cirrocumulus
+altostratus
+pyrocumulus / flammagenitus
+cumulus
+nimbus
+stratus
+cirrus
+altocumulus
+cumulonimbus
+nimbostratus
+pyrocumulonimbus
+stratocumulus
+cirrostratus
+lenticular / lenticularis
+nacreous
+noctilucent
+asperitas
+undulatus
+pileus
+cataractagenitus 
+homogenitus
+contrail
+silvagenitus
+wall cloud / murus
+roll cloud / volutus
+beaver tail / flumen
+caudus
+horseshoe
+fractus
+castellanus / castellatus
+floccus
+lacunosus
+stratiformis
+volutus
+nebulosus
+fibratus / filosus
+vertebratus
+intortus
+uncinus
+spissatus
+
 [landforms]
 = landmass / nature / land
 & bodies of water
 & biomes
 atoll
 boulder
+archipelago
+bluff
+cape
+vale
 canyon
 butte
 cave
+trench
 cliff
 continent
 dune
+tombolo
 glacier
 ground
+horn
 highland
 hill
 island / isle
@@ -5174,6 +5787,7 @@ supercontinent
 trench
 valley
 volcano
+geyser
 
 [bodies of water]
 = body of water / body / water
@@ -5232,6 +5846,7 @@ grassland
 jungle
 mangrove
 meadow
+alpine
 mesa
 arctic
 siberia / siberian
@@ -5279,6 +5894,9 @@ vibe / vibecode / vibecoder
 = arts / field of work / field of study / fields of work / studies / ology / field
 # & religions
 accounting
+acoustics
+acupuncture
+aerodynamics
 aeronautics
 agriculture / agronomy / farming
 alchemy
@@ -5287,15 +5905,16 @@ anatomy
 animation
 anthropology
 archaeology
-metrology
 architecture
 archiving / archive / preservation
+arithmetic
 astrobiology
 astronomy
 astrophysics
-forensics
-arithmetic
-historiography
+audiology
+biochemistry
+bioengineering
+bioethics
 biology
 botany
 business
@@ -5307,6 +5926,7 @@ chronology
 climatology
 cooking / culinary
 cosmetology
+criminology
 cryptography
 cybersecurity
 dance
@@ -5318,16 +5938,22 @@ ecology
 economics
 education / teaching
 egyptology
+electrodynamics
 engineering
 entomology
 epidemiology
+epistemology
+ethics
 etymology
+eugenics
 evolution / evolutionary
 fashion
 film
 finance
+forensics
 futurology
 gemology
+genetics
 geography
 geology
 geometry
@@ -5335,9 +5961,12 @@ geophysics
 glaciology
 googology
 grammatology
+graphemics
 gynecology / gynaecology
+historiography
 history
 horticulture
+hydrodynamics
 hydrology
 immunology
 information
@@ -5349,21 +5978,37 @@ linguistics / language
 literature / writing
 lithology
 logic
+macroeconomics
+magnetohydrodynamics
 marketing / advertising
 masonry
 mathematics / math
 meteorology
+metrology
 microbiology
+microeconomics
 mineralogy
 morphology
 music
 mythology / folklore
+nephrology
+neurobiology
+neurochemistry
 neurology
+neuropsychology
 neuroscience
+nuclear science / nuclear physics
 nursing
+nutrition
 oceanography
 oncology
 ontology
+oology
+ophthalmology
+ophthamology
+optics
+optometry
+orthodontics
 osteology
 paleontology
 pathology
@@ -5373,11 +6018,17 @@ phenomenology
 philology
 philosophy
 phonology
+phonotactics
 photometry
+phrenology
 physics
 physiology
+pneumatology
+poetry
 politics / political science / political
+psychiatry
 psychology
+pulmonology
 radiology
 science
 seismology
@@ -5385,7 +6036,9 @@ sociology
 spectroscopy
 statistics / stats
 steganography
+stenography
 surgery
+taxonomy
 technology / tech
 theatre
 theology / theism / religion / religious
@@ -5407,10 +6060,10 @@ acer
 agricole
 alibaba
 allianz
-stripe
 amazon
 amd
 american express
+anthropic
 apple "former apple CEO Steve Jobs would only eat apples and carrots for weeks at a time"
 arby's
 astrazeneca
@@ -5424,8 +6077,11 @@ berkshire hathaway
 bmo
 bmw
 bnp
+bp
 broadcom
+buc-ee's
 byd
+chevrolet
 chevron
 china mobile
 chuck e. cheese
@@ -5437,14 +6093,6 @@ coca cola
 comcast
 commonwealth
 costco
-micron
-sandisk
-enron
-anthropic
-mozilla / firefox
-motorola
-bp
-buc-ee's
 crayola
 cvs
 dell
@@ -5454,6 +6102,7 @@ ea
 elevance
 eli lilly
 enel
+enron
 exxonmobil / mobil / exxon
 fifa
 fox
@@ -5461,6 +6110,7 @@ game freak
 goldman sachs
 google / alphabet
 hdfc
+heineken
 hermes
 hershey
 home depot
@@ -5473,24 +6123,23 @@ intesa sanpaolo
 johnson & johnson / j&j
 jpmorganchase / jpmorgan / chase
 kellogg
+kfc
 kia
+konami
+kraft / heinz
 louis vuitton / lvmh
 mastercard
 mcdonald's
 mercedes-benz / mercedes
 meta / facebook
-pinterest
+micron
 microsoft / microslop "more like microSLOP!"
-kfc
-starbucks
-chevrolet
-unilever
-kraft / heinz
-panasonic
 mitsubishi
 mizuho
 mojang
 morgan stanley
+motorola
+mozilla / firefox
 nba
 nestlé
 netflix
@@ -5501,16 +6150,16 @@ novartis
 nvidia
 openai
 oracle
+panasonic
 paypal
 peacock
 pepsico / pepsi
 petrobras
 petrochina
 pfizer
+pinduoduo
+pinterest
 popcap / capcom
-konami
-tumblr
-yahoo
 procter & gamble / procter and gamble
 progressive
 psbc
@@ -5520,14 +6169,18 @@ reliance
 roche
 rtx
 samsung
+sandisk
 santander
 saudi aramco
 shell
 siemens
 sinopec
+snapchat
 sony
 spacex / x
 spotify
+starbucks
+stripe
 sumitomo mitsui
 taiwan semiconductor / tsmc
 target
@@ -5538,15 +6191,19 @@ tesco
 tesla "tesla was founded by Martin Eberhard and Marc Tarpenning"
 tiktok / bytedance
 toyota
+tumblr
 ubs
+unilever
 unitedhealth
 valve
 verizon
 visa
 volkswagen
 walmart
+warner bros / warner / warner brothers / discovery
 wells fargo
 wendy's
+yahoo
 youtube
 
 
@@ -5566,8 +6223,10 @@ australia / oceania
 europe / european
 north america / north american
 south america / south american
+eurasia
 
 [countries]
+abkhazia
 afghanistan
 albania
 algeria
@@ -5605,7 +6264,7 @@ burundi
 cambodia
 cameroon
 canada
-cape verde
+cape verde / cabo verde
 central african republic
 chad
 chile
@@ -5710,7 +6369,7 @@ montserrat
 morocco
 mozambique
 namibia
-nauru
+nauru / naoero
 nepal
 netherlands
 new zealand / zealand
@@ -5719,6 +6378,7 @@ niger
 nigeria
 niue
 north korea
+northern cyprus
 northern mariana islands
 norway
 oman
@@ -5776,6 +6436,7 @@ timor-leste / timor
 togo
 tokelau
 tonga
+transnistria
 trinidad and tobago
 tunisia
 turkey / türkiye / turkiye
@@ -5786,14 +6447,14 @@ uganda
 ukraine
 united arab emirates / uae
 united kingdom / uk / britain
-united states / usa / us / america
+united states / usa / us / america / 'murica / 'merica
 uruguay
 ussr / soviet union
 uzbekistan
 vanuatu
 vatican city / vatican / holy see
 venezuela
-vietnam
+vietnam / 'nam
 wales
 western sahara
 yemen
@@ -5811,7 +6472,7 @@ Connecticut / CT
 Delaware / DE
 Florida / FL
 Georgia / GA
-Hawaii / HI
+Hawaii / HI / Hawai'i
 Idaho / ID
 Illinois / IL
 Indiana / IN
@@ -5892,6 +6553,7 @@ abu dhabi
 abuja
 accra
 addis ababa
+aden
 algiers
 amman
 amsterdam
@@ -5939,6 +6601,7 @@ cardiff
 castries
 chisinau
 ciudad de la paz
+colombo
 conakry
 copenhagen
 dakar
@@ -5959,6 +6622,7 @@ gitega
 guatemala city
 hanoi
 harare
+hargeisa
 havana
 helsinki
 honiara
@@ -5978,6 +6642,7 @@ kuala lumpur
 kuwait city
 kyiv / kiev
 la paz
+laayoune
 libreville
 lilongwe
 lima
@@ -6016,6 +6681,7 @@ niamey
 nicosia
 nouakchott
 nuku'alofa
+nuuk
 oslo
 ottawa
 ouagadougou
@@ -6038,6 +6704,7 @@ pristina
 pyongyang
 quito
 rabat
+ramallah
 reykjavik
 riga
 riyadh
@@ -6057,7 +6724,8 @@ seoul
 singapore
 skopje
 sofia
-sri jayawardenapura kotte
+sokhumi
+sri jayawardenepura kotte / sri jayawardenapura kotte
 stockholm
 sucre
 suva
@@ -6072,6 +6740,7 @@ thimphu
 tirana / tirane
 tokyo
 tripoli
+tskhinvali
 tunis
 ulaanbaatar
 vaduz
@@ -6128,6 +6797,7 @@ nashville
 oklahoma city
 olympia
 phoenix
+portland
 pierre
 providence
 raleigh
@@ -6144,63 +6814,90 @@ trenton
 
 [languages]
 abkhaz
-achinese
+achinese / acehnese
 acholi
 acoli
+afar
 afrikaans
+aghul
 ainu
 akan
 akateko
-ossetian
-cuneiform
-ngunnawal
 akkadian
+alabama
 albanian
+aleut
 algerian arabic
+altai
+amami
 amharic
 arabic
+aragonese
 armenian
 ashanti / asante twi
 asl / american sign language / sign language
 assamese
 assyrian
+asturian
 auslan
-azerbaijani
+avar
+aymara
+andalusi romance / mozarabic
+kalmyk / oirat
+ladino / judaeo-spanish / judezmo / sephardi / spaniolit
+minoan / linear a
+sahaptin / ichishkiin
+azerbaijani / azeri
 bahasa indonesia / indonesian / bahasa
 bahnar
+balinese
+balochi
 bambara
 bashkir
 basque
+bavarian
 belarusian
 bemba
 bengali
-berber
+berber / tamazight / amazigh
 bhojpuri
+blackfoot
 bokmål / norwegian
 bosnian
+breton
 bsl / british sign language
 bulgarian
 burmese
 burushaski
 cambodian / khmer
-cantonese
+cameroonian / cameroonian pidgin / cameroonian pidgin english / cameroonian creole / kamtok
+cantonese / yue
 cape verdean / portuguese creole
 catalan
-cebuano
+cebuano / bisaya
 chaldean
 chamorro
 chaozhou
 chechen
 cherokee
+chichewa
 chin / laiholh / hakha
+choctaw
 chuukese / trukese
 chuvash
+cia-cia / butonese / south buton
+coptic
 corsican
+cree
 creole
+crimean tatar
 croatian
+cuneiform
 czech
+dalmatian / dalmatic
 damin
 danish
+dargwa
 dari
 darug
 dene
@@ -6209,6 +6906,7 @@ dharug
 dinka
 dogri
 donbe
+dothraki
 duala
 dungan
 dutch
@@ -6218,6 +6916,7 @@ elamite
 english
 esperanto
 estonian
+etruscan
 even
 evenki
 ewe
@@ -6230,6 +6929,7 @@ finnish
 flemish
 french
 frisian
+friulian
 fukienese
 fulani / fulfulde / fula
 fuzhou
@@ -6238,18 +6938,27 @@ ga
 gaelic / scottish
 gagauz
 galician
+gallo
+gan
 gen / mina
+genoese
 georgian
 german
 gilbertese
 gokana / khana
 greek
+greenlandic
+guarani
+gubbi gubbi / kabi kabi
+guernésiais
 gujarati
 haitian creole / haitian
 haka burmese
 hakka
 halacae
 hausa
+hawaiian
+hawaiian pidgin / hawaiian creole / hawai'i creole english
 hebrew
 hindi
 hittite
@@ -6258,52 +6967,82 @@ hokkien
 hungarian
 hunsrik
 ibo / igbo
+icelandic
+ido
 ilocano
 iloko
+interlingue / interlingua
+inuktitut
 irish
 italian
 ithkuil
+iwaidja
+jamaican patois / jamaican / patois
 japanese
 jarai
 javanese
 jeju / jejueo / jejuan
+jerriais
+kabiye
+kalapuya
+kalaw lagaw ya
 kanjobal / q'anjob'al
 kannada
+kanuri
 kapampangan
 karakalpak
 karen / pa'o / s'gaw
+kashmiri
 kayah
 kazakh
+keres / keresan
+khoe
+khoekhoe
 kinyarwanda
 kirundi
 kituba
+klamath
 klingon
 koho
+komi
 korean
+kosraean
 kpele
 krahn
 krio
+kumyk
 kunama
+kunigami
 kurdish / kurmanji / sorani
 kusunda
+kwikwetlem / halkomelem
+ladin
+lak
 lao
 latin
+latji-latji
 latvian
 laz
+lezgin
+ligurian
 limburgish
 lingala
 lithuanian
 loglan
 lojban
 lombard
+luba-kasai
 luganda
 luo
+luxembourgish
 maay / af maay / rahanween / bantu
 macedonian
+maithili
+malagasy
 malay
-malayalam
-malaylam
+malayalam / malaylam
 malinke
+maltese
 mam
 mandarin / chinese
 mandinka / mandingo
@@ -6312,47 +7051,81 @@ maori
 marathi
 marshallese
 mayan / akateko / kanjobal
+miami-illinois / wabash / myaamiaataweenki
 mien
+min nan
 mina / gen
 minangkabau
+mingrelian
 mixteco alto
 mixteco bajo
+miyako
 mnong
 monegasque
 mongolian
+montenegrin
+moriori
 moroccan arabic
 nahuatl
+nauruan
 navajo
+ndebele
 ndombe
 nepalese
+nepali
+ngunnawal
 nheengatu
+nigerian pidgin
 nihali
+niuean
+nogai
+norman
 nuer
+nukuoro
 nuxalk
 nynorsk
 occitan
+odia / oriya
+ojibwe
+okinawan
 oromo
+osage
+ossetian
 palauan
 palawa kani
 palestinian arabic
+pali
 pangasinan
 papiamento
 pashto / pushto
+picard
+pidgin
 piraha
+pirahã
 polish
+pomeranian
 portuguese
+prakrit
+proto-indo-european / pie
 pulaar
 punjabi / panjabi
 qashqai
 quechua
+quenya
 quiche / k'iche
 rade
+rapa nui
+ripuarian
 rohingya
 romanian
+romansh
+rotokas
 russian
 rusyn
+rutul
 samoan
 san miguel
+sanskrit
 santa eulalia
 saraiki
 sardinian
@@ -6361,12 +7134,19 @@ scots
 scouse
 serbian
 serbo-croatian
+serer
+seychellois creole / seychellois
 shanghainese
+shona
 sichuan / szechuan
 sicilian
 silesian
+sindarin
+sindhi
+sinhala
 sinhalese
 slovak
+slovene
 slovenian
 somali
 soninke / serahule
@@ -6375,20 +7155,33 @@ spanish
 sumerian
 sundanese
 susu
+svan
 swahili
 swedish / svenska
 taa
-tai dam
+tabasaran
+tahitian
+tai dam / shan / tai
 taiwanese
+tajik
+tamboran
 tamil
+tat
+tatar
 telugu
 thai
 tibetan
+tigre
 tigrigna / tigrinya
 toishanese
+tok pisin
+tokelauan
 toki pona "kama pona!"
 tongan
+trinidadian creole / trinidadian
+tsakhur
 tswana
+tswana 
 turkish
 turkmen
 tuvaluan
@@ -6400,7 +7193,10 @@ urdu
 uyghur
 uzbek
 valyrian
+venetian
 vietnamese
+volapük
+votgil
 walloon
 waray
 welsh
@@ -6408,22 +7204,31 @@ wiradjuri
 wolof
 wu
 xhosa
+xiang
 xibe
+yaeyama
+yapese
 yi
 yiddish
+yonaguni
 yoruba
+yucatec maya
 yup'ik
+zapotec
 zarma
+zhuang
 zulu
 
 [money]
-= currency / cash / coin / bill / banknote / dinero
+= currency / cash / coin / bill / banknote / dinero / currencies
 afghani
 apsar
 ariary
 baht
 balboa
 birr
+doubloon
+drachma
 bolívar
 boliviano
 cedi
@@ -6510,13 +7315,27 @@ quarter
 dime "this coin has exactly 118 ridges around its edge"
 
 [jobs]
-= occupations / workers / laborers / positions / employment / employee
+= occupations / workers / laborers / positions / employment / employee / staff / faculty
 accountant
+ace
+activist
 actor / actress
+acupuncturist
+administrator / admin
+marine
+admiral
+aedile
 aesthetician
+agent
 alchemist
+animator
+archduchess / archduke
 architect
+aristocrat
+arsonist
 artist / creative
+assassin
+assemblyperson / assemblyman / assemblywoman
 assistant
 astronaut / cosmonaut / taikonaut / spationaut / vyomanaut "most countries with a space program have their own name for ^s"
 astronomer
@@ -6525,133 +7344,280 @@ attendant
 attorney
 auctioneer
 author / writer
+aviator
 babysitter
 baker
 barista
+baron / baroness
+bartender / barkeep
+bassist
+beggar / vagabond / hobo
 biologist
+bishop
 blacksmith
+bodybuilder
 boss
+botanist
+boxer
+brigadier
+broadcaster
 businessman / businessperson / businesswoman
 butcher
+caliph
+cameraperson / cameraman / camerawoman
+captain
+cardinal
 carpenter
+cartographer / mapmaker
 cartoonist
-cashier
+cashier / clerk
 celebrity
 ceo
+chaplain
 chef / cook
 chemist
-chief
+chief / chieftain / chieftess
+chiropractor
 cleaner
+cleric
 clown
+cobbler
+comedian
+commander
+commissioner
 conductor
 congressperson / congressman / congresswoman
 consultant
+copilot
+corporal
+corsetmaker
 cosmetologist
+count / countess
+cowboy / cowgirl
+curator
+dancer
 delivery
 dentist
+deputy
 designer
 detective / investigator
+dietician
 director
+dj / disc jockey / disk jockey
 doctor
 dogsitter / petsitter / dog walker
 driver
+druid
+drummer
 drycleaner
+duce
+duchess / duke
+earl
 ecologist
+economist
 editor
 electrician
+emir
+emperor
+empress
 engineer
+entertainer
+escort
+eunuch
+executioner
 executive
+exterminator
 farmer / farmhand
+fighter
 firefighter / fireman / firewoman
 fisher / fisherman / fisherwoman
 florist
+fortune teller / psychic
 freelancer
+gambler
+game warden
+gangster
 garbage person / garbage man / garbage woman
 gardener
+general
+geographer
 geologist
+golfer
+goon
 governor
+griot
 grocer
 guard / security / guardian
+guitarist
 hacker
 hairdresser / barber
 handyman
+hatter
+herbalist
+hero / heroine
+hierophant
+historian
 host
+housekeeper
+human resources
 hunter
 illustrator
+immunologist
+infielder
 influencer
+innkeeper
+inspector
 interpreter / translator
+inventor
 investor
 jailer / bailiff
 janitor / custodian
 jester
+jockey
+joker
 journalist
+jouster
 judge
+judoka
+juggler
+kaiser
 knight
+landscaper
 lawyer
 librarian
+lieutenant
 lifeguard
+linebacker
+logger
+lumberjack
 magician
+maid
 mail carrier / mailman / mailperson / mailwoman
 manager
+mangaka / manga artist
+marchioness / marquise
+marquess / marquis
+marshal
+masseuse / massage therapist
+mayor
 mechanic / repairman
+medic
 messenger
+meteorologist / weatherman / weatherwoman / weatherperson / weatherboy
+milkman / milk deliverer
+mime
 miner
+minion
+mobster / mafioso
+moderator / mod
 monarch / queen / king / ruler
 monk
 musician
+nephrologist
+newscaster / reporter
 ninja
 nun
 nurse
 nutritionist
+oncologist
+ophthamologist
+optician
+oracle
 orthodontist
+outfielder
 painter
+paladin
+paperboy
 paramedic
+parole officer
+pawn
+peon
+pharaoh
 pharmacist
+philosopher
 photographer
 physician
+physicist
 pilot
 pirate
+pitcher
 planner
 plumber
+poet / poetess
 police / cop / policeman / policewoman / officer / popo
 politician
-pope
+pope / pontifex maximus
+praetor
+preacher
 president
 priest
 prince / princess
+princeps
+prisoner
+private
 professor / teacher
-programmer / developer / coder
+programmer / developer / coder / gamedev
 prosecutor
+prospector
+prostitute / hooker
+psychiatrist
 psychologist
 puppeteer
+quarterback
 radiologist
 ranger
 rapper
+realtor
+reaper
+referee / ref
+representative
+ringleader
 rockstar
+rogue
 sales
 samurai
 scientist
+scriptwriter / playwright
 secretary
 senator
+servant
 server / waiter / waitress
 sheriff
+shogun
 singer
+slave
 smith
 soldier / military
-sorcerer / sorceress / witch / wizard
+sommelier / chef de vin / wine steward
+sorcerer / sorceress / witch / wizard / warlock
 stenographer
+storyteller
 streamer / livestreamer
+student
+superhero
 surgeon
+tactician
 tailor / seamstress
+tanner
+taxonomist
 technician
+terrorist
 therapist
 trader
 trucker
+tsar / czar
 typist
 umpire
+unemployed
+usher
+valet
 vet / veterinarian
+viceroy
 videographer / cinematographer
+villain
+warden
 welder
+wrestler
 youtuber / content creator
 
 [family]
@@ -6727,12 +7693,13 @@ wife
 & constellations
 meteor / asteroid / meteoroid / meteorite
 comet
+ring
+protoplanetary disc
 solar system / star system
 sky
 nebula / nebulae
 black hole
 wormhole
-alien
 supernova
 quasar
 galaxy
@@ -6742,31 +7709,58 @@ galaxy
 milky way
 andromeda
 sunset
+solstice
+equinox
+eclipse
 sunrise
 sputnik
 spaceship / rocket
+ufo / uap
+neutron star
+white dwarf / dwarf
+red dwarf
+alien / extraterrestrial / et
+giant / supergiant
+hypergiant
+void
+cosmic filament
+supercluster
 
 [celestial bodies]
 = solar system
 & planets
-sun / star / sol / solar
-moon "humans have seen the exact same spot of the moon for all of history"
-pluto
+ariel
+callisto
 ceres
-haumea
-makemake
-eris
 charon
-sedna
-quaoar
-io
+deimos
+dia
+eris
+euporie
 europa
-ganymede
-satellite
+gonggong
+orcus
 exoplanet
-planetoid
+ganymede
+haumea
+hyperion
+iapetus
+io
+kepler-22b / kepler-22
+makemake
+moon "humans have seen the exact same spot of the moon for all of history"
 planet nine
-Kepler-22b / Kepler-22
+planetoid
+pluto
+quaoar
+rhea
+satellite
+sedna
+sirius
+sun / star / sol / solar
+titan
+triton
+umbriel
 
 [planets]
 mercury
@@ -6969,105 +7963,120 @@ fermionic
 superfluid
 supersolid
 degenerate
+supercritical fluid / scf
 
 
 [morbidities]
 = morbid
 & weapons
-death / die / dying / dead
-war
-void
-hell
-demon / devil / imp
-satan / lucifer
-stinky / smelly / gross / disgusting / nasty / stink
-explosion / explode
-nightmare
-monster
-funeral
-sad / sadness
-fart / brap
-vampire / dracula
-ghost / ghoul / specter / spectre / phantom
-decay / decayed
-grim
-disease / virus / plague / sickness / ailment / sick
-asthma
-hunger / hungry / starving / starvation / starve
-bad / evil / terrible / horrible
-mortality / mortal
-darkness / dark / shadow
-chaos
-ugly
-gambling / gamble
-carnage
-murder / kill / killing / manslaughter / slaughter
-sin
-pride
-envy / envious / jealousy / jealous
-lust / lustful
-sloth
-gluttony / glutton
-greed / greedy
-immoral
-cheating / cheater
-crime / criminal
-theft / stealing / thief
-drugs
 addiction / addict
-hiv / aids
-mean / rude
-trash / junk / garbage / debris
-horror
-zombie
-werewolf
-skeleton
-misery / suffering
+adultery
+alcohol / alcoholic / alcoholism
+alzheimer's
+arson
+assault / hurt / abuse
+asthma
+avarice
+awful
+bad / evil / terrible / horrible
+battle
+beating / thrashing
+carnage
+casket / coffin
+chaos
+cheating / cheater
+cigar
+cigarette
+conspiracy
+corpse
+covid-19 / covid / coronavirus / corona
 creepy / scary / eerie
-dread
-guilt
+crime / criminal
+cyclops
+darkness / dark / shadow
+death / die / dying / dead
+decay / decayed
+demon / devil / imp
 depression / depressed
-fool / idiot / bozo / doofus
-dumb / stupid
-gore / gorey / gory
-uranium
-plutonium
-mort / micromort
-wrath
-tyrant
+deviancy
 dictator / fascist
 dictatorship / fascism
-assault / hurt / abuse
-poison / poisonous / toxin / toxic
-morphine
-fentanyl / fent
-methamphetamine / meth
-violence / violent
-beating / thrashing
-pestilence
-vain
-salmonella
-covid-19 / covid / coronavirus / corona
-parasite / parasitic / parasitism
-predator / predation / predate
-dust
-fight
-satyr
-opioid
-cigarette
-cigar
-nicotine
-tobacco
-alcohol / alcoholic / alcoholism
-cyclops
-corpse
-famine
-inequality
+disease / virus / plague / sickness / ailment / sick
 dismemberment / dismember
-terrorist / terrorism
+dread
+drugs
+dumb / stupid
+dust
+envy / envious / jealousy / jealous
+explosion / explode
+famine
+fart / brap
+fentanyl / fent
+fight
+fool / idiot / bozo / doofus
+funeral
+gambling / gamble
+genocide
+ghost / ghoul / specter / spectre / phantom
+gluttony / glutton
+gore / gorey / gory
 grave / tomb
-casket / coffin
-conspiracy
+greed / greedy
+grim
+guilt
+hell
+heroin
+hiv / aids
+horror
+hunger / hungry / starving / starvation / starve
+immoral
+inequality
+influenza / flu
+larceny
+lust / lustful
+massacre
+mean / rude
+methamphetamine / meth
+misery / suffering
+monster
+morphine
+mort / micromort
+mortality / mortal
+murder / kill / killing / manslaughter / slaughter / homicide
+nicotine
+nightmare
+opioid
+parasite / parasitic / parasitism
+pestilence
+plutonium
+poison / poisonous / toxin / toxic
+predator / predation / predate
+pride
+sad / sadness
+salmonella
+satan / lucifer
+satyr
+sin
+skeleton
+sloth
+spaghettification
+stinky / smelly / gross / disgusting / nasty / stink
+suicide
+terrorist / terrorism
+theft / stealing / thief
+tobacco
+trash / junk / garbage / debris
+tyrant
+ugly
+uranium
+vain
+vampire / dracula
+violence / violent
+void
+war
+werewolf
+wrath
+zombie
 
 [blissfuls]
 = bliss
@@ -7106,6 +8115,17 @@ gift / present
 health / healing
 mercy / merciful
 determination "seeing this word fills you with determination"
+angelic
+awesome
+benevolent
+best
+gorgeous
+honest
+neato / neat
+passion / passionate
+radical
+splendid
+swell
 
 [emotions]
 = feelings / moods / emotional
@@ -7114,8 +8134,8 @@ aggression / aggressive / aggressiveness
 alert
 amazed / amazing / amaze / awe
 anger / angry / furious / irate / mad / rage / wrath
-annoyed / annoying / annoy / annoyance
-anxiety / anxious
+annoyed / annoying / annoy / annoyance / indignant
+anxiety / anxious / worry / worried
 apprehension / apprehensive
 approval
 aroused / arousal
@@ -7128,6 +8148,7 @@ ecstasy
 denial
 embarrassment / embarrassed / embarrass / shame / shameful / shamed
 confused / confusion
+passion / passionate
 dizzy / dizziness
 contempt
 content
@@ -7139,7 +8160,7 @@ disgust / disgusted
 disinterest / disinterested
 dissatisfied
 distracted / distraction
-agony / pain / painful / ache
+agony / pain / painful / ache / anguish
 hurt / offended / offense
 extinction
 distrust
@@ -7273,20 +8294,36 @@ ean, vrrrpt "ah yes, the extended english alphabet"
 & funny numbers
 ahh
 alpha / beta / omega
+zamn
 among us / amogus / sussy / sus / crewmate / imposter / impostor
 aura / aurafarming "wordslopping gives a huge aura boost"
 baby gronk / livvy dunne
+tuff "ts is so tuff"
+cope / copium
 blud
+dabloons
+backrooms
+labubu
+dubai chocolate
+creepypasta
+scp
+pepe / peepo
+gigachad
+trolley problem
+slenderman
 brainrot
 pog / pogchamp / poggers
 retro
 brr patapim
 oof
+golden dandelion
 bruh "this is a bruh moment"
 bussin'
 calc "is that slang?"
 cap / no cap / capping "on god?"
 chat "chat let's go wordslop"
+copypasta
+cinema "absolute.. CINEMA"
 chicken jockey / crafting table / water bucket / the nether
 chopped
 chud "act like a chud"
@@ -7295,6 +8332,7 @@ mlg "MOM GET THE CAMERA"
 fih
 kendrick / kendrick lamar
 clavicular / clav
+harambe
 tiki tiki
 kai cenat
 chuzz
@@ -7431,6 +8469,7 @@ abcd
 abcdefg
 hijklmnop
 qrstuv
+qaz
 wxyz
 xyz
 wasd
@@ -7583,7 +8622,7 @@ fortnite
 sonic / sanic "gotta go fast!"
 anime
 invincible "are you sure?"
-bfdi / battle for dream island / bfb / tpot / object shows
+bfdi / battle for dream island / bfb / tpot / object shows / yoyle / yoylecake / yoyleland
 twice
 loona "stan loona"
 ultrakill
@@ -7665,16 +8704,12 @@ quark
 positron
 antiproton
 
-[condiments]
-mustard
-ketchup
-relish
-barbecue / bbq
-icing
-syrup
-gravy
-mayonnaise / mayo
-caramel
+[cheeses]
+cheddar
+gouda
+
+[mushrooms]
+shiitake
 
 [flavors]
 = flavours
