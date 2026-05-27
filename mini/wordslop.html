@@ -90,6 +90,12 @@
     <span class="noSelect"><span>score</span> <span>123</span></span>
   </div>
   <div id="panel7">
+    <span>
+      <span class="clickable" onclick="saveFile();">save</span>
+      •
+      <span class="clickable" onclick="loadFile();">load</span>
+    </span>
+    <input type="file" id="saveUpload" style="display: none;" accept="application/vnd.R74n.wordslop+json, application/json, .slop, .json">
     <!-- <span>settings</span> -->
   </div>
 </div>
@@ -259,8 +265,16 @@
   #panel5 > span > span:first-child {
     flex-grow: 1;
   }
+  #panel4 > span.meta > span:first-child {
+    flex-grow: 0;
+  }
   #panel4 > span.changed {
     background: rgba(255,255,0,0.5);
+  }
+  #panel4 > span.meta {
+    justify-content: flex-end;
+    text-align: right;
+    margin-top: 0.25em;
   }
   #panel4 .iconimg {
     filter: invert(1);
@@ -268,6 +282,9 @@
     width: 1em;
     margin-right: 5px;
     margin-left: 5px;
+  }
+  #panel4 .hint .timer {
+    margin-right: 5px;
   }
   .mobileBack {
     display: none;
@@ -317,7 +334,7 @@
     }
     #panel3 {
       flex-grow: 0;
-      max-height: 25%;
+      max-height: 30%;
     }
     .mobileBack {
       display: flex;
@@ -332,6 +349,12 @@
     }
     #panel4 {
       padding-bottom: 5em;
+    }
+    #panel5 {
+      flex-grow: 0;
+    }
+    #panel7 {
+      flex-grow: 0;
     }
   }
 </style>
@@ -407,6 +430,69 @@
     initGame();
   }
 
+  function saveFile() {
+    let data = JSON.parse(JSON.stringify(saveData));
+
+    for (const group in data.found) {
+      for (const word in data.found[group]) {
+        if (data.found[group][word] === true) data.found[group][word] = 1;
+      }
+    }
+    data.unrecognized = Object.keys(data.unrecognized);
+    data.messaged = Object.keys(data.messaged);
+
+    var a = document.createElement("a");
+
+    var file = new Blob([JSON.stringify(data)], {type: "application/vnd.R74n.wordslop+json"});
+    a.href = URL.createObjectURL(file);
+    a.download = "progress.slop";
+    a.click();
+
+    closeMenu();
+  }
+
+  document.getElementById("saveUpload").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      var reader = new FileReader();
+      reader.readAsText(file, "UTF-8");
+      reader.onload = function (evt) {
+        let data = evt.target.result;
+        data = JSON.parse(data);
+        if (data && data.found) {
+          for (const group in data.found) {
+            for (const word in data.found[group]) {
+              if (data.found[group][word] === 1) data.found[group][word] = true;
+            }
+          }
+
+          let unrecognized = {};
+          data.unrecognized.forEach(w => unrecognized[w] = true);
+          data.unrecognized = unrecognized
+          let messaged = {};
+          data.messaged.forEach(w => messaged[w] = true);
+          data.messaged = messaged
+
+          saveData = data;
+          initGame();
+        }
+      }
+      reader.onerror = function (evt) {
+        alert("File '"+file.name+"' could not be read");
+      }
+      e.target.value = "";
+      closeMenu();
+    }
+  });
+  if (R74n.state.ios) {
+    document.getElementById("saveUpload").removeAttribute("accept");
+  }
+
+  function loadFile() {
+    let input = document.getElementById("saveUpload");
+    input.click();
+  }
+
   function getGroupTotal(group) {
     let total = 0;
     total += Object.keys(SPA.data.groups[group].words).length;
@@ -467,13 +553,17 @@
     }
     return subsets;
   }
-  function submitUnrecognized() {
+  function submitUnrecognized(index) {
     let url = `https://docs.google.com/forms/d/e/1FAIpQLScd_L5yel09xzSzIQbvj1-4LSE3DxyChxhkWVpibTnHBbIkSA/viewform?usp=pp_url&entry.2104458136=%5Bword%5D:+%5Bsuggested+group%5D`;
-    for (const word in saveData.unrecognized) {
+    let words = Object.keys(saveData.unrecognized);
+    if (index) words = words.slice(index);
+    words.forEach(word => {
       url += "%0A"+encodeURIComponent(word)+":+";
-    }
+    })
     window.open(url, '_blank').focus();
+    saveData.lastSubmit = Object.keys(saveData.unrecognized).length;
     narrate("submitted", "thanks for submitting your words! if added, you'll be given them on your next visit");
+    updateStats();
   }
   function isOfGroup(group, inGroup) {
     if (group === inGroup) return true;
@@ -517,6 +607,66 @@
   function statAdd(key, value=1) {
     if (saveData.stats[key] === undefined) saveData.stats[key] = value;
     else saveData.stats[key] += value;
+  }
+
+  function closeMenu() {
+    document.getElementById("col2").classList.remove("shown");
+    document.getElementById("col3").classList.remove("shown");
+  }
+
+  window.editDistance=function(){function r(r,t,e,o,n){return r<t||e<t?r>e?e+1:r+1:o===n?t:t+1}return function(t,e){if(t===e)return 0;if(t.length>e.length){var o=t;t=e,e=o}for(var n=t.length,h=e.length;n>0&&t.charCodeAt(n-1)===e.charCodeAt(h-1);)n--,h--;for(var a=0;a<n&&t.charCodeAt(a)===e.charCodeAt(a);)a++;if(h-=a,0===(n-=a)||h<3)return h;var c,f,d,u,A,C,i,g,l,v,s,p,w=0,D=[];for(c=0;c<n;c++)D.push(c+1),D.push(t.charCodeAt(a+c));for(var b=D.length-1;w<h-3;)for(l=e.charCodeAt(a+(f=w)),v=e.charCodeAt(a+(d=w+1)),s=e.charCodeAt(a+(u=w+2)),p=e.charCodeAt(a+(A=w+3)),C=w+=4,c=0;c<b;c+=2)f=r(i=D[c],f,d,l,g=D[c+1]),d=r(f,d,u,v,g),u=r(d,u,A,s,g),C=r(u,A,C,p,g),D[c]=C,A=u,u=d,d=f,f=i;for(;w<h;)for(l=e.charCodeAt(a+(f=w)),C=++w,c=0;c<b;c+=2)i=D[c],D[c]=C=r(i,f,C,l,D[c+1]),f=i;return C}}();
+
+  let hintTimeout;
+  let hintCooldown = 20;
+  function doHint(group) {
+    closeMenu();
+    if (saveData.lastHint && (Date.now() - saveData.lastHint) < hintCooldown*1000) {
+      narrate("noHint", "don't be greedy, wait your turn!");
+      return;
+    }
+    if (!group) {
+      let groups = Object.keys(saveData.found).filter(g => Object.keys(saveData.found[g]).length < Object.keys(SPA.data.groups[g].words).length);
+      group = choose(groups);
+    }
+    let words = Object.keys(SPA.data.groups[group].words).filter(w => !saveData.found[group][w]);
+    let word = choose(words);
+    if (!word) {
+      logMessage("you're all set!", 1);
+      return;
+    }
+    if (word.length >= 3 && Math.random() < 0.5) {
+      if (Math.random() < 0.5) word = word.slice(0,2) + "?".repeat(word.length-2);
+      else word = word.slice(0,1) + "?".repeat(word.length-2) + word.slice(-1);
+    }
+    else if (word.match(/[aeiou]/)) word = word.replace(/[aeiou]/gi, "?");
+    else if (word.length >= 3) word = word.slice(0,1) + "?".repeat(word.length-2) + word.slice(-1);
+    else if (word.length === 2) word = "?" + word.slice(-1);
+    else word = "? (one-letter)";
+    console.log(group,word);
+    saveData.lastHint = Date.now();
+    updateHint();
+
+    logMessage("here's your hint for "+group+"... "+word+" ", 1, false, {group: group});
+    statAdd("hints", 1);
+
+    saveState();
+  }
+  function updateHint() {
+    if (!saveData.lastHint) return;
+    
+    let diff = (Date.now() - saveData.lastHint) / 1000;
+    // console.log(diff);
+    const done = diff >= hintCooldown;
+    if (done) delete saveData.lastHint;
+    else hintTimeout = setTimeout(updateHint, 100);
+    diff = Math.round((hintCooldown-diff) * 10) / 10;
+    diff = diff.toString().replace(/^\d+$/, m => m+".0");
+
+    document.querySelectorAll("span.hint").forEach(span => {
+      const timer = span.querySelector(".timer");
+      timer.innerText = done ? "" : diff+"s";
+      span.style.opacity = done ? "1" : "0.5";
+    })
   }
 
   selectedGroup = null;
@@ -572,7 +722,7 @@
         sorted.forEach(group => {
           text += group + " (" + getGroupProgress(group) + "%)\n";
         });
-        text += "\n⌨️";
+        text += "\n⌨️ ";
 
         R74n.share(text);
       });
@@ -637,10 +787,16 @@
         }
       }
       else items = getGroupFoundList(selectedGroup);
-      items.sort();
+      if (selectedGroup !== "unrecognized") items.sort();
       items.forEach(i => html += `<span class="word${(saveData.changedWords[i[0]] === true || i[0] === saveData.lastUnrecognized) ? ' changed' : ''}"><span>${escapeHTML(i[1])}</span></span>`);
-      if (selectedGroup === "unrecognized") html += `<span style="height:0">&nbsp;</span><span class="clickable" onclick="submitUnrecognized()" style="justify-content: flex-end">submit words &nbsp;❥</span>`
-      else html += `<span style="height:0">&nbsp;</span><span class="clickable copy" onclick='copyGroup("${selectedGroup}")' style="justify-content: flex-end">copy words</span>`
+      if (selectedGroup === "unrecognized") {
+        html += `<span class="clickable meta" onclick="submitUnrecognized()">submit all &nbsp;❥</span>`;
+        if (saveData.lastSubmit && saveData.lastSubmit < Object.keys(saveData.unrecognized).length) html += `<span class="clickable meta" onclick="submitUnrecognized(${parseInt(saveData.lastSubmit)})"><span>submit after <strong>${escapeHTML(Object.keys(saveData.unrecognized)[saveData.lastSubmit - 1])}</strong> &nbsp;❥</span></span>`;
+      }
+      else {
+        html += `<span class="clickable hint meta" onclick='doHint("${selectedGroup}")'><span class="timer"></span> help me!</span>`
+        html += `<span class="clickable copy meta" onclick='copyGroup("${selectedGroup}")'>copy words</span>`
+      }
       panel4.insertAdjacentHTML("beforeend", html);
     }
 
@@ -657,7 +813,10 @@
       const value = saveData.stats[key];
       html += `<span class="noSelect"><span>${escapeHTML(key)}</span> <span>${escapeHTML(value+"")}</span></span>`;
     })
+    html += `<span style="height:0">&nbsp;</span>`;
     html += `<span class="clickable noSelect daily" style="${saveData.lastDaily !== dailyGroup ? "background:rgba(255,255,0,0.5)" : ""}"><span>DAILY:</span> <span>${dailyGroup}</span></span>`;
+    html += `<span style="height:0">&nbsp;</span>`;
+    html += `<span class="clickable noSelect hint"><span>hint please!</span> <span class="timer"></span></span>`;
     panel5.insertAdjacentHTML("beforeend", html);
     let daily = panel5.querySelector("span.daily");
     daily.addEventListener("click", () => {
@@ -666,7 +825,11 @@
       if (saveData.found[dailyGroup] !== undefined) selectedGroup = selectedGroup===dailyGroup ? null : dailyGroup;
       else if (r === false) narrate("dailyno", "you haven't found **"+dailyGroup+"** yet, try typing one!");
       updateStats();
-    })
+    });
+    let hint = panel5.querySelector("span.hint");
+    hint.addEventListener("click", () => {
+      doHint();
+    });
   }
 
   function narrate(step, text) {
@@ -726,8 +889,8 @@
   function updateMessages() {
     document.querySelectorAll("span[data-age]").forEach(m => {
       let age = parseInt(m.getAttribute("data-age"));
-      if (age > 4) m.remove();
-      else m.style.opacity = [1,0.6,0.4,0.2,0.1][age];
+      if (age > 7) m.remove();
+      else m.style.opacity = [1,0.7,0.6,0.5,0.4,0.3,0.2,0.1][age];
     })
     for (let i = 0; i < saveData.messages.length; i++) {
       const m = saveData.messages[i];
@@ -783,6 +946,9 @@
     }
     updateDaily();
 
+    if (hintTimeout) clearTimeout(hintTimeout);
+    updateHint();
+
     let news = [];
     let givenWords = 0;
     for (const word in saveData.unrecognized) {
@@ -792,6 +958,7 @@
         if (givenWords === 0) logMessage("JUST ADDED:", 2);
         givenWords ++;
         statAdd("rescued", 1);
+        if (saveData.lastSubmit > 0) saveData.lastSubmit --;
         for (const group in SPA.data.wordIndex[word] ) {
           logMessage(`+${group} (${word})`, 2, undefined, {fade: false});
         }
@@ -801,6 +968,7 @@
     const currentVersion = SPA.data.news.length;
     if (givenWords !== 0) {
       news.push(`**${formatNumber(givenWords)}** of your unrecognized words were added - i moved ${givenWords > 1 ? "them" : "it"} to your list :)`);
+      updateStats();
     }
     const wordTotal = SPA.data.total;
     const groupTotal = Object.keys(SPA.data.groups).length;
@@ -1112,6 +1280,9 @@
     let hasNewGroup = false;
     let hasAlias = false;
     let lostStreak = false;
+    if (saveData.typos && saveData.typos[word]) {
+      delete saveData.unrecognized[saveData.typos[word]];
+    }
     if (skipMessage) {}
     else if (Object.keys(results).length) {
       logMessage(`**${word}** is new!`, 2); //use first form
@@ -1168,7 +1339,31 @@
     }
     else {
       logMessage(`**${word}** not recognized :(`, 2);
-      narrate("unrecognized", "not all words will be recognized. that's okay.");
+      if (!narrate("unrecognized", "not all words will be recognized. that's okay.") && word.length > 4) {
+        if (!saveData.typos) saveData.typos = {};
+        const length = word.length;
+        let bestWord;
+        let bestGroup;
+        let bestScore = 3;
+        console.log(length);
+        [-1,0,1].forEach(diff => {
+          const length2 = length + diff;
+          if (SPA.data.lengthIndex[length2] === undefined) return;
+          for (const word2 in SPA.data.lengthIndex[length2]) {
+            if (saveData.found[SPA.data.lengthIndex[length2][word2]] === undefined) continue;
+            const score = editDistance(word, word2);
+            if (score < bestScore) {
+              bestScore = score;
+              bestWord = word2;
+              bestGroup = SPA.data.lengthIndex[length2][word2];
+            }
+          }
+        })
+        if (bestWord) {
+          logMessage(`pssst.. that was **${bestScore} letter${bestScore === 1 ? "" : "s"}** away from something in **${bestGroup}**..`, 1, false, {group: bestGroup});
+          saveData.typos[bestWord] = word;
+        }
+      };
       if (saveData.unrecognized[word] !== true) {
         saveData.unrecognized[word] = true;
         saveData.changedGroups["unrecognized"] = true;
@@ -1223,7 +1418,9 @@
     SPA.data.groups = {};
     SPA.data.groupAliases = {};
     SPA.data.wordIndex = {};
+    SPA.data.lengthIndex = {};
     let wordIndex = SPA.data.wordIndex;
+    let lengthIndex = SPA.data.lengthIndex;
     let text = SPA.data.groupsText.replace(/[ \t]+/g, " ");
     text = text.replace(/\n\[[^\[]+\] +/g, m => m.split(/\] +/)[0]+"]\n");
     text = text.replace(/\|\|/g, "ESCAPE-6");
@@ -1348,6 +1545,10 @@
         if (wordIndex[form] === undefined) wordIndex[form] = {};
         if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
+      if (word.length > 4 && word.length < 31) {
+        if (lengthIndex[word.length] === undefined) lengthIndex[word.length] = {};
+        if (lengthIndex[word.length][word] === undefined) lengthIndex[word.length][word] = group;
+      }
       aliases.forEach(alias => {
         if (wordIndex[alias] === undefined) wordIndex[alias] = {};
         wordIndex[alias][group] = word;
@@ -1366,7 +1567,11 @@
           if (wordIndex[form] === undefined) wordIndex[form] = {};
           if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
         }
-      })
+        if (alias.length >= 5 && alias.length <= 30) {
+          if (lengthIndex[alias.length] === undefined) lengthIndex[alias.length] = {};
+          if (lengthIndex[alias.length][alias] === undefined) lengthIndex[alias.length][alias] = group;
+        }
+      });
 
     }
 
@@ -1433,9 +1638,11 @@
 
     document.getElementById("progressButton").addEventListener("click", () => {
       document.getElementById("col2").classList.add("shown");
+      document.getElementById("col3").classList.remove("shown");
     })
     document.getElementById("moreButton").addEventListener("click", () => {
       document.getElementById("col3").classList.add("shown");
+      document.getElementById("col2").classList.remove("shown");
     })
     document.querySelectorAll(".mobileBack").forEach(btn => btn.addEventListener("click", (e) => {
       e.target.parentNode.parentNode.classList.remove("shown");

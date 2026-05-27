@@ -1,5 +1,8 @@
 SPA.data = {}
 SPA.data.news = [
+   "u can now save your progress as a file and bring it to another device",
+   "hints were added",
+   "experimental: nudges are given for suspected typos",
    "u can now copy word lists from a group",
    "thank u all for being some of the wordsloppers! we are slowly going through all the HUNDREDS of submissions, it's a huge help!",
    "thank you for beta testing **wordslop** :)",
@@ -1574,42 +1577,43 @@ dimetrodon
 [cats]
 = cat / feline / kitty / kitten / felid / big cat / bigcat / gato / pussy / pussycat / neko
 "good kitty!"
+abyssinian
+bengal
+birman
 bobcat / bobkitten
 bombay
+calico
 caracal / floppa
 cheetah
 cougar / mountain lion
+himalayan
 jaguar
 leopard
 lion / leo "pretty much all lions live in **Africa**"
+longhair
 lynx
+maine coon
+mau
 ocelot / ozelot
 oncilla / tiger cat / tigrillo
 pallas's cat / pallas cat / pallas
 panther
+persian
 puma
-himalayan
+ragdoll
+russian blue
 saber-toothed tiger / smilodon / saber-toothed cat / saber-tooth / sabertooth
 sand cat
 serval
-snow leopard
-tiger / tigress "their skin is also striped, much like their fur"
-wildcat
 shorthair
-longhair
-maine coon
-russian blue
 siamese
-ragdoll
-mau
-tortoiseshell
-bengal
-persian
+snow leopard
 sphynx "these cats are known for their lack of fur"
 tabby
-calico
-birman
+tiger / tigress "their skin is also striped, much like their fur"
+tortoiseshell
 turkish van
+wildcat
 
 
 [bears]
@@ -2148,7 +2152,7 @@ cobra
 cornsnake
 crocodile / crocodilian / croc "their tongue is held in place by a membrane, making it immovable"
 dinosaur
-dragon / komodo dragon
+dragon / komodo dragon "yes, there are real animals called dragons"
 gecko "all members of the **mourning gecko** species are female"
 gharial / gavial
 hognose
@@ -2161,7 +2165,7 @@ python "one once swallowed a woman whole"
 rattlesnake / rattler
 sea turtle
 skink
-snake / snek "snakes don't blink, they have a transparent **brille** covering their eyes"
+snake / serpent / snek "snakes don't blink, they have a transparent **brille** covering their eyes"
 terrapin / water tortoise / pond turtle / pond slider
 tortoise
 turtle
@@ -2731,6 +2735,7 @@ xiphactinus
 angel
 aqrabuamelu
 nymph
+sea serpent
 banshee
 siren
 giant
@@ -5109,6 +5114,7 @@ anchor
 anvil
 appliance
 backpack
+cot
 bag
 balloon
 top / spinner
@@ -8362,6 +8368,7 @@ neptune
 = zodiac
 aquarius
 aquila
+andromeda
 ara
 aries
 auriga
@@ -8922,7 +8929,7 @@ third / 0.33 / .33
 six-seven / sixty-seven / 67 / 6 7 / 6-7 / 6767 "six seeeeven"
 sixty-nine / 69 "nice"
 four-one / 41 "four ooooone"
-four-twenty / 420 / 4//20
+four-twenty / 420 / 4//20 "blaze it"
 8008 / 80085 / 8008135 / 58008 / 5318008
 twenty-one / 21 "you stupid"
 9+10 "**twenty-one**"
@@ -8945,7 +8952,7 @@ thirty-eight / 38 "is this a secret trend?"
 fifty-six / 56 "FIIFTY SIIIIIIIX"
 five out of seven / 5 out of 7 / 5//7 "a perfect score!"
 118 "brace for impact!!"
-867-5309 "you're the girl for me!"
+867-5309 / 8675309 "you're the girl for me!"
 
 [letters] q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m
 á|å|ä|à|ã|æ|ç|é|ë|è|ï|ñ|ó|ö|õ|ø|ß|ü|µ|œ|æ|ú|í|â|ā|ē|ī|ō|ū
@@ -9289,6 +9296,13 @@ uiop
 ghjkl
 vbnm
 sksk / sksksk / sksksksk
+zaqwsxcderfvbgtyhnmjuiklop
+zaqxswcdevfrbgtnhymjukilop
+polikujmyhntgbrfvedcwsxqaz
+polkiujmnhytgbvfredcxswqaz
+poiuytrewqlkjhgfdsamnbvcxz
+zxcvbnmasdfghjklqwertyuiop
+qwertyuioplkjhgfdsazxcvbnm
 
 [meta]
 R74n / R74n.com "it's all thanks to the big R74n"
@@ -9303,7 +9317,7 @@ Handwriting Personality
 PixelFlags
 word "if you like those, i have a game for you"
 progress "you are doing great!"
-unrecognized / recognized "**^** was recognized"
+unrecognized / recognized / not recognized "**^** was recognized"
 total "+1 word"
 stats "this probably added to one of them"
 score "+10 points"
