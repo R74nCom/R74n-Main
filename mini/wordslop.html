@@ -1354,6 +1354,7 @@
           if (SPA.data.lengthIndex[length2] === undefined) return;
           for (const word2 in SPA.data.lengthIndex[length2]) {
             if (saveData.found[SPA.data.lengthIndex[length2][word2]] === undefined) continue;
+            if (saveData.found[SPA.data.lengthIndex[length2][word2]][word2] !== undefined) continue;
             const score = editDistance(word, word2);
             if (score < bestScore) {
               bestScore = score;
