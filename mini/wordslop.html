@@ -91,6 +91,9 @@
   </div>
   <div id="panel7">
     <span>
+      <a href="https://discord.com/invite/r74n">join our discord &nbsp;❥</a>
+    </span>
+    <span>
       <span class="clickable" onclick="saveFile();">save</span>
       •
       <span class="clickable" onclick="loadFile();">load</span>
@@ -646,7 +649,7 @@
     saveData.lastHint = Date.now();
     updateHint();
 
-    logMessage("here's your hint for "+group+"... "+word+" ", 1, false, {group: group});
+    logMessage("here's your hint for "+group+": "+word+" ", 1, false, {group: group});
     statAdd("hints", 1);
 
     saveState();
