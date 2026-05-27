@@ -9181,7 +9181,7 @@ thorn / þorn / Þ
 eth / edh / Ð
 wynn / wyn / ƿ / ƿynn / ƿyn
 ampersand / & "this was once part of the english alphabet"
-ean, vrrrpt "ah yes, the extended english alphabet"
+ean / vrrrpt "ah yes, the extended english alphabet"
 
 [greek letters]
 alpha / α
