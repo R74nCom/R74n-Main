@@ -525,6 +525,7 @@ all
 also
 although
 along
+away
 already
 beneath
 beyond
@@ -853,6 +854,9 @@ beg
 bend
 bid
 bite
+chew
+drown
+gasp
 blame
 bleed
 blink
@@ -866,6 +870,7 @@ bow
 brag
 brake
 brand
+homework
 breach
 break
 breath
@@ -1888,6 +1893,7 @@ chachalaca
 chaffinch
 chickadee / tit / titmouse
 chicken / rooster / hen / cock / chick / chook / pullet / poultry "chickens can see ultraviolet (we can't)"
+silkie / silky / silk chicken
 cockatiel
 cockatoo
 comet
@@ -2431,7 +2437,7 @@ rasbora
 rattail / grenadier
 ray / stingray / manta ray
 redfish
-remora / suckerfish / sharksucker
+remora / suckerfish / sucker / sharksucker
 rockfish
 roughy
 sailfish
@@ -2463,7 +2469,7 @@ stickleback
 stonefish
 stringfish
 sturgeon
-sucker / suckerfish
+sucker
 sunfish / mola mola
 sweetfish
 swordfish / broadbill
@@ -2737,6 +2743,8 @@ aqrabuamelu
 nymph
 sea serpent
 banshee
+cupid
+selkie
 siren
 giant
 basilisk
@@ -4090,6 +4098,7 @@ burrito
 cake
 candy / sweet
 batter
+cereal
 borscht
 chimichanga
 lollipop / lollypop / lolly
@@ -4112,6 +4121,7 @@ curry
 dough
 flour
 snack / treat
+seaweed / gim
 gum "selling chewing gum is illegal in Singapore"
 jerky
 pumpkin seed
@@ -4745,6 +4755,7 @@ trampoline
 dumbbell / weight
 barbell
 pole
+hula hoop
 baseball
 oar
 paddleboard
@@ -4800,16 +4811,10 @@ backhoe
 barrow
 bicycle / bike / cycle
 biplane
-rover
 blimp / airship
-subaru
-destroyer
-seaplane
-paddleboard
 boat
 bulldozer / dozer
 bumper car
-mustang
 bus / shuttle / omnibus
 cab / taxi
 cabriolet
@@ -4831,6 +4836,7 @@ crane
 cruise ship
 cruiser / police car
 cybertruck
+destroyer
 drone
 dump truck
 ev / electric vehicle / electric car
@@ -4855,6 +4861,7 @@ humvee / hummer
 hyundai
 jeep
 jet
+jetpack
 jetski
 jinricksha / jinrickshaw / jinrikisha / jinriksha
 kayak
@@ -4872,17 +4879,22 @@ moped
 motorboat / speedboat
 motorbus
 motorcycle / motorbike / motorbicycle
+mustang
 nissan
+paddleboard
 parachute
+paraglider
 penny-farthing / high wheel / high wheeler / ordinary
 plough / plow
 racecar / racing car / sports car
 raft
 rickshaw
 roadster
+rover
 rowboat
 sailboat
 scooter
+seaplane
 segway
 semitruck
 ship
@@ -4892,6 +4904,7 @@ sleigh
 snowmobile
 spaceship / rocket
 steamroller
+subaru
 submarine
 suburban
 subway
@@ -4911,8 +4924,8 @@ tractor
 trailer
 train
 tram / tramcar / streetcar / trolley car
-trolley
 tricycle
+trolley
 truck / lorry
 tuk-tuk
 uber / lyft
@@ -5110,6 +5123,8 @@ zither
 afghan
 alarm / siren
 amphora
+globe
+snowglobe
 anchor
 anvil
 appliance
@@ -5117,6 +5132,10 @@ backpack
 cot
 bag
 balloon
+cd / compact disc
+vhs player
+dvd
+dvd player / cd player
 top / spinner
 bandage / dressing / bandaid / gauze
 basket
@@ -5150,7 +5169,7 @@ canvas
 card
 carpet / rug
 carton
-cassette / videocassette
+cassette / videocassette / vhs
 ceiling
 cellphone / smartphone / iphone / android
 chair / seat
@@ -5260,7 +5279,7 @@ letter / mail
 light / lightbulb / bulb
 lock
 lotion
-luggage
+luggage / baggage / suitcase
 machine
 magnet
 mallet
@@ -5361,6 +5380,9 @@ tissue
 toaster
 toaster oven
 toilet
+bidet
+chapstick
+dollhouse
 tool
 toothbrush
 toothpaste
@@ -5764,6 +5786,11 @@ arch
 arm
 armpit
 artery
+pons
+medulla
+brainstem
+cervix
+placenta
 auricle / pinna
 back
 backhair
@@ -5929,6 +5956,8 @@ patella
 paw
 pelvis
 penis / cock / dick / dih
+loin
+melanin
 phalanges
 pharynx
 philtrum
@@ -6264,6 +6293,7 @@ vibe / vibecode / vibecoder
 virtual reality / vr / extended reality / xr / mixed reality / mr
 web3
 zoom
+.com / dotcom
 
 [fields of study]
 = arts / field of work / field of study / fields of work / studies / ology / field
@@ -6602,6 +6632,8 @@ bmo
 bmw
 bnp
 bp
+gamestop
+fandom
 broadcom
 buc-ee's
 byd
@@ -6677,7 +6709,7 @@ openai
 oracle
 panasonic
 paypal
-peacock
+peacock / paramount
 pepsico / pepsi
 petrobras
 petrochina
@@ -7947,7 +7979,7 @@ cleaner
 cleric
 clown
 cobbler
-comedian
+comedian / comic
 commander
 commissioner
 conductor
@@ -7961,6 +7993,7 @@ count / countess
 cowboy / cowgirl
 curator
 dancer
+ballerina
 delivery
 dentist
 deputy
@@ -8181,6 +8214,7 @@ vet / veterinarian
 viceroy
 videographer / cinematographer
 villain
+supervillain
 warden
 welder
 wrestler
@@ -8357,7 +8391,7 @@ vesta
 [planets]
 mercury
 venus
-earth / terra / the world
+earth / terra / the world / the globe
 mars
 jupiter
 saturn
@@ -8672,7 +8706,7 @@ famine
 fart / brap
 fentanyl / fent
 fight
-fool / idiot / bozo / doofus
+fool / idiot / bozo / doofus / numbskull
 funeral
 gambling / gamble
 genocide
@@ -8924,6 +8958,9 @@ quarter / 0.25 / .25
 third / 0.33 / .33
 1225 "merry christmas!"
 678-999-8212 "kiss me thru the phone"
+five-five / fifty-five / 55 "FIVE FIVE! FIVE FIVE!"
+seven-eight-nine / seven ate nine / 789 "wait.. i'm scared too"
+seven-twenty-seven / 727 / 727pp "WHEN YOU SEE IT.."
 
 [funny numbers]
 six-seven / sixty-seven / 67 / 6 7 / 6-7 / 6767 "six seeeeven"
@@ -8947,6 +8984,7 @@ twenty-three / 23 skidoo / 23
 404 "word not found.. or was it?"
 eight-nine / 89 / 8-9 "this is very niche"
 2763 "bfdi reference"
+2048 "someone could make a game out of this"
 six-one / sixty-one / 61 "six ooooone"
 thirty-eight / 38 "is this a secret trend?"
 fifty-six / 56 "FIIFTY SIIIIIIIX"
@@ -9013,6 +9051,7 @@ baby gronk / livvy dunne
 tuff "ts is so tuff"
 cope / copium
 accurate hitboxes "is it possible?"
+enshittification "everything is turning to **slop**.."
 keyboard cat
 lolcow
 lolcat
@@ -9050,6 +9089,7 @@ cinema "absolute.. CINEMA"
 chicken jockey / crafting table / water bucket / the nether
 chopped
 chud "act like a chud"
+foid
 big chungus / chungus
 mlg "MOM GET THE CAMERA"
 fih
@@ -9416,6 +9456,7 @@ deoxyribonucleic acid / dna
 ribonucleic acid / rna
 deuterium
 tritium
+lactose
 
 [greek-roman gods]
 zeus
