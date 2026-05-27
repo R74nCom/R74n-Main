@@ -638,11 +638,11 @@
       return;
     }
     if (word.length >= 3 && Math.random() < 0.5) {
-      if (Math.random() < 0.5) word = word.slice(0,2) + "?".repeat(word.length-2);
-      else word = word.slice(0,1) + "?".repeat(word.length-2) + word.slice(-1);
+      if (Math.random() < 0.5) word = word.slice(0,2) + word.slice(2).replace(/\S/g, "?");
+      else word = word.slice(0,1) + word.slice(1,-1).replace(/\S/g, "?") + word.slice(-1);
     }
     else if (word.match(/[aeiou]/)) word = word.replace(/[aeiou]/gi, "?");
-    else if (word.length >= 3) word = word.slice(0,1) + "?".repeat(word.length-2) + word.slice(-1);
+    else if (word.length >= 3) word = word.slice(0,1) + word.slice(1,-1).replace(/\S/g, "?") + word.slice(-1);
     else if (word.length === 2) word = "?" + word.slice(-1);
     else word = "? (one-letter)";
     console.log(group,word);
@@ -674,6 +674,13 @@
 
   selectedGroup = null;
   panel4Scroll = 0;
+  function promo() {
+    document.getElementById("col3").style.display = "none";
+    document.getElementById("col2").style.flexBasis = "40%";
+    document.getElementById("col2").style.maxWidth = "40%";
+    panel2.style.paddingRight = "2em";
+    panel3.style.paddingRight = "2em";
+  }
   function showProgress() {
     const btn = document.getElementById("progressButton");
     if (btn.checkVisibility() && !panel4.checkVisibility()) btn.click();
@@ -1127,6 +1134,7 @@
         formsToCheck.push(form.replace(/s$/g, "'s"));
         formsToCheck.push(form.replace(/-/g, " "));
         formsToCheck.push(form.replace(/-/g, ""));
+        formsToCheck.push(form.replace(/\ /g, ". "));
         if (form.match(/[\/\-]/)) {
           formsToCheck.push(form.replace(/[\/\-]/g, " "));
           formsToCheck = formsToCheck.concat(form.split(/[\/\-]/g));
