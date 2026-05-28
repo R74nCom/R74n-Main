@@ -94,6 +94,8 @@
       <a href="https://discord.com/invite/r74n">join our discord &nbsp;❥</a>
     </span>
     <span>
+      <span class="clickable" onclick="resetAll();">reset</span>
+      •
       <span class="clickable" onclick="saveFile();">save</span>
       •
       <span class="clickable" onclick="loadFile();">load</span>
@@ -244,6 +246,12 @@
   #panel4, #panel5 {
     padding: 0;
     overflow: scroll;
+  }
+  #col3 {
+    overflow-y: scroll;
+  }
+  #panel5, #panel7 {
+    overflow: visible;
   }
   #panel4 > span,
   #panel5 > span {
@@ -433,6 +441,33 @@
     initGame();
   }
 
+  let resetting = false;
+  function resetAll(confirmed) {
+    if (!confirmed && statGet("score") > 30) {
+      closeMenu();
+      if (resetting !== "all") logMessage(`umm, really? if you're positive, type "**yes reset everything**", and be sure to make a backup`, 1);
+      resetting = "all";
+      return;
+    }
+    db.clear();
+    saveData = null;
+    initGame();
+  }
+  function resetUnrecognized(confirmed) {
+    if (!confirmed) {
+      closeMenu();
+      if (resetting !== "unrecognized") logMessage(`do you want to erase all unrecognized words? type "**clear unrecognized**"" to confirm`, 1);
+      resetting = "unrecognized";
+      return;
+    }
+
+    delete saveData.lastSubmit;
+    saveData.unrecognized = {};
+    selectedGroup = null;
+    updateStats();
+    logMessage("all gone! time to make some more typos", 1);
+    saveState();
+  }
   function saveFile() {
     let data = JSON.parse(JSON.stringify(saveData));
 
@@ -621,35 +656,44 @@
 
   let hintTimeout;
   let hintCooldown = 20;
-  function doHint(group) {
+  function doHint(group, fallback) {
     closeMenu();
     if (saveData.lastHint && (Date.now() - saveData.lastHint) < hintCooldown*1000) {
       narrate("noHint", "don't be greedy, wait your turn!");
       return;
     }
+    let direct = group;
     if (!group) {
       let groups = Object.keys(saveData.found).filter(g => Object.keys(saveData.found[g]).length < Object.keys(SPA.data.groups[g].words).length);
       group = choose(groups);
     }
-    let words = Object.keys(SPA.data.groups[group].words).filter(w => !saveData.found[group][w]);
+    let words = Object.keys(SPA.data.groups[group].words).filter(w => !(saveData.found[group] || {})[w]);
     let word = choose(words);
     if (!word) {
+      if (fallback) {
+        doHint(fallback.shift(), fallback);
+        return;
+      }
+      let subsets = getSubsets(group);
+      if (subsets.length && direct) {
+        doHint(subsets.shift(), subsets);
+        return;
+      }
       logMessage("you're all set!", 1);
       return;
     }
     if (word.length >= 3 && Math.random() < 0.5) {
-      if (Math.random() < 0.5) word = word.slice(0,2) + word.slice(2).replace(/[^\s\-\.]/g, "?");
-      else word = word.slice(0,1) + word.slice(1,-1).replace(/[^\s\-\.]/g, "?") + word.slice(-1);
+      if (Math.random() < 0.5) word = word.slice(0,2) + word.slice(2).replace(/[^\s\-\.']/g, "?");
+      else word = word.slice(0,1) + word.slice(1,-1).replace(/[^\s\-\.']/g, "?") + word.slice(-1);
     }
     else if (word.match(/[aeiou]/)) word = word.replace(/[aeiou]/gi, "?");
-    else if (word.length >= 3) word = word.slice(0,1) + word.slice(1,-1).replace(/[^\s\-\.]/g, "?") + word.slice(-1);
+    else if (word.length >= 3) word = word.slice(0,1) + word.slice(1,-1).replace(/[^\s\-\.']/g, "?") + word.slice(-1);
     else if (word.length === 2) word = "?" + word.slice(-1);
     else {
       let nfd = word.normalize("NFD");
       if (word !== nfd) word = "? (letter + accent mark)";
       else word = "? (one-letter)";
     }
-    console.log(group,word);
     saveData.lastHint = Date.now();
     updateHint();
 
@@ -706,6 +750,9 @@
       }
       else if (selectedGroup === "unrecognized") {
         num = Object.keys(saveData.unrecognized).length;
+      }
+      else if (selectedGroup === "rescued") {
+        num = saveData.rescued.length;
       }
       else num = getGroupFound(selectedGroup);
       title.innerHTML = `<span class="back">◀</span><span>${selectedGroup} (${num})</span>`;
@@ -775,6 +822,7 @@
       if (foundPercent < 0.1) foundPercent = 0.1;
       html += `<span class="clickable noSelect" data-group="all" style="font-style:italic; background: linear-gradient(to right, transparent ${100-foundPercent}%, rgba(0,255,0,0.5) ${100-foundPercent}%)"><span>total</span><span>${foundPercent < 100 ? foundPercent+"%" : "done"}</span></span>`
       if (Object.keys(saveData.unrecognized).length) html += `<span class="clickable noSelect${saveData.changedGroups["unrecognized"] === true ? " changed" : ""}" data-group="unrecognized" style="font-style:italic${saveData.changedGroups["unrecognized"] === true ? ';background:rgba(255,255,0,0.5)' : ''}"><span>unrecognized</span><span>${Object.keys(saveData.unrecognized).length}</span></span>`
+      if (saveData.rescued.length) html += `<span class="clickable noSelect${saveData.changedGroups["rescued"] === true ? " changed" : ""}" data-group="rescued" style="font-style:italic${saveData.changedGroups["rescued"] === true ? ';background:rgba(255,255,0,0.5)' : ''}"><span>rescued</span><span>${saveData.rescued.length}</span></span>`
       // console.log(groups)
       panel4.insertAdjacentHTML("beforeend", html);
       panel4.querySelectorAll("span.clickable.noSelect").forEach(b => b.addEventListener("click", () => {
@@ -789,6 +837,7 @@
       let html = ``;
       let items;
       if (selectedGroup === "unrecognized") items = Object.keys(saveData.unrecognized).map(i => [i,i]);
+      else if (selectedGroup === "rescued") items = saveData.rescued.map(i => [i,i]);
       else if (selectedGroup === "all") {
         let done = {};
         items = [];
@@ -801,14 +850,15 @@
         }
       }
       else items = getGroupFoundList(selectedGroup);
-      if (selectedGroup !== "unrecognized") items.sort();
+      if (selectedGroup !== "unrecognized" && selectedGroup !== "rescued") items.sort();
       items.forEach(i => html += `<span class="word${(saveData.changedWords[i[0]] === true || i[0] === saveData.lastUnrecognized) ? ' changed' : ''}"><span>${escapeHTML(i[1])}</span></span>`);
       if (selectedGroup === "unrecognized") {
         html += `<span class="clickable meta" onclick="submitUnrecognized()">submit all &nbsp;❥</span>`;
         if (saveData.lastSubmit && saveData.lastSubmit < Object.keys(saveData.unrecognized).length) html += `<span class="clickable meta" onclick="submitUnrecognized(${parseInt(saveData.lastSubmit)})"><span>submit after <strong>${escapeHTML(Object.keys(saveData.unrecognized)[saveData.lastSubmit - 1])}</strong> &nbsp;❥</span></span>`;
+        html += `<span class="clickable meta" onclick="resetUnrecognized()">clear all</span>`;
       }
       else {
-        html += `<span class="clickable hint meta" onclick='doHint("${selectedGroup}")'><span class="timer"></span> help me!</span>`
+        if (SPA.data.groups[selectedGroup]) html += `<span class="clickable hint meta" onclick='doHint("${selectedGroup}")'><span class="timer"></span> help me!</span>`
         html += `<span class="clickable copy meta" onclick='copyGroup("${selectedGroup}")'>copy words</span>`
       }
       panel4.insertAdjacentHTML("beforeend", html);
@@ -844,6 +894,8 @@
     hint.addEventListener("click", () => {
       doHint();
     });
+
+    updateHint();
   }
 
   function narrate(step, text) {
@@ -947,7 +999,6 @@
     if (!saveData.lastInput) saveData.lastInput = [];
     document.getElementById("panel2").innerHTML = "";
     document.getElementById("panel3").innerHTML = "";
-    updateStats();
     if (saveData.messages.length) {
       saveData.messages.forEach(m => {
         let text = m[0];
@@ -966,6 +1017,9 @@
 
     let news = [];
     let givenWords = 0;
+    let changedGroups = {};
+    let changedWords = {};
+    if (!saveData.rescued) saveData.rescued = [];
     for (const word in saveData.unrecognized) { //give rescued words
       if (SPA.data.wordIndex[word] !== undefined) {
         let r = sendWord(word, true);
@@ -978,10 +1032,16 @@
           logMessage(`+${group} (${word})`, 2, undefined, {fade: false});
         }
         delete saveData.unrecognized[word];
+        for (const group in saveData.changedGroups) changedGroups[group] = true;
+        changedGroups.rescued = true;
+        changedWords[word] = true;
+        saveData.rescued.push(word);
       }
     }
     const currentVersion = SPA.data.news.length;
     if (givenWords !== 0) {
+      saveData.changedWords = changedWords;
+      saveData.changedGroups = changedGroups;
       news.push(`**${formatNumber(givenWords)}** of your unrecognized words were added - i moved ${givenWords > 1 ? "them" : "it"} to your list :)`);
       updateStats();
     }
@@ -1049,6 +1109,10 @@
       }
       saveState();
     }
+
+    mainInput.value = "";
+    updateInputOverlay();
+    updateStats();
   }
 
   let sameCount = 0;
@@ -1075,6 +1139,19 @@
       playAudio("boo");
       return false;
     }
+    updateInputOverlay();
+
+    if (resetting) {
+      if (resetting === "all" && word.replace(/"/g, "") === "yes reset everything") {
+        resetAll(true);
+        return;
+      }
+      else if (resetting === "unrecognized" && word.replace(/"/g, "").replace(/s/g, "z") === "clear unrecognized") {
+        resetUnrecognized(true);
+        return;
+      }
+      else resetting = false;
+    }
 
     if (!skipMessage) {
       statAdd("tries", 1);
@@ -1086,7 +1163,6 @@
       updateMessages();
     }
 
-    updateInputOverlay();
     if (!word) {
       playAudio("boo");
       return false;
@@ -1154,7 +1230,7 @@
         if (form.length >= 6 && form.endsWith("ing")) {
           formsToCheck.push(form.replace(/ing$/g, ""));
           formsToCheck.push(form.replace(/ing$/g, "")+"e");
-          if (form.length >= 7) formsToCheck.push(form.replace(/.ing$/g, ""));
+          if (form[form.length - 4] === form[form.length - 5]) formsToCheck.push(form.replace(/.ing$/g, ""));
         }
         if (form.length >= 4) {
           formsToCheck.push(form + "ing");
@@ -1167,6 +1243,7 @@
         formsToCheck.push(form.replace(/eese$/g, "oose"));
         formsToCheck.push(form.replace(/'s/g, "s"));
         formsToCheck.push(form.replace(/'s/g, ""));
+        formsToCheck.push(form + "'s");
         formsToCheck.push(form.replace(/'/g, ""));
         formsToCheck.push(form.replace(/s /g, "'s"));
         formsToCheck.push(form.replace(/s$/g, "'s"));
@@ -1571,7 +1648,6 @@
       if (wordIndex[word][group] !== undefined) {
         warnings.push(`duplicate in ${group}: ${word}`);
       }
-      wordIndex[word][group] = true;
       // pseudo-aliases
       if (word.match(/ /)) {
         const form = word.replace(/ /g,"");
@@ -1588,6 +1664,9 @@
         const form = word.replace(/-/g," ");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
         if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
+        const form2 = word.replace(/-/g,"");
+        if (wordIndex[form2] === undefined) wordIndex[form2] = {};
+        if (wordIndex[form2][group] === undefined) wordIndex[form2][group] = [word];
       }
       if (word.match(/'/)) {
         const form = word.replace(/'/g,"");
@@ -1610,6 +1689,12 @@
           warnings.push(`duplicate alias in ${group}: ${alias} (${word})`);
         }
         wordIndex[alias][group] = word;
+        let nfd = alias.normalize("NFD");
+        if (nfd !== alias) {
+          const form = nfd.replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
+          if (wordIndex[form] === undefined) wordIndex[form] = {};
+          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
+        }
         if (alias.match(/ /)) {
           const form = alias.replace(/ /g,"");
           if (wordIndex[form] === undefined) wordIndex[form] = {};
@@ -1619,6 +1704,9 @@
           const form = alias.replace(/-/g," ");
           if (wordIndex[form] === undefined) wordIndex[form] = {};
           if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
+          const form2 = alias.replace(/-/g,"");
+          if (wordIndex[form2] === undefined) wordIndex[form2] = {};
+          if (wordIndex[form2][group] === undefined) wordIndex[form2][group] = [word, alias];
         }
         if (alias.match(/'/)) {
           const form = alias.replace(/'/g,"");
@@ -1630,6 +1718,7 @@
           if (lengthIndex[alias.length][alias] === undefined) lengthIndex[alias.length][alias] = group;
         }
       });
+      wordIndex[word][group] = true;
 
     }
 
@@ -1660,7 +1749,7 @@
       });
     }
 
-    backtrackIndex = null;
+    let backtrackIndex = null;
     window.addEventListener("keydown", (e) => {
       if (e.metaKey || e.ctrlKey) return;
 
