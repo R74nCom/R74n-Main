@@ -638,13 +638,17 @@
       return;
     }
     if (word.length >= 3 && Math.random() < 0.5) {
-      if (Math.random() < 0.5) word = word.slice(0,2) + word.slice(2).replace(/\S/g, "?");
-      else word = word.slice(0,1) + word.slice(1,-1).replace(/\S/g, "?") + word.slice(-1);
+      if (Math.random() < 0.5) word = word.slice(0,2) + word.slice(2).replace(/[^\s\-\.]/g, "?");
+      else word = word.slice(0,1) + word.slice(1,-1).replace(/[^\s\-\.]/g, "?") + word.slice(-1);
     }
     else if (word.match(/[aeiou]/)) word = word.replace(/[aeiou]/gi, "?");
-    else if (word.length >= 3) word = word.slice(0,1) + word.slice(1,-1).replace(/\S/g, "?") + word.slice(-1);
+    else if (word.length >= 3) word = word.slice(0,1) + word.slice(1,-1).replace(/[^\s\-\.]/g, "?") + word.slice(-1);
     else if (word.length === 2) word = "?" + word.slice(-1);
-    else word = "? (one-letter)";
+    else {
+      let nfd = word.normalize("NFD");
+      if (word !== nfd) word = "? (letter + accent mark)";
+      else word = "? (one-letter)";
+    }
     console.log(group,word);
     saveData.lastHint = Date.now();
     updateHint();
@@ -940,6 +944,7 @@
       unrecognized: {},
       messaged: {}
     }
+    if (!saveData.lastInput) saveData.lastInput = [];
     document.getElementById("panel2").innerHTML = "";
     document.getElementById("panel3").innerHTML = "";
     updateStats();
@@ -961,7 +966,7 @@
 
     let news = [];
     let givenWords = 0;
-    for (const word in saveData.unrecognized) {
+    for (const word in saveData.unrecognized) { //give rescued words
       if (SPA.data.wordIndex[word] !== undefined) {
         let r = sendWord(word, true);
         if (r === false) continue;
@@ -980,6 +985,33 @@
       news.push(`**${formatNumber(givenWords)}** of your unrecognized words were added - i moved ${givenWords > 1 ? "them" : "it"} to your list :)`);
       updateStats();
     }
+
+    for (const group in saveData.found) {
+      for (const word in saveData.found[group]) {
+        try { // clear or fix removed words
+        const value = SPA.data.groups[group].words[word];
+        if (value === undefined) {
+          const v = saveData.found[group][word];
+          delete saveData.found[group][word];
+          if (SPA.data.wordIndex[word]) sendWord(word, true);
+        }
+        else if (Array.isArray(saveData.found[group][word]) && !Array.isArray(value)) {
+          const v = saveData.found[group][word];
+          delete saveData.found[group][word];
+          v.forEach(w => sendWord(w, true));
+        }
+        else if (Array.isArray(saveData.found[group][word]) && !Array.isArray(value)) {
+          const v = saveData.found[group][word];
+          delete saveData.found[group][word];
+          value.forEach(w => sendWord(w, true));
+        }
+      }
+      catch (e) {
+        console.log("error fixing words... "+e);
+      }
+      }
+    }
+
     const wordTotal = SPA.data.total;
     const groupTotal = Object.keys(SPA.data.groups).length;
     if (saveData.version === undefined) {
@@ -1032,8 +1064,13 @@
     return word;
   }
   function sendWord(word, skipMessage) {
+    if ((!word || word === mainInput.value) && mainInput.value) {
+      saveData.lastInput.unshift(mainInput.value);
+    }
+    saveData.lastInput = saveData.lastInput.slice(0,10);
     word = word || normalizeWord(mainInput.value);
     mainInput.value = "";
+    backtrackIndex = null;
     if (!word) {
       playAudio("boo");
       return false;
@@ -1117,6 +1154,7 @@
         if (form.length >= 6 && form.endsWith("ing")) {
           formsToCheck.push(form.replace(/ing$/g, ""));
           formsToCheck.push(form.replace(/ing$/g, "")+"e");
+          if (form.length >= 7) formsToCheck.push(form.replace(/.ing$/g, ""));
         }
         if (form.length >= 4) {
           formsToCheck.push(form + "ing");
@@ -1372,7 +1410,7 @@
           }
         })
         if (bestWord) {
-          logMessage(`pssst.. that was **${bestScore} letter${bestScore === 1 ? "" : "s"}** away from something in **${bestGroup}**..`, 1, false, {group: bestGroup});
+          logMessage(`pssst.. that was **${formatNumber(bestScore)} letter${bestScore === 1 ? "" : "s"}** away from something in **${bestGroup}**..`, 1, false, {group: bestGroup});
           saveData.typos[bestWord] = word;
         }
       };
@@ -1440,6 +1478,7 @@
     let lines = text.split("\n");
     let comment = false;
     let group = null;
+    let warnings = [];
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i].trim();
       if (!line) continue;
@@ -1529,6 +1568,9 @@
       SPA.data.groups[group].words[word] = aliases.length ? aliases : true;
 
       if (wordIndex[word] === undefined) wordIndex[word] = {};
+      if (wordIndex[word][group] !== undefined) {
+        warnings.push(`duplicate in ${group}: ${word}`);
+      }
       wordIndex[word][group] = true;
       // pseudo-aliases
       if (word.match(/ /)) {
@@ -1563,6 +1605,10 @@
       }
       aliases.forEach(alias => {
         if (wordIndex[alias] === undefined) wordIndex[alias] = {};
+        if (wordIndex[alias][group] !== undefined && !Array.isArray(wordIndex[alias][group])) {
+          // console.log(alias, wordIndex[alias][group])
+          warnings.push(`duplicate alias in ${group}: ${alias} (${word})`);
+        }
         wordIndex[alias][group] = word;
         if (alias.match(/ /)) {
           const form = alias.replace(/ /g,"");
@@ -1587,6 +1633,14 @@
 
     }
 
+    if (location.protocol === "file:") {
+      window.addEventListener("load", () => {
+        warnings.forEach(w => {
+          logMessage(w, 1, true, {fade: false});
+        })
+      })
+    }
+
     SPA.data.total = 0;
     for (const group in SPA.data.groups) {
       const length = Object.keys(SPA.data.groups[group].words).length;
@@ -1606,6 +1660,7 @@
       });
     }
 
+    backtrackIndex = null;
     window.addEventListener("keydown", (e) => {
       if (e.metaKey || e.ctrlKey) return;
 
@@ -1615,10 +1670,31 @@
       //   updateInputOverlay();
       //   return;
       // }
-      if (e.key === "Enter" && (e.target.tagName !== "INPUT" || e.target === mainInput)) {
-        sendWord();
-        // playAudio("type3");
-        return;
+      if (e.target.tagName !== "INPUT" || e.target === mainInput) {
+        if (e.key === "Enter") {
+          sendWord();
+          // playAudio("type3");
+          return;
+        }
+        if (e.key === "ArrowUp" && mainInput.selectionStart === 0) {
+          if (backtrackIndex === null) backtrackIndex = 0;
+          else backtrackIndex ++;
+          backtrackIndex = Math.min(backtrackIndex, saveData.lastInput.length-1);
+          console.log(backtrackIndex)
+          if (saveData.lastInput.length) {
+            mainInput.value = saveData.lastInput[backtrackIndex];
+          }
+          updateInputOverlay();
+        }
+        if (e.key === "ArrowDown" && backtrackIndex !== null && mainInput.selectionStart === mainInput.value.length) {
+          backtrackIndex --;
+          if (backtrackIndex < 0) {
+            backtrackIndex = null;
+            mainInput.value = "";
+          }
+          else mainInput.value = saveData.lastInput[backtrackIndex];
+          updateInputOverlay();
+        }
       }
       if (e.target.tagName === "INPUT") {
         return;
@@ -1762,7 +1838,7 @@
         <small>Sound effects by Andrea Baroni.</small>
         <span>
           <button onclick="R74n.more()">More Games</button>
-          <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
+          <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Game Ideas</button>
         </span>
       </div>
     </div>
