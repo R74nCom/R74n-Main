@@ -416,7 +416,6 @@ whisper
 fizz
 sizzle
 flutter
-ow / ouch
 ring
 slosh
 slurp
@@ -687,6 +686,7 @@ holy
 asap
 oof
 guh / gwuh
+ow / ouch
 blah
 yikes
 jeez
@@ -929,6 +929,7 @@ burn
 extinguish
 maul
 adjust
+stream
 age
 agree
 birth / born
@@ -1958,6 +1959,7 @@ barbado
 barbet
 basenji
 basset
+spitz
 beagle
 beauceron
 bichon frisé / bichon frise / bichon
@@ -3174,7 +3176,6 @@ chimera
 chupacabra
 cockatrice
 cthulhu
-cupid
 cyborg
 cyclops
 demon / devil / imp
@@ -4707,6 +4708,47 @@ wonton
 yeast
 yogurt / yoghurt / yogourt / yoghourt
 
+[cheeses]
+american
+asiago
+blue / bleu
+bocconcini
+brie
+burrata
+camembert
+cheddar "this cheese comes from a village in England called Cheddar"
+chevre / goat
+colby
+cotija
+cottage
+cream
+curds
+edam
+emmental
+farmer's
+feta
+gorgonzola
+gouda
+gruyere
+halloumi
+havarti
+jack / monterey
+jarlsberg
+limburger
+mascarpone
+mozzarella / mozz
+muenster
+neufchatel
+paneer
+parmesan
+provolone
+queso
+ricotta
+romano
+roquefort
+string
+swiss
+
 [condiments]
 mustard
 ketchup
@@ -4824,6 +4866,39 @@ water / h2o
 whiskey / whisky
 wine
 
+[media]
+application / app / software
+art
+blog
+book
+comic
+billboard
+commercial / advertisement / ad
+concert
+flyer
+game / video game
+gif
+image
+journal
+magazine
+movie / film / cinema
+music / song
+news
+article
+newspaper
+podcast / pod
+poem
+poster
+radio
+streaming
+livestream / broadcast
+television / tv / show
+video
+vlog
+website / webpage / internet
+zine
+social media / post
+
 [music genres]
 = musics
 acapella
@@ -4831,6 +4906,7 @@ alt-rock
 alternative / alt
 ambient
 ballad
+musical
 baroque
 bluegrass
 blues
@@ -5474,7 +5550,7 @@ yacht
 zeppelin
 
 [instruments]
-= music / musical
+= music
 accordion
 alghoza
 alphorn
@@ -5657,6 +5733,7 @@ antenna / antennae
 anchor
 pan
 bleach
+protractor
 plate
 dish
 vat
@@ -6311,12 +6388,14 @@ anthrax
 ar-15 / ar15
 arrow
 artillery
+labrys
 axe / ax
 whip
 ballista
 orbital cannon
 bb / bb gun
 baton
+magazine / mag
 battering ram
 battleaxe / battleax
 bayonet
@@ -6697,7 +6776,7 @@ socket
 sole
 sperm / semen
 sphincter
-spine / spinal cord
+spine / spinal cord / spinal column / spinal / backbone
 spleen
 sternum
 stirrup / stapes
@@ -7236,7 +7315,9 @@ aleph null
 null
 undefined
 chord
+distributive
 area
+protractor
 average / mean
 axis / axes
 base
@@ -7409,55 +7490,18 @@ tau
 
 [companies]
 = brands
+7-eleven / 7-11 / seven-eleven
 abc
 acer
+adidas
 agricole
-7-eleven / 7-11 / seven-eleven
+aldi
 alibaba
 allianz
-casio
-micro center
-lowe's
-subway
-red bull
-campbell's / campbell's soup
-Anheuser-Busch / busch
-aldi
-haribo
-chiquita
-mondelez
-dollar tree
-dollar general
-macy's
-walgreens
-dole
-del monte
-chipotle
-domino's
-general mills
-dairy queen
-krispy kreme
-mars
-burger king
 amazon
-mediawiki / wikipedia
-marvel
-nikon
-ikea
-twitter "follow us on twitter @R74nCom!"
-kodak
-canon
 amd
-roblox
-nothing
-oneplus
-ubisoft
-expo
-sharpie
-bic
-audi
-adidas
 american express
+Anheuser-Busch / busch
 anthropic
 apple "former apple CEO Steve Jobs would only eat apples and carrots for weeks at a time"
 arby's
@@ -7465,48 +7509,76 @@ astrazeneca
 asus
 at&t / att
 atari
+audi
+audible
 axa
+b&h / bhp
+backbone
 bank of america / bofa
 bbc
 berkshire hathaway
+bic
+blackrock
 bmo
 bmw
 bnp
 bp
-gamestop
-fandom
 broadcom
 buc-ee's
+bugatti
+burger king
 byd
-palantir
+cadbury
+campbell's / campbell's soup
+canon
+canonical / ubuntu
+casio
 chevrolet
 chevron
 china mobile
+chipotle
+chiquita
 chuck e. cheese
 cisco
 citigroup
 cnn
 cnooc
 coca cola
+colgate
 comcast
 commonwealth
 costco
 crayola
 cvs
+dairy queen
+del monte
 dell
 discord "we have one! **discord.gg/R74n**"
 disney
+dole
+dollar general
+dollar tree
+domino's
+doordash
 ea
 elevance
 eli lilly
 enel
 enron
+expo
 exxonmobil / mobil / exxon
+fandom
+ferrari
 fifa
 fox
+fujifilm
 game freak
+gamestop
+general mills
 goldman sachs
 google / alphabet
+gucci
+haribo
 hdfc
 heineken
 hermes
@@ -7516,6 +7588,8 @@ hsbc
 huawei
 ibm
 icbc
+ikea
+instagram "follow us on instagram @R74ndev!"
 intel
 intesa sanpaolo
 johnson & johnson / j&j
@@ -7523,48 +7597,50 @@ jpmorganchase / jpmorgan / chase
 kellogg
 kfc
 kia
+kodak
 konami
 kraft / heinz
+krispy kreme
+kroger
+lipton
 louis vuitton / lvmh
+lowe's
+macy's
+mars
+marvel
 mastercard
 mcdonald's
+mediawiki / wikipedia
 mercedes-benz / mercedes
 meta / facebook
+micro center
 micron
 microsoft / microslop "more like microSLOP!"
 mitsubishi
 mizuho
 mojang
-colgate
-kroger
-pixar
-cadbury
-rio tinto
-b&h / bhp
-reebok
-ferrari
-bugatti
-oceana
-nbc
-gucci
-nokia
-blackrock
-lipton
-xiaomi
-doordash
+mondelez
 morgan stanley
 motorola
 mozilla / firefox
 nba
+nbc
 nestlé
 netflix
+niantic
 nickelodeon
 nike
+nikon
 nintendo
+nokia
+nothing
 novartis
 nvidia
+oceana
+oneplus
 openai
 oracle
+palantir
 panasonic
 paypal
 peacock / paramount
@@ -7574,19 +7650,28 @@ petrochina
 pfizer
 pinduoduo
 pinterest
+pixar
 popcap / capcom
 procter & gamble / procter and gamble
 progressive
 psbc
+razer
 rbc
+red bull
 reddit "share this on R/74n!"
+reebok
 reliance
+rio tinto
+roblox
 roche
 rtx
 samsung
 sandisk
 santander
 saudi aramco
+scholastic
+sega
+sharpie
 shell
 siemens
 sinopec
@@ -7594,12 +7679,12 @@ snapchat
 sony
 spacex / x
 spotify
-sega
-instagram "follow us on instagram @R74ndev!"
-audible
+staples
 starbucks
 stripe
+subway
 sumitomo mitsui
+supercell
 taiwan semiconductor / tsmc
 target
 td bank / td
@@ -7607,9 +7692,12 @@ telegram
 tencent
 tesco
 tesla "tesla was founded by Martin Eberhard and Marc Tarpenning"
+the north face
 tiktok / bytedance "follow us on tiktok @R74n.com!"
 toyota
 tumblr
+twitter "follow us on twitter @R74nCom!"
+ubisoft
 ubs
 unilever
 unitedhealth
@@ -7617,10 +7705,12 @@ valve
 verizon
 visa
 volkswagen
+walgreens
 walmart
 warner bros / warner / warner brothers / discovery
 wells fargo
 wendy's
+xiaomi
 yahoo
 youtube
 
@@ -7655,6 +7745,7 @@ abolishment
 bureaucracy / bureaucrat / bureaucratic
 capitalism / capitalist
 corporatocracy
+empire
 ecclesiocracy
 centrism / centrist
 court / judicial / judiciary
@@ -9243,6 +9334,8 @@ boyfriend / bf
 brother / bro
 brother-in-law
 child / kid / children / adolescent
+male / boy / man / guy / dude
+female / girl / woman
 child-in-law
 cousin
 neighbor
@@ -9514,6 +9607,37 @@ vela
 virgo
 volans
 vulpecula
+
+[mythological gods]
+aphrodite / venus
+apollo / phoebus
+apophis
+ares / mars
+artemis / diana
+athena / minerva / pallas
+cronus / kronos / saturn
+demeter / ceres
+dionysus / dionysos / bacchus / liber
+eileithyia / eileithyie / lucina
+eros / cupid / amor
+gaea / ge / tellus / terra mater / terra / mother earth
+hades / pluto / dis
+hebe / juventas / iuventas
+helios / sol
+hephaistos / hephaestus / vulcan
+hera / juno / iuno
+hermes / mercury
+hestia / vesta
+janus
+loki
+nike
+pan / faunus
+persephone / cora / kore / proserpina
+poseidon / neptune / neptunus
+rhea / rheia / kybele / ops
+selene / luna
+uranus / caelum
+zeus / jupiter
 
 [tarot cards]
 The Fool
@@ -9898,7 +10022,7 @@ anger / angry / furious / irate / mad / rage / wrath
 hangry
 annoyed / annoying / annoy / annoyance / indignant
 aloof / removed / distant
-anxiety / anxious / worry / worried
+anxiety / anxious / worry / worried / nervous / nerve
 concern / concerned
 apprehension / apprehensive
 approval
@@ -9970,6 +10094,99 @@ trust
 understanding
 valence
 vigilance / ready / readiness / vigilant
+
+[lgbtq+]
+= sexuality / gender / sex / identity / lgbt / lgbtq / lgbtqi / lgbtqia / lgbtqia+ / glbt / lgb
+a-spec
+abroromantic
+abrosexual / abro
+achillean
+aegoromantic
+aegosexual
+afab
+agender
+alloromantic
+allosexual / allo
+ally
+amab
+androgyne / androgynous / androgyny
+androromantic
+androsexual
+aporagender
+aromantic / aro / aroace
+asexual / ace
+bicurious
+bigender
+bisexual / bi
+butch
+ceteroromantic
+ceterosexual
+come out / coming out
+cupiosexual
+demiboy
+demigender
+demigirl
+demiromantic
+demisexual / demi
+diamoric
+drag
+dysphoria
+enbian
+estrogen
+fa'afafine
+femboy
+femme
+fujoshi
+gay / homosexual / mlm
+genderfluid
+genderflux
+genderqueer
+grayromantic / greyromantic
+graysexual / greysexual
+gyneromantic
+gynesexual / gynoromantic
+intersex
+lesbian / wlw
+lunaric
+mercuric
+neopronoun
+neptunic
+neuter / neutrois
+nofinsexual
+nominsexual
+non-binary / enby / nb
+non-conforming / gnc
+noninsexual
+omniromantic
+omnisexual
+pangender
+panromantic
+pansexual
+polyamory / polyamorous
+polygamy / polygamous
+pride
+pronoun
+qtipoc
+queer
+questioning
+quoiromantic
+sapphic / sappho
+solaric
+stellaric
+t4t / tft
+tomboy
+toric
+transfem / transfeminine / trans girl / trans woman
+transgender / trans / transitioning / transsexual
+transmasc / transmasculine / trans boy / trans guy / trans man
+trigender
+trixic
+twink
+two-spirit / 2-spirit
+xenogender
+yaoi
+yuri
+
 
 [numbers]
 & funny numbers
@@ -10211,6 +10428,7 @@ pibble "rub my belly!"
 backrooms
 ballerina cappucina
 ball knowledge
+address me / elephant in the room
 baka
 big chungus / chungus
 pmo
@@ -10645,13 +10863,8 @@ easter
 thanksgiving
 carnival
 
-game
-video
 pixel
 sprite / texture
-app
-internet
-website
 autism
 hyperfixation / hyperfixate / hyperfix
 adhd
@@ -10660,21 +10873,6 @@ organelle
 mitochondrion / mitochondria "mitochondria is plural, **mitochondrion** is singular"
 ibuprofen
 geek / nerd
-
-[lgbtq stuff]
-= sexuality / gender / sex / identity
-male / boy / man
-female / girl / woman
-non-binary / enby / nb
-gay
-lesbian
-transgender / trans
-queer
-estrogen
-yaoi
-yuri
-femboy
-tomboy
 
 [minerals]
 augite, gypsum, graphite, calcite, aragonite, asbestos / asbestus
@@ -10703,26 +10901,7 @@ tritium
 lactose
 protein
 
-[greek-roman gods]
-apollo
-apophis
-artemis
-hades
-hera
-janus
-loki
-nike
-poseidon
-zeus
-
-[cheeses]
-cheddar
-parmesan
-gouda
-brie
-queso
-edam
-mozzarella / mozz
+[apples]
 
 [fungi]
 = fungus
