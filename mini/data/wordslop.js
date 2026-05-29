@@ -5739,6 +5739,7 @@ dish
 vat
 washboard
 mailbox
+mouthwash
 typewriter
 quill
 thermometer
@@ -10372,7 +10373,59 @@ baldi's basics "collect my noteboos"
 banban
 omori "waiting for something to happen?"
 overwatch
+star wars
+star trek
+doctor who
+supernatural
+homestuck
+sherlock holmes
+naruto
+dragon ball
+inuyasha
+evangelion / neon genesis
+cowboy bebop
+akira
+death note
+sailor moon
+berserk
+my hero academia / mha
+madoka magica / magical girls
+utena / revolutionary girl
+jujutsu kaisen / jjk
+chainsaw man
+genshin impact / genshin
+honkai star rail / honkai
+balatro
+umamusume
+danganronpa
+hollow knight / silksong
+pizza tower
+persona
+mouthwashing
+stranger things
+arcane
+helluva boss
+murder drones
+bts
+blackpink
+stray kids
+itzy
+illit
+xlov
+limbus company
+aespa
+le sserafim
+nmixx
+newjeans
+ateez
+i-dle
+kiiikiii
+hearts2hearts
+babymonster
+xg
+harry potter
 horizon
+bendy
 bfdi / battle for dream island / bfb / tpot / object shows / yoyle / yoylecake / yoyleland
 cuphead
 pingu "noot noot"
@@ -10390,7 +10443,7 @@ bornana "is that even a real fruit?"
 fnaf / five nights at freddy's / fazbear "or or or or or"
 fortnite
 geometry dash / gd "holy gd reference"
-hazbin hotel / hazbin "can we NOT talk about that right now?!"
+hazbin hotel / hazbin "can we not talk about that right now?!"
 hellsing
 invincible / omniman "are you sure?"
 katseye "gnarly.."
@@ -10425,6 +10478,8 @@ among us / amogus / sussy / sus / crewmate / imposter / impostor
 aura / aurafarming "wordslopping gives a huge aura boost"
 baby gronk / livvy dunne
 pibble "rub my belly!"
+we're playing bendy "so that's why"
+my sunshine "my only sunshine"
 backrooms
 ballerina cappucina
 ball knowledge
