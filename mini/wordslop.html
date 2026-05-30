@@ -1270,7 +1270,7 @@
 
         // special
         let prefix = form.match(new RegExp(`^(${(
-          Object.keys(SPA.data.groups.prefixes.words).join("|").replace(/-/g,"") + "|" +
+          Object.keys(SPA.data.groups.prefixes.words).filter(v => v.length >= 4).join("|").replace(/-/g,"") + "|" +
           Object.values(SPA.data.groups.prefixes.words).filter(v => v !== true).join("|").replace(/,/g,"|")
         ).replace(/-/g,"")})`));
         console.log(prefix);
