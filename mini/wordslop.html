@@ -1137,6 +1137,7 @@
     backtrackIndex = null;
     if (!word) {
       playAudio("boo");
+      narrate("blank", "spit it out!");
       return false;
     }
     updateInputOverlay();
@@ -1189,6 +1190,7 @@
 
     let mainForms = [word];
     let formsToCheck = [];
+    let isSpecial = {};
 
     let split = word.split(" ");
     let baseLength = split.length;
@@ -1237,6 +1239,9 @@
           formsToCheck.push(form + form.slice(-1) + "ing");
           if (form.endsWith("e")) formsToCheck.push(form.slice(0,-1) + "ing");
         }
+        if (form.length >= 3 && form.endsWith("y")) {
+          formsToCheck.push(form.slice(0,-1) + "ies");
+        }
         formsToCheck.push(form.replace(/ice$/g, "ouse"));
         formsToCheck.push(form.replace(/ouse$/g, "ice"));
         formsToCheck.push(form.replace(/oose$/g, "eese"));
@@ -1262,6 +1267,18 @@
         formsToCheck.push(form.replace(/[,\.]/g, ""));
         
         formsToCheck.push(form.replace(/ /g, ""));
+
+        // special
+        let prefix = form.match(new RegExp(`^(${(
+          Object.keys(SPA.data.groups.prefixes.words).join("|").replace(/-/g,"") + "|" +
+          Object.values(SPA.data.groups.prefixes.words).filter(v => v !== true).join("|").replace(/,/g,"|")
+        ).replace(/-/g,"")})`));
+        console.log(prefix);
+        if (prefix && form.length > 5) {
+          isSpecial[prefix[0]+"-"] = true;
+          formsToCheck.push(prefix[0]+"-");
+          formsToCheck.push(form.slice(prefix[0].length));
+        }
       }
     }
 
@@ -1451,7 +1468,7 @@
       if (hasAlias) narrate("alias", "you found a synonym of a previous word.");
       playAudio(hasNewGroup ? "yay" : "success");
     }
-    else if (duplicate || saveData.unrecognized[word] || (base && saveData.unrecognized[base])) {
+    else if ((duplicate || saveData.unrecognized[word] || (base && saveData.unrecognized[base])) && !isSpecial[duplicate || word || base]) {
       logMessage(`**${duplicate || word || base}**${(duplicate || base) && (duplicate || base) !== word ? " ("+stripQualifier(word, duplicate || base)+")" : ""} already said`, 2);
       statAdd("repeats", 1);
       playAudio("boo");
@@ -1471,7 +1488,6 @@
         let bestWord;
         let bestGroup;
         let bestScore = 3;
-        console.log(length);
         [-1,0,1].forEach(diff => {
           const length2 = length + diff;
           if (SPA.data.lengthIndex[length2] === undefined) return;
@@ -1673,8 +1689,8 @@
         if (wordIndex[form] === undefined) wordIndex[form] = {};
         if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
-      if (word.match(/\. /)) {
-        const form = word.replace(/\. /g,"");
+      if (word.match(/\./)) {
+        const form = word.replace(/\. ?/g,"");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
         if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
