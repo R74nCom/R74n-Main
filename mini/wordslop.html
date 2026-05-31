@@ -1265,13 +1265,15 @@
         formsToCheck.push(form.replace(/sing/g, "zing"));
         formsToCheck.push(form.replace(/^(an?|the) +/g, ""));
         formsToCheck.push(form.replace(/[,\.]/g, ""));
+        formsToCheck.push(form.replace(/ing$/g, "in'"));
+        formsToCheck.push(form.replace(/in'$/g, "ing'"));
         
         formsToCheck.push(form.replace(/ /g, ""));
 
         // special
         let prefix = form.match(new RegExp(`^(${(
           Object.keys(SPA.data.groups.prefixes.words).filter(v => v.length >= 4).join("|").replace(/-/g,"") + "|" +
-          Object.values(SPA.data.groups.prefixes.words).filter(v => v !== true).join("|").replace(/,/g,"|")
+          Object.values(SPA.data.groups.prefixes.words).filter(v => v !== true && v.length >= 4).join("|").replace(/,/g,"|")
         ).replace(/-/g,"")})`));
         console.log(prefix);
         if (prefix && form.length > 5) {
