@@ -45,16 +45,13 @@
 <div id="col2">
   <div id="panel4">
     <div class="clickable mobileBack">back --&gt;</div>
-    <span class="title">progress</span>
-    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 0%, rgba(0,255,0,0.5) 0%)"><span>animals</span> <span>done</span></span>
-    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 30%, rgba(0,255,0,0.5) 30%)"><span>animals</span> <span>70%</span></span>
-    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 67%, rgba(0,255,0,0.5) 67%)"><span>animals but a longer title</span> <span>33%</span></span>
-    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 75%, rgba(0,255,0,0.5) 75%)"><span>animals</span> <span>25%</span></span>
-    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 90%, rgba(0,255,0,0.5) 90%)"><span>animals</span> <span>10%</span></span>
-    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 98%, rgba(0,255,0,0.5) 98%)"><span>animals</span> <span>2%</span></span>
-    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 99%, rgba(0,255,0,0.5) 99%)"><span>animals</span> <span>1%</span></span>
-    <span class="clickable noSelect" style="background: linear-gradient(to right,  transparent 99.9%, rgba(0,255,0,0.5) 99.9%); font-style: italic;"><span>total</span> <span>0.1%</span></span>
-    <span class="clickable noSelect"><span>unrecognized</span> <span>123</span></span>
+    <span class="title">
+      <span class="back">◀</span>
+      <img class="doodle clickable" id="progressShare" src="../doodle/share.gif">
+      <span class="text">progress</span>
+      <input type="search" id="searchBox">
+      <img class="doodle clickable" id="progressSearch" src="../doodle/search.gif">
+    </span>
   </div>
 </div>
 <div id="col1">
@@ -64,11 +61,6 @@
   </div>
   <div id="panel3">
     <!-- <span style="opacity: 0.4;"><strong>rock</strong> is new</span> -->
-    <!-- <span style="color: rgb(0, 145, 60); opacity: 0.4;">+natural objects <strong>[NEW]</strong></span> -->
-    <!-- <span style="color: rgb(0, 145, 60); opacity: 0.4;">+music genres</span> -->
-    <!-- <span style="opacity: 0.6;"><strong>rock</strong> already said</span> -->
-    <!-- <span style=""><strong>stone</strong> is new</span> -->
-    <!-- <span style="color: rgb(142, 116, 0);">~natural objects</span> -->
   </div>
   <div id="panel1">
     <span id="inputSpacer">Type something..</span>
@@ -76,28 +68,22 @@
     <input type="text" id="mainInput" value="" autofocus placeholder="type something..">
   </div>
   <div id="panel2">
-    <span>Enter a thing or concept, like <strong>bat</strong> or <strong>rock</strong>.</span>
-    <span style="opacity: 0.6;">Other narrative blurbs go here.</span>
-    <span style="opacity: 0.4;">Other narrative blurbs go here.</span>
-    <span style="opacity: 0.2;">Other narrative blurbs go here.</span>
-    <span style="opacity: 0.1;">Other narrative blurbs go here.</span>
+    <!-- <span>Enter a thing or concept, like <strong>bat</strong> or <strong>rock</strong>.</span> -->
   </div>
 </div>
 <div id="col3">
   <div id="panel5">
     <div class="clickable mobileBack">&lt;-- back</div>
-    <span class="title">stats</span>
+    <span class="title"><span class="text">stats</span></span>
     <span class="noSelect"><span>score</span> <span>123</span></span>
   </div>
   <div id="panel7">
     <span>
       <a href="https://discord.com/invite/r74n">join our discord &nbsp;❥</a>
     </span>
-    <span>
-      <span class="clickable" onclick="resetAll();">reset</span>
-      •
-      <span class="clickable" onclick="saveFile();">save</span>
-      •
+    <span id="saveControls">
+      <span class="clickable needsProgress" onclick="resetAll();">reset</span>
+      <span class="clickable needsProgress" onclick="saveFile();">save</span>
       <span class="clickable" onclick="loadFile();">load</span>
     </span>
     <input type="file" id="saveUpload" style="display: none;" accept="application/vnd.R74n.wordslop+json, application/json, .slop, .json">
@@ -130,6 +116,7 @@
     color: black;
     background: white;
     font-family: "Comic", Verdana, Geneva, Tahoma, sans-serif;
+    color-scheme: light;
   }
   .content {
     display: flex;
@@ -262,9 +249,13 @@
   #panel4 > span.title,
   #panel5 > span.title {
     justify-content: center;
-    text-decoration: underline;
     margin-bottom: 5px;
     margin-top: 5px;
+  }
+  #panel4 > span.title > .text,
+  #panel5 > span.title > .text {
+    text-decoration: underline;
+    text-align: center;
   }
   #panel4 > span.title.group {
     text-decoration: none;
@@ -305,6 +296,42 @@
     margin-bottom: 0.5em;
     margin-top: 0.5em;
     margin-right: 1em;
+  }
+  #panel4 > .title input { /*searchBox*/
+    padding: 0;
+    width: 100%;
+    border: inset;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+  #panel4 > .title > .text {
+    text-align: right;
+  }
+  #panel4 > .title > .back,
+  #panel4 > .title > input {
+    display: none;
+  }
+  #panel4 > .title.group > .back,
+  #panel4 > .title.search > input {
+    display: flex;
+  }
+  #panel4 > .title.search > .text,
+  #panel4 > .title.group > #progressShare,
+  #panel4 > .title.group > #progressSearch,
+  #panel4 > .title.search > #progressShare {
+    display: none;
+  }
+  #progressShare {
+    margin-right: 10px;
+  }
+  #progressSearch {
+    margin-left: 10px;
+  }
+  #panel4 > .subtitle {
+    text-align: center;
+    justify-content: center;
+    text-decoration: underline;
   }
 
   @media only screen and (min-width: 900px) {
@@ -479,11 +506,15 @@
     data.unrecognized = Object.keys(data.unrecognized);
     data.messaged = Object.keys(data.messaged);
 
-    var a = document.createElement("a");
+    const a = document.createElement("a");
 
-    var file = new Blob([JSON.stringify(data)], {type: "application/vnd.R74n.wordslop+json"});
+    const file = new Blob([JSON.stringify(data)], {type: "application/vnd.R74n.wordslop+json"});
     a.href = URL.createObjectURL(file);
-    a.download = "progress.slop";
+    const date = new Date();
+
+    const time = date.toLocaleTimeString(undefined, {hour: "numeric"}).replace(/ /g,"").toLowerCase();
+    const name = `${date.getDate()}-${date.toLocaleDateString(undefined, {month: "long"})}-${time}${time.match(/[a-z]/) ? "" : "00"}`;
+    a.download = name+".slop";
     a.click();
 
     closeMenu();
@@ -595,6 +626,7 @@
     let url = `https://docs.google.com/forms/d/e/1FAIpQLScd_L5yel09xzSzIQbvj1-4LSE3DxyChxhkWVpibTnHBbIkSA/viewform?usp=pp_url&entry.2104458136=%5Bword%5D:+%5Bsuggested+group%5D`;
     let words = Object.keys(saveData.unrecognized);
     if (index) words = words.slice(index);
+    words.sort();
     words.forEach(word => {
       url += "%0A"+encodeURIComponent(word)+":+";
     })
@@ -699,6 +731,7 @@
 
     logMessage("here's your hint for "+group+": "+word+" ", 1, false, {group: group});
     statAdd("hints", 1);
+    updateStats();
 
     saveState();
   }
@@ -721,6 +754,7 @@
   }
 
   selectedGroup = null;
+  currentQuery = null;
   panel4Scroll = 0;
   function promo() {
     document.getElementById("col3").style.display = "none";
@@ -733,14 +767,72 @@
     const btn = document.getElementById("progressButton");
     if (btn.checkVisibility() && !panel4.checkVisibility()) btn.click();
   }
+  panel4Title = document.querySelector("#panel4 > .title");
+  panel4Title.addEventListener("click", () => {
+    if (selectedGroup) {
+      selectedGroup = null;
+      updateStats();
+      panel4.scrollTop = panel4Scroll;
+    }
+  })
+
+  document.getElementById("progressShare").addEventListener("click", () => {
+    let text = "after #wordslop​ping all day, i've found:\n";
+
+    let groups = {};
+    for (const group in saveData.found) {
+      let percent = getGroupProgress(group);
+      if (percent || percent === 0) groups[group] = percent;
+    }
+    let sorted = Object.keys(groups).sort((a, b) => groups[b] - groups[a]).slice(0,5);
+    sorted.forEach(group => {
+      text += group + " (" + getGroupProgress(group) + "%)\n";
+    });
+    text += "\n⌨️ ";
+
+    R74n.share(text);
+  });
+
+  searchBox = document.getElementById("searchBox");
+  searchBox.addEventListener("input", () => {
+    currentQuery = normalizeWord(searchBox.value).replace(/\s/g, "");
+    updateStats();
+  })
+  searchBox.addEventListener("blur", () => {
+    if (!searchBox.value.trim()) {
+      searchBox.value = "";
+      currentQuery = null;
+      updateStats();
+    }
+  });
+  document.getElementById("progressSearch").addEventListener("click", () => {
+    if (currentQuery === null) {
+      currentQuery = "";
+      updateStats();
+      searchBox.value = "";
+      searchBox.focus();
+    }
+    else {
+      currentQuery = null;
+      searchBox.value = "";
+      updateStats();
+    }
+  });
+
   function updateStats() {
     const spans = document.querySelectorAll("#panel4 > span, #panel5 > span");
-    if (spans) spans.forEach(e => e.remove());
+    if (spans) spans.forEach(e => {
+      if (!e.classList.contains("title")) e.remove();
+    });
 
     if (!saveData.stats.score) return;
 
     // progress
-    let title = document.createElement("span");
+    let title = panel4Title;
+    title.classList.remove("group");
+    title.classList.remove("clickable");
+    if (selectedGroup || currentQuery === null) title.classList.remove("search");
+    
     if (selectedGroup) {
       let num = 0;
       if (selectedGroup === "all") {
@@ -755,45 +847,96 @@
         num = saveData.rescued.length;
       }
       else num = getGroupFound(selectedGroup);
-      title.innerHTML = `<span class="back">◀</span><span>${selectedGroup} (${num})</span>`;
-      title.addEventListener("click", () => {
-        selectedGroup = null;
-        updateStats();
-        panel4.scrollTop = panel4Scroll;
-      });
+      title.querySelector(".text").innerText = `${selectedGroup} (${num})`;
       title.classList.add("group");
     }
     else {
-      title.innerText = "progress";
-
-      let share = document.createElement("img");
-      share.classList.add("doodle");
-      share.classList.add("clickable");
-      share.src = "../doodle/share.gif";
-      share.style.marginLeft = "10px";
-      share.addEventListener("click", () => {
-        let text = "after #wordslop​ping all day, i've found:\n";
-
-        let groups = {};
-        for (const group in saveData.found) {
-          let percent = getGroupProgress(group);
-          if (percent || percent === 0) groups[group] = percent;
-        }
-        let sorted = Object.keys(groups).sort((a, b) => groups[b] - groups[a]).slice(0,5);
-        sorted.forEach(group => {
-          text += group + " (" + getGroupProgress(group) + "%)\n";
-        });
-        text += "\n⌨️ ";
-
-        R74n.share(text);
-      });
-      title.appendChild(share);
+      if (currentQuery !== null) {
+        title.classList.add("search");
+      }
+      title.querySelector(".text").innerText = "progress"
     }
+
     title.classList.add("title");
     title.classList.add("noSelect");
-    panel4.appendChild(title);
 
-    if (selectedGroup === null) {
+    if (selectedGroup !== null) {
+      title.classList.add("clickable");
+      let html = ``;
+      let items;
+      if (selectedGroup === "unrecognized") items = Object.keys(saveData.unrecognized).map(i => [i,i]);
+      else if (selectedGroup === "rescued") items = saveData.rescued.map(i => [i,i]);
+      else if (selectedGroup === "all") {
+        let done = {};
+        items = [];
+        for (const group in saveData.found) {
+          getGroupFoundList(group).forEach(i => {
+            if (done[i[1]]) return;
+            done[i[1]] = true;
+            items.push(i);
+          });
+        }
+      }
+      else items = getGroupFoundList(selectedGroup);
+      if (selectedGroup !== "unrecognized" && selectedGroup !== "rescued") items.sort();
+      items.forEach(i => {
+        html += `<span class="word${(saveData.changedWords[i[0]] === true || i[0] === saveData.lastUnrecognized) ? ' changed' : ''}" data-word="${escapeHTML(i[0])}" data-group="${escapeHTML(selectedGroup)}"><span>${escapeHTML(i[1])}</span></span>`
+      });
+      if (selectedGroup === "unrecognized") {
+        html += `<span class="clickable meta" onclick="submitUnrecognized()">submit all &nbsp;❥</span>`;
+        if (saveData.lastSubmit && saveData.lastSubmit < Object.keys(saveData.unrecognized).length) html += `<span class="clickable meta" onclick="submitUnrecognized(${parseInt(saveData.lastSubmit)})"><span>submit after <strong>${escapeHTML(Object.keys(saveData.unrecognized)[saveData.lastSubmit - 1])}</strong> &nbsp;❥</span></span>`;
+        html += `<span class="clickable meta" onclick="resetUnrecognized()">clear all</span>`;
+      }
+      else {
+        if (SPA.data.groups[selectedGroup]) {
+          if (items.length) html += `<span class="meta">${getGroupProgress(selectedGroup)}% of ${getGroupTotal(selectedGroup)}</span>`;
+          else html += `<span>nothing yet..</span>`;
+          html += `<span class="clickable hint meta" onclick='doHint("${selectedGroup}")'><span class="timer"></span> help me!</span>`
+        }
+        html += `<span class="clickable copy meta" onclick='copyGroup("${selectedGroup}")'>copy words</span>`
+      }
+      panel4.insertAdjacentHTML("beforeend", html);
+    }
+    else if (currentQuery) {
+      title.classList.add("search");
+      let results = {};
+      for (const group in saveData.found) {
+        results[group] = {};
+        for (const word in saveData.found[group]) {
+          let value = saveData.found[group][word];
+          let display = word;
+          if (value === true) {}
+          else if (Array.isArray(value)) {
+            if (value.includes("_main")) display += " / ";
+            else display = "";
+            display += value.filter(v => v !== "_main").join(" / ");
+          }
+          let norm = display.replace(/\s/g, "");
+          if (norm.includes(currentQuery)) {
+            results[group][word] = display;
+          }
+        }
+        if (!Object.keys(results[group]).length && !group.includes(currentQuery)) delete results[group];
+      }
+      let groups = Object.keys(results).sort();
+      let html = "";
+      groups.forEach(group => {
+        html += `<span class="subtitle clickable" data-group="${escapeHTML(group)}">${escapeHTML(group)}</span>`;
+        for (const word in results[group]) {
+          const display = results[group][word];
+          html += `<span data-word="${escapeHTML(word)}" data-group="${escapeHTML(group)}">${escapeHTML(display)}</span>`;
+        }
+      })
+      panel4.insertAdjacentHTML("beforeend", html);
+      panel4.querySelectorAll(".subtitle").forEach(subtitle => {
+        subtitle.addEventListener("click", () => {
+          selectedGroup = subtitle.getAttribute("data-group");
+          updateStats();
+        })
+      })
+      console.log(results)
+    }
+    else { //group list
       let html = ``;
       let groups0 = {};
       for (const group in saveData.found) {
@@ -808,7 +951,7 @@
         let percent = getGroupProgress(group);
         if (percent || percent === 0) groups[group] = percent;
       }
-      let sorted = Object.keys(groups).sort((a, b) => groups[b] - groups[a]);
+      let sorted = Object.keys(groups).sort((a, b) => groups[a] === groups[b] ? a.localeCompare(b) : groups[b] - groups[a]);
       if (!saveData.changedGroups) saveData.changedGroups = {};
       sorted.forEach(group => {
         const percent = groups[group];
@@ -832,45 +975,20 @@
         panel4.scrollTop = 0;
       }));
     }
-    else {
-      title.classList.add("clickable");
-      let html = ``;
-      let items;
-      if (selectedGroup === "unrecognized") items = Object.keys(saveData.unrecognized).map(i => [i,i]);
-      else if (selectedGroup === "rescued") items = saveData.rescued.map(i => [i,i]);
-      else if (selectedGroup === "all") {
-        let done = {};
-        items = [];
-        for (const group in saveData.found) {
-          getGroupFoundList(group).forEach(i => {
-            if (done[i[1]]) return;
-            done[i[1]] = true;
-            items.push(i);
-          });
-        }
+
+    panel4.querySelectorAll("span[data-word]").forEach(span => {
+      const word = span.getAttribute("data-word");
+      const group = span.getAttribute("data-group");
+      if (SPA.data.groups[group].wordDesc) {
+        const blurb = SPA.data.groups[group].wordDesc[word];
+        span.addEventListener("click", () => {
+          logMessage(blurb, 1);
+        })
+        span.classList.add("clickable");
       }
-      else items = getGroupFoundList(selectedGroup);
-      if (selectedGroup !== "unrecognized" && selectedGroup !== "rescued") items.sort();
-      items.forEach(i => html += `<span class="word${(saveData.changedWords[i[0]] === true || i[0] === saveData.lastUnrecognized) ? ' changed' : ''}"><span>${escapeHTML(i[1])}</span></span>`);
-      if (selectedGroup === "unrecognized") {
-        html += `<span class="clickable meta" onclick="submitUnrecognized()">submit all &nbsp;❥</span>`;
-        if (saveData.lastSubmit && saveData.lastSubmit < Object.keys(saveData.unrecognized).length) html += `<span class="clickable meta" onclick="submitUnrecognized(${parseInt(saveData.lastSubmit)})"><span>submit after <strong>${escapeHTML(Object.keys(saveData.unrecognized)[saveData.lastSubmit - 1])}</strong> &nbsp;❥</span></span>`;
-        html += `<span class="clickable meta" onclick="resetUnrecognized()">clear all</span>`;
-      }
-      else {
-        if (SPA.data.groups[selectedGroup]) html += `<span class="clickable hint meta" onclick='doHint("${selectedGroup}")'><span class="timer"></span> help me!</span>`
-        html += `<span class="clickable copy meta" onclick='copyGroup("${selectedGroup}")'>copy words</span>`
-      }
-      panel4.insertAdjacentHTML("beforeend", html);
-    }
+    });
 
     // stats
-    title = document.createElement("span");
-    title.innerText = "stats";
-    title.classList.add("title");
-    title.classList.add("noSelect");
-    panel5.appendChild(title);
-
     let html = ``;
     let stats = Object.keys(saveData.stats).sort((a, b) => saveData.stats[b] - saveData.stats[a]);
     stats.forEach(key => {
@@ -905,7 +1023,11 @@
     saveState();
     return msg;
   }
+  let lastMessage = null;
   function logMessage(text, type=1, saved=false, args={}) {
+    if (type+text === lastMessage) return;
+    lastMessage = type+text;
+
     if (saved === false) saveData.messages.push([text, type, statGet("tries")]);
     
     if (type === 1 && text.match(/[\w\*]$/)) text += ".";
@@ -929,6 +1051,8 @@
         showProgress();
         panel4.scrollTop = 0;
         panel4Scroll = 0;
+        let changedItem = panel4.querySelector("span.changed");
+        if (changedItem) changedItem.scrollIntoViewIfNeeded();
       })
     }
 
@@ -988,6 +1112,7 @@
   }
   let dailyChoices = [];
 
+  hasProgress = false;
   function initGame() {
     if (saveData === null) saveData = {
       found: {},
@@ -1109,6 +1234,11 @@
       }
       saveState();
     }
+
+    hasProgress = statGet("score") !== 0;
+    document.querySelectorAll(".needsProgress").forEach(e => {
+      e.style.display = statGet("score") ? "" : "none";
+    });
 
     mainInput.value = "";
     updateInputOverlay();
@@ -1294,6 +1424,7 @@
       forms[f] = true;
       forms[f.replace(/ /g, "")] = true;
       forms["the "+f] = true;
+      forms[f.normalize("NFD").replace(/[\u0300-\u036f]/g, "")] = true;
     });
     console.log(forms);
 
@@ -1550,6 +1681,12 @@
       let changedItem = panel4.querySelector("span.changed");
       if (changedItem) changedItem.scrollIntoViewIfNeeded();
     }
+    if (!hasProgress && statGet("score")) {
+      hasProgress = true;
+      document.querySelectorAll(".needsProgress").forEach(e => {
+        e.style.display = "";
+      });
+    }
     saveState();
 
     updateDaily();
@@ -1772,11 +1909,11 @@
       if (e.metaKey || e.ctrlKey) return;
 
       // console.log(e.key)
-      // if (e.key === "Escape") {
-      //   mainInput.value = "";
-      //   updateInputOverlay();
-      //   return;
-      // }
+      if (e.key === "Escape" && e.target === searchBox) {
+        if (searchBox.value) searchBox.value = "";
+        else searchBox.blur();
+        return;
+      }
       if (e.target.tagName !== "INPUT" || e.target === mainInput) {
         if (e.key === "Enter") {
           sendWord();
@@ -1864,7 +2001,7 @@
       }
 
       if ((e.metaKey && e.key !== "Backspace") || e.ctrlKey) return;
-      if (e.key.length !== 1 && (e.key !== "Backspace" || !mainInput.value.length)) return;
+      if (e.key.length !== 1 && (e.key !== "Backspace" || !e.target.value)) return;
 
       if (keyIsDown[e.key] && e.key !== "Backspace") return;
       keyIsDown[e.key] = Date.now();

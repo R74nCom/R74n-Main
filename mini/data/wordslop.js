@@ -1,5 +1,17 @@
+/*
+- search for found groups and words
+- groups of the same completion percent are sorted alphabetically
+- clicking a group name in the log scrolls to the newly-found word
+- save file names include today's date and time
+- words can be typed with accent marks even if dataset doesn't have them
+- percent found and total words are shown in group view
+- message for empty groups
+- words can be clicked to repeat their blurbs
+*/
+
 SPA.data = {}
 SPA.data.news = [
+   "we added a search bar!",
    "thank u for being in the first group of wordslop players. we are fighting **tooth and nail** to add ur submissions and new features to enjoy!",
    "u can now use the up/down keys to return to previous words",
    "u can now save your progress as a file and bring it to another device",
@@ -1163,6 +1175,7 @@ abort
 abstain / abstinence
 accelerate
 accept
+creep
 access
 achieve
 acquire
@@ -1204,7 +1217,7 @@ bake
 balance
 ban
 banter
-barbecue
+barbecue / barbeque
 barf
 barter
 bash
@@ -2597,6 +2610,7 @@ dormouse / door mouse
 gerbil
 chinchilla
 degu
+nutria / coypu
 gopher
 groundhog / woodchuck
 guinea pig / cavy
@@ -2624,6 +2638,7 @@ mule / hinny / hinnie
 pony
 quagga
 tarpan
+takhi
 zebra
 onager / hemione
 eohippus
@@ -2752,9 +2767,23 @@ ani
 auk
 avocet
 awlbill
+cyrilavis
+sungrebe
+kagu / cagou
+'i'iwi
+sapayoa
+tropicbird
+drongo
+kumimanu "an extinct species of giant penguin"
+perplexicervix
 barbet
 barbthroat
+kelenken / terror bird
 baza
+mousebird
+tsidiiyazhi
+accentor
+longmornis
 bee-eater
 bellbird
 pīpipi
@@ -2780,6 +2809,32 @@ parula
 tanager
 dowitcher
 bunting
+vanga
+xenops
+jaeger
+nighthawk
+takahe
+goatsucker
+twistwing
+songlark
+spiderhunter
+triller
+pitta
+passerine
+peewee
+shoveler
+canvasback
+redhead
+turnstone
+sora
+bobwhite
+chukar
+waterthrush
+longspur
+adélie
+courser
+kererū
+fantail
 crossbill
 whip-poor-will
 dunlin
@@ -2895,7 +2950,7 @@ liwi
 loon
 kākā
 lovebird
-lyrebird
+lyrebird / menura
 macaroni "yes, there's a **penguin** called ^"
 macaw
 magpie
@@ -2963,7 +3018,7 @@ quelea
 quetzal
 rail
 ratite
-raven
+raven "one of the most quotable animals"
 caique
 rayadito
 rhea
@@ -3143,6 +3198,7 @@ kingsnake
 lizard
 monitor lizard / monitor
 python "one once swallowed a woman whole"
+krait
 rattlesnake / rattler
 sea turtle
 skink
@@ -3244,6 +3300,70 @@ tyrannosaurus / tyrannosaurus rex / t-rex / trex / t rex / rex "these dinos stoo
 utahraptor
 velociraptor / raptor
 yutyrannus
+zuniceratops
+asilisaurus
+bonitasaura
+ouranosaurus
+gargoyleosaurus
+caudipteryx
+leptoceratops
+aralosaurus
+manipulonyx
+prenocephale
+tuojiangosaurus
+sinraptor
+navaornis
+zalmoxes
+bathornis
+euhelopus
+anacronornis
+acristavus
+tawa
+borealopelta
+falcatakely
+maip
+agilisaurus
+limusaurus
+liaoningosaurus
+brachytrachelopan
+regaliceratops
+datanglong
+jakapil
+rinconsaurus
+asteriornis
+corythoraptor
+thescelosaurus
+jobaria
+nqwebasaurus
+scelidosaurus
+ichthyornis
+tenontosaurus
+enigmacursor
+masillaraptor
+wintonotitan
+barosaurus
+carcharodontosaurus
+kelumapusaura
+mononykus
+tarchia
+rapetosaurus
+patagornis
+tethyshadros
+longipteryx
+palaeotis
+rajasaurus
+moabosaurus
+asfaltovenator
+miragaia
+tsintaosaurus
+hadrosaur
+buitreraptor
+shantungosaurus
+sauropelta
+muttaburrasaurus
+einiosaurus
+sinosaurus
+saltasaurus
 
 [amphibians]
 axolotl "these salamanders have the remarkable ability to regenerate lost legs"
@@ -3328,7 +3448,7 @@ grouper
 cardinalfish
 carp
 catfish
-candiru
+candiru "this blood-sucking fish has been known to enter the bodies of swimmers"
 catshark
 char / charr
 chimaera / chimera / spookfish / rat fish / rabbit fish
@@ -3767,10 +3887,16 @@ ammonite
 anomalocaris
 arandaspis
 caveman
+kumimanu
 dire wolf
+perplexicervix
 dodo
 mesohippus
 helicoprion
+kelenken / terror bird
+tsidiiyazhi
+longmornis
+cyrilavis
 eohippus
 dunkleosteus
 denisovan
@@ -3824,6 +3950,8 @@ kitsune
 babi ngepet
 squonk
 fresno nightcrawler
+creeper
+skeleton
 catperson / catboy / catgirl
 wraith
 puppyboy / puppygirl
@@ -4435,6 +4563,7 @@ agapanthus
 ageratum
 alchemilla
 allium
+st. john's-wort
 alstroemeria
 trollius
 mallow
@@ -4839,7 +4968,7 @@ sloe
 soursop / guyabano / graviola / guanábana
 star apple
 carambola / star fruit
-strawberry "how many R's are in this?
+strawberry "how many R's are in this?"
 dewberry
 sugar apple
 suriname cherry
@@ -5486,12 +5615,13 @@ ketchup
 chimichurri
 mayochup
 relish
-barbecue / bbq
+barbecue / bbq / barbeque
 dip
 worcestershire
 icing
 marinara
 ranch
+honey
 dressing
 oil
 bolognese
@@ -5553,7 +5683,6 @@ ginger ale
 granita
 grenadine
 grimace shake
-honey
 horchata
 hot chocolate / hot cocoa
 hug
@@ -6382,7 +6511,8 @@ bugle
 cajón
 calliope
 castanets
-cello
+cello / violoncello
+tam-tam
 chimes
 chimta
 clarinet / clarinette
@@ -6412,6 +6542,20 @@ erhu
 esraj
 euphonium
 fiddle
+xiao
+ruan
+guan
+luo
+xun
+qing
+gudi
+liuqin
+qinqin
+sanxian
+yueqin
+huqin
+morin khuur / horsehead fiddle / matouqin
+zhu
 fife
 flageolet
 flute
@@ -6468,7 +6612,7 @@ percussion
 piano
 pianola
 piccolo
-pipa
+pipa / p'i-p'a
 planks
 psaltery / sawtry
 pungi
@@ -6496,7 +6640,8 @@ soprano
 sousaphone
 steelpan
 stylophone
-suona
+suona / laba
+lusheng / ghengx / qeej
 suroz
 sursingar
 synthesizer / synth
@@ -6535,6 +6680,7 @@ zither
 
 [household objects]
 = objects
+& chess pieces
 ac / air conditioner
 afghan
 alarm / siren
@@ -6544,9 +6690,13 @@ antenna / antennae
 anvil
 scale
 domino
+churn
+whetstone
+mannequin
 appliance
 armchair
 atlas
+tava / tawa
 backpack
 bouquet
 bag
@@ -6710,7 +6860,7 @@ glass / cup
 globe
 goblet
 grater
-grill / grille / barbie / barbecue / bbq
+grill / grille / barbie / barbecue / bbq / barbeque
 ground fault indicator
 hairclip
 hairdryer
@@ -7089,6 +7239,7 @@ pulpit
 arcade
 attic
 courthouse / court
+aquifer
 automated teller machine / atm
 confessional
 sandbox
@@ -7336,26 +7487,20 @@ ak-47 / ak47
 anthrax
 ar-15 / ar15
 arrow
-sledgehammer
-crowbar / prybar
 artillery
-labrys
 axe / ax
-whip
-guillotine
 ballista
-orbital cannon
-bb / bb gun
 baton
-magazine / mag
 battering ram
-stake
 battleaxe / battleax
 bayonet
 bazooka
+bb / bb gun
+belt
 beretta
 blade
 blowgun
+blunderbuss
 bolt
 bomb / explosive
 boomerang
@@ -7365,10 +7510,10 @@ brass knuckles / knuckleduster
 broadsword
 bullet
 candlestick
+cane
 cannon
 cannonball
 catapult
-shortsword
 chainsaw
 chisel
 chloroform
@@ -7377,6 +7522,7 @@ cleaver
 club
 colt
 crossbow
+crowbar / prybar
 cutlass
 dagger
 dao
@@ -7384,26 +7530,22 @@ desert eagle / deagle
 dirk
 dynamite
 épée
+excalibur
+fighter jet
+firework
 flail
 flamethrower
+flintlock
 fork
 gladius
 glaive
-flintlock
-lightsaber
-pepper spray
-fighter jet
-tank
-saw
-cane
-belt
-tommy
-blunderbuss
 glavier
 glock
 greatsword
 grenade
 grimoire / spellbook
+guandao
+guillotine
 gun / firearm
 gunpowder
 halberd
@@ -7417,15 +7559,19 @@ javelin
 karambit
 katana
 katar
+khopesh / khepesh
 knife
 kris
 kunai
+labrys
 lance
 lasso
+lightsaber
 longbow
 longsword
 mace / morningstar
 machete
+magazine / mag
 mallet
 mameluke
 maul
@@ -7438,6 +7584,8 @@ mustard gas
 napalm
 nuke
 nunchaku / nunchuku / nunchuks / nunchucks / chainsticks
+orbital cannon
+pepper spray
 pike
 pipe bomb / mailbomb
 pistol
@@ -7446,11 +7594,14 @@ poison
 polearm
 poleaxe
 quarterstaff
+railgun
 rapier
 revolver
 rifle
 rocket / rpg
 saber
+sai
+saw
 scalpel
 scepter
 scimitar
@@ -7458,34 +7609,41 @@ scythe
 shank
 shield
 shiv
+shortsword
 shotgun
 shuriken
 sickle
+sledgehammer
 slingshot / sling
-uzi
 sniper
 spear
 staff
+stake
 stiletto
 submachine / smg
 sword
+tank
 taser
 tnt / trinitrotoluene
-zweihänder / doppelhänder / beidhänder / bihänder / bidenhänder
 tomahawk
+tommy
 torpedo
 trebuchet
 trident
 turret
+uzi
 venom
 wand
 warhammer
 warhead
 water balloon
+whip
 yan
+zweihänder / doppelhänder / beidhänder / bihänder / bidenhänder
 
 [body parts]
 = body / human body
+& cell organelles
 ab / abs
 abdomen
 acetabulum
@@ -7495,6 +7653,7 @@ afro
 alveolar ridge
 alveolus
 septum
+pore
 glute / gluteal
 frenulum
 amygdala
@@ -7807,6 +7966,41 @@ wrinkle
 wrist
 xiphoid
 
+[cell organelles]
+= organelles
+amyloplast
+capsule
+cell membrane / membrane
+cell wall / wall
+centriole / centrosome
+chloroplast
+chromoplast
+cytoplasm / cytosol
+cytoskeleton
+elaioplast
+etioplast
+flagellum / flagella
+golgi apparatus / golgi bodies / golgi / apparatus
+leucoplast
+lysosome
+mesosome
+mitochondrion / mitochondria "mitochondria is plural, **mitochondrion** is singular"
+nuclear envelope
+nuclear pore
+nucleolus
+nucleus
+peroxisome
+pilus
+plasmodesma / plasmodesmata
+proteinoplast
+rough endoplasmic reticulum / endoplasmic reticulum / reticulum
+smooth endoplasmic reticulum
+spitzenkörper
+tonoplast / vacuolar membrane
+vacuole
+vesicle
+woronin bodies
+
 [weather]
 = meteorology
 & clouds
@@ -7935,7 +8129,7 @@ tectonic plate / plate
 mountain range / range
 corrie / cirque / cwm
 hole
-pit
+pit / ditch
 arch
 crater
 gorge
@@ -8119,6 +8313,7 @@ humanities
 pottery
 vulcanology
 vexillology
+grammar
 ornithology
 aviation
 hydraulics
@@ -8321,6 +8516,7 @@ repetition "repetition"
 interval
 modulo / modulus
 euler
+pythagorean / pythagoras
 arccosecant
 segment
 arccosine
@@ -8538,6 +8734,7 @@ century
 millennium
 litre
 teaspoon
+tablespoon
 cup
 gallon
 electronvolt
@@ -8632,6 +8829,7 @@ adidas
 agricole
 vaio
 asda
+dreamworks
 sainsbury's
 aldi
 alibaba
@@ -8898,6 +9096,7 @@ representative / MP
 abolishment
 bureaucracy / bureaucrat / bureaucratic
 capitalism / capitalist
+veto
 corporatocracy
 liberalism / liberal
 conservatism / conservative
@@ -9037,7 +9236,8 @@ dominican republic
 ecuador "due to the earth's bulge, mount chimborazo in ecuador is the closest point to space"
 egypt
 el salvador
-england
+england "gloucestershire hosts an annual **cheese** rolling competition, where people roll wheels of cheese down a hill"
+northern ireland
 equatorial guinea
 eritrea
 estonia
@@ -9076,7 +9276,7 @@ india / bharat "^ is credited as the birthplace of chess, shampoo, and the conce
 indonesia
 iran / persia "although **Tehran** is the current capital, ^ has had as many as 54 national capitals"
 iraq
-ireland
+ireland "the only country to have an instrument - the celtic harp - as its national symbol"
 israel
 italy
 jamaica
@@ -9085,7 +9285,7 @@ jersey
 jordan
 kazakhstan "^ is the world's leading uranium producer, contributing to around 40% of global output"
 kenya
-kiribati
+kiribati "the first country to celebrate each new year"
 kosovo
 kuwait
 kyrgyzstan
@@ -9106,14 +9306,14 @@ malaysia
 maldives
 mali
 malta
-marshall islands
+marshall islands "most of their territory is water!"
 martinique
 mauritania
 mauritius
 mexico
 micronesia
 moldova
-monaco "monaco is smaller than new york city's central park'
+monaco "monaco is smaller than new york city's central park"
 mongolia
 montenegro
 montserrat
@@ -9123,7 +9323,7 @@ namibia
 nauru / naoero
 nepal
 netherlands
-new zealand / zealand
+new zealand / zealand "the first country to grant women the right to vote"
 nicaragua
 niger
 nigeria
@@ -9134,10 +9334,10 @@ northern mariana islands
 norway
 oman
 pakistan
-palau
+palau "^'s capital has no permanent residents - only government buildings"
 palestine
 panama
-papua new guinea
+papua new guinea "they have about 800 languages - that's 12% of languages worldwide"
 paraguay
 peru
 philippines
@@ -9156,7 +9356,7 @@ samoa
 san marino
 são tomé and príncipe / sao tome and principe
 saudi arabia
-scotland
+scotland "their national animal is the unicorn"
 senegal
 serbia
 seychelles
@@ -9186,14 +9386,14 @@ tibet
 timor-leste / timor
 togo
 tokelau
-tonga
+tonga "the only remaining sovereign monarchy in oceania"
 transnistria
 trinidad and tobago
 tunisia
 turkey / türkiye
 turkmenistan
 turks and caicos islands
-tuvalu
+tuvalu "much of this island nation's revenue comes from selling **.tv** domains"
 uganda
 ukraine
 united arab emirates / uae
@@ -9207,7 +9407,7 @@ vanuatu
 vatican city / vatican / holy see
 venezuela "^ is home to **angel falls**, the highest undisturbed waterfall in the world"
 vietnam / 'nam
-wales
+wales "the UK's coins are all minted in the town of llantrisant"
 western sahara
 yemen
 zambia
@@ -9552,7 +9752,6 @@ nashville
 oklahoma city
 olympia
 phoenix
-portland
 pierre
 providence
 raleigh
@@ -10605,7 +10804,7 @@ brother / bro
 brother-in-law
 child / kid / children / adolescent / minor / offspring
 male / boy / man / guy / dude / lad
-female / girl / woman
+female / girl / woman / dudette / gal
 child-in-law
 cousin
 neighbor
@@ -10966,6 +11165,14 @@ The Moon
 The Sun
 Judgment / Judgement
 The World
+
+[chess pieces]
+pawn
+rook
+knight
+bishop
+queen
+king
 
 
 [periodic table]
@@ -11737,6 +11944,8 @@ sanrio
 world of gumball / tawog
 lord of the rings / lotr
 lorax / onceler
+thomas the tank engine
+octonauts
 furry
 weezer
 avatar
@@ -11864,7 +12073,9 @@ girl dinner
 rage face
 lunchly "i like my cheese drippy bruh"
 bonesmashing
-updog "what's updog?
+ea-nāṣir "refund me NOW!"
+kid named finger "who names their kid that?"
+updog "what's updog?"
 chuck testa
 chuck norris
 noice
@@ -12049,7 +12260,7 @@ sisyphus "sisyphus but instead of a boulder he types words all day"
 skibidi
 slay
 slenderman "collect my words"
-slop "can we stop adding 'slop' to every word?"
+slop
 smurf cat "we live we love we lie"
 soyjak / soyjack
 speed / ishowspeed / kinda homeless / kind of homeless / i need this
@@ -12265,7 +12476,7 @@ qwertyuioplkjhgfdsazxcvbnm
 
 [meta]
 R74n / R74n.com "it's all thanks to the big R74n"
-wordslop / wordslopping "that's my favorite game!"
+wordslop / wordslopping "can we stop adding 'slop' to every word?"
 Sandboxels "where do pixels go after they get deleted?"
 Infinite Chef "what slop will you cook up?"
 GenTown "they must unlock wordslop"
@@ -12334,8 +12545,6 @@ autism
 hyperfixation / hyperfixate / hyperfix
 adhd
 linux
-organelle
-mitochondrion / mitochondria "mitochondria is plural, **mitochondrion** is singular"
 ibuprofen
 geek / nerd
 
@@ -12444,16 +12653,17 @@ function rescue(str) {
          group = group[0].replace(/(^: {0,})|\[|\]/g, "").trim();
          done[word] = true;
       }
-      if (SPA.data.wordIndex[word]) group = "duplicate";
+      if (SPA.data.wordIndex[word] || SPA.data.wordIndex[word.replace(/\s/g, "")]) group = "duplicate";
       if (!newWords[group]) newWords[group] = {};
       newWords[group][word] = true;
    });
 
    delete newWords["suggested group"];
+   delete newWords["duplicate"];
 
    let skip = {};
    for (const word in newWords.unknown) {
-      if (done[word] === true) skip[word] = true;
+      if (done[word] === true || popular[word]) skip[word] = true;
    }
    let output = "[popular]\n";
    let popularList = Object.keys(popular);
