@@ -5369,7 +5369,7 @@ pork / porkchop
 ribs
 salami
 salmon
-sausage / frankfurter / hotdog / glizzy / weiner
+sausage / frankfurter / frank / hotdog / glizzy / weiner
 scampi
 scrapple
 seafood / shellfish
@@ -10266,6 +10266,215 @@ vodou / voodoo / vaudou / vodun / vodoun / vodu / vaudoux
 wicca
 zoroastrianism
 
+[common names]
+aaron
+abigail / abby / abbie
+adam
+adhara
+ailany
+alan
+alanna / alana
+albert / al
+alexander / alejandro / alex / alexandria / alexandra / alexis / alexei / alexa
+alice
+alma
+amanda / amy
+amber / ambar
+amelia / emilia / emilio / emiliano
+ana / annie / anne / an / anita / annette / anika / annika
+andrew / andy / andie / andre / andrea / andrey / andreas
+angela
+anthony / antonio / antonella
+arthur
+ashley / lee
+aurora
+ava
+barbara
+benício
+benjamin / ben
+bernardo / bernard
+betty / betsy
+beverly
+bradley / brad
+brandon
+brenda
+brian / bryan
+brittany / britney / brittney / brittani / brittanie or britnee
+bruce
+bruno
+caitlin / catelynn / caitlyn / katlyn / kaitlin / kaitlyn / kaitlyne / katelyn / katelynn
+caleb / kaleb
+cameron / cam
+camila
+carl / karl / carlson / karlson
+carol / karol / carolyn / caroline / carolina
+catalina
+catherine / katherine / kathy / kathie / kathleen / kathryn / kate / katie / kayla
+cecilia
+celeste / celestia
+charles / charlie
+charlotte
+cheryl
+christopher / chris / christ / christina / christine / christie / christy
+cynthia
+daniel / dan / danny / danielle
+davi
+david
+deborah / debra / debbie / debby
+denise
+dennis
+diane / diana / dianna
+donald / don / donnie / donny
+donna
+dorothy
+douglas / doug
+dylan
+edward / ed / eddie / eddy
+elijah / eli
+elizabeth / lizabeth / eliza / lisa / liz / lizz / lisha
+ellie / eliana / elly
+elsie / elsa
+emma / emily
+emmanuel / manuel
+enzo
+eric / ericson
+ethan
+evelyn / eve
+felipe
+francis / francesca / francesco / frank / frankie / franky / fran / françois
+freya
+gabriel / gabe
+gabriela / gabrielle / gabby
+gary / garret / garrett
+george / georgia
+gerald
+giovanni / gio
+gloria
+gregory / greg
+hannah / hanna
+harrison / harold / harry
+hazel
+heitor
+helen
+helena
+heloísa
+henry / henrietta
+hugo
+isaac
+isabella / isabela / izzy / bella / belle
+isla
+ivy
+jack / jackie / jacky / jay / jacques / jacqueline
+jacob / jakob
+james / jim / jimmy
+janet
+janice
+jason / jase / jace
+jeffrey / jeff
+jennifer / jenny / jennie / jenna
+jeremiah / jeremy
+jerome / jerónimo / jerry
+jesse / jessie / jessica / jess
+joaquin / joachim
+jonathon / john / johnny / joan / juan / johanna / joanna / joanne / jean / jeanne / jana / jo
+jose
+joseph / joe / josephine
+joshua / josh
+joyce
+judas / jude / judah / judith / judy / judie
+julia / juliet / julieta / julio / julian / juliana / julie
+justin
+keith
+kelly
+kenneth / kenny / ken
+kevin
+kimberly
+kyle / kylie
+larry
+laura / lauren / lori / lorraine
+lawrence
+leonard / leonardo / leo / leon
+levi
+liam
+lily / lilly / lilian / lillian
+linda
+logan
+lola
+lorenzo
+luca
+lucas / luke
+luciana / lucia
+lynn
+maitê
+margaret / maggie
+maria / marie / mary / marilyn
+martha
+martin / martina
+matthew / matt / matteo / mateo / matías
+megan / meagan
+melissa
+mia
+michael / mike
+michelle / mitchel / mitchell
+miguel
+mila
+muhammad / mohamet / mohammed / mahamad / muhamad / mohamed
+nancy
+natalie / nat
+nathan
+nicholas / nick / nicky / nickie / nicolas / nicole / nichole
+noah
+nora / norah
+olivia / oliver
+pamela
+patrick / pat / patricia / pattie / patty
+paul
+peter / pete
+poppy
+rachel
+randy / randall
+ravi
+raymond / ray
+rebecca / becky / becca
+regina
+richard / rich / richie / richy / dick
+robert / rob / bobby / bob
+romina
+ronald / ron / ronnie / ronny
+ruth
+ryan
+salvador
+samuel / samantha / sam / sammy
+sandra / cassandra
+sarah / sara
+scott / scottie / scotty
+sean
+sebastian / seb
+sharon
+shirley
+sienna
+sophia / sofia
+steven / stephen / steve / stevie / stephanie / stefanie
+susan / sussan / sussanne
+teresa / theresa / terry
+theodore / theo
+thiago / tiago / santiago
+thomas / tom / tommy
+tiffany / tiff
+timothy / timothee / tim / timmy
+tracy
+tyler
+valentino / valentine / valentina
+valeria
+vega
+victoria / vicky / vick
+vincent / vince
+violet
+walter / walt
+wayne
+william / will / bill / billy / willie / willow
+zachary / zach
+
 [money]
 = currency / cash / coin / bill / banknote / dinero / currencies / change
 afghani
@@ -11547,7 +11756,7 @@ splendid
 swell
 buddha
 jesus / christ
-muhammad / mohamet / mohammed / mahamad / muhamad / mohamed
+muhammad / mohamet / mohammed / mahamad / muhamad / mohamed / mo / moe
 apostle
 
 [emotions]
@@ -11932,15 +12141,63 @@ waw / و
 ya' / ya / yaa / ي
 hamzah / hamza / ء
 
+[video games]
+a hat in time
+akinator
+balatro
+baldi's basics / baldi "collect my noteboos"
+banban
+bendy / ink machine
+binding of isaac / isaac
+bornana "is that even a real fruit?"
+celeste
+danganronpa
+deadlock
+don't starve
+doom
+elder scrolls / skyrim
+fnaf / five nights at freddy's / fazbear "or or or or or"
+forsaken
+fortnite "number one victory royale!"
+genshin impact / genshin
+geometry dash / gd "holy gd reference"
+god of war / ragnarok
+grace
+grand theft auto / gta
+half-life
+hollow knight / silksong
+honkai star rail / honkai
+kirby
+last of us
+lobotomy corporation / lobotomy corp
+mario / luigi / wario / waluigi "it's-a-me!"
+minecraft / steve / herobrine "i am typing words and stuff cus i am playing wordslop"
+mouthwashing
+omori "waiting for something to happen?"
+osu! / osu
+overwatch
+payday
+persona
+pizza tower
+pokémon / pikachu
+red dead redemption / red dead / rdr
+roblox "oof"
+sonic / sanic "gotta go fast!"
+splatoon / inkling "woomy!"
+terraria "also try **minecraft**"
+tetris
+ultrakill / v1
+umamusume
+undertale / deltarune / sans / papyrus / jevil / togore
+valorant
+witcher
+zelda / link
+
 [fandoms]
 anime
 manga
 attack on titan
 marvel
-baldi's basics / baldi "collect my noteboos"
-banban
-omori "waiting for something to happen?"
-overwatch
 star wars
 sanrio
 world of gumball / tawog
@@ -11952,10 +12209,7 @@ furry
 weezer
 avatar
 countryballs / planetballs / companyballs / polandball
-valorant
 bluey
-kirby
-zelda / link
 star trek
 doctor who
 supernatural
@@ -11975,15 +12229,6 @@ madoka magica / magical girls
 utena / revolutionary girl
 jujutsu kaisen / jjk
 chainsaw man
-genshin impact / genshin
-honkai star rail / honkai
-balatro
-umamusume
-danganronpa
-hollow knight / silksong
-pizza tower
-persona
-mouthwashing
 stranger things
 arcane
 helluva boss
@@ -12007,50 +12252,24 @@ babymonster
 xg
 harry potter
 horizon
-bendy
 bfdi / battle for dream island / bfb / tpot / object shows / yoyle / yoylecake / yoyleland / bfdie
 ten words of wisdom / twow / eleven words of wisdom / ewow
 cuphead
 pingu "noot noot"
-deadlock
 demon slayer
-celeste
-a hat in time
 jojo's / jojo / jojo's bizarre adventure / joestar "yare yare daze.."
 dnd / d&d
 friday night funkin' / fnf
-grace
-don't starve
-doom
-bornana "is that even a real fruit?"
-fnaf / five nights at freddy's / fazbear "or or or or or"
-fortnite "number one victory royale!"
-geometry dash / gd "holy gd reference"
 hazbin hotel / hazbin "can we NOT talk about that right now?!"
 hellsing
 invincible / omniman "are you sure?"
 katseye "gnarly.."
-lobotomy corporation / lobotomy corp
 gameoverse
 the owl house / toh
-half-life
-forsaken
 knights of guinevere
 loona "stan loona"
-mario / luigi / wario / waluigi "it's-a-me!"
-akinator
-minecraft / steve / herobrine "i am typing words and stuff cus i am playing wordslop"
 one piece
-osu! / osu
-payday
-pokémon / pikachu
-roblox "oof"
-sonic / sanic "gotta go fast!"
-splatoon / inkling "woomy!"
-terraria "also try **minecraft**"
 twice
-ultrakill / v1
-undertale / deltarune / sans / papyrus / jevil / togore
 spongebob "i'm ready!"
 the boys / homelander / starlight "excuse me sir"
 amazing digital circus / digital circus / tadc / pomni / jax / kinger / ragatha / caine / zooble
