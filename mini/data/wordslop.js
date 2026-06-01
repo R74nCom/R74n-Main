@@ -2408,7 +2408,7 @@ peccary / javelina / skunk pig
 pig / hog / swine / piggy / piglet / sow "a ^ physically can't look up at the sky"
 platypus / duckbill / duck-billed "one of the only mammals that lay eggs"
 polecat / zorilla / zorille / zoril
-rabbit / bunny / bnnuy "rabbits only blink 10-15 times in an hour"
+rabbit / bunny / bnnuy / bnuuy / bnuny / bnuyy "rabbits only blink 10-15 times in an hour"
 raccoon / racoon / trash panda
 red panda "red pandas are technically not pandas, nor bears!"
 reindeer / caribou
@@ -12303,7 +12303,7 @@ chuck testa
 chuck norris
 noice
 derp
-bnnuy
+bnnuy / bnuuy / bnuny / bnuyy
 computa "computa give this guy a new word"
 chezburger "can i have pls"
 emotional damage
