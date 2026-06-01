@@ -4512,6 +4512,8 @@ cotton
 sugarcane / cane
 peyote
 moss
+alexanders / alisander
+bluecurls
 reed
 wheatgrass
 flytrap
@@ -6156,6 +6158,7 @@ basketball
 shot put
 croquet
 gymnastics
+billiards / pool / snooker
 bowling
 pato
 boxing
@@ -8001,7 +8004,7 @@ spitzenkörper
 tonoplast / vacuolar membrane
 vacuole
 vesicle
-woronin bodies
+woronin body
 
 [weather]
 = meteorology
@@ -11862,6 +11865,7 @@ vigilance / ready / readiness / vigilant
 
 [lgbtq+]
 = sexuality / gender / sex / identity / lgbt / lgbtq / lgbtqi / lgbtqia / lgbtqia+ / glbt / lgb
+"be who you are for your pride!"
 a-spec
 abroromantic
 abrosexual / abro
@@ -11870,15 +11874,18 @@ aegoromantic
 aegosexual
 afab
 agender
+polysexual
 alloromantic
 allosexual / allo
 ally
+biromantic
 amab
 androgyne / androgynous / androgyny
 androromantic
 androsexual
 aporagender
 aromantic / aro / aroace
+twunk
 asexual / ace
 bicurious
 bigender
@@ -11898,7 +11905,9 @@ diamoric
 drag
 dysphoria
 enbian
-estrogen
+estrogen / oestrogen
+testosterone
+progesterone
 fa'afafine
 femboy
 femme
@@ -11942,9 +11951,9 @@ stellaric
 t4t / tft
 tomboy
 toric
-transfem / transfeminine / trans girl / trans woman
+transfem / transfeminine / trans girl / trans woman / mtf
 transgender / trans / transitioning / transsexual
-transmasc / transmasculine / trans boy / trans guy / trans man
+transmasc / transmasculine / trans boy / trans guy / trans man / ftm
 trigender
 trixic
 twink
@@ -12204,6 +12213,7 @@ star wars
 sanrio
 world of gumball / tawog
 lord of the rings / lotr
+euphoria
 lorax / onceler
 thomas the tank engine
 octonauts

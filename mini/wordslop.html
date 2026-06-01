@@ -395,6 +395,15 @@
       flex-grow: 0;
     }
   }
+
+  @keyframes rainbow {
+    0%{
+      filter: hue-rotate(360deg);
+    }
+  }
+  span.clickable[data-group="lgbtq+"] {
+    animation: rainbow 3s linear infinite;
+  }
 </style>
 
 <script>
