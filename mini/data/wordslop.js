@@ -10267,6 +10267,7 @@ wicca
 zoroastrianism
 
 [common names]
+= names / first names
 aaron
 abigail / abby / abbie
 adam
@@ -12194,6 +12195,7 @@ witcher
 zelda / link
 
 [fandoms]
+& video games
 anime
 manga
 attack on titan
