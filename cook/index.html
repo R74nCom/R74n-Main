@@ -34,6 +34,12 @@
       currentVersion = "1.4.1";
     </script>
 
+    <script data-cfasync="false">
+      window.ramp = window.ramp || {};
+      window.ramp.que = window.ramp.que || [];
+      window.ramp.passiveMode = true;
+    </script>
+
     <style>
       .content {
         margin: 0;
@@ -3070,10 +3076,15 @@
     }
 
     let script = document.createElement("script");
+    script.setAttribute("data-cfasync","false");
     script.setAttribute("async",true);
-    script.setAttribute("src","https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8485284630785740");
-    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("src","//cdn.intergient.com/1025803/77544/ramp.js");
+    // script.setAttribute("crossorigin","anonymous");
     document.head.appendChild(script);
+
+    window.ramp.que.push(()=>{
+      ramp.spaNewPage("cook/");
+    })
 
     if (location.hostname !== "r74n.com") {
       document.querySelector(".content").insertAdjacentHTML("afterbegin", `
@@ -3146,6 +3157,8 @@
   <script>
     document.getElementById("versionNumber").innerText = "v"+currentVersion;
   </script>
+
+  <!-- <footer><script data-cfasync="false" async src="//cdn.intergient.com/1025803/77544/ramp.js"></script></footer> -->
 </div>
 
 
