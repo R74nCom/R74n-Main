@@ -1161,7 +1161,7 @@ kata
 near
 palmar
 port
-proximal / inward / in / middle / center / central / inside
+proximal / inward / in / middle / center / centre / central / inside
 radial
 rostral
 skyward
@@ -2348,6 +2348,7 @@ honey badger
 bat / flittermouse "the only mammal that can truly fly!"
 bison
 boar
+babirusa
 buffalo "'Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo' is a valid English sentence"
 camel / dromedary / bactrian
 cattle / cow / bull / bovine / kine / calf
@@ -7983,6 +7984,7 @@ flagellum / flagella
 golgi apparatus / golgi bodies / golgi / apparatus
 leucoplast
 lysosome
+ribosome
 mesosome
 mitochondrion / mitochondria "mitochondria is plural, **mitochondrion** is singular"
 nuclear envelope
