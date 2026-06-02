@@ -334,6 +334,13 @@
     text-decoration: underline;
   }
 
+  #saveControls > span::before {
+    content: " • ";
+  }
+  #saveControls > span:first-of-type::before {
+    content: "";
+  }
+
   @media only screen and (min-width: 900px) {
     #panel3 {
       flex-grow: 0;
@@ -502,7 +509,10 @@
   let db;
 
   saveData = null;
+  skipSaving = false;
   function saveState() {
+    if (skipSaving || statGet("score") < 10) return;
+    
     let data = JSON.parse(JSON.stringify(saveData));
 
     data.muted = SPA.muted;
@@ -1170,6 +1180,7 @@
 
   hasProgress = false;
   function initGame() {
+    skipSaving = true;
     lastMessage = null;
     if (saveData === null) saveData = {
       found: {},
@@ -1300,6 +1311,7 @@
     mainInput.value = "";
     updateInputOverlay();
     updateStats();
+    skipSaving = false;
   }
 
   let sameCount = 0;
@@ -1460,7 +1472,7 @@
         // special
         let prefix = form.match(new RegExp(`^(${(
           Object.keys(SPA.data.groups.prefixes.words).filter(v => v.length >= 4).join("|").replace(/-/g,"") + "|" +
-          Object.values(SPA.data.groups.prefixes.words).filter(v => v !== true && v.length >= 4).join("|").replace(/,/g,"|")
+          Object.values(SPA.data.groups.prefixes.words).filter(v => v !== true).join(",").split(",").filter(v => v.length >= 4).join("|")
         ).replace(/-/g,"")})`));
         console.log(prefix);
         if (prefix && form.length > 5) {
