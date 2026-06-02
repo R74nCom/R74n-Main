@@ -409,7 +409,7 @@
 <script>
 
   const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioCtx = new AudioContext();
+  const audioCtx = new AudioContext();
   
   let audios = [
     "audio/type1.wav", "audio/type2.wav", "audio/type3.wav", "audio/mouse1.wav", "audio/mouse2.wav",
@@ -422,55 +422,55 @@ const audioCtx = new AudioContext();
 
   function playAudio(name) {
     if (SPA.muted === true) return;
-    // if (R74n.state.browser === "safari" || true) {
-    //   playAudioSafari(name);
-    //   return;
-    // }
+    if (R74n.state.ios) {
+      playAudioSafari(name);
+      return;
+    }
     const audio = new Audio("audio/"+name+".wav");
     audio.volume = 0.5;
     audio.currentTime = 0;
     audio.play();
   }
 
-  // audioCache = {};
-  // function playAudioSafari(name) {
-  //   if (!audioCache[name]) {
-  //     // audioCache[name] = new Audio("audio/"+name+".wav")
-  //     const audio = new Audio("audio/"+name+".wav");
-  //     // audio.onload = () => {
-  //     //   console.log(1);
-  //     //   if (audioCache[name]) return;
-  //     //   audioCache[name] = audio;
-  //     //   playAudioSafari(name);
-  //     // }
+  audioCache = {};
+  function playAudioSafari(name) {
+    if (!audioCache[name]) {
+      // audioCache[name] = new Audio("audio/"+name+".wav")
+      const audio = new Audio("audio/"+name+".wav");
+      // audio.onload = () => {
+      //   console.log(1);
+      //   if (audioCache[name]) return;
+      //   audioCache[name] = audio;
+      //   playAudioSafari(name);
+      // }
 
-  //     audio.addEventListener('canplaythrough', function() { 
-  //       // console.log(1);
-  //       if (audioCache[name]) return;
-  //       audioCache[name] = {audio:audio};
-  //       playAudioSafari(name);
-  //     }, {once: true});
+      audio.addEventListener('canplaythrough', function() { 
+        // console.log(1);
+        if (audioCache[name]) return;
+        audioCache[name] = {audio:audio};
+        playAudioSafari(name);
+      }, {once: true});
 
-  //     // audio.load();
-  //     audio.play();
-  //     return;
-  //   }
-  //   const audio = audioCache[name].audio;
-  //   // audio.onload = () => {
-  //   //   console.log(1);
-  //   // }
+      // audio.load();
+      audio.play();
+      return;
+    }
+    const audio = audioCache[name].audio;
+    // audio.onload = () => {
+    //   console.log(1);
+    // }
 
-  //   audio.loop = true;
-  //   audio.volume = 0.5;
-  //   audio.currentTime = 0;
-  //   // console.log(audio.duration);
-  //   if (audio.duration === NaN) return;
-  //   if (audioCache[name].timeout) clearTimeout(audioCache[name].timeout);
-  //   audioCache[name].timeout = setTimeout(() => {
-  //     audio.volume = 0;
-  //     console.log(audio.volume);
-  //   }, audio.duration * 1000);
-  // }
+    audio.loop = true;
+    audio.volume = 0.5;
+    audio.currentTime = 0;
+    // console.log(audio.duration);
+    if (audio.duration === NaN) return;
+    if (audioCache[name].timeout) clearTimeout(audioCache[name].timeout);
+    audioCache[name].timeout = setTimeout(() => {
+      audio.volume = 0;
+      console.log(audio.volume);
+    }, audio.duration * 1000);
+  }
 
   const mainInput = document.getElementById("mainInput");
   const inputOverlay = document.getElementById("inputOverlay");
