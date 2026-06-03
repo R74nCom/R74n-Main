@@ -1091,8 +1091,8 @@
   }
   let lastMessage = null;
   function logMessage(text, type=1, saved=false, args={}) {
-    if (type+text === lastMessage) return;
-    lastMessage = type+text;
+    if (type === 1 && text === lastMessage) return;
+    lastMessage = text;
 
     if (saved === false) saveData.messages.push([text, type, statGet("tries")]);
     

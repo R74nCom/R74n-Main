@@ -7,6 +7,8 @@
 - percent found and total words are shown in group view
 - message for empty groups
 - words can be clicked to repeat their blurbs
+
+- fungi
 */
 
 SPA.data = {}
@@ -576,6 +578,7 @@ anywhere
 nowhere
 forth
 same
+whatcha
 moreover
 extra
 actually
@@ -823,6 +826,7 @@ yoohoo
 yuck / yucky
 yum / yummy / yummers
 zzz / zzzz / mimi / mimimi / mimimimi "goodnight!"
+hru
 
 [pronouns]
 each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody|everyone / everybody|nobody / no one|whoever / whomever|ye
@@ -1104,6 +1108,8 @@ p.m.
 a.m.
 b.c. / b.c.e.
 a.d.
+new / recent
+old
 
 [days]
 sunday | monday | tuesday | wednesday | thursday | friday | saturday
@@ -1185,6 +1191,7 @@ add
 adhere
 adjust
 affect
+drip
 age
 agree
 aim
@@ -1507,6 +1514,7 @@ fuse
 gag
 gallop
 gamble
+bet
 game
 gasp
 generate
@@ -2102,6 +2110,7 @@ chubby
 chunky
 colossal
 compact
+pygmy
 deep
 diminutive
 enormous
@@ -2639,7 +2648,7 @@ mule / hinny / hinnie
 pony
 quagga
 tarpan
-takhi
+takhi / przewalski's horse
 zebra
 onager / hemione
 eohippus
@@ -3384,6 +3393,7 @@ toad
 tree frog
 pobblebonk "didn't think that was real, huh?"
 rainfrog
+mountain chicken
 
 [fish]
 = fih / fishy / fishies
@@ -3949,6 +3959,10 @@ baba yaga
 bonnacon
 kitsune
 babi ngepet
+skinwalker
+ouroboros / uroboros
+alien
+martian
 squonk
 fresno nightcrawler
 creeper
@@ -4072,7 +4086,6 @@ shell / seashell
 silt
 den
 sediment
-lichen
 deoxyribonucleic acid / dna
 diarrhea
 dirt / earth / soil
@@ -5088,7 +5101,7 @@ mange tout / snap pea
 mangelwurzel
 marrow
 mung bean / mung
-mushroom / fungus
+mushroom "while technically not a plant, most cooks consider them to be vegetables"
 mustard greens
 navy bean
 nettle
@@ -5098,7 +5111,6 @@ onion
 onion sprout
 paprika
 parsnip
-peas
 pinto bean / pinto
 potato / spud
 radicchio
@@ -5118,7 +5130,6 @@ soybean / soy / soya
 spaghetti squash
 spinach
 split pea
-squashes
 succotash
 sweet potato
 sweet yam
@@ -5134,6 +5145,87 @@ wasabi
 water chestnut
 yam
 ube
+
+[fungi]
+= fungus
+mushroom
+shiitake
+mold
+lichen "lichens are actually part-**algae** and part-fungus"
+cordyceps "this parasitic fungus takes over the brain of ants, turning them into zombies"
+amanita
+enoki
+common / white / button / champignon
+brown / cremini / crimini / chestnut / baby bella
+portobello / portabella / portobella
+wood ear
+oyster
+beech
+maitake / hen of the woods
+chicken of the woods
+king trumpet
+chanterelle
+morel
+porcini / porcino / cep / penny bun
+destroying angel
+death cap
+jack o'lantern
+panther cap
+false morel
+honey
+truffle
+matsutake
+pig's ears / pig ears / violet chanterelle
+cauliflower
+fairy-ring
+lobster
+coral
+amethyst deceiver
+sweet tooth / pig's trotter / wood hedgehog / hedgehog
+inky cap / ink cap / tippler's bane
+orange peel
+fly agaric / fly amanita
+milk cap
+skullcap
+webcap
+yellowfoot
+conecap
+conocybe
+psilocybe / psilocybin
+wine-cap / stropharia / roundhead
+blewit
+shaggy mane / shaggy ink cap / lawyer's wig / shaggy
+fibrecap
+funnel
+sulphur tuft / sulfur tuft / woodlover
+yellow-staining / yellow-stainer
+puffball "the giant puffball grows much bigger than your head"
+lion's mane
+bleeding tooth
+devil's fingers / octopus stinkhorn
+bamboo
+ghost
+brittlegill / russula
+parasol
+grisette
+st george's
+oysterling
+helvella/vinegar cup
+blistered cup
+bolete
+horse
+earthball
+earthstar
+horn of plenty / black chanterelle / black trumpet / trumpet of the dead
+caesar's
+plums and custard / red-haired
+slippery jack / sticky bun
+charbonnier / sooty head / streaked tricholoma
+deer
+the sickener / emetic russula / vomiting russula
+pinkgill
+blusher
+wrinkled cort
 
 [seasonings]
 = spices / herbs / flavorings / flavourings / garnish
@@ -5253,6 +5345,7 @@ rowan
 kukui / candlenut
 aspen
 azalea
+plane
 basswood
 brazilwood
 beech
@@ -6427,7 +6520,7 @@ segway
 semitruck / semi
 ship
 skateboard
-sled
+sled / dogsled
 sleigh
 snowmobile
 spaceship / rocket
@@ -6858,6 +6951,7 @@ furniture / furnishing
 futon
 gallon
 gameboy
+wii / wiiu
 gauge
 gavel
 glass / cup
@@ -7245,6 +7339,9 @@ attic
 courthouse / court
 aquifer
 automated teller machine / atm
+buoy
+quay
+wharf
 confessional
 sandbox
 avenue
@@ -7755,7 +7852,16 @@ fallopian tube
 false vocal cords
 fang
 fat
-feather
+feather / quill / crest / plumage
+remex / remiges
+rectrix / rectrices
+tectrix / tectrices / covert
+scapular
+pinion
+carpometacarpus
+barb
+barbule
+barbicel / hooklet
 femur
 fiber / fibre
 fibula
@@ -7781,7 +7887,8 @@ goosebump "every mammal gets these!"
 gullet
 gums
 gut
-hair
+hair / fur / bristle / tuft / hackle
+manus
 hairline
 hamstring
 hand
@@ -8519,6 +8626,7 @@ slope
 sequence
 repetition "repetition"
 interval
+random / randomness
 modulo / modulus
 euler
 pythagorean / pythagoras
@@ -8627,6 +8735,7 @@ operator
 origin
 parallel
 percent / percentage
+percentile
 perfect
 perimeter
 permutation
@@ -8636,7 +8745,7 @@ point
 polynomial
 positive
 prime
-probability
+probability / chance
 product
 pronumeral
 proof
@@ -8698,12 +8807,16 @@ meter / metre
 minute
 hour
 year
-ton / tonne
+ton
+tonne
+slug
 angstrom
 quart
 fermi
 micron
 twip
+gal
+erg
 thou
 line
 point
@@ -8736,7 +8849,9 @@ fortnight
 month
 decade
 century
-millennium
+millennium / millennia
+millisecond
+nanosecond
 litre
 teaspoon
 tablespoon
@@ -8836,6 +8951,7 @@ vaio
 asda
 dreamworks
 sainsbury's
+funko
 aldi
 alibaba
 allianz
@@ -10271,6 +10387,8 @@ zoroastrianism
 
 [common names]
 = names / first names
+[common names]
+= names / first names
 aaron
 abigail / abby / abbie
 adam
@@ -10285,13 +10403,15 @@ alma
 amanda / amy
 amber / ambar
 amelia / emilia / emilio / emiliano
-ana / annie / anne / an / anita / annette / anika / annika
+ana / annie / anna / anne / an / anita / annette / anika / annika
 andrew / andy / andie / andre / andrea / andrey / andreas
 angela
 anthony / antonio / antonella
 arthur
-ashley / lee
+ashley / lee / asher / ash
 aurora
+bentley
+brody
 ava
 barbara
 benício
@@ -10299,10 +10419,10 @@ benjamin / ben
 bernardo / bernard
 betty / betsy
 beverly
-bradley / brad
+bradley / brad / brady
 brandon
 brenda
-brian / bryan
+brian / bryan / brianna / briana / breanna / bryanna / brianne / breanne
 brittany / britney / brittney / brittani / brittanie or britnee
 bruce
 bruno
@@ -10313,7 +10433,7 @@ camila
 carl / karl / carlson / karlson
 carol / karol / carolyn / caroline / carolina
 catalina
-catherine / katherine / kathy / kathie / kathleen / kathryn / kate / katie / kayla
+catherine / katherine / kathy / kathie / kathleen / kathryn / kate / katie
 cecilia
 celeste / celestia
 charles / charlie
@@ -10336,7 +10456,7 @@ dylan
 edward / ed / eddie / eddy
 elijah / eli
 elizabeth / lizabeth / eliza / lisa / liz / lizz / lisha
-ellie / eliana / elly
+eleanor / ellie / eliana / elly / el / ella / elle / nora / norah / nelly / nellie
 elsie / elsa
 emma / emily
 emmanuel / manuel
@@ -10355,21 +10475,21 @@ gerald
 giovanni / gio
 gloria
 gregory / greg
+grace / gracie / gracy
 hannah / hanna
 harrison / harold / harry
 hazel
-heitor
-helen
-helena
+heitor / heiter
+helen / helena
 heloísa
 henry / henrietta
 hugo
-isaac
+isaac / izak
 isabella / isabela / izzy / bella / belle
 isla
 ivy
-jack / jackie / jacky / jay / jacques / jacqueline
-jacob / jakob
+jack / jackie / jacky / jacques / jacqueline
+jacob / jakob / jake
 james / jim / jimmy
 janet
 janice
@@ -10380,7 +10500,7 @@ jeremiah / jeremy
 jerome / jerónimo / jerry
 jesse / jessie / jessica / jess
 joaquin / joachim
-jonathon / john / johnny / joan / juan / johanna / joanna / joanne / jean / jeanne / jana / jo
+jonathon / jonathan / john / johnny / joan / juan / johanna / joanna / joanne / jean / jeanne / jana / jo / jane / jehanne
 jose
 joseph / joe / josephine
 joshua / josh
@@ -10392,7 +10512,7 @@ keith
 kelly
 kenneth / kenny / ken
 kevin
-kimberly
+kimberly / kim
 kyle / kylie
 larry
 laura / lauren / lori / lorraine
@@ -10411,24 +10531,23 @@ luciana / lucia
 lynn
 maitê
 margaret / maggie
-maria / marie / mary / marilyn
+maria / marie / mary / marilyn / mariah
 martha
 martin / martina
 matthew / matt / matteo / mateo / matías
 megan / meagan
 melissa
 mia
-michael / mike
+michael / mike / michaela / makayla
 michelle / mitchel / mitchell
 miguel
 mila
 muhammad / mohamet / mohammed / mahamad / muhamad / mohamed
 nancy
 natalie / nat
-nathan
-nicholas / nick / nicky / nickie / nicolas / nicole / nichole
+nathan / nathaniel / nate
+nicholas / nick / nicky / nickie / nikki / nicolas / nicole / nichole
 noah
-nora / norah
 olivia / oliver
 pamela
 patrick / pat / patricia / pattie / patty
@@ -10441,7 +10560,7 @@ ravi
 raymond / ray
 rebecca / becky / becca
 regina
-richard / rich / richie / richy / dick
+richard / rich / richie / richy / dick / rick / ricky / rickie
 robert / rob / bobby / bob
 romina
 ronald / ron / ronnie / ronny
@@ -10452,12 +10571,11 @@ samuel / samantha / sam / sammy
 sandra / cassandra
 sarah / sara
 scott / scottie / scotty
-sean
 sebastian / seb
 sharon
 shirley
 sienna
-sophia / sofia
+sophia / sofia / sophie / sofie
 steven / stephen / steve / stevie / stephanie / stefanie
 susan / sussan / sussanne
 teresa / theresa / terry
@@ -10471,13 +10589,112 @@ tyler
 valentino / valentine / valentina
 valeria
 vega
-victoria / vicky / vick
+victoria / vicky / vick / victor
 vincent / vince
 violet
 walter / walt
 wayne
 william / will / bill / billy / willie / willow
-zachary / zach
+zachary / zach / zack
+addison / addy / adeline
+adrian / adriana
+aiden / aidan / ayden
+alfred
+alyssa / alisa
+frederick / fred / freddy / freddie
+ariana / arianna / aria / ari / arya
+audrey / audriana / audrianna
+aubrey
+avery
+bailey
+braxton
+sabrina / bree / bri
+brooklyn / brooke
+carter
+chelsea
+chloe
+claire
+cody / kody
+connor / conner
+cooper
+courtney
+dallas
+diego
+dora
+emery
+ezekiel
+ezra
+felix
+florence
+gavin
+haley / hailey
+harper
+hudson
+ian
+ivan / ivanka / ivana
+isaiah
+jaiden / jayden / jay
+kayleigh / kaylee / kayla / kay
+kelsey
+spencer
+lindsay / lindsey / linsey
+landon
+layla
+leah
+lucinda / lucy
+mackenzie / mckenzie
+maeve
+maverick / maveric
+miles
+naomi
+nevaeh
+nolan
+owen / eoin
+paige
+paisley
+penelope / penny
+quinn
+riley
+roman
+scarlett / scarlet
+shelby
+sierra
+sydney
+taylor
+vanessa
+vivian
+weston
+wyatt
+xavier / javier
+zoe / zoey
+madison / maddie / maddy
+aspen
+austin
+savannah / savanna
+mason
+cora / coralina
+derek / derrek / derrick / derick
+easton
+gordon
+grayson / greyson
+heather
+louis / lewis / louise
+karen
+mario
+luigi
+mark / marc
+melanie / mel
+oakley
+pierre
+piper
+philip / phillip / phil / filip / fhilipe
+raegan
+roger
+ryker / riker
+simon / simone
+shawn / sean
+sylvie / sylvia
+wendy
 
 [money]
 = currency / cash / coin / bill / banknote / dinero / currencies / change
@@ -11217,7 +11434,7 @@ auriga
 big dipper
 boötes
 caelum
-camelopardis
+camelopardalis / camelopardis
 cancer
 canes venatici / canis venatici
 canis major
@@ -11540,8 +11757,11 @@ assault / hurt / abuse
 asthma
 avarice
 awful
+necromancy
+dishonest / dishonesty
 mourning
 snot / booger
+pandemic / epidemic / outbreak
 curse / hex
 homelessness / homeless / unhoused
 disorder
@@ -11580,6 +11800,7 @@ dictator / fascist
 dictatorship / fascism
 dirty / filthy / filth
 disease / virus / plague / sickness / ailment / sick / illness / ill / infection / infected / germ
+jaundice
 dismemberment / dismember
 dread
 drugs
@@ -11593,7 +11814,7 @@ fentanyl / fent
 fight
 fool / idiot / bozo / doofus / numbskull / loser / twat / dumbass / noob
 funeral
-gambling / gamble
+gambling / betting
 genocide
 ghost / ghoul / specter / spectre / phantom / spirit / ghostly / ghast
 gluttony / glutton
@@ -11715,7 +11936,7 @@ angel
 creativity
 fortune / luck / lucky / fortunate
 privilege
-love
+love / romance
 sleep
 laughter / laugh
 cure / vaccine
@@ -11752,7 +11973,7 @@ angelic
 benevolent
 best
 gorgeous
-honest
+honest / honesty
 neato / neat
 passion / passionate
 radical
@@ -11838,7 +12059,7 @@ faith / faithful
 interest / interested
 joy / happy / joyful / happiness / gleeful / glee / glad / gay / joyous
 loathe / loathing / loathed
-love
+love / romance
 miserable
 panic / panicked / panicking
 peace / peaceful
@@ -11875,6 +12096,7 @@ aegosexual
 afab
 agender
 polysexual
+gender envy
 alloromantic
 allosexual / allo
 ally
@@ -12154,53 +12376,126 @@ hamzah / hamza / ء
 [video games]
 a hat in time
 akinator
+among us
+assassin's creed
 balatro
 baldi's basics / baldi "collect my noteboos"
+baldur's gate
 banban
+banjo-kazooie
+battlefield
+bejeweled
+touhou
+subnautica
 bendy / ink machine
 binding of isaac / isaac
+bioshock
+borderlands
 bornana "is that even a real fruit?"
+candy crush
 celeste
+clash of clans
+counter-strike / cs
+cyberpunk
 danganronpa
+dead space
 deadlock
+destiny
+diablo
 don't starve
+donkey kong
 doom
+dota
+dragon age
+duck hunt
+earthbound
+elden ring
 elder scrolls / skyrim
+fall guys
+fallout 
+far cry
+final fantasy
+firewatch
 fnaf / five nights at freddy's / fazbear "or or or or or"
 forsaken
 fortnite "number one victory royale!"
+frogger
+fruit ninja
+gears of war
 genshin impact / genshin
+gentown
 geometry dash / gd "holy gd reference"
 god of war / ragnarok
+goldeneye
 grace
 grand theft auto / gta
+guitar hero
 half-life
+halo
 hollow knight / silksong
 honkai star rail / honkai
+infinite chef
+just dance
+kingdom hearts
 kirby
 last of us
+left 4 dead
 lobotomy corporation / lobotomy corp
+madden
 mario / luigi / wario / waluigi "it's-a-me!"
+medal of honor
+metal gear solid
 minecraft / steve / herobrine "i am typing words and stuff cus i am playing wordslop"
+minesweeper
+monster hunter
+mortal kombat
 mouthwashing
+garfield cart
+need for speed
+oddworld
 omori "waiting for something to happen?"
 osu! / osu
 overwatch
+pac-man
 payday
+perfect dark
 persona
+phasmophobia
 pizza tower
 pokémon / pikachu
+pong
+portal
+psychonauts
+pubg
 red dead redemption / red dead / rdr
+resident evil
 roblox "oof"
+rocket league
+sandboxels
+sims
+smash brothers / smash bros
+snake
 sonic / sanic "gotta go fast!"
+space invaders
 splatoon / inkling "woomy!"
+stardew valley
+steal a brainrot
+super monkey ball
+team fortress
 terraria "also try **minecraft**"
 tetris
+timesplitters
+tomodachi life
+tony hawk's pro skater
 ultrakill / v1
 umamusume
+uncharted
 undertale / deltarune / sans / papyrus / jevil / togore
 valorant
+watch dogs
 witcher
+wordslop
+world of warcraft
 zelda / link
 
 [fandoms]
@@ -12215,6 +12510,9 @@ world of gumball / tawog
 lord of the rings / lotr
 euphoria
 lorax / onceler
+baki
+kagurabachi
+kpop demon hunters
 thomas the tank engine
 octonauts
 furry
@@ -12262,7 +12560,7 @@ kiiikiii
 hearts2hearts
 babymonster
 xg
-harry potter
+harry potter / hogwarts
 horizon
 bfdi / battle for dream island / bfb / tpot / object shows / yoyle / yoylecake / yoyleland / bfdie
 ten words of wisdom / twow / eleven words of wisdom / ewow
@@ -12296,10 +12594,15 @@ among us / amogus / sussy / sus / crewmate / imposter / impostor
 aura / aurafarming "wordslopping gives a huge aura boost"
 baby gronk / livvy dunne
 pibble "rub my belly!"
+karen "someone call the manager.."
+tea
+bet
+ballin'
 bazooka "rip granny"
 clippy "be like clippy"
 forever alone
 clipping "chat clip that"
+drip / drippy
 hyperpigmentation "no.. it's nice"
 sparta
 girl dinner
@@ -12555,6 +12858,7 @@ supercalifragilisticexpialidocious
 transinstitutionalization
 gastrocnemiosemimembranous
 psychophysicotherapeutics / psychophysicotherapeutically
+hyperapobetalipoproteinemia
 
 [types of words]
 = parts of speech / part of speech / grammar
@@ -12782,11 +13086,30 @@ ibuprofen
 geek / nerd
 
 [minerals]
-augite, gypsum, graphite, calcite, aragonite, asbestos / asbestus
+# MAKE GEMSTONES A SUBSET
+ore #list of ores
+augite
+gypsum
+graphite
+calcite
+aragonite
+asbestos / asbestus
 silica
+chalcopyrite
+galena
+
 
 [compounds?]
 = chemicals
+
+[microorganisms]
+algae / alga / algal "this isn't a plant or fungus, but its own thing"
+diatom
+protist
+protozoan
+
+[programming]
+= coding / development
 
 sodium chloride "um actually dude, it's **salt**"
 chloride
@@ -12809,15 +13132,6 @@ lactose
 protein
 
 [apples]
-
-[fungi]
-= fungus
-mushroom
-shiitake
-mold
-lichen "lichens are actually part-**algae** and part-fungus"
-cordyceps
-amanita
 
 [flavors]
 = flavours / tastes
