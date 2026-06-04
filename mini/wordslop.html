@@ -822,12 +822,25 @@
   selectedGroup = null;
   currentQuery = null;
   panel4Scroll = 0;
-  function promo() {
-    document.getElementById("col3").style.display = "none";
-    document.getElementById("col2").style.flexBasis = "40%";
-    document.getElementById("col2").style.maxWidth = "40%";
+  function promo(n=1) {
+    const col2 = document.getElementById("col2");
+    const col3 = document.getElementById("col3");
+    col3.style.display = "none";
     panel2.style.paddingRight = "2em";
     panel3.style.paddingRight = "2em";
+    if (n === 2) {
+      SPA.main.style.flexDirection = "column";
+      SPA.main.style.width = "50%";
+      SPA.main.style.background = "#e7e7f6";
+      document.body.style.background = "gray";
+      col2.style.maxWidth = "unset";
+      col2.style.flexBasis = "unset";
+      col2.style.flexGrow = "0"
+      panel3.style.height = "33%";
+      return;
+    }
+    col2.style.flexBasis = "40%";
+    col2.style.maxWidth = "40%";
   }
   function showProgress() {
     const btn = document.getElementById("progressButton");
@@ -1047,10 +1060,12 @@
       const group = span.getAttribute("data-group");
       if (SPA.data.groups[group].wordDesc) {
         const blurb = SPA.data.groups[group].wordDesc[word];
-        span.addEventListener("click", () => {
-          logMessage(blurb, 1);
-        })
-        span.classList.add("clickable");
+        if (blurb) {
+          span.addEventListener("click", () => {
+            logMessage(blurb, 1);
+          })
+          span.classList.add("clickable");
+        }
       }
     });
 
@@ -1192,6 +1207,7 @@
     if (!saveData.lastInput) saveData.lastInput = [];
     document.getElementById("panel2").innerHTML = "";
     document.getElementById("panel3").innerHTML = "";
+    saveData.messages = saveData.messages.filter(m => m);
     if (saveData.messages.length) {
       saveData.messages.forEach(m => {
         let text = m[0];

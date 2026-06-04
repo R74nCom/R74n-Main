@@ -2747,7 +2747,7 @@ mulgara
 bilby
 potoroo
 phascogale / wambenger / mousesack
-caenolstid / rat opossum
+caenolestid / rat opossum / shrew opossum
 kowari
 
 [cetaceans]
@@ -3121,7 +3121,7 @@ wigeon
 woodcock "they walk really funny!"
 woodcreeper
 woodhaunter
-woodnypmh
+woodnymph
 woodpecker "these birds wrap their tongues around their skulls to prevent concussions"
 wren
 yellowhammer
@@ -4051,7 +4051,7 @@ qu
 santa / santa claus
 sasquatch / bigfoot
 satyr
-sea serpent / serpent
+sea serpent / serpent / jörmungandr
 selkie
 siren
 sphinx
@@ -5343,6 +5343,7 @@ arborvitae / thuja
 ash
 rowan
 kukui / candlenut
+ailanthus / tree of heaven
 aspen
 azalea
 plane
@@ -8378,7 +8379,7 @@ wetland
 
 [buzzwords]
 5g
-agike
+agile
 ai / artificial intelligence / generative / machine learning / ml / llm / large language model / chatbot / chatgpt / gpt / deep learning / grok / agi
 algorithm
 as a service / saas
@@ -9291,11 +9292,11 @@ albania
 rome / roman empire
 algeria "in the 1850s, the US army imported camels from ^"
 american samoa
-Curaçao
+curaçao
 andorra
 babylonia / babylon
 assyria
-Molossia
+molossia
 us virgin islands / virgin islands
 british virgin islands / uk virgin islands
 pitcairn islands
@@ -9373,7 +9374,6 @@ france
 french polynesia
 gabon
 gambia
-gaza strip
 georgia
 germany
 ghana
@@ -9456,7 +9456,7 @@ norway
 oman
 pakistan
 palau "^'s capital has no permanent residents - only government buildings"
-palestine
+palestine / gaza strip
 panama
 papua new guinea "they have about 800 languages - that's 12% of languages worldwide"
 paraguay
@@ -10826,7 +10826,9 @@ administrator / admin
 admiral
 advisor
 aedile
+criminal
 aesthetician
+impersonator / impressionist
 swimmer
 missionary
 traveler / traveller
@@ -11747,13 +11749,11 @@ supercritical fluid / scf
 [morbidities]
 = morbid
 & weapons
+& crimes
 addiction / addict
-adultery
 alcohol / alcoholic / alcoholism
 alzheimer's / dementia
-arson
 arthritis
-assault / hurt / abuse
 asthma
 avarice
 awful
@@ -11769,7 +11769,6 @@ sacrifice
 r.i.p.
 bad / evil / terrible / horrible
 battle
-beating / thrashing
 bigotry / racism / homophobia / transphobia / sexism / misogyny / xenophobia
 blackjack
 carnage
@@ -11781,14 +11780,12 @@ cigar
 cigarette
 cocaine
 coma / comatose
-conspiracy
 corpse / carcass
 danger / dangerous
-corruption / corrupted / corrupt
 covid-19 / covid / coronavirus / corona
 malaria
 creepy / scary / eerie
-crime / criminal
+criminal
 cyclops
 darkness / dark / shadow
 death / die / dying / dead / fatality / fatal
@@ -11801,7 +11798,6 @@ dictatorship / fascism
 dirty / filthy / filth
 disease / virus / plague / sickness / ailment / sick / illness / ill / infection / infected / germ
 jaundice
-dismemberment / dismember
 dread
 drugs
 dumb / stupid
@@ -11814,8 +11810,6 @@ fentanyl / fent
 fight
 fool / idiot / bozo / doofus / numbskull / loser / twat / dumbass / noob
 funeral
-gambling / betting
-genocide
 ghost / ghoul / specter / spectre / phantom / spirit / ghostly / ghast
 gluttony / glutton
 gore / gorey / gory
@@ -11833,11 +11827,8 @@ hunger / hungry / starving / starvation / starve
 immoral
 inequality
 influenza / flu
-larceny
 lie
-lobotomy
 lust / lustful
-massacre
 mean / rude
 methamphetamine / meth
 misery / suffering
@@ -11846,7 +11837,6 @@ monster
 morphine
 mort / micromort
 mortality / mortal
-murder / kill / killing / manslaughter / slaughter / homicide
 nicotine
 nightmare
 opioid
@@ -11858,7 +11848,6 @@ poker
 pollution
 predator / predation / predate
 pride / hubris
-cannibalism / cannibal
 radioactivity / radioactive / radiation
 decay / decayed / rot / rotting / rotten / rotted
 sad / sadness
@@ -11867,29 +11856,18 @@ satan / lucifer
 satyr
 sin
 skeleton
-slavery
 sloth
 sludge
 spaghettification
 stinky / smelly / gross / disgusting / nasty / stink
 suicide
-fratricide
-sororicide
-matricide
-patricide
-assassination / assassinating / assassin
 scurvy
-regicide
-asphyxiation / choking
 tetanus
 zika
 prion
 mold / mould / moldy / mouldy
 taboo
-terrorist / terrorism
-theft / stealing / thief
 tobacco
-torture
 trash / junk / garbage / debris
 twisted
 tyrant
@@ -11897,14 +11875,73 @@ ugly
 uranium
 vain
 vampire / dracula
-vandalism / vandal
-violence / violent
 void
 war
 weakness / weak
 werewolf
 wrath
 zombie
+
+[crimes]
+= criminal
+adultery
+arson
+assault / hurting / abuse / beating / thrashing
+abduction / abducting / kidnapping
+hate crime
+conspiracy
+corruption / corrupted / corrupt
+dismemberment / dismember
+bombing
+gambling / betting
+genocide
+larceny / theft / stealing / thief / robbery / mugging / burglary
+shoplifting
+trespassing
+loitering
+bribery / bribing
+embezzlement / embezzling
+insider trading
+impersonation / impersonating / identity theft
+dui / drunk driving / drunk driver
+indecent exposure
+aiding / abetting / accomplice
+fraud / defrauding / fraudulent
+lobotomy
+massacre
+murder / kill / killing / manslaughter / slaughter / homicide
+poisoning
+cannibalism / cannibal
+slavery
+fratricide
+sororicide
+matricide
+patricide
+assassination / assassinating / assassin
+asphyxiation / choking
+regicide
+terrorism / terrorist
+torture
+vandalism / vandal
+violence / violent
+jaywalking
+disorderly conduct / disturbing the peace
+perjury
+speeding
+hit and run
+recklessness / reckless
+grand theft auto
+piracy
+harassment
+stalking / doxxing / doxing
+endangerment
+neglect
+tax evasion
+attempt / attempted
+possession
+distribution
+trafficking
+prostitution
 
 [blissfuls]
 = bliss
@@ -12384,7 +12421,24 @@ baldur's gate
 banban
 banjo-kazooie
 battlefield
+friday night funkin' / fnf
+date everything
 bejeweled
+rec room
+plants vs zombies
+block tales
+zenless zone zero
+spongebob / battle for bikini bottom
+hello neighbor
+game builder garage
+rhythm heaven
+wordle
+dance dance revolution / ddr
+beatmania
+taiko no tatsujin / taiko /taiko drum master
+my winter car / my summer car
+project sekai / pjsk
+project diva
 touhou
 subnautica
 bendy / ink machine
@@ -12485,7 +12539,28 @@ team fortress
 terraria "also try **minecraft**"
 tetris
 timesplitters
-tomodachi life
+tomodachi life / miitopia "a vending machine would go great right here"
+angry birds "aaaah heheha"
+crossy road
+flappy bird
+fire emblem
+metroid / metroidvania
+star fox
+f-zero
+kid icarus
+pikmin "piiiikmiiiin"
+bloons / btd / btd6
+voices of the void / votv
+animal crossing
+punch-out
+xenoblade
+street fighter
+castlevania
+dragon quest
+king of fighters
+arms
+tekken
+arma
 tony hawk's pro skater
 ultrakill / v1
 umamusume
@@ -12507,6 +12582,8 @@ marvel
 star wars
 sanrio
 world of gumball / tawog
+uncle grandpa
+toon force
 lord of the rings / lotr
 euphoria
 lorax / onceler
@@ -12569,7 +12646,6 @@ pingu "noot noot"
 demon slayer
 jojo's / jojo / jojo's bizarre adventure / joestar "yare yare daze.."
 dnd / d&d
-friday night funkin' / fnf
 hazbin hotel / hazbin "can we NOT talk about that right now?!"
 hellsing
 invincible / omniman "are you sure?"
@@ -12991,8 +13067,8 @@ enter / return
 arrow
 scroll lock
 num lock
-page up
-page down
+page up / pgup
+page down / pgdn
 insert
 f1 / f2 / f3 / f4 / f5 / f6 / f7 / f8 / f9 / f10 / f11 / f12
 numpad
