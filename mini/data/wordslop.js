@@ -1401,7 +1401,6 @@ deposit
 describe
 deserve
 desire
-despair
 despise
 destroy / destruct / wreck
 dial
@@ -4055,7 +4054,7 @@ kobold
 kraken / kracken
 kuchisake-onna
 leprechaun
-leviathan
+leviathan / sea monster
 loch ness / nessie
 manticore
 mermaid / merman
@@ -5574,6 +5573,7 @@ dim sum
 dinner
 meal
 dorito
+frito
 dough
 doughnut / donut
 dumpling
@@ -7215,7 +7215,7 @@ saucepan
 saw
 scale
 scanner / copier / photocopier
-scissors / shears
+scissors / shears "**paper**!"
 sconce
 screwdriver
 shampoo / body wash
@@ -7400,7 +7400,7 @@ nail
 nichrome
 nylon
 paint
-paper
+paper "**scissor**s!"
 peat
 pewter
 plastic
@@ -9078,6 +9078,7 @@ asda
 dreamworks
 boeing
 sainsbury's
+fritolay / lays
 funko
 aldi
 github
@@ -12294,7 +12295,7 @@ cowardice / coward
 cranky / grumpy
 courage / courageous
 defensiveness
-desolate / desolation / emptiness / empty
+desolate / desolation / emptiness / empty / despair
 determination / determined
 distaste
 melancholy / melancholic / dejection / dejected
@@ -12669,7 +12670,7 @@ right bracket / ]
 left curly bracket / { / brace / curly bracket
 right curly bracket / }
 backslash / \\
-pipe / vertical bar / line / |
+pipe / vertical bar / line / ||
 colon / :
 apostrophe / '
 quote / quotation / ""
@@ -12687,6 +12688,7 @@ bullet / •
 times / multiplication / ×
 copyright / ©
 trademark / tm / ™ / ®
+ellipsis / ellipses / ...
 
 [video games]
 a hat in time

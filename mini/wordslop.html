@@ -1220,7 +1220,8 @@
       saveData.messages.forEach(m => {
         let text = m[0];
         let age = statGet("tries") - m[2];
-        logMessage(text, m[1], true).setAttribute("data-age", age);
+        let msg = logMessage(text, m[1], true);
+        if (msg) msg.setAttribute("data-age", age);
       });
       updateMessages();
     }
@@ -1648,6 +1649,14 @@
         getSupersets(group).forEach(g => saveData.changedGroups[g] = true);
       }
 
+      let foundCount = 0;
+      for (const group in saveData.found) {
+        foundCount += Object.keys(saveData.found[group]).length;
+      }
+      if (foundCount >= 100) {
+        narrate("found100", "pssst.. you're a true wordslopper! please make frequent backups with the **save** button, as unexpected browser data resets could occur");
+      }
+
     }
 
     console.log(results);
@@ -1881,7 +1890,7 @@
         word = split[0];
         desc = split[1].slice(0,-1);
       }
-      line = line.replace(/ESCAPE-8/g, "\"");
+      word = word.replace(/ESCAPE-8/gi, "\"");
       
       word = word.toLowerCase().split(/\s{0,}\/\s{0,}/g); // word/alias
       for (let i = 0; i < word.length; i++) {
@@ -1892,7 +1901,7 @@
       word = word[0];
       if (!word || group === null) continue;
       if (desc) {
-        desc = desc.replace(/ESCAPE-4/g, "/");
+        desc = desc.replace(/ESCAPE-4/gi, "/");
         if (!SPA.data.groups[group].wordDesc) SPA.data.groups[group].wordDesc = {};
         SPA.data.groups[group].wordDesc[word] = desc;
       }
