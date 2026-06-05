@@ -835,6 +835,8 @@ hru
 i.e.
 e.g.
 icl
+idgaf / gaf
+ijbol
 
 [pronouns]
 each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody / somepony|everyone / everybody / everypony|nobody / no one / nopony|whoever / whomever|ye
@@ -2107,7 +2109,10 @@ wish
 withdraw
 wobble
 wonder
-work
+work / labor / labour
+toil
+rejoice
+combine
 worship
 write
 yank
@@ -6939,7 +6944,7 @@ coin
 comb
 comforter
 compass
-computer / pc / mac / imac
+computer / pc / mac / imac / system
 conditioner
 console / xbox / playstation / ps5
 controller
@@ -10944,7 +10949,7 @@ quarter
 dime "this coin has exactly 118 ridges around its edge"
 
 [jobs]
-= occupations / workers / laborers / positions / employment / employee / staff / faculty
+= occupations / workers / laborers / labourers / positions / employment / employee / staff / faculty
 accountant
 ace
 acrobat
@@ -12185,7 +12190,7 @@ apostle
 admiration / admire / admiring
 aggression / aggressive / aggressiveness
 alert
-amazed / amazing / amaze / awe
+amazed / amazing / amaze / awe / amazement / astonishment
 anger / angry / furious / irate / mad / rage / wrath
 hangry
 annoyed / annoying / annoy / annoyance / indignant
@@ -12268,7 +12273,6 @@ relaxed / relax / relaxing
 sadness / sad / blue / upset / unhappy / unhappiness
 serenity
 shock / shocked / stunned / surprise / surprised / taken aback
-astonishment
 misery / suffering
 sorrow
 stressed / stress / stressful / tense / distress / distressed
@@ -12910,6 +12914,7 @@ garfield
 protogen
 batman
 the simpsons
+wallace and gromit
 uncle grandpa
 toon force
 lord of the rings / lotr
