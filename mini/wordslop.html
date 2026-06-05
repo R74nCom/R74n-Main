@@ -531,7 +531,14 @@
       if (!SPA.data.groups[group]) delete saveData.found[group];
     }
 
-    initGame();
+    try {
+      initGame();
+    }
+    catch (e) {
+      skipSaving = true;
+      logMessage("something broke.. "+e+" - report this immediately!");
+      throw e;
+    }
   }
 
   let resetting = false;
@@ -1106,6 +1113,7 @@
   }
   let lastMessage = null;
   function logMessage(text, type=1, saved=false, args={}) {
+    if (!text) return;
     if (type === 1 && text === lastMessage) return;
     lastMessage = text;
 
@@ -1482,6 +1490,13 @@
         formsToCheck.push(form.replace(/[,\.]/g, ""));
         formsToCheck.push(form.replace(/ing$/g, "in'"));
         formsToCheck.push(form.replace(/in'$/g, "ing'"));
+        if (form.length >= 7) {
+          formsToCheck.push(form.replace(/ion$/g, "ing'"));
+          formsToCheck.push(form.replace(/ion$/g, ""));
+          formsToCheck.push(form.replace(/tion$/g, "te"));
+          formsToCheck.push(form.replace(/ing$/g, "ion"));
+          formsToCheck.push(form.replace(/te$/g, "tion"));
+        }
         
         formsToCheck.push(form.replace(/ /g, ""));
 
