@@ -1123,8 +1123,9 @@
     text = text.replace(/r74/g, "R74");
 
     let html = escapeHTML(text);
-    html = html.replace(/\*\*new\*\*/g, (m) => "<strong style='color:darkred;font-style:italic'>[new]</strong>");
+    html = html.replace(/\*\*\[new\]\*\*/g, (m) => "<strong style='color:darkred;font-style:italic'>[new]</strong>");
     html = html.replace(/\*\*[^\*]+\*\*/g, (m) => "<strong>"+m.slice(2,-2)+"</strong>");
+    html = html.replace(/\*{5}/, "<strong>*</strong>");
     let msg = document.createElement("span");
     msg.setAttribute("data-age", "0");
 
@@ -1436,6 +1437,7 @@
           if (form.endsWith("es")) {
             if (form.endsWith("ies")) formsToCheck.push(form.slice(0,-3)+"y");
             if (form.endsWith("ves")) formsToCheck.push(form.slice(0,-3)+"fe");
+            if (form.endsWith("ves")) formsToCheck.push(form.slice(0,-3)+"f");
             formsToCheck.push(form.slice(0,-2));
           }
           formsToCheck.push(form.slice(0,-1));
@@ -1495,8 +1497,24 @@
           formsToCheck.push(form.replace(/ion$/g, "ing'"));
           formsToCheck.push(form.replace(/ion$/g, ""));
           formsToCheck.push(form.replace(/tion$/g, "te"));
+          formsToCheck.push(form.replace(/tion$/g, "ting"));
           formsToCheck.push(form.replace(/ing$/g, "ion"));
           formsToCheck.push(form.replace(/te$/g, "tion"));
+          formsToCheck.push(form.replace(/iness$/g, "y"));
+          formsToCheck.push(form.replace(/y$/g, "iness"));
+          formsToCheck.push(form.replace(/ness$/g, ""));
+          formsToCheck.push(form.replace(/ication$/g, "y"));
+          formsToCheck.push(form.replace(/y$/g, "ication"));
+          formsToCheck.push(form.replace(/ment$/g, ""));
+          formsToCheck.push(form.replace(/ment$/g, "e"));
+          formsToCheck.push(form.replace(/iest$/g, "y"));
+          formsToCheck.push(form.replace(/est$/g, ""));
+          formsToCheck.push(form.replace(/est$/g, "").slice(0,-1));
+          formsToCheck.push(form.replace(/ful$/g, ""));
+          formsToCheck.push(form.replace(/fulness$/g, ""));
+        }
+        if (form.length >= 3) {
+          formsToCheck.push(form + "ness");
         }
         
         formsToCheck.push(form.replace(/ /g, ""));
@@ -1687,7 +1705,7 @@
           (isAlias ? "~" : "+") + 
           group +
           (match !== true && word !== (match[1] || match[0]) ? " ("+ (match[1] || match[0]) +")" : "") + //word spelling not the same
-          (saveData.newGroups[group] ? " **new**" : "")
+          (saveData.newGroups[group] ? " **[new]**" : "")
         , 2, false, {group:group});
 
         if (!isAlias && match !== true && SPA.data.groups[group].wordDesc && SPA.data.groups[group].wordDesc[match[0]]) {
