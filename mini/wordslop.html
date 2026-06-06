@@ -1066,8 +1066,9 @@
       const word = span.getAttribute("data-word");
       const group = span.getAttribute("data-group");
       if (SPA.data.groups[group].wordDesc) {
-        const blurb = SPA.data.groups[group].wordDesc[word];
+        let blurb = SPA.data.groups[group].wordDesc[word];
         if (blurb) {
+          blurb = blurb.replace(/\^/g, word);
           span.addEventListener("click", () => {
             logMessage(blurb, 1);
           })

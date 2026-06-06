@@ -5349,8 +5349,6 @@ lavender
 lemon balm
 lemon grass
 licorice / liquorice
-rigatoni
-mochi
 lovage
 mace
 marjoram
@@ -5661,6 +5659,9 @@ jerky
 kebab / kabob / kebap
 kimchi
 lasagna
+rigatoni
+mochi
+ziti
 carbonara
 lays
 lo mein
@@ -5950,6 +5951,7 @@ refreshing
 minty / mintiness
 fruity / fruitiness
 tangy / tanginess
+tart / tartness
 
 [media]
 application / app / software
@@ -6392,6 +6394,14 @@ bowling
 pato
 boxing
 juggling
+long jump
+bullriding
+bocce / bowls / lawn bowls
+pétanque
+dodgeball
+quidditch
+finska
+free solo
 canoeing
 caber toss
 yoga
@@ -6415,7 +6425,9 @@ hockey
 hopscotch
 horseback riding / equestrian / horse racing / horses / derby
 jai alai
-jiu jitsu
+jiu jitsu / jujutsu / jujitsu
+cornhole
+tchoukball
 jousting
 judo
 karate
@@ -6474,6 +6486,7 @@ hoop
 shinguard
 dartboard
 shot
+dodgeball
 javelin
 trampoline
 dumbbell / weight
@@ -10753,7 +10766,8 @@ alan / allen / allan / alanna / alana / alanah / alannah / ilana
 clifford
 albert / al
 alexander / alejandro / alex / alexandria / alexandra / alexis / alexei / alexa
-alice
+alice / allison / alison / allie / ally / alis / alys
+amos
 alma
 amanda / amy
 molly
@@ -10841,7 +10855,7 @@ heloísa
 henry / henrietta
 hugo
 isaac / izak
-isabella / isabela / izzy / bella / belle
+isabella / isabela / izzy / bella / belle / isabelle
 isla
 ivy
 jack / jackie / jacky / jacques / jacqueline
@@ -10890,7 +10904,8 @@ margaret / maggie
 maria / marie / mary / marilyn / mariah
 martha
 martin / martina
-matthew / matt / matteo / mateo / matías
+matthew / matt / matteo / mateo / matías / teo
+heidi
 megan / meagan
 melissa
 mia
