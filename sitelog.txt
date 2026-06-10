@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-06-09 - Fixed ?test query in Infinite Chef spotlight button
+2026-06-09 - Updated alignment in pride logo
 2026-06-06 - Added new Google Search Profile to Socials page
 2026-05-24 - New Mini Project: Wordslop
 2026-05-22 - Fixed Tone Indicator List

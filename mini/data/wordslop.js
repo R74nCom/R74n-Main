@@ -872,6 +872,14 @@ dame
 prof / professor
 noble
 reverend
+father
+captain
+officer
+colonel
+admiral
+lieutenant
+general
+sergeant
 dear
 chancellor
 esquire / esq
@@ -884,8 +892,8 @@ honor / honour
 majesty
 highness
 jr / junior
-sr / senior
-seniorita
+sr / senior / señor
+señorita / señiorita
 gentleperson
 gentleman
 gentlewoman / gentlelady
@@ -2178,10 +2186,10 @@ colossal
 compact
 pygmy
 deep
+oversized
 diminutive
 enormous
 epic
-fast
 fat / fatty
 gargantuan
 xl / xxl / xxxl / xxxxl
@@ -4030,6 +4038,7 @@ baba yaga
 bonnacon
 kitsune
 slime / ooze
+headless horseman
 beast
 babi ngepet
 skinwalker
@@ -4657,6 +4666,7 @@ alchemilla
 allium
 st. john's-wort
 alstroemeria
+vanilla
 trollius
 mallow
 nightshade
@@ -4941,6 +4951,7 @@ cashew "did you know that cashews come from a fruit?"
 aratiles
 araza
 avocado
+lingonberry
 bearberry
 banana "we share about 60% of our genes"
 bilberry
@@ -5562,6 +5573,7 @@ wagyu
 & nuts
 & meats
 & condiments
+& pasta shapes
 wheat
 oats
 barley
@@ -5644,7 +5656,6 @@ gelatin / jell-o
 gelato
 gimbap
 gingerbread
-gnocchi
 gochujang
 goldfish
 granola
@@ -5658,17 +5669,13 @@ jeon
 jerky
 kebab / kabob / kebap
 kimchi
-lasagna
-rigatoni
 mochi
-ziti
 carbonara
 lays
 lo mein
 lollipop / lollypop / lolly
 lunch
 macaron
-macaroni
 macaroon
 mandu
 marshmallow "they are named after the flower originally used to make them"
@@ -5705,7 +5712,6 @@ quesadilla
 quiche
 ramen
 ramyeon
-ravioli
 risotto
 s'more
 salad
@@ -5722,7 +5728,6 @@ breadstick
 gumball
 sorbet
 soup
-spaghetti
 stew
 stroopwafel
 strudel
@@ -5746,6 +5751,48 @@ whopper
 wonton
 yeast
 yogurt / yoghurt / yogourt / yoghourt
+
+[pasta shapes]
+acini di pepe
+anelli
+angel hair / capellini
+bigoli
+bucatini
+campanelle
+casarecce
+cavatappi
+cavatelli
+conchiglie / shells
+ditalini
+egg noodles
+farfalle
+fettuccini / fettuccine
+fregola
+fusilli
+gemelli
+gnocchi
+lasagna / lasagne
+linguine
+macaroni
+mafaldine
+manicotti / cannelloni
+orecchiette
+orzo
+paccheri
+pappardelle
+penne
+radiatori
+ravioli
+rigatoni
+rotelle / ruote / wheels
+rotini
+spaghetti / spaghettini / spaghettoni
+stelline
+tagliatelle
+tortellini
+trofie
+vermicelli
+ziti / zitoni
 
 [cheeses]
 american
@@ -6408,7 +6455,7 @@ yoga
 capoeira
 cheerleading / cheer
 chess
-climbing
+climbing / mountaineering
 cricket
 curling
 cycling / biking / bicycling
@@ -6554,6 +6601,7 @@ bicycle / bike / cycle
 airbus
 biplane
 blimp / airship
+carrier
 flatbed
 lifeboat
 infiniti
@@ -9309,6 +9357,8 @@ adidas
 agricole
 tupperware
 vaio
+ups
+fedex
 asda
 dreamworks
 boeing
@@ -9990,6 +10040,57 @@ Coral Sea Islands / Coral Sea
 Ashmore and Cartier Islands / Ashmore / Cartier
 Heard Island and McDonald Islands / Heard Island / McDonald
 
+[english counties]
+"*ceremonial"
+bedfordshire
+berkshire
+bristol
+buckinghamshire
+cambridgeshire
+cheshire
+city of london
+cornwall
+cumbria
+derbyshire
+devon
+dorset
+durham
+east riding of Yorkshire
+east sussex
+essex
+gloucestershire
+greater london
+greater manchester
+hampshire
+herefordshire
+hertfordshire
+isle of wight
+kent
+lancashire
+leicestershire
+lincolnshire
+merseyside
+norfolk
+north yorkshire
+northamptonshire
+northumberland
+nottinghamshire
+oxfordshire
+rutland
+shropshire
+somerset
+south yorkshire
+staffordshire
+suffolk
+surrey
+tyne and wear
+warwickshire
+west midlands
+west sussex
+west yorkshire
+wiltshire
+worcestershire
+
 [national capitals]
 abu dhabi
 abuja
@@ -10606,7 +10707,6 @@ sanskrit
 santa eulalia
 saraiki
 sardinian
-sardnian
 scots
 scouse
 serbian
@@ -10701,6 +10801,74 @@ zarma
 zhuang
 zulu
 
+[computer languages]
+= programming languages / scripting languages
+.net / dotnet
+a+
+abap
+actionscript
+ada
+apl
+applescript
+assembly
+b
+bash
+basic
+batch / dos / ms-dos
+brainfuck
+c
+c##
+c++
+caml
+cfml
+clojure
+cobol
+css
+d
+dart
+delphi / object pascal
+erlang
+fortran
+gml
+go / golang
+haskell
+html
+java
+javascript / js
+julia
+kotlin
+labview
+ladder logic
+latex/tex
+lisp
+lua
+matlab
+ml
+nim
+objective-c
+ocaml
+pascal
+perl
+php
+pl//sql
+powershell
+prolog
+python / py
+r
+ruby
+rust
+sas
+scala
+scratch
+smalltalk
+sql
+swift
+transact-sql
+typescript / ts
+visual basic / vb / vbscript
+x++
+zig
+
 [religions]
 = beliefs
 agnosticism / agnostic
@@ -10770,6 +10938,10 @@ alice / allison / alison / allie / ally / alis / alys
 amos
 alma
 amanda / amy
+delilah
+stacy / stacie
+colleen
+trevor
 molly
 bartholomew / bart
 amber / ambar
@@ -11991,6 +12163,26 @@ bishop
 queen
 king
 
+[playing cards]
+ace
+two
+three
+four
+five
+six
+seven
+eight
+nine
+ten
+jack
+queen
+king
+spade
+club
+diamond
+heart
+joker
+
 
 [periodic table]
 hydrogen
@@ -12428,7 +12620,7 @@ enlightenment
 nirvana
 archangel
 miracle / blessing
-heaven
+heaven / afterlife
 victory / win
 revolution
 power
@@ -12679,6 +12871,7 @@ gender envy
 alloromantic
 allosexual / allo
 ally
+transneutral
 biromantic
 amab
 androgyne / androgynous / androgyny
@@ -12903,6 +13096,7 @@ thirty-eight / 38 "is this a secret trend?"
 twenty-one / 21 "you stupid"
 twenty-three / 23 skidoo / 23
 808 "it's basically a crashout"
+2115 "POLSKA GUROM"
 
 [letters] q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m
 á|å|ä|à|ã|æ|ç|é|ë|è|ï|ñ|ó|ö|õ|ø|ß|ü|µ|œ|ú|í|â|ā|ē|ī|ō|ū|ê|ô|ò|ù|û|ń|ǎ|ă|ą|ć
@@ -13233,8 +13427,10 @@ world of gumball / tawog
 homestar runner / trogdor
 clifford
 garfield
+breaking bad / brba / better call saul / bcs
 protogen
 invader zim
+the incredibles
 batman
 the simpsons
 wallace and gromit
@@ -13330,7 +13526,12 @@ baby gronk / livvy dunne
 pibble "rub my belly!"
 bazinga
 thug shaker
+mrbeast "pls send me a million dollars"
+crab rave
 unalive
+good boy / good girl "umm.. thank you?"
+polska gurom / polska górą
+drain gang
 lenny "( ͡° ͜ʖ ͡°)"
 grabba
 frigo camelo
@@ -13702,6 +13903,30 @@ swear / cuss / bad / naughty / dirty
 typo / misspelling / mispelling
 verb
 
+[fonts]
+arial
+comic sans
+consolas
+courier
+garamond
+georgia
+grotesk
+helvetica
+impact
+monaco
+monospace
+noto sans
+papyrus
+press start 2p
+roboto
+sans
+serif
+times new roman
+trebuchet
+verdana
+vt323
+wingdings
+
 [typing]
 asdf
 qwerty
@@ -13882,6 +14107,17 @@ galena
 
 [compounds?]
 = chemicals
+
+[medicines]
+Penicillin
+Benzodiapezine
+Salbutamol
+Ibuprofen
+Acetaminophen
+Adderall
+Midazolam
+Aspirin
+Naloxone
 
 [microorganisms]
 algae / alga / algal "this isn't a plant or fungus, but its own thing"
