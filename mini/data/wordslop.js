@@ -5697,7 +5697,6 @@ carrot
 cassava / manioc / yuca
 cauliflower
 cayenne pepper / cayenne
-churro / fried dough
 celeriac
 celery
 chard
@@ -6349,6 +6348,7 @@ sisig
 skittle
 smetana
 snack / treat
+churro / fried dough
 snicker
 snowcone / sno cone
 sorbet

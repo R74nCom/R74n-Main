@@ -1529,7 +1529,8 @@
         if (prefix && form.length > 5) {
           isSpecial[prefix[0]+"-"] = true;
           formsToCheck.push(prefix[0]+"-");
-          formsToCheck.push(form.slice(prefix[0].length));
+          let root = form.slice(prefix[0].length);
+          if (root.length >= 5) formsToCheck.push(root);
         }
       }
     }
