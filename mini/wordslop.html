@@ -1544,6 +1544,7 @@
       forms[f] = true;
       forms[f.replace(/ /g, "")] = true;
       forms["the "+f] = true;
+      forms["a "+f] = true;
       forms[f.normalize("NFD").replace(/[\u0300-\u036f]/g, "")] = true;
     });
     console.log(forms);
