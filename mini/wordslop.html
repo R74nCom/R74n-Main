@@ -1518,6 +1518,8 @@
           formsToCheck.push(form.replace(/fulness$/g, ""));
           formsToCheck.push(form.replace(/ity$/g, ""));
           formsToCheck.push(form.replace(/ism$/g, ""));
+          formsToCheck.push(form.replace(/ible$/g, "ibility"));
+          formsToCheck.push(form.replace(/ibility$/g, "ible"));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");

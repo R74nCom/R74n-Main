@@ -448,7 +448,9 @@ cackle
 alarm / siren
 beep
 nom / nomnom / omnom / omnomnom
-bonk
+bonk / donk
+thwack / thwock
+slam
 boop
 squelch
 crunch
@@ -464,7 +466,7 @@ sob
 clack
 strum
 pop
-bang / bam / pow / boom / kaboom / blam
+bang / bam / pow / boom / kaboom / blam / kablam / kapow
 ching / cha-ching
 chomp
 choo / choo choo
@@ -843,6 +845,7 @@ fafo
 guh / gwuh / buh
 gyatt / gyat
 nevermind / nvm
+ig
 haha / ha / hah / hahah / hahaha
 hehe / heh / heheh / hehehe / heehee
 hello / hi / hey / greetings / aloha / hola / ni hao / konnichiwa / salud / howdy / hai / haii / haiii / hallo / 'ello / ahoy "hi there :)"
@@ -974,14 +977,14 @@ motherfucker / mf
 afk
 
 [pronouns]
-each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody / somepony|everyone / everybody / everypony|nobody / no one / nopony|anyone / anybody / anypony|whoever / whomever|ye
+each other|he|her|hers|herself|him|himself|his|I|it|its|itself|me|mine|my|myself|one|oneself|our|ours|ourself|ourselves|she|thee|their|theirs|them / 'em / em|themself|themselves|there|they|thine|thou|thy|thyself|us|we|what|which|who|whom|whomst|whomst'd've / whomstdve|whose|y'all / yall|y'all's|you / u|your / ur|yours / urs|yourself / urself|yourselves / urselves|you're / u're / ure|they're|someone / somebody / somepony|everyone / everybody / everypony|nobody / no one / nopony|anyone / anybody / anypony|whoever / whomever|ye|yous / youse
 ze|zir|xe|xim|xer|xem|zem|xis|xir|zer|xey|xyr|xyrs|xemself|zemself|xemselves|zemselves|zirself
 fae|faer|faeself / faerself
 this|that|these|those
 ae|aer|aerself|aers
 eir|eirs|emself
 hir|hirs|hirself
-catself
+catself|dogself
 
 [honorifics]
 mr / mister
@@ -994,7 +997,6 @@ sir
 dame
 prof / professor
 noble
-reverend
 father
 captain
 officer
@@ -1064,6 +1066,32 @@ ronna-
 yotta-
 zetta-
 exa-
+thera- / thero-
+kibi-
+mebi-
+gibi-
+tebi-
+pebi-
+exbi-
+zebi-
+yobi-
+robi-
+quebi-
+andro-
+lipo-
+matri-
+patri-
+bronto-
+hypno-
+sino-
+necro-
+bacterio-
+biblio-
+gyno- / gyne-
+keto-
+acro-
+endo-
+intro-
 peta-
 tera-
 cardio-
@@ -1347,7 +1375,7 @@ kata
 near
 palmar
 port
-proximal / inward / in / middle / center / centre / central / inside / interior
+proximal / inward / in / middle / center / centre / central / inside / interior / medial
 radial
 rostral
 skyward
@@ -1363,6 +1391,7 @@ accelerate
 regress
 accept
 bury
+plea
 warn
 sharpen
 excuse
@@ -1373,6 +1402,7 @@ grant
 rent
 ascend / ascent
 descend / descent
+torrent
 access
 tangle
 ward
@@ -3795,6 +3825,8 @@ andesaurus
 ankylosaurus / ankylosaur
 archosaur
 nyasasaurus
+aardonyx
+metriacanthosaurus
 achillobator
 atrociraptor
 austroraptor
@@ -3923,6 +3955,15 @@ palaeotis
 rajasaurus
 moabosaurus
 asfaltovenator
+silesaurus
+koreanosaurus
+elasmosaurus
+mixosaurus
+aeolosaurus
+lythronax
+morrosaurus
+natovenator
+fukuiraptor
 miragaia
 tsintaosaurus
 hadrosaur
@@ -4579,6 +4620,7 @@ cait sith / cat-sìth
 mutant
 bunyip
 cherub
+boojum
 mimic
 ophanim
 lyngbakr
@@ -4757,10 +4799,11 @@ rust / rusty
 sand "you could make a game out of this.."
 mycelium
 pollen
+raindrop
 sap
 seaweed
 slime / goo / ooze / goop
-snow / snowflake
+snow / snowflake / snowball
 stick / twig / branch "one of the many things that can break bones"
 blossom
 bud
@@ -6046,6 +6089,7 @@ bristlecone
 kauri
 wisteria
 narra / asana / angsana
+boojum / cirio
 acacia / wattle
 applewood / apple
 alder
@@ -6083,9 +6127,37 @@ balsa
 mahogany
 banyan
 blackwood
+bloodwood
+bocote
+bubinga
+canarywood
+ebony
+greenheart
+ipê / poui / pau d'arco / epay / lapacho / guayacan
+koa
+jatobá
+macassar
+mopane
+poisonwood
+purpleheart
+rubber
+wenge
+zebrawood / zebrano
+pink ivory / red ivory / purple ivory / unnini / umgoloti
 evergreen
 baobab
 laurel
+camphor
+dragon's blood
+ceiba / kapok
+manchineel
+mangrove
+monkey puzzle
+olive
+rainbow eucalyptus
+sandbox
+snakewood
+strangler fig
 fir
 ginkgo / biloba
 hawthorn
@@ -6244,11 +6316,13 @@ cannoli
 carbonara
 casserole
 cereal
+cornflake
 ceviche
 cheerios
 cheese
 cheesecake
 cheeto
+shabu-shabu
 chia
 chicle
 chimichanga
@@ -6314,7 +6388,11 @@ gyro / wrap
 hashbrown
 hershey
 kitkat
+twix
+feijoada
+agar / agar-agar
 hotpot
+xanthan
 hummus
 hydrox
 ice cream
@@ -6396,7 +6474,8 @@ s'more
 salad
 saltine
 samosa
-sandwich / sub
+sandwich
+sub / hoagie
 schneeball
 scone
 seaweed / gim
@@ -6408,7 +6487,9 @@ sisig
 skittle
 smetana
 snack / treat
+parfait
 baklava
+pb&j / peanut butter and jelly / peanut butter jelly
 churro / fried dough
 snicker
 snowcone / sno cone
@@ -6419,6 +6500,19 @@ soup
 souvlaki
 spongecake / tres leches
 spring roll
+congee
+hushpuppy
+jellybean
+stuffing
+grits
+gratin
+dango
+taiyaki
+takoyaki
+tempura
+chowder
+crinkle
+pocky
 stew
 stromboli
 stroopwafel
@@ -6428,6 +6522,7 @@ supper
 sushi
 taco
 taffy / yeot
+toffee
 tamale
 tanghulu
 tapioca
@@ -6562,8 +6657,11 @@ butter
 caramel
 chimichurri
 coleslaw
+nonpareils / hundreds and thousands
+marmite
 dip
 dressing
+sauerkraut
 fondue
 gravy / grease
 honey
@@ -6864,11 +6962,32 @@ alternative / alt
 ambient
 experimental
 ballad
+jumpstyle
 musical / broadway
 waltz
 bolero
 boogaloo
 gregorian chant
+heavy metal
+death metal
+power metal
+grindcore
+drum and bass / d&b / dnb / drum 'n' bass
+ragtime
+electro swing / swing house
+easy listening
+hymn
+oldies
+psychedelia / psychedelic
+rockabilly
+tarantella
+mashcore
+complextro
+emoviolence
+fado
+grebo
+powerviolence
+rocksteady
 hyperpunk
 bachata
 gamelan
@@ -6896,7 +7015,7 @@ bluegrass
 blues
 bossa nova
 breakcore
-c-pop
+c-pop / mandopop / mandapop
 chiptune
 cover
 instrumental
@@ -6957,7 +7076,6 @@ phonk
 polka
 pop / popular
 progressive / prog
-psychedelia
 punk
 r&&b / rhythm and blues / rhythm && blues / rnb
 rap
@@ -6981,7 +7099,8 @@ techno
 trap
 trot
 vallenato
-vaporwave
+vaporwave / vapourwave
+hypertone
 vocaloid / utauloid / utau / miku / hatsune miku / miku hatsune / hatsune / teto / kasane teto / teto kasane / kasane
 
 [accessories]
@@ -7919,6 +8038,7 @@ stash
 microscope
 pastel
 taxidermy
+sextant
 generator
 microchip
 bubbler / water fountain
@@ -8247,6 +8367,7 @@ painting
 palette
 pan
 paper / document / paperwork
+diploma
 paper towel
 paperclip
 peeler
@@ -8301,7 +8422,7 @@ roomba
 rope
 router / wifi / internet
 rubber band
-ruler
+ruler / straightedge
 sack
 safe
 sandpaper
@@ -8568,6 +8689,12 @@ cockpit
 dormitory / dorm
 trough
 classroom
+seesaw
+minaret
+rotunda
+slum
+auction house
+gulag
 hospice
 aqueduct
 pulpit
@@ -8870,13 +8997,24 @@ mill
 [weapons]
 = arms / armament
 agent orange
-ak-47 / ak47
+ak-47 / ak47 / kalashnikov
 anthrax
 ar-15 / ar15
 arrow
 artillery
+arbalest / arblast
 axe / ax
+wakizashi
+shotel
+urumi
+ikakalaka / konda
+semtex
+hacksaw
+m4a1 / m4
 switchblade
+airsoft gun / airgun / pellet
+akm
+groza / ots-14
 messer
 cudgel
 shillelagh
@@ -8887,7 +9025,6 @@ baton
 battering ram
 battleaxe / battleax
 bayonet
-airsoft gun / airgun / pellet
 bazooka
 bb / bb gun
 belt
@@ -9515,7 +9652,7 @@ drizzle
 muddy
 zephyr
 drought / dry / arid
-dust storm / dust devil / sand whirl
+dust storm / dust devil / sand whirl / simoom
 earthquake
 eruption
 firenado / fire whirl
@@ -9532,9 +9669,9 @@ meteor shower
 ball lightning
 soot
 subzero
-heat wave
+heat wave / sweltering
 hot / heat
-humid / muggy / moist / moisture / damp / soggy
+humid / muggy / moist / moisture / damp / soggy / humidity
 hurricane / typhoon
 ice / icy
 landslide
@@ -9543,7 +9680,8 @@ mist / misty
 monsoon
 mudslide
 overcast
-rain / rainy / rainstorm / rain storm / rainfall / wet / downpour
+rain / rainy / rainstorm / rain storm / rainfall / wet / downpour / precipitation
+torrent / torrential / tempest
 rainbow
 sandstorm
 sharknado
@@ -9557,13 +9695,24 @@ squall
 storm / stormy
 sunny / sun / clear / sunshine
 flurry
+enso / el niño–southern oscillation
+quicksand
+rockfall / rockslide
+gustnado
+snowdrift
+temperature
+thundersnow
+mirage
+forecast
+climate
 el niño / la niña
 haboob
 landspout
 fair
 thunder / thunderstorm
 tide
-tornado / twister
+tornado / twister / tornadogenesis
+draft / updraft
 tsunami
 warm
 waterspout
@@ -10086,8 +10235,75 @@ aleph null
 aleph / ℵ
 approximate / approximation
 normal
+mersenne
+cross product
+cartesian product
+ptolemy
+ordinal / ordinality
+gradient
+commutative / commutation
+functional
+corollary
+conjecture
+basis
+equiangular
+countable
+cardinal / cardinality
+3-dimensional / 3d
+4-dimensional / 4d
+distance
+depth
+implicit
+explicit
+definition
+magnitude
+associative / association
+conjugate / conjugation
+result
+similarity / similar
+optimization / optimal
+mass point
+homothetic / homothety
+midpoint
+midsegment
+trisection
+hypercomplex
+complex
+twin
+2-dimensional / 2d
+natural log / ln
+pentation
+hexation
+injection / injective / one-to-one
+bijection / bijective
+surjection / surjective
+combination / combinatorial
+nth
 independent
+dependent
+tensor
+heximal / senary seximal
+heptimal / septimal
+lebesgue
+translation
+ordered
+sohcahtoa
+pair
+undecimal / hendecimal / elevenary
+dozenal / duodecimal
+tridecimal / tredecimal / baker's dozenal
+unknown
+augend
+altitude
+sheafification
+e=mc² / e=mc2
+ordinate
+divisibility
+heuristics
+azimuth
 torque
+cyclic
+shape / shaped
 lemma
 pattern
 grid
@@ -10097,11 +10313,10 @@ convex
 binomial
 concave
 reflection
-simplification
+simplification / simplified
 reduction
 axiom
 octal
-dependent
 circa / nearby
 formal
 consequent
@@ -10123,6 +10338,8 @@ tanh
 coth
 sech
 csch / cosech
+dot
+dot product / scalar product
 arsinh / asinh / arcsinh
 arcosh / acosh / arccosh
 artanh / atanh / arctanh
@@ -10157,7 +10374,6 @@ fermat
 diophantine
 goldbach
 totient
-mersenne
 differential
 incongruence
 summation
@@ -10166,7 +10382,7 @@ sequence
 repetition "repetition"
 interval
 random / randomness
-modulo / modulus
+modulo / modulus / mod / modular
 euler
 pythagorean / pythagoras
 arccosecant / arccsc
@@ -10187,7 +10403,6 @@ boolean
 calculation / calculating
 calculus
 capacity
-cardinal
 chord
 circumference
 coefficient
@@ -10220,7 +10435,7 @@ digit
 digestive
 hymen
 dimension
-distributive
+distributive / distribution
 dividend
 division / dividing
 divisor
@@ -10229,13 +10444,13 @@ equal / equality
 equation
 equilateral
 even
-exponent / exponential / power / exp
+exponent / exponential / power / exp / exponentiation
 least common multiple / lcm
 expression
 factor
 factorial
 finite
-formula
+formula / formulation
 fractal
 fraction
 frequency / rate
@@ -10250,7 +10465,8 @@ homeomorphism
 hypotenuse
 imaginary
 increment
-inequality
+inequality / inequal / unequal
+series / serial
 infinitesimal
 infinity / infinite / ∞
 integer
@@ -10298,7 +10514,7 @@ pi / 3.14 / π / 3.14159 / 3.1415 / 3.141
 point
 polynomial
 positive
-prime
+prime / primorial
 probability / chance / odds
 product
 pronumeral
@@ -10342,14 +10558,14 @@ surd
 symmetry
 tangent / tan
 ternary
-theorem
+theorem / theory
 trace
 trigonometry / trigonometric / trig
 undefined
 union
 variable
 vector
-vertex
+vertex / vertices
 volume
 whole
 width
@@ -10521,6 +10737,115 @@ tau
 
 [companies]
 = brands
+northrop grumman
+mlb
+nhl
+stanley
+blackstone
+blackrock
+fidelity
+beats
+carnegie steel
+standard oil
+carlyle group
+applebee's
+hooters
+red lobster
+sears
+kmart
+party city
+claire's
+carhartt
+culver's
+firehouse subs
+in-n-out burgers / in-and-out
+jimmy john's
+marriott
+nordstrom
+dick's sporting goods / dick's
+quiktrip
+texaco
+lucky brand
+american eagle
+best buy
+spirit halloween
+ross stores
+autozone
+spencer's
+hot topic
+o'reilly
+gap
+jcpenney
+belk
+homegoods
+burlington
+bealls
+sam's club
+tj maxx / tjx
+family dollar
+five below
+marshalls
+ollie's
+hobby lobby
+college board
+forever 21
+whole foods
+shoprite
+ingles markets
+trader joe's
+goodreads
+rite aid
+badcock
+barnes & noble
+blockbuster
+pet supermarket
+auntie anne's
+crumbl
+wingstop
+zaxby's
+baskin-robbins
+ben & jerry's
+bruster's
+haagen-dazs
+menchie's
+hardee's
+five guys
+krystal
+jack in the box
+steak 'n shake
+sonic
+white castle
+taco bell
+little caesars
+captain d's
+cheesecake factory
+chili's
+cracker barrel
+golden corral
+hard rock
+o'charley's
+buffalo wild wings / bww
+longhorn
+outback
+texas roadhouse
+dave & buster's
+lenovo
+abercrombie
+ancestry
+dk
+l'oréal
+metro-goldwyn-mayer / mgm
+nationwide
+nissin
+oceangate
+price chopper
+nesco
+technicolor
+roku
+vkontakte / vk
+hbo
+skype
+amtrak
 7-eleven / 7-11 / seven-eleven
 abc
 acer
@@ -10534,6 +10859,7 @@ fedex
 holden
 opel
 vauxhall
+stetson
 nascar
 petsmart
 petco
@@ -10573,7 +10899,6 @@ vans
 birkenstock
 rivian
 nfl
-mlb
 waffle house
 hewlett-packard / hp
 duolingo
@@ -10618,7 +10943,6 @@ cbs
 cnbc
 berkshire hathaway
 bic
-blackrock
 bmo
 bmw
 bnp
@@ -10633,7 +10957,7 @@ levi's
 schnucks
 yamaha
 bugatti
-burger king
+burger king / bk
 byd
 cadbury
 campbell's / campbell's soup
@@ -10661,7 +10985,7 @@ dairy queen
 del monte
 dell
 discord "we have one! **discord.gg/R74n**"
-disney
+disney / buena vista
 dole
 dollar general
 dollar tree
@@ -10702,7 +11026,6 @@ fidelty
 panera
 amc
 ticketmaster
-blackstone
 norton
 mcafee
 general motors / gm
@@ -10747,7 +11070,7 @@ huawei
 ibm
 icbc
 ikea
-instagram "follow us on instagram @R74ndev!"
+instagram / ig "follow us on instagram @R74ndev!"
 whatsapp
 intel
 intesa sanpaolo
@@ -10768,7 +11091,7 @@ macy's
 mars
 marvel
 mastercard
-mcdonald's
+mcdonald's / wcdonald's / maccy d's / macca's / mickey d's / mcd's
 wikimedia / mediawiki / wikipedia
 transifex / indifex
 panda express
@@ -10777,7 +11100,6 @@ lockheed martin / lockheed
 hallmark
 lindt
 carnival
-whole foods
 mercedes-benz / mercedes
 meta / facebook
 micro center
@@ -10792,7 +11114,6 @@ bethesda
 hasbro
 mattel
 duckduckgo
-roku
 ihop
 buzzfeed
 mitsubishi
@@ -11026,6 +11347,7 @@ american samoa
 curaçao
 andorra
 sint maarten
+saint martin / collectivity of saint martin
 cayman islands
 mayotte
 caribbean netherlands / bonaire / sint eustatius / saba
@@ -12774,7 +13096,8 @@ pound / pound sterling / quid / £
 pula
 quetzal
 rand
-real
+real / reais
+centavo
 renminbi / yuan / rmb
 rial
 riel
@@ -13008,7 +13331,6 @@ emperor
 empress
 engineer
 entertainer
-escort
 eunuch
 executioner / headsman
 executive
@@ -13210,7 +13532,7 @@ publisher
 programmer / developer / dev / coder / gamedev / geek / nerd
 prosecutor
 prospector
-prostitute / hooker
+prostitute / hooker / escort
 psychiatrist
 psychologist
 puppeteer
@@ -13640,6 +13962,7 @@ demeter / ceres
 dionysus / dionysos / bacchus / liber
 eileithyia / eileithyie / lucina
 eros / cupid / amor
+hypnos / hypnus
 gaea / ge / tellus / terra mater / terra / mother earth
 hades / pluto / dis
 hebe / juventas / iuventas
@@ -13658,7 +13981,7 @@ persephone / cora / kore / proserpina
 poseidon / neptune / neptunus
 rhea / rheia / kybele / ops
 selene / luna
-uranus / caelum
+uranus / caelum / ouranus
 zeus / jupiter
 thor
 iris
@@ -14876,6 +15199,10 @@ copyright / ©
 trademark / tm / ™ / ®
 ellipsis / ellipses / ...
 cross / dagger / †
+division / divided / ÷
+tally / tally mark / hash mark
+counting rod
+plus-minus / plus or minus / ±
 
 [video games]
 60 seconds
