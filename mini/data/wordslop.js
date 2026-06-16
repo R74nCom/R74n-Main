@@ -2935,6 +2935,12 @@ bicolor / bicolour / harlequin
 birman
 black-footed cat / small-spotted cat
 bobcat / bobkitten
+laperm
+manx
+norwegian forest
+savannah
+scottish fold
+somali
 bobtail
 bombay
 calico
@@ -3044,6 +3050,12 @@ beagle
 beauceron
 bichon frisé / bichon frise / bichon
 bloodhound
+african wild dog / painted dog / cape hunting dog / lycaon
+bat-eared fox / otocyon
+braques français
+komondor
+maned wolf
+puli
 boerboel
 bolognese
 borzoi
@@ -4618,6 +4630,8 @@ hobgoblin
 naga
 cait sith / cat-sìth
 mutant
+charybdis
+scylla
 bunyip
 cherub
 boojum
@@ -5899,6 +5913,7 @@ brown / cremini / crimini / chestnut / baby bella
 portobello / portabella / portobella
 wood ear
 oyster
+lingzhi / reishi
 beech
 maitake / hen of the woods
 chicken of the woods
@@ -6487,6 +6502,10 @@ sisig
 skittle
 smetana
 snack / treat
+bitterballen
+bouillabaisse
+cordon bleu
+croquette
 parfait
 baklava
 pb&j / peanut butter and jelly / peanut butter jelly
@@ -12595,7 +12614,7 @@ neopaganism
 occultism / occult
 orthodox
 paganism / pagan
-pastafarianism / pastafarian / flying spaghetii monster
+pastafarianism / pastafarian / flying spaghetii monster / pastafari
 polytheism / polytheist
 theism / theist
 presbyterianism / presbyterian
@@ -12630,9 +12649,10 @@ adrian / adriana
 agatha / agata
 aiden / aidan / ayden
 ailany
+eren / iren
 alan / allen / allan / alanna / alana / alanah / alannah / ilana
 albert / al / bert / elbert
-alexander / alejandro / alex / alexandria / alexandra / alexis / alexei / alexa
+alexander / alejandro / alex / alexandria / alexandra / alexis / alexei / alexa / alexia
 alfred
 alice / allison / alison / allie / ally / alis / alys / ali
 alma
@@ -12730,9 +12750,9 @@ diane / diana / dianna
 diego / diogo
 donald / don / donnie / donny
 donna
-dora
+dora / dara / darius / dory / dorie
+howard / howie
 dorothy
-dory / dorie
 douglas / doug
 dylan
 easton
@@ -12752,7 +12772,7 @@ ethan
 eugene / gene
 evan
 evelyn / eve / eva / evie
-ezekiel
+ezekiel / zeke
 ezra
 fatima / fatimah
 felipe
@@ -12922,7 +12942,7 @@ poppy
 quinn
 rachel
 raegan
-ralph / raul / rudolph
+ralph / raul / rudolph / rudy / rudi
 randy / randall
 ravi
 raymond / ray
@@ -12940,6 +12960,7 @@ romina
 ronald / ron / ronnie / ronny
 rosie / rosa / rosemary / roosevelt
 ruth
+zayn
 ryan
 ryker / riker
 sabrina / bree / bri
@@ -12971,7 +12992,7 @@ susan / sussan / sussanne / suzanne / susie / suzy / suzie
 sydney
 sylvie / sylvia
 tamara / tammy / tammie / tam
-tatiana / tanya
+tatiana / tanya / tanja
 tatum
 taylor
 teresa / theresa / terry / tessa / tess
@@ -13032,6 +13053,7 @@ cedi
 cent / penny / ¢
 colón
 bitcoin / btc
+monero / xmr
 ethereum
 dogecoin
 córdoba
@@ -14358,6 +14380,7 @@ alzheimer's / dementia
 arthritis
 asthma
 avarice
+glitch / glitchy
 argument
 awful
 necromancy
@@ -14603,7 +14626,7 @@ worship
 adorable / cute
 birth
 pride / proud
-amazing / wonderful / fantastic / awesome / fabulous
+amazing / wonderful / fantastic / awesome / fabulous / legendary
 excellent
 fun
 leisure
@@ -14828,7 +14851,7 @@ aegosexual
 heterosexual / straight / hetero
 cisgender
 catgender
-doggender / dogender
+doggender / dogender / pupgender
 kingender
 pomosexual
 cishet
@@ -14840,7 +14863,7 @@ alloromantic
 mpreg
 allosexual / allo
 ally
-transneutral
+transneutral / transneu
 biromantic
 amab
 androgyne / androgynous / androgyny
@@ -15455,6 +15478,7 @@ hulk
 mickey mouse / mickey
 avatar
 tron
+glitch
 pocoyo
 apex legends / apex
 gorillaz
