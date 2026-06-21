@@ -427,7 +427,7 @@ function sendSentence() {
 
 			if (score > currentBest) {
 				currentBest = score;
-				flashImage("img/ragebait" + (Math.floor(Math.random() * 9) + 1) + ".jpg");
+				flashImage("img/ragebait" + (Math.floor(Math.random() * 8) + 1) + ".jpg");
 			}
 
 			streamer.classList.remove("downward");
