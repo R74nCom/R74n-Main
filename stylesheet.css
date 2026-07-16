@@ -1192,7 +1192,7 @@ form .honeypot {
 	font-size: 40px;
 	-webkit-text-stroke: 9px black;
     paint-order: stroke fill;
-	text-shadow: 0px 0px 20px black;
+	/* text-shadow: 0px 0px 20px black; */
 	/* text-shadow:
 0px 3px 0px black,
 0px -3px 0px black,
