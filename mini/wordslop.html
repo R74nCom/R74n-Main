@@ -47,10 +47,10 @@
     <div class="clickable mobileBack">back --&gt;</div>
     <span class="title">
       <span class="back">◀</span>
-      <img class="doodle clickable" id="progressShare" src="../doodle/share.gif">
-      <span class="text">progress</span>
+      <img class="doodle clickable needsProgress" id="progressShare" src="../doodle/share.gif">
+      <span class="text needsProgress">progress</span>
       <input type="search" id="searchBox">
-      <img class="doodle clickable" id="progressSearch" src="../doodle/search.gif">
+      <img class="doodle clickable needsProgress" id="progressSearch" src="../doodle/search.gif">
     </span>
   </div>
 </div>
@@ -63,7 +63,7 @@
     <!-- <span style="opacity: 0.4;"><strong>rock</strong> is new</span> -->
   </div>
   <div id="panel1">
-    <span id="inputSpacer">Type something..</span>
+    <span id="inputSpacer">type something..</span>
     <span id="inputOverlay" class="noSelect"></span>
     <input type="text" id="mainInput" value="" autofocus placeholder="type something..">
   </div>
@@ -74,8 +74,8 @@
 <div id="col3">
   <div id="panel5">
     <div class="clickable mobileBack">&lt;-- back</div>
-    <span class="title"><span class="text">stats</span></span>
-    <span class="noSelect"><span>score</span> <span>123</span></span>
+    <span class="title needsProgress"><span class="text">stats</span></span>
+    <!-- <span class="noSelect"><span>score</span> <span>123</span></span> -->
   </div>
   <div id="panel7">
     <span>
@@ -281,6 +281,18 @@
     text-align: right;
     margin-top: 0.25em;
   }
+  #panel4 > span:active {
+    scale: 1;
+  }
+  #panel4 > span.clickable:active > span {
+    transform: scale(0.9);
+  }
+  #panel4 > span.clickable:active > span:first-child {
+    transform-origin: left;
+  }
+  #panel4 > span.clickable:active > span:last-child {
+    transform-origin: right;
+  }
   #panel4 .iconimg {
     filter: invert(1);
     height: 1em;
@@ -325,6 +337,12 @@
   #panel4 > .title.search > #progressShare {
     display: none;
   }
+  #panel4 > .title > .doodle.clickable:hover {
+    scale: 1.2;
+  }
+  #panel4 > .title > .doodle.clickable:active {
+    scale: 1;
+  }
   #progressShare {
     margin-right: 10px;
   }
@@ -337,10 +355,10 @@
     text-decoration: underline;
   }
 
-  #saveControls > span::before {
+  #saveControls > span::after {
     content: " • ";
   }
-  #saveControls > span:first-of-type::before {
+  #saveControls > span:last-of-type::after {
     content: "";
   }
 
@@ -511,6 +529,37 @@
 
   let db;
 
+  debugCommands = {
+    init: () => initGame(),
+    promo: (n) => promo(n),
+    temp: () => {
+      skipSaving = true;
+      debugCommands.resetyes();
+      skipSaving = true;
+      debugCommands.clear();
+    },
+    video: () => {
+      debugCommands.temp();
+      promo(2);
+      alert("Switch to system audio before recording");
+    },
+    clear: () => {
+      saveData.messages = [];
+      panel3.innerHTML = "";
+      panel2.innerHTML = "";
+    },
+    hint: (group) => {
+      if (group) {
+        if (!SPA.data.groups[group]) return false;
+      }
+      doHint(group||undefined);
+    },
+    reset: () => resetAll(),
+    save: () => saveFile(),
+    load: () => loadFile(),
+    /*RESETS ALL PROGRESS IMMEDIATELY*/ resetyes: () => resetAll(true)
+  }
+
   saveData = null;
   skipSaving = false;
   function saveState() {
@@ -552,7 +601,7 @@
       resetting = "all";
       return;
     }
-    db.clear();
+    if (!skipSaving) db.clear();
     saveData = null;
     initGame();
   }
@@ -646,11 +695,14 @@
     });
     return total;
   }
-  function getGroupFound(group) {
+  function getGroupFound(group, done) {
+    done = done || {};
     let found = 0;
     if (saveData.found[group]) found += Object.keys(saveData.found[group]).length;
     if (SPA.data.groups[group].subsets) SPA.data.groups[group].subsets.forEach(subset => {
-      found += getGroupFound(subset);
+      if (done[subset] === true) return;
+      found += getGroupFound(subset, done);
+      done[subset] = true;
     });
     return found;
   }
@@ -838,15 +890,36 @@
     col3.style.display = "none";
     panel2.style.paddingRight = "2em";
     panel3.style.paddingRight = "2em";
-    if (n === 2) {
+    if (n === 2) { //vertical video
       SPA.main.style.flexDirection = "column";
-      SPA.main.style.width = "50%";
+      SPA.main.style.width = "500px";
+      SPA.main.style.overflow = "hidden";
       SPA.main.style.background = "#e7e7f6";
       document.body.style.background = "gray";
       col2.style.maxWidth = "unset";
       col2.style.flexBasis = "unset";
       col2.style.flexGrow = "0"
-      panel3.style.height = "33%";
+      col2.style.marginTop = "1em";
+      panel3.style.height = "40%";
+      panel4.querySelector("span.title").style.display = "none";
+      SPA.header.style.display = "none";
+      col2.style.position = "absolute";
+      col2.style.zIndex = "9999";
+      col2.style.width = "500px";
+      col2.style.background = "#B9B9D0";
+      document.head.insertAdjacentHTML("beforeend", `<style>
+  #panel4 span.clickable {
+    padding-left: 1em;
+    padding-right: 1em;
+    display: none;
+  }
+  #panel4 span.clickable:nth-of-type(2),
+  #panel4 span.clickable:nth-of-type(3),
+  #panel4 span.clickable:nth-of-type(4),
+  #panel4 span.clickable[data-group="all"] {
+    display: flex;
+  }
+</style>`)
       return;
     }
     col2.style.flexBasis = "40%";
@@ -1371,6 +1444,25 @@
     }
     updateInputOverlay();
 
+    if (word.match(/^\/./)) {
+      let command = word.slice(1).toLowerCase();
+      let arg = command.split(" ").slice(1).join(" ");
+      if (arg && !isNaN(arg)) arg = parseInt(arg);
+      command = command.split(" ")[0];
+      if (debugCommands[command]) {
+        try {
+          const r = debugCommands[command](arg);
+          if (r === false) playAudio("boo");
+          else playAudio("success");
+          saveState();
+        }
+        catch {
+          playAudio("boo");
+        }
+        return;
+      }
+    }
+
     if (resetting) {
       if (resetting === "all" && word.replace(/"/g, "") === "yes reset everything") {
         resetAll(true);
@@ -1502,6 +1594,8 @@
           formsToCheck.push(form.replace(/ion$/g, ""));
           formsToCheck.push(form.replace(/tion$/g, "te"));
           formsToCheck.push(form.replace(/tion$/g, "ting"));
+          formsToCheck.push(form.replace(/ction$/g, "ce"));
+          formsToCheck.push(form.replace(/ce$/g, "ction"));
           formsToCheck.push(form.replace(/ing$/g, "ion"));
           formsToCheck.push(form.replace(/te$/g, "tion"));
           formsToCheck.push(form.replace(/iness$/g, "y"));
@@ -1520,6 +1614,8 @@
           formsToCheck.push(form.replace(/ism$/g, ""));
           formsToCheck.push(form.replace(/ible$/g, "ibility"));
           formsToCheck.push(form.replace(/ibility$/g, "ible"));
+          formsToCheck.push(form.replace(/fully$/g, "ful"));
+          formsToCheck.push(form.replace(/ful$/g, "fully"));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");
@@ -1531,6 +1627,8 @@
         formsToCheck.push(form.replace(/st\./g, "saint "));
         formsToCheck.push(form.replace(/saint /g, "st "));
         formsToCheck.push(form.replace(/saint /g, "st."));
+        formsToCheck.push(form.replace(/, and /g, " and "));
+        formsToCheck.push(form.replace(/ and /g, ", and "));
         
         formsToCheck.push(form.replace(/ /g, ""));
 
@@ -1557,6 +1655,7 @@
     formsToCheck.sort((a,b) => b.length - a.length).forEach(f => {
       if (!f) return;
       forms[f] = true;
+      if (forms["a "+f] === true) return;
       forms[f.replace(/ /g, "")] = true;
       forms["the "+f] = true;
       forms["a "+f] = true;
@@ -1571,6 +1670,7 @@
     let duplicateGroup = false;
     let base;
     let groupAlias;
+    let hasActualWord = false;
     saveData.newGroups = {};
     saveData.changedGroups = {};
     saveData.changedWords = {};
@@ -1677,6 +1777,7 @@
         else statAdd("score", isOfGroup(group, dailyGroup) ? 20 : 10);
         resultCount ++;
         saveData.changedWords[word] = true;
+        hasActualWord = true;
 
         if (!hasFoundGroup && Object.keys(found).length === 1 && (found[Object.keys(found)[0]] === true || found[Object.keys(found)[0]].length === 1)) saveData.newGroups[group] = true;
         // saveData.newGroups[group] = !hasFoundGroup;
@@ -1751,7 +1852,7 @@
       playAudio("boo");
       lostStreak = true;
     }
-    else if (duplicateGroup) {
+    else if (duplicateGroup && hasActualWord) {
       logMessage(`**${duplicateGroup || word || base}** ${(groupAlias || word) !== duplicateGroup ? " ("+stripQualifier(word || groupAlias, duplicateGroup || base)+")" : ""} already found`, 2, false, {group: duplicateGroup});
       statAdd("repeats", 1);
       playAudio("boo");
