@@ -536,12 +536,53 @@
       skipSaving = true;
       debugCommands.resetyes();
       skipSaving = true;
-      debugCommands.clear();
+      // debugCommands.clear();
     },
-    video: () => {
+    video: (group) => {
       debugCommands.temp();
       promo(2);
+      let notes = document.getElementById("promoNotes");
+      if (group) {
+        let words = SPA.data.groups[group].words;
+        notes.innerText = Object.keys(words).toSorted(() => Math.random() - 0.5).map(w => {
+          let word = words[w];
+          if (word === true) return w;
+          return w + " / " + word.join(" / ");
+        }).join("\n");
+      }
       alert("Switch to system audio before recording");
+    },
+    dev: () => {
+      if (window.holdDev) {
+        png.remove();
+        return;
+      }
+      let png = document.createElement("img");
+      window.holdDev = png;
+      png.className = "pixelart";
+      png.style.position = "absolute";
+      png.style.zIndex = "9999";
+      png.style.width = "200px";
+      png.style.pointerEvents = "none";
+      png.style.transition = "transform 0.25s";
+      // png.style.transform = `rotate(${Math.floor(Math.random() * 40) - 20}deg)`;
+      png.src = "../shapes/developer.png";
+      window.addEventListener("keydown", () => {
+        if (!window.holdDev) return;
+        png.style.transform = `rotate(${Math.floor(Math.random() * 30) - 15}deg)`;
+      })
+      window.addEventListener("mousemove", (e) => {
+        if (!window.holdDev) return;
+        // console.log(e.clientX)
+        png.style.left = (e.clientX - png.clientWidth + 50)+"px";
+        png.style.top = (e.clientY - png.clientHeight + 50)+"px";
+        if (Math.random() < 0.1) png.style.transform = `rotate(${Math.floor(Math.random() * 30) - 15}deg)`;
+      })
+      window.addEventListener("click", (e) => {
+        if (!window.holdDev) return;
+        png.style.transform = `rotate(${Math.floor(Math.random() * 40) - 20}deg)`;
+      })
+      document.body.appendChild(png);
     },
     clear: () => {
       saveData.messages = [];
@@ -900,7 +941,8 @@
       col2.style.flexBasis = "unset";
       col2.style.flexGrow = "0"
       col2.style.marginTop = "1em";
-      panel3.style.height = "40%";
+      panel3.style.height = "40vh";
+      panel2.style.height = "30vh";
       panel4.querySelector("span.title").style.display = "none";
       SPA.header.style.display = "none";
       col2.style.position = "absolute";
@@ -919,7 +961,15 @@
   #panel4 span.clickable[data-group="all"] {
     display: flex;
   }
-</style>`)
+  span[data-step="inputclick"] {display: none}
+</style>`);
+      document.body.style.display = "flex";
+      document.body.style.flexDirection = "row";
+      SPA.main.style.flexGrow = "0";
+      SPA.main.style.flexShrink = "0";
+      if (!document.getElementById("promoNotes")) {
+        SPA.main.insertAdjacentHTML("afterend", `<div id="promoNotes" contenteditable="plaintext-only" style="padding:1em; flex-grow:1; flex-shrink:1; background:#aaaaaa; overflow: scroll;"></div>`);
+      }
       return;
     }
     col2.style.flexBasis = "40%";
@@ -1186,6 +1236,7 @@
     const msg = logMessage(text);
     saveData.messaged[step] = true;
     saveState();
+    msg.setAttribute("data-step", step);
     return msg;
   }
   let lastMessage = null;
@@ -1310,6 +1361,18 @@
 
     if (hintTimeout) clearTimeout(hintTimeout);
     updateHint();
+    for (const oldName in SPA.data.groupRenames) {
+      const newName = SPA.data.groupRenames[oldName];
+      console.log(1)
+      if (saveData.found[oldName] !== undefined) {
+        saveData.found[newName] = saveData.found[oldName];
+        delete saveData.found[oldName];
+      }
+      if (saveData.changedGroups && saveData.changedGroups[oldName] === true) {
+        saveData.changedGroups[newName] = true;
+        delete saveData.changedGroups[oldName];
+      }
+    }
 
     let news = [];
     let givenWords = 0;
@@ -1616,6 +1679,7 @@
           formsToCheck.push(form.replace(/ibility$/g, "ible"));
           formsToCheck.push(form.replace(/fully$/g, "ful"));
           formsToCheck.push(form.replace(/ful$/g, "fully"));
+          formsToCheck.push(form.replace(/al$/g, "ality"));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");
@@ -1736,7 +1800,7 @@
 
         if (!alias && Array.isArray(found[word])) {
           if (found[word].includes("_main")) {
-            if (!duplicate || duplicate.length < word.length) duplicate = word;
+            if (!duplicate) duplicate = word;
             continue;
           };
           found[word].push("_main");
@@ -1757,14 +1821,14 @@
             found[word] = [];
           }
           if (found[word].includes(alias)) {
-            if (!duplicate || duplicate.length < word.length) duplicate = alias;
+            if (!duplicate) duplicate = alias;
             continue;
           }
           found[word].push(alias);
           isNewAlias = true;
         }
         else {
-          if (!duplicate || duplicate.length < word.length) duplicate = word;
+          if (!duplicate) duplicate = word;
           continue;
         };
 
@@ -1847,7 +1911,7 @@
       playAudio(hasNewGroup ? "yay" : "success");
     }
     else if ((duplicate || saveData.unrecognized[word] || (base && saveData.unrecognized[base])) && !isSpecial[duplicate || word || base]) {
-      logMessage(`**${duplicate || word || base}**${(duplicate || base) && (duplicate || base) !== word ? " ("+stripQualifier(word, duplicate || base)+")" : ""} already said`, 2);
+      logMessage(`**${duplicate || word || base}**${(duplicate || base) && (duplicate || base) !== word ? " ("+stripQualifier(word, duplicate || base)+")" : ""} already ${saveData.unrecognized[word] ? "tried" : "said"}`, 2);
       statAdd("repeats", 1);
       playAudio("boo");
       lostStreak = true;
@@ -2160,6 +2224,7 @@
         return;
       }
       if (e.target.tagName !== "INPUT" || e.target === mainInput) {
+        if (e.target.getAttribute("contenteditable")) return;
         if (e.key === "Enter") {
           sendWord();
           // playAudio("type3");
@@ -2185,7 +2250,7 @@
           updateInputOverlay();
         }
       }
-      if (e.target.tagName === "INPUT") {
+      if (e.target.tagName === "INPUT" || e.target.getAttribute("contenteditable")) {
         return;
       }
       let key = e.key;
