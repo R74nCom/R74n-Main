@@ -32,6 +32,7 @@
 <header class="min">
 <a href="/" class="home dark"></a>
 <h1 class="pagetitle">wordslop</h1>
+<img class="doodle theme" src="../doodle/moon.gif" src-other="../doodle/sun.gif" role="button">
 <img class="doodle mute" src="../doodle/sound.gif" src-other="../doodle/mute.gif" role="button">
 <img class="doodle info" src="../doodle/info.gif" role="button">
 </header>
@@ -65,10 +66,18 @@
   <div id="panel1">
     <span id="inputSpacer">type something..</span>
     <span id="inputOverlay" class="noSelect"></span>
-    <input type="text" id="mainInput" value="" autofocus placeholder="type something..">
+    <input type="text" id="mainInput" value="" autofocus placeholder="type something.." autocomplete="off">
   </div>
   <div id="panel2">
     <!-- <span>Enter a thing or concept, like <strong>bat</strong> or <strong>rock</strong>.</span> -->
+  </div>
+  <div id="popup">
+    <div class="clickable mobileBack" onclick="closeInspect()">&lt;-- back</div>
+    <span class="title">this is a test</span>
+    <span class="group">meta</span>
+    <span class="blurb">this is a fun fact about the word</span>
+    <span class="theme clickable noSelect">set theme</span>
+    <span class="also">also in: <span class="clickable">bears</span> <span class="clickable">colors</span> <span class="clickable">colors</span> <span class="clickable">colors</span> <span class="clickable">colors</span> <span class="clickable">colors</span> <span class="clickable">colors</span></span>
   </div>
 </div>
 <div id="col3">
@@ -104,6 +113,31 @@
     font-weight: 600;
   }
 
+  :root {
+    --t-l-panel-main: rgb(243, 243, 250);
+    --t-l-panel-2nd: rgb(231, 231, 246);
+    --t-l-panel-3rd: rgb(185, 185, 208);
+    --t-header: rgb(184, 184, 235);
+    --t-l-text: rgb(19, 19, 59);
+    --t-l-input: rgb(111, 0, 128);
+    --t-l-msg-green: rgb(0, 145, 60);
+    --t-l-msg-yellow: rgb(142, 116, 0);
+    --t-l-new: rgb(220, 220, 134);
+    --t-l-progress: rgb(129, 220, 132);
+    
+    --t-l-progress-new: rgb(159, 230, 71);
+
+
+    /* --t-l-panel-main: rgb(40, 157, 81);
+    --t-l-panel-2nd: rgb(94, 40, 121);
+    --t-l-panel-3rd: rgb(193, 188, 87);
+    --t-header: red;
+    --t-l-text: rgb(73, 32, 18);
+    --t-l-new: rgba(255,0,0,0.5);
+    --t-l-progress: rgba(255, 157, 0, 0.5);
+    --t-l-progress-new: rgba(255, 85, 0, 0.5); */
+  }
+
   * {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -117,6 +151,9 @@
     background: white;
     font-family: "Comic", Verdana, Geneva, Tahoma, sans-serif;
     color-scheme: light;
+  }
+  .spa.light {
+    background: var(--t-l-panel-2nd);
   }
   .content {
     display: flex;
@@ -135,6 +172,7 @@
   #col1 {
     flex-basis: 33%;
     z-index: 100;
+    position: relative;
   }
   #panel1 {
     flex-grow: 0;
@@ -142,6 +180,7 @@
     padding: 0;
     justify-content: center;
     background: rgba(255, 255, 255, 0.5);
+    background: var(--t-l-panel-main);
     position: relative;
   }
   #panel2 {
@@ -168,6 +207,14 @@
   #panel3 > span > strong {
     word-break: break-all;
   }
+  #panel3 > span.green {
+    color: rgb(0, 145, 60);
+    color: var(--t-l-msg-green);
+  }
+  #panel3 > span.yellow {
+    color: rgb(142, 116, 0);
+    color: var(--t-l-msg-yellow);
+  }
   #panel3 {
     padding-bottom: 0.5em;
     margin-top: auto;
@@ -190,10 +237,14 @@
   }
   #col2, #col3 {
     background: rgba(0, 0, 50, 0.2);
+    background: var(--t-l-panel-3rd);
     box-shadow: 0px 0 5px #21253d;
     z-index: 110;
     flex-basis: 20%;
     max-width: 20%;
+  }
+  .spa.light > header:first-child {
+    z-index: 115;
   }
   .content input, .content button, #inputOverlay {
     background: none;
@@ -206,9 +257,18 @@
     caret-color: rgb(25, 0, 255);
     caret-shape: bar;
   }
+  #mainInput::placeholder {
+    color: black;
+    color: var(--t-l-text);
+    opacity: 0.4;
+  }
   #mainInput:placeholder-shown {
     color: black;
+    color: var(--t-l-text);
     caret-color: transparent;
+  }
+  .spa.light {
+    color: var(--t-l-text);
   }
   #inputSpacer {
     color: transparent;
@@ -229,6 +289,7 @@
   }
   #inputOverlay {
     color: rgb(111, 0, 128);
+    color: var(--t-l-input);
   }
   #panel6 button {
     padding: 1em;
@@ -248,6 +309,7 @@
     display: flex;
     padding: 5px 10px;
     word-break: break-word;
+    background-color: var(--t-l-panel-3rd);
   }
   #panel4 > span.title,
   #panel5 > span.title {
@@ -275,6 +337,7 @@
   }
   #panel4 > span.changed {
     background: rgba(255,255,0,0.5);
+    background: var(--t-l-new);
   }
   #panel4 > span.meta {
     justify-content: flex-end;
@@ -362,6 +425,60 @@
     content: "";
   }
 
+  #popup {
+    display: none;
+    position: absolute;
+    top: 10%;
+    left: 0;
+    z-index: 200;
+
+    background: var(--t-l-panel-3rd);
+    color: var(--t-l-text);
+    box-shadow: 0px 1px 5px #21253d;
+    padding: 10px 20px;
+    max-width: 400px;
+
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    gap: 4px;
+  }
+  #popup > span {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  #popup > .title {
+    font-weight: bold;
+    padding: 0;
+    margin-bottom: 0;
+  }
+  #popup > .group {
+    font-style: italic;
+    margin-top: 0;
+  }
+  #popup > .also {
+    line-height: 1.7;
+  }
+  #popup > span > .clickable, #popup > span.clickable {
+    background: var(--t-l-panel-2nd);
+    padding: 0px 5px;
+    box-shadow: 0px 1px 5px #21253d;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 5px;
+  }
+  #popup > span.clickable {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  #popup > .mobileBack {
+    position: unset;
+    flex-grow: 0;
+    padding-left: 20px;
+  }
+
   @media only screen and (min-width: 900px) {
     #panel3 {
       flex-grow: 0;
@@ -372,6 +489,17 @@
     }
   }
   @media only screen and (max-width: 900px) {
+    #popup {
+      width: 100%;
+      position: absolute;
+      top: 0!important;
+      left: 0!important;
+      max-width: 100%;
+      height: 100%;
+      padding: 0;
+      justify-content: flex-start;
+    }
+    
     .spa.light > header:first-child {
       border-bottom: none;
     }
@@ -381,6 +509,7 @@
       max-width: unset;
       position: absolute;
       background: rgb(185,185,206);
+      background: var(--t-l-panel-3rd);
       width: 100%;
       height: 100%;
       padding-top: 2em;
@@ -392,6 +521,7 @@
       display: flex;
       visibility: unset;
       background: rgb(185,185,206);
+      background: var(--t-l-panel-3rd);
       z-index: 120;
       box-shadow: 0px 0 5px #21253d;
     }
@@ -424,14 +554,23 @@
     }
   }
 
+  @media only screen and (max-width: 410px) {
+    body > header:first-child > a:first-child {
+      margin-left: 10px
+    }
+    body > header:first-child > h1 {
+      margin-left: 15px
+    }
+  }
+
   @keyframes rainbow {
     0%{
       filter: hue-rotate(360deg);
     }
   }
-  span.clickable[data-group="lgbtq+"] {
+  /* span.clickable[data-group="lgbtq+"] {
     animation: rainbow 3s linear infinite;
-  }
+  } */
 </style>
 
 <script>
@@ -601,6 +740,122 @@
     /*RESETS ALL PROGRESS IMMEDIATELY*/ resetyes: () => resetAll(true)
   }
 
+  function hexToRGB(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [
+      parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16) ]
+    : null;
+  }
+  function RGBtoHSL(rgb) {let r=rgb[0];let g=rgb[1];let b=rgb[2];r /= 255, g /= 255, b /= 255;var max = Math.max(r, g, b), min = Math.min(r, g, b);var h, s, l = (max + min) / 2;if (max == min) {h = s = 0;} else {var d = max - min;s = l > 0.5 ? d / (2 - max - min) : d / (max + min);switch (max) {case r: h = (g - b) / d + (g < b ? 6 : 0); break;case g: h = (b - r) / d + 2; break;case b: h = (r - g) / d + 4; break;}h /= 6;}return [ h, s, l ];}
+  function HSLtoRGB(hsl) {let h=hsl[0];let s=hsl[1];let l=hsl[2];var r, g, b;if (s == 0) {r = g = b = l;} else {function hue2rgb(p, q, t) {if (t < 0) t += 1;if (t > 1) t -= 1;if (t < 1/6) return p + (q - p) * 6 * t;if (t < 1/2) return q;if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;return p;}var q = l < 0.5 ? l * (1 + s) : l + s - l * s;var p = 2 * l - q;r = hue2rgb(p, q, h + 1/3);g = hue2rgb(p, q, h);b = hue2rgb(p, q, h - 1/3);}return [ r * 255, g * 255, b * 255 ];}
+
+  function generateTheme(rgb, base="3rd") {
+    const defaultTheme = SPA.data.themes["default"];
+
+    base = defaultTheme[base];
+    let theme = {};
+    for (let key in defaultTheme) {
+      if (!defaultTheme[key]) continue;
+      let oldrgb = defaultTheme[key];
+      let diff = [oldrgb[0] - base[0], oldrgb[1] - base[1], oldrgb[2] - base[2]];
+      let newrgb = [rgb[0] + diff[0], rgb[1] + diff[1], rgb[2] + diff[2]];
+      theme[key] = newrgb;
+    }
+    return theme;
+  }
+  function validateTheme(theme) {
+    theme = JSON.parse(JSON.stringify(theme));
+    const defaultTheme = SPA.data.themes["default"];
+
+    let generated;
+    let base = theme["3rd"] ? "3rd" : theme["2nd"] ? "2nd" : "main";
+    for (let key in defaultTheme) {
+      if (!theme[key]) {
+        if (!generated) generated = generateTheme(theme[base], base);
+        theme[key] = generated[key];
+      }
+    }
+
+    // if dark mode, invert each rgb channel of theme colors
+    if (saveData.dark && !theme.dark) {
+      for (let key in theme) {
+        if (!theme[key]) continue;
+        let hsl = RGBtoHSL(theme[key]);
+        hsl[2] = 1 - hsl[2];
+        theme[key] = HSLtoRGB(hsl);
+        theme[key] = [Math.round(theme[key][0]), Math.round(theme[key][1]), Math.round(theme[key][2])]
+        // console.log(hsl)
+      }
+    }
+
+    if (saveData.dark || theme.dark || SPA.theme === "dark") {
+      document.body.classList.add("darktheme");
+      SPA.header.querySelector(".home").classList.remove("dark");
+    }
+    else {
+      document.body.classList.remove("darktheme");
+      SPA.header.querySelector(".home").classList.add("dark");
+    }
+
+    if (!theme["progress-new"]) {
+      theme["progress-new"] = [(theme.progress[0]+theme.new[0])/2, (theme.progress[1]+theme.new[1])/2, (theme.progress[2]+theme.new[2])/2];
+    }
+
+    return theme;
+  }
+  function generateThemeTag(theme) {
+    const defaultTheme = SPA.data.themes["default"];
+    return `{
+  --t-l-panel-main: rgb(${(theme.main || defaultTheme.main).join(",")});
+  --t-l-panel-2nd: rgb(${(theme["2nd"] || defaultTheme["2nd"]).join(",")});
+  --t-l-panel-3rd: rgb(${(theme["3rd"] || defaultTheme["2nd"]).join(",")});
+  --t-header: rgb(${(theme.header || defaultTheme.header).join(",")});
+  --t-l-text: rgb(${(theme.text || defaultTheme.text).join(",")});
+  --t-l-input: rgb(${(theme.input || defaultTheme.input).join(",")});
+  --t-l-msg-green: rgb(${(theme["msg-green"] || defaultTheme["msg-green"]).join(",")});
+  --t-l-msg-yellow: rgb(${(theme["msg-yellow"] || defaultTheme["msg-yellow"]).join(",")});
+  --t-l-new: rgb(${(theme.new || defaultTheme.new).join(",")});
+  --t-l-progress: rgb(${(theme.progress || defaultTheme.progress).join(",")});
+  --t-l-progress-new: rgb(${(theme["progress-new"] || defaultTheme["progress-new"]).join(",")});
+}`;
+  }
+  function updateTheme(theme) {
+    theme = theme || saveData.theme || "default"; // default to current theme if applicable
+    if (!SPA.data.themes[theme]) return;
+    if (theme === "default") {
+      if (saveData.theme !== null) {
+        saveData.theme = null;
+        // saveState();
+      }
+    }
+    else if (saveData.theme !== theme) {
+      saveData.theme = theme;
+      saveData.lastTheme = theme;
+      // saveState();
+    }
+    theme = SPA.data.themes[theme];
+    const defaultTheme = SPA.data.themes["default"];
+
+    saveData.dark = SPA.theme === "dark";
+
+    if (Array.isArray(theme)) {
+      theme = generateTheme(theme);
+    }
+
+    console.log("theme", theme);
+
+    // create new style tag if necessary
+    let themeTag = document.getElementById("themeStyle");
+    if (!themeTag) {
+      themeTag = document.createElement("style");
+      themeTag.id = "themeStyle";
+      document.body.appendChild(themeTag);
+    }
+    themeTag.innerHTML = `
+:root `+generateThemeTag(validateTheme(theme));
+    // format the CSS with the variables in the theme
+  }
+
   saveData = null;
   skipSaving = false;
   function saveState() {
@@ -609,6 +864,7 @@
     let data = JSON.parse(JSON.stringify(saveData));
 
     data.muted = SPA.muted;
+    data.dark = SPA.theme === "dark";
 
     db.write(data);
   }
@@ -619,6 +875,11 @@
     if (data.muted && mute.getAttribute("on") !== "true") {
       mute.click();
     }
+    let theme = document.querySelector(".spa > header .theme");
+    if (data.dark && theme.getAttribute("on") !== "true") {
+      theme.click();
+    }
+    updateTheme(undefined);
 
     for (const group in saveData.found) {
       if (!SPA.data.groups[group]) delete saveData.found[group];
@@ -826,6 +1087,143 @@
 
     let btn = panel4.querySelector(".copy");
     if (btn) btn.innerText = "copied!~";
+  }
+
+  inspecting = null;
+  function renderWord(word, group, display) {
+    return `<span class="word${(saveData.changedWords[word] === true || word === saveData.lastUnrecognized) ? ' changed' : ''}" data-word="${escapeHTML(word)}" data-group="${escapeHTML(group)}"><span>${escapeHTML(display || word)}</span></span>`;
+    // `<span data-word="${escapeHTML(word)}" data-group="${escapeHTML(group)}">${escapeHTML(display)}</span>`;
+  }
+  function inspectWord(word, group) {
+    if (SPA.data.groups[group] === undefined) return;
+    inspecting = [word,group];
+
+    let popup = document.getElementById("popup");
+    popup.style.display = "flex";
+    
+    let value = saveData.found[group][word];
+    if (value === undefined && SPA.data.wordIndex[word]) {
+      for (const group2 in SPA.data.wordIndex[word]) {
+        if (isOfGroup(group2,group) && saveData.found[group2] && saveData.found[group2][word]) {
+          group = group2;
+          value = saveData.found[group2][word];
+          break;
+        }
+      }
+    }
+    let display = word;
+    let aliases = [];
+    if (value === true) {
+      aliases.push(word);
+    }
+    else if (Array.isArray(value)) {
+      if (value.includes("_main")) {
+        aliases.push(word);
+      }
+      aliases = aliases.concat(value.filter(v => v !== "_main"))
+    }
+    display = aliases.join(" / ");
+    popup.querySelector(".title").innerHTML = renderWord(word, group, display);
+
+    let groupSpan = popup.querySelector(".group");
+    groupSpan.innerText = group;
+    groupSpan.onclick = () => {
+      selectedGroup = group;
+      updateStats();
+      groupSpan.style.cursor = "";
+    }
+    if (group === selectedGroup) groupSpan.style.cursor = "";
+    else groupSpan.style.cursor = "pointer";
+    
+    let blurbSpan = popup.querySelector(".blurb");
+    blurbSpan.style.display = "none";
+    let blurb;
+    if (SPA.data.groups[group].wordDesc) {
+      blurb = SPA.data.groups[group].wordDesc[word];
+      if (blurb) {
+        blurbSpan.innerHTML = escapeHTML(blurb.replace(/\^/g, word)).replace(/\*\*[^\*]+\*\*/g, (m) => "<strong>"+m.slice(2,-2)+"</strong>");
+        blurbSpan.style.display = "";
+      }
+    }
+    
+    let themeSpan = popup.querySelector(".theme");
+    if (SPA.data.themes[word]) {
+      let theme = SPA.data.themes[word];
+      if (Array.isArray(theme)) {
+        theme = generateTheme(theme);
+      }
+      let popupStyle = document.getElementById("popupStyle");
+      if (!popupStyle) {
+        popupStyle = document.createElement("style");
+        popupStyle.id = "popupStyle";
+        document.body.appendChild(popupStyle);
+      }
+      popupStyle.innerHTML = "#popup" + generateThemeTag(validateTheme(theme));
+      themeSpan.innerText = saveData.theme === word ? "stash theme" : "set theme";
+      themeSpan.onclick = () => {
+        updateTheme(saveData.theme === word ? "default" : word);
+        saveState();
+        updateStats();
+        themeSpan.innerText = saveData.theme === word ? "stash theme" : "set theme";
+      }
+      themeSpan.style.display = "";
+    }
+    else {
+      themeSpan.style.display = "none";
+      let popupStyle = document.getElementById("popupStyle");
+      if (popupStyle) popupStyle.innerHTML = "";
+    }
+
+    let groupsSpan = popup.querySelector(".also");
+    let groups = {};
+    aliases.forEach(alias => {
+      if (!SPA.data.wordIndex[alias]) return;
+      for (const group2 in SPA.data.wordIndex[alias]) {
+        if (!saveData.found[group2] || group2 === group || groups[group2]) continue;
+
+        let value = SPA.data.wordIndex[alias][group2];
+        let word2 = value;
+        if (value === true) {
+          word2 = alias;
+          value = "_main";
+        }
+        
+        if (saveData.found[group2][word2] === true || (Array.isArray(saveData.found[group2][word2]) && (saveData.found[group2][word2].includes(alias) || saveData.found[group2][word2].includes(value)))) {
+          groups[group2] = word2;
+        }
+      }
+    })
+    if (Object.keys(groups).length) {
+      groupsSpan.innerHTML = "also in: ";
+      for (const group in groups) {
+        const word = groups[group];
+        const span = document.createElement("span");
+        span.innerText = group;
+        span.className = "clickable";
+        span.addEventListener("click", () => {
+          inspectWord(word, group);
+          selectedGroup = group;
+          updateStats();
+        })
+        groupsSpan.appendChild(span);
+      }
+      groupsSpan.style.display = "";
+    }
+    else {
+      groupsSpan.style.display = "none";
+    }
+
+    if (window.innerWidth <= 900) {
+      SPA.main.appendChild(popup);
+    }
+    else {
+      document.getElementById("col1").appendChild(popup);
+    }
+  }
+  function closeInspect() {
+    let popup = document.getElementById("popup");
+    popup.style.display = "none";
+    inspecting = null;
   }
 
   function stripQualifier(word, qualifier) {
@@ -1092,7 +1490,7 @@
       else items = getGroupFoundList(selectedGroup);
       if (selectedGroup !== "unrecognized" && selectedGroup !== "rescued") items.sort();
       items.forEach(i => {
-        html += `<span class="word${(saveData.changedWords[i[0]] === true || i[0] === saveData.lastUnrecognized) ? ' changed' : ''}" data-word="${escapeHTML(i[0])}" data-group="${escapeHTML(selectedGroup)}"><span>${escapeHTML(i[1])}</span></span>`
+        html += renderWord(i[0], selectedGroup, i[1]);
       });
       if (selectedGroup === "unrecognized") {
         html += `<span class="clickable meta" onclick="submitUnrecognized()">submit all &nbsp;❥</span>`;
@@ -1136,7 +1534,7 @@
         html += `<span class="subtitle clickable" data-group="${escapeHTML(group)}">${escapeHTML(group)}</span>`;
         for (const word in results[group]) {
           const display = results[group][word];
-          html += `<span data-word="${escapeHTML(word)}" data-group="${escapeHTML(group)}">${escapeHTML(display)}</span>`;
+          html += renderWord(word, group, display);
         }
       })
       panel4.insertAdjacentHTML("beforeend", html);
@@ -1167,7 +1565,7 @@
       if (!saveData.changedGroups) saveData.changedGroups = {};
       sorted.forEach(group => {
         const percent = groups[group];
-        html += `<span class="clickable noSelect${saveData.changedGroups[group] ? " changed" : ""}" data-group="${group}" style="background: linear-gradient(to right, ${saveData.changedGroups[group] ? "rgba(255,255,0,0.5)" : "transparent"} ${100-percent}%, ${saveData.changedGroups[group] ? "rgba(170,255,0,0.5)" : "rgba(0,255,0,0.5)"} ${100-percent}%)"><span>${escapeHTML(group)}</span><span>${percent < 100 ? percent+"%" : "done"}</span></span>`
+        html += `<span class="clickable noSelect${saveData.changedGroups[group] ? " changed" : ""}" data-group="${group}" style="background: linear-gradient(to right, ${saveData.changedGroups[group] ? "var(--t-l-new)" : "var(--t-l-panel-3rd)"} ${100-percent}%, ${saveData.changedGroups[group] ? "var(--t-l-progress-new)" : "var(--t-l-progress)"} ${100-percent}%)"><span>${escapeHTML(group)}</span><span>${percent < 100 ? percent+"%" : "done"}</span></span>`
       })
       let foundCount = 0;
       for (const group in saveData.found) {
@@ -1175,9 +1573,9 @@
       }
       let foundPercent = Math.floor(foundCount / SPA.data.total * 100);
       if (foundPercent < 0.1) foundPercent = 0.1;
-      html += `<span class="clickable noSelect" data-group="all" style="font-style:italic; background: linear-gradient(to right, transparent ${100-foundPercent}%, rgba(0,255,0,0.5) ${100-foundPercent}%)"><span>total</span><span>${foundPercent < 100 ? foundPercent+"%" : "done"}</span></span>`
-      if (Object.keys(saveData.unrecognized).length) html += `<span class="clickable noSelect${saveData.changedGroups["unrecognized"] === true ? " changed" : ""}" data-group="unrecognized" style="font-style:italic${saveData.changedGroups["unrecognized"] === true ? ';background:rgba(255,255,0,0.5)' : ''}"><span>unrecognized</span><span>${Object.keys(saveData.unrecognized).length}</span></span>`
-      if (saveData.rescued.length) html += `<span class="clickable noSelect${saveData.changedGroups["rescued"] === true ? " changed" : ""}" data-group="rescued" style="font-style:italic${saveData.changedGroups["rescued"] === true ? ';background:rgba(255,255,0,0.5)' : ''}"><span>rescued</span><span>${saveData.rescued.length}</span></span>`
+      html += `<span class="clickable noSelect" data-group="all" style="font-style:italic; background: linear-gradient(to right, var(--t-l-panel-3rd) ${100-foundPercent}%, var(--t-l-progress) ${100-foundPercent}%)"><span>total</span><span>${foundPercent < 100 ? foundPercent+"%" : "done"}</span></span>`
+      if (Object.keys(saveData.unrecognized).length) html += `<span class="clickable noSelect${saveData.changedGroups["unrecognized"] === true ? " changed" : ""}" data-group="unrecognized" style="font-style:italic${saveData.changedGroups["unrecognized"] === true ? ';background:var(--t-l-new)' : ''}"><span>unrecognized</span><span>${Object.keys(saveData.unrecognized).length}</span></span>`
+      if (saveData.rescued.length) html += `<span class="clickable noSelect${saveData.changedGroups["rescued"] === true ? " changed" : ""}" data-group="rescued" style="font-style:italic${saveData.changedGroups["rescued"] === true ? ';background:var(--t-l-new)' : ''}"><span>rescued</span><span>${saveData.rescued.length}</span></span>`
       // console.log(groups)
       panel4.insertAdjacentHTML("beforeend", html);
       panel4.querySelectorAll("span.clickable.noSelect").forEach(b => b.addEventListener("click", () => {
@@ -1189,18 +1587,14 @@
     }
 
     panel4.querySelectorAll("span[data-word]").forEach(span => {
-      const word = span.getAttribute("data-word");
       const group = span.getAttribute("data-group");
-      if (SPA.data.groups[group].wordDesc) {
-        let blurb = SPA.data.groups[group].wordDesc[word];
-        if (blurb) {
-          blurb = blurb.replace(/\^/g, word);
-          span.addEventListener("click", () => {
-            logMessage(blurb, 1);
-          })
-          span.classList.add("clickable");
-        }
-      }
+      if (SPA.data.groups[group] === undefined) return;
+      const word = span.getAttribute("data-word");
+
+      span.addEventListener("click", () => {
+        inspectWord(word, group);
+      });
+      span.classList.add("clickable")
     });
 
     // stats
@@ -1211,9 +1605,13 @@
       html += `<span class="noSelect"><span>${escapeHTML(key)}</span> <span>${escapeHTML(value+"")}</span></span>`;
     })
     html += `<span style="height:0">&nbsp;</span>`;
-    html += `<span class="clickable noSelect daily" style="${saveData.lastDaily !== dailyGroup ? "background:rgba(255,255,0,0.5)" : ""}"><span>DAILY:</span> <span>${dailyGroup}</span></span>`;
+    html += `<span class="clickable noSelect daily" style="${saveData.lastDaily !== dailyGroup ? "background:var(--t-l-new)" : ""}"><span>DAILY:</span> <span>${dailyGroup}</span></span>`;
     html += `<span style="height:0">&nbsp;</span>`;
     html += `<span class="clickable noSelect hint"><span>hint please!</span> <span class="timer"></span></span>`;
+    if (saveData.theme !== undefined) {
+      html += `<span style="height:0">&nbsp;</span>`;
+      html += `<span class="clickable noSelect theme"><span>theme:</span> <span class="name">${saveData.theme || "off"}</span></span>`;
+    }
     panel5.insertAdjacentHTML("beforeend", html);
     let daily = panel5.querySelector("span.daily");
     daily.addEventListener("click", () => {
@@ -1226,6 +1624,18 @@
     let hint = panel5.querySelector("span.hint");
     hint.addEventListener("click", () => {
       doHint();
+    });
+    let theme = panel5.querySelector("span.theme");
+    theme.addEventListener("click", () => {
+      if (saveData.theme) {
+        saveData.lastTheme = saveData.theme;
+        updateTheme("default");
+      }
+      else {
+        updateTheme(saveData.lastTheme || "default");
+      }
+      saveState();
+      updateStats();
     });
 
     updateHint();
@@ -1258,8 +1668,8 @@
     msg.setAttribute("data-age", "0");
 
     if (type === 1) {}
-    else if (text.startsWith("+")) msg.style.color = "rgb(0, 145, 60)";
-    else if (text.startsWith("~")) msg.style.color = "rgb(142, 116, 0)";
+    else if (text.startsWith("+")) msg.classList.add("green");
+    else if (text.startsWith("~")) msg.classList.add("yellow");
 
     if (args.group) {
       msg.classList.add("clickable");
@@ -1363,7 +1773,6 @@
     updateHint();
     for (const oldName in SPA.data.groupRenames) {
       const newName = SPA.data.groupRenames[oldName];
-      console.log(1)
       if (saveData.found[oldName] !== undefined) {
         saveData.found[newName] = saveData.found[oldName];
         delete saveData.found[oldName];
@@ -1474,6 +1883,7 @@
       e.style.display = statGet("score") ? "" : "none";
     });
 
+    updateTheme();
     mainInput.value = "";
     updateInputOverlay();
     updateStats();
@@ -1693,6 +2103,8 @@
         formsToCheck.push(form.replace(/saint /g, "st."));
         formsToCheck.push(form.replace(/, and /g, " and "));
         formsToCheck.push(form.replace(/ and /g, ", and "));
+        formsToCheck.push(form.replace(/[.?!'~\-,"]+$/g, ""));
+        formsToCheck.push(form.replace(/^[.?!'~\-,"]+/g, ""));
         
         formsToCheck.push(form.replace(/ /g, ""));
 
@@ -1706,6 +2118,7 @@
           isSpecial[prefix[0]+"-"] = true;
           formsToCheck.push(prefix[0]+"-");
           let root = form.slice(prefix[0].length);
+          isSpecial[root] = true;
           if (root.length >= 5) formsToCheck.push(root);
         }
       }
@@ -1833,6 +2246,10 @@
         };
 
         results[group] = [word,alias,isNewAlias];
+        if (SPA.data.themes[word] || SPA.data.themes[alias]) {
+          updateTheme(SPA.data.themes[word] ? word : alias);
+          narrate("theme", "you found a theme! see the word list to swap it out");
+        }
         if (base === undefined || base.length < (alias || word).length) base = alias || word;
         if (isNewAlias) {
           statAdd("synonyms", 1);
@@ -1852,9 +2269,10 @@
       let foundCount = 0;
       for (const group in saveData.found) {
         foundCount += Object.keys(saveData.found[group]).length;
-      }
-      if (foundCount >= 100) {
-        narrate("found100", "pssst.. you're a true wordslopper! please make frequent backups with the **save** button, as unexpected browser data resets could occur");
+        if (foundCount >= 100) {
+          narrate("found100", "pssst.. you're a true wordslopper! please make frequent backups with the **save** button, as unexpected browser data resets could occur");
+          break;
+        }
       }
 
     }
@@ -1910,14 +2328,14 @@
       if (hasAlias) narrate("alias", "you found a synonym of a previous word.");
       playAudio(hasNewGroup ? "yay" : "success");
     }
-    else if ((duplicate || saveData.unrecognized[word] || (base && saveData.unrecognized[base])) && !isSpecial[duplicate || word || base]) {
+    else if ((duplicate || saveData.unrecognized[word] || (base && saveData.unrecognized[base])) && !(isSpecial[duplicate] || isSpecial[word || base])) {
       logMessage(`**${duplicate || word || base}**${(duplicate || base) && (duplicate || base) !== word ? " ("+stripQualifier(word, duplicate || base)+")" : ""} already ${saveData.unrecognized[word] ? "tried" : "said"}`, 2);
       statAdd("repeats", 1);
       playAudio("boo");
       lostStreak = true;
     }
-    else if (duplicateGroup && hasActualWord) {
-      logMessage(`**${duplicateGroup || word || base}** ${(groupAlias || word) !== duplicateGroup ? " ("+stripQualifier(word || groupAlias, duplicateGroup || base)+")" : ""} already found`, 2, false, {group: duplicateGroup});
+    else if (duplicateGroup && !isSpecial[duplicateGroup]) {
+      logMessage(`**${duplicateGroup}** ${(groupAlias || word) !== duplicateGroup ? " ("+stripQualifier(word || groupAlias, duplicateGroup)+")" : ""} already found`, 2, false, {group: duplicateGroup});
       statAdd("repeats", 1);
       playAudio("boo");
       lostStreak = true;
@@ -2030,6 +2448,7 @@
       line = line.replace(/\/\//g, "ESCAPE-4");
       line = line.replace(/==/g, "ESCAPE-7");
       line = line.replace(/""/g, "ESCAPE-8");
+      line = line.replace(/::/g, "ESCAPE-9");
 
       if (line[0] === "#") { //#comments
         if (line[1] === "#") {
@@ -2084,13 +2503,20 @@
       
       let word = line;
       let desc;
+      let propstring;
       
+      if (word.match(/ : /)) {
+        word = word.replace(/ : [^"]+/, (r) => {
+          propstring = r.slice(3).trim();
+          return " ";
+        }).trim();
+      }
       if (word.match(/ "/)) {
         const split = word.split(/\s+"/);
         word = split[0];
         desc = split[1].slice(0,-1);
       }
-      word = word.replace(/ESCAPE-8/gi, "\"");
+      word = word.replace(/ESCAPE-8/gi, "\"").replace(/ESCAPE-9/gi, ":");
       
       word = word.toLowerCase().split(/\s{0,}\/\s{0,}/g); // word/alias
       for (let i = 0; i < word.length; i++) {
@@ -2104,6 +2530,19 @@
         desc = desc.replace(/ESCAPE-4/gi, "/");
         if (!SPA.data.groups[group].wordDesc) SPA.data.groups[group].wordDesc = {};
         SPA.data.groups[group].wordDesc[word] = desc;
+      }
+      if (propstring) {
+        propstring = propstring.trim().replace(/ESCAPE-9/gi, ":");
+        const parts = propstring.split(/\s+/);
+        // console.log(word);
+        for (let i = 0; i < parts.length; i++) {
+          const part = parts[i];
+          if (part.match(/^[0-9a-f]{6}$/)) {
+            let rgb = hexToRGB(part);
+            SPA.data.themes[word] = rgb;
+          }
+          // console.log(part);
+        }
       }
       
       SPA.data.groups[group].words[word] = aliases.length ? aliases : true;
@@ -2219,7 +2658,8 @@
 
       // console.log(e.key)
       if (e.key === "Escape" && e.target === searchBox) {
-        if (searchBox.value) searchBox.value = "";
+        if (inspecting) closeInspect();
+        else if (searchBox.value) searchBox.value = "";
         else searchBox.blur();
         return;
       }
@@ -2301,6 +2741,7 @@
           return;
         }
       }
+      else if (inspecting) closeInspect();
       else if (selectedGroup && (e.key === "Escape" || e.key === "Backspace")) {
         selectedGroup = null;
         updateStats();
@@ -2334,13 +2775,36 @@
         saveState();
         playAudio("mouse1");
       }, 10);
-    })
+    });
+    document.querySelector(".doodle.theme").addEventListener("click", () => {
+      setTimeout(() => {
+        // playAudio("mouse1");
+        updateTheme(undefined);
+        saveState();
+      }, 10);
+    });
+
     window.addEventListener("mousedown", (e) => {
       mouseIsDown = Date.now();
 
       let elem = e.target;
+
+      let play = false;
+
+      if (inspecting) {
+        if (elem.id !== "popup"
+         && elem.parentElement.id !== "popup"
+         && elem.parentElement.parentElement.id !== "popup"
+         && elem.parentElement.parentElement.parentElement.id !== "popup"
+         && elem.parentElement.parentElement.parentElement.parentElement.id !== "popup"
+        ) {
+          closeInspect();
+          play = true;
+        }
+      }
+
       // console.log(e.target);
-      if (elem.classList.contains("clickable")
+      if (play || elem.classList.contains("clickable")
        || elem.parentNode.classList.contains("clickable")
        || elem.tagName === "INPUT"
        || elem.tagName === "BUTTON"

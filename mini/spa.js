@@ -92,6 +92,30 @@ window.SPA = {
 				muteButton.setAttribute("on", SPA.muted);
 			});
 		}
+		SPA.theme = document.body.classList.contains("light") ? "light" : "dark";
+		let themeButton = document.querySelector(".spa > header .theme");
+		if (themeButton) {
+			themeButton.addEventListener("click", () => {
+				if (SPA.theme === "light") {
+					SPA.theme = "dark";
+					SPA.main.style.colorScheme = "dark";
+					document.body.classList.add("darktheme");
+					SPA.header.querySelector("a.home")?.classList.remove("dark");
+				}
+				else {
+					SPA.theme = "light";
+					SPA.main.style.colorScheme = "light";
+					document.body.classList.remove("darktheme");
+					SPA.header.querySelector("a.home")?.classList.add("dark");
+				}
+
+				let src = themeButton.getAttribute("src");
+				let other = themeButton.getAttribute("src-other");
+				themeButton.setAttribute("src", other);
+				themeButton.setAttribute("src-other", src);
+				themeButton.setAttribute("on", SPA.muted);
+			});
+		}
 		let infoX = document.querySelector(".spa #globalDialog-info");
 		if (infoX) {
 			infoX.addEventListener("click", () => {

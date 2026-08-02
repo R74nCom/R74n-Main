@@ -185,7 +185,9 @@
 .spa.light > header:first-child {
 	text-shadow: 0 0 5px white;
 	background-color: #b8b8eb;
+	background-color: var(--t-header, #b8b8eb);
 	border-color: #CCD1F5;
+	border-color: rgba(240,255,255,0.35);
 	box-shadow: black 0px 0px 5px;
 	z-index: 100;
 }
@@ -193,9 +195,24 @@
 .spa.light > main .doodle {
 	filter: invert();
 }
+.spa.light.darktheme .doodle {
+	filter: none;
+}
+.spa.light.darktheme > header:first-child {
+	text-shadow: 0 0 5px black;
+}
 .spa.light > main a {color: rgb(46 60 255);}
 .spa.light > main a:hover {color: rgb(70, 82, 255);}
 .spa.light > main a:active {color: rgb(114, 124, 255);}
+.spa.light.darktheme > main a {color: rgb(136, 144, 255);}
+.spa.light.darktheme > main a:hover {color: rgb(163, 169, 255);}
+.spa.light.darktheme > main a:active {color: rgb(196, 200, 255);}
+.spa.light > main {
+	color-scheme: light;
+}
+.spa.light.darktheme > main {
+	color-scheme: dark;
+}
 
 .spa .content.cols {
 	display: flex;
