@@ -3,7 +3,9 @@
 - dark mode
 - color themes
 - word inspector panel
+- 577 new words
 
+[new groups]
 - common fears (phobias)
 - logical fallacies
 
@@ -18,6 +20,7 @@ commands:
 
 SPA.data = {}
 SPA.data.news = [
+   "dark mode and color themes have been added!",
    "thank you for your patience! we are now focusing heavily on wordslop, and just added 1,800+ words and fixed lots of bugs. stay tuned",
    "we added a search bar!",
    "thank u for being in the first group of wordslop players. we are fighting **tooth and nail** to add ur submissions and new features to enjoy!",
@@ -4262,7 +4265,6 @@ adder
 basilisk
 boa / constrictor
 sea snake
-diplocaulus
 stinkpot
 perentie
 leatherback
@@ -4524,6 +4526,7 @@ hellbender / hellbender salamander
 newt
 olm / proteus
 xenopus
+diplocaulus
 peeper
 mudpuppy
 salamander
