@@ -1622,11 +1622,11 @@
       updateStats();
     });
     let hint = panel5.querySelector("span.hint");
-    hint.addEventListener("click", () => {
+    if (hint) hint.addEventListener("click", () => {
       doHint();
     });
     let theme = panel5.querySelector("span.theme");
-    theme.addEventListener("click", () => {
+    if (theme) theme.addEventListener("click", () => {
       if (saveData.theme) {
         saveData.lastTheme = saveData.theme;
         updateTheme("default");
@@ -2113,7 +2113,6 @@
           Object.keys(SPA.data.groups.prefixes.words).filter(v => v.length >= 4).join("|").replace(/-/g,"") + "|" +
           Object.values(SPA.data.groups.prefixes.words).filter(v => v !== true).join(",").split(",").filter(v => v.length >= 4).join("|")
         ).replace(/-/g,"")})`));
-        console.log(prefix);
         if (prefix && form.length > 5) {
           isSpecial[prefix[0]+"-"] = true;
           formsToCheck.push(prefix[0]+"-");
@@ -2138,7 +2137,7 @@
       forms["a "+f] = true;
       forms[f.normalize("NFD").replace(/[\u0300-\u036f]/g, "")] = true;
     });
-    console.log(forms);
+    if (!skipMessage) console.log(forms);
 
     let doneGroups = {};
     let results = {};
@@ -2277,7 +2276,7 @@
 
     }
 
-    console.log(results);
+    if (!skipMessage) console.log(results);
     // console.log(JSON.stringify(saveData));
     let messages = [];
     let hasNewGroup = false;

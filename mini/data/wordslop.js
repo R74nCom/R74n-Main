@@ -10699,7 +10699,7 @@ gene / genome
 gill
 gland
 glottis
-glute / gluteal
+glute / gluteal / gluteus
 goosebump "every mammal gets these!"
 gullet
 gums
