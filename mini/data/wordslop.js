@@ -17165,7 +17165,7 @@ emetophobia / vomit
 entomophobia / insectophobia / insects / bugs
 glossophobia / public speaking
 hemophobia / blood
-hippopotamonstrosesquipedalophobia
+hippopotomonstrosesquippedaliophobia / hippopotomonstrosesquipedaliophobia / hippopotomonstrosessquipedeliaphobia "what does that mean AHHHHHHH"
 hexakosioihexekontahexaphobia "the fear of the number 666"
 mysophobia / germs / dirt
 nosocomephobia / hospitals
@@ -18903,12 +18903,6 @@ ui
 ux
 
 [apples]
-
-[phobias]
-= fears
-arachnophobia
-aibohphobia
-hippopotomonstrosesquippedaliophobia / hippopotomonstrosesquipedaliophobia
 
 [seas]
 

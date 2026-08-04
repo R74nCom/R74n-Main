@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-08-03 - Updated paint a street Community Project to request pictures
 2026-08-02 - Added campaign logo to Icons page
 2026-07-16 - Fixed spotlight buttons on Safari
 2026-07-15 - Adjusted text stroke in spotlight buttons
