@@ -700,11 +700,13 @@ function pickTitle() {
 function pickGame() {
 	let span = document.getElementById("mainPlaying");
 	let game = choose([
-		["Sandboxels", "https://neal.fun/sandboxels/"],
-		["R74n", "https://r74n.com/"],
+		// ["Sandboxels", "https://neal.fun/sandboxels/"],
+		// ["R74n", "https://r74n.com/"],
 		["Infinite Chef", "https://r74n.com/cook/"],
-		["What Are The Odds?", "https://r74n.com/mini/odds"],
+		// ["What Are The Odds?", "https://r74n.com/mini/odds"],
 		["GenTown", "https://r74n.com/gentown/"],
+		["Wordslop", "https://r74n.com/mini/wordslop"],
+		["Handwriting Personality Test", "https://r74n.com/mini/handwriting"],
 		["Every Ant on Earth", "https://r74n.com/ants/"],
 		["Mix-Up!", "https://r74n.com/mix/"]
 	])
