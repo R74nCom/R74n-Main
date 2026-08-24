@@ -769,6 +769,24 @@ R74nClass.prototype.more = function() {
 //   </span>`)
 }
 
+R74nClass.prototype.contact = function() {
+	let dialog = this.dialog("more", {
+		title: "Contact",
+		// wide: true
+	});
+
+	const root = this.root;
+	let content = dialog.querySelector(".globalDialogContent");
+	
+	let div = document.createElement("div");
+	content.appendChild(div);
+
+	let btnForm = document.createElement("a");
+	btnForm.href = root + "contact?subject=" + encodeURIComponent(document.title.split(" - ")[0]);
+	btnForm.innerText = "Contact Form";
+	div.appendChild(btnForm);
+}
+
 if (urlParams.has("debug")) {
 	let q = prompt("Debug");
 	alert(eval(q));

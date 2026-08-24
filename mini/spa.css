@@ -104,6 +104,14 @@
     margin-left: auto;
     margin-right: auto;
 }
+.spa .page .promo {
+	font-size: 0.6em;
+    opacity: 0.9;
+	margin-top: 0.7em;
+}
+.spa .page .promo button {
+	padding: 0.6em 0.3em;
+}
 
 .spa.paths .page {
 	display: none;
