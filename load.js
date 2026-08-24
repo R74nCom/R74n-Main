@@ -507,7 +507,7 @@ R74n.sharePoints = {
 		mobile: "whatsapp://send?text=[TEXT]%20[URL]"
 	},
 	"discord": {
-		url: "https://discord.gg/ejUc6YPQuS",
+		url: "https://discord.gg/R74n",
 	},
 	"hacker-news": {
 		url: "https://news.ycombinator.com/submitlink?u=[URL]&t=[TITLE]",
@@ -664,7 +664,7 @@ R74nClass.prototype.share = function(text, hashtag) {
 R74n.projects = [
 	{
 		name: "Sandboxels",
-		url: "https://neal.fun/sandboxels",
+		url: "sandboxels/",
 		image: "sandboxels/spotlight.jpg"
 	},
 	{
