@@ -1,7 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-08-24 - Tweaks and new glyphs for Handwriting Personality Test
 2026-08-24 - Updated some Discord links to vanity invite
-2026-08-24 - Tweaks to Handwriting Personality Test
 2026-08-13 - Added new Mini links to RageBait Simulator
 2026-08-12 - Socials page: Added verification checks to Discord and KLIPY
 2026-08-04 - Fixed Copy Paste Dump season on homepage
