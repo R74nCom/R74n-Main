@@ -310,7 +310,7 @@
     <div>
       <canvas width="243" height="54" style="display:none"></canvas>
     </div>
-    <div class="promo">Missed a glyph? <a href="https://discord.com/invite/R74n" style="color:#00e5ff">Join our Discord!</a></div>
+    <div class="promo"></div>
   </div>
   <div class="controls">
     <img class="doodle" src="../doodle/share.gif" role="button" onclick="SPA._handleShare();">
@@ -332,6 +332,11 @@
       SPA.next();
     }
   })
+
+  document.querySelector("main .final .promo").innerHTML = choose([
+    `Missed a glyph? <a href="https://discord.com/invite/R74n" style="color:#00e5ff">Join our Discord!</a>`,
+    `Like words? <a href="/mini/wordslop" style="color:#00e5ff">Try Wordslop!</a>`
+  ]);
 
   SPA.onPage = (page) => {
     if (page.classList.contains("final")) {
