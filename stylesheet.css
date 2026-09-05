@@ -1156,6 +1156,10 @@ form .honeypot {
     margin-right: 0.5em;
     translate: 0px -3px;
 }
+.globalDialogX,
+.globalDialog .doodle.x {
+	filter: drop-shadow(0px 0px 6px black);
+}
 
 @media only screen and (max-width: 900px) {
 	.globalDialog > div {

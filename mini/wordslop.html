@@ -54,6 +54,8 @@
       <img class="doodle clickable needsProgress" id="progressSearch" src="../doodle/search.gif">
     </span>
   </div>
+  <div id="jumpUp" class="clickable">jump up</div>
+  <div id="jumpDown" class="clickable">jump down</div>
 </div>
 <div id="col1">
   <div id="panel6">
@@ -77,6 +79,7 @@
     <span class="group">meta</span>
     <span class="blurb">this is a fun fact about the word</span>
     <span class="theme clickable noSelect">set theme</span>
+    <span class="delete clickable noSelect">delete</span>
     <span class="also">also in: <span class="clickable">bears</span> <span class="clickable">colors</span> <span class="clickable">colors</span> <span class="clickable">colors</span> <span class="clickable">colors</span> <span class="clickable">colors</span> <span class="clickable">colors</span></span>
   </div>
 </div>
@@ -97,6 +100,32 @@
     </span>
     <input type="file" id="saveUpload" style="display: none;" accept="application/vnd.R74n.wordslop+json, application/json, .slop, .json">
     <!-- <span>settings</span> -->
+  </div>
+</div>
+<div id="shopContainer">
+  <div id="shop">
+    <div>
+      <span>blurb text</span>
+      <span>da SlopShop</span>
+    </div>
+    <div>
+      <div id="shopKeeper">
+        <img src="art/wordslop/sloppy-fill.gif" class="sprite">
+      </div>
+      <div id="shopItems">
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable disabled"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -158,6 +187,7 @@
   .content {
     display: flex;
     flex-direction: row;
+    position: relative;
   }
   .content > div {
     flex-grow: 1;
@@ -199,6 +229,9 @@
     height: 0;
     opacity: 0;
     line-height: 0;
+    padding: 0;
+    padding-bottom: 0;
+    padding-top: 0;
   }
   #panel3 > span {
     padding-top: 0;
@@ -242,9 +275,10 @@
     z-index: 110;
     flex-basis: 20%;
     max-width: 20%;
+    position: relative;
   }
   .spa.light > header:first-child {
-    z-index: 115;
+    z-index: 119;
   }
   .content input, .content button, #inputOverlay {
     background: none;
@@ -297,6 +331,10 @@
   #panel4, #panel5 {
     padding: 0;
     overflow: scroll;
+    position: relative;
+  }
+  #panel4 {
+    padding-bottom: 2em;
   }
   #col3 {
     overflow-y: scroll;
@@ -308,7 +346,7 @@
   #panel5 > span {
     display: flex;
     padding: 5px 10px;
-    word-break: break-word;
+    /* word-break: break-word; */
     background-color: var(--t-l-panel-3rd);
   }
   #panel4 > span.title,
@@ -320,7 +358,10 @@
   #panel4 > span.title > .text,
   #panel5 > span.title > .text {
     text-decoration: underline;
-    text-align: center;
+    text-align: right;
+  }
+  #panel5 > span > span:last-child {
+    text-align: right;
   }
   #panel4 > span.title.group {
     text-decoration: none;
@@ -417,6 +458,29 @@
     justify-content: center;
     text-decoration: underline;
   }
+  #panel4 > .desc {
+    opacity: 0.8;
+    font-style: italic;
+    text-align: center;
+    justify-content: center;
+  }
+  span.clickable.active {
+    filter: brightness(125%);
+  }
+  #panel4 .related {
+    font-style: italic;
+    opacity: 0.65;
+    text-align: left;
+    justify-content: flex-start;
+    font-size: 0.9em;
+  }
+  .meta + .related {
+    margin-top: 0.5em
+  }
+  #panel4 .related.subset {
+    text-align: right;
+    justify-content: flex-end;
+  }
 
   #saveControls > span::after {
     content: " • ";
@@ -479,6 +543,206 @@
     padding-left: 20px;
   }
 
+  #jumpDown, #jumpUp {
+    position: absolute;
+    left: 50%;
+    overflow: hidden;
+    min-height: 1em;
+    justify-content: center;
+    align-items: center;
+    background: var(--t-l-panel-3rd);
+    width: 75%;
+    padding: 5px;
+    translate: -50% 0;
+    border: 3px solid var(--t-l-panel-2nd);
+    box-shadow: 0px 0 10px #21253d;
+    z-index: 111;
+    visibility: hidden;
+  }
+  #jumpDown {
+    bottom: 8px;
+  }
+  #jumpUp {
+    top: 8px;
+  }
+  #jumpDown.shown, #jumpUp.shown {
+    visibility: visible;
+  }
+
+  #panel2 > span {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+  }
+  #panel2 > span > span {
+    flex-grow: 1;
+  }
+  #panel2 > span:has(> img.sprite) {
+    padding-left: 0.5em;
+  }
+  #panel2 > span:has(> img.sprite):first-child > span {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  #panel2 > span:has(> img.sprite):first-child {
+    padding-top: 0;
+  }
+  #panel2 > span:has(> img.sprite) {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  #panel2 > span:has(> img.sprite.dupe) {
+    padding-bottom: 12px;
+    padding-top: 0px;
+    /* padding-bottom: 0px; */
+  }
+  #panel2 > span:has(> img.sprite):last-child {
+    padding-bottom: 0;
+  }
+  img.sprite {
+    width: 66px;
+    /* margin-right: 0.5em; */
+    transition: all 0.5s, scale 0.25s;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    flex-shrink: 0;
+  }
+  img.sprite.dupe {
+    opacity: 0;
+    height: 0px;
+  }
+  #panel2 img.sprite:hover {
+    scale: 1.25;
+  }
+  #panel2 img.sprite:active {
+    scale: 1.1;
+  }
+  #panel2 > span.new > img.sprite {
+    height: 0;
+    width: 0;
+  }
+
+  #shopContainer {
+    position: absolute;
+    z-index: 118;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  #shopContainer.open {display: flex;}
+  #shop {
+    background: var(--t-l-panel-2nd);
+    width: 85%;
+    /* height: 80%; */
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid var(--t-l-panel-3rd);
+    box-shadow: rgb(0, 0, 0, 0.5) 0px 0px 10px;
+    cursor: default;
+    flex-direction: column;
+  }
+  #shop > div {
+    flex-grow: 1;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  #shop > div:first-child {
+    flex-grow: 0;
+    box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.5);
+    z-index: 120;
+    background: var(--t-l-panel-3rd);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    justify-content: space-between;
+  }
+  #shop > div:first-child > span {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  #shop > div > div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px 1em;
+    align-content: flex-start;
+    overflow: scroll;
+  }
+  #shopKeeper {
+    background: var(--t-l-panel-3rd);
+    z-index: 119;
+    box-shadow: 3px 0px 5px rgb(0, 0, 0, 0.5);
+    flex-shrink: 0;
+  }
+  #shopKeeper > img {
+    height: 75%;
+    width: auto;
+  }
+  #shopItems {
+    flex-grow: 1;
+    /* background: pink */
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+  }
+  #shop > div > #shopItems {
+    flex-direction: row;
+  }
+  #shopItems > .item {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  #shopItems > .item > span:first-child {
+    /* aspect-ratio: 2/3; */
+    background: var(--t-l-panel-main);
+    border: 3px solid var(--t-l-text);
+    /* flex-grow: 1; */
+    height: 9em;
+    width: 7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #shopItems > .item > span:last-child {
+    margin-top: 3px;
+  }
+  #shopItems > .item.disabled {
+    cursor: not-allowed;
+    opacity: 0.75;
+    filter: none!important;
+  }
+  #shopItems > .item.disabled > span:first-child {
+    background: var(--t-l-panel-3rd);
+  }
+  img.charm {
+    image-rendering:pixelated;
+    image-rendering:crisp-edges;
+    height: 1.1em;
+    vertical-align: middle;
+    translate: 0px -3px;
+    margin: -5px 4px;
+  }
+  #shop img.charm {
+    translate: 0 -2px;
+  }
+
   @media only screen and (min-width: 900px) {
     #panel3 {
       flex-grow: 0;
@@ -503,6 +767,12 @@
     .spa.light > header:first-child {
       border-bottom: none;
     }
+    body header:first-child > .doodle {
+      margin-left: 5px;
+    }
+    body header:first-child > .doodle:last-child {
+      margin-right: 10px;
+    }
     #col2, #col3 {
       display: none;
       flex-basis: unset;
@@ -512,7 +782,6 @@
       background: var(--t-l-panel-3rd);
       width: 100%;
       height: 100%;
-      padding-top: 2em;
     }
     #col2.shown, #col3.shown {
       display: flex;
@@ -543,6 +812,10 @@
       padding-top: 0.5em;
       padding-bottom: 0.5em;
     }
+    #panel4 .title,
+    #panel5 .title {
+      padding-top: 2.5em;
+    }
     #panel4 {
       padding-bottom: 5em;
     }
@@ -551,6 +824,9 @@
     }
     #panel7 {
       flex-grow: 0;
+    }
+    #panel4 > span.title > .text, #panel5 > span.title > .text {
+      text-align: center;
     }
   }
 
@@ -677,8 +953,8 @@
       skipSaving = true;
       // debugCommands.clear();
     },
-    video: (group) => {
-      debugCommands.temp();
+    video: (group, reset=true) => {
+      if (reset) debugCommands.temp();
       promo(2);
       let notes = document.getElementById("promoNotes");
       if (group) {
@@ -691,6 +967,7 @@
       }
       alert("Switch to system audio before recording");
     },
+    video2: (_) => debugCommands.video(_, false),
     dev: () => {
       if (window.holdDev) {
         png.remove();
@@ -705,7 +982,8 @@
       png.style.pointerEvents = "none";
       png.style.transition = "transform 0.25s";
       // png.style.transform = `rotate(${Math.floor(Math.random() * 40) - 20}deg)`;
-      png.src = "../shapes/developer.png";
+      // png.src = "../shapes/developer.png";
+      png.src = "art/wordslop/sloppy-fill.gif";
       window.addEventListener("keydown", () => {
         if (!window.holdDev) return;
         png.style.transform = `rotate(${Math.floor(Math.random() * 30) - 15}deg)`;
@@ -823,7 +1101,8 @@
     theme = theme || saveData.theme || "default"; // default to current theme if applicable
     if (!SPA.data.themes[theme]) return;
     if (theme === "default") {
-      if (saveData.theme !== null) {
+      if (saveData.theme === undefined) {}
+      else if (saveData.theme !== null) {
         saveData.theme = null;
         // saveState();
       }
@@ -842,7 +1121,7 @@
       theme = generateTheme(theme);
     }
 
-    console.log("theme", theme);
+    // console.log("theme", theme);
 
     // create new style tag if necessary
     let themeTag = document.getElementById("themeStyle");
@@ -1095,35 +1374,46 @@
     // `<span data-word="${escapeHTML(word)}" data-group="${escapeHTML(group)}">${escapeHTML(display)}</span>`;
   }
   function inspectWord(word, group) {
-    if (SPA.data.groups[group] === undefined) return;
+    closeInspect();
+    if (SPA.data.groups[group] === undefined && group !== "unrecognized") {
+      if (!SPA.data.wordIndex[word]) return;
+      group = Object.keys(SPA.data.wordIndex[word])[0];
+    }
     inspecting = [word,group];
 
     let popup = document.getElementById("popup");
-    popup.style.display = "flex";
     
-    let value = saveData.found[group][word];
-    if (value === undefined && SPA.data.wordIndex[word]) {
-      for (const group2 in SPA.data.wordIndex[word]) {
-        if (isOfGroup(group2,group) && saveData.found[group2] && saveData.found[group2][word]) {
-          group = group2;
-          value = saveData.found[group2][word];
-          break;
+    let value
+    if (SPA.data.groups[group]) {
+      value = saveData.found[group][word];
+      if (value === undefined && SPA.data.wordIndex[word]) {
+        for (const group2 in SPA.data.wordIndex[word]) {
+          if (isOfGroup(group2,group) && saveData.found[group2] && saveData.found[group2][word]) {
+            group = group2;
+            value = saveData.found[group2][word];
+            break;
+          }
         }
       }
     }
+    else value = true;
+
     let display = word;
-    let aliases = [];
+    let forms = [];
+    let title = word;
     if (value === true) {
-      aliases.push(word);
+      forms.push(word);
     }
     else if (Array.isArray(value)) {
       if (value.includes("_main")) {
-        aliases.push(word);
+        forms.push(word);
       }
-      aliases = aliases.concat(value.filter(v => v !== "_main"))
+      let aliases = value.filter(v => v !== "_main");
+      forms = forms.concat(aliases);
+      if (aliases.length) title = escapeHTML(title)+" / "+aliases.map(f => "<em>"+escapeHTML(f)+"</em>").join(" / ");
     }
-    display = aliases.join(" / ");
-    popup.querySelector(".title").innerHTML = renderWord(word, group, display);
+    // display = forms.join(" / ");
+    popup.querySelector(".title").innerHTML = title;
 
     let groupSpan = popup.querySelector(".group");
     groupSpan.innerText = group;
@@ -1138,7 +1428,7 @@
     let blurbSpan = popup.querySelector(".blurb");
     blurbSpan.style.display = "none";
     let blurb;
-    if (SPA.data.groups[group].wordDesc) {
+    if (group !== "unrecognized" && SPA.data.groups[group].wordDesc) {
       blurb = SPA.data.groups[group].wordDesc[word];
       if (blurb) {
         blurbSpan.innerHTML = escapeHTML(blurb.replace(/\^/g, word)).replace(/\*\*[^\*]+\*\*/g, (m) => "<strong>"+m.slice(2,-2)+"</strong>");
@@ -1174,9 +1464,22 @@
       if (popupStyle) popupStyle.innerHTML = "";
     }
 
+    let deleteSpan = popup.querySelector(".delete");
+    if (group === "unrecognized") {
+      deleteSpan.onclick = () => {
+        delete saveData.unrecognized[word];
+        closeInspect();
+        updateStats();
+      }
+      deleteSpan.style.display = "";
+    }
+    else {
+      deleteSpan.style.display = "none";
+    }
+
     let groupsSpan = popup.querySelector(".also");
     let groups = {};
-    aliases.forEach(alias => {
+    forms.forEach(alias => {
       if (!SPA.data.wordIndex[alias]) return;
       for (const group2 in SPA.data.wordIndex[alias]) {
         if (!saveData.found[group2] || group2 === group || groups[group2]) continue;
@@ -1219,11 +1522,21 @@
     else {
       document.getElementById("col1").appendChild(popup);
     }
+
+    popup.style.display = "flex";
+    const btn = panel4.querySelector(`span[data-word="${word.replace(/"/g, "\\\"")}"]`);
+    if (btn) {
+      btn.scrollIntoViewIfNeeded()
+      popup.style.top = Math.min(btn.offsetTop - panel4.scrollTop, panel4.clientHeight - popup.clientHeight) + "px";
+      btn.classList.add("active");
+    }
   }
   function closeInspect() {
     let popup = document.getElementById("popup");
     popup.style.display = "none";
     inspecting = null;
+    let btn = panel4.querySelector("span.word.active");
+    if (btn) btn.classList.remove("active");
   }
 
   function stripQualifier(word, qualifier) {
@@ -1320,6 +1633,29 @@
     })
   }
 
+  shopOpen = false;
+  shopItems = [
+    {
+      name: "assorted pack",
+      cost: 100,
+      func: () => {
+        
+      }
+    }
+  ];
+  function openShop() {
+    shopItems.forEach(() => {
+
+    })
+
+    document.getElementById("shopContainer").classList.add("open");
+    shopOpen = true;
+  }
+  function closeShop() {
+    document.getElementById("shopContainer").classList.remove("open");
+    shopOpen = false;
+  }
+
   selectedGroup = null;
   currentQuery = null;
   panel4Scroll = 0;
@@ -1386,6 +1722,32 @@
       panel4.scrollTop = panel4Scroll;
     }
   })
+  let jumpDown = document.getElementById("jumpDown");
+  let jumpUp = document.getElementById("jumpUp");
+  function checkJumpButton() {
+    if (panel4.scrollTop < 200) {
+      if (jumpUp.classList.contains("shown")) jumpUp.classList.remove("shown");
+    }
+    else if (!jumpUp.classList.contains("shown")) jumpUp.classList.add("shown");
+    let distanceFromBottom = (panel4.scrollHeight - panel4.clientHeight) - panel4.scrollTop;
+    if (distanceFromBottom < 200) {
+      if (jumpDown.classList.contains("shown")) jumpDown.classList.remove("shown");
+    }
+    else if (!jumpDown.classList.contains("shown")) jumpDown.classList.add("shown");
+  }
+  panel4.addEventListener("scroll", checkJumpButton);
+  jumpDown.addEventListener("click", () => {
+    panel4.scrollTop = (panel4.scrollHeight - panel4.clientHeight);
+  });
+  jumpDown.addEventListener("wheel", (e) => {
+    panel4.scrollBy(0, e.deltaY)
+  });
+  jumpUp.addEventListener("click", () => {
+    panel4.scrollTop = 0;
+  });
+  jumpUp.addEventListener("wheel", (e) => {
+    panel4.scrollBy(0, e.deltaY)
+  });
 
   document.getElementById("progressShare").addEventListener("click", () => {
     let text = "after #wordslop​ping all day, i've found:\n";
@@ -1436,7 +1798,10 @@
       if (!e.classList.contains("title")) e.remove();
     });
 
-    if (!saveData.stats.score) return;
+    if (!saveData.stats.score) {
+      checkJumpButton();
+      return;
+    }
 
     // progress
     let title = panel4Title;
@@ -1456,6 +1821,13 @@
       }
       else if (selectedGroup === "rescued") {
         num = saveData.rescued.length;
+      }
+      else if (selectedGroup === "themes") {
+        for (const theme in SPA.data.themes) {
+          const group = Object.keys(SPA.data.wordIndex[theme])[0];
+          if (saveData.found[group] !== undefined && saveData.found[group][theme]) num++;
+        }
+        // let themesPercent = Math.floor(themesCount / Object.keys(SPA.data.themes).length * 100);
       }
       else num = getGroupFound(selectedGroup);
       title.querySelector(".text").innerText = `${selectedGroup} (${num})`;
@@ -1477,6 +1849,14 @@
       let items;
       if (selectedGroup === "unrecognized") items = Object.keys(saveData.unrecognized).map(i => [i,i]);
       else if (selectedGroup === "rescued") items = saveData.rescued.map(i => [i,i]);
+      else if (selectedGroup === "themes") {
+        items = [];
+        for (const theme in SPA.data.themes) {
+          let group = Object.keys(SPA.data.wordIndex[theme])[0];
+          if (SPA.data.wordIndex[theme].colors) group = "colors";
+          if (saveData.found[group] !== undefined && saveData.found[group][theme]) items.push([theme,theme]);
+        }
+      }
       else if (selectedGroup === "all") {
         let done = {};
         items = [];
@@ -1488,7 +1868,10 @@
           });
         }
       }
-      else items = getGroupFoundList(selectedGroup);
+      else {
+        if (SPA.data.groups[selectedGroup].desc) html += `<span class="desc">${escapeHTML(SPA.data.groups[selectedGroup].desc).replace(/\*/g,"")}</span>`
+        items = getGroupFoundList(selectedGroup);
+      }
       if (selectedGroup !== "unrecognized" && selectedGroup !== "rescued") items.sort();
       items.forEach(i => {
         html += renderWord(i[0], selectedGroup, i[1]);
@@ -1500,15 +1883,44 @@
       }
       else {
         if (SPA.data.groups[selectedGroup]) {
-          if (items.length) html += `<span class="meta">${getGroupProgress(selectedGroup)}% of ${getGroupTotal(selectedGroup)}</span>`;
-          else html += `<span>nothing yet..</span>`;
+          if (!items.length) html += `<span>nothing yet..</span>`;
+          html += `<span class="meta">${getGroupProgress(selectedGroup)}% of ${getGroupTotal(selectedGroup)}</span>`;
           html += `<span class="clickable hint meta" onclick='doHint("${selectedGroup}")'><span class="timer"></span> help me!</span>`
         }
-        html += `<span class="clickable copy meta" onclick='copyGroup("${selectedGroup}")'>copy words</span>`
+        else if (selectedGroup === "themes") {
+          let themesCount = 0;
+          for (const theme in SPA.data.themes) {
+            const group = Object.keys(SPA.data.wordIndex[theme])[0];
+            if (saveData.found[group] !== undefined && saveData.found[group][theme]) themesCount++;
+          }
+          let themesPercent = Math.floor(themesCount / Object.keys(SPA.data.themes).length * 100);
+          html += `<span class="meta">${themesPercent}% of ${Object.keys(SPA.data.themes).length}</span>`;
+        }
+        if (items.length) html += `<span class="clickable copy meta" onclick='copyGroup("${selectedGroup}")'>copy word${items.length === 1 ? "" : "s"}</span>`
+        if (selectedGroup === "all") {
+          html += `<span class="meta">${Object.keys(saveData.found).length} / ${Object.keys(SPA.data.groups).length} groups</span>`;
+        }
+        if (SPA.data.groups[selectedGroup]) {
+          let supersets = SPA.data.groups[selectedGroup].supersets;
+          if (supersets) {
+            supersets = supersets.filter(g => saveData.found[g]);
+            if (supersets.length) html += supersets.map(g => `<span class="related superset clickable" onclick='selectedGroup="${g}";updateStats()'>↖ ${g}</span>`).join("");
+          }
+          let subsets = SPA.data.groups[selectedGroup].subsets;
+          if (subsets) {
+            subsets = subsets.filter(g => saveData.found[g]);
+            if (subsets.length) html += subsets.map(g => `<span class="related subset clickable" onclick='selectedGroup="${g}";updateStats()'>${g} ↘</span>`).join("");
+          }
+        }
       }
       panel4.insertAdjacentHTML("beforeend", html);
     }
     else if (currentQuery) {
+      let query = escapeRegex(currentQuery);
+      if (currentQuery.match(/^-/) && !currentQuery.match(/-$/)) query = query.slice(1)+"$";
+      else if (currentQuery.match(/-$/)) query = "^"+query.slice(0,-1);
+      query = new RegExp(query, "gi");
+
       title.classList.add("search");
       let results = {};
       for (const group in saveData.found) {
@@ -1523,11 +1935,11 @@
             display += value.filter(v => v !== "_main").join(" / ");
           }
           let norm = display.replace(/\s/g, "");
-          if (norm.includes(currentQuery)) {
+          if (norm.match(query)) {
             results[group][word] = display;
           }
         }
-        if (!Object.keys(results[group]).length && !group.includes(currentQuery)) delete results[group];
+        if (!Object.keys(results[group]).length && !group.match(query)) delete results[group];
       }
       let groups = Object.keys(results).sort();
       let html = "";
@@ -1574,6 +1986,15 @@
       }
       let foundPercent = Math.floor(foundCount / SPA.data.total * 100);
       if (foundPercent < 0.1) foundPercent = 0.1;
+      if (saveData.lastTheme) {
+        let themesCount = 0;
+        for (const theme in SPA.data.themes) {
+          const group = Object.keys(SPA.data.wordIndex[theme])[0];
+          if (saveData.found[group] !== undefined && saveData.found[group][theme]) themesCount++;
+        }
+        let themesPercent = Math.floor(themesCount / Object.keys(SPA.data.themes).length * 100);
+        html += `<span class="clickable noSelect" data-group="themes" style="font-style:italic; background: linear-gradient(to right, var(--t-l-panel-3rd) ${100-themesPercent}%, var(--t-l-progress) ${100-themesPercent}%)"><span>themes</span><span>${themesPercent < 100 ? themesPercent+"%" : "done"}</span></span>`
+      }
       html += `<span class="clickable noSelect" data-group="all" style="font-style:italic; background: linear-gradient(to right, var(--t-l-panel-3rd) ${100-foundPercent}%, var(--t-l-progress) ${100-foundPercent}%)"><span>total</span><span>${foundPercent < 100 ? foundPercent+"%" : "done"}</span></span>`
       if (Object.keys(saveData.unrecognized).length) html += `<span class="clickable noSelect${saveData.changedGroups["unrecognized"] === true ? " changed" : ""}" data-group="unrecognized" style="font-style:italic${saveData.changedGroups["unrecognized"] === true ? ';background:var(--t-l-new)' : ''}"><span>unrecognized</span><span>${Object.keys(saveData.unrecognized).length}</span></span>`
       if (saveData.rescued.length) html += `<span class="clickable noSelect${saveData.changedGroups["rescued"] === true ? " changed" : ""}" data-group="rescued" style="font-style:italic${saveData.changedGroups["rescued"] === true ? ';background:var(--t-l-new)' : ''}"><span>rescued</span><span>${saveData.rescued.length}</span></span>`
@@ -1589,7 +2010,7 @@
 
     panel4.querySelectorAll("span[data-word]").forEach(span => {
       const group = span.getAttribute("data-group");
-      if (SPA.data.groups[group] === undefined) return;
+      // if (SPA.data.groups[group] === undefined) return;
       const word = span.getAttribute("data-word");
 
       span.addEventListener("click", () => {
@@ -1601,6 +2022,7 @@
     // stats
     let html = ``;
     let stats = Object.keys(saveData.stats).sort((a, b) => saveData.stats[b] - saveData.stats[a]);
+    // if (saveData.charms > 0) html += `<span class="noSelect clickable charms"><span>charms</span> <span><img class="charm" src="art/wordslop/charm${saveData.dark ? "-dark" : ""}.png">${parseInt(saveData.charms)}</span></span>`;
     stats.forEach(key => {
       const value = saveData.stats[key];
       html += `<span class="noSelect"><span>${escapeHTML(key)}</span> <span>${escapeHTML(value+"")}</span></span>`;
@@ -1638,8 +2060,13 @@
       saveState();
       updateStats();
     });
+    // let charm = panel5.querySelector("span.charms");
+    // if (charm) charm.addEventListener("click", () => {
+    //   openShop();
+    // });
 
     updateHint();
+    checkJumpButton();
   }
 
   function narrate(step, text) {
@@ -1656,9 +2083,18 @@
     if (type === 1 && text === lastMessage) return;
     lastMessage = text;
 
+    let timedMessage;
+    if (type === 1) {
+      let split = text.split(" ... ");
+      if (split.length > 1) {
+        text = split[0];
+        timedMessage = split[1];
+      }
+    }
+
     if (saved === false) saveData.messages.push([text, type, statGet("tries")]);
     
-    if (type === 1 && text.match(/[\w\*]$/)) text += ".";
+    if (type === 1 && text.match(/[\w]\*?$/)) text += timedMessage ? "..." : ".";
     text = text.replace(/r74/g, "R74");
 
     let html = escapeHTML(text);
@@ -1685,12 +2121,43 @@
       })
     }
 
-    msg.innerHTML = html;
+    msg.innerHTML = "<span>" + html + "</span>";
     if (saved === false) {
       msg.classList.add("new");
       setTimeout(() => {
         msg.classList.remove("new");
       }, 10);
+    }
+
+    if (type === 1 && args.sprite !== null && !(saveData.sloppy < 0)) {
+      let sprite = document.createElement("img");
+      sprite.src = `art/wordslop/sloppy${saveData.dark ? "-blue" : ""}.gif`;
+      sprite.classList.add("sprite");
+      sprite.classList.add("pixelart");
+      sprite.classList.add("clickable");
+      sprite.title = "sloppy";
+      sprite.addEventListener("click", () => {
+        // narrate("ouch", "YEEEOUCH!");
+        if (saveData.sloppy < 0) {
+          playAudio("boo");
+          sprite.style.opacity = 0.1;
+          return;
+        }
+        else if (saveData.sloppy === undefined) saveData.sloppy = 0;
+        else saveData.sloppy ++;
+
+        logMessage(SPA.data.sloppyBlurbs[saveData.sloppy], 1);
+        if (saveData.sloppy >= SPA.data.sloppyBlurbs.length-1) saveData.sloppy = -10;
+        playAudio("success");
+        saveState();
+      })
+      sprite.addEventListener("dragstart", () => {
+        return false;
+      })
+      document.querySelectorAll('#panel2 > span[data-age="0"] > .sprite').forEach(sprite2 => {
+        sprite2.classList.add("dupe");
+      });
+      msg.insertAdjacentElement("afterbegin", sprite);
     }
     
     if (type === 1) {
@@ -1702,6 +2169,15 @@
       if (saved === false) panel3.scrollTop = 0
     }
     (type === 1 ? panel2 : panel3).insertAdjacentElement("afterbegin", msg);
+
+    if (type === 1 && timedMessage) setTimeout(() => {
+      try {
+        msg.querySelector("span").insertAdjacentText("beforeend", " ..."+timedMessage);
+        playAudio("success");
+      }
+      catch {}
+    }, 5000);
+
     return msg;
   }
 
@@ -1745,12 +2221,14 @@
   function initGame() {
     skipSaving = true;
     lastMessage = null;
+    selectedGroup = null;
     if (saveData === null) saveData = {
       found: {},
       stats: {},
       messages: [],
       unrecognized: {},
       messaged: {}
+      // charms: 0
     }
     if (!saveData.lastInput) saveData.lastInput = [];
     document.getElementById("panel2").innerHTML = "";
@@ -1761,9 +2239,17 @@
         let text = m[0];
         let age = statGet("tries") - m[2];
         let msg = logMessage(text, m[1], true);
-        if (msg) msg.setAttribute("data-age", age);
+        if (msg) {
+          msg.setAttribute("data-age", age);
+        }
       });
       updateMessages();
+      let doneAges = {};
+      document.querySelectorAll('#panel2 > span[data-age] > .sprite').forEach(sprite => {
+        let age = sprite.parentElement.getAttribute("data-age");
+        if (doneAges[age] === true) sprite.classList.add("dupe");
+        doneAges[age] = true;
+      })
     }
     else if (statGet("tries") === 0) {
       logMessage("ready to make wordslop? try entering **bat** or **rock**.", 1);
@@ -1817,7 +2303,7 @@
 
     for (const group in saveData.found) {
       for (const word in saveData.found[group]) {
-        try { // clear or fix removed words
+      try { // clear or fix removed words
         const value = SPA.data.groups[group].words[word];
         if (value === undefined) {
           const v = saveData.found[group][word];
@@ -1879,9 +2365,14 @@
       saveState();
     }
 
-    hasProgress = statGet("score") !== 0;
+    let currentScore = statGet("score");
+
+    // give charms to existing players
+    // if (saveData.charms === undefined) saveData.charms = Math.round(currentScore / 20);
+
+    hasProgress = currentScore !== 0;
     document.querySelectorAll(".needsProgress").forEach(e => {
-      e.style.display = statGet("score") ? "" : "none";
+      e.style.display = currentScore ? "" : "none";
     });
 
     updateTheme();
@@ -1917,6 +2408,9 @@
       return false;
     }
     updateInputOverlay();
+
+    if (saveData.sloppy < 0) saveData.sloppy++;
+    else saveData.sloppy = undefined;
 
     if (word.match(/^\/./)) {
       let command = word.slice(1).toLowerCase();
@@ -2024,11 +2518,23 @@
           formsToCheck.push(form.replace(/i$/g, "us"));
           formsToCheck.push(form.replace(/us$/g, "i"));
           if (form.endsWith("er")) formsToCheck.push(form.replace(/er$/g, "")+"ing");
+          if (form.endsWith("y")) {
+            formsToCheck.push(form.slice(0,-1));
+            formsToCheck.push(form.slice(0,-1)+"e");
+            formsToCheck.push(form.slice(0,-1)+"s");
+            if (form[form.length-2] === form[form.length-3]) formsToCheck.push(form.slice(0,-2));
+          }
         }
-        if (form.length >= 6 && form.endsWith("ing")) {
-          formsToCheck.push(form.replace(/ing$/g, ""));
-          formsToCheck.push(form.replace(/ing$/g, "")+"e");
-          if (form[form.length - 4] === form[form.length - 5]) formsToCheck.push(form.replace(/.ing$/g, ""));
+        if (form.length >= 6) {
+          if (form.endsWith("ing")) {
+            formsToCheck.push(form.replace(/ing$/g, ""));
+            formsToCheck.push(form.replace(/ing$/g, "")+"e");
+            if (form[form.length - 4] === form[form.length - 5]) formsToCheck.push(form.replace(/.ing$/g, ""));
+          }
+          if (form.endsWith("ity")) {
+            formsToCheck.push(form.slice(0,-3));
+            formsToCheck.push(form.slice(0,-3)+"e");
+          }
         }
         if (form.length >= 4) {
           formsToCheck.push(form + "ing");
@@ -2045,9 +2551,12 @@
         formsToCheck.push(form.replace(/'s/g, "s"));
         formsToCheck.push(form.replace(/'s/g, ""));
         formsToCheck.push(form + "'s");
+        formsToCheck.push(form + "s'");
         formsToCheck.push(form.replace(/'/g, ""));
         formsToCheck.push(form.replace(/s /g, "'s"));
         formsToCheck.push(form.replace(/s$/g, "'s"));
+        formsToCheck.push(form.replace(/s$/g, "s'"));
+        formsToCheck.push(form.replace(/s /g, "s' "));
         formsToCheck.push(form.replace(/-/g, " "));
         formsToCheck.push(form.replace(/-/g, ""));
         formsToCheck.push(form.replace(/\ /g, ". "));
@@ -2081,7 +2590,7 @@
           formsToCheck.push(form.replace(/ment$/g, "e"));
           formsToCheck.push(form.replace(/iest$/g, "y"));
           formsToCheck.push(form.replace(/est$/g, ""));
-          formsToCheck.push(form.replace(/est$/g, "").slice(0,-1));
+          if (form.endsWith("est")) formsToCheck.push(form.replace(/est$/g, "").slice(0,-1));
           formsToCheck.push(form.replace(/ful$/g, ""));
           formsToCheck.push(form.replace(/fulness$/g, ""));
           formsToCheck.push(form.replace(/ity$/g, ""));
@@ -2091,6 +2600,16 @@
           formsToCheck.push(form.replace(/fully$/g, "ful"));
           formsToCheck.push(form.replace(/ful$/g, "fully"));
           formsToCheck.push(form.replace(/al$/g, "ality"));
+          formsToCheck.push(form.replace(/zation$/g, "ze"));
+          formsToCheck.push(form.replace(/sation$/g, "se"));
+          formsToCheck.push(form.replace(/zation$/g, "se"));
+          formsToCheck.push(form.replace(/sation$/g, "ze"));
+          formsToCheck.push(form.replace(/ize$/g, "ization"));
+          formsToCheck.push(form.replace(/ise$/g, "isation"));
+          formsToCheck.push(form.replace(/ize$/g, "isation"));
+          formsToCheck.push(form.replace(/ise$/g, "ization"));
+          formsToCheck.push(form.replace(/e$/g, "ing"));
+          formsToCheck.push(form.replace(/ation$/g, ""));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");
@@ -2104,8 +2623,24 @@
         formsToCheck.push(form.replace(/saint /g, "st."));
         formsToCheck.push(form.replace(/, and /g, " and "));
         formsToCheck.push(form.replace(/ and /g, ", and "));
+        formsToCheck.push(form.replace(/ and /g, " & "));
+        formsToCheck.push(form.replace(/ and /g, " 'n' "));
+        formsToCheck.push(form.replace(/ and /g, " 'n "));
+        formsToCheck.push(form.replace(/ & /g, " and "));
+        formsToCheck.push(form.replace(/ & /g, " 'n' "));
+        formsToCheck.push(form.replace(/ & /g, " 'n "));
         formsToCheck.push(form.replace(/[.?!'~\-,"]+$/g, ""));
         formsToCheck.push(form.replace(/^[.?!'~\-,"]+/g, ""));
+        formsToCheck.push(form.replace(/æ/g, "ae"));
+        formsToCheck.push(form.replace(/œ/g, "oe"));
+        formsToCheck.push(form.replace(/ß/g, "ss"));
+        formsToCheck.push(form.replace(/ae/g, "æ"));
+        formsToCheck.push(form.replace(/oe/g, "œ"));
+        formsToCheck.push(form.replace(/ss/g, "ß"));
+        formsToCheck.push(form.replace(/men$/g, "man"));
+        formsToCheck.push(form.replace(/woman$/g, "man"));
+        formsToCheck.push(form.replace(/women$/g, "woman"));
+        formsToCheck.push(form.replace(/women$/g, "man"));
         
         formsToCheck.push(form.replace(/ /g, ""));
 
@@ -2131,6 +2666,8 @@
     })
     formsToCheck.sort((a,b) => b.length - a.length).forEach(f => {
       if (!f) return;
+      // if (forms[f] === true) return;
+      // console.log(2,JSON.stringify(forms))
       forms[f] = true;
       if (forms["a "+f] === true) return;
       forms[f.replace(/ /g, "")] = true;
@@ -2152,6 +2689,7 @@
     saveData.changedGroups = {};
     saveData.changedWords = {};
     for (const form in forms) {
+      // console.log(form)
       const groups = SPA.data.wordIndex[form];
       if (SPA.data.groups[form] !== undefined) {
         if (saveData.found[form] === undefined && results[form] === undefined) {
@@ -2393,6 +2931,8 @@
       else if (streak === 30) narrate("streak30", "30 in a row! you're unstoppable.");
       else if (streak === 20) narrate("streak20", "20 in a row! keep it up.");
       else if (streak === 10) narrate("streak10", "10 in a row! you're on a roll.");
+
+      // saveData.charms += Math.min(statGet("streak"), 10);
   
       const unrecognized = Object.keys(saveData.unrecognized).length;
       if (!saveData.stats.score && unrecognized >= 4) {
@@ -2428,6 +2968,7 @@
     SPA.data.groupAliases = {};
     SPA.data.wordIndex = {};
     SPA.data.lengthIndex = {};
+    SPA.data.blurbTotal = 0;
     let wordIndex = SPA.data.wordIndex;
     let lengthIndex = SPA.data.lengthIndex;
     let text = SPA.data.groupsText.replace(/[ \t]+/g, " ");
@@ -2492,6 +3033,7 @@
       if (line[0] === "\"" && line[line.length-1] === "\"") {
         if (!group) continue;
         SPA.data.groups[group].desc = line.slice(1,-1).trim();
+        SPA.data.blurbTotal ++;
         continue;
       }
 
@@ -2530,6 +3072,7 @@
         desc = desc.replace(/ESCAPE-4/gi, "/");
         if (!SPA.data.groups[group].wordDesc) SPA.data.groups[group].wordDesc = {};
         SPA.data.groups[group].wordDesc[word] = desc;
+        SPA.data.blurbTotal ++;
       }
       if (propstring) {
         propstring = propstring.trim().replace(/ESCAPE-9/gi, ":");
@@ -2616,6 +3159,11 @@
           if (wordIndex[form] === undefined) wordIndex[form] = {};
           if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
         }
+        if (alias.match(/\./)) {
+          const form = alias.replace(/\. ?/g,"");
+          if (wordIndex[form] === undefined) wordIndex[form] = {};
+          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [alias];
+        }
         if (alias.length >= 5 && alias.length <= 30) {
           if (lengthIndex[alias.length] === undefined) lengthIndex[alias.length] = {};
           if (lengthIndex[alias.length][alias] === undefined) lengthIndex[alias.length][alias] = group;
@@ -2654,13 +3202,25 @@
 
     backtrackIndex = null;
     window.addEventListener("keydown", (e) => {
-      if (e.metaKey || e.ctrlKey) return;
+      if (e.metaKey || e.ctrlKey) {
+        if (e.code === "Slash") {
+          document.getElementById("progressSearch").click();
+          searchBox.focus();
+          searchBox.value = "";
+          e.preventDefault();
+        }
+        return;
+      };
 
       // console.log(e.key)
-      if (e.key === "Escape" && e.target === searchBox) {
+      if (e.key === "Escape" && (e.target === searchBox || currentQuery)) {
         if (inspecting) closeInspect();
-        else if (searchBox.value) searchBox.value = "";
+        else if (searchBox.value) {
+          searchBox.value = "";
+          searchBox.focus();
+        }
         else searchBox.blur();
+        playAudio("type3");
         return;
       }
       if (e.target.tagName !== "INPUT" || e.target === mainInput) {
@@ -2670,24 +3230,44 @@
           // playAudio("type3");
           return;
         }
-        if (e.key === "ArrowUp" && mainInput.selectionStart === 0) {
-          if (backtrackIndex === null) backtrackIndex = 0;
-          else backtrackIndex ++;
-          backtrackIndex = Math.min(backtrackIndex, saveData.lastInput.length-1);
-          console.log(backtrackIndex)
-          if (saveData.lastInput.length) {
-            mainInput.value = saveData.lastInput[backtrackIndex];
+        if (e.key === "ArrowUp") {
+          if (inspecting) {
+            const btn = panel4.querySelector(`span[data-word="${inspecting[0].replace(/"/g, "\\\"")}"]`);
+            if (btn && btn.previousElementSibling && btn.previousElementSibling.hasAttribute("data-word")) {
+              btn.previousElementSibling.click();
+            }
+            e.preventDefault();
+            return;
           }
-          updateInputOverlay();
+          if (mainInput.selectionStart === 0) {
+            if (backtrackIndex === null) backtrackIndex = 0;
+            else backtrackIndex ++;
+            backtrackIndex = Math.min(backtrackIndex, saveData.lastInput.length-1);
+            console.log(backtrackIndex)
+            if (saveData.lastInput.length) {
+              mainInput.value = saveData.lastInput[backtrackIndex];
+            }
+            updateInputOverlay();
+          }
         }
-        if (e.key === "ArrowDown" && backtrackIndex !== null && mainInput.selectionStart === mainInput.value.length) {
-          backtrackIndex --;
-          if (backtrackIndex < 0) {
-            backtrackIndex = null;
-            mainInput.value = "";
+        if (e.key === "ArrowDown") {
+          if (inspecting) {
+            const btn = panel4.querySelector(`span[data-word="${inspecting[0].replace(/"/g, "\\\"")}"]`);
+            if (btn && btn.nextElementSibling && btn.nextElementSibling.hasAttribute("data-word")) {
+              btn.nextElementSibling.click();
+            }
+            e.preventDefault();
+            return;
           }
-          else mainInput.value = saveData.lastInput[backtrackIndex];
-          updateInputOverlay();
+          if (backtrackIndex !== null && mainInput.selectionStart === mainInput.value.length) {
+            backtrackIndex --;
+            if (backtrackIndex < 0) {
+              backtrackIndex = null;
+              mainInput.value = "";
+            }
+            else mainInput.value = saveData.lastInput[backtrackIndex];
+            updateInputOverlay();
+          }
         }
       }
       if (e.target.tagName === "INPUT" || e.target.getAttribute("contenteditable")) {
@@ -2695,6 +3275,7 @@
       }
       let key = e.key;
       if (key.trim().length !== 1 && key !== "Backspace") return;
+      if (inspecting && (key === "ArrowUp" || key === "ArrowDown")) return;
       mainInput.focus();
     })
 
@@ -2715,12 +3296,13 @@
       updateInputOverlay();
     })
     mainInput.addEventListener("click", (e) => {
-      if (!R74n.state.mobile) narrate("inputclick", "just start typing, we'll handle the rest.");
+      if (!R74n.state.mobile) narrate("inputclick", "just start typing, i'll handle the rest.");
     })
 
     document.getElementById("progressButton").addEventListener("click", () => {
       document.getElementById("col2").classList.add("shown");
       document.getElementById("col3").classList.remove("shown");
+      updateStats();
     })
     document.getElementById("moreButton").addEventListener("click", () => {
       document.getElementById("col3").classList.add("shown");
@@ -2733,7 +3315,12 @@
     let keyIsDown = {};
     let mouseIsDown = false;
     window.addEventListener("keydown", (e) => {
-      if (e.target === mainInput) {
+      if (shopOpen) {
+        if (e.key === "Escape") closeShop();
+        if (e.metaKey || e.ctrlKey) return;
+        if (e.key.length === 1 || e.key === "Enter") closeShop();
+      }
+      else if (e.target === mainInput) {
         if (e.key === "Escape" && !selectedGroup && mainInput.value) {
           mainInput.value = "";
           updateInputOverlay();
@@ -2741,7 +3328,7 @@
           return;
         }
       }
-      else if (inspecting) closeInspect();
+      else if (inspecting && e.key !== "ArrowUp" && e.key !== "ArrowDown") closeInspect();
       else if (selectedGroup && (e.key === "Escape" || e.key === "Backspace")) {
         selectedGroup = null;
         updateStats();
@@ -2749,6 +3336,11 @@
         if (e.key === "Escape") playAudio("type" + randRange(1,3));
         mainInput.focus();
         return;
+      }
+      else {
+        if (mainInput.value) playAudio("type3");
+        mainInput.value = "";
+        updateInputOverlay();
       }
 
       if ((e.metaKey && e.key !== "Backspace") || e.ctrlKey) return;
@@ -2781,7 +3373,30 @@
         // playAudio("mouse1");
         updateTheme(undefined);
         saveState();
+        
+        document.querySelectorAll("img.sprite").forEach(sprite => {
+          if (saveData.dark) {
+            if (!sprite.src.includes("-blue")) sprite.src = sprite.src.replace(".gif", "-blue.gif");
+          }
+          else {
+            sprite.src = sprite.src.replace("-blue", "");
+          }
+        })
+        document.querySelectorAll("img.charm").forEach(sprite => {
+          if (saveData.dark) {
+            if (!sprite.src.includes("-dark")) sprite.src = sprite.src.replace(".png", "-dark.png");
+          }
+          else {
+            sprite.src = sprite.src.replace("-dark", "");
+          }
+        })
       }, 10);
+    });
+    document.getElementById("shopContainer").addEventListener("mousedown", (e) => {
+      if (e.target.id === "shopContainer") playAudio(Math.random() < 0.5 ? "mouse1" : "mouse2");
+    });
+    document.getElementById("shopContainer").addEventListener("click", (e) => {
+      if (e.target.id === "shopContainer") closeShop();
     });
 
     window.addEventListener("mousedown", (e) => {
