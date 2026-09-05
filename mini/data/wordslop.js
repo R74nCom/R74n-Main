@@ -1597,7 +1597,6 @@ windward
 abolish
 abort
 abstain / abstinence
-dredge
 accelerate
 support
 detect
@@ -1843,16 +1842,13 @@ avoid
 await
 backflip
 bait
-bake
 balance
 ban
 banter
-barbecue / barbeque
 barf
 barter
 bash
 bask
-baste
 bathe
 battle
 be / been
@@ -1885,7 +1881,7 @@ bluff
 board
 boast
 bob
-boil / evaporate
+evaporate
 bombard
 bore
 borrow
@@ -1916,7 +1912,6 @@ quiet / quieten
 bristle
 broach
 broadcast
-broil
 budget
 build / construct
 bully
@@ -2208,7 +2203,6 @@ fracture
 fraternize
 free
 freeze / froze / frozen
-fry
 fuck
 fumble
 function
@@ -2405,7 +2399,6 @@ mangle
 manipulate
 manufacture
 march
-marinate
 marry / marriage
 mash
 maul
@@ -2422,7 +2415,6 @@ metamorphose / metamorphosis
 micromanage
 milk
 mimic / mimicking
-mince
 mine "you could make a game out of this"
 minus / subtract
 misspell / mispell
@@ -2664,7 +2656,6 @@ sail
 sample
 sass
 satisfy
-sauté
 saw "i saw a piece of heaven"
 say / said / speak / talk / communicate / tell / told / converse / conversation / speech
 scam
@@ -2681,7 +2672,6 @@ screw
 script
 scroll / swipe
 sculpt
-sear
 search
 see / sight / vision / seen
 seek / sought
@@ -2748,7 +2738,6 @@ snap
 sneak / snuck
 hand
 spar
-defrost
 sneeze
 sniff / smell / scent
 snip
@@ -2796,7 +2785,6 @@ start / begin / begun / began
 stash
 stay
 steal / stole / stolen
-steam
 steer
 sting / stung
 stir
@@ -2963,7 +2951,7 @@ al dente
 amandine / almondine
 au jus / with juice
 bake
-barbecue / bbq
+barbecue / barbeque / bbq
 baste
 blanch
 boil
@@ -2982,7 +2970,6 @@ deep fry
 defrost
 deglaze
 degrease
-dough sheet
 dredge
 dry
 dry roast
@@ -2999,7 +2986,7 @@ gratin
 griddle
 grill
 juice
-marination
+marinate
 mince
 pan fry
 parbake
@@ -7838,6 +7825,7 @@ bagel
 crème brûlée / burnt cream
 baguette
 banh mi
+dough sheet
 barley
 batter
 bibimbap
@@ -19300,7 +19288,7 @@ mcyt / minecraft youtubers
 blackpink
 bluey
 bojack horseman
-breaking bad / brba / better call saul / bcs
+breaking bad / brba / better call saul / bcs "jesse.. we need to slop"
 bts
 chainsaw man
 clifford
@@ -19578,7 +19566,7 @@ ignoratio elenchi / irrelevant conclusion
 invincible ignorance / argument by pigheadedness
 moving the goalposts / raising the bar
 muhammad wang / goomba
-reductio ad hitlerum / hitler / playing the nazi card
+reductio ad hitlerum / hitler / nazi card
 status quo
 third-person
 two wrongs make a right / two wrongs
@@ -20370,6 +20358,7 @@ save "the game automatically saves, but you can download the file with the **sav
 load
 meta "this is so meta"
 wordslopper / slopper "that's you!"
+blurb "this, for example"
 
 
 ### TODO
