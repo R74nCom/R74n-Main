@@ -711,6 +711,7 @@ such
 enough / nuff
 somewhere
 instead
+kinda / kind of
 anywhere
 apart
 whether
@@ -2493,7 +2494,7 @@ pinch
 ping "pong!"
 pitch
 pivot
-place
+place "i found a place.."
 plan
 play
 plead
@@ -8319,7 +8320,7 @@ absinthe
 affogato
 agua fresca
 alani
-alcohol / ethanol / booze
+alcohol / ethanol / booze "drink responsibly! (if you're allowed)"
 calypso
 alcopop
 schnapps
@@ -8457,7 +8458,7 @@ potion / elixir
 prime
 punch
 rakı / raki
-red bull
+red bull "i feel like i can fly"
 root beer
 rosé
 rum
@@ -8488,7 +8489,7 @@ tequila
 thickshake
 ting
 tonic
-v
+v "hey what're u drinking? **v**."
 vermouth
 vodka
 water / h2o
@@ -19581,7 +19582,7 @@ among us / amogus / sussy / sus / suss / crewmate / imposter / impostor / ඞ
 aura / aurafarming "wordslopping gives a huge aura boost"
 baby boo "she don't call me"
 baby gronk / livvy dunne
-backrooms
+backrooms "i like it in here"
 aerial tramway / 🚡
 flying gorilla
 scunthorpe "watch your language!"
