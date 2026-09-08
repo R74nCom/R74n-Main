@@ -21,6 +21,12 @@
 
     <script src="../load.js"></script>
 
+    <script data-cfasync="false">
+      window.ramp = window.ramp || {};
+      window.ramp.que = window.ramp.que || [];
+      window.ramp.passiveMode = true;
+    </script>
+
     <style>
       @font-face {
         font-family: 'VT323';
@@ -387,6 +393,18 @@
   SPA._handleShare = () => {
     R74n.share(`My handwriting personality type is ${SPA.main.querySelector(".page.final .pop").innerText}! What's yours?`)
   }
+
+  let script = document.createElement("script");
+  script.setAttribute("data-cfasync","false");
+  script.setAttribute("async",true);
+  script.setAttribute("src","//cdn.intergient.com/1025803/77544/ramp.js");
+  // script.setAttribute("crossorigin","anonymous");
+  document.head.appendChild(script);
+
+  window.ramp.que.push(()=>{
+    ramp.spaNewPage("mini/handwriting");
+    // document.querySelector("footer").style.paddingBottom = "8em";
+  })
 </script>
 
 <!--
