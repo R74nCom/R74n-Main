@@ -1413,7 +1413,7 @@
       }
       let aliases = value.filter(v => v !== "_main");
       forms = forms.concat(aliases);
-      if (aliases.length) title = escapeHTML(title)+" / "+aliases.map(f => "<em>"+escapeHTML(f)+"</em>").join(" / ");
+      if (aliases.length) title = (value.includes("_main") ? escapeHTML(title)+" / " : "")+aliases.map(f => "<em>"+escapeHTML(f)+"</em>").join(" / ");
     }
     // display = forms.join(" / ");
     popup.querySelector(".title").innerHTML = title;
