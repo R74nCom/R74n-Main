@@ -1964,7 +1964,7 @@
           updateStats();
         })
       })
-      console.log(results)
+      // console.log(results)
     }
     else { //group list
       let html = ``;
@@ -2576,7 +2576,7 @@
         formsToCheck.push(form.replace(/se/g, "ze"));
         formsToCheck.push(form.replace(/sing/g, "zing"));
         formsToCheck.push(form.replace(/^(an?|the) +/g, ""));
-        formsToCheck.push(form.replace(/[,\.]/g, ""));
+        if (!form.startsWith(".")) formsToCheck.push(form.replace(/[,\.]/g, ""));
         formsToCheck.push(form.replace(/ing$/g, "in'"));
         formsToCheck.push(form.replace(/in'$/g, "ing'"));
         if (form.length >= 7) {
@@ -2637,7 +2637,7 @@
         formsToCheck.push(form.replace(/ & /g, " 'n' "));
         formsToCheck.push(form.replace(/ & /g, " 'n "));
         formsToCheck.push(form.replace(/[.?!'~\-,"]+$/g, ""));
-        formsToCheck.push(form.replace(/^[.?!'~\-,"]+/g, ""));
+        if (!form.startsWith(".")) formsToCheck.push(form.replace(/^[.?!'~\-,"]+/g, ""));
         formsToCheck.push(form.replace(/æ/g, "ae"));
         formsToCheck.push(form.replace(/œ/g, "oe"));
         formsToCheck.push(form.replace(/ß/g, "ss"));
@@ -3250,7 +3250,7 @@
             if (backtrackIndex === null) backtrackIndex = 0;
             else backtrackIndex ++;
             backtrackIndex = Math.min(backtrackIndex, saveData.lastInput.length-1);
-            console.log(backtrackIndex)
+            // console.log(backtrackIndex)
             if (saveData.lastInput.length) {
               mainInput.value = saveData.lastInput[backtrackIndex];
             }
