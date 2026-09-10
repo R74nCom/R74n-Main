@@ -1271,11 +1271,14 @@
     input.click();
   }
 
-  function getGroupTotal(group) {
+  function getGroupTotal(group, done) {
+    done = done || {};
     let total = 0;
     total += Object.keys(SPA.data.groups[group].words).length;
     if (SPA.data.groups[group].subsets) SPA.data.groups[group].subsets.forEach(subset => {
-      total += getGroupTotal(subset);
+      if (done[subset] === true) return;
+      total += getGroupTotal(subset, done);
+      done[subset] = true;
     });
     return total;
   }
