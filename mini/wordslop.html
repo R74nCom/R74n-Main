@@ -2576,7 +2576,7 @@
         formsToCheck.push(form.replace(/se/g, "ze"));
         formsToCheck.push(form.replace(/sing/g, "zing"));
         formsToCheck.push(form.replace(/^(an?|the) +/g, ""));
-        if (!form.startsWith(".")) formsToCheck.push(form.replace(/[,\.]/g, ""));
+        if (!form.startsWith(".") && !form.match(/^[\d\.e\-+]+$/)) formsToCheck.push(form.replace(/[,\.]/g, ""));
         formsToCheck.push(form.replace(/ing$/g, "in'"));
         formsToCheck.push(form.replace(/in'$/g, "ing'"));
         if (form.length >= 7) {
@@ -2637,7 +2637,7 @@
         formsToCheck.push(form.replace(/ & /g, " 'n' "));
         formsToCheck.push(form.replace(/ & /g, " 'n "));
         formsToCheck.push(form.replace(/[.?!'~\-,"]+$/g, ""));
-        if (!form.startsWith(".")) formsToCheck.push(form.replace(/^[.?!'~\-,"]+/g, ""));
+        if (!form.startsWith(".") && !form.match(/^[\d\.e\-+]+$/)) formsToCheck.push(form.replace(/^[.?!'~\-,"]+/g, ""));
         formsToCheck.push(form.replace(/æ/g, "ae"));
         formsToCheck.push(form.replace(/œ/g, "oe"));
         formsToCheck.push(form.replace(/ß/g, "ss"));
@@ -2667,6 +2667,7 @@
     }
 
     let forms = {};
+    forms[word] = true;
     mainForms.forEach(f => {
       if (!f) return;
       forms[f] = true;
