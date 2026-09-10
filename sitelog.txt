@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-09-09 - Updated Wordslop button on homepage to include Sloppy
 2026-08-28 - Linked to Recent Words and Phrases form
 2026-08-24 - Tweaks and new glyphs for Handwriting Personality Test
 2026-08-24 - Updated some Discord links to vanity invite
