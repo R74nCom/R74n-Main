@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-09-10 - Created Community Project pages for Rue Street, 2026 Anniversary, and Word Survey
+2026-09-10 - Rue can now direct you to all the new projects
+2026-09-10 - Homepage: Replaced Outlinks link with sitelog.txt link
 2026-09-09 - Updated Wordslop button on homepage to include Sloppy
 2026-08-28 - Linked to Recent Words and Phrases form
 2026-08-24 - Tweaks and new glyphs for Handwriting Personality Test

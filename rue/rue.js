@@ -237,6 +237,10 @@ rueData.commands = {
 		Rue.openLink("https://web.archive.org/save/" + encodeURIComponent(data||currentURL));
 	},
 	"archive": function(args) {
+		if (!args.length) {
+			Rue.openLink("https://R74n.com/archive/");
+			return;
+		}
 		Rue.openLink("https://web.archive.org/web/*/" + (args.join(" ")||currentURL));
 	},
 	"archived": "=archive",
@@ -4641,6 +4645,26 @@ rueData.links = {
 "r74n newsletter": "=newsletter",
 "newspaper": "=newsletter",
 "substack": "=newsletter",
+"archive": "https://R74n.com/archive/",
+"vault": "=archive",
+"contact": "https://R74n.com/contact",
+"odds": "https://R74n.com/mini/odds",
+"what are the odds": "=odds",
+"handwriting": "https://R74n.com/mini/handwriting",
+"ragebait": "https://R74n.com/mini/ragebait",
+"ragebait simulator": "=ragebait",
+"ragebait sim": "=ragebait",
+"costoflivingdle": "https://R74n.com/mini/cost",
+"costofliving": "=costoflivingdle",
+"protocog": "https://R74n.com/mini/protocog",
+"coglet": "=protocog",
+"wordslop": "https://R74n.com/mini/wordslop",
+"rue street": "https://R74n.com/community/rue-street",
+"sitelog": "https://R74n.com/sitelog.txt",
+"sitelog.txt": "=sitelog",
+"site log": "=sitelog",
+"log": "=sitelog",
+"new": "=sitelog",
 
 "turbowarp": "https://turbowarp.org/editor",
 "tw": "=turbowarp",

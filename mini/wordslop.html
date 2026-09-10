@@ -3323,6 +3323,7 @@
     let keyIsDown = {};
     let mouseIsDown = false;
     window.addEventListener("keydown", (e) => {
+
       if (shopOpen) {
         if (e.key === "Escape") closeShop();
         if (e.metaKey || e.ctrlKey) return;
@@ -3336,7 +3337,10 @@
           return;
         }
       }
-      else if (inspecting && e.key !== "ArrowUp" && e.key !== "ArrowDown") closeInspect();
+      else if (inspecting && e.key !== "ArrowUp" && e.key !== "ArrowDown") {
+        if (e.metaKey || e.ctrlKey || e.key === "Shift" || e.key === "Alt") return;
+        closeInspect();
+      }
       else if (selectedGroup && (e.key === "Escape" || e.key === "Backspace")) {
         selectedGroup = null;
         updateStats();

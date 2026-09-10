@@ -1,0 +1,156 @@
+309  -  actions
+145  -  natural objects
+98  -  morbidities
+98  -  materials
+95  -  structures
+94  -  blissfuls
+92  -  food
+92  -  body parts
+86  -  music genres
+83  -  sports
+82  -  sports equipment
+73  -  vehicles
+72  -  tools
+69  -  colors
+67  -  emotions
+64  -  drinks
+58  -  furniture
+56  -  prints
+55  -  fixtures
+54  -  fields of study
+53  -  numbers
+53  -  cats
+50  -  media
+49  -  decor
+48  -  shapes
+48  -  basic words
+47  -  weapons
+46  -  math
+46  -  compounds
+44  -  trees
+44  -  space
+44  -  fruits
+42  -  stationery
+41  -  dogs
+40  -  periodic table
+38  -  weather
+38  -  accessories
+35  -  playing cards
+35  -  meats
+34  -  plants
+34  -  jobs
+34  -  countries
+34  -  celestial bodies
+33  -  family
+33  -  computer parts
+33  -  companies
+32  -  collective nouns
+32  -  appliances
+31  -  containers
+30  -  mythical creatures
+30  -  household objects
+30  -  common fears
+30  -  birds
+29  -  video games
+28  -  vegetables
+28  -  memes
+28  -  mammals
+28  -  energy
+27  -  properties
+27  -  primates
+26  -  units
+25  -  government
+24  -  instruments
+23  -  toys
+23  -  buzzwords
+22  -  types of words
+22  -  landforms
+22  -  flowers
+22  -  bodies of water
+21  -  particles
+21  -  meta
+21  -  interjections
+20  -  time
+20  -  tarot cards
+20  -  symbols
+20  -  footwear
+20  -  clothing
+19  -  pronouns
+19  -  insects
+18  -  prefixes
+17  -  sounds
+17  -  planets
+16  -  long words
+16  -  directions
+16  -  common names
+15  -  typing
+15  -  lgbtq+
+15  -  kitchenware
+15  -  biomes
+15  -  animal sounds
+14  -  stones
+14  -  languages
+14  -  crimes
+14  -  amphibians
+13  -  personal care
+13  -  letters
+13  -  fandoms
+12  -  young nouns
+12  -  size
+12  -  mythological gods
+12  -  kitchen utensils
+12  -  cheeses
+11  -  us states
+11  -  holidays
+11  -  drugs
+11  -  disease
+11  -  cooking methods
+10  -  gemstones
+10  -  fungi
+10  -  computer languages
+9  -  storage mediums
+9  -  money
+9  -  cell organelles
+8  -  reptiles
+8  -  microorganisms
+8  -  dinosaurs
+8  -  days
+7  -  rodents
+7  -  board games
+6  -  states of matter
+6  -  seasonings
+6  -  national capitals
+6  -  funny numbers
+6  -  fish
+6  -  art genres
+6  -  animals
+5  -  seasons
+5  -  nuts
+5  -  minerals
+5  -  equines
+5  -  diacritics
+5  -  condiments
+4  -  religions
+4  -  figures of speech
+4  -  disorders
+4  -  chess pieces
+3  -  solfège
+3  -  mollusks
+3  -  honorifics
+3  -  greek letters
+3  -  flavors
+3  -  crustaceans
+2  -  pasta shapes
+2  -  oceans
+2  -  months
+2  -  marsupials
+2  -  logical fallacies
+2  -  continents
+2  -  constellations
+2  -  cephalopods
+2  -  bears
+2  -  arabic letters
+1  -  moon phases
+1  -  fonts
+1  -  cetaceans
+1  -  bugs

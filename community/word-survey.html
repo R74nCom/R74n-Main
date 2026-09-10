@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="2026 survey regarding the most distinct words from one another.">
+    <meta name="keywords" content="R74n, R47n">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="/icons/avatar.png">
+    <title>Word Survey - R74n</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00ffff">
+    <link rel="icon" type="image/x-icon" sizes="40x40" href="/icons/favicon.ico">
+    <meta name="theme-color" content="#000000">
+
+    <script src="https://R74n.com/load.js"></script>
+
+</head>
+
+<body>
+
+<header>
+<a href="/" class="home"></a>
+<a href="." class="back">⦉</a>
+<h1 class="pagetitle">Word Survey</h1>
+</header>
+
+<main class="content">
+
+<p>In May 2026, we asked the community a question to help jump start the <a href="../mini/wordslop">Wordslop</a> dataset:</p>
+<p><blockquote>"Enter 10 words that are as far apart in meaning from each other as possible, comma-separated."</blockquote></p>
+<p>The lists of words distinct from each other helped us get a diverse collection of words to base the minigame's groups off of.</p>
+<p>We have removed spam and inappropriate words, corrected typos, and analyzed the data.</p>
+<p><em>Spoiler warning: Naturally, this page includes many words and groups from Wordslop.</em></p>
+
+<h2>Main stats</h2>
+<ul>
+<li>Submissions: 380</li>
+<li>Total words: 3540</li>
+<li>Unique words: 2040</li>
+<li>Duplicate words: 1498</li>
+</ul>
+
+<p>We've published the <a href="word-survey.txt">full submissions here (TXT)</a>.</p>
+
+<h2>Top words</h2>
+<div style="max-width: 800px;">
+  <canvas id="chartTop"></canvas>
+</div>
+
+<p>Like many other datasets, this chart roughly follows <a href="https://en.wikipedia.org/wiki/Zipf%27s_law">Zipf distribution</a>.</p>
+
+<p>We've published the <a href="word-survey-top.txt">full ranking here (TXT)</a> of words submitted more than once.</p>
+
+<p><em>Bias: The words rock, dog, and football were included as examples in the survey.</em></p>
+
+<h2>Top matches</h2>
+<p>There isn't enough data to get great results, but we included the list of <a href="word-survey-matches.txt">top dissociations (TXT)</a>.</p>
+
+<h2>Top groups</h2>
+<p>These are the top groups that words from the Word Survey were included in.</p>
+<div style="max-width: 800px;">
+  <canvas id="chartGroups"></canvas>
+</div>
+<p><em>actions</em> is a big group, with a lot of nouns and adjectives counting as verbs.</p>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  
+  Chart.defaults.backgroundColor = "rgba(0,255,255,0.75)";
+  Chart.defaults.borderColor = "rgba(0,255,255,0.25)";
+  
+  new Chart(document.getElementById("chartTop"), {
+    type: "bar",
+    data: {
+      labels: ["rock","cat","water","dog","car","football","computer","book","tree","cheese","ball","phone","chair","human","fish","fire","death","sun","name","ant","poop","plastic","basketball","lamp","house","gun","grass","frog"],
+      datasets: [{
+        label: "words by count",
+        data: [44,41,35,35,23,22,21,18,16,15,15,14,14,13,13,13,13,12,12,12,11,11,11,10,10,10,10,10],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: { beginAtZero: true }
+      },
+      indexAxis: "y"
+    }
+  });
+  new Chart(document.getElementById("chartGroups"), {
+    type: "bar",
+    data: {
+      labels: ["actions","natural objects","morbidities","materials","structures","blissfuls","food","body parts","music genres","sports","sports equipment","vehicles","tools","colors","emotions","drinks","furniture","prints","fixtures","fields of study","numbers","cats","media","decor","shapes"],
+      datasets: [{
+        label: "groups by words",
+        data: [309,145,98,98,95,94,92,92,86,83,82,73,72,69,67,64,58,56,55,54,53,53,50,49,48],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: { beginAtZero: true }
+      },
+      indexAxis: "y"
+    }
+  });
+
+</script>
+
+
+
+
+
+
+
+
+
+</main>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>
