@@ -1798,6 +1798,7 @@
     openMenu("selfies");
   }
   function checkSelfies() {
+    if (!saveData.selfies) saveData.selfies = {};
     const foundSelfies = Object.keys(saveData.selfies).length;
     const hasAll = foundSelfies >= Object.keys(SPA.data.selfies).length;
     if (hasAll) return;
