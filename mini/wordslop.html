@@ -1104,7 +1104,15 @@
     reset: () => resetAll(),
     save: () => saveFile(),
     load: () => loadFile(),
-    /*RESETS ALL PROGRESS IMMEDIATELY*/ resetyes: () => resetAll(true)
+    /*RESETS ALL PROGRESS IMMEDIATELY*/ resetyes: () => resetAll(true),
+
+    hardcore: () => {
+      hardcore = true;
+      debugCommands.temp();
+      debugCommands.clear();
+      logMessage("this is a temporary instance. **your real save is totally safe** and you can return by refreshing.")
+      logMessage("hardcore mode will not save. the game will end if you miss one word.", 1)
+    }
   }
 
   function hexToRGB(hex) {
@@ -1822,6 +1830,18 @@
       saveData.newSelfie = true;
       logMessage("pssst.. sloppy sent u a photo", 1, false, {special:"selfie", sprite:null});
     }
+  }
+
+  hardcore = false;
+  function lockInput() {
+    saveData.locked = true;
+    mainInput.disabled = true;
+    mainInput.placeholder = "game over";
+  }
+  function unlockInput() {
+    if (saveData.locked) delete saveData.locked;
+    mainInput.disabled = false;
+    mainInput.placeholder = "type something..";
   }
 
   selectedGroup = null;
@@ -2590,6 +2610,9 @@
 
     if (saveData.selfies === undefined) saveData.selfies = {};
 
+    if (saveData.locked) lockInput();
+    else unlockInput();
+
     updateTheme();
     mainInput.value = "";
     updateInputOverlay();
@@ -2611,6 +2634,11 @@
     return word;
   }
   function sendWord(word, skipMessage) {
+    if (saveData.locked) {
+      playAudio("boo");
+      return;
+    }
+
     if ((!word || word === mainInput.value) && mainInput.value) {
       saveData.lastInput.unshift(mainInput.value);
     }
@@ -3141,7 +3169,11 @@
   
       const streak = Math.floor(statGet("streak") / 10) * 10;
       if (lostStreak) {
-        if (streak >= 20) narrate("streaklost", "yikes.. that's a major streak to fumble.");
+        if (hardcore) {
+          lockInput();
+          logMessage("your final streak was **"+statGet("streak")+"**. refresh the page to return to your save.", 1);
+        }
+        else if (streak >= 20) narrate("streaklost", "yikes.. that's a major streak to fumble.");
         delete saveData.stats["streak"];
       }
       else if (streak >= 40) narrate("streak"+streak, streak+" in a row! i can't handle this anymore!");
