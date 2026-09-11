@@ -29,6 +29,11 @@
 - 150 new fun facts and other blurbs
 - various minor fixes
 
+- sloppy sends you selfies as a reward for finding words
+- theme toggle can be right-clicked to open theme list
+- rescued stat can be clicked to open rescued list
+- various tweaks and consistency fixes
+
 commands:
 - /hint
 - /hint <group>
@@ -961,7 +966,7 @@ goodnight / gn "sleep tight!"
 gosh / goodness
 mwah
 brr / brrr / brrrr
-peace "that's la peace"
+peace "that's **la peace**"
 boo
 rah / rahh / rahhh / rahhhh
 glhf
@@ -3029,6 +3034,7 @@ stale
 public
 useless
 useful
+stray
 private / secret / secretive
 fizzy
 symmetrical
@@ -4351,7 +4357,7 @@ curlew
 dodo
 dove
 dovekie
-duck / drake / mallard / duckling "got any grapes?"
+duck / drake / mallard / duckling / ducky "got any grapes?"
 eagle / erne / eaglet "bald eagles use the same nest across many years"
 eider
 emerald
@@ -5723,6 +5729,7 @@ ophanim
 lyngbakr
 roc
 krampus
+slugfish
 erinyes / eumenides / furies / dirae
 pocong
 bonnacon
@@ -6390,7 +6397,7 @@ lepidocrocite / esmeraldite / hydrohematite
 padparadscha
 andesine
 andradite / demantoid
-apatite
+apatite "hungry?"
 aquamarine
 aventurine
 axinite
@@ -6435,7 +6442,7 @@ feldspar
 fluorite
 forsterite
 garnet
-goldstone
+goldstone "is it **gold**? or is it a stone.."
 goshenite
 greenovite
 hackmanite
@@ -6455,7 +6462,7 @@ kunzite
 kyanite / disthene / cyanite
 kyawthuite
 labradorite
-lapis lazuli / lapis / lazuli
+lapis lazuli / lapis / lazuli "that's **la peace**"
 larimar
 lazurite
 lepidolite
@@ -6474,7 +6481,7 @@ peridot
 phenakite
 poudretteite
 prasolite / vermarine / green amethyst / green quartz
-pyrite
+pyrite / fools' gold
 chalcopyrite
 quartz
 rhodochrosite
@@ -7511,7 +7518,7 @@ brazil nut / brazil
 breadnut
 candlenut / kukui nut / kukui
 cashew
-chestnut
+chestnut "...roasting on an open fire"
 pili
 chufa
 tigernut
@@ -8597,10 +8604,12 @@ concert
 thumbnail
 album
 analog
+arg
 chapter
 digital
 single
 creepypasta
+selfie
 isekai
 extended play / ep
 browser
@@ -8679,6 +8688,7 @@ goregrind
 experimental
 ballad
 amapiano
+beatbox
 calypso
 jumpstyle
 rhapsody
@@ -9656,6 +9666,7 @@ contrabass
 duduk
 bouzouki
 zurna
+waterphone / ocean harp
 cuíca
 jaw harp / jew's harp / jew harp / juice harp / mouth harp
 caxixi
@@ -10518,6 +10529,7 @@ match / matchstick
 landline
 laptop / macbook / chromebook
 hose
+selfie stick
 kindle / e-reader
 hourglass
 iron
@@ -10550,14 +10562,14 @@ hole punch / hole puncher
 jack
 ladder
 ladel
-lawnmower
+lawnmower / mower
 leaf blower
 letter opener
 mallet
 measuring tape
 mop
 nailgun
-paper cutter / guillotine
+paper cutter / guillotine / paper guillotine
 pencil sharpener
 pestle
 pickaxe / pick
@@ -10828,7 +10840,7 @@ notebook / sketchbook
 notepad
 clip / paperclip
 paperweight
-paper cutter / guillotine
+paper cutter / guillotine / paper guillotine
 tray
 pen / fountain pen / gel pen / ballpoint pen / rollerball pen
 pencil
@@ -10866,6 +10878,7 @@ adobe
 aerogel
 alloy
 metal / metallic
+plaid
 scrap
 macramé
 asbestos / asbestus
@@ -13789,6 +13802,7 @@ bureaucracy / bureaucrat / bureaucratic
 capitalism / capitalist
 veto
 serfdom
+jurisdiction
 corporatocracy
 industry / industrial
 commerce
@@ -15265,7 +15279,7 @@ alfred / alfie
 alfonso / alonso / afonso / alfonse / alfons / alphons
 alice / allison / alison / allie / ally / alis / alys / ali
 angharad
-max / maxwell / maxine / maximilian
+max / maxwell / maxine / maximilian / maxime
 jasmine / jasmin / yasmin / minnie
 alma
 alyssa / alisa
@@ -18667,7 +18681,7 @@ eszett / ß
 thorn / þorn / Þ
 eth / edh / Ð
 wynn / wyn / wynne / ƿ / ƿynn / ƿyn
-ampersand / & "this was once part of the english alphabet"
+ampersand / && "this was once part of the english alphabet"
 yogh / yoch / ȝ / ȝogh
 ean / vrrrpt "ah yes, the extended english alphabet"
 long s / ſ
@@ -18774,7 +18788,7 @@ question / ? / ¿
 interrobang / ‽
 irony / ⸮
 section / §
-pilcrow / paraph / paragraph / ¶
+pilcrow / paraph / paragraph / ¶ / ⁋ "my favorite!"
 numero / no. / №
 bullet / •
 times / multiplication / ×
@@ -18920,6 +18934,7 @@ angry birds "aaaah heheha"
 sekiro
 animal crossing
 apex legends
+zampanio / zampaniosim
 casualties unknown
 murder mystery / mm2
 twelve minutes
@@ -19609,6 +19624,7 @@ da vinci / da vinky "who painted the mona lisa?"
 do u know da wae / do you know da wae / ugandan knuckles / uganda knuckles
 he need some milk
 fre sha vaca do
+lock in / locking in / locked in
 what are those
 free real estate
 surprised pikachu
@@ -20360,6 +20376,7 @@ load
 meta "this is so meta"
 wordslopper / slopper "that's you!"
 blurb "this, for example"
+selfie
 
 
 ### TODO
@@ -20453,6 +20470,28 @@ SPA.data.themes = {
    // purple: [214, 173, 255],
    // magenta: [255, 173, 255],
    // pink: [255, 214, 255],
+}
+
+SPA.data.selfies = {
+   c1: {
+      file: "sloppy-c1.png",
+      name: "might delete this",
+      author: "bachunawa",
+      url: "https://twitter.com/bachunawa",
+      bg: "conic-gradient(from 45deg, #9f9cff, #f9c693)"
+   },
+   o1: {
+      file: "sloppy-o1.gif",
+      name: "origin story",
+      author: "R74n",
+      url: "https://R74n.com/"
+   },
+   f1: {
+      file: "sloppy-f1.png",
+      name: "a break from suits",
+      author: "CheeseSoda",
+      url: "https://bsky.app/profile/cheesesodaart.bsky.social"
+   },
 }
 
 function rescue(str) {

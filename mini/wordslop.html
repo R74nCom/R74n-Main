@@ -102,7 +102,7 @@
     <!-- <span>settings</span> -->
   </div>
 </div>
-<div id="shopContainer">
+<div id="shopContainer" class="menu">
   <div id="shop">
     <div>
       <span>blurb text</span>
@@ -110,21 +110,21 @@
     </div>
     <div>
       <div id="shopKeeper">
-        <img src="art/wordslop/sloppy-fill.gif" class="sprite">
+        <!-- <img src="art/wordslop/sloppy-fill.gif" class="sprite"> -->
       </div>
       <div id="shopItems">
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable disabled"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
-        <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div>
+        <!-- <div class="item clickable"><span>item</span><span><img class="charm" src="art/wordslop/charm.png">123</span></div> -->
       </div>
+    </div>
+  </div>
+</div>
+
+<div id="selfiesContainer" class="menu">
+  <div id="selfies">
+    <div class="selfie">
+      <img src="art/wordslop/sloppy-comm-1.png" style="background:conic-gradient(from 45deg, #ff7f00, #0900ff)">
+      <strong>might delete later</strong>
+      <em>by <a href="https://twitter.com/bachunawa" target="_blank">bachunawa</a></em>
     </div>
   </div>
 </div>
@@ -232,6 +232,32 @@
     padding: 0;
     padding-bottom: 0;
     padding-top: 0;
+  }
+  #panel2 > span > span button,
+  #panel3 > span > span button {
+    background: var(--t-l-panel-main);
+    border: 3px solid var(--t-l-panel-3rd);
+    translate: 0px -2px;
+    font-size: 0.95em;
+    margin: 0;
+    margin-left: 0.75em;
+    margin-bottom: -0.3em;
+    margin-top: -0.3em;
+    transition: all 0.5s, filter 0s;
+  }
+  #panel2 > span > span button:hover,
+  #panel3 > span > span button:hover {
+    filter: brightness(0.9);
+  }
+  #panel2 > span > span button:active,
+  #panel3 > span > span button:active {
+    filter: brightness(0.8);
+    scale: unset;
+  }
+  #panel2 > span.new button,
+  #panel3 > span.new button {
+    font-size: 0;
+    margin-top: -10em;
   }
   #panel3 > span {
     padding-top: 0;
@@ -350,7 +376,7 @@
     background-color: var(--t-l-panel-3rd);
   }
   #panel4 > span > span {
-    word-wrap: anywhere;
+    word-wrap: break-word;
   }
   #panel4 > span.title,
   #panel5 > span.title {
@@ -362,6 +388,9 @@
   #panel5 > span.title > .text {
     text-decoration: underline;
     text-align: right;
+  }
+  #panel5 > span.title > .text {
+      text-align: center;
   }
   #panel5 > span > span:last-child {
     text-align: right;
@@ -388,16 +417,20 @@
     text-align: right;
     margin-top: 0.25em;
   }
-  #panel4 > span:active {
+  #panel4 > span:active,
+  #panel5 > span:active {
     scale: 1;
   }
-  #panel4 > span.clickable:active > span {
+  #panel4 > span.clickable:active > span,
+  #panel5 > span.clickable:active > span {
     transform: scale(0.9);
   }
-  #panel4 > span.clickable:active > span:first-child {
+  #panel4 > span.clickable:active > span:first-child,
+  #panel5 > span.clickable:active > span:first-child {
     transform-origin: left;
   }
-  #panel4 > span.clickable:active > span:last-child {
+  #panel4 > span.clickable:active > span:last-child
+  #panel5 > span.clickable:active > span:last-child {
     transform-origin: right;
   }
   #panel4 .iconimg {
@@ -628,19 +661,19 @@
     width: 0;
   }
 
-  #shopContainer {
+  .menu {
     position: absolute;
     z-index: 118;
     background: rgba(0,0,0,0.5);
     width: 100%;
     height: 100%;
-    display: none;
+    display: none!important;
     justify-content: center;
     align-items: center;
     cursor: pointer;
   }
-  #shopContainer.open {display: flex;}
-  #shop {
+  .menu.open {display: flex!important;}
+  .menu > div {
     background: var(--t-l-panel-2nd);
     width: 85%;
     /* height: 80%; */
@@ -744,6 +777,59 @@
   }
   #shop img.charm {
     translate: 0 -2px;
+  }
+
+  #selfies {
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-content: space-around;
+    gap: 23px;
+    max-height: 85%;
+    overflow: scroll;
+    padding: 1em;
+    margin: 1em;
+    flex-grow: 0;
+    /* translate: 0 60px; */
+  }
+  #selfies .selfie {
+    /* background: red; */
+    background: var(--t-l-panel-main);
+    border: 3px solid var(--t-l-panel-3rd);
+    max-width: 30%;
+    /* max-width: 100%; */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-bottom: 10px;
+    flex-grow: 1;
+  }
+  #selfies .selfie > * {
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  #selfies .selfie > img {
+    margin: 10px;
+    margin-bottom: 5px;
+  }
+  #selfies .selfie > img:hover {
+    scale: 1.05;
+  }
+  #selfies .selfie.locked {
+    padding: 50px 0;
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  @media only screen and (max-width: 700px) {
+    #selfies {
+      max-height: 75%;
+    }
+    #selfies .selfie {
+      width: 90%;
+      max-width: 90%;
+    }
   }
 
   @media only screen and (min-width: 900px) {
@@ -1180,7 +1266,7 @@
   let resetting = false;
   function resetAll(confirmed) {
     if (!confirmed && statGet("score") > 30) {
-      closeMenu();
+      closeTab();
       if (resetting !== "all") logMessage(`umm, really? if you're positive, type "**yes reset everything**", and be sure to make a backup`, 1);
       resetting = "all";
       return;
@@ -1191,7 +1277,7 @@
   }
   function resetUnrecognized(confirmed) {
     if (!confirmed) {
-      closeMenu();
+      closeTab();
       if (resetting !== "unrecognized") logMessage(`do you want to erase all unrecognized words? type "**clear unrecognized**"" to confirm`, 1);
       resetting = "unrecognized";
       return;
@@ -1226,7 +1312,7 @@
     a.download = name+".slop";
     a.click();
 
-    closeMenu();
+    closeTab();
   }
 
   document.getElementById("saveUpload").addEventListener("change", (e) => {
@@ -1259,7 +1345,7 @@
         alert("File '"+file.name+"' could not be read");
       }
       e.target.value = "";
-      closeMenu();
+      closeTab();
     }
   });
   if (R74n.state.ios) {
@@ -1565,7 +1651,7 @@
     else saveData.stats[key] += value;
   }
 
-  function closeMenu() {
+  function closeTab() {
     document.getElementById("col2").classList.remove("shown");
     document.getElementById("col3").classList.remove("shown");
   }
@@ -1575,7 +1661,7 @@
   let hintTimeout;
   let hintCooldown = 20;
   function doHint(group, fallback) {
-    closeMenu();
+    closeTab();
     if (saveData.lastHint && (Date.now() - saveData.lastHint) < hintCooldown*1000) {
       narrate("noHint", "don't be greedy, wait your turn!");
       return;
@@ -1639,27 +1725,102 @@
     })
   }
 
-  shopOpen = false;
-  shopItems = [
-    {
-      name: "assorted pack",
-      cost: 100,
-      func: () => {
+  // shopItems = [
+  //   {
+  //     name: "assorted pack",
+  //     cost: 100,
+  //     func: () => {
         
-      }
-    }
-  ];
-  function openShop() {
-    shopItems.forEach(() => {
-
-    })
-
-    document.getElementById("shopContainer").classList.add("open");
-    shopOpen = true;
+  //     }
+  //   }
+  // ];
+  
+  currentMenu = null;
+  function openMenu(id) {
+    closeMenu();
+    let container = document.getElementById(id+"Container");
+    container.classList.add("open");
+    container.onmousedown = (e) => {
+      if (e.target.id === container.id) playAudio(Math.random() < 0.5 ? "mouse1" : "mouse2");
+    };
+    container.onclick = (e) => {
+      if (e.target.id === container.id) closeMenu();
+    };
+    currentMenu = id;
   }
-  function closeShop() {
-    document.getElementById("shopContainer").classList.remove("open");
-    shopOpen = false;
+  function closeMenu() {
+    document.querySelectorAll(".menu.open").forEach(container => {
+      container.classList.remove("open");
+    })
+    currentMenu = null;
+  }
+
+  function openSelfies() {
+    const menu = document.getElementById("selfies");
+    menu.innerHTML = "";
+
+    const hasAll = Object.keys(saveData.selfies).length >= Object.keys(SPA.data.selfies).length;
+    if (saveData.newSelfie) {
+      saveData.newSelfie = false;
+      updateStats();
+      saveState();
+    }
+
+    for (const id in SPA.data.selfies) {
+      if (!saveData.selfies[id]) continue;
+      
+      let selfie = SPA.data.selfies[id];
+      let div = document.createElement("div");
+      div.className = "selfie";
+
+      let img = document.createElement("img");
+      img.src = "art/wordslop/"+selfie.file;
+      if (selfie.bg) img.style.background = selfie.bg;
+      div.appendChild(img);
+
+      if (selfie.name) {
+        let strong = document.createElement("strong");
+        strong.innerText = selfie.name;
+        div.appendChild(strong);
+      }
+      if (selfie.author) {
+        let em = document.createElement("em");
+        if (selfie.url) em.innerHTML = `by <a href="${escapeHTML(selfie.url)}" target="_blank">${escapeHTML(selfie.author)}</a>`;
+        else em.innerText = "by "+selfie.author;
+        div.appendChild(em);
+      }
+
+      menu.appendChild(div);
+    }
+
+    menu.insertAdjacentHTML("beforeend", `<div class="selfie locked"><em>${hasAll ? "coming soon" : "locked"}</em></div>`)
+    
+    openMenu("selfies");
+  }
+  function checkSelfies() {
+    const foundSelfies = Object.keys(saveData.selfies).length;
+    const hasAll = foundSelfies >= Object.keys(SPA.data.selfies).length;
+    if (hasAll) return;
+
+    const currentSelfie = Math.floor(Math.max(0, statGet("forms") + 50) / 100) - 1;
+    if (currentSelfie < 0) return;
+
+    let toGive = currentSelfie - (foundSelfies-1);
+    if (!toGive) return;
+
+    let given = 0;
+    console.log(toGive);
+    for (const id in SPA.data.selfies) {
+      if (saveData.selfies[id]) continue;
+      saveData.selfies[id] = true;
+      given ++;
+      if (given >= toGive) break;
+    }
+    
+    if (given) {
+      saveData.newSelfie = true;
+      logMessage("pssst.. sloppy sent u a photo", 1, false, {special:"selfie", sprite:null});
+    }
   }
 
   selectedGroup = null;
@@ -1879,10 +2040,15 @@
         if (SPA.data.groups[selectedGroup].desc) html += `<span class="desc">${escapeHTML(SPA.data.groups[selectedGroup].desc).replace(/\*/g,"")}</span>`
         items = getGroupFoundList(selectedGroup);
       }
-      if (selectedGroup !== "unrecognized" && selectedGroup !== "rescued") items.sort();
-      items.forEach(i => {
-        html += renderWord(i[0], selectedGroup, i[1]);
-      });
+      items.sort((a,b) => {
+        return a[1].localeCompare(b[1]);
+      })
+      items = items.map(i => renderWord(i[0], selectedGroup, i[1]));
+      // items.forEach(i => {
+        //   html += renderWord(i[0], selectedGroup, i[1]);
+        // });
+      // if (selectedGroup !== "unrecognized" && selectedGroup !== "rescued") items.sort();
+      html += items.join("");
       if (selectedGroup === "unrecognized") {
         html += `<span class="clickable meta" onclick="submitUnrecognized()">submit all &nbsp;❥</span>`;
         if (saveData.lastSubmit && saveData.lastSubmit < Object.keys(saveData.unrecognized).length) html += `<span class="clickable meta" onclick="submitUnrecognized(${parseInt(saveData.lastSubmit)})"><span>submit after <strong>${escapeHTML(Object.keys(saveData.unrecognized)[saveData.lastSubmit - 1])}</strong> &nbsp;❥</span></span>`;
@@ -2032,7 +2198,8 @@
     // if (saveData.charms > 0) html += `<span class="noSelect clickable charms"><span>charms</span> <span><img class="charm" src="art/wordslop/charm${saveData.dark ? "-dark" : ""}.png">${parseInt(saveData.charms)}</span></span>`;
     stats.forEach(key => {
       const value = saveData.stats[key];
-      html += `<span class="noSelect"><span>${escapeHTML(key)}</span> <span>${escapeHTML(value+"")}</span></span>`;
+      key = escapeHTML(key);
+      html += `<span class="noSelect" data-stat="${key}"><span>${key}</span> <span>${escapeHTML(value+"")}</span></span>`;
     })
     html += `<span style="height:0">&nbsp;</span>`;
     html += `<span class="clickable noSelect daily" style="${saveData.lastDaily !== dailyGroup ? "background:var(--t-l-new)" : ""}"><span>DAILY:</span> <span>${dailyGroup}</span></span>`;
@@ -2041,6 +2208,9 @@
     if (saveData.theme !== undefined) {
       html += `<span style="height:0">&nbsp;</span>`;
       html += `<span class="clickable noSelect theme"><span>theme:</span> <span class="name">${saveData.theme || "off"}</span></span>`;
+    }
+    if (Object.keys(saveData.selfies).length) {
+      html += `<span class="clickable noSelect selfies" style="${saveData.newSelfie ? "background:var(--t-l-new)" : ""}"><span>selfies</span> <span class="name">${Object.keys(saveData.selfies).length} &gt;</span></span>`;
     }
     panel5.insertAdjacentHTML("beforeend", html);
     let daily = panel5.querySelector("span.daily");
@@ -2056,17 +2226,38 @@
       doHint();
     });
     let theme = panel5.querySelector("span.theme");
-    if (theme) theme.addEventListener("click", () => {
-      if (saveData.theme) {
-        saveData.lastTheme = saveData.theme;
-        updateTheme("default");
-      }
-      else {
-        updateTheme(saveData.lastTheme || "default");
-      }
-      saveState();
-      updateStats();
+    if (theme) {
+      theme.addEventListener("click", () => {
+        if (saveData.theme) {
+          saveData.lastTheme = saveData.theme;
+          updateTheme("default");
+        }
+        else {
+          updateTheme(saveData.lastTheme || "default");
+        }
+        saveState();
+        updateStats();
+      });
+      theme.addEventListener("contextmenu", (e) => {
+        selectedGroup = selectedGroup === "themes" ? null : "themes";
+        updateStats();
+        showProgress();
+        e.preventDefault();
+      })
+    }
+    let selfies = panel5.querySelector("span.selfies");
+    if (selfies) selfies.addEventListener("click", () => {
+      openSelfies();
     });
+    let rescued = panel5.querySelector('span[data-stat="rescued"]');
+    if (rescued) {
+      rescued.classList.add("clickable");
+      rescued.addEventListener("click", () => {
+        selectedGroup = selectedGroup === "rescued" ? null : "rescued";
+        updateStats();
+        showProgress();
+      });
+    }
     // let charm = panel5.querySelector("span.charms");
     // if (charm) charm.addEventListener("click", () => {
     //   openShop();
@@ -2085,6 +2276,12 @@
     return msg;
   }
   let lastMessage = null;
+  specialMessages = {
+    selfie: {
+      name: "view",
+      func: () => openSelfies()
+    }
+  }
   function logMessage(text, type=1, saved=false, args={}) {
     if (!text) return;
     if (type === 1 && text === lastMessage) return;
@@ -2136,8 +2333,16 @@
       }, 10);
     }
 
+    if (type === 1 && args.special) {
+      const btn = document.createElement("button");
+      const special = specialMessages[args.special];
+      btn.addEventListener("click", special.func);
+      btn.innerText = special.name;
+      msg.querySelector("span").appendChild(btn);
+    }
+
     if (type === 1 && args.sprite !== null && !(saveData.sloppy < 0)) {
-      let sprite = document.createElement("img");
+      const sprite = document.createElement("img");
       sprite.src = `art/wordslop/sloppy${saveData.dark ? "-blue" : ""}.gif`;
       sprite.classList.add("sprite");
       sprite.classList.add("pixelart");
@@ -2382,9 +2587,12 @@
       e.style.display = currentScore ? "" : "none";
     });
 
+    if (saveData.selfies === undefined) saveData.selfies = {};
+
     updateTheme();
     mainInput.value = "";
     updateInputOverlay();
+    checkSelfies();
     updateStats();
     skipSaving = false;
   }
@@ -2951,6 +3159,7 @@
       }
     }
 
+    checkSelfies();
     updateStats();
     if (!skipMessage) {
       let changedItem = panel4.querySelector("span.changed");
@@ -3324,10 +3533,10 @@
     let mouseIsDown = false;
     window.addEventListener("keydown", (e) => {
 
-      if (shopOpen) {
-        if (e.key === "Escape") closeShop();
+      if (currentMenu) {
+        if (e.key === "Escape") closeMenu();
         if (e.metaKey || e.ctrlKey) return;
-        if (e.key.length === 1 || e.key === "Enter") closeShop();
+        if (e.key.length === 1 || e.key === "Enter") closeMenu();
       }
       else if (e.target === mainInput) {
         if (e.key === "Escape" && !selectedGroup && mainInput.value) {
@@ -3403,12 +3612,6 @@
           }
         })
       }, 10);
-    });
-    document.getElementById("shopContainer").addEventListener("mousedown", (e) => {
-      if (e.target.id === "shopContainer") playAudio(Math.random() < 0.5 ? "mouse1" : "mouse2");
-    });
-    document.getElementById("shopContainer").addEventListener("click", (e) => {
-      if (e.target.id === "shopContainer") closeShop();
     });
 
     window.addEventListener("mousedown", (e) => {
