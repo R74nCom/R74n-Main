@@ -1425,3 +1425,6 @@ form .honeypot {
 .st-placement, .inScreen {
 	height: unset!important;
 }
+#pw-oop-bottom_rail {
+	background-color: unset!important;
+}
