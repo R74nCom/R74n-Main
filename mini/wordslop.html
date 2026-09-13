@@ -1624,7 +1624,8 @@
     }
 
     popup.style.display = "flex";
-    const btn = panel4.querySelector(`span[data-word="${word.replace(/"/g, "\\\"")}"]`);
+    let btn = panel4.querySelector(`span[data-word="${word.replace(/"/g, "\\\"")}"][data-group="${group.replace(/"/g, "\\\"")}"]`);
+    if (!btn) btn = panel4.querySelector(`span[data-word="${word.replace(/"/g, "\\\"")}"]`);
     if (btn) {
       btn.scrollIntoViewIfNeeded()
       popup.style.top = Math.min(btn.offsetTop - panel4.scrollTop, panel4.clientHeight - popup.clientHeight) + "px";
@@ -1662,6 +1663,7 @@
   function closeTab() {
     document.getElementById("col2").classList.remove("shown");
     document.getElementById("col3").classList.remove("shown");
+    selectedGroup = null;
   }
 
   window.editDistance=function(){function r(r,t,e,o,n){return r<t||e<t?r>e?e+1:r+1:o===n?t:t+1}return function(t,e){if(t===e)return 0;if(t.length>e.length){var o=t;t=e,e=o}for(var n=t.length,h=e.length;n>0&&t.charCodeAt(n-1)===e.charCodeAt(h-1);)n--,h--;for(var a=0;a<n&&t.charCodeAt(a)===e.charCodeAt(a);)a++;if(h-=a,0===(n-=a)||h<3)return h;var c,f,d,u,A,C,i,g,l,v,s,p,w=0,D=[];for(c=0;c<n;c++)D.push(c+1),D.push(t.charCodeAt(a+c));for(var b=D.length-1;w<h-3;)for(l=e.charCodeAt(a+(f=w)),v=e.charCodeAt(a+(d=w+1)),s=e.charCodeAt(a+(u=w+2)),p=e.charCodeAt(a+(A=w+3)),C=w+=4,c=0;c<b;c+=2)f=r(i=D[c],f,d,l,g=D[c+1]),d=r(f,d,u,v,g),u=r(d,u,A,s,g),C=r(u,A,C,p,g),D[c]=C,A=u,u=d,d=f,f=i;for(;w<h;)for(l=e.charCodeAt(a+(f=w)),C=++w,c=0;c<b;c+=2)i=D[c],D[c]=C=r(i,f,C,l,D[c+1]),f=i;return C}}();
@@ -2335,7 +2337,12 @@
 
     if (args.group) {
       msg.classList.add("clickable");
-      msg.addEventListener("click", () => {
+      msg.addEventListener("click", (e) => {
+        if (selectedGroup === args.group) {
+          selectedGroup = null;
+          updateStats();
+          return;
+        }
         selectedGroup = args.group;
         updateStats();
         showProgress();
@@ -2517,7 +2524,7 @@
         statAdd("rescued", 1);
         if (saveData.lastSubmit > 0) saveData.lastSubmit --;
         for (const group in SPA.data.wordIndex[word] ) {
-          logMessage(`+${group} (${word})`, 2, undefined, {fade: false});
+          logMessage(`+${group} (${word})`, 2, undefined, {fade: false, group:group});
         }
         delete saveData.unrecognized[word];
         for (const group in saveData.changedGroups) changedGroups[group] = true;
@@ -2778,6 +2785,9 @@
           if (form.endsWith("ity")) {
             formsToCheck.push(form.slice(0,-3));
             formsToCheck.push(form.slice(0,-3)+"e");
+          }
+          if (form.endsWith("ce")) {
+            formsToCheck.push(form.slice(0,-1)+"tion");
           }
         }
         if (form.length >= 4) {
@@ -3368,9 +3378,14 @@
         const form = word.replace(/'/g,"");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
         if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
+        if (word.match(/ /)) {
+          const form2 = form.replace(/ /g,"");
+          if (wordIndex[form2] === undefined) wordIndex[form2] = {};
+          if (wordIndex[form2][group] === undefined) wordIndex[form2][group] = [word];
+        }
       }
-      if (word.match(/\./)) {
-        const form = word.replace(/\. ?/g,"");
+      if (word.match(/[.?!]/)) {
+        const form = word.replace(/[.?!] ?/g,"");
         if (wordIndex[form] === undefined) wordIndex[form] = {};
         if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
       }
@@ -3408,6 +3423,11 @@
           const form = alias.replace(/'/g,"");
           if (wordIndex[form] === undefined) wordIndex[form] = {};
           if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
+          if (alias.match(/ /)) {
+            const form2 = form.replace(/ /g,"");
+            if (wordIndex[form2] === undefined) wordIndex[form2] = {};
+            if (wordIndex[form2][group] === undefined) wordIndex[form2][group] = [word, alias];
+          }
         }
         if (alias.match(/\./)) {
           const form = alias.replace(/\. ?/g,"");
