@@ -1661,9 +1661,9 @@
   }
 
   function closeTab() {
+    if (document.getElementById("col2").classList.contains("shown")) selectedGroup = null;
     document.getElementById("col2").classList.remove("shown");
     document.getElementById("col3").classList.remove("shown");
-    selectedGroup = null;
   }
 
   window.editDistance=function(){function r(r,t,e,o,n){return r<t||e<t?r>e?e+1:r+1:o===n?t:t+1}return function(t,e){if(t===e)return 0;if(t.length>e.length){var o=t;t=e,e=o}for(var n=t.length,h=e.length;n>0&&t.charCodeAt(n-1)===e.charCodeAt(h-1);)n--,h--;for(var a=0;a<n&&t.charCodeAt(a)===e.charCodeAt(a);)a++;if(h-=a,0===(n-=a)||h<3)return h;var c,f,d,u,A,C,i,g,l,v,s,p,w=0,D=[];for(c=0;c<n;c++)D.push(c+1),D.push(t.charCodeAt(a+c));for(var b=D.length-1;w<h-3;)for(l=e.charCodeAt(a+(f=w)),v=e.charCodeAt(a+(d=w+1)),s=e.charCodeAt(a+(u=w+2)),p=e.charCodeAt(a+(A=w+3)),C=w+=4,c=0;c<b;c+=2)f=r(i=D[c],f,d,l,g=D[c+1]),d=r(f,d,u,v,g),u=r(d,u,A,s,g),C=r(u,A,C,p,g),D[c]=C,A=u,u=d,d=f,f=i;for(;w<h;)for(l=e.charCodeAt(a+(f=w)),C=++w,c=0;c<b;c+=2)i=D[c],D[c]=C=r(i,f,C,l,D[c+1]),f=i;return C}}();
