@@ -1421,3 +1421,7 @@ form .honeypot {
 ::view-transition-new(root) {
 	animation: 50ms ease-in both move-in;
 }
+
+.st-placement, .inScreen {
+	height: unset!important;
+}
