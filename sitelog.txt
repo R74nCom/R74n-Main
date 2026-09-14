@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-09-13 - Handwriting Personality Test: Fixed bug where page goes blank on mobile
 2026-09-10 - Created Community Project pages for Rue Street, 2026 Anniversary, and Word Survey
 2026-09-10 - Rue can now direct you to all the new projects
 2026-09-10 - Homepage: Replaced Outlinks link with sitelog.txt link

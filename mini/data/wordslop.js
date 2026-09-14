@@ -3251,7 +3251,7 @@ toil
 toll
 torture
 toss
-touch
+touch "do not the sloppy"
 tow
 trade
 trail
@@ -12428,7 +12428,7 @@ fiber / fibre
 protein
 fibula
 fin
-finger / digit "fingerprints are so unique, even identicial twins don't share them"
+finger / digit "fingerprints are so unique, even identical twins don't share them"
 fingertip / fingerprint
 toe bean / toe pads / digital pads / bean "the cute **toe beans** of a cat's paw are called **digital pads**"
 fist
@@ -21364,6 +21364,23 @@ SPA.data.selfies = {
       name: "a break from suits",
       author: "CheeseSoda",
       url: "https://bsky.app/profile/cheesesodaart.bsky.social"
+   },
+   f2: {
+      file: "sloppy-f2.png",
+      name: "touching grass",
+      author: "PoundOS"
+   },
+   c2: {
+      file: "sloppy-c2.png",
+      name: "slopped out",
+      author: "bachunawa",
+      url: "https://twitter.com/bachunawa",
+   },
+   f3: {
+      file: "sloppy-f3.png",
+      name: "quoth the sloppy",
+      author: "CeruBeDrawing",
+      url: "https://x.com/CeruBeDrawing",
    },
 }
 
