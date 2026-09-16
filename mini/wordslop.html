@@ -517,6 +517,16 @@
     text-align: right;
     justify-content: flex-end;
   }
+  #panel4.collapsed .complete {
+    display: none;
+  }
+  #panel4 .collapse {
+    justify-content: center;
+    font-size: 0.8em;
+  }
+  #panel4.collapsed .collapse {
+    font-size: 0.9em;
+  }
 
   #saveControls > span::after {
     content: " • ";
@@ -1984,6 +1994,10 @@
     }
   });
 
+  function normalizeSort(a) {
+    return a.replace(/'/g,"");
+  }
+
   function updateStats() {
     const spans = document.querySelectorAll("#panel4 > span, #panel5 > span");
     if (spans) spans.forEach(e => {
@@ -2065,7 +2079,7 @@
         items = getGroupFoundList(selectedGroup);
       }
       items.sort((a,b) => {
-        return a[1].localeCompare(b[1]);
+        return normalizeSort(a[1]).localeCompare( normalizeSort(b[1]) );
       })
       items = items.map(i => renderWord(i[0], selectedGroup, i[1]));
       // items.forEach(i => {
@@ -2173,9 +2187,20 @@
       }
       let sorted = Object.keys(groups).sort((a, b) => groups[a] === groups[b] ? a.localeCompare(b) : groups[b] - groups[a]);
       if (!saveData.changedGroups) saveData.changedGroups = {};
+      let completedGroups = 0;
+      let completedDone = false;
       sorted.forEach(group => {
         const percent = groups[group];
-        html += `<span class="clickable noSelect${saveData.changedGroups[group] ? " changed" : ""}" data-group="${group}" style="background: linear-gradient(to right, ${saveData.changedGroups[group] ? "var(--t-l-new)" : "var(--t-l-panel-3rd)"} ${100-percent}%, ${saveData.changedGroups[group] ? "var(--t-l-progress-new)" : "var(--t-l-progress)"} ${100-percent}%)"><span>${escapeHTML(group)}</span><span>${percent < 100 ? percent+"%" : "done"}</span></span>`
+        if (percent >= 100) completedGroups++;
+        if (percent < 100 && completedDone === false) {
+          console.log(group,percent)
+          completedDone = true;
+          if (completedGroups >= 6) {
+            html += `<span class="clickable noSelect collapse">${saveData.collapsed ? "completed &gt;" : "^ collapse ^"}</span>`;
+            // html += `<span class="clickable noSelect collapse">${saveData.collapsed ? "" : "^ "}completed ${saveData.collapsed ? "&gt;" : "^"}</span>`;
+          }
+        }
+        html += `<span class="clickable noSelect${saveData.changedGroups[group] ? " changed" : ""}${percent >= 100 ? " complete" : ""}" data-group="${group}" style="background: linear-gradient(to right, ${saveData.changedGroups[group] ? "var(--t-l-new)" : "var(--t-l-panel-3rd)"} ${100-percent}%, ${saveData.changedGroups[group] ? "var(--t-l-progress-new)" : "var(--t-l-progress)"} ${100-percent}%)"><span>${escapeHTML(group)}</span><span>${percent < 100 ? percent+"%" : "done"}</span></span>`
       })
       let foundCount = 0;
       for (const group in saveData.found) {
@@ -2197,6 +2222,21 @@
       if (saveData.rescued.length) html += `<span class="clickable noSelect${saveData.changedGroups["rescued"] === true ? " changed" : ""}" data-group="rescued" style="font-style:italic${saveData.changedGroups["rescued"] === true ? ';background:var(--t-l-new)' : ''}"><span>rescued</span><span>${saveData.rescued.length}</span></span>`
       // console.log(groups)
       panel4.insertAdjacentHTML("beforeend", html);
+      let collapse = panel4.querySelector('span.collapse');
+      if (collapse) {
+        collapse.addEventListener("click", () => {
+          if (saveData.collapsed) {
+            panel4.classList.remove("collapsed");
+            collapse.innerText = "^ completed ^";
+          }
+          else {
+            panel4.classList.add("collapsed");
+            collapse.innerText = "completed >";
+          }
+          saveData.collapsed = !saveData.collapsed;
+          saveState();
+        })
+      }
       panel4.querySelectorAll("span.clickable.noSelect").forEach(b => b.addEventListener("click", () => {
         panel4Scroll = panel4.scrollTop;
         selectedGroup = b.getAttribute("data-group");
@@ -2322,7 +2362,7 @@
 
     if (saved === false) saveData.messages.push([text, type, statGet("tries")]);
     
-    if (type === 1 && text.match(/[\w]\*?$/)) text += timedMessage ? "..." : ".";
+    if (type === 1 && text.match(/[\w'"]\*{0,}$/)) text += timedMessage ? "..." : ".";
     text = text.replace(/r74/g, "R74");
 
     let html = escapeHTML(text);
@@ -2542,6 +2582,8 @@
       updateStats();
     }
 
+    let oldChangedGroups = saveData.changedGroups || {};
+    let oldChangedWords = saveData.changedWords || {};
     for (const group in saveData.found) {
       for (const word in saveData.found[group]) {
       try { // clear or fix removed words
@@ -2567,6 +2609,8 @@
       }
       }
     }
+    saveData.changedGroups = oldChangedGroups;
+    saveData.changedWords = oldChangedWords;
 
     const wordTotal = SPA.data.total;
     const groupTotal = Object.keys(SPA.data.groups).length;
@@ -2618,6 +2662,9 @@
 
     if (saveData.selfies === undefined) saveData.selfies = {};
 
+    if (saveData.collapsed) panel4.classList.add("collapsed");
+    else panel4.classList.remove("collapsed");
+
     if (saveData.locked) lockInput();
     else unlockInput();
 
@@ -2637,7 +2684,7 @@
     word = word.replace(/\s+/g, " ");
     word = word.replace(/[–—]/g, "-");
     word = word.replace(/[“”]/g, "\"");
-    word = word.replace(/[‘’]/g, "'");
+    word = word.replace(/[‘’ʻ]/g, "'");
     word = word.replace(/…/g, "...");
     return word;
   }
@@ -3405,7 +3452,7 @@
         if (nfd !== alias) {
           const form = nfd.replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
           if (wordIndex[form] === undefined) wordIndex[form] = {};
-          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word];
+          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
         }
         if (alias.match(/ /)) {
           const form = alias.replace(/ /g,"");
