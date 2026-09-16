@@ -37,6 +37,7 @@
 - 300+ new words and 30+ new blurbs
 - completed groups can be collapsed in the list
 - apostrophes are ignored when sorting words
+- 3 new selfies
 
 commands:
 - /hint
