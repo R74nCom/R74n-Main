@@ -526,6 +526,7 @@
   #panel4 .collapse {
     justify-content: center;
     font-size: 0.8em;
+    background-color: var(--t-l-progress);
   }
   #panel4.collapsed .collapse {
     font-size: 0.9em;
@@ -2227,6 +2228,8 @@
       panel4.insertAdjacentHTML("beforeend", html);
       let collapse = panel4.querySelector('span.collapse');
       if (collapse) {
+        collapse.setAttribute("data-count", completedGroups);
+        if (saveData.collapsed) collapse.insertAdjacentText("afterbegin", completedGroups+" ");
         collapse.addEventListener("click", () => {
           if (saveData.collapsed) {
             panel4.classList.remove("collapsed");
@@ -2234,7 +2237,7 @@
           }
           else {
             panel4.classList.add("collapsed");
-            collapse.innerText = "completed >";
+            collapse.innerText = completedGroups +" completed >";
           }
           saveData.collapsed = !saveData.collapsed;
           saveState();
@@ -2632,7 +2635,7 @@
     }
     let addedMessage = "";
     const diffWords = wordTotal-saveData.lastWordTotal-givenWords;
-    if (diffWords > 0) {
+    if (diffWords > 2) {
       const diffGroups = groupTotal-saveData.lastGroupTotal;
       addedMessage += `**${formatNumber(diffWords)}${givenWords ? " other" : ""} word${diffWords > 1 ? "s" : ""}**`;
       if (diffGroups > 0) addedMessage += ` and **${formatNumber(diffGroups)} group${diffGroups > 1 ? "s" : ""}**`;
@@ -2845,6 +2848,12 @@
           formsToCheck.push(form + "ing");
           formsToCheck.push(form + form.slice(-1) + "ing");
           if (form.endsWith("e")) formsToCheck.push(form.slice(0,-1) + "ing");
+          formsToCheck.push(form.replace(/ted$/g, "tion"));
+          formsToCheck.push(form.replace(/tion$/g, "ted"));
+          formsToCheck.push(form.replace(/te$/g, "ted"));
+          formsToCheck.push(form.replace(/ted$/g, "te"));
+          formsToCheck.push(form + "ence");
+          formsToCheck.push(form + "ment");
         }
         if (form.length >= 3 && form.endsWith("y")) {
           formsToCheck.push(form.slice(0,-1) + "ies");
@@ -2854,7 +2863,8 @@
         formsToCheck.push(form.replace(/oose$/g, "eese"));
         formsToCheck.push(form.replace(/eese$/g, "oose"));
         formsToCheck.push(form.replace(/'s/g, "s"));
-        formsToCheck.push(form.replace(/'s/g, ""));
+        formsToCheck.push(form.replace(/'s ?/g, ""));
+        formsToCheck.push(form.replace(/'s /g, " "));
         formsToCheck.push(form + "'s");
         formsToCheck.push(form + "s'");
         formsToCheck.push(form.replace(/'/g, ""));
@@ -2915,9 +2925,12 @@
           formsToCheck.push(form.replace(/ise$/g, "ization"));
           formsToCheck.push(form.replace(/e$/g, "ing"));
           formsToCheck.push(form.replace(/ation$/g, ""));
+          formsToCheck.push(form.replace(/ence$/g, ""));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");
+          formsToCheck.push(form + "edness");
+          if (form.endsWith("t")) formsToCheck.push(form + "ation");
         }
         formsToCheck.push(form + ".");
         formsToCheck.push(form.replace(/st\./g, "st"));

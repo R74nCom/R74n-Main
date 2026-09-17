@@ -315,7 +315,7 @@ umber
 vantablack
 vermilion / vermillion / red-orange / orange-red : de8c5f
 viridian
-white / blank
+white / blank / albino
 yellow : ffffad
 
 alabaster
@@ -348,6 +348,7 @@ coven "a group of witches"
 mass
 armada
 phylum
+traffic
 genus
 taxon
 kingdom
@@ -554,6 +555,7 @@ mantra / mantram
 cackle
 alarm / siren
 beep
+f'taang
 cadence
 drumroll
 poof
@@ -570,6 +572,7 @@ squelch
 babble
 crunch
 tone
+riff
 tempo
 crack
 thunder
@@ -636,6 +639,8 @@ brrp / burp
 buck
 speech / speaking / talking
 noot
+chant
+chorus
 toot
 gargle
 bugle
@@ -730,6 +735,7 @@ whine / whimper / mewl
 whistle
 whoop
 yip / yap / yelp
+splutter
 
 [basic words]
 = basic / common words / simple words
@@ -748,7 +754,7 @@ somehow
 instead
 kinda / kind of
 against
-amid
+amid / amidst
 ado
 almost
 anywhere
@@ -950,7 +956,10 @@ i've
 'em / em
 i'd
 y'all / yall
-y'all's
+e'er
+o'er
+ought've
+ne'er
 you're / u're / ure
 they're
 they've
@@ -973,14 +982,11 @@ could've
 hadn't
 he'd
 he'll
-he's
 it'd
 it'll
-it's
 needn't
 she'd
 she'll
-she's
 shan't
 should've
 they'd
@@ -996,10 +1002,85 @@ you've
 whomst'd've / whomstdve
 'tis
 'twas
-let's
 li'l
 mightn't
 oughtn't
+
+a'ight
+'bout
+cap'n
+'cause/cuz
+'cept
+c'mon
+couldn't've
+cuppa
+daren't
+daresn't
+dasn't
+dunno
+e'en
+finna
+'gainst
+g'day
+gimme
+giv'n
+gonna
+gotta
+gotcha
+had've
+helluva
+how'd
+howdy
+how'll
+how're
+if'n
+imma
+innit
+ion
+kinda
+lemme
+ma'am
+mayn't
+may've
+methinks
+might've
+nal
+'neath
+o'clock
+ol'
+'round
+so're
+so've
+there'd
+there'll
+'thout
+'til
+to've
+tryna
+'tween
+'twere
+wanna
+whatcha
+what'd
+what'll
+what're
+when'd
+where'd
+where'll
+where're
+which'd
+which'll
+who'd
+who'd've
+who'll
+who're
+who've
+why'd
+why'dje
+why're
+yesn't
+y'know
+yessir
 
 [interjections]
 = expressions / phrases / sayings / exclamations
@@ -1014,6 +1095,10 @@ blah
 really / seriously
 bleh
 sike
+d'oh
+hella
+yessir
+oho
 bro / bruh / brah / bruv
 btw
 congratulations / congrats "for making the best game of the century?"
@@ -1034,7 +1119,8 @@ eek / ee / eee
 mayday
 save our ship / save our souls / sos
 uh huh / yuh huh
-nuh uh / uh uh
+nuh uh / uh uh / nuh
+fuiyoh / haiya / haiyaa
 eureka
 ew / eww / ewww / ewwww
 for real / fr
@@ -1053,10 +1139,10 @@ peace "that's **la peace**"
 boo "AHHHH!"
 rah / rahh / rahhh / rahhhh
 glhf
-i love you / i love u / ily / ilysm
-fafo
+i love you / i love u / ily / ilysm "as a friend..?"
+fafo "okay tough guy"
 guh / gwuh / buh
-gyatt / gyat
+gyatt / gyat "stick it out for the rizzler baaaaahhaahha"
 nevermind / nvm
 ig
 haha / ha / hah / hahah / hahaha / jaja / jajaja / kkk / kkkk / keke / kekeke
@@ -1064,6 +1150,7 @@ hehe / heh / heheh / hehehe / heehee
 hello / hi / hey / greetings / aloha / hola / ni hao / konnichiwa / salud / ciao / howdy / hai / haii / haiii / hallo / 'ello / ahoy "hi there :)"
 hm / hmm / hmmm / hmmmm
 ho / hoho / hohoho
+pshaw
 holy / moly
 hoohoo
 hooray / hoorah / hurrah / hip hip hooray / hip hip
@@ -1110,7 +1197,7 @@ yolo
 huzzah
 sh / shh / shhh / shhhh / shush / hush
 ngl
-no / nope / nah / nahh / nahhh / nay / naw
+no / nope / nah / nahh / nahhh / nay / naw / nein
 oh / ohh / ohhh / ohhhh
 oi / oy
 okay / ok / k / kk / okie / oki
@@ -1517,6 +1604,7 @@ term
 semester
 trimester
 epoch
+lifetime
 eon
 era
 generation
@@ -1551,7 +1639,7 @@ p.m.
 a.m.
 b.c. / b.c.e.
 a.d.
-new / recent / newly / recently
+new / recent / newly / recently / novel / novelty
 old
 former / formerly
 tonight
@@ -1580,7 +1668,18 @@ eid al-fitr / eid ul-fitr
 eid mubarak
 eve
 anniversary / jubilee
+wedding
+songkran
+walpurgisnacht / walpurgis night
 diwali
+lū'au / luau
+all saints' / allhallows
+allhallows eve / all hallows' eve
+baptism
+bar mitzvah / bat mitzvah / mitzvah
+children's
+chuseok / hangawi
+day of the dead / día de muertos / día de los muertos
 father's
 groundhog
 halloween
@@ -1697,583 +1796,149 @@ leeward
 upside / upsidedown
 anterior
 posterior
+downhill
+uphill
+downstairs
+upstairs
 
 [actions]
 = verbs
 & cooking methods
+abandon
 abduct
 abet
-abuse
-accelerate
-acknowledge
-admit
-admonish
-advance
-advertise
-advise
-afford
-outpizza "dang you actually did it.."
-repress
-snitch
-aid
-ail
-alert
-allude
-analyze
-articulate
-assault / rape
-assemble
-auction
-avow
-balk
-bargain
-bark
-barrage
-beatbox
-blackmail
-blot
-blurt
-bomb
-brandish
-butcher
-cajole
-carjack
-chant
-chase
-cheer
-chide
-click
-cockfight
-coerce
-comment
-compete
-compile
-comply
-concede
-concentrate
-concur
-conspire
-contract
-corrupt
-counteract
-criticize
-crochet
-cuss
-deactivate
-decapitate
-decipher
-defame
-defect
-delay
-deliver
-demonstrate
-depose
-desert
-design
-deter
-devolve
-digress
-discriminate
-dismember
-dispel
-distribute
-divulge
-dote
-dox
-drift
-dupe
-educate
-embezzle
-emigrate
-emit
-emulate
-enchant
-encode
-encourage
-encroach
-enrich
-endanger
-ensure
-enunciate
-erupt
-evade
-exaggerate
-exert
-exhort
-expel
-expose
-extoll
-extort
-falsify
-film
-fish
-flounce
-frame
-frag
-fret
-fulfil/fulfill
-fume
-harass
-gild
-gnaw
-guarantee
-gush
-harness
-haze
-heap
-hijack
-hover
-immigrate
-impersonate
-implore
-improve
-inflate
-influence
-infract
-infringe
-inquire
-inspect
-insure
-intend
-interfere
-interject
-intuit
-investigate
-isolate
-jabber
-jack
-jaywalk
-jingle
-jolt
-judge
-kidnap
-lament
-launder
-lecture
-lighten
-like
-litter
-lobotomize
-loiter
-loosen
-loot
-lower
-lynch
-massacre
-massage
-mention
-mismark
-mob
-monopolize
-mug
-murder
-mutter
-nag
-neglect
-nerf
-nestle
-obstruct
-ogle
-omit
-overflow
-peg
-pickpocket
-pimp
-pirate
-plagiarize
-pledge
-post
-precede
-prefer
-pressure
-proceed
-publish
-puncture
-race
-rate
-rebuff
-recharge
-recite
-recommend
-refrain
-regret "no ragrets!"
-reign
-reject
-release
-rely
-remain
-renew
-replicate
-reply
-reprimand
-resist
-retaliate
-retort
-retry
-riot
-salute
-scatter
-scoff
-scold
-scorch
-scribble
-scrump
-shoplift
-simulate
-singe
-skate
-slander
-slaughter
-slink
-smuggle
-soak
-solicit
-soothe
-speed
-speculate
-spike
-stipulate
-stow
-stride
-stridulate
-sublimate
-suspend
-sympathize
-tamper
-tarnish
-terrorize
-thaw
-theorize
-threaten
-traffick
-trespass
-trickle
-trouble
-trounce
-undress
-unleash
-untie
-uphold
-upstage
-usurp
-vanquish
-varnish
-venture
-violate
-volunteer
-vouch
-wallow
-water
-waver
-whisper
-wiggle
-writhe
 abolish
-plot / ploy
 abort
-abstain / abstinence
-ply
-trek
-carpool
-refract
-bobble
-rustle
-support
-binge
-tremble / quaver
-graze
-interrogate
-flunk
-gloat
-pollinate
-flank
-detect
-slobber
-whirl
-decimate
-respond / response
-skid
-contradict
-stimulate
-ritual
-stub
-heed
-empower
-handwrite
-thrust
-hobble
-beware
-glimmer / shimmer
-skim
-swerve
-scrap
-echolocate
-retract
-string / strung
-review
-behave
-mope
-tweak "bro stop tweaking"
-scramble
-dangle
-latch
-lead / led
-trend
-tackle
-squirt
-experience
-expand / expansion
-disregard / slight
-disrespect
-respect
-regard
-emote "bro hit the slop emote"
-justify
-figure
-vibrate
-tour
-evolve
-stim "wordslopping is great stimulation"
-stick / stuck
-stink / stank / stunk
-duplicate
-abandon
-strain
-confirm
-bop
-adopt
-pose
-sink / sank / sunk / sunken
-prick
-adapt
-fund / sponsor
-regress
-exterminate
-bloom
-seem
-wane
-quiz
-blur
-type
-yawn
-frequent
-snipe
-entertain
-enthrall / enthral
-shock / zap / electrocute / electrify
-shrug
-invite
-capture / trap
-report
-photosynthesize / photosynthesis
-forsake / forsook / forsaken
-allocate
-proclaim
-count
-exclude
-stroll
-gander
-undermine
-vanish / disappear
-appear
-decorate
-suppress
-identify
-attain
-retain
-confine
-depend
-relocate
-import
-tame
-debunk
-ditch
-strategize
-pelt
-smack
-terraform
-revere
-twerk
-scalp
-exempt
-hum "you can't hum while plugging your **nose**"
-plug
-blush
-clock "you **clocked that**"
-export
-demand
-segue
-lurch
-sparkle
 absorb
-ingest
-suppose
-dissolve
-condone
-elaborate
-cull
-edify
-bail
-assassinate
-approach
-affirm
-afflict
-engage
-maximize
-minimize
-baffle
-betray / betrayal
-covet
-crave
-fidget
-pander
+abstain / abstinence
+commit
+deport
+ingrain / engrain
+propagandize
+engrave
+consist
+overheat
+repeal
+safeguard
+flatten
+entrap
+sanction
+repel
+legalize
+corner
+throb
+stoop
+exploit
+mutate
+abuse
+teeter
+gouge
+shuffle
+infer
+breastfeed
+reactivate
+riposte
+accelerate
+shrink / downsize
 accept
-confuse
-discombobulate
-elect
-dwell
-input
-output
-fade
-swirl
-filter
-smite / smote / smitten
-leach
-forgive / forgave / forgiven
-snooze
-substitute
-catfish
-pickup
-preview
-credit
-dribble
-cross "look both sides before crossing the road (and railways)"
-track
-bury
-allow
-prohibit / disallow
-jerk
-hydrate
-bond
-express
-sweat
-tail
-salivate
-dap
-bear / borne
-become / became
-tip
-browse
-plea
-occur
-reason
-forge
-graduate
-warn
-fast
-tint
-contain
-hypothesize
-burgle
-enact
-clash
-asphyxiate
-smother
-ionize
-suffocate
-annex
-conquer
-display
-polish
-annotate
-amputate
-train
-calculate
-install
-coronate
-convert
-kill
-prune
-slather
-lather
-loathe
-govern
-dictate
-masquerade
-dress
-tilt
-align
-canter
-trot
-succeed
-mute 
-euthanize
-sharpen
-excuse
-nip
-unite
-remind
-grant
-rent
-ascend / ascent
-descend / descent
-torrent
+whittle
+menstruate
+dilate
+cower
+siphon
+grift
 access
-tangle
-ward
-eject
+bloat
 achieve
-unlock
+acknowledge
 acquire
 act
 activate
-gain
-profit
+adapt
+suplex
 add
 adhere
 adjust
-putt
+admit
+admonish
+adopt "aren't i a little too old for that?"
+advance
+advertise
+advise
 affect / effect
-deflate
+affirm
+afflict
+afford
 age
 agree
+aid
+ail
 aim
+alert
+align
+allocate
+sag
 allot
+allow
+allude
 alter
 alternate
+amputate
 amuse
+analyze
+anchor
+annex
 annihilate
+annotate
 announce
-annoy / bother
+annoy / bother / bug
 answer
 apologize / apology
 appeal
+appear
 applaud
 apply
 appraise / appraisal
 appreciate
+approach
 approve
 argue
 arrange
 arrest
 arrive / arrival
+articulate
+ascend / ascent
 ask
+asphyxiate
+assassinate
+assault / rape / grope / molest
+assemble
 assert
+assimilate
 assist
 assure
 attach
 attack
-attempt
+attain
 attract
+auction
 aviation
-avoid
+avoid / elude
+regulate
+avow
 await
 backflip
+baffle
+bail
 bait
 balance
+balk
 ban
 banter
 barf
+bargain
+bark
+barrage
 barter
 bash
 bask
@@ -2281,43 +1946,62 @@ bathe
 battle
 be / been
 beam
+bear / borne
 beat / thrash / strike / beaten
+beatbox
 beckon
+become / became
 befriend
 beg
+behave
 belch
 believe / belief
 bend / bent
 berate
 bet
+betray / betrayal
+beware
 bicker
 bid
 bind / bound
+binge
 birth / born
 bite / bit / bitten
+blackmail
 blame
 blast
 bleed / bled
 blend
 bless
-blink
+blink "you are now blinking manually"
 block
+bloom
 blossom
+blot
 blow / blew / blown
 bludgeon
 bluff
+blur
+blurt
+blush
 board
 boast
 bob
-evaporate
+bobble
+bomb
 bombard
+bond
+bop
 bore
 borrow
 bounce
 bow
+boycott
+overdose
 brag
 brake
 brand
+brandish
 brawl
 breach
 break / broke / broken
@@ -2325,70 +2009,79 @@ breathe / breath "you are now breathing manually"
 breed
 brew
 bring / brung / brang / brought
-rupture
-lengthen
-widen
-deepen
-darken
-soften
-harden
-weaken
-strengthen
-tighten
-sweeten
-quiet / quieten
 bristle
 broach
 broadcast
+browse
 budget
 build / construct
 bully
 bump
 bundle
+burgle
 burn / burnt
 burrow
 burst
+bury
 bust
+butcher
 buy / bought
+cajole
+calculate
 call / phone / telephone
+canter
+capture / trap
 care
+carjack
+carpool
 carry
 cartwheel
 carve
 cast
 catch
+catfish
 caution
 celebrate
 censor
 challenge
 change
+chant
 characterize
 charge
+chase
 chat
 check
+cheer
 cherish
 chew
+chide
 chime
-choose / choice
 choke
+choose / choice
 chop / axe
 chore
 chow
 chuck
 claim
 clap
+clarify
+clash
 claw
 clean
 clear
 cleave
+click
 climb / clamber
 clip
+clock "you **clocked that**"
 close / shut
 clot
 clue
 clump
 coach
+cockfight
 code / develop / program
+coerce
 coexist
 collaborate / collab
 collapse
@@ -2397,38 +2090,65 @@ color / colour
 combine
 combust
 come / came
+comment
 commission
 compare
 compel
+compete
+compile
 complete / finish
+comply
 compose
 compute
+concede
+concentrate
+concur
 condense
+condone
 conduct
 confess / confession
+confine
+confirm
+confuse
 connect
+conquer
 consider
+conspire
 consume
 contact
+contain
 contemplate
 continue
+contract
+contradict
 contribute
 control
+convert
 cook
 cope
 copy
+coronate
 corral
 correct
+corrupt
 cost
 cough
+count
+counteract
 couple
 cover
+covet
 crack
 cram
 crank
+crave
 crawl
 create
+credit
 creep / crept
+criticize
+crochet
+cross "look both sides before crossing the road (and railways)"
 crouch
 cruise
 crumble
@@ -2436,85 +2156,130 @@ crunch
 crush
 cry
 cuddle
+cull
 cultivate
+curl
 curse
+cuss
 customize
 cut / slice
 damage
 dance
+dangle
+dap
 dare
+darken
 dash
 daze
+deactivate
+lurk "don't just lurk, send a message in our wordslop discord channel!"
 deal
 debate
 debug
+debunk
+decapitate
 decay
 decide
+decimate
+decipher
 declare
 decline
+decorate
 decouple
 decrease
+deepen
+defame
 defeat
+defect
 defend / defense / defence
 defenestrate
 define
+deflate
 deflect
 deforest
+delay
 delegate
 delete
+deliver
+demand
+demonstrate
 denominate
 dent
 deny
 depart / departure
+depend
 deploy
+depose
 deposit
+descend / descent
 describe
+desert
 deserve
+design
 desire
+desist
 despise
 destroy / destruct / wreck / desecrate
-groan / moan
+detect
+deter
+devolve
 dial
+dictate
+differ
+differentiate
+hustle
 dig
+digress
 dine
 dip
 direct
 disagree / conflict
 discard
 discharge
+discombobulate
 discover
+discriminate
 discuss
 disguise
 dislike
+dismember
 disobey
+dispel
+display
 dispose
+disregard / slight
+disrespect
 disrupt
+dissolve
 distinguish
 distort
 distract
+distribute
 disturb
+ditch
 dive / dove
+divest
 divide
 divorce
+divulge
 dodge
 dominate
 donate
 done
 dose
+dote
 doubt
-download
 downgrade
-entice
+download
 downvote
+dox
 drag
 drain
 draw / drew / drawn
-forbid
-expunge
-inhibit
-topple
-retire
 dream / dreamt
+dress
+dribble
+drift
 drill
 drink / chug / drunk / drank
 drip
@@ -2525,79 +2290,145 @@ drown
 dug
 dump
 dunk
+dupe
+duplicate
+dwell
 dye
 earn
 eat / ate / eaten
+echolocate
 edge
+edify
 edit
+educate
+eject
+elaborate
+elect
 elevate
+elope
 email
+emanate
 emancipate
+embezzle
 embroider
+emigrate
+emit
+emote "bro hit the slop emote"
 emphasize / emphasis
 employ
+empower
 empty
+emulate
+enact
 enamor / enamour
+enchant
+encode
+encourage
+encroach
 end
+endanger
 endure / endurance
+engage
 enjoy
 enlighten
+enrich
 enslave
+ensure
 enter
+entertain
+enthrall / enthral
+entiate
+entice
+enunciate
 equip
 eradicate
 erase
 erect
 errand
+erupt
 escape
 establish
 estimate
 etch
+euthanize
 evacuate
+evade
 evaluate
+evaporate
+evict
+evolve
+exaggerate
 examine
 exchange
 exclaim
+exclude
+excuse
 execute
+exempt
 exercise
+exert
 exfoliate
 exhale
 exhibit
+exhort
 exist
 exit
+expand / expansion
 expect
+expel
+experience
 experiment
 expire
 explain
-explode
+explode / detonate
 explore
+export
+expose
+express
+expunge
 extend
+exterminate
+throttle
 extinguish
+extoll
+extort
 extract
+fade
 fail
 faint
 fake
 fall / fallen
+falsify
+falter
 fancy
 farm
+fast
 fasten
 favor / favour
+feature / feat.
+resonate
 feed
 feel / felt
 fell
 fellate / fellatio
 fend
 fetch
+fidget
 fight / fought
+figure
 fill
+film
+filter
 finalize
 finance
 find
 fine
 fire
+fish
 fit
 fix / repair
 flake
+flank
 flap
 flare
 flash
@@ -2607,39 +2438,53 @@ flick
 fling / flung
 flip
 flirt
-flutter / flitter / flicker
-coddle
 float
 flop
 floss
+flounce
 flow
+flunk
 flush
+fluster
+flutter / flitter / flicker
 fly / flew / flight
 focus
 fold
 follow
+forage
+forbid
 force
+forge
 forget / forgot / forgotten
+forgive / forgave / forgiven
 forgo / forwent / forgone
-indict
-fluster
-triumph
 form
+forsake / forsook / forsaken
 foul
 found
 fracture
+frag
+frame
 fraternize
 free
 freeze / froze / frozen
+frequent
+fret
+frontflip
 fuck
+fulfil/fulfill
 fumble
+fume
 function
+fund / sponsor
 furrow
 fuse
 gag
+gain
 gallop
 gamble
 game
+gander
 gape
 gasp
 gather
@@ -2647,78 +2492,101 @@ generate
 gesture
 get / got / gotten
 giggle
+gild
 give / gave / given
 glance
 glare
 glide
+glimmer / shimmer
 glint
+gloat
 glow
 gnash
+gnaw
 go / going / gone / went / head
 gobble / devour / scarf
-savor / savour
-tape
 gossip
+govern
 grab / grip / nab / cling
-snatch
-switch
+graduate
+grant
 grapple
 grasp
 grate
+graze
 greet
 grin
-grind
+grind / mull
+stagnate
+groan / moan
 groom
 grovel
 grow / grew / grown / growth
 growl / snarl
 grumble
+guarantee
 guess
 guide
 gulp
+gush
+habit
 hack
 haggle
 haircut
 hallucinate
 halt
 hammer
+hand
 handle
 handstand
+handwrite
 hang / hung
 happen
+harass
+harden
 harm
+harness
 harvest
 haul
 haunt
+haze
 heal
+heap
 hear / heard
 heave
 heckle
+heed
 help
 hide / hid / hidden
 highlight
+hijack
 hike
+hinder
 hint
 hire
 hitch
 hoard
+hobble
 hobby
-habit
 hold / held
 hollow
-workout / fitness
 hone
 hook
 hop "let's hop to it!"
 horrify
+hover
 huddle
 hug
+hum "you can't hum while plugging your **nose**"
 hump
 hunt
 hurdle
 hurl
 hurry
 hurt / injure
+hydrate
+hypothesize
+identify
 idle
 ignore
 illuminate
@@ -2726,56 +2594,96 @@ illustrate
 imagine
 imbue
 imitate
+immigrate
 impale
 impend
+impersonate
 implode
+implore
+imply
+import
 impregnate
 impress
+improve
 improvise
 include
 increase
+incur
 indicate
-intimidate
+indict
 infect
 infiltrate
 inflame
+inflate
 inflict
+influence
 inform
+infract
+infringe
+ingest
 inhabit
 inhale
 inherit
+inhibit
 inject
+input
+inquire
 insert
 insist
+inspect
 inspire
+install
 instruct
 insult
+insure
 integrate
+intend
 interact
+interfere
+interject
+interrogate
 interrupt
+intimidate
 introduce
+intuit
 invent
 invest
+investigate
+secrete
+negotiate
+invite
+ionize
 irk
 irritate
+isolate
 itch
 jab
+jabber
+jack
 jam
+jaywalk
 jeer
+jerk
 jest
 jiggle
+jingle
 jive
 join
 joke
+jolt
 journal
+judge
 juggle
 juke
 jumble
 jump / leap / leapt
+justify
 keep / kept
 kick
 kickflip
 kid
+kidnap
+kill
 kink
 kiss
 knead
@@ -2789,38 +2697,57 @@ label
 lack
 lactate
 lag
+lament
+latch
+lather
 laugh / chortle / cackle
 launch
+launder
 lay / laid / lain
 layer
+leach
+lead / led
 leak
 lean
 learn / learnt
 lease
 leave / left
+lecture
 leer
 lend / lent
+lengthen
 license / licence
 lick
 lie / lying
 lift
 light / lit
+lighten
+like
 limp
 linger
 link
 lip-sync
 list
 listen
+litter
 live
 load
 loan
+loathe
+lobotomize
 locate
+loiter
 look / gaze
 loop
+loosen
+loot
 lose / lost
 love
+lower
 lunge
+lurch
 lure
+lynch
 make / made
 manage
 mangle
@@ -2828,16 +2755,21 @@ manipulate
 manufacture
 march
 marry / marriage
-elope
 mash
+masquerade
+massacre
+massage
 maul
+maximize
 meander
 measure
 meditate
 meek
 meet / met
 melt
+memorize
 mend
+mention
 merge
 message / text
 metamorphose / metamorphosis
@@ -2845,12 +2777,19 @@ micromanage
 milk
 mimic / mimicking
 mine "you could make a game out of this"
+mingle
+minimize
 minus / subtract
+mismark
 misspell / mispell
 mix
+mob
 mock
 model
+molt
+monopolize
 mooch
+mope
 morph
 mortgage
 motivate
@@ -2859,29 +2798,42 @@ mourn
 move
 mow
 muddle
+mug
 multiply
 mumble
 munch
+murder
 mush
+mute 
+mutter
+nag
+neg
 name
 nap
 narrate
 need
+neglect
+nerf
+nestle
 nibble
+nip
 nod
 notify
 nourish
 nurture
 obey
 obfuscate
-objectify
 object / objection
-anchor
+objectify
 obliterate
 observe / watch
+obstruct
 obtain
+occur
 offend
 offer
+ogle
+omit
 open
 operate
 oppose
@@ -2890,11 +2842,15 @@ order
 organize
 ostracize
 outline
+outpizza "dang you actually did it.."
+output
+overflow
 override
 owe
 own
 pacify
 paint
+pander
 pant
 parry
 parse
@@ -2912,27 +2868,44 @@ pee / urinate
 peek
 peel
 peer
+peg
+pelt
 perform
 pester
 pet
+photosynthesize / photosynthesis
 pick
+pickpocket
+pickup
 picnic / picnicking
 picture
+pimp
 pinch
 ping "pong!"
+pirate
 pitch
 pivot
 place "i found a place.."
+plagiarize
 plan
 play
+plea
 plead
+pledge
+plot / ploy
 pluck
+plug
+ply
 pogo
 poison
 poke
+polish
+pollinate
 ponder
 poop / poo / shit / shat / crap / defecate
+pose
 possess
+post
 posture
 pour
 power
@@ -2942,17 +2915,27 @@ prance
 prank / mischief / shenanigans
 pray / prayer
 preach
+precede
 predict
+preen
+prefer
 prepare
 press
+pressure
 pretend
 prevent
+preview
+prick
 print
 probe
+proceed
 process
-procreate / procreation
+proclaim
 procrastinate "is that what you're doing now?"
+procreate / procreation
 produce
+profit
+prohibit / disallow
 project
 promise
 promote
@@ -2960,102 +2943,129 @@ pronk
 propose / proposal
 protect
 protest
-boycott
-divest
 prove
 provide
 prowl
+prune
 pry
+publish
 pull
 pump "pump it up!"
-punch / hit
+punch / hit / clobber
+puncture
 punish / penalize
-retcon
-molt
-evict
-imply
-incur
-rectify
-differ
-entiate
-differentiate
-falter
-emanate
-radiate
 purchase
 pursue / pursuit
 push
 put
+putt
 queef
 quench
 quest / adventure / journey
 question
+quiet / quieten
 quit
 quiver
+quiz
+race
+radiate
 raid
 raise
 rally
 ramble
 rank
 rant
+rate
 reach
 react / reaction
-mingle
-desist
-assimilate
 read
 realize
 reap
+reason
 reassure
 reboot
+rebuff
 recall
 receive
+recharge
+recite
 reckon
 recline
 recognize
+recommend
 recon / reconnaissance
 recover
 recreate / recreation
+rectify
 recycle
 redo / redid / redone
-preen
-hinder
-thwart / foil
 reduce
 reel
 refer
 reflect
+refract
+refrain
 refresh / reload
 refund
 refuse
+regard
 regenerate
 register
+regress
+regret "no ragrets!"
+reign
+reject
 rejoice
 relate
 relay
+release
 relieve / alleviate
+relocate
+rely
+remain
 remember
-memorize
+remind
 remove
 render
+renew
+rent
 repeat / reiterate
 replace
 replay
+replicate
+compromise
+reply
+headbutt
+report
+repress
+reprimand
 reproduce / sex / bang / copulate / intercourse / orgasm / ejaculate
 request
 require
 rescue / save
 research
 reset
+resist
 resolve
+respect
+respond / response
 rest
 restart
 resume
+retain
+retaliate
 retch
+retcon
+retire
+retort
+retract
+retry
 reuse
 reveal
-revenge
+revenge / vengeance
+revere
 reverse / reversal
+review
 revive
 rewind
 rewrite / rewrote / rewritten
@@ -3064,10 +3074,11 @@ rid
 ride / rode / ridden
 rig
 rinse
+riot
 rip
-tear / tore / torn
 ripple
 rise / rose / risen / arise / arose / arisen
+ritual
 roam
 rob
 roost
@@ -3079,33 +3090,49 @@ rub
 ruin
 rule
 run / sprint / jog / ran
+rupture
 rush
+rustle
 sack
 sacrifice
 sail
+salivate
+salute
 sample
 sass
 satisfy
+savor / savour
 saw "i saw a piece of heaven"
 say / said / speak / spoke / spoken / talk / communicate / tell / told / converse / conversation / speech / verbalize / remark
+scalp
 scam
 scan
 scare / frighten / terrify
+scatter
+scoff
+scold
 scoop
 scoot
+scorch
 scour
 scout
+scramble
+scrap
 scrape
 scratch
 scream
 screw
+scribble
 script
 scroll / swipe
+scrump
 sculpt
 search
 see / sight / vision / seen
 seek / sought
+seem
 seep
+segue
 seize
 select
 sell / sale / sold
@@ -3122,68 +3149,100 @@ sew
 shag
 shake / shook / shaken
 share
+sharpen
 shatter
 shave
 shear
 shed "i once had a hairy cat. she'd always shed in the shed."
 shiver
-shop
-shorten
+shock / zap / electrocute / electrify
 shoot / shot
+shop
+shoplift
+shorten
 shout
 shove
 show / present / shown
 shred
+shrug
 shush / hush
 sift
 sign
 signal
 silence
+simulate
 sing / sang / sung
+singe
+sink / sank / sunk / sunken
 sip
 sit / sat
-clarify
-spank
+skate
 sketch
 ski
+skid
+skim
 skip
 slam
+slander
 slap
 slash
+slather
+slaughter
 slay / slew / slain
 sleep / slept
 slide / slid
+slink
 slip
 slit
 slither
+slobber
 slouch
 slow
+slump
 slur
+smack
 smash
 smear
 smile
 smirk
+smite / smote / smitten
 smoothe
+smother
+smuggle
 snap
-sneak / snuck
-hand
-spar
+snatch
+sneak / snuck / shirk
+survive / survival
 sneeze
 sniff / smell / scent
 snip
+snipe
+snitch
+snooze
 snore
 snuggle
+soak
 soar
 sob
 socialize
+soften
+solicit
 solve
+somersault
+soothe
 sort
 sow
 spam
+spank
+spar
 spare
+sparkle
+speculate
+speed
 spell
 spend / spent
 spew
+spike
 spill
 spin / spun
 spit / spat
@@ -3201,14 +3260,14 @@ spy / snoop
 squat
 squeeze
 squirm
-squish
+squirt
+squish / squash
 stab
 stack
 stain
 stalk
 stamp
 stand / stood
-understand / understood
 stare
 stargaze
 start / begin / begun / began
@@ -3216,119 +3275,202 @@ stash
 stay
 steal / stole / stolen
 steer
+stick / stuck
+stim "wordslopping is great stimulation"
+stimulate
+overstimulate
 sting / stung
+stink / stank / stunk
+stipulate
 stir
 stitch
 stomp
 stop "can't stop the slop!"
 stot
+stow
+strain
 strangle
+strategize
 stream
+strengthen
 stretch
+stride
+stridulate
+string / strung
 strip
 stroke
+stroll
 struggle
+stub
 study
 stuff
 stumble
 stun
 stutter
 subject
+sublimate
 submit
 subscribe
+substitute
+succeed
 suck
 sue
+suffocate
 suggest
 summon
-surround
+support
+suppose
+suppress / quash
+surround "come out with your hands up!"
+suspend
 sustain
 swallow
 swap
 swat
 sway
 swear / swore / sworn
+sweat
 sweep
+sweeten
 swell / swole / swollen
+swerve
 swim / swam / swum
 swing / swung
+swirl
+switch
+swoon
 swoop
+sympathize
+tackle
+tail
 taint
 take / took / taken
+tame
+tamper
+tangle
 tap
+tape
+tarnish
 task
 taste
 taunt
 tax
 teach / taught
+tear / tore / torn / rend
 tease
 teleport
 tempt
 tend
+terraform
+terrorize
 testify / testimony
-frontflip
-somersault
+thaw
+theorize
 think / thought
+threaten
 thrift
 throw / threw / thrown
+thrust
 thump
+thwart / foil
 tickle
 tiff
+tighten
+tilt
 time
+tint
+tip
 tire
 toil
 toll
+topple
+torrent
 torture
 toss
 touch "do not the sloppy"
+tour
 tow
+track
 trade
+traffick
 trail
+train
 transfer
 transform
 transition
 translate
 transport
 travel
+trek
+tremble / quaver
+trend
+trespass
 triangulate
 trick
+trickle
 trigger
 trim
 trip
+triumph
+trot
+trouble
+trounce
 trump
-try / tried
+try / tried / attempt / endeavor
 tuck
 tug
 tumble
 tune
 turn
 tussle
+tweak "bro stop tweaking"
+twerk
 twirl
 twist
 twitch
+type
+undermine
+understand / understood
 undo / undid / undone
+undress
 unfasten
 unfollow
 unhand
+unite
+unleash
 unload
+unlock
 unpack
 unsubscribe
+untie
 update
 upgrade
+uphold
 upload
+upstage
 upvote
 urge
 use / utilize
+usurp
 vacate
 vacation
 vandalize / vandalism
+vanish / disappear
+vanquish
 vape
+varnish
 venerate
+venture
 verify
 verse
+vibrate
 video
 view
+violate
 visit
+volunteer
 vote
+vouch
 vow
 wade
 wail
@@ -3336,13 +3478,20 @@ wait
 waive
 wake / woke / woken / awake / awaken / awoken
 walk / step
+wallow
 waltz
 wander
+wane
 want
+ward
+warn
 warp
 wash
 waste
+water
 wave
+waver
+weaken
 wear
 weave / wove / woven
 wed
@@ -3352,9 +3501,13 @@ weigh
 weld
 wheeze
 whip
+whirl
 whisk
+whisper
 whistle
+widen
 wield
+wiggle
 wilt
 win
 wink ";)"
@@ -3364,11 +3517,15 @@ withdraw
 wobble
 wonder
 work / labor / labour / job / career
+workout / fitness
 worship
 wound
 wrangle
 write / wrote / written
+wring / wrung
+writhe
 yank
+yawn
 yell
 yield
 yoink
@@ -3482,8 +3639,11 @@ smooth
 bumpy
 crooked
 luster
+edible
+inedible
 open / ajar
 closed / shut
+blunt
 bouncy
 agility
 oblong
@@ -3516,7 +3676,7 @@ viscous
 difficult
 easy
 simple / simplicity / basic / plain / ordinary
-special / extraordinary / unique
+special / extraordinary / unique / quirky
 hue
 saturation
 variance
@@ -3624,6 +3784,7 @@ epic
 fat / fatty
 gargantuan
 xl / xxl / xxxl / xxxxl
+xs / xxs
 giant
 gigantic
 ginormous
@@ -3700,6 +3861,7 @@ balbis
 bipyramid
 parallelepiped
 cardioid
+corner
 hyperpyramid
 hypercone
 einstein
@@ -3821,6 +3983,11 @@ bacterium / bacteria
 tardigrade / water bear / moss piglet
 platelet
 amoeba
+halobacterium / halobacteria
+haloquadratum
+methanogen
+sulfolobus
+virophage "these viruses eat other viruses!"
 hydra
 bacteriophage
 paramecium
@@ -3873,6 +4040,7 @@ siphonophore
 coral / polyp "corals are colonies of many independent **polyps** working together"
 zoanthid / zoantharia
 tunicate
+salp / salpa
 larvacean
 echinoderm / echinodermata
 sponge / seasponge "fun fact: they don't really live in **pineapple**s"
@@ -3936,6 +4104,7 @@ camel / dromedary / bactrian "they store fatty tissue (not water) in their humps
 cattle / cow / bull / bovine / kine / calf / angus
 aurochs
 kusimanse
+tinimomys
 juxia
 desman
 coati
@@ -3973,7 +4142,7 @@ hare / jackrabbit / leveret
 hedgehog / hedgie / hoglet "hedgehogs are lactose intolerant"
 gymnure / moonrat
 hippopotamus / hippo / river horse "hippos are related to **whale**s"
-hyrax / dassie / coney
+hyrax / dassie / coney "what does he even do?"
 impala / rooibok
 kinkajou
 llama / lama
@@ -4013,7 +4182,7 @@ peccary / javelina / skunk pig
 pig / hog / swine / piggy / piglet / sow "a ^ physically can't look up at the sky"
 platypus / duckbill / duck-billed "one of the only mammals that lay eggs"
 polecat / zorilla / zorille / zoril
-rabbit / bunny / bnnuy / bnuuy / bnuny / bnuyy / cottontail "rabbits only blink 10-15 times in an hour"
+rabbit / bunny / bnnuy / bnuuy / bnuny / bnuyy / cottontail / lagomorph "rabbits only blink 10-15 times in an hour"
 tapeti
 grison
 solenodon
@@ -4092,6 +4261,14 @@ safari
 black-footed cat / small-spotted cat
 bobcat / bobkitten
 laperm
+curl
+balinese
+tilcayo "the newest discovered cat species in over 100 years"
+burmilla
+colorpoint / colourpoint
+devon rex
+exotic
+siberian
 caracat
 kanaani
 manx
@@ -4177,6 +4354,7 @@ sloth bear / indian bear
 spectacled bear / andean bear / spectacled
 sun bear
 spirit bear / kermode bear / spirit / kermode
+short-faced / arctodus
 
 [dogs]
 = dog / doggy / puppy / doggo / pupper / canine / canid / pooch / canis / pup / bitch
@@ -4187,6 +4365,7 @@ afghan hound / afghan
 aidi
 akita
 arctic fox
+terri-poo
 azawakh
 schnauzer
 goldendoodle
@@ -4306,6 +4485,15 @@ tervuren
 tibetan fox
 whippet
 wolf
+dandie dinmont
+jack russell
+lakeland
+airedale
+cairn
+scottish
+sealyham
+welsh
+westie / west highland white
 
 [rodents]
 agouti
@@ -4321,6 +4509,8 @@ nutria / coypu
 hutia
 paca
 tuco-tuco
+ceratogaulus / horned gopher
+tinimomys
 gopher
 groundhog / woodchuck "this is actually a very large squirrel"
 guinea pig / cavy
@@ -4354,6 +4544,8 @@ onager / hemione
 eohippus
 kunga
 brumby
+friesian
+chincoteague
 kiang
 mustang
 unicorn / pegasus / alicorn "we'll count this one"
@@ -4529,6 +4721,10 @@ apostlebird
 astrapia
 balicassiao
 bokmakierie
+roller
+gang-gang
+courol / cuckoo-roller
+raptor
 brubru
 bushwren / mātuhituhi
 camaroptera
@@ -5324,6 +5520,12 @@ eoraptor
 mei long
 camarasaurus
 charonosaurus
+kosmoceratops
+giraffatitan
+scansoriopteryx
+gigantoraptor
+ambopteryx
+sharovipteryx
 majungasaurus
 patagotitan
 pyroraptor
@@ -5562,6 +5764,8 @@ zingel
 skipjack
 trevalla
 medusafish
+totoaba / totuava
+aji / horse mackerel
 hingemouth
 sterlet
 great white
@@ -5943,10 +6147,12 @@ beewolf
 blackfly
 forktail
 headlouse / nit
+jassid
 plant louse / psyllid
 longhorn
 owlfly
 robber fly / assassin fly
+toe-biter / giant water bug
 leaf miner
 tsetse fly
 firebrat
@@ -6132,6 +6338,7 @@ giant squid
 bigfin squid / magnapinna
 orthocerida / orthocone
 argonaut
+tusoteuthis
 
 [hybrid animals]
 = hybrid / crossbreed / crossbred
@@ -6199,6 +6406,9 @@ perplexicervix
 dodo
 huia
 juxia
+short-faced bear / arctodus
+tusoteuthis
+ceratogaulus / horned gopher
 kutchicetus
 sivatherium
 paraceratherium
@@ -6340,7 +6550,7 @@ martian
 squonk
 fresno nightcrawler
 creeper
-skeleton
+skeleton "👀"
 catperson / catboy / catgirl
 wraith
 puppyboy / puppygirl
@@ -6367,7 +6577,7 @@ cockatrice
 cthulhu
 cyborg
 cyclops
-demon / devil / imp
+demon / devil / imp / diablo
 dragon
 draugr
 dwarf
@@ -6486,7 +6696,7 @@ nest
 pee / urine / piss / peepee : fff475 "AI's favorite color"
 peel
 pinecone / cone
-poop / poo / poopy / crap / shit / dookie / poopie / doodoo / guano / feces / faeces / turd / shart / manure / muck / stool / scat / excrement "very mature.."
+poop / poo / poopy / crap / shit / dookie / poopie / poopoo / doodoo / guano / feces / faeces / turd / shart / manure / muck / stool / scat / excrement "very mature.."
 ribonucleic acid / rna
 roe / caviar
 root
@@ -7258,16 +7468,21 @@ philodendron
 "awww, you got this for me?"
 = angiosperm
 abutilon
-aconite / aconitum / wolf's bane / wolfsbane / wolfbane / monkshood
+aconite / aconitum / wolf's bane / wolfsbane / wolfbane / monk's hood / monkshood
 agapanthus
 ageratum
 ramsons / cheremsha / tjeremsha / cowleek / buckrams
 alchemilla
 magnolia
 allium
+cleaver
 mimosa / touch-me-not
 st. john's-wort
+osmanthus
+passionflower
 alstroemeria
+flowering gum / gum blossom
+singapore graveyard
 cockscomb / cock's comb
 ghost flower / ghost pipe
 vanilla
@@ -7422,7 +7637,8 @@ clarkia
 clematis
 cleome
 coltsfoot
-columbine
+columbine / aquilegia
+jonquil
 coneflower / echinacea
 coral bells
 coreopsis
@@ -7520,7 +7736,6 @@ matthiola
 mayflower
 meconopsis
 milkweed
-monk's hood
 moraea
 morning glory
 mullein
@@ -7553,7 +7768,7 @@ physostegia
 pimpernel
 pincushion flower / pincushion
 pink
-plumeria
+frangipani / plumeria
 poinsettia / poinsetta
 polyanthus
 poppy
@@ -7583,6 +7798,7 @@ starflower
 statice
 stock
 strawflower / helichrysum
+flannel
 sunflower
 sweet pea
 sweet william
@@ -7658,7 +7874,6 @@ catmon
 cempedak
 cherimoya / custard apple
 cherry
-chico fruit / chico
 citron
 cloudberry
 coco de mer
@@ -7678,12 +7893,16 @@ buffaloberry / soopolallie / foamberry
 gac
 goji
 gooseberry
+amla
+granadilla
+kokum
 grape / raisin "grapes are the perfect fruit to practice surgery on"
 grapefruit
 guava
 guarana
 hala
 haw / hawthorn
+rosehip / rose haw / rose hep
 honeyberry
 huckleberry
 jabuticaba / plinia
@@ -7753,7 +7972,7 @@ rose apple
 salal berry
 salak
 santol
-sapodilla
+sapodilla / chikoo / chicozapote / chico / chicoo / chicle / naseberry / nispero / soapapple
 sapote
 sansapote / zunza / sonza / sunza / monkey apple
 genip / spanish lime / quenepa
@@ -7901,7 +8120,7 @@ onion sprout
 paprika
 parsnip
 pinto bean / pinto
-potato / spud
+potato / spud / tater
 radicchio
 radish
 red cabbage
@@ -7927,8 +8146,8 @@ tabasco pepper / tabasco
 taro
 tat soi
 tomatillo
-topinambur / jerusalem artichoke
-tubers
+sunchoke / topinambur / jerusalem artichoke
+tuber
 turnip
 wasabi
 water chestnut
@@ -7949,12 +8168,17 @@ conk
 common / white / button / champignon
 brown / cremini / crimini / chestnut / baby bella
 portobello / portabella / portobella
+beefsteak
 wood ear
 oyster
 waxcap
 lingzhi / reishi / linh chi
 beech
 maitake / hen of the woods
+pioppini
+nameko
+boletus
+djon djon
 chicken of the woods
 toadstool
 king trumpet
@@ -8155,6 +8379,7 @@ abacá
 horse-chestnut
 spindle
 oleaster / silver berry / wild olive
+bulletwood / balatá / ausubo / massaranduba / quinilla
 buckthorn
 soapberry / soapnut
 coolamon / durobby / robby
@@ -8300,7 +8525,7 @@ zelkova
 
 [meats]
 bacon
-beef / steak
+beef / steak / beefsteak
 blutwurst / blood sausage
 bockwurst
 escargot
@@ -8309,6 +8534,7 @@ pancetta
 angus
 filet
 schnitzel
+chateaubriand
 döner / doner
 jamón
 balut
@@ -8373,6 +8599,10 @@ sinew
 gabagool
 capicola / capocollo
 fish
+fishstick / fish finger
+brain
+hákarl
+narutomaki / naruto
 foie gras
 frog leg
 gizzards
@@ -8381,6 +8611,8 @@ kidney / rein
 kielbasa
 lamb
 liver
+peameal
+roast beef
 meatball
 mortadella
 mutton
@@ -8426,6 +8658,7 @@ oden / nabemono
 phat kaphrao / pad krapao
 vitello tonnato
 water pie
+ghee
 bisque
 beshbarmak / turama / dograma / bişbarmaq / qullama
 bran
@@ -8441,6 +8674,7 @@ financier
 num pang
 melonpan
 hominy
+toblerone
 rumaki / rumake
 pemmican
 hallaca
@@ -8665,6 +8899,8 @@ panini
 panna cotta
 pasta
 pastry
+pastel de nata
+speculaas / speculoos
 pavlova
 pectin
 pho
@@ -8788,18 +9024,16 @@ bigoli
 bucatini
 campanelle / torchio
 casarecce
-cavatappi
 cavatelli
 conchiglie / conchiglioni / shells
 trenette
 udon
-ditalini
 egg noodles
 farfalle / farfalline / bowtie
 fettuccine / fettuccini
 fregula / fregola
 fusilli / rotini
-agnolotti / agnolini
+agnolotti / agnolini / agnolot
 cappelletti
 linguine / linguini
 gemelli
@@ -8820,104 +9054,186 @@ rotelle / ruote / wheels
 spaghetti / spaghettini / spaghettoni
 stelline
 tagliatelle / tagliolini
-tortellini
 trofie
 vermicelli
 ziti / zitoni
+alfabeto / alphabet
+bavette
+busiate/busiati
+caccavelle
+calamarata
+cascatelli
+casoncelli
+casunziei
+cavatappi / spirali
+cencioni
+chifferi
+corzetti
+culurgioni
+ditalini / tubettini
+fagottini
+fedelini
+fileja
+fiori
+foglie d'ulivo
+garganelli
+lagane
+lanterne
+lorighittas
+malloreddus
+maltagliati
+passatelli
+pastina
+perciatelli
+pici
+pillus
+pizzoccheri
+ptitim
+sacchettoni
+sagnarelli
+schlutzkrapfen
+sedani
+scialatelli / scialatielli
+sorrentinos
+stelle
+stringozzi
+strozzapreti
+tortelli / tortellini / tortelloni
+tortiglioni
 
 [cheeses]
+= fromage
+abertam
+abondance
 american
-asiago
-pecorino
-whey
-blue / bleu
-bocconcini
-babybel
-manchego
-chanakh
-mish
-rumi
-domiati
-wagasi
-halloumi / haloumi
-spray
-nøkkelost
-brunost
-norvegia
-chechil
-motal
-tel panir / husats panir
-horats panir / yeghegnadzor
-brie
-burrata
-camembert
-cheddar "this cheese comes from a village in England called Cheddar"
-chevre / goat
-colby
-cotija
-cottage
-cream
-curds
-edam
-emmental / emmentaler
-stilton
-raclette
-fontina
-butterkase
-farmer's
-feta
-gorgonzola
-gouda
-gruyere
-havarti
-jack / monterey
-jarlsberg
-limburger
-mascarpone
-mozzarella / mozz
-muenster
-neufchatel
-paneer
-parmesan
-provolone
-queso
-ricotta
-romano
-roquefort
-string
-swiss
 anari
 appenzeller
+asadero
+asiago
+babybel
+bergenost
 bergkäse
+blue / bleu
+bocconcini
 bouhezza
+brie
+brunost
 bryndza
+bûcheron
+bundz / budz / bunc
+burrata
+butterkase
 byaslag
+cabécou
 caciocavallo
+camembert
+cancoillotte / cancoyotte
+chanakh
+chaource
+chechil
+cheddar "this cheese comes from a village in England called Cheddar"
+chevre / goat
 chhana
 chhurpi
 chkinti / imeretian / imeruli
+colby
 comté
+cotija
+cottage
+cream
+cremoso
+curds
+danablu / danish blue
+domiati
+edam
+emmental / emmentaler
+époisses
+farmer's
+feta
+fontina
 fromage blanc / fromage frais
+fynbo
+gorgonzola
+gouda
 grana padano
+grana-padano
+graviera
+gruyere
+halloumi / haloumi
+havarti
+hermelín
+horats panir / yeghegnadzor
 imsil
+jack / monterey
+jarlsberg
 kalari
 kashkaval
+kasseri
+kefalotyri / kefalotiri
 khoa / khoya / khowa / mawa
+lancashire
+langres
+leicester
+liederkranz
+limburger
+livarot
+manchego
+marble
 maredsous
+maroilles / marolles
+mascarpone
+mimolette
+mish
 mizithra
 mondseer
+motal
+mozzarella / mozz
+muenster
+neufchatel
+nøkkelost
+norvegia
 oaxaca
+paneer
 pantysgawn
+parmesan
 parmigiano-reggiano
 passendale
+pecorino
+pepperjack
+picodon
+pinconning
+provel
+provolone
+quark / quarg
+queso
+raclette
 ragusano
 remoudou
+ricotta
+rocamadour
+rodoric
+romano
+roquefort
+rumi
+salers
+scamorza
 shanklish / shinklish / chancliche
+spray
+stilton
+string
 sulguni
+swiss
+taleggio
+tel panir / husats panir
 telemea
 tenili
+trappista
+tybo
 urda
+wagasi
 warankasi
+wensleydale
+whey
 
 [condiments]
 aioli
@@ -9004,7 +9320,9 @@ shiner
 milo
 limoncello
 screwdriver
+hennessy
 alcopop
+v8
 schnapps
 b-52
 decaf
@@ -9132,7 +9450,7 @@ orangeade
 orgasm
 paloma
 patxaran
-pepsi
+pepsi / bepis
 pilk
 piña colada
 pog
@@ -9217,8 +9535,20 @@ encyclopedia / encyclopaedia
 graph paper
 greeting card / birthday card
 calendar / schedule / agenda
+manifesto
+waiver
 catalog / catalogue / menu
 collage
+breviary
+id / identification / license / permit
+deed
+invitation
+lease
+form
+missal
+petition
+prayerbook
+survey
 certificate
 obituary
 tabloid
@@ -9259,6 +9589,7 @@ phonebook / directory / phone directory / telephone directory / telephone book
 textbook
 worksheet / workbook / homework / quiz / test / exam / classwork / schoolwork / questionnaire
 essay
+thesis / theses
 packet
 dossier
 document
@@ -9282,6 +9613,14 @@ blog
 billboard
 commercial / advertisement / ad
 concert
+amv
+webcomic
+compilation
+douga / mad
+verse
+prose
+trope
+preamble
 retro
 satire / satirical
 feature
@@ -9378,6 +9717,10 @@ britpop
 amapiano
 freestyle
 beatbox
+artcore
+daycore
+extratone
+frenchcore
 calypso
 jumpstyle
 scat
@@ -9547,6 +9890,7 @@ cloisonnism / cloisonnist
 constructivism / constructivist
 digital
 triptych
+mosaic
 origami
 papercraft
 naïve
@@ -9614,6 +9958,7 @@ headdress
 strap
 harness
 badge
+holster
 rolex
 clutch bag
 crossbody bag
@@ -9936,6 +10281,8 @@ flag football
 gaelic football
 acrobatics
 athletics
+kendo
+kin-ball
 dressage
 goalball
 hexathlon
@@ -10089,6 +10436,8 @@ wrestling
 arrow
 ball
 treadmill
+teeter
+elliptical
 gi
 snowboard
 base / plate
@@ -10187,7 +10536,7 @@ apache
 combine harvester
 gadgetbahn
 ornithopter
-schwebebahn
+schwebebahn "the oldest electric elevated railway with hanging cars on earth"
 thunderbird
 pathfinder
 flatbed
@@ -10232,7 +10581,7 @@ bulldozer / dozer
 ferrari
 lamborghini / lambo
 volvo
-bugatti
+bugatti "i woke up in a new ^"
 bumper car
 roflcopter
 bus / shuttle / omnibus
@@ -10389,6 +10738,9 @@ clapstick / bilma / bimli / clappers / musicstick
 archlute
 theorbo
 contrabass
+ganzá
+flexatone
+handpan
 duduk
 bouzouki
 zurna
@@ -10739,6 +11091,8 @@ microwave
 mixer
 oven
 egg boiler / egg cooker / egg steamer
+steamer
+kiln
 espresso machine
 evaporative cooler / swamp cooler
 cooker / rice cooker
@@ -10769,6 +11123,7 @@ spoon
 fork
 cleaver
 whisk
+frother
 sieve
 sponge
 masher
@@ -10980,6 +11335,7 @@ antenna / antennae
 fan
 fireplace
 hearth
+turnstile
 heat pump
 sprinkler
 hinge
@@ -11199,6 +11555,8 @@ chapstick / balm
 clipper
 color corrector
 hairbrush / brush
+curling iron
+douche
 bandage / dressing / bandaid / gauze / plaster
 comb
 tourniquet
@@ -11245,7 +11603,7 @@ micellar water
 mouthwash
 nail file
 ointment
-perfume
+perfume / fragrance
 pumice
 razor / shaver
 setting powder / finishing powder
@@ -11265,6 +11623,7 @@ toothpaste
 toothpick
 
 [tools]
+= utility
 & kitchen utensils
 & weapons
 stopwatch
@@ -11277,11 +11636,16 @@ washboard
 walkie-talkie
 timer
 fabric shaver / lint remover
+tackle
 lint roller
+shoehorn
+propeller
 gauge
 crutch
 handcuffs
 peg
+whittle
+gouge
 gps
 power washer / pressure washer
 tracker
@@ -11396,7 +11760,6 @@ caliper
 caulking gun
 chainsaw
 chisel
-cleaver
 compass
 deburrer / deburring tool
 dibber / dibble / dibbler
@@ -11406,7 +11769,6 @@ edger
 file / filer / rasp
 flail
 funnel
-gouge
 grease gun
 hacksaw
 trimmer
@@ -11620,6 +11982,7 @@ corkboard
 clipboard
 eraser / rubber
 ink
+rolodex
 bookend
 pastel
 folder
@@ -11683,8 +12046,14 @@ polyurethane
 polypropylene
 plaid
 scrap
+mohair
+polystyrene
+suede
+glitter
+shard / sherd
 sisal
 macramé
+carbon fiber
 asbestos / asbestus
 resin
 linoleum
@@ -11693,7 +12062,8 @@ stave
 rubble
 hem
 plywood
-cinder
+cinder / cinderblock
+fiberglass / fibreglass
 asphalt / pitch
 seam
 faux
@@ -11850,6 +12220,8 @@ relief
 airlock
 wall / stonewall
 booth
+bodega
+steeple
 payphone / phone booth / telephone booth
 terrace
 treatment plant
@@ -11862,7 +12234,7 @@ mudroom
 entrance / entry / entryway
 cockpit
 aerodrome
-plant / power plant / power station
+plant / power plant / power station / powerhouse
 quarry
 railyard
 resort
@@ -12294,7 +12666,6 @@ cannon
 cannonball
 catapult
 chainsaw
-chisel
 chloroform
 claymore
 cleaver
@@ -12454,6 +12825,8 @@ blackhead / whitehead
 adam's apple
 adenoid
 acl
+acnestis
+temporal lobe
 axis
 atlas
 mesentery
@@ -12904,6 +13277,9 @@ chromoplast
 cytoplasm / cytosol
 cytoskeleton
 elaioplast
+plastid
+plasmid
+nucleoplasm / karyoplasm
 etioplast
 flagellum / flagella
 golgi apparatus / golgi bodies / golgi / apparatus / golgi complex
@@ -13048,7 +13424,7 @@ humilis
 mediocris
 calvus
 capillatus
-homogenitus
+homogenitus / homomutatus
 contrail / chemtrail
 silvagenitus
 wall cloud / murus
@@ -13069,7 +13445,7 @@ uncinus
 spissatus
 
 [landforms]
-= landmass / nature / land / landscape
+= landmass / nature / land / landscape / terrain
 & bodies of water
 & biomes
 & continents
@@ -13082,9 +13458,10 @@ bluff
 cape
 mound / knoll
 iceberg
+fault
 incline
 decline
-slope
+slope / steep
 badlands
 core
 stack
@@ -13167,6 +13544,8 @@ groundwater
 bay
 bayou
 bank / riverbank
+tide pool / rock pool
+sump / siphon
 beach
 rapids
 confluence
@@ -13338,6 +13717,7 @@ zoom
 unprecedented
 agentic
 viral
+startup
 
 [fields of study]
 = arts / field of work / field of study / fields of work / studies / ology / field
@@ -13352,7 +13732,13 @@ agriculture / agronomy / farming
 alchemy
 petrology
 gastronomy
+astrochemistry
+biometrics
+cognitology
+cinematography
 logistics
+biocomputing
+histology
 cryptozoology
 luthiery
 numismatics
@@ -13430,7 +13816,7 @@ anthropology
 magic / witchcraft / sorcery
 astrology
 architecture
-archiving / archive / preservation
+archiving / archive / preservation / archival
 arithmetic
 astrobiology
 metaphysics
@@ -13444,7 +13830,7 @@ biology
 botany
 business
 calculus
-calligraphy
+calligraphy / handwriting
 cardiology
 cartography
 chemistry
@@ -13478,7 +13864,10 @@ film
 finance
 forensics
 futurology
-gemology
+gemology / gemmology
+limnology
+conlanging
+typology
 genetics
 geography
 geology
@@ -13539,7 +13928,14 @@ osteology
 paleontology / palaeontology
 pathology
 pediatrics
-pharmacology / medicine / medical / drugs
+pharmacology / medicine / medical / drugs / pharma
+radiotherapy
+radiography
+dendrology
+nymphology
+psychotherapy
+cosmology
+protozoology
 phenomenology
 philology
 philosophy
@@ -13595,6 +13991,11 @@ approximate / approximation
 archimedes / archimedean
 heptation
 octation
+degeneracy / degenerate
+dihedral / polyhedral
+sphericity
+truncation
+rectification
 chaos / chaotic
 duality
 global
@@ -13823,7 +14224,7 @@ dividend
 division / dividing
 divisor
 eigenvalue
-equal / equality
+equal / equality / exact
 equation
 equilateral
 even
@@ -13839,6 +14240,7 @@ fraction
 frequency / rate / frequent
 amplitude
 function / fn
+parameter / params
 geometry / geometric
 graph
 greater than / greater
@@ -14141,12 +14543,17 @@ h. h. gregg / hhgregg
 stanley
 blackstone
 blackrock
+h&&m
 converse
 lululemon
+hennessy
 vyper
+mixue
+qualcomm
 tcl
 big bon
 yandex
+albertsons
 old spice
 rolls-royce
 supreme
@@ -14714,6 +15121,26 @@ veto
 serfdom
 tourism / tourist
 agency
+protest / opposition
+sanction
+regulation / crackdown
+gerrymander
+deportation
+reactionism / reactionary
+socdem / social democracy / social democrat / social democratic
+islamism / islamist
+hindutva
+integralism / integrationism / integrism / integralist
+fanaticism / fanatic
+extremism / extremist
+traditionalism / traditionalist
+transhumanism / transhumanist
+unionism / unionist
+separatism / separatist
+propaganda / propagandist
+revanchism / revanchist
+feminism / feminist
+syndicalism / syndicalist
 jurisdiction
 corporatocracy
 industry / industrial
@@ -14721,7 +15148,7 @@ commerce
 liberalism / liberal
 conservatism / conservative
 ideology / ideological / ideologic
-empire
+empire / reich
 ecclesiocracy
 capital / capitol
 war
@@ -14740,7 +15167,7 @@ colony / colonial / colonist
 nativism / nativist
 communism / communist / commie / tankie
 confederation / confederate / confederacy
-constitution / constitutional
+constitution / constitutional / rights
 democracy / democratic
 democrat
 despotism / despot
@@ -14824,6 +15251,8 @@ ambazonia
 isle of man
 saint barthélemy
 wallis and futuna / wallis / futuna
+british indian ocean territory / biot
+canary islands / canary
 zapatista
 sark
 united nations / un
@@ -14886,7 +15315,7 @@ chile "its atacama desert is so barren that NASA uses it to test mars rovers"
 china / prc / zhong guo "despite being about the width of the US, china has only one time zone"
 colombia
 comoros
-congo / drc / democratic republic of the congo / zaïre / zaire
+congo / drc / democratic republic of the congo / zaïre / zaire / congo kinshasa
 cook islands
 costa rica
 côte d'ivoire / ivory coast
@@ -15011,7 +15440,7 @@ poland "lost landmines were found in a polish **ikea** warehouse in 2025"
 portugal
 puerto rico
 qatar
-republic of the congo / congo republic
+republic of the congo / congo republic / congo brazzaville
 romania
 russia "the trans-siberian railway is the world's longest, crossing 8 time zones"
 rwanda
@@ -15499,9 +15928,18 @@ alur
 alune
 divehi / dhivehi / maldivian
 bislama
+chickasaw
+minionese
 newspeak
 lolspeak
 alanic / alanian
+udmurt
+mari
+erzya
+mordvin
+lezgian
+karachay-balkar
+kabardian / east circassian
 potawatomi
 mossi / mosi / moore
 manchurian
@@ -15995,7 +16433,7 @@ vötgil "hey!"
 vulcan
 walloon
 waray
-welsh
+welsh "shwmae!"
 wiradjuri
 woiwurrung / woiwurrong / woiworung / wuywurung
 wolof
@@ -16029,7 +16467,9 @@ applescript
 assembly
 piet
 enact
+algol
 b
+luau
 sparql
 elixir
 bash
@@ -16098,7 +16538,7 @@ xml
 yaml
 zig
 dreamberd / gulf of mexico
-awk
+awk "this is awk word.."
 bcpl
 blitzmax
 coffeescript
@@ -16173,13 +16613,27 @@ agnosticism / agnostic
 anglicanism / anglican / episcopalianism / episcopalian
 atheism / atheist
 bahá'í / baháí
-baptist
+baptism / baptist
+haredi / haredim
+hasidism / hasidic
+reform / liberal / progressive
+masorti / conservative
+mysticism / mystic
+humanism / humanist
+aztec
 amish
-buddhism
+buddhism / buddhist
 calvinism / calvinist
 shamanism / shamanist
 mahāyāna
 shaivism / shaivist
+deism / deist
+spiritualism / spiritualist / spiritual
+animism / animist
+fetishism / fetish
+ibadism / ibadi
+apatheism / apatheist
+anabaptism / anabaptist
 shaktism / shaktist
 theravāda
 vajrayāna
@@ -16265,17 +16719,24 @@ adam
 addison / addy / adeline
 adhara
 carina
+ember
+irene
+harley
+aizza / aizzah / aiza / aizah
 mallory / mallary / mallery / malorie / mallorie / mallerie / mallorey
 cadence / kaydence / cady / cade / cad / caden / caddie / caddy
 adrian / adriana
 todd / tod / toddy
 ludwig "the plan is simple"
+desmond
+odessa
 tara
 bonita / bonnie
 fraser / fraiser / frasier / frashier / frazer / frazier
 agatha / agata
-carmen
+carmen "no matter what i may become, please finish what i started"
 aiden / aidan / ayden
+candy / kandi
 jarvis
 islam
 phoebe
@@ -16288,7 +16749,7 @@ calvin / kelvin
 ming "ooh say-"
 ailany
 alan / allen / allan / alanna / alana / alanah / alannah / ilana
-albert / al / bert / elbert
+albert / al / bert / elbert / alberto
 alexander / alejandro / alex / alexandria / alexandra / alexis / alexei / alexa / alexia / zander / xander
 alfred / alfie
 alfonso / alonso / afonso / alfonse / alfons / alphons
@@ -16304,8 +16765,10 @@ amelia / emilia / emilio / emiliano / emil / emile
 amir / ameer / emir
 amos
 ana / annie / anna / anne / an / anita / annette / anika / annika / ann / annabelle
+cain / caine
+abel
 andrew / andy / andie / andre / andrea / andrey / andreas / anderson
-angela / angelo
+angela / angelo / angelina / angelino / angel
 anthony / antonio / antonella / antony / tony
 archie / archy
 ariana / arianna / aria / ari / arya
@@ -16626,7 +17089,7 @@ roger
 roman / romeo
 romina
 ronald / ron / ronnie / ronny
-rosie / rosa / rosemary / roosevelt / rose
+rosie / rosa / rosemary / roosevelt / rose / rosy
 holly
 ross / joss
 ruth
@@ -16834,6 +17297,7 @@ acupuncturist
 boatswain
 keeper
 shepherd
+curler
 spelunker / cave diver
 official
 hitter
@@ -16878,7 +17342,35 @@ line cook
 cadet
 fashionista
 juror / jury
-expert / professional / pro
+expert / professional / pro / maestro
+periodontist
+journeyman
+astrologist / astrologer
+climatologist
+promoter
+caterer
+cio
+recruiter
+fletcher
+roofer
+bricklayer
+voice actor / va
+barrister
+insurer / insurance
+trombonist
+physiologist
+clockmaker
+cto
+ferryman
+oceanographer
+sociologist
+audiologist
+fundraiser
+coworker
+ombudsman / ombudswoman / ombudsperson
+donor / funder
+thatcher
+treasurer
 human resources / hr
 public relations / pr
 endocrinologist
@@ -16980,7 +17472,7 @@ assemblyperson / assemblyman / assemblywoman
 assistant
 astronaut / cosmonaut / taikonaut / spationaut / vyomanaut "most countries with a space program have their own name for ^s"
 astronomer
-athlete / player / jock
+athlete / player / jock / sportsman / sportswoman / sportsperson
 attendant
 squire / esquire
 toymaker
@@ -16998,7 +17490,7 @@ banker / teller
 bard
 barista
 baron / baroness
-bartender / barkeep / mixologist
+bartender / barkeep / mixologist / barkeeper
 bassist
 beekeeper
 beggar / vagabond / hobo
@@ -17078,8 +17570,8 @@ copilot
 coroner
 corporal
 corsetmaker
-cosmetologist / stylist
-counselor / counsellor / councilor
+cosmetologist / beautician / stylist
+counselor / counsellor / councilor / counsilman
 count / countess
 cowboy / cowgirl
 craftsman / craftsperson / crafter
@@ -17088,7 +17580,7 @@ curator
 dancer
 deacon / deaconess
 dean
-delivery
+delivery / deliveryman / deliveryperson
 dentist
 deputy
 dermatologist
@@ -17101,7 +17593,7 @@ diver
 dj / disc jockey / disk jockey
 doctor
 dogsitter / petsitter / dog walker
-driver / chauffeur
+driver / chauffeur / motorist
 patriarch
 druid
 drummer
@@ -17130,11 +17622,11 @@ firefighter / fireman / firewoman
 fisher / fisherman / fisherwoman
 florist
 fortune teller / psychic / future teller / seer
-freelancer
+freelancer / contractor
 friar
 gambler
 game warden
-gangster
+gangster / thug
 garbage person / garbage man / garbage woman
 gardener
 gatherer
@@ -17156,7 +17648,7 @@ guitarist
 gymnast
 gynecologist / obgyn
 hacker
-hairdresser / barber
+hairdresser / barber / hairstylist
 handyman
 hatter
 hauler
@@ -17179,10 +17671,28 @@ infielder
 influencer
 innkeeper
 inspector
-intern
+intern / internship
 interpreter / translator
 inventor
-investor / entrepreneur
+investor / entrepreneur / shareholder
+agronomist
+agrologist
+ceramicist
+decorator
+gastroenterologist
+hematologist
+ironworker
+lineworker
+otorhinolaryngologist
+pathologist
+personal trainer
+plasterer
+podcaster
+podiatrist
+publicist
+radiographer
+showman
+skydiver
 vigilante
 analyst
 violinist
@@ -17238,7 +17748,7 @@ medic
 mentor
 messenger
 metallurgy
-meteorologist / weatherman / weatherwoman / weatherperson / weatherboy
+meteorologist / weatherman / weatherwoman / weatherperson / weatherboy / forecaster
 midwife
 milkman / milk deliverer
 mime
@@ -17247,7 +17757,7 @@ minion
 mobster / mafioso
 model
 moderator / mod
-monarch / queen / king / ruler
+monarch / queen / king / ruler / royalty
 monk
 mortician / undertaker
 musician
@@ -17255,7 +17765,7 @@ necromancer
 pyromancer
 mascot
 nephrologist
-newscaster / reporter
+newscaster / reporter / newsreader / newsperson / newsman / anchorman / anchorperson / anchor
 ninja
 nun
 nurse
@@ -17281,13 +17791,14 @@ adjutant
 rescuer / searcher
 shaman
 ticket taker
-scalper
+scalper / reseller
+grifter / hustler
 dropshipper
 scorekeeper
 pawn
 pediatrician
 peon
-performer
+performer / showgirl
 pharaoh
 pharmacist
 philosopher
@@ -17320,7 +17831,7 @@ prisoner
 private
 privateer
 producer
-professor / teacher / instructor / lecturer
+professor / teacher / instructor / lecturer / educator
 substitute
 owner
 chairman / chairwoman / chairperson / foreman
@@ -17382,7 +17893,7 @@ soldier / military "sir yes sir!"
 grenadier
 sommelier / chef de vin / wine steward / wine stewardess
 songwriter / composer / lyricist
-sorcerer / sorceress / witch / wizard / warlock / mage / enchanter / enchantress
+sorcerer / sorceress / witch / wizard / warlock / mage / enchanter / enchantress / mystic
 spy
 stenographer
 steward / stewardess
@@ -17440,7 +17951,7 @@ brother-in-law
 child / kid / children / adolescent / minor / offspring / descendant
 heir
 male / boy / man / guy / dude / lad
-female / girl / woman / dudette / gal / girlie / girly / lass / lassie / lassy / maiden
+female / girl / woman / dudette / gal / girlie / girly / lady / lass / lassie / lassy / maiden / gurl
 child-in-law
 cousin
 foster
@@ -17472,7 +17983,7 @@ friend / colleague / buddy / bud / pal / chum / fren / amigo / homie / fella / p
 girlfriend / gf
 grandchild / grandchildren / grandkid
 granddaughter
-grandfather / grandpa / granddad / gramps / peepaw
+grandfather / grandpa / granddad / grandad / gramps / peepaw
 grandmother / grandma / granny / gran / grandmom / nana / nan / nanna / nona / nonna / meemaw
 grandparent / elder
 grandson
@@ -17588,6 +18099,7 @@ chiron
 giant / supergiant
 hypergiant
 chariklo
+cubewano
 neutron star
 white dwarf / dwarf
 red dwarf
@@ -17606,7 +18118,8 @@ dia
 amalthea
 enceladus
 eris
-quasistar
+quasistar / black hole star
+zoozve
 euporie
 europa
 despina
@@ -17888,6 +18401,8 @@ athena / minerva / pallas
 cronus / kronos / saturn
 babi
 durga
+vanth
+dyaus / dyauspitr
 parvati / uma / gauri
 nekhbet / nekhebet
 demeter / ceres
@@ -18408,6 +18923,10 @@ aspirin / acetylsalicylic acid / asa / ecotrin / bayer
 nyquil
 dayquil
 benadryl
+antacid
+cefditoren pivoxil
+favipiravir / avigan
+hgh / growth hormone
 antibiotic
 oxyphenbutazone
 naloxone
@@ -18476,7 +18995,7 @@ mometasone
 dimethyltryptamine
 dronabinol
 carbromal
-isotretinoin
+isotretinoin / accutane
 diphenhydramine
 quinine / tonic
 chlorothiazide
@@ -18498,7 +19017,7 @@ zanocin / floxin / ofloxacin
 
 tobacco
 morphine
-nicotine / nic
+nicotine / nic / zyn
 opioid / narcotic
 opium
 oxycodone / oxy / oxycotin / percocet / perc
@@ -18513,7 +19032,7 @@ cocaine / coke / crack / snow / yayo / dope
 alcohol / ethanol / alcoholic / alcoholism / drunk / drunken / booze
 shrooms / psilocybe / psilocybin / psilocin / agaric
 psychedelic
-marijuana / cannabis / weed / kush / ganja / za / pot
+marijuana / cannabis / weed / kush / ganja / za / pot / blunt
 vape
 amphetamine / benzedrine / benny / upper
 ayahuasca
@@ -18526,7 +19045,7 @@ depressant
 stimulant
 dextromethorphan / dex / dxm / delsym / robitussin
 dmt
-mdma / ecstasy / molly
+mdma / methylenedioxymethamphetamine / ecstasy / molly
 salvia
 khat / chat / catha
 hookah / shisha / narghile
@@ -18535,6 +19054,19 @@ pcp / angel dust / phencyclidine
 tranq / xylazine
 poppers / jungle juice / alkyl nitrite
 hydroxychloroquine
+acyclovir / aciclovir / zovirax
+buscopan
+ciprofloxacin
+clonidine
+cyclizine
+datura
+laxative
+methaqualone / quaaludes
+metronidazole
+pantoprazole
+procaine / novocaine
+promethazine "i can't put down the cup!"
+ssri
 
 [amino acids]
 = amino
@@ -18565,20 +19097,32 @@ valine
 [crimes]
 "we do not condone!"
 = criminal
-abduction / abducting / kidnapping
+abduction / abducting / kidnapping / detention
 adultery
 affray
 aiding / abetting / accomplice
 arson / immolation
 asphyxiation / choking
 assassination / assassinating / assassin
-assault / hurting / abuse / beating / thrashing / wounding / battery / rape / groping
+assault / attacking / hurting / abuse / beating / thrashing / wounding / battery / rape / groping / molestation / pedophilia / paedophilia / pedophile / paedophile / beastiality / bestiality
 attempt / attempted
 stouthrief / stouthreif
 infringement / infringing
+entrapment
 hamesucken
+deforestation
+ecocide
+whaling
+jailbreaking
+cybercrime / cyberattack
+mayhem
+phishing
+brainwashing
 stowaway
+bigamy
 blackmail
+exploitation
+ransom / ransomware
 happy slapping
 mismarking
 bombing
@@ -18587,8 +19131,9 @@ brandishing / menacing
 martyrdom / martyr
 bribery / bribing / embracery
 bail jumping
+jumping / pummeling
 cannibalism / cannibal
-cussing / swearing "a crime in some countries"
+cussing / swearing / obscenity "a crime in some countries"
 thoughtcrime / crimethink
 cockfight / dogfight
 coercion / coercing
@@ -18598,6 +19143,7 @@ corruption / corrupted / corrupt
 counterfeit
 cyberbullying / cyberstalking
 damage
+hostage
 defamation / slander
 decapitation / beheading
 desertion
@@ -18625,7 +19171,7 @@ scrumping
 fratricide
 fraud / defrauding / fraudulent
 gambling / betting
-gang / gangster / mafia / mobster
+gang / gangster / mafia / mobster / thug
 genocide
 graffiti
 grand theft / grand theft auto / carnapping / carjacking / heist / looting
@@ -18646,7 +19192,8 @@ insider trading
 intimidation
 invasion of privacy / privacy invasion
 jaywalking
-larceny / theft / stealing / thief / robber / robbery / mugging / mug / burglary / jacking / robbing / rob / thieving / banditry / bandit / marauding
+larceny / theft / stealing / thief / robber / robbery / mugging / mug / burglary / burglar / jacking / robbing / rob / thieving / banditry / bandit / marauding
+drugs / cartel
 laundering
 libel
 littering / dumping
@@ -18654,7 +19201,7 @@ lobotomy
 loitering
 lynching
 malpractice
-massacre
+massacre / bloodbath
 matricide
 mobbing
 monopolization / monopoly
@@ -18683,7 +19230,7 @@ retaliation
 revolution / rebellion / coup / rebel / revolting / mutiny
 riot
 road rage
-scamming / ripoff / bootleg
+scamming / ripoff / bootleg / swindling
 sedition
 shooting
 shoplifting
@@ -18703,7 +19250,7 @@ threat / threatening
 torture
 waterboarding
 trafficking
-treason / treachery
+treason / treachery / traitor / defection / defecting / defector
 trespassing
 underage
 unlicensed
@@ -18725,11 +19272,13 @@ avoidant personality / avoidant / avpd
 dependent personality / dependent / dpd
 depression / mdd
 cataracts
+misophonia
 vertigo
 anxiety / generalized anxiety / gad
 neurosis
 pica
 rumination
+heterochromia
 seasonal affective / sad
 separation anxiety / sepad
 selective mutism / situational mutism / sm
@@ -18755,6 +19304,10 @@ cptsd / complex ptsd
 dissociative identity / did
 dysphagia
 dyspraxia
+hyperlipidemia / hyperlipidaemia
+tourette
+thalassemia / thalassaemia
+paralysis / paralyzed / paralysed
 
 [disease]
 = ailments / conditions / diseases
@@ -18765,6 +19318,7 @@ turner
 hashimoto's
 aneurysm
 fibromyalgia
+psittacosis
 gingivitis
 anorexia / anorexic
 bursitis
@@ -18836,6 +19390,8 @@ endometriosis
 epilepsy / epileptic / seizure
 ergotism
 fever
+bloatedness
+cramp
 fibrosis / cystic fibrosis
 fluorosis
 gonorrhea / gonorrhoea
@@ -18872,7 +19428,12 @@ pink eye / conjunctivitis
 pneumonia
 pneumothorax
 poisoning / poisoned
-polio
+polio / poliovirus
+inflammation
+hernia
+staphylococcus / staph
+streptococcus / strep
+shigella
 prion
 psoriasis
 rabies / rabid
@@ -18886,7 +19447,7 @@ shingles
 silicosis
 stibialism
 strychninism
-tetanus
+tetanus / lockjaw
 tuberculosis / tb
 typhoid
 uc / ulcerative colitis / colitis
@@ -18902,7 +19463,6 @@ bell's palsy
 beriberi
 brucellosis
 bulimia
-cataracts
 chagas / american trypanosomiasis
 chikungunya
 emphysema
@@ -18934,140 +19494,130 @@ toxoplasmosis
 west nile
 wilson's
 yaws
+pneumonoultramicroscopicsilicovolcanoconiosis
 
 [morbidities]
 = morbid
 & weapons
 & crimes
 & disease
-avarice
-glitch / glitchy
-karma
-argument
-misfortune / unfortunate / unlucky
-awful
-splinter
-disrespect / disrespectful
-discomfort / uncomfortable
-grinch
-antagonist
-necromancy
-obsession / obsessed / obsessive "no.. no.. no no **no don't DO THAT**"
-hater
-useless
-perversion / pervert / perverted
-invasion / invasive
-vore
-extinction
-masochism / masochist
-problem / issue / incident / situation
-sadism / sadist
-stigma
-incorrect / wrong "'incorrectly' is the only word the dictionary spells **incorrectly**"
-impossible
-immature / immaturity
-obesity
-dystopia / dystopian
-injury / injured
-apocalypse / doomsday
-accident / mistake / error
-murderer / killer
-creep / weirdo / freak "i'm a weirdooooo"
-loss / lost / loser / loner / mook / unsuccessful
-weird / strange / abnormal / obscure / irregular
-dishonest / dishonesty
-phobia
+accident / mistake / error / defect
 allergy
-vice
-debt
-fallout
-papercut
-execution / capital punishment
-conquest
-vermin / pest
-wither
-drowning
-haunted / ghastly
-pessimism / pessimistic
-brainrot
-victim
-perpetrator / perp
-mourning
-snot / booger
-pandemic / epidemic / outbreak
-curse / hex
-jinx / jinxed
-homelessness / homeless / unhoused
-sacrifice
-r.i.p.
-bad / evil / sinister / terrible / horrible / wicked / worse / worst / vile
+antagonist
+apathy / apathetic / acedia
+apocalypse / doomsday
+argument
+avarice
+awful
+bad / evil / sinister / terrible / horrible / wicked / worse / worst / vile / cruel / cruelty
 battle
-bigotry / racism / homophobia / transphobia / sexism / misogyny / misandry / xenophobia / ableism / ageism / classism / lesphobia / lesbophobia / biphobia
 bigot / racist / homophobe / transphobe / sexist / misogynist / misandrist / xenophobe / ableist / ageist / classist / lesphobe / lesbophobe / biphobe
+bigotry / racism / homophobia / transphobia / sexism / misogyny / misandry / xenophobia / ableism / ageism / classism / lesphobia / lesbophobia / biphobia
 blackjack
+brainrot
 carnage
 casket / coffin
-enemy / foe / opponent / opps
 cemetery / graveyard
-kiki
-chaos / havoc / chaotic
-omen / ominous
+chaos / havoc / chaotic / mayhem
 cheating / cheater
 coma / comatose
+conquest
 corpse / carcass / cadaver
-danger / dangerous / dire / hazard
+creep / weirdo / freak "i'm a weirdooooo"
 creepy / scary / eerie / spooky / spoopy / terrifying / uncanny / disturbing
 criminal / culprit
+curse / hex
 cyclops
+danger / dangerous / dire / risk / hazard / hazardous / harmful
 darkness / dark / shadow
 death / die / dying / dead / fatality / fatal / died
-macabre
+debt
+decay / decayed / rot / rotting / rotten / rotted
 demon / devil / imp
 deviancy
 dictator / fascist
 dictatorship / fascism
 dirty / filthy / filth / septic / grime / mess / messy
+discomfort / uncomfortable
 disease / virus / plague / sickness / ailment / sick / illness / ill / infection / infected / germ / pathogen / pathogenic / unwell
+dishonest / dishonesty
+disrespect / disrespectful
 dread
+drowning
 dumb / stupid / foolish / lame / daft
 dust
+dystopia / dystopian
+emergency / crisis / crises
+enemy / foe / opponent / opps / rival
 envy / envious / jealousy / jealous
+execution / capital punishment
 explosion / explode / blast
+extinction
+fallout
+false / falsehood / falsity
 famine
 fart / brap / flatulence
 fight / feud / scrimmage / skirmish / conflict
-inability / unable
-fool / idiot / bozo / doofus / numbskull / twat / dumbass / noob / newbie / newb / nitwit / buffoon / dummy / dumbahh / rookie / moron
+fool / idiot / bozo / doofus / numbskull / twat / dumbass / noob / newbie / newb / nitwit / buffoon / dummy / dumbahh / rookie / moron / cretin
 funeral / burial
 ghost / ghoul / specter / spectre / phantom / spirit / ghostly / ghast
+glitch / glitchy
 gluttony / glutton
 gore / gorey / gory
 grave / tomb / gravestone / tombstone
 greed / greedy
-apathy / apathetic / acedia
-vanity / vainglory
 grim
+grinch
 guilt
+gullible "try typing **sloppify**"
+hater
+haunted / ghastly
 hell / purgatory / underworld / nether / inferno
+homelessness / homeless / unhoused
 horrific
 horror
 hunger / hungry / starving / starvation / starve / malnourished
-thirst / parched
+immature / immaturity
 immoral
+impossible
+inability / unable
+incorrect / wrong "'incorrectly' is the only word the dictionary spells **incorrectly**"
 inequality
+injury / injured
+invasion / invasive
+jinx / jinxed
+karma
+kiki
 lie
-false / falsehood / falsity
+loss / lost / loser / loner / mook / unsuccessful
 lust / lustful
-mean / rude / jerk / brat
+macabre
+manipulation
+masochism / masochist
+mean / rude / jerk / brat / meanie / asshole / douche
 misery / suffering / turmoil / blight / tyranny / calamity / disaster / disastrous / torment / tragedy / travesty / catastrophe / plight
-emergency
+misfortune / unfortunate / unlucky
 misinformation / disinformation / misinfo / disinfo / hoax
+mold / mould / moldy / mouldy
 monster
 mort / micromort
 mortality / mortal
+mourning
+murderer / killer
+necromancy
 nightmare
+obesity
+obsession / obsessed / obsessive "no.. no.. no no **no don't DO THAT**"
+omen / ominous
+pandemic / epidemic / outbreak
+papercut
 parasite / parasitic / parasitism
+perpetrator / perp
+pervasion / pervasive
+perversion / pervert / perverted
+pessimism / pessimistic
 pestilence
+phobia
 plutonium
 poison / poisonous / toxin / toxic
 poker
@@ -19075,345 +19625,360 @@ pollution / exhaust
 predator / predation / predate
 prey
 pride / hubris
+problem / issue / incident / situation
+r.i.p.
 radioactivity / radioactive / radiation
-decay / decayed / rot / rotting / rotten / rotted
+ridiculous / bonkers
+sacrifice
 sad / sadness / blue
+sadism / sadist
 satan / lucifer / the beast
 satyr
 sin / sinful / blasphemy / blasphemous
 skeleton
 sloth
 sludge
+snot / booger
 spaghettification
-stinky / smelly / gross / disgusting / nasty / stink / crude / reeking / revolting
+splinter
+stigma
+stinky / smelly / gross / disgusting / nasty / stink / crude / reeking / revolting / odor
 suicide / suicidal / self-immolation
-mold / mould / moldy / mouldy
+symptom
 taboo
+thirst / parched
 trash / junk / garbage / debris / waste / scum / rubbish
 twisted
 tyrant
 ugly
 uranium
+useless
 vain
 vampire / vamp / dracula
+vanity / vainglory
+vermin / pest
+vice
+victim
 void
+vore
 war
 weakness / weak / frail
+weird / strange / abnormal / obscure / irregular
+stranger "don't talk to them!"
 werewolf
+wither
 wrath
 zombie / undead
 
 [blissfuls]
 = bliss
-light / shine / bright / sunlight / moonlight
-democracy
-justice
-happy / happiness
-god / goddess / allah / yahweh / yhwh / elohim / idol
-demigod
-silence
-comfort / comfortable / comforted / cozy
-karma
-life / alive / living
-halo
-integrity
-protagonist
-seraph / seraphim
-innocence / innocent / naïve
-humility
-useful
-wholesome
-talent / skill / experience
-genesis
-heartwarming
-mature / matured / maturity
-unity
-idea / thought
-charisma
+able / ability
+adorable / cute
+amazing / wonderful / fantastic / awesome / fabulous / legendary / legend / terrific / magnificent / lovely / remarkable
+angel
+angelic
+apostle
+archangel
 award / reward
-fame / famous
-sportsmanship
-ethereal
+awareness / aware
+beauty / beautiful / pretty / handsome / baddie / attractive / sexy / majestic
+benevolent
+birth / nativity
+bond
+bouba
+buddha
+celebration
+charisma
+clean / hygiene / tidy
+comfort / comfortable / comforted / cozy
 correct / right
-freedom / free / liberty / liberation / luxury
-fate / destiny
-wedding
+creativity
+culture / cultural
+cure / vaccine
+demigod
+democracy
+determination "seeing this word fills you with determination"
 dignity
+enlightenment
+ethereal
+excellent
+fact
+fame / famous
+fan / supporter
+fate / destiny
+favorite / favourite
+fortune / luck / lucky / fortunate
+freedom / free / liberty / liberation / luxury
+fun
+funny / hilarious
+genesis
+genius / wiz
+gift / present / dowry
+god / goddess / allah / yahweh / yhwh / elohim / idol
+good / great / better / best / decent
+gorgeous
+halo
+happy / happiness
+health / healing
+heartwarming
+heaven / afterlife / paradise
+hero
+holy / divine / apocryphal / divinity
+honest / honesty
+humble
+humility
+idea / thought
+ignorance / ignorant "it is bliss"
+immortality / immortal / invincible / invulnerable
+immunity / immune
+innocence / innocent / naïve
+integrity
+jesus / christ
+justice
+karma
+laughter / laugh
+leisure
+life / alive / living
+light / shine / bright / sunlight / moonlight
+love / romance "your soulmate is out there somewhere, waiting for you"
+mature / matured / maturity
+mercy / merciful
+miracle / blessing / boon
+morality / moral
+muhammad / mohamet / mohammed / mahamad / muhamad / mohamed / mo / moe
+neato / neat
+nice / kind / polite / friendly
+nirvana
+optimism / optimistic
+passion / passionate
+peace / peaceful / pacifist
+perfect / perfection / ideal
 possible
+power
+pride / proud
+privilege
+protagonist
+pure / purity
+radical
+real / authentic
+reincarnation / reincarnate
+respect / respectful
+revolution
+safety / safe / benign / harmless
+savior
+seraph / seraphim
+serene / scenic
+silence
+silly
+sleep
+smart / smarts / intelligent / intelligence / wise / wisdom / knowledge
+splendid
+sportsmanship
+strength / strong
+swell
+talent / skill / experience
 technoblade
 treasure
-immunity / immune
-pure / purity
 truth / true / verity
-real / authentic
-culture / cultural
-able / ability
-reincarnation / reincarnate
-celebration
-favorite / favourite
-fact
-bond
-fan / supporter
-bouba
-strength / strong
-enlightenment
-nirvana
-archangel
-genius / wiz
-miracle / blessing / boon
-heaven / afterlife / paradise
-smart / smarts / intelligent / intelligence / wise / wisdom / knowledge
-wit / witty
-optimism / optimistic
+unity
+useful / utility
 victory / win / winner / success / successful / champion / championship
 virtue
-revolution
-power
-angel
-creativity
-fortune / luck / lucky / fortunate
-privilege
-love / romance "your soulmate is out there somewhere, waiting for you"
-immortality / immortal / invincible / invulnerable
-sleep
-laughter / laugh
-cure / vaccine
-clean / hygiene / tidy
-good / great / better / best / decent
-holy / divine / apocryphal / divinity
-nice / kind / polite / friendly
-respect / respectful
-morality / moral
-savior
-hero
-peace / peaceful / pacifist
-safety / safe
-beauty / beautiful / pretty / handsome / baddie / attractive / sexy / majestic
-humble
-perfect / perfection / ideal
-serene / scenic
-awareness / aware
-ignorance / ignorant "it is bliss"
-worship
-adorable / cute
-birth / nativity
-pride / proud
-amazing / wonderful / fantastic / awesome / fabulous / legendary / legend / terrific / magnificent / lovely / remarkable
-excellent
-fun
-leisure
 whimsy / whimsical
-funny / hilarious
-silly
-gift / present
-health / healing
-mercy / merciful
-determination "seeing this word fills you with determination"
-angelic
-benevolent
-gorgeous
-honest / honesty
-neato / neat
-passion / passionate
-radical
-splendid
-swell
-buddha
-jesus / christ
-muhammad / mohamet / mohammed / mahamad / muhamad / mohamed / mo / moe
-apostle
+wholesome
+wit / witty
+worship
 
 [emotions]
 = feelings / moods / emotional / behavior / behaviour
-admiration / admire / admiring
-aggression / aggressive / aggressiveness
-alert
-amazed / amazing / amaze / awe / amazement / astonishment
-anger / angry / furious / irate / mad / rage / wrath / madness / enraged / livid / pissed / fury
-submission / submissive / obeyance / meek
-dominance / dominant
-hangry
-annoyed / annoying / annoy / annoyance / indignant
-aloof / removed / distant
-lightheaded
-anxiety / anxious / worry / worried / nervous / nerve / nervousness / butterflies / fret
-concern / concerned
-apprehension / apprehensive
-curiosity / curious / wonder
-independence / independent
-dependence / dependent
-sonder
-approval
-sensitive
-patience / patient
-energetic / energized
-reverence / respect
-aroused / arousal
-serious
-joking / unserious
-disappointment / disappointed
-confidence / confident / charismatic / secure / security / gall / bold
-sassy / sass
-amusement / amused / giddiness / giddy
-smug
-hype / hyped
-comfort / comfortable / comforted / cozy
-discomfort / uncomfortable
-brave / fearless / bravery
-tired / exhausted / sleepy / eepy / exhaustion / weary
-bored / boredom / ennui
-calm / mellow / chill / calmness / easygoing
-nostalgia / nostalgic
-social
-antisocial
 acceptance
-lachrymose / lachrymosity
-jolly / festive / merry
-insanity / insane
-hate / hatred / hateful "HATE. LET ME TELL YOU HOW MUCH I'VE COME TO HATE YOU SINCE I BEGAN TO LIVE"
-schadenfreude
-pleasure
-shy / bashful / bashfulness / coy / diffident / modest / modesty / timid / timidity / awkward / insecure / insecurity
-inspired / inspiration
-ecstasy / mania / manic
-denial "is that a river in egypt?"
-embarrassment / embarrassed / embarrass / shame / shameful / shamed / flustered / flushed
-confused / confusion / bewildered / bewilderment / lost / perplexed
-passion / passionate
-dizzy / dizziness
-bliss / blissfulness
-contempt
-grudge
-neutral / normal / casual
-delighted / delight / delightful
-depression / depressed / mopey / droopy
-disapproval
-disgust / disgusted / appalled
-mysterious
-disinterest / disinterested
-dissatisfied
-distracted / distraction
-agony / pain / painful / ache / anguish / sore
-numb
-sarcasm / sarcastic
-hurt / offended / offense
-distrust
-dread
-ecstatic / elated / elation
-envy / envious / jealousy / jealous
-excited / excitement / excite
-fear / scared / terrified / terror / scary / trembling / fearful / horrified / spooked / fright / afraid / frightened / creeped / unnerved
-gloomy
-grateful / thankful
-grief / grieving / mourning
-guilt / guilty
-hope / hopeful / optimistic / optimist / optimism
-faith / faithful
-interest / interested
-joy / happy / joyful / happiness / gleeful / glee / glad / gay / joyous
-loathe / loathing / loathed
-love / romance
-miserable
-panic / panicked / panicking
-peace / peaceful / tranquil / tranquility / zen
-pensive / pensiveness
-pleased / satisfied / satisfaction
-enjoyment / enjoy
-sympathy / sympathetic
-empathy / empathetic
-apathy / apathetic
-pride / proud / prideful
-regret / remorse / remorseful
-relaxed / relax / relaxing
-sadness / sad / blue / upset / unhappy / unhappiness
-serenity
-shock / shocked / stunned / surprise / surprised / taken aback
-misery / suffering / turmoil
-sorrow
-stressed / stress / stressful / tension / tense / distress / distressed / strain
-trust
-understanding
-valence
-vigilance / ready / readiness / vigilant
-
+admiration / admire / admiring
 affection
+aggression / aggressive / aggressiveness
+agony / pain / painful / ache / anguish / sore
+alert
+aloof / removed / distant
+amazed / amazing / amaze / awe / amazement / astonishment
 ambivalence
+amusement / amused / giddiness / giddy
+anger / angry / furious / irate / mad / rage / wrath / madness / enraged / livid / pissed / fury / temper
 angst
+annoyed / annoying / annoy / annoyance / indignant
 anticipation
+antisocial
+anxiety / anxious / worry / worried / nervous / nerve / nervousness / butterflies / fret
+apathy / apathetic
 appreciated
+apprehension / apprehensive
+approval
 ardor
+aroused / arousal / horny
 belonging
 bittersweet / bittersweetness
+bliss / blissfulness
+bored / boredom / ennui
+brave / fearless / bravery
 brokenness / broken
-caution / carefulness / diligence
+calm / mellow / chill / calmness / easygoing
 caring
+caution / carefulness / diligence
 certainty
 cheerfulness / cheerful
+comfort / comfortable / comforted / cozy
+concern / concerned
+confidence / confident / charismatic / secure / security / gall / bold
+confused / confusion / bewildered / bewilderment / lost / perplexed
+contempt
 contentment / content
-cowardice / coward
-cranky / grumpy
 courage / courageous
+cowardice / coward / cowering
+cranky / grumpy
+cringe
+curiosity / curious / wonder
 defensiveness
+delighted / delight / delightful
+denial "is that a river in egypt?"
+dependence / dependent
+depression / depressed / mopey / droopy / sulking
 desolate / desolation / emptiness / empty / despair / hopeless
 determination / determined
+disappointment / disappointed
+disapproval
+discomfort / uncomfortable
+disgust / disgusted / appalled
+disinterest / disinterested
+dissatisfied
 distaste
-melancholy / melancholic / dejection / dejected
+distracted / distraction
 distraught / devastated / devastation
+distrust
+dizzy / dizziness
+dominance / dominant
 doubt / doubtful / disbelief
 drab
+dread
 dysphoria / dysphoric
+ecstasy / mania / manic
+ecstatic / elated / elation
 elevation / elevated
-enchantment
+embarrassment / embarrassed / embarrass / shame / shameful / shamed / flustered / flushed
+empathy / empathetic
+enchantment / enchanted
 encouragement / encouraged
+energetic / energized
+enjoyment / enjoy
 enthusiasm / enthusiastic
+envy / envious / jealousy / jealous
 euphoria / euphoric
+excited / excitement / excite / eager
+faith / faithful
 fascination / fascinated
+fear / scared / terrified / terror / scary / trembling / fearful / horrified / spooked / fright / afraid / frightened / creeped / unnerved
 flabbergasted "consider my flabber gasted"
 frustration / frustrated
 generosity
+gloomy
 glory
+grateful / thankful
 gratification / gratified / gratitude
+grief / grieving / mourning
+grudge
+guilt / guilty
+hangry
+hate / hatred / hateful / animosity "HATE. LET ME TELL YOU HOW MUCH I'VE COME TO HATE YOU SINCE I BEGAN TO LIVE"
+heartbreak / heartbroken
 helplessness / helpless
 hesitation / hesitant / hesitating
-heartbreak / heartbroken
-horny
+hope / hopeful / optimistic / optimist / optimism
 hostility / hostile
 humiliation / humiliated / humility
+hurt / offended / offense
+hype / hyped
+independence / independent
+insanity / insane
+inspired / inspiration
+interest / interested
 isolation
 jocund / jocundity
+joking / unserious
+jolly / festive / merry
 jovial / joviality
+joy / happy / joyful / happiness / gleeful / glee / glad / gay / joyous
 kindness / kind
+lachrymose / lachrymosity
 laziness / lazy
+lightheaded
+loathe / loathing / loathed
 loneliness / lonely / lonesome / alone
+love / romance
 lovesick / limerence
 loyal / loyalty
 lust / lustful
+melancholy / melancholic / dejection / dejected
+miserable
+misery / suffering / turmoil
 misunderstood / misunderstanding
 motivation / motivated
+mysterious
+neutral / normal / casual
+nostalgia / nostalgic
+numb
 outrage / outrageous
-overwhelmed / overwhelming
+overwhelmed / overwhelming / overstimulated / swoon
+panic / panicked / panicking / anxiety attack / panic attack
+tantrum / breakdown / freakout / hissy / fit / paroxysm
 paranoia / paranoid
+passion / passionate
+patience / patient
+peace / peaceful / tranquil / tranquility / zen
+pensive / pensiveness
 pity / pitiful
+pleased / satisfied / satisfaction
+pleasure
+pride / proud / prideful
+regret / remorse / remorseful
 rejection / rejected
-restless / restlessness
+relaxed / relax / relaxing
 relief / relieved / solace
 remorseless
 resentment / resentful
+restless / restlessness
+reverence / respect
+sadness / sad / blue / upset / unhappy / unhappiness
 sanity
-yearning / longing / saudade / wistful
-self-pity
+sarcasm / sarcastic
+sassy / sass
+schadenfreude
 self-consciousness / self-conscious
+self-pity
+sensitive
+serenity
+serious
+shock / shocked / stunned / surprise / surprised / taken aback
+shy / bashful / bashfulness / coy / diffident / modest / modesty / timid / timidity / awkward / insecure / insecurity
+smug
+social
 solitude
 somber
+sonder
+sorrow
+stressed / stress / stressful / tension / tense / distress / distressed / strain
+submission / submissive / obeyance / meek
 suspicion / suspicious / sus
+sympathy / sympathetic
 thankfulness
 thrill
+tired / exhausted / sleepy / eepy / exhaustion / weary
 trauma
+trust
+understanding
 uneasy
 unsure
+valence
+vigilance / ready / readiness / vigilant
 woe / woeful
+yearning / longing / saudade / wistful
 zeal
-cringe
 
 [lgbtq+]
 = sexuality / gender / orientation / sex / identity / lgbt / lgbtq / lgbtqi / lgbtqia / lgbtqia+ / glbt / lgb
@@ -19421,14 +19986,19 @@ cringe
 a-spec
 abroromantic
 abrosexual / abro
-achillean
+achillean / vincian
+apagender / inersgender / anvisgender
 cupioromantic
 aegoromantic
 lunarian
 endogender
+aceflux
+afamilial
 genderfox
 abigender
 stonewall
+polyromantic / plyromantic / poliromantic
+agenderfluid
 genderpunk / genderfuck
 almondsexual / verian
 bara
@@ -19438,25 +20008,40 @@ berrisexual
 aegosexual
 monosexual
 heterosexual / straight / hetero
-cisgender
+heteroromantic
+orchidsexual
+aroaceflux / aflux
+frayromantic
+fraysexual
+librafeminine / librafem / librawoman / libragirl / librafemme
+libramasculine / libramasc / libraman / libraboy
+libragender
+cisgender / cissexual
 catgender
 doggender / dogender / pupgender
 transbian
+nmlnm
+nwlnw
 autosexual
 sapiosexual
 skoliosexual
+skolioromantic
+aesthetigender
+demiflux
 dysmorphia
 kingender
 pomosexual
 cishet
 afab
+agab
 agender
 polysexual
 gender envy
 alloromantic
 mpreg
 allosexual / allo
-ally
+ally / allyship
+berrigender
 transneutral / transneu
 biromantic
 hetslop
@@ -19484,6 +20069,10 @@ demigender
 demigirl
 demiromantic
 demisexual / demi
+demienby / deminonbinary
+genderfloren / genderflor
+homoromantic
+lithromantic
 diamoric
 drag
 dysphoria
@@ -19563,8 +20152,13 @@ neptunic
 neuter / neutrois
 nofinsexual
 nominsexual
-non-binary / enby / nb
-non-conforming / gnc
+non-binary / enby / nb / ningender
+non-conforming / gnc / nonconformity
+noungender
+oxigender
+trisexual
+arogender
+saturnic
 noninsexual
 omniromantic
 omnisexual
@@ -19580,6 +20174,7 @@ queer
 questioning
 quoiromantic
 sapphic / sappho
+sapphillean
 stargender
 fictosexual
 fictoromantic
@@ -19589,16 +20184,24 @@ aceallo
 mlnb
 nblm
 nblw
+nblnb
 wlnb
+gaybian
+lesboy
+rosboy
+transxenine
 solaric
 stellaric
 t4t / tft
 tomboy
 toric
 transfem / transfeminine / trans girl / trans woman / mtf / femtrans
-masculine / masculinity
-feminine / femininity
-transgender / trans / transitioning / transsexual
+fudanshi
+interbinary
+recipromantic
+masculine / masculinity / mingender
+feminine / femininity / fingender
+transgender / trans / transitioning / transsexual / transexual / transvestite
 transmasc / transmasculine / trans boy / trans guy / trans man / ftm / masctrans
 trigender
 trixic
@@ -19625,7 +20228,7 @@ autophobia / monophobia / being alone / loneliness
 claustrophobia / small spaces
 coulrophobia / clowns
 cynophobia / dogs
-dentophobia / dentists
+dentophobia / odontophobia / dentists
 thanatophobia / death
 eisoptrophobia / mirrors
 emetophobia / vomit
@@ -19653,6 +20256,13 @@ fomo / missing out
 megalophobia / big objects / large objects
 nomophobia / phoneless / no phone
 unknown
+apiophobia / apiphobia / melissophobia / bees
+submechanophobia "the fear of submerged manmade objects"
+triskaidekaphobia "okay.. i wouldn't say this is **common**"
+tetraphobia "a common superstition in Asia"
+commitment
+gerascophobia / aging
+somniphobia
 
 [numbers]
 & funny numbers
@@ -19795,6 +20405,7 @@ forty-seven / 47
 17776 / 20020
 413 / four-thirteen "> Type word."
 3735928559 "DEADBEEF"
+143 "i love you too, as a friend"
 
 [characters]
 = graphemes
@@ -19803,13 +20414,14 @@ forty-seven / 47
 & arabic letters
 & symbols
 
-[letters] q|w|r|t|y|u|i/ı/İ|o|p|a|d|f|g|h/aitch/haitch|j|k|l|z/zed|x|c|v|b|n|m
+[letters] q|w|r|t|y|u|i/ı/İ|o|p|a|d|f|g|h/aitch/haitch|j|k|l|z/zed|x|c|v|n|m
+b "is this a GD reference?"
 e "the most common letter in English"
 s "more English words begin with this letter than any other"
 á|å|ä|à|ã|æ|ç|é|ë|è|ï|ñ|ó|ö|õ|ø|ü|µ|œ|ú|í|â|ā|ē|ī|ō|ū|ê|ô|ò|ù|û|ń|ǎ|ă|ą|ć
 î|ý|č|ę|ž|ł|ė|š|ň|ż|ő|ğ|ű|ļ|ź|ŵ|ť|į|ś|ş|ů|ÿ|ċ|ě|ț|ľ|ď|ħ|ġ
 eszett / ß
-thorn / þorn / Þ
+thorn / þorn / Þ / th
 eth / edh / Ð
 wynn / wyn / wynne / ƿ / ƿynn / ƿyn
 ampersand / && "this was once part of the english alphabet"
@@ -19882,7 +20494,7 @@ ya' / ya / yaa / ي
 hamzah / hamza / ء
 
 [symbols]
-= punctuation, special characters
+= punctuation / special characters
 & diacritics
 period / full stop / .
 semicolon / ; ";)"
@@ -19999,12 +20611,17 @@ pogs / milk caps
 crossword
 pathfinder
 apples to apples
+belote
 buckaroo
+coup
+taco cat goat cheese pizza
+the campaign for north africa / cna
 connect four / connect 4
 hotel
 labyrinth
 mouse trap
 cards against humanity
+diplomacy
 catan / settlers of catan
 checkers "you play checkers.. i play wordslop"
 chess
@@ -20079,6 +20696,7 @@ rimworld
 grow a garden
 astro bot
 teardown
+pikuniku
 toontown
 webfishing
 cookie clicker
@@ -20314,7 +20932,7 @@ spongebob / battle for bikini bottom
 spyro
 stanley parable
 star fox
-stardew valley
+stardew valley / stardew
 steal a brainrot
 street fighter
 subnautica
@@ -20405,6 +21023,7 @@ anime
 chiikawa
 blame!
 arcane
+yu-gi-oh! / yu-gi-oh
 ateez
 the loud house
 one direction / 1d
@@ -20420,7 +21039,7 @@ mickey mouse / mickey
 vocaloid / utauloid / utau / vocal synth
 rick and morty
 dandy's world / dandy
-lesbian space princess / lsp
+lesbian space princess / lsp "just this once?"
 dungeons & dragons / dnd / d&d
 avatar / the last airbender / atla
 tron
@@ -20444,7 +21063,7 @@ metallica
 gravity falls
 xkcd
 game of thrones
-muppets
+muppets / kermit
 enhypen
 babymonster
 my chemical romance / mcr
@@ -20539,7 +21158,7 @@ naruto / boruto
 newjeans
 nmixx
 octonauts
-one piece "it's real!"
+one piece / luffy "it's real!"
 pingu "noot noot"
 protogen
 sailor moon
@@ -20586,6 +21205,7 @@ brave new world
 crime and punishment
 the jungle book
 of mice and men
+a farewell to arms "there's no way you read that"
 catch-22
 treasure island
 charlotte's web
@@ -20720,7 +21340,7 @@ appeal to motive
 non sequitur
 association / guilt by association / honor by association
 argument from belief
-personal incredulity / incredulity / argument from incredulity / appeal to common sense / divine
+argument from incredulity / personal incredulity / incredulity / appeal to common sense / divine
 proof by example
 biased sample
 accident
@@ -20771,6 +21391,7 @@ situation "the slop situation is crazy"
 aerial tramway / 🚡
 flying gorilla
 scunthorpe "watch your language!"
+narwhal
 diva
 ppap "**pen** **pineapple** **apple** pen!"
 cuh
@@ -20882,7 +21503,7 @@ mango "mango.. mango.. mango.."
 brainrot
 brr patapim / brr batipim
 bruh / bruv "this is a ^ moment"
-brochacho / brotato
+brochacho / brotato / broski
 bussin'
 calc "is that slang?"
 cap / no cap / capping "on god?"
@@ -21195,6 +21816,7 @@ psychophysicotherapeutics / psychophysicotherapeutically
 hyperapobetalipoproteinemia
 hexakosioihexekontahexaphobia
 fluorotetraferriphlogopite
+nonanonacontanonactanonaliagon
 
 [types of words]
 = parts of speech / part of speech / grammar / word types
@@ -21205,8 +21827,12 @@ adverb
 antonym / opposite
 aptronym / aptonym / euonym
 article
+adjunct
 auxiliary
 isogram
+ambigram
+connective / transition / transitional
+zoomorphism
 jawbreaker
 term / jargon
 circumposition
@@ -21262,7 +21888,11 @@ homograph / homoglyph
 logograph / logogram
 homophone
 intensifier
-interjection / exclamation
+interjection / exclamation / exclamitive / exclamatory
+argot
+calque
+eggcorn
+heterological
 interrogative
 loanword / loan
 name
@@ -21302,7 +21932,7 @@ synonym / alias
 pseudonym
 nickname
 surname
-swear / cuss / bad / naughty / dirty
+swear / cuss / bad / naughty / dirty / obscenity
 slur
 autological / homological
 typo / misspelling / mispelling
@@ -21319,6 +21949,9 @@ anthimeria
 antiphrasis
 anecdote
 cliché
+entendre
+double entendre
+triple entendre
 apostrophe
 imagery
 idiom
@@ -21327,6 +21960,7 @@ parable
 antithesis
 apposition
 assonance
+safdjhafjdsh
 asyndeton
 auxesis
 brachylogy / brachylogia
@@ -21558,6 +22192,8 @@ meta "this is so meta"
 wordslopper / slopper "that's you!"
 blurb "this, for example"
 selfie
+hardcore "up for a challenge? type **/hardcore**"
+bachunawa
 
 
 ### TODO
@@ -21689,6 +22325,16 @@ SPA.data.selfies = {
       name: "quoth the sloppy",
       author: "CeruBeDrawing",
       url: "https://x.com/CeruBeDrawing",
+   },
+   f4: {
+      file: "sloppy-f4.png",
+      name: "i'm done with you.",
+      author: "devi_x"
+   },
+   f5: {
+      file: "sloppy-f5.png",
+      name: "r u slopping me",
+      author: "RiftedInk"
    },
 }
 
