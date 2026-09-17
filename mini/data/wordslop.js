@@ -22195,48 +22195,6 @@ selfie
 hardcore "up for a challenge? type **/hardcore**"
 bachunawa
 
-
-### TODO
-
-[cities]
-las vegas / vegas
-los angeles "also known as El Pueblo de Nuestra Senora la Reina de los Angeles de Porciuncula"
-chicago
-düsseldorf
-albuquerque
-vancouver
-newark
-pittsburgh
-miami
-
-tahiti
-
-
-
-pixel
-sprite / texture
-hyperfixation / hyperfixate / hyperfix
-linux
-geek / nerd
-
-
-[programming]
-= coding / development
-ui
-ux
-
-[apples]
-
-[seas]
-
-Greek Letters (alpha+unicode), Film Genres
-
-[homophones]
-"say both **homophone**s to complete their set!"
-flower / flour
-
-###
-
 `;
 
 SPA.data.themes = {
