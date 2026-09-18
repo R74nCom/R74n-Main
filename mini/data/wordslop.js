@@ -7970,7 +7970,7 @@ rambutan
 redcurrant
 rose apple
 salal berry
-salak
+salak / snake fruit
 santol
 sapodilla / chikoo / chicozapote / chico / chicoo / chicle / naseberry / nispero / soapapple
 sapote
@@ -21960,7 +21960,6 @@ parable
 antithesis
 apposition
 assonance
-safdjhafjdsh
 asyndeton
 auxesis
 brachylogy / brachylogia
