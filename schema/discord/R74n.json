@@ -1,9 +1,27 @@
-{ "component":
-    {
+{
+	"component": {
         "type": 17,
         "accent_color": 65535,
         "spoiler": false,
         "components": [
+            {
+                "type": 9,
+                "accessory": {
+                    "type": 11,
+                    "media": {
+                        "url": "https://r74n.com/icons/favicon.png",
+                        "proxy_url": "https://r74n.com/icons/favicon.png"
+                    },
+                    "description": "Logo",
+                    "spoiler": false
+                },
+                "components": [
+                    {
+                        "type": 10,
+                        "content": "## **[R74n](https://r74n.com/)**\nCollection of web projects, experiences, and tools from the developer of Sandboxels.\n"
+                    }
+                ]
+            },
             {
                 "type": 1,
                 "components": [
