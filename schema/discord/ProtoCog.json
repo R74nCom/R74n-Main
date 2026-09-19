@@ -9,8 +9,8 @@
 				"accessory": {
 					"type": 11,
 					"media": {
-						"url": "https://r74n.com/icons/favicon.png",
-						"proxy_url": "https://r74n.com/icons/favicon.png"
+						"url": "https://r74n.com/mini/art/protocog/icon.png",
+						"proxy_url": "https://r74n.com/mini/art/protocog/icon.png"
 					},
 					"description": null,
 					"spoiler": false
@@ -18,7 +18,7 @@
 				"components": [
 					{
 						"type": 10,
-						"content": "## **[R74n](https://r74n.com/)**\nCollection of web projects, experiences, and tools from the developer of Sandboxels. <a:PETTHER74n:1079247196760846407>"
+						"content": "## **[ProtoCog](https://r74n.com/mini/protocog)**\nThis is the future. Train your very own coglet today!"
 					}
 				]
 			},
@@ -28,26 +28,18 @@
 					{
 						"type": 2,
 						"style": 5,
-						"label": "Sandboxels",
+						"label": "Raise a Coglet",
 						"emoji": null,
 						"disabled": false,
-						"url": "https://r74n.com/sandboxels/"
+						"url": "https://r74n.com/mini/protocog"
 					},
 					{
 						"type": 2,
 						"style": 5,
-						"label": "Wordslop",
+						"label": "More Games",
 						"emoji": null,
 						"disabled": false,
-						"url": "https://r74n.com/mini/wordslop"
-					},
-					{
-						"type": 2,
-						"style": 5,
-						"label": "GenTown",
-						"emoji": null,
-						"disabled": false,
-						"url": "https://r74n.com/gentown/"
+						"url": "https://r74n.com/"
 					},
 					{
 						"type": 2,

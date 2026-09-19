@@ -9,8 +9,8 @@
 				"accessory": {
 					"type": 11,
 					"media": {
-						"url": "https://r74n.com/icons/favicon.png",
-						"proxy_url": "https://r74n.com/icons/favicon.png"
+						"url": "https://r74n.com/mini/spotlight-handwriting.png",
+						"proxy_url": "https://r74n.com/mini/spotlight-handwriting.png"
 					},
 					"description": null,
 					"spoiler": false
@@ -18,7 +18,7 @@
 				"components": [
 					{
 						"type": 10,
-						"content": "## **[R74n](https://r74n.com/)**\nCollection of web projects, experiences, and tools from the developer of Sandboxels. <a:PETTHER74n:1079247196760846407>"
+						"content": "## **[Handwriting Personality Test](https://r74n.com/mini/handwriting)**\nDetermine your personality type based on your preferred handwriting styles!"
 					}
 				]
 			},
@@ -28,26 +28,18 @@
 					{
 						"type": 2,
 						"style": 5,
-						"label": "Sandboxels",
+						"label": "Take the Test",
 						"emoji": null,
 						"disabled": false,
-						"url": "https://r74n.com/sandboxels/"
+						"url": "https://r74n.com/mini/handwriting"
 					},
 					{
 						"type": 2,
 						"style": 5,
-						"label": "Wordslop",
+						"label": "More Games",
 						"emoji": null,
 						"disabled": false,
-						"url": "https://r74n.com/mini/wordslop"
-					},
-					{
-						"type": 2,
-						"style": 5,
-						"label": "GenTown",
-						"emoji": null,
-						"disabled": false,
-						"url": "https://r74n.com/gentown/"
+						"url": "https://r74n.com/"
 					},
 					{
 						"type": 2,
