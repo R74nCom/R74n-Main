@@ -3809,7 +3809,7 @@ manual
 algivore
 carnivore
 cannibalism / cannibal
-florivor
+florivore
 folivore
 frugivore
 geophagous

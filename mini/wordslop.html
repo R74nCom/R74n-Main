@@ -325,6 +325,9 @@
     flex-direction: row;
     padding: 0;
   }
+  main.noProgress #panel6 {
+    opacity: 0;
+  }
   #col2, #col3 {
     background: rgba(0, 0, 50, 0.2);
     background: var(--t-l-panel-3rd);
@@ -2921,6 +2924,7 @@
     document.querySelectorAll(".needsProgress").forEach(e => {
       e.style.display = currentScore ? "" : "none";
     });
+    SPA.main.classList[hasProgress ? "remove" : "add"]("noProgress");
 
     if (saveData.selfies === undefined) saveData.selfies = {};
 
@@ -3548,6 +3552,7 @@
       document.querySelectorAll(".needsProgress").forEach(e => {
         e.style.display = "";
       });
+      SPA.main.classList.remove("noProgress");
     }
     saveState();
 
