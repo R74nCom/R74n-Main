@@ -2953,7 +2953,7 @@
     word = word.replace(/\s+/g, " ");
     word = word.replace(/[–—]/g, "-");
     word = word.replace(/[“”]/g, "\"");
-    word = word.replace(/[‘’ʻ]/g, "'");
+    word = word.replace(/[‘’]/g, "'");
     word = word.replace(/…/g, "...");
     return word;
   }
@@ -3239,6 +3239,7 @@
         formsToCheck.push(form.replace(/women$/g, "man"));
         
         formsToCheck.push(form.replace(/ /g, ""));
+        formsToCheck.push(form.replace(/ʻ/g, "'"));
 
         // special
         let prefix = form.match(new RegExp(`^(${(
