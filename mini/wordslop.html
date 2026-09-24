@@ -48,7 +48,7 @@
 <div id="col2">
   <div id="panel4">
     <div class="clickable mobileBack">back --&gt;</div>
-    <span class="title">
+    <span class="title noSelect">
       <span class="back">◀</span>
       <img class="doodle clickable needsProgress" id="progressShare" src="../doodle/share.gif">
       <span class="text needsProgress">progress</span>
@@ -78,6 +78,7 @@
   <div id="popup">
     <div class="clickable mobileBack" onclick="closeInspect()">&lt;-- back</div>
     <span class="title">this is a test</span>
+    <!-- <span class="synonyms">meta</span> -->
     <span class="group">meta</span>
     <span class="blurb">this is a fun fact about the word</span>
     <span class="theme clickable noSelect">set theme</span>
@@ -88,7 +89,11 @@
 <div id="col3">
   <div id="panel5">
     <div class="clickable mobileBack">&lt;-- back</div>
-    <span class="title needsProgress"><span class="text">stats</span></span>
+    <span class="title needsProgress noSelect">
+      <img class="doodle needsProgress" id="statsSpacer" src="../doodle/cog.gif">
+      <span class="text">stats</span>
+      <img class="doodle clickable needsProgress" id="statsSettings" src="../doodle/cog.gif">
+    </span>
     <!-- <span class="noSelect"><span>score</span> <span>123</span></span> -->
   </div>
   <div id="panel7">
@@ -103,7 +108,7 @@
       <span class="clickable needsProgress" onclick="saveFile();">save</span>
       <span class="clickable" onclick="loadFile();">load</span>
     </span>
-    <input type="file" id="saveUpload" style="display: none;" accept="application/vnd.R74n.wordslop+json, application/json, .slop, .json">
+    <input type="file" id="saveUpload" style="display: none;" accept="application/vnd.R74n.wordslop+json, .slop, application/json, .json">
     <!-- <span>settings</span> -->
   </div>
 </div>
@@ -134,6 +139,17 @@
   </div>
 </div>
 
+<div id="settingsContainer" class="menu">
+  <div id="settings">
+    <div data-label="typing sounds" data-key="typing" data-choices="true,false" data-default="true"></div>
+    <div data-label="dyslexic mode" data-key="dyslexic" data-choices="true,false" data-default="false"></div>
+    <div data-label="compact mode" data-key="compact" data-choices="true,false" data-default="false"></div>
+    <div data-label="swap new themes" data-key="autotheme" data-choices="true,false" data-default="true"></div>
+    <div data-label="show Sloppy" data-key="showsloppy" data-choices="true,false" data-default="true"></div>
+    <div data-label="synonym progress" data-key="synonyms" data-choices="true,false" data-default="false"></div>
+  </div>
+</div>
+
 
 <style>
   @font-face {
@@ -144,6 +160,16 @@
   @font-face {
     font-family: "Comic";
     src: url("fonts/ComicRelief-Bold.ttf");
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: "OpenDyslexic";
+    src: url("fonts/OpenDyslexic-Regular.otf");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "OpenDyslexic";
+    src: url("fonts/OpenDyslexic-Bold.otf");
     font-weight: 600;
   }
 
@@ -382,6 +408,7 @@
   }
   #panel4 > span > span {
     word-wrap: break-word;
+    overflow-wrap: anywhere;
   }
   #panel4 > span.title,
   #panel5 > span.title {
@@ -422,8 +449,8 @@
     text-align: right;
     margin-top: 0.25em;
   }
-  #panel4 > span:active,
-  #panel5 > span:active {
+  #panel4 > span.clickable:active,
+  #panel5 > span.clickable:active {
     scale: 1;
   }
   #panel4 > span.clickable:active > span,
@@ -482,17 +509,24 @@
   #panel4 > .title.search > #progressShare {
     display: none;
   }
-  #panel4 > .title > .doodle.clickable:hover {
+  span.title > .doodle.clickable:hover {
     scale: 1.2;
   }
-  #panel4 > .title > .doodle.clickable:active {
+  span.title > .doodle.clickable:active {
     scale: 1;
   }
-  #progressShare {
+  #progressShare, #statsSpacer {
     margin-right: 10px;
   }
-  #progressSearch {
+  #progressSearch, #statsSettings {
     margin-left: 10px;
+  }
+  #statsSpacer {
+    opacity: 0;
+    margin-right: auto;
+  }
+  #statsSettings {
+    margin-left: auto;
   }
   #panel4 > .subtitle {
     text-align: center;
@@ -569,6 +603,17 @@
     font-weight: bold;
     padding: 0;
     margin-bottom: 0;
+  }
+  #popup .synonyms,
+  #panel4 > span .synonym {
+    font-style: italic;
+    flex-shrink: 0;
+  }
+  #popup > .title:has(.titleMain) {
+    font-weight: normal;
+  }
+  #popup .titleMain {
+    font-weight: bold;
   }
   #popup > .group {
     font-style: italic;
@@ -701,6 +746,7 @@
     box-shadow: rgb(0, 0, 0, 0.5) 0px 0px 10px;
     cursor: default;
     flex-direction: column;
+    max-height: 85%;
   }
   #shop > div {
     flex-grow: 1;
@@ -801,7 +847,6 @@
     justify-content: center;
     align-content: space-around;
     gap: 23px;
-    max-height: 85%;
     overflow: scroll;
     padding: 1em;
     margin: 1em;
@@ -839,9 +884,78 @@
     cursor: not-allowed;
   }
 
+  #settings {
+    width: auto;
+    height: auto;
+    flex-grow: 0;
+    translate: 0% -20%;
+    max-width: 90%;
+  }
+  #settings > div {
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-grow: 1;
+    width: calc(100% - 40px);
+    justify-content: space-between;
+    background: var(--t-l-panel-main);
+  }
+  #settings > div span {
+    font-size: 1em;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+  }
+  #settings > div .clickable {
+    transition: none;
+    translate: 0!important;
+  }
+  #settings > div .clickable:active {
+    scale: 0.9;
+  }
+  #settings > div:nth-child(even) {
+    background: var(--t-l-panel-2nd);
+  }
+  #settings .value {
+    font-style: italic;
+  }
+  #settings > .default .value {
+    font-style: normal;
+  }
+  #settings > .on .value {
+    color: var(--t-l-msg-green);
+  }
+  #settings > .off .value {
+    color: var(--t-l-msg-yellow);
+  }
+
+  main[setting-showsloppy="false"] img.sprite {
+    display: none;
+  }
+  main[setting-showsloppy="false"] #panel2 > span {
+    padding-left: 1em;
+  }
+  main[setting-dyslexic="true"] {
+    font-family: "OpenDyslexic", "Comic", Verdana, Geneva, Tahoma, sans-serif;
+  }
+  main[setting-compact="true"] > div > div > span,
+  main[setting-compact="true"] #panel2 > span > span {
+    padding: 2px!important;
+  }
+  main[setting-compact="true"] #panel1 > span {
+    padding: 1em!important;
+  }
+  main[setting-compact="true"] img.sprite {
+    width: 40px;
+  }
+
   @media only screen and (max-width: 700px) {
-    #selfies {
-      max-height: 75%;
+    .menu > div {
+      max-height: 75%!important;
     }
     #selfies .selfie {
       width: 90%;
@@ -975,6 +1089,7 @@
     //   playAudioSafari(name);
     //   return;
     // }
+    if (settings.typing === false && name.startsWith("type")) return;
     const audio = new Audio("audio/"+name+".wav");
     audio.volume = 0.5;
     audio.currentTime = 0;
@@ -1250,6 +1365,7 @@
   }
 
   saveData = null;
+  settings = null;
   skipSaving = false;
   function saveState() {
     if (skipSaving || statGet("score") < 10) return;
@@ -1412,9 +1528,17 @@
       let display = word;
       if (value === true) {}
       else if (Array.isArray(value)) {
-        if (value.includes("_main")) display += " / ";
-        else display = "";
-        display += value.filter(v => v !== "_main").join(" / ");
+        let forms = [];
+        if (value.includes("_main")) forms.push(word);
+        SPA.data.groups[group].words[word].forEach(form => {
+          if (value.includes(form)) forms.push(form);
+        });
+
+        display = forms.join(" / ");
+
+        // if (value.includes("_main")) display += " / ";
+        // else display = "";
+        // display += value.filter(v => v !== "_main").join(" / ");
       }
       if (done[word] === true || done[display] === true) continue;
       found.push([word, display]);
@@ -1487,7 +1611,28 @@
 
   inspecting = null;
   function renderWord(word, group, display) {
-    return `<span class="word${(saveData.changedWords[word] === true || word === saveData.lastUnrecognized) ? ' changed' : ''}" data-word="${escapeHTML(word)}" data-group="${escapeHTML(group)}"><span>${escapeHTML(display || word)}</span></span>`;
+
+    let synonyms = 0;
+    // console.log(SPA.data.groups[group])
+    if (settings.synonyms) {
+      let realGroup = group;
+      if (!saveData.found[group][word]) {
+        for (const group2 in SPA.data.wordIndex[word]) {
+          if (isOfGroup(group2,group) && saveData.found[group2] && saveData.found[group2][word]) {
+            realGroup = group2;
+            value = saveData.found[group2][word];
+            break;
+          }
+        }
+      }
+      let f = saveData.found[realGroup][word];
+      let foundForms = (f === true ? 1 : f.length);
+      let a = SPA.data.groups[realGroup].words[word];
+      let allForms = (a === true ? 1 : a.length);
+      synonyms = allForms - foundForms;
+    }
+
+    return `<span class="word${(saveData.changedWords[word] === true || word === saveData.lastUnrecognized) ? ' changed' : ''}" data-word="${escapeHTML(word)}" data-group="${escapeHTML(group)}"><span>${escapeHTML(display || word)}</span>${synonyms > 0 ? `<span class="synonym">+${synonyms}</span>` : ""}</span>`;
     // `<span data-word="${escapeHTML(word)}" data-group="${escapeHTML(group)}">${escapeHTML(display)}</span>`;
   }
   function inspectWord(word, group) {
@@ -1522,15 +1667,39 @@
       forms.push(word);
     }
     else if (Array.isArray(value)) {
+      let forms2 = [];
+      if (value.includes("_main")) forms2.push(escapeHTML(word));
+      SPA.data.groups[group].words[word].forEach(form => {
+        if (value.includes(form)) forms2.push("<em>"+escapeHTML(form)+"</em>");
+      });
+
+      title = forms2.join(" / ");
+
       if (value.includes("_main")) {
         forms.push(word);
       }
       let aliases = value.filter(v => v !== "_main");
       forms = forms.concat(aliases);
-      if (aliases.length) title = (value.includes("_main") ? escapeHTML(title)+" / " : "")+aliases.map(f => "<em>"+escapeHTML(f)+"</em>").join(" / ");
+      // if (aliases.length) title = (value.includes("_main") ? escapeHTML(title)+" / " : "")+aliases.map(f => "<em>"+escapeHTML(f)+"</em>").join(" / ");
     }
     // display = forms.join(" / ");
-    popup.querySelector(".title").innerHTML = title;
+    let titleSpan = popup.querySelector(".title");
+    titleSpan.innerHTML = title;
+
+    // let synonymSpan = popup.querySelector(".synonyms");
+    // synonymSpan.style.display = "none";
+    if (settings.synonyms) {
+      let f = saveData.found[group][word];
+      let foundForms = (f === true ? 1 : f.length);
+      let a = SPA.data.groups[group].words[word];
+      let allForms = (a === true ? 1 : a.length);
+      let synonyms = allForms - foundForms;
+      if (synonyms > 0) {
+        // synonymSpan.innerText = "+" + synonyms + " more";
+        // synonymSpan.style.display = "";
+        titleSpan.innerHTML = `<span class="titleMain">${titleSpan.innerHTML}</span> &nbsp; <span class="synonyms">+${synonyms}..</span>`
+      }
+    }
 
     let groupSpan = popup.querySelector(".group");
     groupSpan.innerText = group;
@@ -1851,6 +2020,65 @@
     }
   }
 
+  settingValueMap = {"true":true, "false":false, "null":null}
+  settingValueText = {"true":"ON", "false":"OFF", "null":"OFF"}
+  function openSettings() {
+    let menu = document.getElementById("settings");
+
+    document.querySelectorAll("#settings > div").forEach(div => {
+      div.innerHTML = "";
+      div.classList.add("noSelect");
+      div.classList.add("clickable");
+      let label = div.getAttribute("data-label");
+      let key = div.getAttribute("data-key");
+      let choices = div.getAttribute("data-choices").split(",").map(v => {
+        return settingValueMap[v] !== undefined ? settingValueMap[v] : v;
+      });
+      let defaultValue = div.getAttribute("data-default");
+      if (settingValueMap[defaultValue] !== undefined) defaultValue = settingValueMap[defaultValue];
+      let value = defaultValue;
+      if (saveData.settings[key] !== undefined) value = saveData.settings[key];
+
+      // if (value === defaultValue) div.classList.add("default");
+      // else div.classList.remove("default");
+
+      let labelSpan = document.createElement("span");
+      labelSpan.innerText = label;
+      div.appendChild(labelSpan);
+      
+      let buttonSpan = document.createElement("span");
+      // buttonSpan.classList.add("clickable");
+      buttonSpan.classList.add("value");
+      div.appendChild(buttonSpan);
+
+      let update = () => {
+        console.log(value);
+        buttonSpan.innerText = settingValueText[value] || value;
+        div.classList[value === defaultValue ? "add" : "remove"]("default");
+        div.classList[value === true ? "add" : "remove"]("on");
+        div.classList[!value ? "add" : "remove"]("off");
+      };
+      update();
+
+      div.onclick = () => {
+        // value = 
+        let index = (choices.indexOf(value) + 1) % choices.length;
+        value = choices[index];
+        saveData.settings[key] = value;
+        SPA.main.setAttribute("setting-"+key, value);
+        update();
+        updateStats();
+        saveState();
+      }
+
+      // if (choices.length === 2 && choices.includes("true"))
+    })
+
+    menu.style.width = "";
+    openMenu("settings");
+    menu.style.width = (menu.clientWidth+50)+"px"
+  }
+
   hardcore = false;
   function lockInput() {
     saveData.locked = true;
@@ -2000,6 +2228,11 @@
     }
   });
 
+  document.getElementById("statsSettings").addEventListener("click", () => {
+    openSettings();
+  });
+
+
   function normalizeSort(a) {
     return a.replace(/'/g,"");
   }
@@ -2147,9 +2380,16 @@
           let display = word;
           if (value === true) {}
           else if (Array.isArray(value)) {
-            if (value.includes("_main")) display += " / ";
-            else display = "";
-            display += value.filter(v => v !== "_main").join(" / ");
+            let forms = [];
+            if (value.includes("_main")) forms.push(word);
+            SPA.data.groups[group].words[word].forEach(form => {
+              if (value.includes(form)) forms.push(form);
+            });
+
+            // if (value.includes("_main")) display += " / ";
+            // else display = "";
+
+            display = forms.join(" / ");
           }
           let norm = display.replace(/\s/g, "");
           if (norm.match(query)) {
@@ -2199,7 +2439,7 @@
         const percent = groups[group];
         if (percent >= 100) completedGroups++;
         if (percent < 100 && completedDone === false) {
-          console.log(group,percent)
+          // console.log(group,percent)
           completedDone = true;
           if (completedGroups >= 6) {
             html += `<span class="clickable noSelect collapse">${saveData.collapsed ? "completed &gt;" : "^ collapse ^"}</span>`;
@@ -2520,6 +2760,20 @@
       // charms: 0
     }
     if (!saveData.lastInput) saveData.lastInput = [];
+
+    if (!saveData.settings) saveData.settings = {};
+    settings = saveData.settings;
+    const attributes = SPA.main.attributes;
+    let removeAttributes = [];
+    for (let i = 0; i < attributes.length; i++) {
+      const key = attributes[i].name;
+      if (key.match(/^setting-/)) removeAttributes.push(key);
+    }
+    removeAttributes.forEach(key => SPA.main.removeAttribute(key));
+    for (const key in settings) {
+      SPA.main.setAttribute("setting-"+key, settings[key]);
+    }
+
     document.getElementById("panel2").innerHTML = "";
     document.getElementById("panel3").innerHTML = "";
     saveData.messages = saveData.messages.filter(m => m);
@@ -2835,17 +3089,29 @@
         if (form.length >= 6) {
           if (form.endsWith("ing")) {
             formsToCheck.push(form.replace(/ing$/g, ""));
-            formsToCheck.push(form.replace(/ing$/g, "")+"e");
+            formsToCheck.push(form.replace(/ing$/g, "e"));
             if (form[form.length - 4] === form[form.length - 5]) formsToCheck.push(form.replace(/.ing$/g, ""));
           }
           if (form.endsWith("ity")) {
             formsToCheck.push(form.slice(0,-3));
             formsToCheck.push(form.slice(0,-3)+"e");
+            formsToCheck.push(form.slice(0,-3)+"ia");
           }
           if (form.endsWith("ce")) {
             formsToCheck.push(form.slice(0,-1)+"tion");
           }
+          if (form.endsWith("ous")) {
+            formsToCheck.push(form.slice(0,-3));
+            formsToCheck.push(form.slice(0,-3)+"e");
+            formsToCheck.push(form.slice(0,-3)+"y");
+          }
+          formsToCheck.push(form.replace(/sis$/, "size"));
+          formsToCheck.push(form.replace(/sis$/, "tic"));
+          formsToCheck.push(form.replace(/tic$/, "sis"));
+          formsToCheck.push(form.replace(/tic$/, "size"));
         }
+        formsToCheck.push(form.replace(/in'$/g, ""));
+        formsToCheck.push(form.replace(/in'$/g, "e"));
         if (form.length >= 4) {
           formsToCheck.push(form + "ing");
           formsToCheck.push(form + form.slice(-1) + "ing");
@@ -2905,6 +3171,9 @@
           formsToCheck.push(form.replace(/y$/g, "ication"));
           formsToCheck.push(form.replace(/ment$/g, ""));
           formsToCheck.push(form.replace(/ment$/g, "e"));
+          formsToCheck.push(form.replace(/ment$/g, "d"));
+          formsToCheck.push(form.replace(/ment$/g, "ed"));
+          formsToCheck.push(form.replace(/ed$/g, "ment"));
           formsToCheck.push(form.replace(/iest$/g, "y"));
           formsToCheck.push(form.replace(/est$/g, ""));
           if (form.endsWith("est")) formsToCheck.push(form.replace(/est$/g, "").slice(0,-1));
@@ -2934,7 +3203,7 @@
           formsToCheck.push(form + "edness");
           if (form.endsWith("t")) formsToCheck.push(form + "ation");
         }
-        formsToCheck.push(form + ".");
+        // formsToCheck.push(form + ".");
         formsToCheck.push(form.replace(/st\./g, "st"));
         formsToCheck.push(form.replace(/st /g, "st. "));
         formsToCheck.push(form.replace(/st /g, "saint "));
@@ -3105,8 +3374,8 @@
         };
 
         results[group] = [word,alias,isNewAlias];
-        if (SPA.data.themes[word] || SPA.data.themes[alias]) {
-          updateTheme(SPA.data.themes[word] ? word : alias);
+        if (!skipMessage && (SPA.data.themes[word] || SPA.data.themes[alias])) {
+          if (settings.autotheme !== false) updateTheme(SPA.data.themes[word] ? word : alias);
           narrate("theme", "you found a theme! see the word list to swap it out");
         }
         if (base === undefined || base.length < (alias || word).length) base = alias || word;
@@ -3221,7 +3490,7 @@
             }
           }
         })
-        if (bestWord) {
+        if (bestWord && bestScore && (saveData.found[bestGroup] && !saveData.found[bestGroup][bestWord])) {
           logMessage(`pssst.. that was **${formatNumber(bestScore)} letter${bestScore === 1 ? "" : "s"}** away from something in **${bestGroup}**..`, 1, false, {group: bestGroup});
           saveData.typos[bestWord] = word;
         }
@@ -3498,7 +3767,7 @@
         if (alias.match(/\./)) {
           const form = alias.replace(/\. ?/g,"");
           if (wordIndex[form] === undefined) wordIndex[form] = {};
-          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [alias];
+          if (wordIndex[form][group] === undefined) wordIndex[form][group] = [word, alias];
         }
         if (alias.length >= 5 && alias.length <= 30) {
           if (lengthIndex[alias.length] === undefined) lengthIndex[alias.length] = {};
@@ -3544,6 +3813,10 @@
           searchBox.focus();
           searchBox.value = "";
           e.preventDefault();
+        }
+        else if (e.code === "Backslash") {
+          if (currentMenu === "settings") closeMenu();
+          else openSettings();
         }
         return;
       };
