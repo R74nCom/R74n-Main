@@ -44,6 +44,8 @@
    - disable Sloppy :(
    - show missing synonym count
    - dyslexia-friendly font
+   - disable typing sounds
+   - compact view
 - 500 new words
 - split groups and added new words: baked goods, sweets
 - new groups: ||diets, love languages||

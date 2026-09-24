@@ -2517,7 +2517,7 @@
     html += `<span class="clickable noSelect daily" style="${saveData.lastDaily !== dailyGroup ? "background:var(--t-l-new)" : ""}"><span>DAILY:</span> <span>${dailyGroup}</span></span>`;
     html += `<span style="height:0">&nbsp;</span>`;
     html += `<span class="clickable noSelect hint"><span>hint please!</span> <span class="timer"></span></span>`;
-    if (saveData.theme !== undefined) {
+    if (saveData.lastTheme || saveData.theme) {
       html += `<span style="height:0">&nbsp;</span>`;
       html += `<span class="clickable noSelect theme"><span>theme:</span> <span class="name">${saveData.theme || "off"}</span></span>`;
     }
