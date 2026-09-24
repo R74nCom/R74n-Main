@@ -440,6 +440,9 @@
   #panel5 > span > span:first-child {
     flex-grow: 1;
   }
+  #panel4 > span > span:last-child {
+    flex-shrink: 0;
+  }
   #panel4 > span.meta > span:first-child {
     flex-grow: 0;
   }
@@ -1695,7 +1698,7 @@
       let f = saveData.found[group][word];
       let foundForms = (f === true ? 1 : f.length);
       let a = SPA.data.groups[group].words[word];
-      let allForms = (a === true ? 1 : a.length);
+      let allForms = (a === true ? 1 : a.length+1);
       let synonyms = allForms - foundForms;
       if (synonyms > 0) {
         // synonymSpan.innerText = "+" + synonyms + " more";
