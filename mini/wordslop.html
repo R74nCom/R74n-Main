@@ -1617,7 +1617,7 @@
 
     let synonyms = 0;
     // console.log(SPA.data.groups[group])
-    if (settings.synonyms) {
+    if (settings.synonyms && saveData.found[group] !== undefined) {
       let realGroup = group;
       if (!saveData.found[group][word]) {
         for (const group2 in SPA.data.wordIndex[word]) {
