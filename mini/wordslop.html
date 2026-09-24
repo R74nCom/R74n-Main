@@ -1617,7 +1617,7 @@
 
     let synonyms = 0;
     // console.log(SPA.data.groups[group])
-    if (settings.synonyms && saveData.found[group] !== undefined) {
+    if (settings.synonyms === true && saveData.found[group] !== undefined) {
       let realGroup = group;
       if (!saveData.found[group][word]) {
         for (const group2 in SPA.data.wordIndex[word]) {
@@ -1631,7 +1631,7 @@
       let f = saveData.found[realGroup][word];
       let foundForms = (f === true ? 1 : f.length);
       let a = SPA.data.groups[realGroup].words[word];
-      let allForms = (a === true ? 1 : a.length);
+      let allForms = (a === true ? 1 : a.length+1);
       synonyms = allForms - foundForms;
     }
 
