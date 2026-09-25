@@ -15676,6 +15676,7 @@ arch
 artix
 bazzite
 blackarch
+android
 bsd
 chromeos / chrome / chromebook
 cachyos
@@ -15693,7 +15694,7 @@ aix
 solaris
 templeos / temple
 gentoo
-ios
+ios / ipodos / ipados / watchos / tvos / visionos
 kali
 kubuntu
 lfs
