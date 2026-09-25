@@ -573,6 +573,14 @@
   #panel4.collapsed .collapse {
     font-size: 0.9em;
   }
+  #panel4 > .filter {
+    text-align: right;
+    align-self: end;
+    font-size: 0.8em;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0.8;
+  }
 
   #saveControls > span::after {
     content: " • ";
@@ -947,6 +955,8 @@
   }
   main[setting-dyslexic="true"] {
     font-family: "OpenDyslexic", "Comic", Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.9em;
+    letter-spacing: -2px;
   }
   main[setting-compact="true"] > div > div > span,
   main[setting-compact="true"] #panel2 > span > span {
@@ -1526,7 +1536,7 @@
     });
     return found;
   }
-  function getGroupFoundList(group, done) {
+  function getGroupFoundList(group, done, includeSubsets=true) {
     done = done || {};
     let found = [];
     if (saveData.found[group]) for (const word in saveData.found[group]) {
@@ -1551,7 +1561,7 @@
       done[word] = true;
       done[display] = true;
     };
-    if (SPA.data.groups[group].subsets) SPA.data.groups[group].subsets.forEach(subset => {
+    if (SPA.data.groups[group].subsets && includeSubsets===true) SPA.data.groups[group].subsets.forEach(subset => {
       found = found.concat(getGroupFoundList(subset, done));
     });
     return found;
@@ -1694,7 +1704,7 @@
 
     // let synonymSpan = popup.querySelector(".synonyms");
     // synonymSpan.style.display = "none";
-    if (settings.synonyms) {
+    if (settings.synonyms === true && saveData.found[group] !== undefined) {
       let f = saveData.found[group][word];
       let foundForms = (f === true ? 1 : f.length);
       let a = SPA.data.groups[group].words[word];
@@ -2321,8 +2331,13 @@
       }
       else {
         if (SPA.data.groups[selectedGroup].desc) html += `<span class="desc">${escapeHTML(SPA.data.groups[selectedGroup].desc).replace(/\*/g,"")}</span>`
-        items = getGroupFoundList(selectedGroup);
+        items = getGroupFoundList(selectedGroup, undefined, saveData.filterSub !== true);
       }
+
+      if (SPA.data.groups[selectedGroup] && SPA.data.groups[selectedGroup].subsets) {
+        html += `<span class="clickable filter" onclick="saveData.filterSub = !saveData.filterSub; updateStats(); saveState()">${saveData.filterSub ? "show" : "hide"} subgroups</span>`;
+      }
+
       items.sort((a,b) => {
         return normalizeSort(a[1]).localeCompare( normalizeSort(b[1]) );
       })
@@ -2959,8 +2974,8 @@
   }
   function sendWord(word, skipMessage) {
     if (saveData.locked) {
-      playAudio("boo");
-      return;
+      if (!skipMessage) playAudio("boo");
+      return false;
     }
 
     if ((!word || word === mainInput.value) && mainInput.value) {
@@ -3061,7 +3076,7 @@
         let form = split.slice(i, targetLength+i);
         if (form.length !== targetLength) break;
         form = form.join(" ");
-        mainForms.push(form);
+        // mainForms.push(form);
         formsToCheck.push(form);
 
         if (form.length < 4) {}
@@ -3237,6 +3252,18 @@
         formsToCheck.push(form.replace(/woman$/g, "man"));
         formsToCheck.push(form.replace(/women$/g, "woman"));
         formsToCheck.push(form.replace(/women$/g, "man"));
+        formsToCheck.push(form.replace(" ", "s "));
+        formsToCheck.push(form.replace(" ", "es "));
+        formsToCheck.push(form.replace("y ", "ies "));
+        formsToCheck.push(form.replace("s ", " "));
+        formsToCheck.push(form.replace("es ", " "));
+        formsToCheck.push(form.replace("ies ", "y "));
+        formsToCheck.push(form.replace(/tre$/, "ter"));
+        formsToCheck.push(form.replace(/tre /, "ter "));
+        formsToCheck.push(form.replace(/tres$/, "ters"));
+        formsToCheck.push(form.replace(/tres /, "ters "));
+        formsToCheck.push(form.replace(/tres$/, "ter"));
+        formsToCheck.push(form.replace(/tres /, "ter "));
         
         formsToCheck.push(form.replace(/ /g, ""));
         formsToCheck.push(form.replace(/ʻ/g, "'"));
