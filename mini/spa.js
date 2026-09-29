@@ -7,6 +7,7 @@ window.SPA = {
 	},
 	init: () => {
 		SPA._loaded = true;
+		SPA.headerAlwaysMin = SPA.header.classList.contains("min");
 		if (!SPA.pages.length) SPA.pages = SPA.main.querySelectorAll(".page");
 		if (SPA.pages.length) {
 			SPA.currentPage = SPA.main.querySelector('.page[data-current="true"]');
@@ -19,7 +20,7 @@ window.SPA = {
 		if (!SPA._paths && SPA.currentPage) {
 			SPA.main.addEventListener("scroll", (e) => {
 				if (SPA.main.scrollTop === 0) {
-					SPA.header.classList.remove("min");
+					if (!SPA.headerAlwaysMin) SPA.header.classList.remove("min");
 				}
 				else if (SPA.main.scrollTop >= SPA.main.clientHeight / 2 && !SPA.header.classList.contains("min")) {
 					SPA.header.classList.add("min");
@@ -37,8 +38,11 @@ window.SPA = {
 		}
 		SPA.controls = document.querySelector(".spa > .content > .controls");
 		if (document.body.classList.contains("clicky")) {
+			const AudioContext = window.AudioContext || window.webkitAudioContext;
+			const audioCtx = new AudioContext();
 			SPA.click = (e) => {
 				if (SPA._clicked) return;
+				audioCtx;
 				SPA._clicked = true;
 				var audio = new Audio('tap1.wav');
 				audio.play();
@@ -47,6 +51,7 @@ window.SPA = {
 			}
 			SPA.unclick = (e) => {
 				SPA._clicked = false;
+				audioCtx;
 				var audio = new Audio('tap2.wav');
 				audio.play();
 				e.stopPropagation();
@@ -269,7 +274,9 @@ window.SPA = {
 	checkPage: () => {
 		if (SPA._paths) {
 			let index = [...SPA.pages].indexOf(SPA.currentPage);
-			if (index <= 0) SPA.header.classList.remove("min");
+			if (index <= 0) {
+				if (!SPA.headerAlwaysMin) SPA.header.classList.remove("min");
+			}
 			else SPA.header.classList.add("min");
 
 			if (!SPA.controls) return;

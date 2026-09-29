@@ -2393,13 +2393,19 @@
       query = new RegExp(query, "gi");
 
       title.classList.add("search");
+      let count = 0;
       let results = {};
       for (const group in saveData.found) {
+        if (count >= 100) break;
         results[group] = {};
         for (const word in saveData.found[group]) {
           let value = saveData.found[group][word];
           let display = word;
-          if (value === true) {}
+          if (value === true) {
+            if (word.replace(/\s/g, "").match(query)) {
+              results[group][word] = display;
+            }
+          }
           else if (Array.isArray(value)) {
             let forms = [];
             if (value.includes("_main")) forms.push(word);
@@ -2415,6 +2421,7 @@
           let norm = display.replace(/\s/g, "");
           if (norm.match(query)) {
             results[group][word] = display;
+            count ++;
           }
         }
         if (!Object.keys(results[group]).length && !group.match(query)) delete results[group];
@@ -3063,7 +3070,7 @@
     let mainForms = [word];
     let formsToCheck = [];
     let isSpecial = {};
-
+    
     let split = word.split(" ");
     let baseLength = split.length;
     if (baseLength >= 4) {
@@ -3131,6 +3138,7 @@
           formsToCheck.push(form.replace(/sis$/, "tic"));
           formsToCheck.push(form.replace(/tic$/, "sis"));
           formsToCheck.push(form.replace(/tic$/, "size"));
+          formsToCheck.push(form.replace(/sis$/, "ze"));
         }
         formsToCheck.push(form.replace(/in'$/g, ""));
         formsToCheck.push(form.replace(/in'$/g, "e"));
@@ -3145,8 +3153,20 @@
           formsToCheck.push(form + "ence");
           formsToCheck.push(form + "ment");
         }
-        if (form.length >= 3 && form.endsWith("y")) {
-          formsToCheck.push(form.slice(0,-1) + "ies");
+        if (form.length >= 5) {
+          formsToCheck.push(form.replace(/ly$/g, ""));
+          if (form.endsWith("er")) {
+            formsToCheck.push(form.replace(/er$/g, ""));
+            if (form[form.length-3] === form[form.length-4]) formsToCheck.push(form.replace(/.er$/g, ""));;
+          }
+          formsToCheck.push(form + "ist");
+          formsToCheck.push(form + "ism");
+          formsToCheck.push(form + "istic");
+          formsToCheck.push(form.replace(/our/g, "or"));
+        }
+        if (form.length >= 3) {
+          if (form.endsWith("y")) formsToCheck.push(form.slice(0,-1) + "ies");
+          formsToCheck.push(form + "ful");
         }
         formsToCheck.push(form.replace(/ice$/g, "ouse"));
         formsToCheck.push(form.replace(/ouse$/g, "ice"));
@@ -3196,9 +3216,6 @@
           formsToCheck.push(form.replace(/ment$/g, "d"));
           formsToCheck.push(form.replace(/ment$/g, "ed"));
           formsToCheck.push(form.replace(/ed$/g, "ment"));
-          formsToCheck.push(form.replace(/iest$/g, "y"));
-          formsToCheck.push(form.replace(/est$/g, ""));
-          if (form.endsWith("est")) formsToCheck.push(form.replace(/est$/g, "").slice(0,-1));
           formsToCheck.push(form.replace(/ful$/g, ""));
           formsToCheck.push(form.replace(/fulness$/g, ""));
           formsToCheck.push(form.replace(/ity$/g, ""));
@@ -3207,6 +3224,8 @@
           formsToCheck.push(form.replace(/ibility$/g, "ible"));
           formsToCheck.push(form.replace(/fully$/g, "ful"));
           formsToCheck.push(form.replace(/ful$/g, "fully"));
+          formsToCheck.push(form.replace(/fully$/g, ""));
+          formsToCheck.push(form.replace(/ful$/g, ""));
           formsToCheck.push(form.replace(/al$/g, "ality"));
           formsToCheck.push(form.replace(/zation$/g, "ze"));
           formsToCheck.push(form.replace(/sation$/g, "se"));
@@ -3219,6 +3238,16 @@
           formsToCheck.push(form.replace(/e$/g, "ing"));
           formsToCheck.push(form.replace(/ation$/g, ""));
           formsToCheck.push(form.replace(/ence$/g, ""));
+          formsToCheck.push(form.replace(/ier$/g, "y"));
+          if (form.endsWith("est")) {
+            formsToCheck.push(form.replace(/est$/g, ""));
+            formsToCheck.push(form.replace(/iest$/g, "y"));
+            formsToCheck.push(form.replace(/iest$/g, ""));
+            if (form[form.length-4] === form[form.length-5]) formsToCheck.push(form.replace(/.est$/g, ""));;
+          }
+          formsToCheck.push(form.replace(/ally$/g, ""));
+          formsToCheck.push(form.replace(/ally$/g, "ly"));
+          formsToCheck.push(form.replace(/ly$/g, "ally"));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");
@@ -3264,6 +3293,12 @@
         formsToCheck.push(form.replace(/tres /, "ters "));
         formsToCheck.push(form.replace(/tres$/, "ter"));
         formsToCheck.push(form.replace(/tres /, "ter "));
+        formsToCheck.push(form.replace(/^a/, "a "));
+        formsToCheck.push(form.replace(/^an/, "an "));
+        formsToCheck.push(form.replace(/^the/, "the "));
+        formsToCheck.push(form.replace(/ and /, "/"));
+        formsToCheck.push(form.replace(/ ?\/ ?/, " and "));
+        formsToCheck.push(form.replace(/ ?\/ ?/, " & "));
         
         formsToCheck.push(form.replace(/ /g, ""));
         formsToCheck.push(form.replace(/ʻ/g, "'"));
@@ -3284,14 +3319,17 @@
     }
 
     let forms = {};
+    // console.log("word:",word)
     forms[word] = true;
+    // console.log(1,forms)
     mainForms.forEach(f => {
       if (!f) return;
       forms[f] = true;
     })
+    // console.log(2,forms)
     formsToCheck.sort((a,b) => b.length - a.length).forEach(f => {
       if (!f) return;
-      // if (forms[f] === true) return;
+      if (forms[f] === true) return;
       // console.log(2,JSON.stringify(forms))
       forms[f] = true;
       if (forms["a "+f] === true) return;
