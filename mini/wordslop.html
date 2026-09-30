@@ -409,9 +409,12 @@
     /* word-break: break-word; */
     background-color: var(--t-l-panel-3rd);
   }
-  #panel4 > span > span {
+  #panel4 > span > span,
+  #panel5 > span > span {
     word-wrap: break-word;
     overflow-wrap: anywhere;
+    hyphens: auto;
+    hyphenate-character: "~";
   }
   #panel4 > span.title,
   #panel5 > span.title {
@@ -2850,18 +2853,19 @@
       if (SPA.data.wordIndex[word] !== undefined) {
         let r = sendWord(word, true);
         if (r === false) continue;
+        let rescued = r === true ? word : (r||word);
         if (givenWords === 0) logMessage("JUST ADDED:", 2);
         givenWords ++;
         statAdd("rescued", 1);
         if (saveData.lastSubmit > 0) saveData.lastSubmit --;
-        for (const group in SPA.data.wordIndex[word] ) {
-          logMessage(`+${group} (${word})`, 2, undefined, {fade: false, group:group});
+        for (const group in (SPA.data.wordIndex[rescued]||SPA.data.wordIndex[word]) ) {
+          logMessage(`+${group} (${rescued||word})`, 2, undefined, {fade: false, group:group});
         }
         delete saveData.unrecognized[word];
         for (const group in saveData.changedGroups) changedGroups[group] = true;
         changedGroups.rescued = true;
-        changedWords[word] = true;
-        saveData.rescued.push(word);
+        changedWords[rescued] = true;
+        saveData.rescued.push(rescued);
       }
     }
     const currentVersion = SPA.data.news.length;
@@ -3114,6 +3118,10 @@
             formsToCheck.push(form.slice(0,-1)+"s");
             if (form[form.length-2] === form[form.length-3]) formsToCheck.push(form.slice(0,-2));
           }
+          formsToCheck.push(form.replace(/[^ \-]ae[^ \-]/g, (m) => m.replace("ae","e")));
+          formsToCheck.push(form.replace(/ae$/g, "a"));
+          formsToCheck.push(form.replace(/ium$/g, "ia"));
+          formsToCheck.push(form.replace(/ia$/g, "ium"));
         }
         if (form.length >= 6) {
           if (form.endsWith("ing")) {
@@ -3133,12 +3141,19 @@
             formsToCheck.push(form.slice(0,-3));
             formsToCheck.push(form.slice(0,-3)+"e");
             formsToCheck.push(form.slice(0,-3)+"y");
+            formsToCheck.push(form.replace(/uous$/, ""));
+            formsToCheck.push(form.replace(/ious$/, "ion"));
+            formsToCheck.push(form.replace(/ious$/, "y"));
           }
+          formsToCheck.push(form.replace(/uously$/, ""));
           formsToCheck.push(form.replace(/sis$/, "size"));
           formsToCheck.push(form.replace(/sis$/, "tic"));
           formsToCheck.push(form.replace(/tic$/, "sis"));
           formsToCheck.push(form.replace(/tic$/, "size"));
           formsToCheck.push(form.replace(/sis$/, "ze"));
+          formsToCheck.push(form.replace(/stic$/g, "st"));
+          formsToCheck.push(form.replace(/ical$/g, ""));
+          formsToCheck.push(form.replace(/ic$/g, ""));
         }
         formsToCheck.push(form.replace(/in'$/g, ""));
         formsToCheck.push(form.replace(/in'$/g, "e"));
@@ -3152,6 +3167,8 @@
           formsToCheck.push(form.replace(/ted$/g, "te"));
           formsToCheck.push(form + "ence");
           formsToCheck.push(form + "ment");
+          formsToCheck.push(form.replace(/a$/g, "ae"));
+          formsToCheck.push(form.replace(/ice$/g, "ouse"));
         }
         if (form.length >= 5) {
           formsToCheck.push(form.replace(/ly$/g, ""));
@@ -3163,15 +3180,18 @@
           formsToCheck.push(form + "ism");
           formsToCheck.push(form + "istic");
           formsToCheck.push(form.replace(/our/g, "or"));
+          formsToCheck.push(form.replace(/ouse$/g, "ice"));
+          formsToCheck.push(form.replace(/oose$/g, "eese"));
+          formsToCheck.push(form.replace(/eese$/g, "oose"));
+          formsToCheck.push(form.replace(/sing/g, "zing"));
+          formsToCheck.push(form.replace(/zing/g, "sing"));
         }
         if (form.length >= 3) {
           if (form.endsWith("y")) formsToCheck.push(form.slice(0,-1) + "ies");
           formsToCheck.push(form + "ful");
+          formsToCheck.push(form.replace(/ze/g, "se"));
+          formsToCheck.push(form.replace(/se/g, "ze"));
         }
-        formsToCheck.push(form.replace(/ice$/g, "ouse"));
-        formsToCheck.push(form.replace(/ouse$/g, "ice"));
-        formsToCheck.push(form.replace(/oose$/g, "eese"));
-        formsToCheck.push(form.replace(/eese$/g, "oose"));
         formsToCheck.push(form.replace(/'s/g, "s"));
         formsToCheck.push(form.replace(/'s ?/g, ""));
         formsToCheck.push(form.replace(/'s /g, " "));
@@ -3189,10 +3209,6 @@
           formsToCheck.push(form.replace(/[\/\-]/g, " "));
           formsToCheck = formsToCheck.concat(form.split(/[\/\-]/g));
         }
-        formsToCheck.push(form.replace(/ze/g, "se"));
-        formsToCheck.push(form.replace(/zing/g, "sing"));
-        formsToCheck.push(form.replace(/se/g, "ze"));
-        formsToCheck.push(form.replace(/sing/g, "zing"));
         formsToCheck.push(form.replace(/^(an?|the) +/g, ""));
         if (!form.startsWith(".") && !form.match(/^[\d\.e\-+]+$/)) formsToCheck.push(form.replace(/[,\.]/g, ""));
         formsToCheck.push(form.replace(/ing$/g, "in'"));
@@ -3238,6 +3254,8 @@
           formsToCheck.push(form.replace(/e$/g, "ing"));
           formsToCheck.push(form.replace(/ation$/g, ""));
           formsToCheck.push(form.replace(/ence$/g, ""));
+          formsToCheck.push(form.replace(/ence$/g, "ent"));
+          formsToCheck.push(form.replace(/ent$/g, "ence"));
           formsToCheck.push(form.replace(/ier$/g, "y"));
           if (form.endsWith("est")) {
             formsToCheck.push(form.replace(/est$/g, ""));
@@ -3248,6 +3266,7 @@
           formsToCheck.push(form.replace(/ally$/g, ""));
           formsToCheck.push(form.replace(/ally$/g, "ly"));
           formsToCheck.push(form.replace(/ly$/g, "ally"));
+          formsToCheck.push(form.replace(/tal$/g, "t"));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");
@@ -3339,6 +3358,8 @@
       forms[f.normalize("NFD").replace(/[\u0300-\u036f]/g, "")] = true;
     });
     if (!skipMessage) console.log(forms);
+
+    let returnWord = null;
 
     let doneGroups = {};
     let results = {};
@@ -3459,6 +3480,7 @@
         else statAdd("score", isOfGroup(group, dailyGroup) ? 20 : 10);
         resultCount ++;
         saveData.changedWords[word] = true;
+        returnWord = returnWord||word;
         hasActualWord = true;
 
         if (!hasFoundGroup && Object.keys(found).length === 1 && (found[Object.keys(found)[0]] === true || found[Object.keys(found)[0]].length === 1)) saveData.newGroups[group] = true;
@@ -3627,7 +3649,7 @@
 
     updateDaily();
 
-    return Object.keys(results).length ? true : false;
+    return Object.keys(results).length ? (returnWord||word||true) : false;
 
     // console.log(formsToCheck);
   }
