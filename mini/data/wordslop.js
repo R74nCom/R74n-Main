@@ -19934,7 +19934,6 @@ salacia
 satellite
 sedna
 sirius
-betelguese
 sun / star / sol / solar
 black dwarf
 brown dwarf
