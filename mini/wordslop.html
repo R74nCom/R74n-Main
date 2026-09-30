@@ -3345,6 +3345,13 @@
       if (!f) return;
       forms[f] = true;
     })
+    mainForms.forEach(f => {
+      if (!f) return;
+      forms[f.replace(/ /g, "")] = true;
+      forms["the "+f] = true;
+      forms["a "+f] = true;
+      forms[f.normalize("NFD").replace(/[\u0300-\u036f]/g, "")] = true;
+    })
     // console.log(2,forms)
     formsToCheck.sort((a,b) => b.length - a.length).forEach(f => {
       if (!f) return;
