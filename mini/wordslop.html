@@ -3480,7 +3480,7 @@
         else statAdd("score", isOfGroup(group, dailyGroup) ? 20 : 10);
         resultCount ++;
         saveData.changedWords[word] = true;
-        returnWord = returnWord||word;
+        returnWord = returnWord||alias||word;
         hasActualWord = true;
 
         if (!hasFoundGroup && Object.keys(found).length === 1 && (found[Object.keys(found)[0]] === true || found[Object.keys(found)[0]].length === 1)) saveData.newGroups[group] = true;
