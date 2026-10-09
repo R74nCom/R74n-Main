@@ -579,6 +579,10 @@ R74nClass.prototype.dialog = function(id, options = {}) {
 		x.classList.add("doodle");
 		x.classList.add("globalDialogX");
 		x.addEventListener("click", () => this.closeDialog(id));
+		x.addEventListener("dragstart", (e) => {
+			e.preventDefault();
+			return false;
+		});
 		span2.appendChild(x);
 		div1.appendChild(span1);
 		div1.appendChild(span2);
@@ -682,7 +686,14 @@ R74n.projects = [
 		name: "wordslop",
 		url: "mini/wordslop",
 		image: "mini/spotlight-wordslop.png",
-		release: "2026-05-24"
+		release: "2026-05-24",
+		update: "2026-09-27"
+	},
+	{
+		name: "Human Tier List",
+		url: "mini/humans",
+		image: "mini/spotlight-humans-dark.png",
+		release: "2026-10-09"
 	},
 	{
 		name: "ProtoCog",
@@ -691,23 +702,23 @@ R74n.projects = [
 		release: "2026-03-18"
 	},
 	{
-		name: "RageBait Simulator",
-		url: "mini/ragebait",
-		image: "mini/spotlight-ragebait.png",
-		release: "2026-02-17"
-	},
-	{
 		name: "Handwriting Personality",
 		url: "mini/handwriting",
 		image: "mini/spotlight-handwriting.png",
 		release: "2026-01-16"
 	},
 	{
-		name: "Costoflivingdle",
-		url: "mini/cost",
-		image: "mini/spotlight-cost.png",
-		release: "2026-02-24"
+		name: "RageBait Simulator",
+		url: "mini/ragebait",
+		image: "mini/spotlight-ragebait.png",
+		release: "2026-02-17"
 	},
+	// {
+	// 	name: "Costoflivingdle",
+	// 	url: "mini/cost",
+	// 	image: "mini/spotlight-cost.png",
+	// 	release: "2026-02-24"
+	// },
 	{
 		name: "What Are The Odds?",
 		url: "mini/odds",

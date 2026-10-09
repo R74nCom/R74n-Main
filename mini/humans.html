@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Rank every human currently alive on Earth with this quirky tier list.">
+    <meta name="keywords" content="R74n, R47n">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="/icons/avatar.png">
+    <title>Human Tier List - R74n</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="art/humans/icon-3x.png">
+    <link rel="icon" type="image/png" sizes="15x15" href="art/humans/icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00ffff">
+    <link rel="icon" type="image/x-icon" sizes="64x64" href="art/humans/favicon.ico">
+    <meta name="theme-color" content="#000000">
+
+    <script src="../load.js"></script>
+
+    <!-- <script data-cfasync="false">
+      window.ramp = window.ramp || {};
+      window.ramp.que = window.ramp.que || [];
+      window.ramp.passiveMode = true;
+    </script> -->
+
+    <style>
+      @font-face {
+        font-family: 'VT323';
+        src: url('../cook/fonts/VT323-Regular.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'Flags';
+        src: url("fonts/TwemojiCountryFlags.woff2") format('truetype');
+      }
+
+      body {
+        font-family: 'VT323', 'Courier New', Courier, monospace;
+        font-size: 35px;
+        font-variant-ligatures: none;
+      }
+
+      main.content {
+        overscroll-behavior: contain;
+      }
+      #tierList {
+        margin: 0;
+        width: 100%;
+      }
+      #tierList .tier .label {
+        width: 1.33em;
+        white-space: nowrap;
+        text-align: center;
+        padding: 5px 10px;
+        padding-left: 8px;
+        min-width: 1.33em;
+      }
+      #tierList .tier {
+        height: 2em;
+        cursor: pointer;
+        user-select: none;
+      }
+      #tierList .tier:nth-child(odd) {
+        background-color: rgb(20, 20, 20);
+      }
+      #tierList td {
+        border-color: var(--t-border-d);
+        border-width: 2px;
+      }
+      #tierList tr:first-child td {
+        border-top: none;
+      }
+      #tierList tr:last-child td {
+        border-bottom: none;
+      }
+      .spa header:first-child {
+        border-color: var(--t-border-d);
+      }
+      #tierList .tier .items {
+        padding: 0;
+      }
+      #tierList .tier .items canvas {
+        height: 0;
+        width: 0;
+      }
+
+      .tutorial {
+        font-size: 0.8em;
+        text-align: center;
+      }
+
+      .panel {
+        display: flex;
+        min-height: 4em;
+        background: url("art/humans/noise.png");
+        image-rendering: pixelated;
+        justify-content: center;
+        cursor: pointer;
+        align-items: flex-start;
+        user-select: none;
+      }
+      .panel:nth-of-type(odd) {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+      }
+      #mainPanel {
+        min-height: 10em;
+      }
+      .panel .filler {
+        flex-grow: 1;
+        color: black;
+        /* -webkit-text-stroke: #0effdd 8px; */
+        /* paint-order: stroke fill; */
+        display: flex;
+      }
+      #tutorial {
+        margin: 10px 15px;
+      }
+      #tutorialMobile {
+        display: none;
+        font-size: 0.8em;
+        text-align: center;
+        margin: 5px 10px;
+        line-height: 0.9;
+      }
+      #tutorial > span, #tutorialMobile > span {
+        display: inline-block;
+      }
+      #tutorial > span,
+      .panel span.message {
+        background: rgba(0, 0, 0, 0.75);
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        backdrop-filter: blur(1px);
+      }
+
+      #humanCard {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 20px;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(3px);
+        border: 3px solid var(--t-border-l);
+        min-width: 400px;
+        max-width: 80%;
+        min-width: min(80%, 400px);
+        cursor: all-scroll;
+        font-size: 0.9em;
+      }
+      .grabbing #humanCard {
+        position: fixed;
+        z-index: 9999;
+      }
+      .grabbing #tutorial {
+        display: none;
+      }
+      #tierList .tier:hover td {
+        border-color: var(--t-heading)
+      }
+      #tierList .tier:has(+.tier:hover) td {
+        border-bottom-color: var(--t-heading);
+      }
+      .grabbing, .grabbing .tier {
+        cursor: all-scroll!important
+      }
+
+      #humanCard > span {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      #humanCard > span:empty {
+        display: none;
+      }
+      #humanCard > .title {
+        gap: 15px;
+        font-size: 1.1em;
+        border-bottom: 3px solid var(--t-border-d);
+        margin-bottom: 6px;
+        padding-bottom: 2px;
+      }
+      #humanCard > span > span {
+        position: relative;
+      }
+      #humanCard > span:not(.title):not(.desc) > span:not(:last-child)::after {
+        content: '•';
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      #humanCard .icon {
+        font-family: "Flags", Arial;
+        cursor: help;
+      }
+      #humanCard .icon[data-prop="gender"] {
+        margin-left: -2px;
+      }
+      #humanCard .icon[data-prop="gender"]:not([data-value="m"]) {
+        margin-left: -6px;
+      }
+      #humanCard .subtitle {
+        font-size: 0.85em;
+        opacity: 0.66;
+      }
+      #humanCard .blurb {
+        color: var(--t-heading);
+        font-size: 1em;
+        letter-spacing: 1px;
+      }
+      #humanCard .trait {
+        color: rgb(117 231 167);
+        font-size: 0.95em;
+      }
+      #humanCard .desc {
+        color: rgb(255 176 255);
+        font-size: 0.95em;
+        letter-spacing: 1px;
+        display: block;
+      }
+      #humanCard .desc > span {
+        display: block;
+      }
+      #humanCard .desc > span:not(:first-child) {
+        font-size: 0.9em;
+        filter: hue-rotate(309deg);
+      }
+
+      #humanControls {
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(3px);
+        border: 3px solid var(--t-border-l);
+        border-left: none;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        cursor: default
+      }
+      .grabbing #humanControls {
+        display: none;
+        visibility: hidden;
+      }
+
+      @media only screen and (max-width: 800px) {
+        #tierList .tier {
+          height: 1.5em;
+        }
+        #tutorial {display:none}
+        #tutorialMobile {display:block}
+        #humanCard {
+          font-size: 0.8em;
+        }
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="spa.css">
+    <script>SPAConfig = {soundClick:"audio/cozy_grab.wav", soundUnclick:"audio/cozy_drop.wav"}</script>
+    <script src="spa.js"></script>
+    <script src="data/humans.js"></script>
+
+</head>
+
+<body class="spa clicky paths">
+
+<header class="min">
+<a href="/" class="home" style="background-image: url(art/humans/R74n.svg);"></a>
+<h1 class="pagetitle">Human Tier List</h1>
+<img class="doodle mute" src="../doodle/sound.gif" src-other="../doodle/mute.gif" role="button">
+<img class="doodle reset" src="../doodle/reset.gif" role="button">
+<img class="doodle info" src="../doodle/info.gif" role="button">
+</header>
+
+<main class="content">
+
+
+<p class="loading">Loading...<br><br>Ever wanted to rank all living people on a single tier list? Now you can in this never-ending browser game.</p>
+
+<table id="tierList">
+  <tr class="tier" data-tier="S">
+    <td class="label" style="background: #fe6c6c; color:black">S</td>
+    <td class="items"></td>
+  </tr>
+  <tr class="tier" data-tier="A">
+    <td class="label" style="background: #fea66c; color:black">A</td>
+    <td class="items"></td>
+  </tr>
+  <tr class="tier" data-tier="B">
+    <td class="label" style="background: #f2ce5a; color:black">B</td>
+    <td class="items"></td>
+  </tr>
+  <tr class="tier" data-tier="C">
+    <td class="label" style="background: #85d756; color:black">C</td>
+    <td class="items"></td>
+  </tr>
+  <tr class="tier" data-tier="D">
+    <td class="label" style="background: #6c9dfe; color:black">D</td>
+    <td class="items"></td>
+  </tr>
+  <tr class="tier" data-tier="F">
+    <td class="label" style="background: #a46cfe; color:black">F</td>
+    <td class="items"></td>
+  </tr>
+</table>
+
+
+<div id="tutorialMobile"><span>Decide <span id="tutorialMobileName">Billy</span>'s fate.</span> <span>Click a tier to rank.</span></div>
+
+<div class="panel" id="mainPanel">
+  <div id="humanCard">
+    <span class="title"><span class="icon" title="United States">🇺🇸</span> Billy Flowers</span>
+    <span class="subtitle"><span>Age 26</span><span>Born 1 April 2000</span></span>
+    <span class="blurb">Today is their birthday!</span>
+    <span class="trait">Student • CompSci</span>
+    <span class="desc">Needs to enable JavaScript.</span>
+  </div>
+  <div id="humanControls">
+    <img class="doodle clickable" id="humanShare" src="../doodle/share.gif">
+    <img class="doodle clickable" id="humanMore" src="../doodle/more.gif">
+  </div>
+  <div class="filler">
+    <span id="tutorial"><span>Decide <span id="tutorialName">Billy</span>'s fate.</span> <span>Click a tier or drag.</span></span>
+  </div>
+</div>
+<div class="panel"></div>
+<div class="panel"></div>
+<div class="panel"></div>
+<div class="panel"></div>
+
+<script>
+  SPA._skippable = false;
+
+  if (!window.structuredClone) {
+    window.structuredClone = (obj) => JSON.parse(JSON.stringify(obj));
+  }
+
+  function handlePanelClick() {
+    // if (e) {
+    //   console.log(e.target)
+    // }
+    draggingPanel = true;
+    lastPanelPos = null;
+    nextHuman();
+    if (humanCard.scrollIntoViewIfNeeded) humanCard.scrollIntoViewIfNeeded();
+  }
+
+  draggingPanel = false;
+  lastPanelPos = null;
+
+  SPA.onload = () => {
+    let n = 0;
+    let messages = {51: "this may take a while"};
+    SPA.main.addEventListener("scroll", () => {
+      const scroll = SPA.main.scrollHeight - (SPA.main.scrollTop + SPA.main.clientHeight);
+      if (scroll < 20) {
+        SPA.main.insertAdjacentHTML("beforeend", `<div class="panel" onmousedown="handlePanelClick()">${messages[n] === undefined ? "" : `<div><span class="message">${messages[n]}</span></div>`}</div>`);
+        n ++;
+      }
+    });
+    
+    let lastPanelSound = 0
+    SPA.main.querySelectorAll(".panel").forEach(panel => {
+      panel.addEventListener("mousedown", (e) => {
+        if (e.button === 2) return;
+        handlePanelClick();
+      })
+      panel.addEventListener("mousemove", (e) => {
+        if (!draggingPanel) return;
+
+        if (lastPanelPos !== null) {
+          if ((Math.abs(e.clientX-lastPanelPos[0]) + Math.abs(e.clientY-lastPanelPos[1])) > 10) {
+            lastPanelPos = [e.clientX, e.clientY];
+            nextHuman();
+            if (!SPA.muted && Date.now() - lastPanelSound > 50) {
+              lastPanelSound = Date.now();
+              SPA.lastClick = Date.now();
+              var audio = new Audio(SPA.config.soundClick || 'tap1.wav');
+              audio.play();
+            }
+          }
+        }
+        else lastPanelPos = [e.clientX, e.clientY];
+        // console.log(e.clientX,e.clientY)
+      })
+    });
+
+    SPA.header.querySelector(".reset").addEventListener("click", () => {
+      if (confirm("Start the tier list over?")) {
+        progress = {};
+        R74n.del("HumanTierList");
+        location.reload();
+        nextHuman();
+      }
+    });
+
+    nextHuman();
+  }
+
+  hoveredTier = null;
+  document.querySelectorAll("#tierList .tier").forEach(t => {
+    t.addEventListener("mouseout", () => {if (hoveredTier === t) hoveredTier = null});
+    t.addEventListener("mouseover", () => hoveredTier = t);
+  });
+
+  progress = R74n.get("HumanTierList");
+  let hadProgress = progress !== null;
+  progress = JSON.parse(progress || "{}");
+
+  let tutorial = Object.keys(progress).length === 0;
+  humanControls = document.getElementById("humanControls");
+  if (!tutorial) {
+    document.getElementById("tutorial").innerText = "";
+    document.getElementById("tutorialMobile").style.display = "none";
+  }
+  else {
+    humanControls.style.display = "none";
+  }
+  humanControls.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  })
+
+  grabbing = null;
+  humanCard = document.getElementById("humanCard");
+  humanCard.addEventListener("mousedown", (e) => {
+    if (e.button === 2) return;
+    grabbing = [e.clientX, e.clientY];
+    SPA.main.classList.add("grabbing");
+    humanCard.style.left = (grabbing[0]+5)+"px";
+    humanCard.style.top = (grabbing[1]+5)+"px";
+    SPA.click();
+    e.preventDefault();
+    e.stopPropagation();
+  })
+  window.addEventListener("mousemove", (e) => {
+    if (grabbing === null) return;
+    grabbing = [e.clientX, e.clientY];
+    humanCard.style.left = (grabbing[0]+5)+"px";
+    humanCard.style.top = (grabbing[1]+5)+"px";
+    e.preventDefault();
+  })
+  function doTier(tier) {
+    let elem = document.querySelector('#tierList .tier[data-tier="'+tier+'"]');
+
+    progress[tier] = (progress[tier]||0) + 1;
+    if (currentSpecial) {
+      if (!progress.special) progress.special = {};
+      progress.special[currentSpecial] = 1;
+    }
+    if (currentCeleb !== null) {
+      if (!progress.celeb) progress.celeb = {};
+      progress.celeb[currentCeleb] = 1;
+    }
+    saveProgress();
+
+    renderNew(tier);
+
+    if (tutorial) {
+      tutorial = false;
+      document.getElementById("tutorial").innerText = "";
+      document.getElementById("tutorialMobile").style.display = "none";
+    }
+    sessionAmount ++;
+    if (sessionAmount >= 4 || hadProgress) {
+      humanControls.style.display = "flex";
+    }
+
+    let styleTag = document.getElementById("humanStyle");
+    if (!styleTag) {
+      styleTag = document.createElement("style");
+      styleTag.id = "humanStyle";
+      document.head.appendChild(styleTag);
+    }
+    styleTag.innerHTML = `.panel {
+  background-position: -${sessionAmount}px 0px;
+}
+.panel:nth-of-type(odd) {
+  background-position: ${sessionAmount}px 0px;
+}`;
+
+    if (sessionAmount === 3 && !hadProgress) document.getElementById("tutorial").innerHTML = "<span>Don't like this Human?</span><span>Tap anywhere for another.</span>";
+    else document.getElementById("tutorial").innerText = "";
+
+    nextHuman();
+  }
+  function saveProgress() {
+    R74n.set("HumanTierList", JSON.stringify(progress));
+  }
+  window.addEventListener("mouseup", (e) => {
+    draggingPanel = false;
+    lastPanelPos = null;
+    if (grabbing && hoveredTier) {
+      let tier = hoveredTier.getAttribute("data-tier");
+      doTier(tier);
+      e.preventDefault();
+    }
+    grabbing = null;
+    SPA.main.classList.remove("grabbing");
+  })
+
+  let canvases = {};
+  document.querySelectorAll("#tierList .tier").forEach(t => {
+    const tier = t.getAttribute("data-tier");
+    t.addEventListener("click", () => {
+      doTier(tier)
+    })
+    const canvas = document.createElement("canvas");
+    canvases[tier] = canvas;
+    t.querySelector(".items").appendChild(canvas);
+    canvas.style.width = "0";
+    canvas.style.height = "0";
+    canvas.width = t.clientWidth / 8;
+    canvas.height = t.clientHeight / 8;
+    canvas.style.width = t.clientWidth+"px";
+    canvas.style.height = t.clientHeight+"px";
+  })
+
+  pixelColors = ["rgb(245,227,194)", "rgb(92,58,45)", "rgb(133,89,63)", "rgb(198,166,122)", "rgb(226,194,172)"];
+
+  function renderAll() {
+    for (const tier in progress) {
+      const canvas = canvases[tier];
+      if (!canvas) continue;
+      canvas.style.width = "0";
+      canvas.style.height = "0";
+      const elem = document.querySelector('#tierList .tier[data-tier="'+tier+'"] .items');
+      canvas.width = elem.clientWidth / 8;
+      canvas.height = elem.clientHeight / 8;
+      canvas.style.width = elem.clientWidth+"px";
+      canvas.style.height = elem.clientHeight+"px";
+
+      const ctx = canvas.getContext("2d");
+
+      const total = progress[tier];
+      for (let i = 0; i < total; i++) {
+        const x = i % canvas.width;
+        // if (tier === "C") console.log(i, canvas.width)
+        const y = Math.floor(i / canvas.width);
+
+        ctx.fillStyle = choose(pixelColors);
+        ctx.fillRect( x, y, 1, 1 );
+      }
+    }
+  }
+  renderAll();
+
+  function renderNew(tier) {
+    const canvas = canvases[tier];
+    const ctx = canvas.getContext("2d");
+    const i = progress[tier]-1;
+    const x = i % canvas.width;
+    const y = Math.floor(i / canvas.width);
+    ctx.fillStyle = choose(pixelColors);
+    ctx.fillRect( x, y, 1, 1 );
+  }
+
+  window.addEventListener("resize", () => renderAll());
+
+  uniqueProps = {};
+  sessionAmount = 0;
+
+  function doPropValue(propValue, data) {
+    if (Array.isArray(propValue)) {
+      let options = [];
+      propValue.forEach(option => {
+        options = options.concat( doPropValue(option, data) );
+      })
+      return options;
+    }
+
+    if (propValue === null) return [[propValue, 1]];
+
+    if (typeof propValue === "object") {
+      let defaultValue = propValue["else"];
+      let options = [];
+      for (const key in propValue) {
+        if (key === "else") continue;
+        if (key.match(/=/)) {
+          const split = key.split("=");
+          if (data[split[0]] === split[1] || (specialKeys[split[1]] !== undefined && data[split[0]] === specialKeys[split[1]])) {
+            options = options.concat( doPropValue(propValue[key], data) );
+          }
+          continue;
+        }
+        options = options.concat( doPropValue(propValue[key], data) );
+      }
+      if (options.length === 0 && defaultValue) options = options.concat( doPropValue(defaultValue, data) );
+      return options;
+    }
+
+    if (typeof propValue === "function") {
+      return doPropValue(propValue(data), data);
+    }
+
+    if (typeof propValue === "string") {
+      // split weights HERE  "<string>**<weight>""  then do rest of checks below
+      let weight = 1;
+      if (propValue.match(/\*\*/)) {
+        const split = propValue.split(/\*\*/);
+        propValue = split[0];
+        weight = parseInt(split[1]);
+      }
+      // if (propValue.match(/%%/)) {
+      //   const split = propValue.split(/\*\*/);
+      //   if (Math.random() > parseFloat(split[1])/100) return [];
+      //   propValue = split[0];
+      // }
+
+      if (propValue.match(/\|/)) {
+        let array = propValue.split(/ {0,}\| {0,}/);
+        if (weight !== 1) array = array.map(i => i+"**"+weight);
+        return doPropValue(array, data);
+      }
+
+      if (propValue.match(/^undefined|NaN$/)) return [];
+      if (propValue.match(/[0-9]/)) {
+        if (propValue.match(/\./) && parseFloat(propValue).toString() === propValue) propValue = parseFloat(propValue);
+        else if (parseInt(propValue).toString() === propValue) propValue = parseInt(propValue);
+      }
+      else if (specialKeys[propValue] !== undefined) propValue = specialKeys[propValue];
+      return [[propValue, weight]];
+    }
+    if (propValue === undefined || propValue === NaN) return [];
+
+    return [[propValue, 1]];
+  }
+  function filterKeys(obj) {
+    let newObj = {};
+    for (const key in obj) {
+      if (!key.match(/^undefined|NaN$/)) newObj[key] = obj[key];
+    }
+  }
+  specialKeys = {"null":null, "true":true, "false":false}
+  function keysToItems(obj) {
+    let items = [];
+    for (const key in obj) {
+      items.push(specialKeys[key] === undefined ? key : specialKeys[key]);
+    }
+  }
+
+  subcommands = {
+    g: (data, masc, fem, neutral) => {
+      return data.gender === "m" ? masc : data.gender === "f" ? fem : neutral;
+    },
+    c: function c(data) {
+      return choose([...arguments].slice(1));
+    }
+  }
+  function parseSubcommands(text, data) {
+    text = text.replace(/\$\{[^}]+\}/g, (match) => {
+      match = match.slice(2,-1);
+      
+      let command = match.match(/^[^:]+/g)[0];
+      if (!subcommands[command]) return "";
+      
+      let args = match.match(/:[^\}]+/g)[0];
+      if (args) args = args.slice(1).split(",");
+      else args = [];
+
+      return subcommands[command](data, ...args) || "";
+    });
+    return text;
+  }
+
+  function titleCase(str) {
+    let prefix;
+    str = str.toString();
+    if (str.match(/^[a-z][A-Z]/)) {
+      prefix = str.slice(0,1);
+      str = str.slice(1);
+    }
+    str = str.replace(/_/g," ");
+    str = str.replace(/,(\S)/g,", $1");
+    str = str.replace( //Capitalize letters at start or after spaces/hyphens
+      /(?:^|[ \-–|])[A-Za-zÀ-ÖØ-öø-ÿ]/g,
+      text => text.toUpperCase()
+    )
+    if (prefix !== undefined) str = prefix + str;
+    str = str.replace(/~[a-z]/g, m => m.slice(1).toUpperCase())
+    return str;
+  }
+  function escapeHTML(unsafe) {
+    return unsafe
+      .replace(/&#039;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+  function getRndBias(min, max, bias, influence) {
+    var rnd = Math.random() * (max - min) + min,   // random in range
+        mix = Math.random() * influence;           // random mixer
+    return rnd * (1 - mix) + bias * mix;           // mix full range and bias
+  }
+
+  currentSpecial = null;
+  currentCeleb = null;
+
+  function generateHuman() {
+    currentSpecial = null;
+    currentCeleb = null;
+    let data = {};
+    data.first = Object.keys(progress).length === 0;
+
+    let string = "";
+    let string2 = JSON.stringify(data);
+
+    for (let tries = 0; tries < 20; tries++) {
+      
+      if (string === string2) break;
+
+      for (const propName in SPA.data.props) {
+        if (data[propName] !== undefined) continue;
+        const prop = SPA.data.props[propName];
+        const propValue = prop.value;
+        if (propValue === undefined) continue;
+
+        if (prop.chance !== undefined && Math.random() > prop.chance) continue;
+        if (prop.check !== undefined && !prop.check(data)) continue;
+
+        let options = doPropValue(propValue, data); //array of [choice,weight]
+        if (options.length === 0) continue;
+
+        if (prop.unique === true) {
+          if (uniqueProps[propName] === undefined || 
+          Object.keys(uniqueProps[propName]).length / options.length >= 0.9
+        ) uniqueProps[propName] = {};
+        
+          options = options.filter(item => {
+            return uniqueProps[propName][item[0]] === undefined;
+          })
+        }
+
+        let choices = [];
+        options.forEach(item => { //generate choices based on weight
+          for (let i = 0; i < item[1]; i++) {
+            choices.push(item[0]);
+          }
+        });
+        if (choices.length === 0) continue;
+
+        let choice = choose(choices);
+        if (prop.unique === true) {
+          uniqueProps[propName][choice] = true;
+        }
+        if (typeof choice === "string") {
+          if (choice.match(/\$\{/)) {
+            choice = parseSubcommands(choice, data);
+          }
+          if (choice.match(/\$\$/)) {
+            const split = choice.split(/\$\$/);
+            choice = split[0];
+            data[propName+"Label"] = split[1];
+          }
+        }
+
+        // set value
+        data[propName] = choice;
+      }
+      
+      // end changes
+      string = string2;
+      string2 = JSON.stringify(data);
+      // console.log(tries, string2);
+    }
+
+    for (const propName in data) {
+      const prop = SPA.data.props[propName];
+      if (prop === undefined) continue;
+      if (prop.icon !== undefined) {
+        if (typeof prop.icon === "function") data[propName+"Icon"] = prop.icon(data);
+        if (typeof prop.icon === "object" && prop.icon[data[propName]]) data[propName+"Icon"] = prop.icon[data[propName]];
+      }
+      if (prop.display !== undefined) {
+        let display;
+        if (typeof prop.display === "function") display = prop.display(data);
+        if (display !== null) data[propName+"Display"] = display + "";
+      }
+      if (prop.iconLabel !== undefined) {
+        data[propName+"Label"] = prop.iconLabel(data);
+      }
+      if (prop.blurb !== undefined) {
+        let blurb = prop.blurb(data);
+        if (blurb) data.blurb = parseSubcommands(blurb,data);
+      }
+    }
+
+    // console.log(true, JSON.stringify(data));
+    return data;
+  }
+
+  lastWasSpecial = false;
+  function nextHuman() {
+    let data;
+    if (Math.random() < 0.05 && Object.keys(progress).length > 1 && !lastWasSpecial) {
+      if (Math.random() < 0.5) {
+        if (!progress.special) progress.special = {};
+        let possibleSpecial = Object.keys(SPA.data.specials).filter(i => !progress.special[i]);
+        if (possibleSpecial.length) {
+          currentSpecial = choose(possibleSpecial);
+          data = JSON.parse(JSON.stringify(SPA.data.specials[currentSpecial]));
+          data.first = false;
+          if (!data.blurb) data.blurb = parseSubcommands("You know ${g:him,her,them}!", data);
+          if (data.gender) {
+            data.genderIcon = props.gender.icon(data);
+            data.genderLabel = props.gender.iconLabel(data);
+          }
+          lastWasSpecial = true;
+        }
+        else lastWasSpecial = false;
+      }
+      else {
+        if (!progress.celeb) progress.celeb = {};
+        let possibleSpecial = [];
+        for (let i = 0; i < SPA.data.celebs.length; i++) {
+          if (!progress.celeb[i]) possibleSpecial.push(i);
+        }
+        if (possibleSpecial.length) {
+          currentCeleb = choose(possibleSpecial);
+          data = JSON.parse(JSON.stringify(SPA.data.celebs[currentCeleb]));
+          data.first = false;
+          // if (data.gender) {
+          //   data.genderIcon = props.gender.icon(data);
+          //   data.genderLabel = props.gender.iconLabel(data);
+          // }
+          if (data.country) {
+            // data.countryIcon = props.country.icon(data);
+            for (let region in props.country.value) {
+              for (let i = 0; i < props.country.value[region].length; i++) {
+                const code = props.country.value[region][i];
+                if (code.startsWith(data.country+"$$")) {
+                  data.countryLabel = code.split("$$")[1];
+                  data.region = region;
+                  break;
+                }
+              }
+            }
+          }
+          if (data.born) {
+            data.born = new Date(data.born+"T12:00:00.000-05:00");
+            data.age = (Date.now() - data.born) / 31556952000;
+            data.born = data.born.getTime();
+            data.agegroup = SPA.data.props.agegroup.value(data);
+          }
+          for (const propName in data) {
+            const prop = SPA.data.props[propName];
+            if (!prop) continue;
+            if (!data[propName]) continue;
+
+            if (prop.icon) data[propName+"Icon"] = prop.icon(data);
+            if (prop.iconLabel) data[propName+"Label"] = prop.iconLabel(data);
+            if (prop.display) data[propName+"Display"] = prop.display(data);
+          }
+          if (data.bornDisplay) data.bornDisplay = data.bornDisplay.split(" @ ")[0];
+          lastWasSpecial = true;
+        }
+        else lastWasSpecial = false;
+      }
+    }
+    else lastWasSpecial = false;
+
+    if (!data) data = generateHuman();
+    console.log(data);
+
+    // display info
+    // skip properties with value null
+    // skip hidden properties
+
+    humanCard;
+
+    let title = humanCard.querySelector(".title");
+    let subtitle = humanCard.querySelector(".subtitle");
+    let blurb = humanCard.querySelector(".blurb");
+    let trait = humanCard.querySelector(".trait");
+    let desc = humanCard.querySelector(".desc");
+
+    title.innerHTML = "";
+    subtitle.innerHTML = "";
+    blurb.innerHTML = "";
+    trait.innerHTML = "";
+    desc.innerHTML = "";
+
+    let iconsBefore = [];
+    let iconsAfter = [];
+
+    for (const propName in data) {
+      const prop = SPA.data.props[propName];
+      if (prop === undefined || data[propName] === undefined) continue;
+
+      const type = prop.type;
+      if (!type || prop.hidden === true) continue;
+      if (data[propName] === null) continue;
+
+      let display = data[propName+"Display"] || data[propName];
+
+      // if (type === "title") title.insertAdjacentHTML("beforeend", `<span class="icon">${escapeHTML(display)}</span>`);
+      if (type === "title") title.insertAdjacentText("beforeend", display);
+      else if (type === "icon") {
+        display = data[propName+"Icon"] || "?";
+        (prop.iconPos === "before" ? iconsBefore : iconsAfter).push(`<span class="icon" title="${titleCase(escapeHTML(data[propName+"Label"] || data[propName]))}" style="${prop.iconColor ? "color:"+prop.iconColor(data)+";" : ''}${prop.iconFont ? "font-family:"+prop.iconFont+";" : ''}${prop.iconSize ? "font-size:"+prop.iconSize+"em;" : ''}" data-prop="${escapeHTML(propName)}" data-value="${escapeHTML(data[propName])}">${escapeHTML(display)}</span>`);
+      }
+      else if (type === "subtitle") subtitle.insertAdjacentHTML("beforeend", `<span>${escapeHTML(display)}</span>`);
+      else if (type === "blurb") {
+        if (!display.match(/[.!?]$/)) display += ".";
+        blurb.insertAdjacentHTML("beforeend", `<span>${escapeHTML(display)}</span>`);
+      }
+      else if (type === "trait") trait.insertAdjacentHTML("beforeend", `<span>${titleCase(escapeHTML(display)).replace(/\|/g, "</span><span>")}</span>`);
+      else if (type === "desc") {
+        if (!display.match(/[.!?]$/)) display += ".";
+        desc.insertAdjacentHTML("beforeend", `<span>${escapeHTML(display)}</span>`);
+      }
+    }
+
+    iconsBefore.forEach(i => title.insertAdjacentHTML("afterbegin", i));
+    iconsAfter.forEach(i => title.insertAdjacentHTML("beforeend", i));
+
+    // console.log(iconsBefore, iconsAfter)
+
+    ["blurb","desc","trait"].forEach(type => {
+      if (!data[type]) return;
+
+      let text = data[type];
+      if (!Array.isArray(text)) text = [text];
+      text = text.map(b=> {
+        if (type === "trait") return "<span>"+escapeHTML(titleCase(b)).replace(/\|/g, "</span><span>")+"</span>";
+        if (!b.match(/[.!?]$/)) b += ".";
+        return b;
+      });
+      ({"blurb":blurb, "desc":desc, "trait":trait})[type].insertAdjacentHTML("beforeend", text.join(""));
+    })
+
+    if (Object.keys(progress).length === 0) {
+      document.getElementById("tutorialName").innerText = data.firstname;
+      document.getElementById("tutorialMobileName").innerText = data.firstname;
+    }
+  }
+
+  let humanShare = document.getElementById("humanShare");
+  humanShare.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!SPA.muted) {
+      SPA.lastClick = Date.now();
+      var audio = new Audio(SPA.config.soundClick || 'tap1.wav');
+      audio.play();
+    }
+  });
+  humanShare.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let gender = "x";
+    let genderIcon = humanCard.querySelector(`.icon[data-prop="gender"]`);
+    if (genderIcon) gender = genderIcon.getAttribute("data-value");
+
+    let text = `what should i rank ${{"x":"them","m":"him","f":"her"}[gender]}? #HumanTierList
+${humanCard.querySelector(".title").innerText.replace(/\n/g, " ")}
+- ${humanCard.querySelector(".subtitle").innerText.replace(/\n/g, ", ").replace(/ @ .+/g, "")}
+- ${humanCard.querySelector(".trait").innerText.replace(/\n/g, ", ")}
+- ${humanCard.querySelector(".desc").innerText.replace(/\.?\n/g, "\n- ").replace(/\.$/g,"")}`;
+    console.log(text);
+    R74n.share(text+"\n\n");
+  });
+  let humanMore = document.getElementById("humanMore");
+  humanMore.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!SPA.muted) {
+      SPA.lastClick = Date.now();
+      var audio = new Audio(SPA.config.soundClick || 'tap1.wav');
+      audio.play();
+    }
+  });
+  humanMore.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    R74n.more();
+  });
+  
+
+  // let script = document.createElement("script");
+  // script.setAttribute("data-cfasync","false");
+  // script.setAttribute("async",true);
+  // script.setAttribute("src","//cdn.intergient.com/1025803/77544/ramp.js");
+  // // script.setAttribute("crossorigin","anonymous");
+  // document.head.appendChild(script);
+
+  // window.ramp.que.push(()=>{
+  //   ramp.spaNewPage("handwriting");
+  //   // document.querySelector(".page.final .controls").style.paddingBottom = "2em";
+  // })
+</script>
+
+
+</main>
+
+<div class="globalDialog" id="globalDialog-info">
+  <div>
+    <div>
+      <span>Info...</span>
+      <span><img class="doodle x" src="../doodle/x.gif" alt="X" role="button"></span>
+    </div>
+    <div>
+      <div>
+        <small>Every person is probably real. No AI was used in this project.</small>
+        <span>
+          <button onclick="R74n.more()">More Games</button>
+          <button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Idea</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>

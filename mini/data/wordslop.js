@@ -16343,7 +16343,7 @@ geneva
 aral sea / aral
 bangweulu
 caspian sea / caspian
-chargoggagoggmanchauggagoggchaubunagungamaugg / chargoggagoggmanchauggauggagoggchaubunagungamaugg
+chargoggagoggmanchauggagoggchaubunagungamaugg / chargoggagoggmanchauggauggagoggchaubunagungamaugg "wow, okay.."
 como / lario
 chad
 concordia
@@ -22267,7 +22267,7 @@ b "is this a GD reference?"
 e "the most common letter in English"
 s "more English words begin with this letter than any other"
 f "respects paid"
-á|å|ä|à|ã|æ / ash|ç|é|ë|è|ï|ñ / enye|ó|ö|õ|ø|ü|µ|œ|ú|í|â|ā|ē|ī|ō|ū|ê|ô|ò|ù|û|ń|ǎ|ă|ą|ć
+á|å|ä|à|ã|æ / ash|ç|é|ë|è|ï|ñ / enye|ó|ö|õ|ø|ü|µ/μ|œ|ú|í|â|ā|ē|ī|ō|ū|ê|ô|ò|ù|û|ń|ǎ|ă|ą|ć
 î|ý|č|ę|ž|ł|ė|š|ň|ż|ő|ğ|ű|ļ|ź|ŵ|ť|į|ś|ş|ů|ÿ|ċ|ě|ț|ľ|ď|ħ|ġ
 eszett / ß
 thorn / þorn / Þ / th
@@ -22295,7 +22295,7 @@ theta / θ
 iota / ι
 kappa / κ
 lambda / λ
-mu / μ
+mu / μ / μ
 nu / ν
 xi / ξ
 omicron / ο

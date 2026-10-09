@@ -1,5 +1,7 @@
 window.SPA = {
 	preinit: () => {
+		window.SPAConfig = window.SPAConfig || {};
+		SPA.config = window.SPAConfig;
 		SPA.main = document.querySelector(".spa > .content");
 		SPA.header = document.querySelector(".spa > header:first-child");
 		SPA._paths = document.body.classList.contains("paths");
@@ -37,25 +39,37 @@ window.SPA = {
 			});
 		}
 		SPA.controls = document.querySelector(".spa > .content > .controls");
+		SPA.lastClick = 0;
 		if (document.body.classList.contains("clicky")) {
 			const AudioContext = window.AudioContext || window.webkitAudioContext;
 			const audioCtx = new AudioContext();
 			SPA.click = (e) => {
-				if (SPA._clicked) return;
+				if (SPA._clicked || SPA.muted) return;
+				if (Date.now() - SPA.lastClick < 10) {
+					SPA._clicked = false;
+					return;
+				};
+				SPA.lastClick = Date.now();
 				audioCtx;
 				SPA._clicked = true;
-				var audio = new Audio('tap1.wav');
+				var audio = new Audio(SPA.config.soundClick || 'tap1.wav');
 				audio.play();
-				e.stopPropagation();
-				e.stopImmediatePropagation();
+				// e.stopPropagation();
+				// e.stopImmediatePropagation();
 			}
 			SPA.unclick = (e) => {
+				if (SPA.muted) return;
+				if (Date.now() - SPA.lastClick < 10) {
+					SPA._clicked = false;
+					return;
+				};
+				SPA.lastClick = Date.now();
 				SPA._clicked = false;
 				audioCtx;
-				var audio = new Audio('tap2.wav');
+				var audio = new Audio(SPA.config.soundUnclick || 'tap2.wav');
 				audio.play();
-				e.stopPropagation();
-				e.stopImmediatePropagation();
+				// e.stopPropagation();
+				// e.stopImmediatePropagation();
 			}
 			if (R74n.state.mobile) {
 				document.body.addEventListener("touchstart", (e) => {

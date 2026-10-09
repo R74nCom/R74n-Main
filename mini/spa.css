@@ -239,6 +239,13 @@
 	.spa .content.cols {
 		flex-direction: column;
 	}
+
+	body header:first-child > * {
+		margin-left: 10px;
+	}
+	body header:first-child > *:last-child {
+		margin-right: 10px;
+	}
 }
 
 header.min .doodle:hover {
