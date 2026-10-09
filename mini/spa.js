@@ -43,6 +43,7 @@ window.SPA = {
 		if (document.body.classList.contains("clicky")) {
 			const AudioContext = window.AudioContext || window.webkitAudioContext;
 			const audioCtx = new AudioContext();
+			let scrolled = false;
 			SPA.click = (e) => {
 				if (SPA._clicked || SPA.muted) return;
 				if (Date.now() - SPA.lastClick < 10) {
@@ -72,17 +73,23 @@ window.SPA = {
 				// e.stopImmediatePropagation();
 			}
 			if (R74n.state.mobile) {
-				document.body.addEventListener("touchstart", (e) => {
+				document.body.addEventListener("click", (e) => {
 					SPA._clicked = false;
 					SPA.click(e);
-					e.stopPropagation();
-					e.stopImmediatePropagation();
-				})
-				document.body.addEventListener("touchend", (e) => {
-					SPA._clicked = false;
-					e.stopPropagation();
-					e.stopImmediatePropagation();
+					// e.stopPropagation();
+					// e.stopImmediatePropagation();
 				});
+				// document.body.addEventListener("touchstart", (e) => {
+				// 	SPA._clicked = false;
+				// 	SPA.click(e);
+				// 	e.stopPropagation();
+				// 	e.stopImmediatePropagation();
+				// });
+				// document.body.addEventListener("touchend", (e) => {
+				// 	SPA._clicked = false;
+				// 	e.stopPropagation();
+				// 	e.stopImmediatePropagation();
+				// });
 			}
 			else {
 				document.body.addEventListener("mousedown", SPA.click);
