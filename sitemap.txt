@@ -148,3 +148,4 @@ https://r74n.com/community/word-survey.txt
 https://r74n.com/community/word-survey-top.txt
 https://r74n.com/community/word-survey-matches.txt
 https://r74n.com/community/word-survey-groups.txt
+https://r74n.com/mini/humans

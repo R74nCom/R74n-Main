@@ -1,5 +1,10 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-10-09 - New Mini Project: Human Tier List
+2026-10-09 - Hid Costoflivingdle from spotlight
+2026-10-09 - Sloppy is on the other side of the Wordslop spotlight button
+2026-10-09 - What Are The Odds? spotlight button is no longer animated
+2026-10-01 - Removed links to the September 2026 Grand Census, awaiting result processing
 2026-09-23 - Updated Vault Access page with next batch of material
 2026-09-18 - Discord Component Embeds for some pages
 2026-09-14 - Handwriting Personality Test: Recolored lowercase A and uppercase G

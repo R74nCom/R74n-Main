@@ -1275,6 +1275,9 @@ form .honeypot {
 .projectGallery > a.new.update::after {
 	content: "update";
 }
+.projectGallery > a.new.small::after {
+	font-size: 28px;
+}
 .projectGallery .alertheader {
 	height: fit-content;
 	align-self: center;
@@ -1378,6 +1381,10 @@ form .honeypot {
 	.projectGallery > a.new::after {
 		opacity: 1;
 		font-size: 24px;
+	}
+	.projectGallery > a.new.small::after {
+		opacity: 1;
+		font-size: 20px;
 	}
 }
 .globalDialog .projectGallery {
