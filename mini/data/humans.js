@@ -14,7 +14,7 @@ props.born = {
 	// if value function errors or returns undefined or NaN, skip for the loop
 	//		null should be accepted but not displayed
 	value: (data) => Date.now() - Math.floor(data.age * 31556952000),
-	display: (data) => "Born "+(new Date(data.born)).toLocaleDateString(undefined, {
+	display: (data) => "Born "+(new Date(data.born)).toLocaleDateString("en-us", {
 		year: "numeric",
 		month: "short",
 		day: "numeric",
@@ -23,7 +23,7 @@ props.born = {
 	}),
 	display: (data) => {
 		let date = new Date(data.born);
-		return "Born "+date.getDate()+" "+date.toLocaleDateString(undefined, {month: "short"})+" "+date.getFullYear()+" @ "+date.toLocaleTimeString(undefined, {hour: "numeric",minute: "numeric"});
+		return "Born "+date.getDate()+" "+date.toLocaleDateString("en-us", {month: "short"})+" "+date.getFullYear()+" @ "+date.toLocaleTimeString("en-us", {hour: "numeric",minute: "numeric"});
 	},
 	blurb: (data) => {
 		let date = new Date(data.born);

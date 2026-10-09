@@ -1,0 +1,48 @@
+{
+	"component": {
+		"type": 17,
+		"accent_color": 65535,
+		"spoiler": false,
+		"components": [
+			{
+				"type": 9,
+				"accessory": {
+					"type": 11,
+					"media": {
+						"url": "https://r74n.com/mini/art/humans/icon-3x.png",
+						"proxy_url": "https://r74n.com/mini/art/humans/icon-3x.png"
+					},
+					"description": null,
+					"spoiler": false
+				},
+				"components": [
+					{
+						"type": 10,
+						"content": "## **[Human Tier List](https://r74n.com/mini/wordslop)**\nRank all 8 billion people alive on Earth with this tier list.."
+					}
+				]
+			},
+			{
+				"type": 1,
+				"components": [
+					{
+						"type": 2,
+						"style": 5,
+						"label": "Start Ranking",
+						"emoji": null,
+						"disabled": false,
+						"url": "https://r74n.com/mini/humans"
+					},
+					{
+						"type": 2,
+						"style": 5,
+						"label": "Server",
+						"emoji": null,
+						"disabled": false,
+						"url": "https://discord.gg/r74n"
+					}
+				]
+			}
+		]
+	}
+}
