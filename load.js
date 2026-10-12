@@ -803,4 +803,22 @@ if (urlParams.has("debug")) {
 	alert(eval(q));
 }
 
+if (R74n.adpath) {
+	window.ramp = window.ramp || {};
+	window.ramp.que = window.ramp.que || [];
+	window.ramp.passiveMode = true;
+
+	let script = document.createElement("script");
+	// script.setAttribute("data-cfasync","false");
+	script.setAttribute("async",true);
+	script.setAttribute("src","//cdn.intergient.com/1025803/77544/ramp.js");
+	// script.setAttribute("crossorigin","anonymous");
+	document.head.appendChild(script);
+
+	window.ramp.que.push(()=>{
+		ramp.spaNewPage(R74n.adpath);
+		// document.querySelector(".page.final .controls").style.paddingBottom = "2em";
+	})
+}
+
 });
