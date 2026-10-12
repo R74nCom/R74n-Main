@@ -3040,7 +3040,7 @@
     }
   }
 
-  const urlParams = new URLSearchParams(window.location.search);
+  // const urlParams = new URLSearchParams(window.location.search);
   fromRecipeURL = false;
   fromSource = urlParams.get('src') || null;
 
@@ -3071,6 +3071,12 @@
   }`;
       document.head.appendChild(script);
     }
+
+
+    window.ramp.que.push(()=>{
+      ramp.spaNewPage("cook/");
+      document.querySelector("footer").style.paddingBottom = "8em";
+    })
 
     if (location.hostname !== "r74n.com") {
       document.querySelector(".content").insertAdjacentHTML("afterbegin", `
