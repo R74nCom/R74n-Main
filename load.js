@@ -811,6 +811,13 @@ if (urlParams.has("debug")) {
 }
 
 if (R74n.adpath && !urlParams.isFalse("ads")) {
+	if (!R74n.state.file) {
+		let link = document.createElement("link");
+		link.rel = "canonical";
+		link.href = location.href.replace(/[?&]ads=\w+/g,"");
+		document.head.appendChild(link);
+	}
+
 	window.ramp = window.ramp || {};
 	window.ramp.que = window.ramp.que || [];
 	window.ramp.passiveMode = true;
