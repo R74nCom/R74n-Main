@@ -24,6 +24,7 @@
     <link href="/schema/InfiniteChef.json" rel="alternate" type="application/ld+json">
     <link rel="discord:component-embed" type="application/json" href="https://r74n.com/schema/discord/InfiniteChef.json">
 
+    <script>R74n = { adpath:"cook/" }</script>
     <script src="../load.js"></script>
 
     <script src="foodData.js"></script>
@@ -34,12 +35,6 @@
       settings = JSON.parse(localStorage.getItem('settings')) || {};
       // Version
       currentVersion = "1.4.1";
-    </script>
-
-    <script data-cfasync="false">
-      window.ramp = window.ramp || {};
-      window.ramp.que = window.ramp.que || [];
-      window.ramp.passiveMode = true;
     </script>
 
     <style>
@@ -3076,18 +3071,6 @@
   }`;
       document.head.appendChild(script);
     }
-
-    let script = document.createElement("script");
-    script.setAttribute("data-cfasync","false");
-    script.setAttribute("async",true);
-    script.setAttribute("src","//cdn.intergient.com/1025803/77544/ramp.js");
-    // script.setAttribute("crossorigin","anonymous");
-    document.head.appendChild(script);
-
-    window.ramp.que.push(()=>{
-      ramp.spaNewPage("cook/");
-      document.querySelector("footer").style.paddingBottom = "8em";
-    })
 
     if (location.hostname !== "r74n.com") {
       document.querySelector(".content").insertAdjacentHTML("afterbegin", `

@@ -817,7 +817,8 @@ if (R74n.adpath) {
 
 	window.ramp.que.push(()=>{
 		ramp.spaNewPage(R74n.adpath);
-		// document.querySelector(".page.final .controls").style.paddingBottom = "2em";
+		let footer = document.querySelector("body > footer");
+		if (footer) footer.style.paddingBottom = "8em";
 	})
 }
 
