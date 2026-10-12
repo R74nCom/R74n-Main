@@ -10,6 +10,13 @@ if (!String.prototype.replaceAll) {
 if (!window.urlParams) {
 	window.urlParams = new URLSearchParams(window.location.search);
 }
+{
+	let trueParams = {"yes":true, "true":true, "enabled":true, "1":true, "on":true};
+	let falseParams = {"no":true, "false":true, "disabled":true, "0":true, "off":true};
+
+	urlParams.isTrue = (key) => trueParams[urlParams.get(key)] || false;
+	urlParams.isFalse = (key) => falseParams[urlParams.get(key)] || false;
+}
 
 const LSPrefix = "R74nMain-";
 class R74nClass {
@@ -803,7 +810,7 @@ if (urlParams.has("debug")) {
 	alert(eval(q));
 }
 
-if (R74n.adpath) {
+if (R74n.adpath && !urlParams.isFalse("ads")) {
 	window.ramp = window.ramp || {};
 	window.ramp.que = window.ramp.que || [];
 	window.ramp.passiveMode = true;
