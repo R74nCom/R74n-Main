@@ -21,9 +21,10 @@
 
     <link rel="discord:component-embed" type="application/json" href="https://r74n.com/schema/discord/Handwriting.json">
 
+    <script>R74n = { adpath:"handwriting" }</script>
     <script src="../load.js"></script>
 
-    <script data-cfasync="false">
+    <script>
       window.ramp = window.ramp || {};
       window.ramp.que = window.ramp.que || [];
       window.ramp.passiveMode = true;
@@ -399,7 +400,7 @@
   }
 
   let script = document.createElement("script");
-  script.setAttribute("data-cfasync","false");
+  // script.setAttribute("data-cfasync","false");
   script.setAttribute("async",true);
   script.setAttribute("src","//cdn.intergient.com/1025803/77544/ramp.js");
   // script.setAttribute("crossorigin","anonymous");
