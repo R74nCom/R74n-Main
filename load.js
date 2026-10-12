@@ -810,14 +810,15 @@ if (urlParams.has("debug")) {
 	alert(eval(q));
 }
 
-if (R74n.adpath && !urlParams.isFalse("ads")) {
+if (urlParams.isFalse("ads")) {
 	if (!R74n.state.file && !document.querySelector('link[rel="canonical"]')) {
 		let link = document.createElement("link");
 		link.rel = "canonical";
 		link.href = location.href.replace(/[?&]ads=\w+/g,"");
 		document.head.appendChild(link);
 	}
-
+}
+else if (R74n.adpath) {
 	window.ramp = window.ramp || {};
 	window.ramp.que = window.ramp.que || [];
 	window.ramp.passiveMode = true;
