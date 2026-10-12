@@ -3072,12 +3072,6 @@
       document.head.appendChild(script);
     }
 
-
-    window.ramp.que.push(()=>{
-      ramp.spaNewPage("cook/");
-      document.querySelector("footer").style.paddingBottom = "8em";
-    })
-
     if (location.hostname !== "r74n.com") {
       document.querySelector(".content").insertAdjacentHTML("afterbegin", `
         <p style="color:red; text-align:center"><strong>Warning: You're playing on an unofficial embed! Please visit the real version at <a href="https://r74n.com/cook/" style="text-decoration:underline">R74n.com</a> :) Enjoy!</strong></p>

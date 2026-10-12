@@ -811,7 +811,7 @@ if (urlParams.has("debug")) {
 }
 
 if (R74n.adpath && !urlParams.isFalse("ads")) {
-	if (!R74n.state.file) {
+	if (!R74n.state.file && !document.querySelector('link[rel="canonical"]')) {
 		let link = document.createElement("link");
 		link.rel = "canonical";
 		link.href = location.href.replace(/[?&]ads=\w+/g,"");
