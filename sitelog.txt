@@ -1,5 +1,9 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-10-13 - Minis: "More Games" dialog includes links to homepage and social media
+2026-10-13 - Minis: Added Newsletter subscribe option to Info dialog
+2026-10-13 - Global dialog improvements, especially on light backgrounds like Wordslop
+2026-10-11 - Built-in ad-blocking parameter
 2026-10-09 - New Mini Project: Human Tier List
 2026-10-09 - Hid Costoflivingdle from spotlight
 2026-10-09 - Sloppy is on the other side of the Wordslop spotlight button

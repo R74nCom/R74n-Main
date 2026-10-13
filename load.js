@@ -558,6 +558,12 @@ R74nClass.prototype.dialog = function(id, options = {}) {
 	this.state.dialog = id;
 	if (dialog) {
 		dialog.classList.add("open");
+		if (dialog.getAttribute("data-init") !== "true") {
+			let x = dialog.querySelector(".x");
+			x.addEventListener("click", () => {
+				this.closeDialog(id);
+			})
+		}
 	}
 	else {
 		dialog = document.createElement("div");
@@ -572,6 +578,7 @@ R74nClass.prototype.dialog = function(id, options = {}) {
 			let spanHome = document.createElement("a");
 			spanHome.innerHTML = `<img src="${this.root}icons/favicon.svg">`;
 			spanHome.href = this.root;
+			spanHome.title = "Home";
 			spanHome.classList.add("globalDialogHome");
 			div1.appendChild(spanHome);
 		}
@@ -599,14 +606,33 @@ R74nClass.prototype.dialog = function(id, options = {}) {
 		div2.classList.add("globalDialogContent");
 		divparent.appendChild(div2);
 
+		if (options.footer) {
+			let footer = document.createElement("div");
+			footer.classList.add("globalDialogFooter");
+			footer.innerHTML = `<div>
+Follow us!
+<a href="https://discord.gg/R74n"><img src="${this.root}/shapes/png/share-buttons/discord.png" alt="Discord"></a>
+<a href="https://www.youtube.com/@R74n"><img src="${this.root}/shapes/png/share-buttons/youtube.png" alt="YouTube"></a>
+<a href="https://www.tiktok.com/@r74n.com"><img src="${this.root}/shapes/png/share-buttons/tiktok.png" alt="TikTok"></a>
+<a href="https://bsky.app/profile/r74n.com"><img src="${this.root}/shapes/png/share-buttons/bluesky.png" alt="Bluesky"></a>
+<a href="https://x.com/R74nCom"><img src="${this.root}/shapes/png/share-buttons/twitter.png" alt="Twitter"></a>
+</div>`;
+
+			divparent.appendChild(footer);
+		}
+
 		dialog.appendChild(divparent);
-	
+
 		document.body.appendChild(dialog);
 		dialog.classList.add("open");
 	}
 	if (dialog.getAttribute("data-init") !== "true") {
 		dialog.addEventListener("click", (e) => {
-			if (["A","BUTTON","INPUT","TEXTAREA","IMG"].includes(e.target.tagName)) return;
+			if (["A","BUTTON","INPUT","TEXTAREA","IMG"].includes(e.target.tagName)) {
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				return false;
+			}
 			// if (e.target == dialog || e.target.parentNode == dialog) {}
 			this.closeDialog(id);
 		})
@@ -615,7 +641,7 @@ R74nClass.prototype.dialog = function(id, options = {}) {
 				this.closeDialog(id);
 			}
 		})
-		dialog.getAttribute("data-init", "true");
+		dialog.setAttribute("data-init", "true");
 	}
 	return dialog;
 }
@@ -672,6 +698,10 @@ R74nClass.prototype.share = function(text, hashtag) {
 	content.appendChild(shareContent);
 }
 
+R74nClass.prototype.newsletter = (email) => {
+	window.open("https://news.r74n.com/subscribe?email="+encodeURIComponent(email), '_blank').focus();
+}
+
 R74n.projects = [
 	{
 		name: "Sandboxels",
@@ -720,12 +750,6 @@ R74n.projects = [
 		image: "mini/spotlight-ragebait.png",
 		release: "2026-02-17"
 	},
-	// {
-	// 	name: "Costoflivingdle",
-	// 	url: "mini/cost",
-	// 	image: "mini/spotlight-cost.png",
-	// 	release: "2026-02-24"
-	// },
 	{
 		name: "What Are The Odds?",
 		url: "mini/odds",
@@ -747,12 +771,20 @@ R74n.projects = [
 		url: "mix/",
 		image: "mix/spotlight.png"
 	},
+	{
+		name: "Costoflivingdle",
+		url: "mini/cost",
+		image: "mini/spotlight-cost.png",
+		release: "2026-02-24"
+	},
 ];
 
 R74nClass.prototype.more = function() {
 	let dialog = this.dialog("more", {
 		title: "More games...",
-		wide: true
+		wide: true,
+		home: true,
+		footer: true
 	});
 
 	let content = dialog.querySelector(".globalDialogContent");

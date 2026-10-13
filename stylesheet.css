@@ -1090,6 +1090,9 @@ form .honeypot {
 	color: white;
 	color: var(--t-text);
 }
+body.light:not(.darktheme) .globalDialog {
+	background-color: rgba(0, 0, 0, 0.9);
+}
 .globalDialog.open {
 	display: flex;
 }
@@ -1159,6 +1162,37 @@ form .honeypot {
 .globalDialogX,
 .globalDialog .doodle.x {
 	filter: drop-shadow(0px 0px 6px black);
+}
+.globalDialog .infoControls div {
+	margin-top: 0.5em;
+}
+.globalDialog .infoControls > div > span {
+	padding-bottom: 0.5em;
+}
+.globalDialog button,
+.globalDialog input {
+	font-size: 20px;
+	margin: 0;
+    height: 1em;
+	box-shadow: black 0px 0px 5px 1px;
+}
+.globalDialogFooter {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	flex-grow: 0!important;
+	font-size: 0.85em;
+}
+.globalDialogFooter > div {
+	flex-direction: row !important;
+    gap: 0.25em;
+    align-items: center;
+}
+.globalDialogFooter img {
+	height: 1.25em;
+}
+.globalDialog > div > .globalDialogFooter > div > * {
+	margin-bottom: 0;
 }
 
 @media only screen and (max-width: 900px) {
@@ -1286,7 +1320,11 @@ form .honeypot {
 }
 .projectGallery > a > span {
 	display: none;
-	overflow-y:hidden
+	overflow-y: hidden;
+}
+.projectGallery > a.small > span {
+	font-size: 19px;
+	font-weight: bold;
 }
 @media only screen and (min-width: 700px) {
 	.projectGallery > a.new:hover::after {

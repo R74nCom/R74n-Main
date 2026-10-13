@@ -142,12 +142,6 @@ window.SPA = {
 				themeButton.setAttribute("on", SPA.muted);
 			});
 		}
-		let infoX = document.querySelector(".spa #globalDialog-info");
-		if (infoX) {
-			infoX.addEventListener("click", () => {
-				R74n.closeDialog("info");
-			});
-		}
 		document.querySelectorAll("img").forEach((img) => {
 			img.setAttribute("draggable","false");
 			img.addEventListener("dragstart", ()=>false)
@@ -342,8 +336,25 @@ window.SPA = {
 	},
 
 	info: () => {
-		let dialog = document.getElementById("globalDialog-info");
+		const dialog = document.getElementById("globalDialog-info");
 		if (!dialog) return;
+
+		const controls = dialog.querySelector(".infoControls");
+		if (controls && !controls.querySelector("button")) {
+			controls.innerHTML = `
+			<button onclick="R74n.more()">More Games</button>
+			<button onclick="location.href='https:\/\/r74n.com/contact?message=My%20minigame%20suggestion:%20'">Submit Your Ideas</button>
+			<div>
+				<span><small>Get notified of new games by our <a href="https://news.r74n.com/" target="_blank">free Newsletter</a>!</small></span>
+				<span style="display:inline-block"><input type="email" name="email" placeholder="your@email.com" autocomplete="email" aria-label="Email"><button onclick="R74n.newsletter(this.previousElementSibling.value)">Subscribe</button></span>
+			</div>
+			`;
+
+			let emailInput = controls.querySelector('input[type="email"]');
+			emailInput.addEventListener("keydown", (e) => {
+				if (e.key === "Enter") R74n.newsletter(e.target.value);
+			})
+		}
 
 		R74n.dialog("info");
 
