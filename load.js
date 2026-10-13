@@ -614,6 +614,7 @@ Follow us!
 <a href="https://discord.gg/R74n"><img src="${this.root}shapes/png/share-buttons/discord.png" alt="Discord"></a>
 <a href="https://www.youtube.com/@R74n"><img src="${this.root}shapes/png/share-buttons/youtube.png" alt="YouTube"></a>
 <a href="https://www.tiktok.com/@r74n.com"><img src="${this.root}shapes/png/share-buttons/tiktok.png" alt="TikTok"></a>
+<a href="https://instagram.com/r74ndev"><img src="${this.root}shapes/png/share-buttons/instagram.png" alt="Instagram"></a>
 <a href="https://bsky.app/profile/r74n.com"><img src="${this.root}shapes/png/share-buttons/bluesky.png" alt="Bluesky"></a>
 <a href="https://x.com/R74nCom"><img src="${this.root}shapes/png/share-buttons/twitter.png" alt="Twitter"></a>
 </div>`;
