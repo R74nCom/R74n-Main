@@ -754,7 +754,7 @@ R74n.projects = [
 	{
 		name: "What Are The Odds?",
 		url: "mini/odds",
-		image: "mini/spotlight-odds.gif",
+		image: "mini/spotlight-odds.png",
 		release: "2026-01-03"
 	},
 	{

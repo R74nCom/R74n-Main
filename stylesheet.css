@@ -1427,6 +1427,8 @@ body.light:not(.darktheme) .globalDialog {
 }
 .globalDialog .projectGallery {
 	margin-bottom: 0;
+	max-width: 100%;
+	margin-left: 0!important;
 }
 .globalDialog iframe {
 	margin-left: auto;
