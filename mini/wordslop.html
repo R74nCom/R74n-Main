@@ -131,11 +131,11 @@
 
 <div id="selfiesContainer" class="menu">
   <div id="selfies">
-    <div class="selfie">
+    <!-- <div class="selfie">
       <img src="art/wordslop/sloppy-comm-1.png" style="background:conic-gradient(from 45deg, #ff7f00, #0900ff)">
       <strong>might delete later</strong>
       <em>by <a href="https://twitter.com/bachunawa" target="_blank">bachunawa</a></em>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -1387,7 +1387,7 @@
   settings = null;
   skipSaving = false;
   function saveState() {
-    if (skipSaving || statGet("score") < 10) return;
+    if (skipSaving || statGet("score") < 10 || saveData.locked) return;
     
     let data = JSON.parse(JSON.stringify(saveData));
 
@@ -3111,7 +3111,10 @@
         if (form.length >= 5) {
           formsToCheck.push(form.replace(/i$/g, "us"));
           formsToCheck.push(form.replace(/us$/g, "i"));
-          if (form.endsWith("er")) formsToCheck.push(form.replace(/er$/g, "")+"ing");
+          if (form.endsWith("er")) {
+            formsToCheck.push(form.replace(/er$/g, "")+"ing");
+            formsToCheck.push(form.replace(/er$/g, form.charAt(form.length-3))+"ing");
+          }
           if (form.endsWith("y")) {
             formsToCheck.push(form.slice(0,-1));
             formsToCheck.push(form.slice(0,-1)+"e");
@@ -3120,6 +3123,8 @@
           }
           formsToCheck.push(form.replace(/[^ \-]ae[^ \-]/g, (m) => m.replace("ae","e")));
           formsToCheck.push(form.replace(/ae$/g, "a"));
+          formsToCheck.push(form.replace(/[^ \-]oe[^ \-]/g, (m) => m.replace("oe","e")));
+          formsToCheck.push(form.replace(/^oe/g, "e"));
           formsToCheck.push(form.replace(/ium$/g, "ia"));
           formsToCheck.push(form.replace(/ia$/g, "ium"));
         }
@@ -3136,6 +3141,9 @@
           }
           if (form.endsWith("ce")) {
             formsToCheck.push(form.slice(0,-1)+"tion");
+          }
+          if (form.endsWith("de")) {
+            formsToCheck.push(form.slice(0,-2)+"sion");
           }
           if (form.endsWith("ous")) {
             formsToCheck.push(form.slice(0,-3));
@@ -3166,6 +3174,7 @@
           formsToCheck.push(form.replace(/te$/g, "ted"));
           formsToCheck.push(form.replace(/ted$/g, "te"));
           formsToCheck.push(form + "ence");
+          formsToCheck.push(form + "ance");
           formsToCheck.push(form + "ment");
           formsToCheck.push(form.replace(/a$/g, "ae"));
           formsToCheck.push(form.replace(/ice$/g, "ouse"));
@@ -3218,6 +3227,7 @@
           formsToCheck.push(form.replace(/ion$/g, ""));
           formsToCheck.push(form.replace(/tion$/g, "te"));
           formsToCheck.push(form.replace(/tion$/g, "ting"));
+          formsToCheck.push(form.replace(/sion$/g, "de"));
           formsToCheck.push(form.replace(/ction$/g, "ce"));
           formsToCheck.push(form.replace(/ce$/g, "ction"));
           formsToCheck.push(form.replace(/ing$/g, "ion"));
@@ -3257,6 +3267,12 @@
           formsToCheck.push(form.replace(/ence$/g, "ent"));
           formsToCheck.push(form.replace(/ent$/g, "ence"));
           formsToCheck.push(form.replace(/ier$/g, "y"));
+          formsToCheck.push(form.replace(/ia$/g, "ic"));
+          formsToCheck.push(form.replace(/ia$/g, "ical"));
+          formsToCheck.push(form.replace(/ic$/g, "ia"));
+          formsToCheck.push(form.replace(/ical$/g, "ia"));
+          formsToCheck.push(form.replace(/sm$/g, "stic"));
+          formsToCheck.push(form.replace(/stic$/g, "sm"));
           if (form.endsWith("est")) {
             formsToCheck.push(form.replace(/est$/g, ""));
             formsToCheck.push(form.replace(/iest$/g, "y"));
@@ -3267,6 +3283,9 @@
           formsToCheck.push(form.replace(/ally$/g, "ly"));
           formsToCheck.push(form.replace(/ly$/g, "ally"));
           formsToCheck.push(form.replace(/tal$/g, "t"));
+          formsToCheck.push(form.replace(/tion$/g, "tive"));
+          formsToCheck.push(form.replace(/tive$/g, "tion"));
+          formsToCheck.push(form.replace(/ance$/g, ""));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");
