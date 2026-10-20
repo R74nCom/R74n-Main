@@ -705,6 +705,10 @@
     currentSpecial = null;
     currentCeleb = null;
     let data = {};
+    if (SPA.rigs.length) {
+      data = SPA.rigs[0];
+      SPA.rigNext();
+    }
     data.first = Object.keys(progress).length === 0;
 
     let string = "";

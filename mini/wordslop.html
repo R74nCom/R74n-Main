@@ -1191,8 +1191,10 @@
       skipSaving = true;
       debugCommands.resetyes();
       skipSaving = true;
+      saveData.temp = true;
       // debugCommands.clear();
     },
+    t: () => debugCommands.temp(),
     video: (group, reset=true) => {
       if (reset) debugCommands.temp();
       promo(2);
@@ -1387,7 +1389,7 @@
   settings = null;
   skipSaving = false;
   function saveState() {
-    if (skipSaving || statGet("score") < 10 || saveData.locked) return;
+    if (skipSaving || statGet("score") < 10 || saveData.temp) return;
     
     let data = JSON.parse(JSON.stringify(saveData));
 
@@ -1425,6 +1427,7 @@
 
   let resetting = false;
   function resetAll(confirmed) {
+    if (saveData.temp) location.reload();
     if (!confirmed && statGet("score") > 30) {
       closeTab();
       if (resetting !== "all") logMessage(`umm, really? if you're positive, type "**yes reset everything**", and be sure to make a backup`, 1);
@@ -3100,14 +3103,19 @@
           }
           formsToCheck.push(form.slice(0,-1));
         }
-        else if (form.endsWith("ed") && form.length > 4) {
-          if (form.endsWith("ied")) formsToCheck.push(form.slice(0,-3)+"y");
-          if (form.length > 5) formsToCheck.push(form.slice(0,-3));
-          formsToCheck.push(form.slice(0,-2));
+        else if (form.endsWith("ed")) {
           formsToCheck.push(form.slice(0,-1));
+          if (form.length > 4) {
+            formsToCheck.push(form.slice(0,-2));
+            if (form.endsWith("ied")) formsToCheck.push(form.slice(0,-3)+"y");
+          }
+          if (form.length > 5) formsToCheck.push(form.slice(0,-3));
         }
         if (form.match(/[shx]$/)) formsToCheck.push(form+"es");
         else if (form.length >= 3) formsToCheck.push(form+"s");
+        if (form.length >= 4) {
+          formsToCheck.push(form.replace(/er$/g, "e"));
+        }
         if (form.length >= 5) {
           formsToCheck.push(form.replace(/i$/g, "us"));
           formsToCheck.push(form.replace(/us$/g, "i"));
@@ -3127,17 +3135,18 @@
           formsToCheck.push(form.replace(/^oe/g, "e"));
           formsToCheck.push(form.replace(/ium$/g, "ia"));
           formsToCheck.push(form.replace(/ia$/g, "ium"));
+          formsToCheck.push(form.replace(/ing$/g, "e"));
         }
         if (form.length >= 6) {
           if (form.endsWith("ing")) {
             formsToCheck.push(form.replace(/ing$/g, ""));
-            formsToCheck.push(form.replace(/ing$/g, "e"));
             if (form[form.length - 4] === form[form.length - 5]) formsToCheck.push(form.replace(/.ing$/g, ""));
           }
           if (form.endsWith("ity")) {
             formsToCheck.push(form.slice(0,-3));
             formsToCheck.push(form.slice(0,-3)+"e");
             formsToCheck.push(form.slice(0,-3)+"ia");
+            if (form[form.length-4] === form[form.length-5]) formsToCheck.push(form.replace(/.ity$/g, ""));;
           }
           if (form.endsWith("ce")) {
             formsToCheck.push(form.slice(0,-1)+"tion");
@@ -3162,6 +3171,10 @@
           formsToCheck.push(form.replace(/stic$/g, "st"));
           formsToCheck.push(form.replace(/ical$/g, ""));
           formsToCheck.push(form.replace(/ic$/g, ""));
+          formsToCheck.push(form.replace(/ure$/g, "ural"));
+          formsToCheck.push(form + "ive");
+          formsToCheck.push(form.replace(/ice$/g, "ise"));
+          formsToCheck.push(form.replace(/ise$/g, "ice"));
         }
         formsToCheck.push(form.replace(/in'$/g, ""));
         formsToCheck.push(form.replace(/in'$/g, "e"));
@@ -3222,6 +3235,7 @@
         if (!form.startsWith(".") && !form.match(/^[\d\.e\-+]+$/)) formsToCheck.push(form.replace(/[,\.]/g, ""));
         formsToCheck.push(form.replace(/ing$/g, "in'"));
         formsToCheck.push(form.replace(/in'$/g, "ing'"));
+        formsToCheck.push(form.replace(/ing$/g, "s"));
         if (form.length >= 7) {
           formsToCheck.push(form.replace(/ion$/g, "ing'"));
           formsToCheck.push(form.replace(/ion$/g, ""));
@@ -3243,8 +3257,10 @@
           formsToCheck.push(form.replace(/ment$/g, "ed"));
           formsToCheck.push(form.replace(/ed$/g, "ment"));
           formsToCheck.push(form.replace(/ful$/g, ""));
+          formsToCheck.push(form.replace(/ful$/g, "ing"));
           formsToCheck.push(form.replace(/fulness$/g, ""));
-          formsToCheck.push(form.replace(/ity$/g, ""));
+          formsToCheck.push(form.replace(/fulness$/g, "ing"));
+          formsToCheck.push(form.replace(/fulness$/g, "fully"));
           formsToCheck.push(form.replace(/ism$/g, ""));
           formsToCheck.push(form.replace(/ible$/g, "ibility"));
           formsToCheck.push(form.replace(/ibility$/g, "ible"));
@@ -3252,6 +3268,7 @@
           formsToCheck.push(form.replace(/ful$/g, "fully"));
           formsToCheck.push(form.replace(/fully$/g, ""));
           formsToCheck.push(form.replace(/ful$/g, ""));
+          formsToCheck.push(form.replace(/ing$/g, "ed"));
           formsToCheck.push(form.replace(/al$/g, "ality"));
           formsToCheck.push(form.replace(/zation$/g, "ze"));
           formsToCheck.push(form.replace(/sation$/g, "se"));
@@ -3263,6 +3280,12 @@
           formsToCheck.push(form.replace(/ise$/g, "ization"));
           formsToCheck.push(form.replace(/e$/g, "ing"));
           formsToCheck.push(form.replace(/ation$/g, ""));
+          formsToCheck.push(form.replace(/ation$/g, "e"));
+          formsToCheck.push(form.replace(/ations$/g, "s"));
+          formsToCheck.push(form.replace(/ations$/g, "es"));
+          formsToCheck.push(form.replace(/ations$/g, ""));
+          formsToCheck.push(form.replace(/ations$/g, "e"));
+          formsToCheck.push(form.replace(/e$/g, "ation"));
           formsToCheck.push(form.replace(/ence$/g, ""));
           formsToCheck.push(form.replace(/ence$/g, "ent"));
           formsToCheck.push(form.replace(/ent$/g, "ence"));
@@ -3273,6 +3296,13 @@
           formsToCheck.push(form.replace(/ical$/g, "ia"));
           formsToCheck.push(form.replace(/sm$/g, "stic"));
           formsToCheck.push(form.replace(/stic$/g, "sm"));
+          formsToCheck.push(form.replace(/ption$/g, "e"));
+          formsToCheck.push(form.replace(/ption$/g, "be"));
+          formsToCheck.push(form.replace(/ption$/g, "b"));
+          formsToCheck.push(form.replace(/ption$/g, "ive"));
+          formsToCheck.push(form.replace(/ive$/g, "ption"));
+          formsToCheck.push(form.replace(/sion$/g, "d"));
+          formsToCheck.push(form.replace(/nd$/g, "nsion"));
           if (form.endsWith("est")) {
             formsToCheck.push(form.replace(/est$/g, ""));
             formsToCheck.push(form.replace(/iest$/g, "y"));
@@ -3282,10 +3312,26 @@
           formsToCheck.push(form.replace(/ally$/g, ""));
           formsToCheck.push(form.replace(/ally$/g, "ly"));
           formsToCheck.push(form.replace(/ly$/g, "ally"));
-          formsToCheck.push(form.replace(/tal$/g, "t"));
+          formsToCheck.push(form.replace(/al$/g, ""));
           formsToCheck.push(form.replace(/tion$/g, "tive"));
           formsToCheck.push(form.replace(/tive$/g, "tion"));
           formsToCheck.push(form.replace(/ance$/g, ""));
+          formsToCheck.push(form.replace(/ance$/g, "ing"));
+          formsToCheck.push(form.replace(/ence$/g, "ing"));
+          formsToCheck.push(form.replace(/ant$/g, ""));
+          formsToCheck.push(form.replace(/ant$/g, "ing"));
+          formsToCheck.push(form.replace(/ent$/g, ""));
+          formsToCheck.push(form.replace(/ent$/g, "ing"));
+          formsToCheck.push(form.replace(/ural$/g, "ure"));
+          formsToCheck.push(form.replace(/urally$/g, "ure"));
+          formsToCheck.push(form.replace(/age$/g, ""));
+          formsToCheck.push(form.replace(/age$/g, "e"));
+          formsToCheck.push(form.replace(/ive$/g, ""));
+          formsToCheck.push(form.replace(/ing$/g, "es"));
+          formsToCheck.push(form.replace(/ter$/g, "tration"));
+        }
+        if (form.length >= 9) {
+          formsToCheck.push(form.replace(/tration$/g, "ter"));
         }
         if (form.length >= 3) {
           formsToCheck.push(form + "ness");
@@ -3337,9 +3383,15 @@
         formsToCheck.push(form.replace(/ and /, "/"));
         formsToCheck.push(form.replace(/ ?\/ ?/, " and "));
         formsToCheck.push(form.replace(/ ?\/ ?/, " & "));
+        if (form.match(/[a-z]{2}[0-9]+$/)) formsToCheck.push(form.replace(/[0-9]+$/, ""));
         
         formsToCheck.push(form.replace(/ /g, ""));
         formsToCheck.push(form.replace(/ʻ/g, "'"));
+
+        const dupeMatch = form.match(/^(.+)\1+$/);
+        if (dupeMatch !== null) {
+          formsToCheck.push(dupeMatch[1]);
+        }
 
         // special
         let prefix = form.match(new RegExp(`^(${(

@@ -6,6 +6,7 @@ window.SPA = {
 		SPA.header = document.querySelector(".spa > header:first-child");
 		SPA._paths = document.body.classList.contains("paths");
 		SPA.pages = SPA.main.querySelectorAll(".page");
+		SPA.rigs = [];
 	},
 	init: () => {
 		SPA._loaded = true;
@@ -359,6 +360,16 @@ window.SPA = {
 		R74n.dialog("info");
 
 		// dialog.classList.toggle("open");
+	},
+
+	rig: (data) => {
+		SPA.rigs.push(data);
+	},
+	rigClear: () => {
+		SPA.rigs = [];
+	},
+	rigNext: () => {
+		SPA.rigs.shift();
 	}
 }
 window.addEventListener("load", () => {
