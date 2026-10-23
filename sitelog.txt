@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-10-23 - Added Quxnet button to Outlinks
 2026-10-22 - Updated PHP2Shell Gallery
 2026-10-21 - Created PHP2Shell Gallery page
 2026-10-13 - Minis: "More Games" dialog includes links to homepage and social media
