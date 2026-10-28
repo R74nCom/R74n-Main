@@ -8,3 +8,55 @@
 
   <!-- <dt><a href="PogChamp/">All Twitch Pog<wbr>Champs</a></dt>
     <dd>Every Pog<wbr>Champ up to the Pog<wbr>Champening</dd> -->
+
+if (urlParams.isFalse("feed")) newsFeed.style.display = "none";
+else {
+  let items = [];
+  fetch(`https://r74n.com/sitelog.txt`)
+  .then(response => response.text())
+  .then(lines => {
+    lines = lines.split("\n").slice(0,25);
+    lines.forEach(line => {
+      let date = line.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (date === null) return;
+      date = new Date(parseInt(date[1]), parseInt(date[2])-1, parseInt(date[3]));
+      date.setUTCHours(16, 0, 0, 0);
+      // date = new Date(date[0]);
+      let text = line.match(/ - ?(.+)/);
+      if (text === null) return;
+      text = text[1];
+      items.push([date, text, "https://r74n.com/sitelog.txt", 1]);
+    });
+    console.log(items);
+
+    let articles = newsFeed.querySelector(".articles");
+    articles.innerHTML = "";
+    newsFeed.classList.remove("loading");
+
+    let expandButton = document.getElementById("expandFeed");
+    expandButton.addEventListener("click", () => {
+      if (newsFeed.classList.contains("expanded")) {
+        newsFeed.classList.remove("expanded");
+        expandButton.innerText = "Expand";
+      }
+      else {
+        newsFeed.classList.add("expanded");
+        expandButton.innerText = "Collapse";
+      }
+    });
+
+    items.forEach(item => {
+      let article = document.createElement("a");
+      article.role = "article";
+      article.className = "article";
+      article.href = item[2];
+      article.target = "_blank";
+      article.innerText = item[1];
+      article.insertAdjacentHTML("afterbegin", `<a href="https://bsky.app/profile/r74n.com/post/${id}" target="_blank" style="margin-right:0.15em">↗</a> `);
+      article.insertAdjacentHTML("beforeend", `<span style="opacity:0.5; padding-left:0.5em; font-style:italic;">${dateText}</span>`);
+      articles.appendChild(article);
+    })
+
+
+  });
+}

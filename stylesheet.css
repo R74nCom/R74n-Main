@@ -131,13 +131,13 @@ img, audio, video {vertical-align:middle;max-width:100%}
 .vertical {font-family:'Mongolian Baiti','Noto Sans Mongolian',sans-serif;font-size:140%;-webkit-writing-mode:vertical-lr;-moz-writing-mode:vertical-lr;writing-mode:vertical-lr;writing-mode:vertical-ideographic;}
 
 .gradtext {
-	-webkit-background-clip:text!important;
-	background-clip:text;
-	-webkit-text-fill-color:transparent!important;
+	-webkit-background-clip: text!important;
+	background-clip: text;
+	-webkit-text-fill-color: transparent!important;
 }
 
 .R74nicon:hover {
-	filter:hue-rotate(3600deg);
+	filter: hue-rotate(3600deg);
 	transition: filter 30s;
 }
 
@@ -159,8 +159,7 @@ input[type=button], button, .button, input[type=submit], input[type=reset], .che
 	outline: 0;
 	margin: 4px 0;
 	line-height: 1;
-	/* color transition */
-	transition: filter 0.2s, scale 0.2s, translate 0.2s;
+	transition: filter 0.1s;
 }
 input[type=button][selected=true], .button[selected=true] {
 	filter: brightness(150%);
@@ -171,11 +170,9 @@ input[type=button]:hover, button:hover, .button:hover, input[type=submit]:hover,
 }
 input[type=button][disabled]:hover, button[disabled]:hover, .button[disabled]:hover, input[type=submit][disabled]:hover, input[type=reset][disabled]:hover {
 	filter: brightness(75%);
-	scale: 1!important;
 }
-input[type=button]:active, button:active, .button:active, input[type=submit]:active, input[type=reset]:active, .checkmark:active, .clickable:active, kbd:active {
+input[type=button]:active, button:active, .button:active, input[type=submit]:active, input[type=reset]:active, .checkmark:active, .clickable:active, kbd:active, input[type=file]:active::file-selector-button {
 	filter: brightness(50%);
-	scale: 0.98
 }
 .clickable {
 	cursor: pointer
@@ -237,13 +234,6 @@ input[type=file]::file-selector-button {
 input[type=number] {
 	width:100px
 }
-button:active, .button:active, kbd:active,
-input[type=button]:active, input[type=reset]:active, input[type=submit]:active,
-input[type=file]:active::file-selector-button {
-	border-bottom-width: 3px;
-	translate: 0px 1px;
-	margin-bottom: 5px;
-}
 textarea:focus-visible, input:focus-visible,
 select:focus-visible, button:focus-visible, .button:focus-visible,
 input[type=button]:focus-visible, input[type=reset]:focus-visible, input[type=submit]:focus-visible,
@@ -278,6 +268,9 @@ input[type=submit] {
 input[type=reset] {
 	background-color: rgb(111, 59, 59);
 	background-color: var(--t-input-bad);
+}
+input[type=file] {
+	cursor: pointer;
 }
 
 kbd {
@@ -355,7 +348,8 @@ ul li::before, dl dt::before {
 	color: var(--t-deco);
 	font-weight: bold;
 	display: inline-block;
-	margin-left: 0.5em;
+	margin-left: 0em;
+	margin-right: 0.1em;
 }
 li.redbullet::before, dt.redbullet::before, li.red::before, dt.red::before {
 	color: rgb(255, 90, 90);
@@ -385,10 +379,29 @@ ol li::before {
 	color: rgb(90, 255, 90);
 	color: var(--t-deco);
 	display: inline-block;
-	padding-right: 0.5em;
-	margin-left: -1.25em;
+	padding-right: 0.25em;
+	margin-left: 0em;
 }
 ol li {counter-increment: li}
+p.ul-title {
+	margin-bottom: 0.25em;
+}
+p.ul-title + ul {
+	margin-top: 0.25em;
+}
+
+ul, ol {
+	padding-left: 0em;
+}
+ul ol, ol ul, ul ul, ol ol { /* Nested lists */
+	padding-inline-start: 1.75em;
+}
+
+@media only screen and (max-width: 700px) {
+	table { margin-left: 0em; }
+	ul, ol { padding-left: 0.5em; }
+	.pagetitle { font-size: 24pt; }
+}
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgb(161, 161, 161);
@@ -417,7 +430,7 @@ hr {
 
 .lidesc, dd {font-style:italic;}
 dd {margin-inline-end: 20px;}
-.lidesc::before, dd::before {content:"↳ "}
+.lidesc::before, dd::before {content:"↳ "; margin-left: -10px;}
 .cw[open="false"] {
 	cursor: pointer;
 	background-color: rgb(39, 39, 39);
@@ -479,7 +492,7 @@ body > footer a:last-child::after {
 
 table {
 	border-collapse: collapse;
-	margin-left: 0.5em;
+	margin-left: 0em;
 	overflow-wrap: anywhere;
 }
 td, th {
@@ -573,19 +586,6 @@ img, canvas {
 	background-color: gray;
 	background-color: var(--t-back-readable);
 	padding: 5px;
-}
-
-ul, ol {
-	padding-left: 1.5em;
-}
-ul ol, ol ul, ul ul, ol ol { /* Nested lists */
-	padding-inline-start: 1.75em;
-}
-
-@media only screen and (max-width: 700px) {
-	table { margin-left: 0em; }
-	ul, ol { padding-left: 0.5em; }
-	.pagetitle { font-size: 24pt; }
 }
 
 .noSelect, .panelTitle, .actionItem, .logMessage .logDay, .logMessage .logAct {
@@ -755,6 +755,33 @@ body header:first-child .home {
 	flex-grow: 0
 }
 
+nav.subpages {
+	padding: 0.5em 1em;
+	background: var(--t-back-l);
+	display: flex;
+	gap: 1em;
+	border-bottom: 3px solid var(--t-border-opaque-d);
+	overflow-x: scroll;
+	flex-wrap: wrap;
+}
+nav.subpages > *,
+nav.subpages a {
+	/* flex-grow: 1; */
+	color: var(--t-text-d);
+}
+nav.subpages a:hover {
+	color: var(--t-deco-l);
+}
+/* nav.subpages::after {
+	content: "";
+	flex-grow: 1;
+    flex-basis: 100%;
+} */
+.content nav.subpages,
+.homepage nav.subpages {
+	border-top: 3px solid var(--t-border-opaque-l);
+}
+
 
 @media only screen and (min-width: 1050px) {
 	header.homepage #rueBox {
@@ -858,6 +885,7 @@ body header:first-child .home {
 }
 .tree details > summary {
 	border-bottom: none;
+	border-bottom: 0px;
 	padding-bottom: 0em;
 	margin-bottom: 0.75em;
 	width: 98%;
@@ -1310,7 +1338,9 @@ body.light:not(.darktheme) .globalDialog {
 	content: "update";
 }
 .projectGallery > a.new.small::after {
-	font-size: 28px;
+	font-size: 25px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 .projectGallery .alertheader {
 	height: fit-content;
@@ -1423,6 +1453,8 @@ body.light:not(.darktheme) .globalDialog {
 	.projectGallery > a.new.small::after {
 		opacity: 1;
 		font-size: 20px;
+		padding-top: 1px;
+		padding-bottom: 1px;
 	}
 }
 .globalDialog .projectGallery {

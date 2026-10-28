@@ -1,5 +1,18 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-10-28 - Created Styleguide
+2026-10-28 - Updated older pages in accordance with the Styleguide
+2026-10-28 - Renamed Guess The Pixel Flag to Guess the PixelFlag
+2026-10-28 - Improved homepage design when arriving from Sandboxels
+2026-10-28 - Updated style: Lists have less spacing, buttons no longer animated
+2026-10-28 - Updated Meta page description and links
+2026-10-28 - Experimental navbar for Twitter page
+2026-10-28 - Updated What Are The Odds? spotlight button
+2026-10-28 - Removed Disqus Forum page
+2026-10-28 - Spotlight on homepage can be disabled with URL parameter
+2026-10-28 - Moved Halacae graphics off of Imgur to avoid geoblock in the UK
+2026-10-28 - Removed Triller and Flip from Socials page
+2026-10-28 - Fixed Text Viewer spacing and perpetual "Loading..."
 2026-10-23 - Added Quxnet button to Outlinks
 2026-10-22 - Updated PHP2Shell Gallery
 2026-10-21 - Created PHP2Shell Gallery page

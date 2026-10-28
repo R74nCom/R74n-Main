@@ -59,7 +59,6 @@ https://r74n.com/twitch/
 https://r74n.com/textviewer/
 https://r74n.com/textviewer/docs
 https://r74n.com/mix/
-https://r74n.com/mix/changelog
 https://r74n.com/search/
 https://r74n.com/guestbook/
 https://r74n.com/ufbs/
@@ -150,3 +149,4 @@ https://r74n.com/community/word-survey-matches.txt
 https://r74n.com/community/word-survey-groups.txt
 https://r74n.com/mini/humans
 https://r74n.com/php
+https://r74n.com/styleguide

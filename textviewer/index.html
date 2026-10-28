@@ -32,6 +32,11 @@
             margin-left:auto;
             margin-right:auto;
             width: 60%;
+            display: flex;
+            flex-direction: column;
+        }
+        #inputdiv > * {
+            flex-grow: 1;
         }
         /* on mobile take up the whole screen */
         @media only screen and (max-width: 600px) {
@@ -41,8 +46,8 @@
         }
         #textArea {
             font-family: monospace;
-            width: 100%;
-            max-width: 90%;
+            /* width: 100%;
+            max-width: 90%; */
             min-height: 1em;
             height: 11em;
             text-align: left;
@@ -324,7 +329,7 @@ if (!(location.search=="")) {
     text = converter.makeHtml(text);
     document.getElementById("textdiv").innerHTML = text
     // set .backbutton href to the same page but without the text in the url
-    document.getElementsByClassName("back")[0].href = "?";
+    document.getElementsByClassName("back")[0].style.display = "";
 }
 else {
     document.getElementById("textdiv").innerHTML = ""
@@ -361,6 +366,7 @@ document.getElementById("loadingscreen").style.display = "none";
 
 <header>
 <a href="/" class="home"></a>
+<a href="." class="back" style="display: none;">⦉</a>
 <h1 class="pagetitle">Text Viewer</h1>
 </header>
 

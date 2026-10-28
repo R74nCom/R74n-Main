@@ -126,7 +126,7 @@
 R74n.state.main = true;
 
 function newsFlash(text) {
-  if (["no","false"].includes(urlParams.get("newsflash"))) return false;
+  if (urlParams.isFalse("newsflash")) return false;
   document.getElementById("newsheader").innerHTML = text;
   document.getElementById("newsheader").style.display = "block";
   document.getElementById("newsheader").style.backgroundColor = "darkred";
@@ -218,7 +218,7 @@ function setIcon(){
     newicon = (eventdata[0] || "favicon.png");
     var newtitle = eventdata[1];
   }
-  if (newicon && !["no","false"].includes(urlParams.get("holiday"))) {
+  if (newicon && !urlParams.isFalse("holiday")) {
     if (Array.isArray(newicon)) {
       newicon = newicon[Math.floor(Math.random()*newicon.length)];
     }
@@ -380,7 +380,8 @@ function setIcon(){
         text-align: center;
       }
       .projectheader {
-        margin-bottom: 0.8em;
+        margin-bottom: 1.2em;
+        margin-top: -0.6em;
         text-align: center;
         display: flex;
         justify-content: center;
@@ -405,6 +406,13 @@ function setIcon(){
 
       #spotlightGallery {
         justify-content: space-between;
+      }
+      .projectGallery .extra,
+      .projectGallery .hidden {
+        display: none;
+      }
+      .projectGallery.showExtra .extra {
+        display: flex;
       }
       .underSpotlight {
         height: 0;
@@ -443,6 +451,9 @@ function setIcon(){
         }
         #newsFeed.expanded .article:first-of-type {
           padding-right: unset;
+        }
+        .projectheader {
+          margin-bottom: 0.5em;
         }
       }
       @media only screen and (max-width: 1050px) {
@@ -578,13 +589,13 @@ function setIcon(){
 </header>
 
 <header id="splashheader" class="alertheader" style="display:none;" aria-label="Splash text"></header>
-<header id="sandboxelsHeader" class="alertheader projectheader" style="display:none;" aria-label="Sandboxels info">
-  <a href="https://store.steampowered.com/app/3664820/Sandboxels/" class="button">Get on Steam (99¢)</a>
-  <a href="https://news.r74n.com/" class="button">Free Newsletter</a>
-  <a href="https://discord.gg/R74n" class="button">Discord</a>
-  <a href="https://www.reddit.com/r/Sandboxels/" class="button">r/Sandboxels</a>
-  <a href="/sandboxels/" class="button">More Sandboxels</a>
-</header>
+<nav id="sandboxelsHeader" class="alertheader projectheader subpages" style="display:none;" aria-label="Sandboxels info">
+  <a href="https://store.steampowered.com/app/3664820/Sandboxels/">Get on Steam (99¢)</a>
+  <a href="https://news.r74n.com/subscribe">Free Newsletter</a>
+  <a href="https://discord.gg/R74n">Discord</a>
+  <a href="https://www.reddit.com/r/Sandboxels/">r/Sandboxels</a>
+  <a href="/sandboxels/">More Sandboxels</a>
+</nav>
 
 <main class="content">
 
@@ -605,9 +616,9 @@ function setIcon(){
   <!-- <a href="mini/cost" style="background-image: url(mini/spotlight-cost.png);">Cost&shy;of&shy;livingdle <span>Guess everyday expenses</span></a> -->
   <a href="mini/odds" style="background-image: url(mini/spotlight-odds.png);">What Are The Odds? <span>Explore decreasing probabilities</span></a>
   <a href="ants/" style="background-image: url(ants/spotlight.png);">Every Ant on Earth <span>Explore each individual ant</span></a>
-  <a href="pixelflags/guess" style="background-image: url(pixelflags/spotlight.png);">Guess the Pixel Flag <span>Do you know your flags?</span></a>
+  <a href="pixelflags/guess" style="background-image: url(pixelflags/spotlight.png);">Guess the PixelFlag <span>Do you know your flags?</span></a>
   <a href="mix/" style="background-image: url(mix/spotlight.png);">Mix-Up! <span>Decide results for random combos</span></a>
-  <!-- <a href="convert/" style="background-image: url(convert/spotlight.png);">Unit Converter <span>Translate any unit imaginable</span></a> -->
+  <a href="convert/" class="extra" style="background-image: url(convert/spotlight.png);">Unit Converter <span>Translate any unit imaginable</span></a>
 </nav>
 
 </div>
@@ -668,8 +679,8 @@ function setIcon(){
         <li><a href="https://news.r74n.com/"><em>Newsletter</em> Get notified when big updates drop</a></li>
         <li><a href="social/"><em>Socials</em> Follow us literally everywhere</a></li>
         <li><a href="ufbs/"><em>Send Feedback</em> Suggest features or report bugs</a></li>
-        <li><a href="commons/"><em>Commons</em> Publicly accessible and editable spaces</a></li>
         <li><a href="community/"><em>Community Projects</em> See what viewers have made</a></li>
+        <li><a href="styleguide"><em class="news">[NEW]</em> <em>Styleguide</em> Our standard writing practices</a></li>
         <li><a href="icons/"><em>Icons</em> Iconic R74n logo in every color and format</a></li>
         <li>
           <ul class="tree">
@@ -677,9 +688,10 @@ function setIcon(){
               <summary>More...</summary><ul>
                 <li><a href="id/"><em>Identifiers</em> Identify our projects or request your own</a></li>
                 <li><a href="https://data.r74n.com"><em>Wikibase</em> Structured data about R74n anyone can edit</a></li>
+                <li><a href="commons/"><em>Commons</em> Publicly accessible and editable spaces</a></li>
                 <li><a href="translate/"><em>Translation Hub</em> Speak another language?</a></li>
                 <li><a href="test/"><em>Testing Zone</em> All form elements supported by R74n</a></li>
-                <li><a href="meta/"><em>Meta</em> Everything else about R74n, including more pages</a></li>
+                <li><a href="meta/"><em>Meta</em> More pages and everything else about R74n</a></li>
               </ul>
             </details></li>
           </ul>
@@ -757,6 +769,7 @@ cpdSeason.addEventListener("click", function(e) {
 
 // Temporary news flashes
 var newsFlashes = [
+  2026,
   ["3/28-4/2","The Grand Census begins NOW. <a href='https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog'>Fill out our form</a> to make your voice heard!"],
   ["4/3-4/6","Help us get painted on a street! You can <a href='https://paintastreet.com/#tile-019d5089-1fe1-7cbf-ad33-22d4e1075fb5'>vote on our tile</a> 10 times every 10 minutes!"],
   ["4/7-4/11","The Grand Census begins NOW. <a href='https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog'>Fill out our form</a> to make your voice heard!"],
@@ -771,8 +784,15 @@ var newsFlashes = [
   ["10/31-10/31","Tonight is the final night of trick-or-treating on Discord! <a href='https://discord.gg/R74n'>Join now</a>!!"],
 ];
 // loop through newsFlashes, if today is between the start and end dates, display the message
+let newsFlashYear = 2017;
+const currentYear = today.getFullYear();
 try {
   for (var i=0; i<newsFlashes.length; i++) {
+    if (typeof newsFlashes[i] === "number") {
+      newsFlashYear = newsFlashes[i];
+      continue;
+    }
+    if (newsFlashYear !== currentYear) continue;
     var dates = newsFlashes[i][0].split('-');
     var start = new Date(dates[0] + "/"+today.getFullYear());
     if (dates.length > 1) {
@@ -834,6 +854,13 @@ if (document.referrer && document.referrer.indexOf("r74n.") === -1) {
 function closeSplash() {
   document.getElementById("splashheader").style.display = "none";
   document.cookie = "R74nRef=no.com;max-age=0;path=/;domain=r74n.com";
+  document.querySelectorAll(".projectheader").forEach(header => {
+    header.style.display = "none";
+  });
+  document.querySelectorAll(".projectGallery .hidden").forEach(btn => {
+    btn.classList.remove("hidden");
+  });
+  document.getElementById("spotlightGallery").classList.remove("showExtra");
 }
 
 // Referral Splashes
@@ -880,7 +907,7 @@ if (refdomain) {
     "substack.com":`Welcome, reader! Follow our <a title="R74n Newsletter" href="https://news.r74n.com/">free Newsletter</a> to stay updated! ❤️`,
     "oid-base.com":`Welcome, identifier fan! Check out our massive <a title="Identifiers page" href="https://r74n.com/id/">ID Space</a>, and even get involved! ❤️`,
     "n2t.net":"oid-base.com",
-    "games":`Welcome! Try out our many fun games and pages below! 🎮`,
+    "games":`🎮 Welcome! Try out our many fun games and pages below!`,
     "itch.io":"games",
     "steampowered.com":"games",
     "steamcommunity.com":"games",
@@ -894,9 +921,10 @@ if (refdomain) {
     "letsgetcreative.today":"games",
     "pointlesssites.com":"games",
     "playlight.dev":"games",
+    "bored.com":"games",
     "kicya.net":"thanks for clicking on my tile!! enjoy your stay :)",
     "webtiles.kicya.net":"kicya.net",
-    "neal.fun":"thanks for visiting the developer of Sandboxels!! for more info, see <a href='https://sandboxels.r74n.com/new-home'>our Sandboxels FAQ</a>. enjoy your stay :)",
+    "neal.fun":"👋 thanks for visiting the developer of Sandboxels!! <a href='https://sandboxels.r74n.com/new-home'>why the move?</a>",
   }
   /*
 youtube: “Did you enjoy the video? leave a like and subscribe!”
@@ -918,8 +946,9 @@ youtube: “Did you enjoy the video? leave a like and subscribe!”
   }
   
   if (refdomain === "neal.fun") {
-    document.getElementById("spotlight-sandboxels").style.display = "none";
+    document.getElementById("spotlight-sandboxels").classList.add("hidden");
     document.getElementById("sandboxelsHeader").style.display = "flex";
+    document.getElementById("spotlightGallery").classList.add("showExtra");
   }
 }
 
@@ -927,14 +956,20 @@ document.getElementById("homeIconLink").addEventListener("click", function() {
   location.hash = "YOU-ARE-ALREADY-HOME.";
 });
 
-if (R74n.get("HideSpotlight") === "1") {
-  document.getElementById("toggleSpotlight").click();
+if (R74n.get("HideSpotlight") === "1" || urlParams.isFalse("spotlight")) {
+  let btn = document.getElementById("toggleSpotlight");
+  let div = document.getElementById('allGalleries');
+  btn.innerText = "Show";
+  div.style.display = "none";
+  if (urlParams.isFalse("spotlight")) {
+    btn.style.display = "none";
+  }
 }
 
 initRue();
 
 let newsFeed = document.getElementById("newsFeed");
-if (["no","false"].includes(urlParams.get("feed"))) newsFeed.style.display = "none";
+if (urlParams.isFalse("feed")) newsFeed.style.display = "none";
 else fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=did:plc:kig7dt37e6tjzxn2jyjourhl&limit=10&filter=posts_no_replies&includePins=false`)
 .then(response => response.json())
 .then(data => {

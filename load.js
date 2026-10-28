@@ -763,7 +763,7 @@ R74n.projects = [
 		image: "ants/spotlight.png"
 	},
 	{
-		name: "Guess the Pixel Flag",
+		name: "Guess the PixelFlag",
 		url: "pixelflags/guess",
 		image: "pixelflags/spotlight.png"
 	},

@@ -24902,7 +24902,7 @@ ProtoCog / coglet "i bet your coglet doesn't know this many words"
 Costoflivingdle
 RageBait Simulator
 Handwriting Personality "i got **considerate**, what'd you get?"
-PixelFlags / guess the pixel flag
+PixelFlags / guess the pixelflag
 R74moji "feel anything. be anyone."
 word "if you like those, i have a game for you"
 progress "you are doing great!"

@@ -293,7 +293,7 @@ multiplaneEntities = {
 "3005": "JavaScript",
 
 "6000": "PixelFlag, individual",
-"6010": "Guess The Pixel Flag//https://r74n.com/pixelflags/guess",
+"6010": "Guess the PixelFlag//https://r74n.com/pixelflags/guess",
 
 // Social Media Accounts //
 "7011": "emoji artist//https://twitter.com/CopyPasteDump",
