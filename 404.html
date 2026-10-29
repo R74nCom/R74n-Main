@@ -99,6 +99,7 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 "commons/calendar",
 "old",
 "old/sandbox",
+"old/list/laughter",
 "test/",
 "twitter/",
 "tiktok/",
@@ -297,6 +298,8 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "vault": "archive/",
     "support": "contact/",
     "wordslop": "mini/wordslop",
+    "writing": "styleguide",
+    "grammar": "styleguide",
 
     "textconverter": "https://c.r74n.com/converter/",
     "fonts": "https://c.r74n.com/fonts/",
@@ -324,7 +327,9 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     "favicon.ico": "/icons/favicon.ico",
     "mini": "/",
     "archives": "/archive/",
-    "wordslop": "mini/wordslop"
+    "wordslop": "mini/wordslop",
+    "style": "styleguide",
+    "style-guide": "styleguide"
   }
 
   nounChanges = {
@@ -364,12 +369,13 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
 
   
 
-  var strippedPath = window.location.pathname.replace(/^\/|\/$/g,"").toLowerCase();
+  const mainPathName = (urlParams.get("path") || window.location.pathname);
+  var strippedPath = mainPathName.replace(/^\/|\/$/g,"").toLowerCase();
   if (forceRedirect[strippedPath]) {
     window.location = forceRedirect[strippedPath];
   }
-  else if (window.location.pathname.endsWith("/") && pages.indexOf(window.location.pathname.replace(/\/$/)) !== -1) {
-    window.location = window.location.pathname.replace(/\/$/);
+  else if (mainPathName.endsWith("/") && pages.indexOf(mainPathName.replace(/\/$/)) !== -1) {
+    window.location = mainPathName.replace(/\/$/);
   }
   else if (pages.indexOf(strippedPath.toLowerCase()) !== -1) {
     window.location = "/"+strippedPath.toLowerCase();
@@ -379,7 +385,7 @@ Don't give up! <a href="https://R74n.com">Go Home</a> or <a href="https://R74n.c
     window.location = choice;
   }
   // loop through pages and extraPages to find the closest match
-  var pathName = window.location.pathname.substring(1).toLowerCase();
+  var pathName = (urlParams.get("path") || mainPathName).substring(1).toLowerCase();
   // var pathName = "https://r74n.com/hello/test"; //test
   var testedPages = {};
   for (var i = 0; i < pages.length; i++) {

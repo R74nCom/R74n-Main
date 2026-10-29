@@ -418,6 +418,24 @@ ul ol, ol ul, ul ul, ol ol { /* Nested lists */
 }
 
 
+h1, h2, h3, h4, h5, h6 {
+	margin-block-start: 1.2em;
+    margin-block-end: 0.5em;
+}
+h1 + ul, h2 + ul, h3 + ul,
+h1 + p, h2 + p, h3 + p,
+h1 + h2, h2 + h3, h3 + h4 {
+	margin-block-start: 0.5em;
+}
+h2 {
+	letter-spacing: 0.5px;
+}
+h3 {
+	opacity: 0.9;
+	color: var(--t-heading);
+}
+
+
 
 hr {
 	border: 1px solid #3b3b3b;
