@@ -1,7 +1,10 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-10-29 - Created Tracking URLs page
 2026-10-29 - Updated Styleguide: Added datetime formats and anchor IDs
-2026-10-29 - Updated spacing and colors for headings
+2026-10-29 - Shapes: Share Buttons for Spotify, Amazon, Google, and LinkedIn
+2026-10-29 - Updated heading spacing and colors, paragraph line spacing
+2026-10-29 - Fixed: Google Form links ignore Shift-clicking behavior
 2026-10-28 - Created Styleguide
 2026-10-28 - Updated older pages in accordance with the Styleguide
 2026-10-28 - Renamed Guess The Pixel Flag to Guess the PixelFlag

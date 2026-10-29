@@ -434,6 +434,9 @@ h3 {
 	opacity: 0.9;
 	color: var(--t-heading);
 }
+p {
+	line-height: 1.5;
+}
 
 
 
@@ -688,6 +691,9 @@ body.homepage > header:first-child {
 .content > ol:first-child {
     margin-top: 0em;
 	padding-top: 0em;
+}
+.content > p:first-child {
+	margin-top: -4px;
 }
 
 body header:first-child {

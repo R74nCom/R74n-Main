@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="List of every social media platform that attaches tracking parameters to your links when sharing posts, along with instructions to remove each one.">
+    <meta name="keywords" content="R74n, R47n">
+    <meta name="author" content="R74n">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:image:alt" content="R74n">
+    <meta name="twitter:image" content="/icons/avatar.png">
+    <title>All Tracking URLs and How to Remove Them - R74n</title>
+    <link rel="stylesheet" type="text/css" href="normalize.css">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00ffff">
+    <link rel="icon" type="image/x-icon" sizes="40x40" href="/icons/favicon.ico">
+    <meta name="theme-color" content="#000000">
+
+    <script src="load.js"></script>
+
+    <style>
+      .content h3 {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+      .content h2:first-of-type {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5em;
+      }
+      .content .g {
+        color: #6df16d;
+      }
+      .content .r {
+        color: #ff6767;
+      }
+      .content ul {
+        color: #d8e4da
+      }
+      strong:has(+ ul) {
+        margin-bottom: 0;
+      }
+      strong + ul {
+        margin-top: 0.33em;
+      }
+      ul li {
+        margin-top: 5px;
+      }
+      ul li:first-child {
+        margin-top: 0;
+      }
+      .colorblind .g {
+        opacity: 0.7;
+      }
+      .colorblind .r {
+        font-weight: bold;
+      }
+      .colorblind .r::before {
+        content: "\{";
+        margin-left: 3px;
+      }
+      .colorblind .r::after {
+        content: "\}";
+        margin-right: 3px;
+      }
+      .colorblind #colorBlind {
+        background-color: var(--t-input-good);
+      }
+    </style>
+
+</head>
+
+<body>
+
+<header>
+<a href="/" class="home"></a>
+<a href="." class="back">⦉</a>
+<h1 class="pagetitle">Tracking URLs</h1>
+</header>
+
+<main class="content">
+
+<p><dfn>URL parameters</dfn> are <strong>pieces of data added to links</strong>. Usually, they contain important information for the website to get you exactly where you need, such as a <strong>search query</strong> or a specific <strong>YouTube video ID</strong>.</p>
+
+<p>Recently, social media platforms have been generating a unique code every time you share a post, and appending that to the end. <em>Continue reading for a full list of these platforms.</em></p>
+
+<p style="text-align: center;"><a href="trackers.png" target="_blank" download><img src="trackers.png" style="width: 600px;" alt="Differentiating tracking codes in a URL"></a></p>
+
+<p>Using this, they track exactly who you send the post to, allowing them to build a <strong>social graph</strong> of all your friends, and associate your accounts across the web.</p>
+
+<p>Not only is this creepy, it can also <strong>expose your personal profile</strong> without your knowledge. Some platforms use this data to suggest your account to the recipient. If you're hiding a secret identity from your family, for example, this is especially important.</p>
+
+<h2>The List <button id="colorBlind">Color-blind: OFF</button></h3>
+
+<p id="jumpTo">Jump to: </p>
+
+<h3><img src="shapes/png/share-buttons/youtube.png" class="iconimg"> YouTube</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>youtu.be/<span class="g">atgA4aBw0TI</span>?<span class="r">si=c5udQWyjb9o-CXK1</span></li>
+  <li>youtube.com/watch?v=<span class="g">16vQ9MeobW8</span>&<span class="r">is=DoJlj-R_KBmspBdr</span></li>
+</ul>
+<p>YouTube has been known to share your profile with the recipient unless disabled.</p>
+<strong>Associated with source location:</strong><ul>
+  <li>youtube.com/watch?v=<span class="g">16vQ9MeobW8</span>&<span class="r">pp=sAQA</span></li>
+</ul>
+
+<h3><img src="shapes/png/share-buttons/twitter.png" class="iconimg"> Twitter / X</h2>
+<strong>Likely associated with account or individual share:</strong><ul>
+  <li>x.com/username/status/<span class="g">1739219362636581608</span>?<span class="r">a=fYaD7o5f1JIjHDy2E0X</span></li>
+</ul>
+<strong>Associated with share method or device:</strong><ul>
+  <li>x.com/username/status/<span class="g">1739219362636581608</span>?<span class="r">s=20</span></li>
+  <li>x.com/username/status/<span class="g">1730572934558869122</span>?<span class="r">s=46</span></li>
+</ul>
+<strong>Associated with outgoing link:</strong><ul>
+  <li>t.co/<span class="r">0955ZfGIE8</span></li>
+</ul>
+<p><code>t.co</code> codes can't be removed manually. Open the link in your browser, and copy the new link from the address bar.</p>
+
+<h3><img src="shapes/png/share-buttons/tiktok.png" class="iconimg"> TikTok</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>tiktok.com/t/<span class="r">ZPLDY1jFh</span>/</li>
+  <li>vt.tiktok.com/<span class="r">ZSbcDpc2U</span>/</li>
+  <li>vm.tiktok.com/<span class="r">ZIJnhHxyU</span>/</li>
+</ul>
+<p>Can't be removed manually. Open the link in your browser, and copy the new link from the address bar.</p>
+<p>TikTok shares your profile with the recipient if it isn't set to private.</p>
+
+<h3><img src="shapes/png/share-buttons/instagram.png" class="iconimg"> Instagram</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>instagram.com/reel/<em class="g">Da5ZhfUbGsi</em>/?<em class="r">srtk=MTU5eHseNjfLeDdoZg==</em></li>
+  <li>instagram.com/reel/<em class="g">Da5ZhfUbGsi</em>/?<em class="r">obrf=MTU5eHseNjfLeDdoZg==</em></li>
+</ul>
+
+<h3><img src="shapes/png/share-buttons/facebook.png" class="iconimg"> Facebook</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>www.facebook.com/share/r/<em class="r">19pKh6pENj</em>/</li>
+</ul>
+<p>Can't be removed manually. Open the link in your browser, and copy the new link from the address bar.</p>
+<strong>Associated with share method:</strong><ul>
+  <li>www.facebook.com/reel/<em class="g">2292819934384649</em>?<em class="r">mibextid=wwXIfr</em></li>
+</ul>
+
+<h3><img src="shapes/png/share-buttons/reddit.png" class="iconimg"> Reddit</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>www.reddit.com/r/privacy/s/<em class="r">IZ08Z8p5xV</em></li>
+</ul>
+<p>Can't be removed manually. Open the link in your browser, and copy the new link from the address bar.</p>
+<strong>Safe to share:</strong><ul>
+  <li>www.reddit.com/r/privacy/<em class="g">1x7id6h</em>/post_title</li>
+</ul>
+
+<h3><img src="shapes/png/share-buttons/pinterest.png" class="iconimg"> Pinterest</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>pin.it/<em class="r">545LVBnm3</em> <em>(Can't be removed manually. Open the link in your browser, and copy the new link from the address bar.)</em></li>
+  <li>pinterest.com/pin/<em class="g">1152780883435713285</em>/sent/?<em class="r">invite_code=9a5f5149d59da0a19f</em>&<em class="r">sender=829688422100434808</em></em></li>
+</ul>
+<strong>Safe to share:</strong><ul>
+  <li>pinterest.com/pin/<em class="g">1152780883435713285</em></li>
+</ul>
+
+<h3><img src="shapes/png/share-buttons/spotify.png" class="iconimg"> Spotify</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>open.spotify.com/track/<em class="g">37qtjAbhzMApJ2c6L19Bfm</em>?<em class="r">si=QvtBgGxbRQm4XDW9CxE5Ng</em></li>
+</ul>
+<strong>Associated with share method:</strong><ul>
+  <li>open.spotify.com/track/<em class="g">37qtjAbhzMApJ2c6L19Bfm</em>?<em class="r">utm_source=copy-link</em></li>
+</ul>
+
+<h3><img src="shapes/png/share-buttons/google.png" class="iconimg"> Google</h2>
+<strong>Associated with account and individual share:</strong><ul style="margin-bottom: 5px;">
+  <li>share.google/<em class="r">ZA80YdjSIsaVEGH6b</em></li>
+  <li>maps.app.goo.gl/<em class="r">TXpkcViksUSJAKLL9</em></li>
+</ul>
+<p style="margin-top: 5px;">Can't be removed manually. Open the link in your browser, and copy the new link from the address bar.</p>
+<ul>
+  <li>www.google.com/search?kgmid=<em class="g">/g/11ph1yrw31</em>&<em class="r">kgs=15b9a834d927a713</em></li>
+</ul>
+
+<h3><img src="shapes/png/share-buttons/amazon.png" class="iconimg"> Amazon</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>a.co/d/<em class="r">0ygOjtmX</em> <em>(Can't be removed manually. Open the link in your browser, and copy the new link from the address bar.)</em></li>
+  <li>www.amazon.com/dp/<em class="g">B0BQPZPWMF</em>?<em class="r">social_share=cm_sw_r_cso_cp_apin_dp_AN49WAGD7R4PYXP0NZW9</em></li>
+</ul>
+<strong>Safe to share:</strong><ul>
+  <li>www.amazon.com/dp/<em class="g">B0BQPZPWMF</em></li>
+</ul>
+
+<h3><img src="shapes/png/share-buttons/linkedin.png" class="iconimg"> LinkedIn</h2>
+<strong>Associated with account and individual share:</strong><ul>
+  <li>https://lnkd.in/p/<em class="r">eEJrHiEz</em></li>
+</ul>
+<p>Can't be removed manually. Open the link in your browser, and copy the new link from the address bar.</p>
+<strong>Safe to share:</strong><ul>
+  <li>https://www.linkedin.com/posts/post_title-<em class="g">7515805774293439512-r4HL</em></li>
+</ul>
+
+<h3>Good luck!</h3>
+
+<p>Missing a platform or format? Please <a href="https://docs.google.com/forms/d/e/1FAIpQLSfudgcdqzF1HhRhY7L_xGun2t7JvVNU3KzE63uU_1iEIddBwA/viewform?usp=pp_url&entry.391765687=Other&entry.26107565=Tracking+URLs:+">submit it</a>!</p>
+
+<p>Here are some more tips:</p>
+<ul>
+  <li>You can also remove any <code>?</code> or <code>&</code> character if they are at the end, otherwise they may be necessary for the link to work.</li>
+  <li>Firefox has a "Copy clean link" feature that automatically removes useless parameters.</li>
+  <li>On iOS, there are Shortcuts to sanitize TikTok links when sharing them.</li>
+</ul>
+
+<script>
+  let jumpTo = document.getElementById("jumpTo");
+  document.querySelectorAll("h3 .iconimg").forEach(img => {
+    const id = img.src.match(/\/[^/]+$/)[0].slice(1).replace(/\.\w+$/,"");
+    img.parentElement.id = id;
+    jumpTo.innerHTML += `<a href="#${id}">${img.outerHTML}</a> `;
+  });
+
+  let colorBlind = document.getElementById("colorBlind");
+  colorBlind.addEventListener("click", () => {
+    colorBlind.innerText = document.body.classList.toggle("colorblind") ? "Color-blind: ON" : "Color-blind: OFF";
+  })
+</script>
+
+
+
+
+
+
+
+
+
+</main>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-93720349-6');
+</script>
+
+</body>
+</html>

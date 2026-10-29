@@ -378,7 +378,7 @@ if (!R74n.state.file || R74n.state.main) {
 			}
 			const matchForm = a.href.match(/docs\.google\.com\/forms\/(?:d\/)?(?:e\/)?([\w\-]+)/);
 			if (matchForm) a.addEventListener("click", (e) => {
-				if (e.metaKey || e.ctrlKey) return;
+				if (e.metaKey || e.ctrlKey || e.shiftKey) return;
 				e.preventDefault();
 				const id = matchForm[1];
 				let dialog = R74n.dialog(id, {
