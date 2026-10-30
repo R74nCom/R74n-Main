@@ -1,5 +1,8 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-10-30 - Homepage spotlight buttons take up more empty space
+2026-10-30 - Tracking URLs: Added Tumblr and Threads
+2026-10-30 - Added favicons for R74n Shapes and Explore with Rue
 2026-10-29 - Created Tracking URLs page
 2026-10-29 - Updated Styleguide: Added datetime formats and anchor IDs
 2026-10-29 - Shapes: Share Buttons for Spotify, Amazon, Google, and LinkedIn

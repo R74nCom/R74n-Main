@@ -1280,7 +1280,7 @@ body.light:not(.darktheme) .globalDialog {
 	font-variant-ligatures: no-common-ligatures;
 	text-align: center;
 	font-size: 40px;
-	-webkit-text-stroke: 9px black;
+	-webkit-text-stroke: 10px black;
     paint-order: stroke fill;
 	/* text-shadow: 0px 0px 20px black; */
 	/* text-shadow:
@@ -1331,6 +1331,7 @@ body.light:not(.darktheme) .globalDialog {
 	border-right-color: var(--t-heading-d);
 	border-bottom-color: var(--t-heading-d);
 	color: var(--t-semi);
+	color: cyan;
 	/* background-position: bottom; */
 	animation: backgroundSway 10s ease-in-out infinite;
 	z-index: 200;
@@ -1362,9 +1363,9 @@ body.light:not(.darktheme) .globalDialog {
 	content: "update";
 }
 .projectGallery > a.new.small::after {
-	font-size: 25px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+	font-size: 22px;
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 .projectGallery .alertheader {
 	height: fit-content;
@@ -1397,6 +1398,7 @@ body.light:not(.darktheme) .globalDialog {
 		font-size: 24px;
 		text-shadow: none;
 		color: white;
+		color: rgb(241, 183, 255);
 		pointer-events: none;
 		padding-top: 5px;
 		padding-bottom: 5px;
