@@ -560,6 +560,9 @@
 <h3 id="graphics.color">Color</h3>
 <p>Where possible, skin tones should follow or be based on the Monk Skin Tone (MST) Scale.</p>
 
+<h2 id="ai">Statement of Humanity</h2>
+<p>All writing must be produced by human(s) or simple scripts made by them. Generative AI, or large language models, are expressly prohibited except specifically to demonstrate the technology in an educational manner.</p>
+
 <h2 id="closing">Closing</h2>
 <p>This list is not all-encompassing, and will be updated frequently as needed. For cases not listed, try to extrapolate from related examples. All writing within this Styleguide can be used as a basis.</p>
 <p>We are not responsible for point reductions if you use this standard in your work assignment(s).</p>
@@ -568,7 +571,7 @@
 <script>
   document.querySelectorAll(".content p, .content li").forEach(el => {
     if (el.innerHTML.match(/\(/)) {
-      el.innerHTML = el.innerHTML.replace(/\([^(<]+\)/g, m => "<em class='ex'>"+m+"</em>")
+      el.innerHTML = el.innerHTML.replace(/ \([^(<]+\)/g, m => " <em class='ex'>"+m+"</em>")
     }
   })
 </script>
