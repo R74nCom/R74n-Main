@@ -152,3 +152,4 @@ https://r74n.com/mini/humans
 https://r74n.com/php
 https://r74n.com/styleguide
 https://r74n.com/trackers
+https://r74n.com/characters

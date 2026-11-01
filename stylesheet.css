@@ -437,6 +437,12 @@ h3 {
 p {
 	line-height: 1.5;
 }
+p:has(+ ul) {
+	margin-bottom: 0;
+}
+p + ul {
+	margin-top: 0;
+}	
 
 
 
@@ -688,7 +694,8 @@ body.homepage > header:first-child {
 .content > p:first-child,
 .content > dl:first-child,
 .content > ul:first-child,
-.content > ol:first-child {
+.content > ol:first-child,
+.content > h2:first-child {
     margin-top: 0em;
 	padding-top: 0em;
 }
