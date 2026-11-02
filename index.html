@@ -125,11 +125,11 @@
     <script>
 R74n.state.main = true;
 
-function newsFlash(text) {
+function newsFlash(text, bg) {
   if (urlParams.isFalse("newsflash")) return false;
   document.getElementById("newsheader").innerHTML = text;
   document.getElementById("newsheader").style.display = "block";
-  document.getElementById("newsheader").style.backgroundColor = "darkred";
+  document.getElementById("newsheader").style.backgroundColor = bg||"darkred";
   document.getElementById("subtitle").style.display = "none";
 }
 function splashText(text) {
@@ -781,7 +781,7 @@ cpdSeason.addEventListener("click", function(e) {
 })
 
 // Temporary news flashes
-var newsFlashes = [
+var newsFlashes = urlParams.isFalse("newsflash") ? [] : [
   2026,
   ["3/28-4/2","The Grand Census begins NOW. <a href='https://docs.google.com/forms/d/e/1FAIpQLSdRmDyCkYCg3xjiEyj0E07Js9we1cBSep2EbioNZeNX6JWRDg/viewform?usp=dialog'>Fill out our form</a> to make your voice heard!"],
   ["4/3-4/6","Help us get painted on a street! You can <a href='https://paintastreet.com/#tile-019d5089-1fe1-7cbf-ad33-22d4e1075fb5'>vote on our tile</a> 10 times every 10 minutes!"],
@@ -795,7 +795,8 @@ var newsFlashes = [
   ["10/21-10/22","R74n projects remain <em>unaffected</em> by the <a href='/php'>PHP2Shell vulnerability</a>. Stay safe out there!"],
   ["10/23-10/30","Our annual trick-or-treating event on Discord starts NOW! <a href='https://discord.gg/R74n'>Join now to play</a>!!"],
   ["10/31-10/31","Tonight is the final night of trick-or-treating on Discord! <a href='https://discord.gg/R74n'>Join now</a>!!"],
-];
+  ["11/1-11/3","Treats; Exploits; Trackers; Style", "r2"],
+]; //F0A7FC
 // loop through newsFlashes, if today is between the start and end dates, display the message
 let newsFlashYear = 2017;
 const currentYear = today.getFullYear();
@@ -819,8 +820,20 @@ try {
     end.setHours(23,59,59);
     // if today is between the start and end dates
     if (today >= start && today <= end) {
-      var message = "<strong>News Flash: </strong>"+newsFlashes[i][1];
-      newsFlash(message);
+      var message = newsFlashes[i][1];
+      let bg;
+      if (newsFlashes[i][2]) {
+        let option = newsFlashes[i][2];
+        if (option.startsWith("r")) {
+          let header = document.getElementById("newsheader");
+          bg = "#8b0073";
+          message = "R74n Refresh: " + message + " <a href='https://news.r74n.com/p/refresh-"+option.slice(1)+"'>Read Now &gt;</a>";
+        }
+      }
+      else {
+        message = message + "<strong>News Flash: </strong>";
+      }
+      newsFlash(message, bg);
       currentNewsFlash = message;
       // 2020-03-17T08:00 format
       var startISO = start.toISOString().split('T')[0];
