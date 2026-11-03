@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-11-03 - Updated Styleguide
+2026-11-03 - Homepage social buttons are no longer draggable
 2026-11-01 - R74n Refresh articles appear on the homepage
 2026-10-31 - Created Character Sheet page for Sloppy
 2026-10-31 - Fixed Infinite Chef page footer

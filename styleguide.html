@@ -32,6 +32,7 @@
       }
       li ul:not(:has(> li:only-child)) {
         margin-bottom: 10px;
+        margin-top: 10px;
       }
       p {
         line-height: 1.25;
@@ -42,10 +43,16 @@
         text-underline-offset: 4px;
         text-decoration-color: var(--t-border-opaque-l);
       }
+      s {
+        text-decoration:none;
+        color: var(--t-defunct);
+        filter: saturate(0.7) brightness(1.2)
+      }
       p + ul {
         margin-top: 0;
       }
-      p .ex, li .ex {
+      p .ex, li .ex,
+      p .in, li .in {
         opacity: 0.8;
         color: #ebfaee;
       }
@@ -62,24 +69,31 @@
 
 <main class="content">
 
-<p>This document serves as the official Styleguide for R74n projects and lists canonical forms of many words and phrases.</p>
+<p>Official Styleguide for R74n projects and lists canonical forms of many words and phrases.</p>
 
-<p>Feel free to use this standard in your own writing, or adapt it!</p>
+<p>This standard is highly specialized for short and informative web content. Feel free to use it in your own writing, or adapt it!</p>
 
-<p>Effective: 28 October 2026</p>
+<p>Effective from 28 October 2026. Updated frequently.</p>
+
+<h2>Tone</h2>
+<p>Write concisely, clearly, and semi-informally, while still giving an authoritative impression on the topic.</p>
+<p>Provide examples where necessary in order to convey the desired information. Keep humor to a minimum on informative webpages.</p>
 
 <h2 id="spelling">Spelling & capitalization</h2>
 
 <h3 id="spelling.general">General</h3>
 <ul>
-<li>For English text, American spelling is preferred over British.<ul>
+<li>For English text, American spelling is preferred over British. For proper nouns, spelling should be the exact same as the official one (the Labour Party).<ul>
 	<li>color, not colour</li>
 	<li>realize, not realise</li>
 	<li>meter, not metre</li>
 	<li>program, not programme</li>
 	<li>gray, not grey</li>
+	<li>defense, not defence</li>
 	<li>cancelled, not canceled (An exception)</li>
 	<li>meow, not miaow</li>
+	<li>airplane, not aeroplane</li>
+	<li>aluminum, not aluminium</li>
 </ul></li>
 <li>In titles, determiners (the) and prepositions (of) are not capitalized, except as the first word. (The United States of America)</li>
 <li>Pages should not start with "This is a..." or anything similar. Instead, jump straight to the point (Collection of...).</li>
@@ -87,45 +101,111 @@
 <li>In a series of gendered forms, the order should follow: Gender neutral, feminine, masculine.</li>
 <li>Non-title headers should be capitalized with sentence case (Recent changes).</li>
 <li>Text content generally uses family-friendly words and phrases to refer to sensitive subjects.</li>
+<li>If a person's pronouns are not explicitly mentioned in their public profile(s), use <em>they/them/their/themself</em>.</li>
+<li>Job titles and positions, apart from proper nouns, are generally lowercase (... the Treasury secretary), except when immediately preceding names (President Roosevelt).</li>
+<li>In scientific/Latin names of species (Xenopus laevis), the first word is capitalized.</li>
+<li>Contractions (they'll) are encouraged in order to keep a friendly tone.</li>
 </ul>
 
 <h3 id="spelling.words">Words & phrases</h2>
 <ul id="spelling.words.basic">
 <li>accessible (Instead of handicap)</li>
+<li>Achilles heel (No apostrophe)</li>
 <li>adblock, adblocker</li>
+<li>adrenaline (Instead of adrenalin)</li>
+<li>ageing (Instead of aging)</li>
+<li>alright/all right<ul>
+  <li>That would be alright. (i.e. Okay)</li>
+  <li>Your answers were all right. (i.e. All correct)</li>
+</ul></li>
+<li>AMBER alert</li>
+<li>amid (Instead of amidst)</li>
+<li>among (Instead of amongst)</li>
+<li>antennae (Instead of antennas)</li>
+<li>anti- (Words written with hyphen, unless otherwise specified)<ul>
+  <li>anti-abortion (Instead of pro-life)</li>
+  <li>antisemitism</li>
+  <li>antiviral, antimicrobial, <em>and other antiseptics</em></li>
+</ul></li>
+<li>anymore/any more<ul>
+  <li>It can't be done anymore. (i.e. Any longer)</li>
+  <li>I don't have any more. (i.e. Quantity)</li>
+</ul></li>
+<li>anyone/any one<ul>
+  <li>Can you call anyone? (Any person)</li>
+  <li>You can pick any one of them. (Item in series)</li>
+</ul></li>
+<li>anytime/any time<ul>
+  <li>You can visit anytime. (Adverb)</li>
+  <li>You can visit at any time. (Noun phrase)</li>
+</ul></li>
 <li>aroace</li>
-<li>artificial intelligence, AI</li>
+<li>artificial intelligence, AI, AIs</li>
 <li>attorneys general</li>
+<li>bacterium (Singular), bacteria (Plural)</li>
+<li>the Bible, the [hip-hop] bible</li>
+<li>bisexual (Adjective-only, never as a noun)</li>
+<li><s>AVOID: biannual / biweekly</s> (Reword, e.g. twice a year, every two weeks)</li>
 <li>Black (Referring to race)</li>
+<li>bullseye (Instead of bull's-eye)</li>
+<li>burqa (Instead of burka)</li>
+<li>by-law</li>
+<li>bypass</li>
 <li>cacti (Instead of cactuses)</li>
+<li>capital [city], capitol [building]</li>
 <li>cellphone</li>
 <li>cancelled (Instead of canceled)</li>
 <li>chili (Instead of chile)</li>
 <li>chocolatey (Instead of chocolaty)</li>
 <li>cinder block</li>
 <li>color-blind, colorblindness</li>
+<li>coordinate (Noun), coordinates</li>
+<li>coordinate (Verb, no hyphen), coordination</li>
+<li>cooperate (No hyphen), cooperation</li>
 <li>COVID-19, SARS-CoV-2, coronavirus (General), the coronavirus (Specific family), Long COVID, Beta variant</li>
+<li>cryptocurrency (First mention), crypto (Subsequent mentions)</li>
+<li>cyber- (Words written without hyphen)<ul>
+  <li>cyberspace</li>
+  <li>cyberattack</li>
+  <li>cyberbully</li>
+  <li>cybercrime</li>
+  <li>cybersecurity</li>
+</ul></li>
 <li>data (Singular and plural, instead of datum)</li>
 <li>data center</li>
+<li>disc/disk<ul>
+  <li>compact disc, optical disc</li>
+  <li>floppy disk</li>
+</ul></li>
+<li>D-Day</li>
 <li>display name (Of an account)</li>
 <li>DM (Instead of PM or IM where needed), DMing, DMs, DM'd</li>
 <li>doughnut</li>
+<li>Down syndrome</li>
 <li>e-book</li>
 <li>e-cigarette</li>
-<li>e.g.</li>
+<li>E. coli</li>
 <li>ecommerce</li>
+<li>e.g.</li>
 <li>email, emailing</li>
 <li>emoji (Singular and plural)</li>
-<li>etc. (With preceding comma)</li>
 <li>e-reader</li>
+<li>etc. (With preceding comma)</li>
 <li>exclamation mark (Instead of exclamation point)</li>
+<li>family name (Instead of last name)</li>
 <li>FAQ, FAQs (Multiple lists of questions, not the questions themselves)</li>
+<li>Father's Day</li>
 <li>favicon, favicons</li>
 <li>feminine (Instead of female)</li>
+<li>firefighter, firewoman, fireman</li>
 <li>For You page, FYP</li>
+<li>gay (Instead of homosexual, adjective-only, never as a noun)</li>
 <li>Generation Z (First mention, noun), Gen Z (Subsequent mentions or adjective)</li>
-<li>generative AI, GenAI, AI-generated</li>
+<li>generative AI, GenAI, AI-generated [image] (Never "AI art")<ul>
+  <li>Can be referred to simply as "AI" after first mention</li>
+</ul></li>
 <li>GIF (Pronounced with hard G), GIFs</li>
+<li>given name (Preferred over first or middle name, never Christian name)</li>
 <li>group chat</li>
 <li>guidebook (Documentation page)</li>
 <li>Hanukkah</li>
@@ -133,6 +213,8 @@
 <li>a historic (Instead of an historic)</li>
 <li>i.e.</li>
 <li>Indigenous (Instead of Native)</li>
+<li>influenza, the flu</li>
+<li>in-law</li>
 <li>the Internet (Always capitalized)</li>
 <li>jack-o'-lantern</li>
 <li>JELL-O (Brand), jell-o (Generic)</li>
@@ -143,7 +225,9 @@
 <li>keybind, keyboard shortcut</li>
 <li>LARP, LARPer, LARPing</li>
 <li>Latin American (Neutral), Latina (Feminine), Latino (Masculine)</li>
+<li>lesbian (Adjective-only, never as a noun)</li>
 <li>LGBTQ+</li>
+<li>large language model (First mention), LLM (Subsequent mentions)</li>
 <li>log in (Verb, instead of sign in), log into, login (Noun)</li>
 <li>macaroni and cheese, mac 'n' cheese</li>
 <li>masculine (Instead of male)</li>
@@ -153,6 +237,7 @@
 <li>meow (Instead of miaow)</li>
 <li>mic (Abbreviation of microphone, instead of mike)</li>
 <li>moose (Plural, instead of meese)</li>
+<li>Mother's Day</li>
 <li>Mr.</li>
 <li>Ms. (Instead of Miss or Mrs. where possible)</li>
 <li>nonbinary (Instead of non-binary)</li>
@@ -161,13 +246,16 @@
 <li>pajamas (Instead of PJs where possible)</li>
 <li>PDFs</li>
 <li>period (Instead of full stop)</li>
+<li>person of color (Non-White), people of color (Instead of other umbrella terms), PoC, PoCs</li>
 <li>person with [particular condition] (Instead of disabled, handicapped)</li>
 <li>PhD, PhDs</li>
 <li>pixel art-style</li>
 <li>PNGs</li>
-<li>PoC (Person of color), PoCs (People of color)</li>
 <li>PoS (Point of sale), PoS's (Points of sale)</li>
 <li>Pride Month</li>
+<li>pro- (Words written with hyphen, unless otherwise specified)<ul>
+  <li>pro-abortion (Instead of pro-choice)</li>
+</ul></li>
 <li>Q&A (Instead of QnA), Q&As</li>
 <li>quotation mark</li>
 <li>ragebait</li>
@@ -177,17 +265,19 @@
 <li>register (Verb, instead of sign up), register on, registration (Instead of sign-in)</li>
 <li>reload [the app]</li>
 <li>rock 'n' roll</li>
+<li>security camera (Preferred over surveillance camera or CCTV)</li>
 <li>screenshot (Instead of screencap or screengrab)</li>
 <li>smartphone</li>
 <li>smartwatch</li>
 <li>Spring, Summer, Fall (Preferred over Autumn), Winter</li>
 <li>styleguide (Except this one, which is capitalized)</li>
 <li>stylesheet</li>
-<li>T-rex (Instead of T. rex)</li>
 <li>themself (Singular, instead of themselves)</li>
 <li>themselves (Plural)</li>
 <li>they, them, their, theirs (Instead of "he or she", "his or hers", etc.)</li>
-<li>transgender (Instead of transsexual), trans (After first mention)</li>
+<li>transgender (Instead of transsexual, adjective-only, never as a noun), trans (After first mention)</li>
+<li>T-rex (Instead of T. rex)</li>
+<li>truck (Instead of lorry)</li>
 <li>two-spirit</li>
 <li>uncancelled (Instead of uncanceled)</li>
 <li>unhoused (Instead of homeless)</li>
@@ -262,11 +352,14 @@
 
 <p id="spelling.words.stylized">Where applicable, the capitalization and spelling of a name should match the official form used by the subject or its creator. Stylized names are preferred. Stylized names are not subject to capitalization at the start of a sentence or in titles.</p><ul>
 <li>TWICE</li>
+<li>ENHYPEN</li>
 <li>eBay</li>
 <li>iPad mini</li>
 <li>NyQuil</li>
 <li>LEGOs</li>
+<li>Coca-Cola</li>
 </ul>
+<p>Trademark signs (i.e. ™ ®) are omitted, though.</p>
 
 <p id="spelling.words.object">When referring to an object on a platform, use capitalization preferred by its developer.</p><ul>
 <li>Google Doc, Doc</li>
@@ -308,18 +401,45 @@
 
 <p id="spelling.words.structure">Name structure respects the language of origin, i.e. Japanese names are written with the family name before the given name.</p>
 
+<h3 id="spelling.determiner">Determiners</h3>
+<p>a / an</p><ul>
+  <li>Pick <em>a</em> or <em>an</em> based on the pronunciation - NOT the spelling. Use <em>an</em> preceding a word that starts with a vowel sound when pronounced.<ul>
+    <li>a dog</li>
+    <li>an apple</li>
+    <li><strong>a unicorn</strong></li>
+    <li><strong>a historical ...</strong></li>
+    <li><strong>an 8-ball</strong></li>
+  </ul></li>
+</ul>
+
+<h3 id="spelling.acronym">Initialisms & acronyms</h3>
+<p>An initialism's capitalization is always superseded by the subject of the word's own guidelines, if applicable.</p><ul>
+  <li>AoA (Administration on Aging)</li>
+  <li>DOE (Department of Energy)</li>
+</ul>
+<p>For all other cases, initialisms are written in uppercase, except for letters standing in for determiners (the) or prepositions (at).</p><ul>
+  <li>NASA</li>
+  <li>FNaF</li>
+  <li>AIDS</li>
+  <li>NATO</li>
+</ul>
+
 <h3 id="spelling.places">Place names</h3>
 <p>Although multiple aliases may be included in various projects, these are the preferred names for places, including countries, in order of preference. The first form is strongly preferred if only one can be used.</p>
 <ul>
 <li>Argentina; Argentine (Adjective, instead of Argentinian)</li>
+<li>Belarus; Belarusian (Adjective)</li>
+<li>Bosnia and Herzegovina; Bosnia-Herzegovina</li>
 <li>the British Isles (The United Kingdom and Ireland)</li>
 <li>the Bronx</li>
 <li>Cabo Verde; Cape Verde</li>
+<li>Chernobyl; Chornobyl</li>
 <li>Côte d'Ivoire; Ivory Coast</li>
 <li>Czechia; the Czech Republic</li>
 <li>the Democratic Republic of the Congo; the DRC; the Congo (After first mention)</li>
 <li>Denali</li>
-<li>Eswatini; Swaziland</li>
+<li>Ecuador; Ecuadorian</li>
+<li>Eswatini; Swati (Adjective); Swaziland</li>
 <li>the European Union; the EU</li>
 <li>Falkland Islands; Malvinas</li>
 <li>the Gambia</li>
@@ -338,11 +458,13 @@
 <li>New Mexico</li>
 <li>New York City; NYC</li>
 <li>North Macedonia</li>
+<li>northern Cyprus</li>
 <li>Palestine</li>
 <li>Persian Gulf</li>
 <li>the Philippines; Philippine (Adjective); Filipino (Neutral and masculine); Filipina (Feminine)</li>
 <li>Québec</li>
 <li>the Republic of the Congo</li>
+<li>Somalia, Somali (Adjective, instead of Somalian)</li>
 <li>the Soviet Union; the USSR</li>
 <li>Sudan (Instead of "the Sudan")</li>
 <li>Taiwan; the Republic of China</li>
@@ -449,111 +571,143 @@
 
 <h2 id="punctuation">Punctuation</h2>
 <p>hyphen</p><ul>
-<li>Used to form compound words (berry-flavored), including in segments (oil- and water-based).</li>
-<li>Used to separate phrases in a sentence (In Sandboxels - our falling-sand simulator - players have...). Traditionally, the now-deprecated em dash had served this purpose.</li>
-<li>Used as bullet points in plain-text contexts, where HTML lists aren't possible.</li>
-<li>Used to abruptly end a sentence with style, as if interrupted.</li>
-<li>In titles, only the first letter of hyphenated are capitalized (Follow-up), except for cases where proper nouns are included (Non-American).</li>
+  <li>Used to form compound words (berry-flavored), including in segments (oil- and water-based).</li>
+  <li>Used to separate phrases in a sentence (In Sandboxels - our falling-sand simulator - players have...). Traditionally, the now-deprecated em dash had served this purpose.</li>
+  <li>Used as bullet points in plain-text contexts, where HTML lists aren't possible.</li>
+  <li>Used to abruptly end a sentence with style, as if interrupted.</li>
+  <li>Used to convert phrases into adjectives (The first-floor restroom).</li>
+  <li>Used to denote prefixes (semi-), infixes (-flippin'-), and suffixes (-able).</li>
+  <li>In titles, only the first letter of hyphenated are capitalized (Follow-up), except for cases where proper nouns are included (Non-American).</li>
 </ul>
 <p>em dash</p><ul>
-<li>Due to associations with generative AI, em dashes are being deprecated across R74n. Hyphens are now used instead.</li>
+  <li>Due to associations with generative AI, em dashes are being deprecated across R74n. Hyphens are now used instead.</li>
 </ul>
 <p>en dash</p><ul>
-<li>Used to separate ends of timespans (July–November) or other numerical ranges (50–100).</li>
+  <li>Used to separate ends of timespans (July–November) or other numerical ranges (50–100).</li>
 </ul>
 <p>quotation mark</p><ul>
-<li>Double quotes are used for quotations.</li>
-<li>Straight quotation marks are used ("...") instead of curled variants (“...”) inserted automatically by some devices.</li>
-<li>Punctuation is placed after a quotation mark when terminating a sentence (She said "I'm not sure".).</li>
-<li>Commas are placed after a quotation mark when continuing a list (Kittens, "puppers", and more).</li>
+  <li>Double quotes are used for quotations.</li>
+  <li>Straight quotation marks are used ("...") instead of curled variants (“...”) inserted automatically by some devices.</li>
+  <li>Punctuation is placed after a quotation mark when terminating a sentence (She said "I'm not sure".).</li>
+  <li>Commas are placed after a quotation mark when continuing a list (Kittens, "puppers", and more).</li>
 </ul>
 <p>apostrophe</p><ul>
-<li>Straight apostrophes are used for both possession ('), contraction, and quotation ('...'), instead of curled variants (‘...’) inserted automatically by some devices.</li>
-<li>Single quotes are used for quotations within quotations.</li>
+  <li>Straight apostrophes are used for both possession ('), contraction, and quotation ('...'), instead of curled variants (‘...’) inserted automatically by some devices.</li>
+  <li>Possessive forms depend on the word being singular or plural, and not what it ends with. <em>'s</em> is always included after singular names.<ul>
+    <li>Ms. Adams's dog</li>
+    <li>the Adams' dog</li>
+    <li>the United States's economy (United States is singular; Better to say "the American economy")</li>
+    <li>the IRS's employees</li>
+  </ul></li>
+  <li>Single quotes are used for quotations within quotations.</li>
 </ul>
 <p>ellipsis</p><ul>
-<li>Ellipses are composed of three separate period characters (...), instead of the combined single character (…), with no spaces in between them.</li>
+  <li>Ellipses are composed of three separate period characters (...), instead of the combined single character (…), with no spaces in between them.</li>
 </ul>
 <p>comma</p><ul>
-<li>Commas separate all items of a list, including the last two (i.e. Oxford/Serial commas are included).</li>
-<li>"If you do x or y, you will z."</li>
-<li>"Enter the x into the y, and you will z."</li>
-<li>"... x, y, and more."</li>
+  <li>Commas separate all items of a list, including the last two (i.e. Oxford/Serial commas are included).<ul>
+    <li>She likes cats, dogs, and birds.</li>
+    <li>He'll eat apples, oranges, or bananas.</li>
+  </ul></li>
+  <li>"If you do x or y, you will z."</li>
+  <li>"Enter the x into the y, and you will z."</li>
+  <li>"... x, y, and more."</li>
 </ul>
 <p>ampersand</p><ul>
-<li>Ampersands (&) are preferred for use in titles, while "and" should be used in text content.</li>
-<li>Spaces do not appose ampersands in single constructions, such as in Q&A or PB&J.</li>
+  <li>Ampersands (&) are preferred for use in titles, while "and" should be used in text content.</li>
+  <li>Spaces do not appose ampersands in single constructions, such as in Q&A or PB&J.</li>
 </ul>
 <p>parenthesis</p><ul>
-<li>The first word in parentheses is capitalized, as if the content is its own sentence.</li>
-<li>Words or phrases separated by forward slashes or en dashes are capitalized like so:<ul>
-	<li>(Mobile/Cellular devices)</li>
-	<li>(On mobile/cellular devices)</li>
-	<li>(On mobile/On cellular)</li>
-	<li>(Five–Ten items)</li>
-	<li>(Between five–ten items)</li>
-  </ul>
-</li>
-<li>Parenthetical plurals should be used sparingly, with the rest of the sentence assuming the plural, like so:<ul>
-	<li>They pet dog(s).</li>
-	<li>They pack box(es).</li>
-	<li>They receive candy(s). (Instead of -ies to preserve searchability)</li>
-	<li>The dog(s) are playing on their own.</li>
-  </ul>
-</li>
-<li>Lone periods do not precede a closing parenthesis. Other punctuation can be included at the end for emphasis, such as ellipses (...), exclamation marks (!), or question marks (?).</li>
-<li>Parentheses come after semicolons and commas in the order of operations - meaning that they only apply up to the nearest preceding semicolon or comma, if any.<ul>
-	<li>They pet the cats, dogs, and <em>lizards (reluctantly)</em>.</li>
-	<li>They <em>(reluctantly)</em> pet the <em>cats, dogs, and lizards</em>.</li>
-	<li>They pet the cats, <em>dogs (reluctantly)</em>, and lizards.</li>
-  </ul>
-</li>
+  <li>The first word in parentheses is capitalized, as if the content is its own sentence.</li>
+  <li>Words or phrases separated by forward slashes or en dashes are capitalized like so:<ul>
+    <li>(Mobile/Cellular devices)</li>
+    <li>(On mobile/cellular devices)</li>
+    <li>(On mobile/On cellular)</li>
+    <li>(Five–Ten items)</li>
+    <li>(Between five–ten items)</li>
+    </ul>
+  </li>
+  <li>Parenthetical plurals should be used sparingly, with the rest of the sentence assuming the plural, like so:<ul>
+    <li>They pet dog(s).</li>
+    <li>They pack box(es).</li>
+    <li>They receive candy(s). (Instead of -ies to preserve searchability)</li>
+    <li>The dog(s) are playing on their own.</li>
+    </ul>
+  </li>
+  <li>Lone periods do not precede a closing parenthesis. Other punctuation can be included at the end for emphasis, such as ellipses (...), exclamation marks (!), or question marks (?).</li>
+  <li>Parentheses come after semicolons and commas in the order of operations - meaning that they only apply up to the nearest preceding semicolon or comma, if any.<ul>
+    <li>They pet the cats, dogs, and <em>lizards (reluctantly)</em>.</li>
+    <li>They <em>(reluctantly)</em> pet the <em>cats, dogs, and lizards</em>.</li>
+    <li>They pet the cats, <em>dogs (reluctantly)</em>, and lizards.</li>
+    </ul>
+  </li>
 </ul>
 <p>numeral</p><ul>
-<li>Small numbers (Zero–Twelve) are spelled out when in text content, while all numbers should be in numerical form when in tables or other data formats.<ul>
-	<li>zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, and twelve.</li>
-	<li>negative one, negative two, negative three, ...</li>
-  </ul>
-</li>
-<li>Ordinal numbers follow the same rule. Alongside text content, small numbers are spelled out (First–Twelfth), otherwise they are written numerically (1st, 2nd, 3rd, 20th).</li>
-<li>Small ordinal numbers (First–Twelfth) alongside text content are written out (First, second, third, fourth). When alone, they are written numerically (1st, 2nd, 3rd, 4th).</li>
-<li>Ordered lists have their items numbered followed by a period (1. 2. 3.).</li>
-<li>Decimal numbers less than one include a leading zero (0.125).</li>
-<li>Avoid abbreviating thousands (1,000, 2,000) below 100,000 to avoid confusion with resolutions (4K). If abbreviation is necessary, capitalize it (1K, 2K). Abbreviate hundred thousands (100K), millions (1M), billions (1B), and, when context is clear, trillions (1T) and quadrillions (1Q).</li>
-<li>Unit abbreviations should be separated from the number by a space, like so:<ul>
-	<li>10 km</li>
-	<li>200 ft</li>
-	<li>3,000 m</li>
-	<li>5 GB</li>
-	<li>120 km/h</li>
-	<li>80 mph</li>
-	<li>30 FPS</li>
-  </ul>
-</li>
+  <li>Small numbers (Zero–Twelve) are spelled out when in text content, while all numbers should be in numerical form when in dates, times, tables, or other data formats.<ul>
+    <li>zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, and twelve.</li>
+    <li>negative one, negative two, negative three, ...</li>
+    </ul>
+  </li>
+  <li>Ordinal numbers follow the same rule. Alongside text content, small numbers are spelled out (First–Twelfth), otherwise they are written numerically (1st, 2nd, 3rd, 20th).</li>
+  <li>Small ordinal numbers (First–Twelfth) alongside text content are written out (First, second, third, fourth). When alone, they are written numerically (1st, 2nd, 3rd, 4th).</li>
+  <li>Ordered lists have their items numbered followed by a period (1. 2. 3.).</li>
+  <li>Decimal numbers less than one include a leading zero (0.125).</li>
+  <li>Avoid abbreviating thousands (1,000, 2,000) below 100,000 to avoid confusion with resolutions (4K). If abbreviation is necessary, capitalize it (1K, 2K). Abbreviate hundred thousands (100K), millions (1M), billions (1B), and, when context is clear, trillions (1T) and quadrillions (1Q).</li>
+  <li>Unit abbreviations should be separated from the number by a space, like so:<ul>
+    <li>10 km</li>
+    <li>200 ft</li>
+    <li>3,000 m</li>
+    <li>5 GB</li>
+    <li>40 Gbit</li>
+    <li>2 Gbps</li>
+    <li>120 km/h</li>
+    <li>80 mph</li>
+    <li>30 FPS</li>
+    </ul>
+  </li>
+  <li>Currency symbols are written before (except when under 1 unit) the number, without a space, in the native currency of the subject, like so:<ul>
+    <li>$10</li>
+    <li>50¢</li>
+    <li>£10</li>
+    <li>50p</li>
+  </ul></li>
 </ul>
 <p>colon</p><ul>
-<li>The first word following a colon is capitalized, as if starting a new sentence.</li>
+  <li>The first word following a colon is capitalized, as if starting a new sentence.</li>
 </ul>
 <p>semicolon</p><ul>
-<li>Used to separate clauses which could make sense as their own sentences.</li>
-<li>The first word following a semicolon is capitalized, as if starting a new sentence.</li>
+  <li>Used to separate clauses which could make sense as their own sentences.</li>
+  <li>The first word following a semicolon is capitalized, as if starting a new sentence.</li>
+</ul>
+<p>bullet point</p><ul>
+  <li>If HTML is possible, the bullet character (•) is used by inserting an <code>&lt;li&gt;</code> tag, which should apply it automatically with CSS. Otherwise, use a hyphen (-).</li>
+  <li>The first word of a bullet or numbered list item is capitalized, as if starting a new sentence.</li>
 </ul>
 <p>less- and greater-than sign</p><ul>
-<li>When comparing two values, the sign is surrounded by spaces (x ≤ 10).</li>
-<li>When comparing one value, the sign is directly attached to the number (>10 items).</li>
+  <li>When comparing two values, the sign is surrounded by spaces (x ≤ 10).</li>
+  <li>When comparing one value, the sign is directly attached to the number (>10 items).</li>
+</ul>
+<p>emoji</p><ul>
+  <li>Unless contextually appropriate, emoji are preferred to omit skin tone (Default yellow) and gender.</li>
 </ul>
 
 <p>When a sentence ends with a hyperlink, punctuation should be placed after the hyperlink instead of within it, <a href="https://R74n.com/">like this</a>.</p>
 
 <h2 id="font">Font style</h2>
 <p>bold</p><ul>
-<li>Used to improve readability by highlighting important concepts in a sentence.</li>
+  <li>Used to improve readability by highlighting important concepts in a sentence.</li>
 </ul>
 <p>italics</p><ul>
-<li>Used to add emphasis, i.e. when specifying something that may be overlooked (Upload the <em>save file</em>, not a screenshot).</li>
-<li>When introducing the subject of the page or section, use the <code>&lt;dfn&gt;</code> tag.</li>
-<li>Used to highlight a newly introduced subject, especially titles of media (<em>Sandboxels</em> is a game. You can do a lot in Sandboxels...).</li>
-<li>Scientific names of species (Felis catus) are italicized.</li>
+  <li>Used to add emphasis, i.e. when specifying something that may be overlooked (Upload the <em>save file</em>, not a screenshot).</li>
+  <li>When introducing the subject of the page or section, use the <code>&lt;dfn&gt;</code> tag.</li>
+  <li>Used to highlight a newly introduced subject, especially titles of media (<em>Sandboxels</em> is a game. You can do a lot in Sandboxels...).</li>
+  <li>Scientific/Latin names of species (Felis catus) are italicized.</li>
+</ul>
+
+<h2 id="interface">Interface</h2>
+<p>hyperlink</p><ul>
+  <li>Unintended <a href="trackers">tracking codes</a> and all other unnecessary parameters must be removed from copy-and-pasted URLs.</li>
+  <li>Only use shortened URLs when displayed as plain text. Hyperlinks should include the full URL, unless shortened for demonstrative purposes.</li>
 </ul>
 
 <h2 id="graphics">Graphics</h2>
@@ -574,6 +728,9 @@
   document.querySelectorAll(".content p, .content li").forEach(el => {
     if (el.innerHTML.match(/\(/)) {
       el.innerHTML = el.innerHTML.replace(/ \([^(<]+\)/g, m => " <em class='ex'>"+m+"</em>")
+    }
+    if (el.innerHTML.match(/\[/)) {
+      el.innerHTML = el.innerHTML.replace(/ \[[^\[<]+\]/g, m => " <span class='in'>"+m+"</span>")
     }
   })
 </script>
