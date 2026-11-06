@@ -505,7 +505,7 @@ body > footer {
 	font-size:0.7em;
 	text-align:center;
 	display:block;
-	margin-top: 1em;
+	margin-top: 2.6em;
 	padding-bottom: 1.5em;
 }
 body > footer a::after {
@@ -1015,7 +1015,8 @@ nav.subpages a:hover {
 	font-family: 'VT323', Helvetica, Arial, sans-serif;
 	font-size: 30px;
 }
-.tree details > ul a em.news {
+.tree details > ul a em.news,
+a .news {
 	color: rgb(255, 90, 90);
 	color: var(--t-news);
 	text-decoration: none;
@@ -1040,11 +1041,13 @@ nav.subpages a:hover {
 	color: rgb(255, 200, 255);
 	color: var(--t-link-a);
 }
-.tree details > ul a:hover em.news {
+.tree details > ul a:hover em.news,
+a:hover .news {
 	color: rgb(255, 127, 127);
 	color: var(--t-news-l);
 }
-.tree details > ul a:active em.news {
+.tree details > ul a:active em.news,
+a:active .news {
 	color: rgb(255, 70, 70);
 	color: var(--t-news);
 }
@@ -1199,6 +1202,9 @@ body.light:not(.darktheme) .globalDialog {
 }
 .globalDialog > div > div > div > * {
 	margin-bottom: 1em;
+}
+.globalDialog > div > div .doodle {
+	margin-left: 0.5em;
 }
 .globalDialog.wide > div {
 	width: 100%

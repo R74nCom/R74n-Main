@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-11-05 - Created AI policy page
 2026-11-05 - Changed Census March 2026 page to include all Grand Census data
 2026-11-03 - Updated Styleguide
 2026-11-03 - Homepage social buttons are no longer draggable

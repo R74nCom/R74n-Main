@@ -359,6 +359,11 @@ window.SPA = {
 
 		R74n.dialog("info");
 
+		let doodleBox = document.querySelector("#globalDialog-info > div > div > span:last-child");
+		if (doodleBox) {
+			doodleBox.insertAdjacentHTML("afterbegin", `<a href="${R74n.root}ai"><img class="doodle ai" src="../doodle/ai.gif" alt="No AI" role="button" draggable="false"></a>`);
+		}
+
 		// dialog.classList.toggle("open");
 	},
 

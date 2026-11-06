@@ -366,6 +366,7 @@ if (location.href) {
 	}
 }
 
+R74n.root = (R74n.state.main && !R74n.state.file) ? "/" : "https://r74n.com/";
 
 window.addEventListener("load",function(){
 
@@ -415,9 +416,10 @@ if (document.body.classList.contains("spa")) {
 // Add footer when necessary
 if (R74n.state.main && !R74n.state.footer && R74n.state.header && !R74n.state.spa && R74n.footer !== null) {
 	document.body.insertAdjacentHTML("beforeend", `<footer><nav>
-  <a href="https://r74n.com/" style="color:#00ffff">More Projects</a>
-  <a href="https://r74n.com/contact">Contact</a>
-  <a href="https://r74n.com/privacy">Privacy</a>
+  <a href="${R74n.root}" style="color:#00ffff">More Projects</a>
+  <a href="${R74n.root}contact">Contact</a>
+  <a href="${R74n.root}privacy">Privacy</a>
+  <a href="${R74n.root}ai">#NoAI</a>
 </nav></footer>`);
 }
 
@@ -547,8 +549,6 @@ R74n.sharePoints = {
 		}
 	},
 }
-
-R74n.root = (R74n.state.main && !R74n.state.file) ? "/" : "https://r74n.com/";
 
 R74n.preDialogScroll = 0;
 
