@@ -1396,7 +1396,8 @@ body.light:not(.darktheme) .globalDialog {
 }
 @media only screen and (min-width: 700px) {
 	.projectGallery > a.new:hover::after {
-		content: "";
+		/* content: ""; */
+		display: none;
 	}
 	.projectGallery > a > span {
 		position: absolute;
