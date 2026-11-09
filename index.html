@@ -202,6 +202,7 @@ function setIcon(){
   //currentdatestring = "5-2";
   var newicon = null;
   var eventdata = null;
+  var eventtype;
   R74nicon = document.getElementById("R74nicon");
   // if (currentdate.getFullYear() === 2026 && currentdate.getMonth() === 2) {
   //   eventdata = ["march-2026.png", "Celebrating Women's History Month, St. Patrick's Day, and Pi Day"];
@@ -211,9 +212,11 @@ function setIcon(){
   // }
   if (icondates[currentdatestring]) {
     eventdata = icondates[currentdatestring];
+    eventtype = 1;
   }
   else if (iconmonths[currentmonth]) {
     eventdata = iconmonths[currentmonth];
+    eventtype = 2;
   }
   if (eventdata) {
     newicon = (eventdata[0] || "favicon.png");
@@ -233,10 +236,12 @@ function setIcon(){
       console.log(newtitle);
       currentEvent = newtitle;
     }
-    document.head.insertAdjacentHTML("beforeend", '<link rel="icon" type="image/png" href="'+newicon+'">');
-    document.getElementById("favicon32").removeAttribute("href");
-    document.getElementById("favicon16").removeAttribute("href");
-    document.getElementById("favicon").removeAttribute("href");
+    if (eventtype === 1) {
+      document.head.insertAdjacentHTML("beforeend", '<link rel="icon" type="image/png" href="'+newicon+'">');
+      document.getElementById("favicon32").removeAttribute("href");
+      document.getElementById("favicon16").removeAttribute("href");
+      document.getElementById("favicon").removeAttribute("href");
+    }
   }
   else {
     R74nicon.src = "icons/favicon.png";

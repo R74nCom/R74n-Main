@@ -1,5 +1,7 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-11-09 - Updated Rue Street page for 2026
+2026-11-09 - Homepage favicon no longer changes for monthlong events
 2026-11-08 - Homepage holiday logos now also update favicon
 2026-11-08 - Added favicon for Handwriting Personality Test, RageBait Simulator, and PixelFlags
 2026-11-08 - Updated Styleguide
