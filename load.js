@@ -723,7 +723,7 @@ R74n.projects = [
 	{
 		name: "wordslop",
 		url: "mini/wordslop",
-		image: "mini/spotlight-wordslop.png",
+		image: "mini/spotlight-wordslop-face.png",
 		release: "2026-05-24",
 		update: "2026-09-27"
 	},

@@ -3354,7 +3354,7 @@ rueData.responses = {
 	"/explore( with (rue|you|u))?/": "Type in a place ya'd like to go, and I'll {{c:take|bring}} ya' there!",
 	"explore without rue":"sad>>>O-oh.. okay..",
 	"privacy": "While talking to me, I don't store any data outside of your browser!\n\nSome of my commands use external services, and anything you do with them is subject to their own privacy policies!",
-	"ai": "I make NO USE of AI, or machine learning! We have a strict {{link:https://r74n.com/ai|No-AI Policy}}",
+	"ai": "I'm not actually an AI, but a simple script responding to keywords. We have a strict {{link:https://r74n.com/ai|No-AI Policy}}, friend!",
 	"business": "Our email is open for any business inquiries: {{link:mailto:contact@R74n.com|contact@R74n.com}}.",
 	"advertise": "=business",
 	"biz": "=business",

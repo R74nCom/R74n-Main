@@ -136,11 +136,6 @@ img, audio, video {vertical-align:middle;max-width:100%}
 	-webkit-text-fill-color: transparent!important;
 }
 
-.R74nicon:hover {
-	filter: hue-rotate(3600deg);
-	transition: filter 30s;
-}
-
 textarea, button, input, .checkmark, meter, progress {
 	vertical-align: middle;
 }
@@ -437,7 +432,7 @@ h3 {
 p {
 	line-height: 1.5;
 }
-p:has(+ ul) {
+p:has(+ ul:not(.tree)) {
 	margin-bottom: 0;
 }
 p + ul {
