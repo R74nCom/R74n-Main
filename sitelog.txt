@@ -1,5 +1,6 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-11-12 - Fixed: Contact form broke
 2026-11-11 - Slash key (/) focuses Rue on the homepage
 2026-11-11 - Rue box no longer has gradient on the homepage
 2026-11-11 - Instagram button on the homepage
