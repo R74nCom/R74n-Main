@@ -94,14 +94,22 @@
       return false;
     }
 
+    if (!req.get("email")) req.delete("email");
+    if (!req.get("url")) req.delete("url");
+    if (!req.get("location")) req.delete("location");
+
     if (window.navigator) {
-      req.append("appVersion", window.navigator.appVersion || "");
-      req.append("lang", window.navigator.language || "");
+      if (window.navigator.appVersion) req.append("source", window.navigator.appVersion + (() => {try {return " "+Intl.DateTimeFormat().resolvedOptions().timeZone} catch {return ""}})());
+      if (window.navigator.language) req.append("lang", window.navigator.language);
+      if (document.referrer) req.append("referrer", document.referrer);
     }
 
     let response = form.querySelector(".response");
     response.style.display = "block";
     response.innerText = "Submitting...";
+
+    e.preventDefault();
+    return false;
     
     fetch("https://formsubmit.co/ajax/contact@r74n.com", {
       method: "POST",
@@ -130,6 +138,9 @@
   })
   if (urlParams.has("subject")) {
     contactForm.querySelector(`*[name="_subject"]`).value = urlParams.get("subject");
+  }
+  if (location.search && !location.search.includes("=")) {
+    contactForm.querySelector(`*[name="message"]`).value = location.search.slice(1);
   }
 </script>
 

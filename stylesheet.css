@@ -437,7 +437,7 @@ p:has(+ ul:not(.tree)) {
 }
 p + ul {
 	margin-top: 0;
-}	
+}
 
 
 
@@ -737,11 +737,6 @@ body header.min:first-child * {
 body header:first-child > * {
 	transition: 0.2s font-size, 0.2s scale, 0.2s width;
 }
-header.homepage > .subtitle {
-	font-variant: small-caps;
-    font-weight: bold;
-    font-style: italic;
-}
 header > img[role="button"] {
 	width: 42px;
 }
@@ -822,12 +817,6 @@ nav.subpages a:hover {
 	header.homepage #rueBox {
 		top: 0.4em !important;
 		padding-right: 0 !important;
-	}
-}
-
-@media only screen and (max-width: 860px) {
-	header.homepage > .subtitle {
-		display: none;
 	}
 }
 

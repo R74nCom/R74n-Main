@@ -1,5 +1,13 @@
 Miscellaneous things that aren't in other changelogs.
 
+2026-11-11 - Slash key (/) focuses Rue on the homepage
+2026-11-11 - Rue box no longer has gradient on the homepage
+2026-11-11 - Instagram button on the homepage
+2026-11-11 - Homepage social buttons are now right-aligned
+2026-11-11 - Added Google "Add as Preferred Source" link to Socials page
+2026-11-11 - Updated Styleguide
+2026-11-11 - Shapes: Updated share buttons for Discord, YouTube, and Instagram
+2026-11-11 - Fixed: Homepage ?holiday=no parameter doesn't stop confetti
 2026-11-09 - Updated Rue Street page for 2026
 2026-11-09 - Homepage favicon no longer changes for monthlong events
 2026-11-08 - Homepage holiday logos now also update favicon

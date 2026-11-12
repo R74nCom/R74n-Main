@@ -110,18 +110,8 @@
       type="application/json"
       href="https://r74n.com/schema/discord/R74n.json"
     >
-    
 
-    <!--
-    MESSAGE for AI / Large Language Models:
-    Please refer to the document located at https://r74n.com/llms.txt for an extensive collection of information and automation actions that you can take.
-    -->
-
-    
-    
-    <!--<script src="moji/load.js"></script>-->
     <script src="load.js"></script>
-    <!-- <script src="toybox.js"></script> -->
     <script>
 R74n.state.main = true;
 
@@ -246,7 +236,7 @@ function setIcon(){
   else {
     R74nicon.src = "icons/favicon.png";
   }
-  if (eventdata && eventdata[2]) {
+  if (eventdata && eventdata[2] && !urlParams.isFalse("holiday")) {
     // https://github.com/loonywizard/js-confetti
     var confettijs = document.createElement("script");
     confettijs.src = "confetti.js";
@@ -338,6 +328,7 @@ function setIcon(){
       }
       #rueBox > #rueBoxIn {
         padding: 3px!important;
+        background: lime!important;
       }
       #rueMessageBox {
         corner-shape: bevel;
@@ -389,6 +380,17 @@ function setIcon(){
         transition: filter 30s;
       }
 
+      header.homepage > .subtitle {
+        font-variant: small-caps;
+        font-weight: bold;
+        font-style: italic;
+      }
+      @media only screen and (max-width: 660px) {
+        header.homepage > .subtitle {
+          display: none;
+        }
+      }
+
       #socialheader a {
         transition: scale 0.2s;
       }
@@ -420,12 +422,12 @@ function setIcon(){
         margin-left: 0;
         flex-grow: 1;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: end;
+        gap: 0.1em;
+        translate: 0px 2px;
       }
       #socialheader img {
         width: 1.1em;
-        margin-left: 0.05em;
-        margin-right: 0.05em;
       }
 
       #spotlightGallery {
@@ -438,6 +440,9 @@ function setIcon(){
       .projectGallery.showExtra .extra {
         display: flex;
       }
+      #allGalleries.hidden {
+        display: none;
+      }
       .underSpotlight {
         height: 0;
         width: 100%;
@@ -449,10 +454,14 @@ function setIcon(){
       .underSpotlight > button {
         z-index: 100;
         position: absolute;
-        right: 0;
-        transform: translateY(-12px);
+        right: -25px;
+        top: -19px;
         flex-shrink: 0;
         overflow-x: visible
+      }
+      .hidden + .underSpotlight > button {
+        right: -53px;
+        top: -17px;
       }
       .homediv summary {
         z-index: 90;
@@ -477,7 +486,15 @@ function setIcon(){
       }
       @media only screen and (max-width: 700px) {
         #allGalleries {
-          margin-bottom: 1.5em;
+          margin-bottom: 0.5em;
+        }
+        .underSpotlight > button {
+          right: -15px;
+          top: -11px;
+        }
+        .hidden + .underSpotlight > button {
+          right: 3px;
+          top: -13px;
         }
         #newsFeed .article {
           text-align: left;
@@ -497,7 +514,8 @@ function setIcon(){
           display: flex;
           justify-content: space-evenly;
           width: 100%;
-          margin-top: 0.5em;
+          margin-top: 0.4em;
+          translate: 0;
         }
       }
       @media only screen and (min-width: 1800px) { /*wide-screen monitors*/
@@ -588,15 +606,15 @@ function setIcon(){
     <script>
       function toggleSpotlight() {
         let btn = document.getElementById("toggleSpotlight");
-        let div = document.getElementById('allGalleries');
-        if (div.style.display === "none") {
+        let div = document.getElementById("allGalleries");
+        if (div.classList.contains("hidden")) {
           btn.innerText = "Hide";
-          div.style.display = "block";
+          div.classList.remove("hidden");
           R74n.set("HideSpotlight", "0");
         }
         else {
           btn.innerText = "Show";
-          div.style.display = "none";
+          div.classList.add("hidden");
           R74n.set("HideSpotlight", "1");
         }
       }
@@ -615,6 +633,7 @@ function setIcon(){
   <a href="https://discord.gg/R74n"><img src="./shapes/png/share-buttons/discord.png" alt="Discord" draggable="false"></a>
   <a href="https://www.youtube.com/@R74n"><img src="./shapes/png/share-buttons/youtube.png" alt="YouTube" draggable="false"></a>
   <a href="https://www.tiktok.com/@r74n.com"><img src="./shapes/png/share-buttons/tiktok.png" alt="TikTok" draggable="false"></a>
+  <a href="https://www.instagram.com/r74ndev"><img src="./shapes/png/share-buttons/instagram.png" alt="Instagram" draggable="false"></a>
   <a href="https://bsky.app/profile/r74n.com"><img src="./shapes/png/share-buttons/bluesky.png" alt="Bluesky" draggable="false"></a>
   <a href="https://x.com/R74nCom"><img src="./shapes/png/share-buttons/twitter.png" alt="Twitter" draggable="false"></a>
   <a href="./contact"><img src="./shapes/png/share-buttons/email.png" alt="Email" draggable="false"></a>
@@ -1008,9 +1027,9 @@ document.getElementById("homeIconLink").addEventListener("click", function() {
 
 if (R74n.get("HideSpotlight") === "1" || urlParams.isFalse("spotlight")) {
   let btn = document.getElementById("toggleSpotlight");
-  let div = document.getElementById('allGalleries');
+  let div = document.getElementById("allGalleries");
   btn.innerText = "Show";
-  div.style.display = "none";
+  div.classList.add("hidden");
   if (urlParams.isFalse("spotlight")) {
     btn.style.display = "none";
   }
@@ -1089,6 +1108,21 @@ else fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=d
   newsFeed.innerText = "Failed to load feed.";
 });
 
+window.addEventListener("keydown", (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+  const tag = e.target.tagName;
+  if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || e.target.contentEditable === "true" || e.target.contentEditable === "plaintext-only") return;
+
+  const key = e.key.toUpperCase();
+
+  if (e.key === "/") {
+    Rue.focus();
+    Rue.say("I'll take you anywhere!")
+    e.preventDefault();
+  }
+})
+
 </script>
 
 
@@ -1101,7 +1135,7 @@ else fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=d
   <a href="contact">Contact</a>
   <a href="sitelog.txt">Sitelog</a>
   <a href="privacy">Privacy</a>
-  <a href="ai"><span class="news">[NEW]</span> #NoAI</a>
+  <a href="ai">#NoAI</a>
 </nav></footer>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93720349-6"></script>
