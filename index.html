@@ -380,6 +380,12 @@ function setIcon(){
         transition: filter 30s;
       }
 
+      header.homepage .pagetitle {
+        margin-left: 0.425em;
+      }
+      header.homepage #rueBox {
+        margin-right: 0.8em;
+      }
       header.homepage > .subtitle {
         font-variant: small-caps;
         font-weight: bold;
@@ -424,7 +430,6 @@ function setIcon(){
         display: flex;
         justify-content: end;
         gap: 0.1em;
-        translate: 0px 2px;
       }
       #socialheader img {
         width: 1.1em;
@@ -460,7 +465,7 @@ function setIcon(){
         overflow-x: visible
       }
       .hidden + .underSpotlight > button {
-        right: -53px;
+        right: -57.5px;
         top: -17px;
       }
       .homediv summary {
@@ -485,6 +490,12 @@ function setIcon(){
         }
       }
       @media only screen and (max-width: 700px) {
+        header.homepage .pagetitle {
+          margin-left: 0.3em;
+        }
+        header.homepage #rueBox {
+          right: -12px;
+        }
         #allGalleries {
           margin-bottom: 0.5em;
         }
@@ -839,6 +850,7 @@ var newsFlashes = urlParams.isFalse("newsflash") ? [] : [
   ["10/23-10/30","Our annual trick-or-treating event on Discord starts NOW! <a href='https://discord.gg/R74n'>Join now to play</a>!!"],
   ["10/31-10/31","Tonight is the final night of trick-or-treating on Discord! <a href='https://discord.gg/R74n'>Join now</a>!!"],
   ["11/1-11/3","Treats; Exploits; Trackers; Style", "r2"],
+  ["11/17-11/20","Sandboxels Sneak Peek; Census Results; Discord Emotes", "r3"],
 ]; //F0A7FC
 // loop through newsFlashes, if today is between the start and end dates, display the message
 let newsFlashYear = 2017;
