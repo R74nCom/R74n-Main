@@ -707,7 +707,8 @@ R74n.projects = [
 	{
 		name: "Sandboxels",
 		url: "sandboxels/",
-		image: "sandboxels/spotlight.jpg"
+		image: "sandboxels/spotlight.jpg",
+		update: "2026-11-20"
 	},
 	{
 		name: "Infinite Chef",
