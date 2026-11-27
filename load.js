@@ -377,9 +377,17 @@ if (!R74n.state.file || R74n.state.main) {
 			if (!a.hasAttribute("target") && ((a.href.startsWith("http") && !a.href.match(/^https?:\/\/(?:[^\/]+\.)?r74n\.com(?:\/.+)?/i)) || a.href.match(/^mailto:/))) {
 				a.setAttribute("target","_blank");
 			}
+			if (a.classList.contains("dialog")) {
+				a.addEventListener("click", e => {
+					if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+					e.preventDefault();
+					R74n.dialogFile(a.href);
+				});
+				return;
+			}
 			const matchForm = a.href.match(/docs\.google\.com\/forms\/(?:d\/)?(?:e\/)?([\w\-]+)/);
 			if (matchForm) a.addEventListener("click", (e) => {
-				if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+				if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 				e.preventDefault();
 				const id = matchForm[1];
 				let dialog = R74n.dialog(id, {
@@ -701,6 +709,39 @@ R74nClass.prototype.share = function(text, hashtag) {
 
 R74nClass.prototype.newsletter = (email) => {
 	window.open("https://news.r74n.com/subscribe?email="+encodeURIComponent(email), '_blank').focus();
+}
+
+R74nClass.prototype.dialogFile = (url, title) => {
+	const id = (title || "file").toLowerCase();
+	let dialog = R74n.dialog(id, {
+		title: title,
+		wide: true
+	});
+	let content = dialog.querySelector(".globalDialogContent");
+	content.innerText = "Loading...";
+	content.style.whiteSpace = "pre-wrap";
+	content.style.textAlign = "left";
+	content.style.paddingLeft = "50px";
+	content.style.paddingRight = "50px";
+	content.style.display = "block";
+	fetch(url)
+	.then((res) => res.text())
+	.then((text) => {
+		content.innerText = text;
+		content.innerHTML = content.innerHTML.replace(/\|\|[^|]+\|\|/g, r => `<span class="dialogSpoiler">${r.slice(2,-2)}</span>`);
+		content.querySelectorAll(".dialogSpoiler").forEach(span => {
+			span.classList.add("clickable");
+			let text = span.innerText;
+			span.innerText = "[spoiler]";
+			span.addEventListener("click", (e) => {
+				span.innerText = text;
+				span.classList.remove("clickable");
+				span.classList.remove("dialogSpoiler");
+				e.stopPropagation();
+			})
+		})
+	})
+	.catch((e) => console.error(e));
 }
 
 R74n.projects = [

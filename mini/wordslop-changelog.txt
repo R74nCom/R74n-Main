@@ -1,0 +1,126 @@
+[28 Nov 2026]
+- save merging: play on the go without your save, and merge your words in later! find it in settings
+- new changelog
+- new feedback form for feature requests and bug reports
+- saves are more stable
+- "copy save data" button in settings
+- indicators for themes and blurbs in word list
+- hiding sloppy in settings also disables selfies
+- left/right arrow keys cycle selected groups
+- click-and-drag to inspect words quickly
+- alt-click unrecognized words to delete them
+- '||moon phases||' are included in '||space||'
+- settings are accessible before playing
+- fix: older messages deleted on refresh
+- other bug fixes and polish
+
+[20 Oct 2026]
+- 340 new words
+- properties now includes ||emotions, shapes||
+- more recognized word inflections, including: ||mournful -> mourning|| ||soothed -> soothing|| ||moggity -> mog|| ||meowmeowmeow -> meow|| ||hoi4 -> hoi|| ||peruser -> peruse|| ||natural -> nature|| ||reservation -> reserve|| ||consumption -> consume|| ||description -> describe|| ||storage -> store|| ||effective -> effect|| ||clothing -> clothes|| ||advice -> advise|| ||registration -> register|| ||comprehension -> comprehend||
+
+[15 Oct 2026]
+- new group: ||islands||
+- 500 new words + 2 selfies
+- more word inflections
+
+[30 Sep 2026]
+- 300+ word, including 160+ geographic
+- more recognized word inflections, including: ||anaemia -> anemia|| ||envious -> envy|| ||religious -> religion|| ||bacteria -> bacterium|| ||alga -> algae|| ||mythical -> myth|| ||permanence -> permanent||
+
+[28 Sep 2026 - geographic update]
+- 700+ new words
+- more geography groups: ||lakes, rivers, tectonic plates, mountains (and ranges), deserts, regions, settlements||
+- can recognize even more word inflections
+- optimized search for large saves
+
+[24 Sep 2026]
+- filter out subgroups from word list
+- 260 new words + 1 selfie
+- new group: ||operating systems||
+- can now recognize, for example ||data cen**tre**||, ||attorney**s** general||
+
+[23 Sep 2026]
+- settings:
+   - disable theme auto-swap
+   - disable Sloppy :(
+   - show missing synonym count
+   - dyslexia-friendly font
+   - disable typing sounds
+   - compact view
+- 500 new words
+- split groups and added new words: ||baked goods, sweets||
+- new groups: ||diets, love languages||
+- bug fixes
+
+[15 Sep 2026]
+- 300+ new words and 30+ new blurbs
+- completed groups can be collapsed in the list
+- apostrophes are ignored when sorting words
+- 3 new selfies
+
+[11 Sep 2026]
+- sloppy sends you selfies as a reward for finding words
+- theme toggle can be right-clicked to open theme list
+- rescued stat can be clicked to open rescued list
+- various tweaks and consistency fixes
+
+[4 Sep 2026]
+- sloppy has shown their face
+- split groups and added new words: ||appliances, containers, disorders, fixtures, furnishings, furniture, kitchen utensils, kitchenware, prints, tools, toys||
+- "jump" buttons for long word lists
+- found themes list
+- group count shown in "total" tab
+- group blurbs are shown in their tabs
+- group subsets and supersets are navigable
+- unrecognized words can be deleted individually
+- words can be inspected in special tabs (i.e. "all")
+- word inspector appears where the word is pressed
+- word inspector italicizes synonyms to distinguish main form
+- arrow keys to inspect next/previous words
+- now accepts diminutives like "leafy" or "lovity"
+- search by prefix or suffix (e.g. -ing, re-)
+- ctrl+? to open search
+- fixed 1234567890 bug
+- 1400 new words
+- 150 new fun facts and other blurbs
+- various minor fixes
+
+[2 Aug 2026]
+- dark mode
+- color themes
+- word inspector panel
+- 577 new words
+- new groups: ||common fears||, ||logical fallacies||
+
+[22 Jul 2026]
+- new groups: ||amino acids, art genres, board games, characters, compounds, computer parts, diacritics, disease, drugs, energy, figures of speech, holidays, literature, microorganisms, minerals, properties, simple machines, storage mediums||
+- commands: /hint, /hint <group>, /clear, /reset, /save, /load
+
+[9 Jun 2026]
+- new groups: ||pasta shapes, playing cards, fonts, computer languages, english counties||
+
+[31 May 2026]
+- search for found groups and words
+- groups of the same completion percent are sorted alphabetically
+- clicking a group name in the log scrolls to the newly-found word
+- save file names include today's date and time
+- words can be typed with accent marks even if dataset doesn't have them
+- percent found and total words are shown in group view
+- message for empty groups
+- words can be clicked to repeat their blurbs
+
+[29 May 2026]
+- new group: ||prefixes||
+
+[28 May 2026]
+- reset your save or your unrecognized tab
+- up/down arrow keys to return to previous words
+
+[26 May 2026]
+- save / load files
+- hint button
+- typo detection (experimental)
+
+[24 May 2026]
+- released wordslop
