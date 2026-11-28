@@ -415,6 +415,7 @@ unitdata = {
   "kilojoule":1000,
   "calorie":4.184,
   "kilocalorie":4184,
+  "foe": 1044,
   "watt hour":3600,
   "kilowatt hour":3.6e+6,
   "electronvolt":1.6022e-19,
